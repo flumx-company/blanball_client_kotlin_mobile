@@ -13,9 +13,6 @@ Can be found in [RELEASE_NOTES](RELEASE_NOTES.md).
 ## Acknowledgments
 ...
 
-## Contributing
-Please, follow [Contributing](CONTRIBUTING.md) page.
-
 ## Code of Conduct
 Please, follow [Code of Conduct](CODE_OF_CONDUCT.md) page.
 

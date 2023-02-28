@@ -1,38 +1,40 @@
----
 name: Bug report
-about: Create a report to help us improve
-title: "[BUG]"
-labels: bug
-assignees: romankh3
+description: Report errors or unexpected behavior.
+labels: [bug]
+body:
+- type: markdown
+  attributes:
+  value: |
+  Thanks for reporting issues of Blanball!
 
----
-
-**Describe the bug**
-A clear and concise description of what the bug is.
-
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+      To make it easier for us to help you please enter detailed information below.
+- type: textarea
+  attributes:
+  label: Steps to reproduce
+  placeholder: |
+  1.
+  2.
+  3.
+  validations:
+  required: true
+- type: textarea
+  attributes:
+  label: Expected behaviour
+  placeholder: Tell us what should happen
+  validations:
+  required: true
+- type: textarea
+  attributes:
+  label: Actual behaviour
+  placeholder: Tell us what happens instead
+  validations:
+  required: true
+  validations:
+  required: true
+- type: input
+  attributes:
+  label: Version of Blanball
+  description: >
+  Version can be viewed on the official website of the application by going to the side menu.
+  validations:
+  required: true
