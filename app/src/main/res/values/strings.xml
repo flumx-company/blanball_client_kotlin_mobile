@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Blanball</string>
+    <string name="login">Логін</string>
 </resources>
