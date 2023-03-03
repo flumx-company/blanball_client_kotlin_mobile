@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Blanball</string>
     <string name="login">Логін</string>
+    <string name="blanball">Blanball</string>
+    <string name="auth_in_system">Авторизація у системі</string>
+    <string name="password">Пароль</string>
+    <string name="remember_me">Запам’ятати мене</string>
+    <string name="sign_in">Увійти</string>
+    <string name="dont_have_acc">Ще не маєте акаунту?</string>
+    <string name="register">Зареєструватися</string>
+    <string name="i_dont_remember">Я не пам’ятаю пароль</string>
 </resources>

@@ -33,6 +33,7 @@ class AuthenticationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.visibility = View.GONE
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
