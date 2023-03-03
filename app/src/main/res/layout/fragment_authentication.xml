@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
         android:hint="@string/login"
         android:fontFamily="@font/inter"
         android:textColorHint="#262541"
@@ -71,8 +72,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:hint="@string/password"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="0dp"
+        app:endIconMode="password_toggle"
+        app:passwordToggleDrawable="@drawable/ic_eye_selector"
         android:textColorHint="#262541"
-        app:hintAnimationEnabled="true"
         app:hintTextAppearance="@style/placeholder_style"
         app:hintTextColor="#262541"
         app:passwordToggleEnabled="true">
@@ -89,8 +93,7 @@
             android:paddingEnd="0dp"
             android:paddingBottom="8dp"
             android:textColor="#262541"
-            android:textSize="13sp"
-            app:passwordToggleDrawable="@drawable/ic_eye_selector"/>
+            android:textSize="13sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
