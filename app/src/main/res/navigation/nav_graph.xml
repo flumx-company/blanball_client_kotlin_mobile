@@ -6,7 +6,7 @@
     app:startDestination="@id/authenticationFragment">
     <fragment
         android:id="@+id/authenticationFragment"
-        android:name="com.example.blanball.presentation.fragments.AuthenticationFragment"
+        android:name="com.example.blanball.presentation.fragments.LoginFragment"
         android:label="fragment_authentication"
-        tools:layout="@layout/fragment_authentication" />
+        tools:layout="@layout/fragment_login" />
 </navigation>

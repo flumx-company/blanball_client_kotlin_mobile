@@ -117,7 +117,7 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/dont_remember_button"
+            android:id="@+id/dont_remember_btn"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="@color/trans"
@@ -130,7 +130,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/sign_in"
+        android:id="@+id/sign_in_btn"
         android:layout_width="312dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -157,7 +157,7 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/registration_buttton"
+            android:id="@+id/registration_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
