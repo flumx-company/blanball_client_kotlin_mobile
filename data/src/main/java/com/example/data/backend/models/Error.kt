@@ -1,5 +1,7 @@
 package com.example.data.backend.models
 
+import com.squareup.moshi.Json
+
 data class Error(
-    val detail: String
+   @Json (name = "detail") val detail: String
 )

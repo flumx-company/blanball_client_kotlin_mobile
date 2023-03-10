@@ -1,32 +1,24 @@
 package com.example.data.backend
 
+import com.example.data.datastore.TokenManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-    class AuthInterceptor(private val tokenProvider: TokenProvider) : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val originalRequest = chain.request()
+class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
 
-            val token = tokenProvider.getToken()
-
-            val requestWithToken = originalRequest.newBuilder()
-                .header("Authorization", "Bearer $token")
-                .build()
-
-            val response = chain.proceed(requestWithToken)
-
-            if (response.code == 401) {
-
-                tokenProvider.refreshToken()
-
-                val newToken = tokenProvider.getToken()
-                val requestWithNewToken = originalRequest.newBuilder()
-                    .header("Authorization", "Bearer $newToken")
-                    .build()
-
-                return chain.proceed(requestWithNewToken)
-            }
-
-            return response
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val token = runBlocking {
+            tokenManager.getToken().first()
         }
+        val request = chain.request().newBuilder()
+        request.addHeader("Authorization", "Bearer $token")
+        val response = chain.proceed(request.build())
+
+        if (response.code == 401) {
+
+        }
+        return response
     }
+}

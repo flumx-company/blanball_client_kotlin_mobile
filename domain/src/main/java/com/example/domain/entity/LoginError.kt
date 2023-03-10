@@ -1,5 +1,5 @@
 package com.example.domain.entity
 
-data class LoginErrorEntity(
+data class LoginError(
     val detail: String
 )
