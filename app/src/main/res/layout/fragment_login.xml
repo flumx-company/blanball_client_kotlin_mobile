@@ -63,7 +63,7 @@
             android:paddingBottom="8dp"
             android:textColor="#262541"
             android:textSize="12sp"
-            android:inputType="text" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

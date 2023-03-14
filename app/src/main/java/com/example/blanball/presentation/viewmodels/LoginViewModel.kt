@@ -11,9 +11,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResultEntity>()
     val loginResult: LiveData<LoginResultEntity> = _loginResult
 
-        fun login(username: String, password: String) {
+        fun login(email: String, password: String) {
         viewModelScope.launch {
-            val result = loginRepository.login(username, password)
+            val result = loginRepository.login(email, password)
             _loginResult.value = result
         }
     }
