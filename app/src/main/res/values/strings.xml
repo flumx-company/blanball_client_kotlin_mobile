@@ -9,4 +9,11 @@
     <string name="dont_have_acc">Ще не маєте акаунту?</string>
     <string name="register">Зареєструватися</string>
     <string name="i_dont_remember">Я не пам’ятаю пароль</string>
+    <string name="empty_field_error">* Поле не може бути порожнім</string>
+    <string name="max_chars_error_email">* Кількість символів не може бути більшою ніж 255</string>
+    <string name="min_chars_error_email">* Кількість символів не може бути меншою ніж 3</string>
+    <string name="max_chars_error_pass">* Кількість символів не може бути більшою ніж 68</string>
+    <string name="min_chars_error_pass">* Кількість символів не може бути меншою ніж 8</string>
+    <string name="format_error_email">* Неправильний формат email</string>
+    <string name="invalid_credential_error">* Перевірте правильність введених даних</string>
 </resources>

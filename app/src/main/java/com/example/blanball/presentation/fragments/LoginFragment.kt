@@ -1,13 +1,14 @@
 package com.example.blanball.presentation.fragments
 
 import android.os.Bundle
-import android.util.Patterns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.afollestad.vvalidator.form
 import com.example.blanball.R
 import com.example.blanball.databinding.FragmentLoginBinding
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -24,7 +25,6 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -44,56 +44,42 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
-        binding.signInBtn.setOnClickListener {
-            val email = binding.loginPlaceholderEdit.text.toString().trim()
-            val userPassword = binding.passwordPlaceholderEdit.text.toString().trim()
+        val email = binding.emailPlaceholderEdit.text.toString().trim()
+        val userPassword = binding.passwordPlaceholderEdit.text.toString().trim()
 
-            val emailPattern = Patterns.EMAIL_ADDRESS
-            val isValidEmail = emailPattern.matcher(email).matches()
+        binding.registrationBtn.setOnClickListener {
+            navigateToRegistration()
+        }
 
-            binding.registrationBtn.setOnClickListener {
-                navigateToRegistration()
+        binding.dontRememberBtn.setOnClickListener {
+            navigateToResetPassword()
+        }
+
+        form {
+            inputLayout(binding.emailPlaceholder, "Email") {
+                isNotEmpty().description(getString(R.string.empty_field_error))
+                length().atMost(255).description(getString(R.string.max_chars_error_email))
+                length().atLeast(3).description(getString(R.string.min_chars_error_email))
+                isEmail().description(getString(R.string.format_error_email))
             }
-
-            when {
-                email.isEmpty() -> {
-                    binding.loginPlaceholder.error = "Поле не може бути незаповненним"
-                    return@setOnClickListener
-                }
-                userPassword.isEmpty() -> {
-                    binding.passwordPlaceholder.error = "Поле не може бути незаповненним"
-                    return@setOnClickListener
-                }
-                email.length > 255 -> {
-                    binding.loginPlaceholder.error =
-                        "Кількість символів не може бути більшою ніж 255"
-                    return@setOnClickListener
-                }
-                userPassword.length < 8 -> {
-                    binding.passwordPlaceholder.error =
-                        "Кількість символів не може бути меншою ніж 8"
-                    return@setOnClickListener
-                }
-                userPassword.length > 68 -> {
-                    binding.passwordPlaceholder.error =
-                        "Кількість символів не може бути більшою ніж 68"
-                    return@setOnClickListener
-                }
-                !isValidEmail -> {
-                    binding.loginPlaceholder.error = "Неправильний формат email"
-                    return@setOnClickListener
-                }
-                else -> viewModel.login(email, userPassword)
+            inputLayout(binding.passwordPlaceholder, "Password") {
+                isNotEmpty().description(getString(R.string.empty_field_error))
+                length().atMost(68).description(getString(R.string.max_chars_error_pass))
+                length().atLeast(8).description(getString(R.string.min_chars_error_pass))
             }
+            submitWith(binding.signInBtn) {
+                Log.d("bug", it.values().toString())
+                viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
+            }
+        }
 
-            viewModel.loginResult.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is LoginResultEntity.Success -> {
-                        navigateToHome()
-                    }
-                    is LoginResultEntity.Error -> {
+        viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is LoginResultEntity.Success -> {
+                    navigateToHome()
+                }
+                is LoginResultEntity.Error -> {
 
-                    }
                 }
             }
         }
@@ -108,6 +94,9 @@ class LoginFragment : Fragment() {
         findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
     }
 
+    fun navigateToResetPassword() {
+        findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

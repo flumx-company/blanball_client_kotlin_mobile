@@ -38,13 +38,15 @@
         android:textAppearance="@style/auth_in_system" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_placeholder"
+        android:id="@+id/email_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_gravity="center"
         app:boxBackgroundMode="outline"
         app:errorEnabled="true"
+        app:boxStrokeErrorColor="@color/red"
+        app:errorTextColor="@color/red"
         android:hint="@string/login"
         android:fontFamily="@font/inter"
         android:textColorHint="#262541"
@@ -52,7 +54,7 @@
         app:hintTextColor="#262541">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_placeholder_edit"
+            android:id="@+id/email_placeholder_edit"
             android:layout_width="312dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -62,7 +64,7 @@
             android:paddingEnd="0dp"
             android:paddingBottom="8dp"
             android:textColor="#262541"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,12 +76,14 @@
         android:layout_marginTop="6dp"
         android:hint="@string/password"
         app:boxBackgroundMode="outline"
-        app:boxStrokeWidth="0dp"
+        android:fontFamily="@font/inter"
         app:errorEnabled="true"
+        android:textSize="13sp"
+        app:boxStrokeErrorColor="@color/red"
+        app:errorTextColor="@color/red"
         app:endIconMode="password_toggle"
         app:passwordToggleDrawable="@drawable/ic_eye_selector"
         android:textColorHint="#262541"
-        app:hintTextAppearance="@style/placeholder_style"
         app:hintTextColor="#262541"
         app:passwordToggleEnabled="true">
 
