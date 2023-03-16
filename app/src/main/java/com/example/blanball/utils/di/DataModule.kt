@@ -7,8 +7,8 @@ import com.example.data.backend.LoginRepositoryImpl
 import com.example.data.backend.TokenAuthenticator
 import com.example.data.datastore.TokenManager
 import com.example.data.datastore.TokenManagerImpl
-import com.example.domain.BuildConfig
 import com.example.domain.repository.LoginRepository
+import com.example.domain.utils.Const
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -63,7 +63,7 @@ class DataModule(val context: Context) {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(Const.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()

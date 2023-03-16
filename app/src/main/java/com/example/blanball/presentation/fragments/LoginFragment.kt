@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,9 +43,6 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
-        val email = binding.emailPlaceholderEdit.text.toString().trim()
-        val userPassword = binding.passwordPlaceholderEdit.text.toString().trim()
-
         binding.registrationBtn.setOnClickListener {
             navigateToRegistration()
         }
@@ -55,6 +51,7 @@ class LoginFragment : Fragment() {
             navigateToResetPassword()
         }
 
+//validation
         form {
             inputLayout(binding.emailPlaceholder, "Email") {
                 isNotEmpty().description(getString(R.string.empty_field_error))
@@ -68,23 +65,24 @@ class LoginFragment : Fragment() {
                 length().atLeast(8).description(getString(R.string.min_chars_error_pass))
             }
             submitWith(binding.signInBtn) {
-                Log.d("bug", it.values().toString())
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
+
             }
         }
 
+        //viewModel observes the result
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is LoginResultEntity.Success -> {
                     navigateToHome()
                 }
                 is LoginResultEntity.Error -> {
-
+                    binding.emailPlaceholder.error = getString(R.string.invalid_credential_error)
+                    binding.passwordPlaceholder.error = getString(R.string.invalid_credential_error)
                 }
             }
         }
     }
-
 
     fun navigateToHome() {
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)

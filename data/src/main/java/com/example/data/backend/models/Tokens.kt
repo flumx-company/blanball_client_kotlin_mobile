@@ -1,6 +1,8 @@
 package com.example.data.backend.models
 
+import com.squareup.moshi.Json
+
 data class Tokens(
-    val access: String,
-    val refresh: String
+   @Json (name = "access") val access: String,
+   @Json (name = "refresh") val refresh: String
 )

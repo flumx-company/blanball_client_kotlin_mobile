@@ -1,8 +1,7 @@
 package com.example.data.backend
 
 import com.example.data.datastore.TokenManager
-import com.example.domain.BuildConfig
-
+import com.example.domain.utils.Const
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -16,13 +15,12 @@ class TokenAuthenticator (private val tokenManager: TokenManager) : Authenticato
         val token = runBlocking {
             tokenManager.getToken().firstOrNull()
         }
-        if (response.code == BuildConfig.CODE_401){
+        if (response.code == Const.CODE_401){
             return null
                 //navigation
         }
         return response.request.newBuilder()
             .addHeader("Authorization", "Bearer $token")
-
             .build()
         }
     }

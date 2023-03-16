@@ -1,6 +1,8 @@
 package com.example.data.backend.models
 
+import com.squareup.moshi.Json
+
 data class Data(
-    val email: String,
-    val tokens: Tokens
+   @Json (name = "email") val email: String,
+   @Json (name = "tokens") val tokens: Tokens
 )
