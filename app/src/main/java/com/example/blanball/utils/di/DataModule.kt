@@ -1,12 +1,14 @@
 package com.example.blanball.utils.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.example.data.backend.ApiService
 import com.example.data.backend.AuthInterceptor
 import com.example.data.backend.LoginRepositoryImpl
 import com.example.data.backend.TokenAuthenticator
-import com.example.data.datastore.TokenManager
-import com.example.data.datastore.TokenManagerImpl
+import com.example.data.tokenmanager.TokenManager
+import com.example.data.tokenmanager.TokenManagerImpl
 import com.example.domain.repository.LoginRepository
 import com.example.domain.utils.Const
 import dagger.Module
@@ -16,8 +18,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-@Module
+@Module(includes = [DataStoreModule::class])
 class DataModule(val context: Context) {
+
+    @Provides
+    fun provideContext(): Context {
+        return context
+    }
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {
@@ -33,16 +40,9 @@ class DataModule(val context: Context) {
     }
 
     @Provides
-    fun provideContext(): Context {
-        return context
+    fun provideTokenManager(dataStore: DataStore<Preferences> ): TokenManager {
+        return TokenManagerImpl(dataStore)
     }
-
-    @Provides
-    fun provideTokenManager(): TokenManager {
-        return TokenManagerImpl(context)
-    }
-
-
 
     @Provides
     fun provideOkHttpClient(tokenManager: TokenManager, authenticator: TokenAuthenticator? = null): OkHttpClient {

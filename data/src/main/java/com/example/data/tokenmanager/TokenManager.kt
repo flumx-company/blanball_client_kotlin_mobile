@@ -1,8 +1,8 @@
-package com.example.data.datastore
+package com.example.data.tokenmanager
 
 import kotlinx.coroutines.flow.Flow
 
-interface TokenManager  {
+interface TokenManager {
 
   fun getToken(): Flow<String?>
 
