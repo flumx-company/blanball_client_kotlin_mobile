@@ -1,7 +1,7 @@
 package com.example.data.backend
 
 import com.example.data.backend.models.*
-import com.example.data.datastore.TokenManager
+import com.example.data.tokenmanager.TokenManager
 import com.example.domain.entity.*
 import com.example.domain.repository.LoginRepository
 import com.squareup.moshi.Moshi

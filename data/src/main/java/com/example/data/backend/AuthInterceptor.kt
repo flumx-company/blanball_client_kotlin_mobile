@@ -1,6 +1,6 @@
 package com.example.data.backend
 
-import com.example.data.datastore.TokenManager
+import com.example.data.tokenmanager.TokenManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
