@@ -20,7 +20,7 @@ class LoginFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: LoginViewModel.LoginViewModelFactory
-
+    private lateinit var loadingFragment: LoadingFragment
     private lateinit var viewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +39,14 @@ class LoginFragment : Fragment() {
 
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+
         bottomNavigationView.visibility = View.GONE
+
+        loadingFragment = LoadingFragment.newInstance()
+
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.hide(loadingFragment)
+            ?.add(android.R.id.content, loadingFragment)?.commit()
 
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
@@ -65,8 +72,8 @@ class LoginFragment : Fragment() {
                 length().atLeast(8).description(getString(R.string.min_chars_error_pass))
             }
             submitWith(binding.signInBtn) {
+                loadingFragment.view?.visibility = View.VISIBLE
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
-
             }
         }
 
@@ -74,9 +81,11 @@ class LoginFragment : Fragment() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is LoginResultEntity.Success -> {
+                    loadingFragment.view?.visibility = View.GONE
                     navigateToHome()
                 }
                 is LoginResultEntity.Error -> {
+                    loadingFragment.view?.visibility = View.GONE
                     binding.emailPlaceholder.error = getString(R.string.invalid_credential_error)
                     binding.passwordPlaceholder.error = getString(R.string.invalid_credential_error)
                 }
