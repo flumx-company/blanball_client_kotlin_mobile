@@ -12,4 +12,14 @@
         <!-- Status bar color. -->
         <!-- Customize your theme here. -->1
     </style>
+
+<style name="MyTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="hintTextColor">#262541</item>
+    <item name="boxBackgroundColor">#FFFFFF</item>
+    <item name="boxCornerRadiusTopEnd">6dp</item>
+    <item name="boxCornerRadiusTopStart">6dp</item>
+    <item name="boxCornerRadiusBottomEnd">6dp</item>
+    <item name="boxCornerRadiusBottomStart">6dp</item>
+    <item name="boxStrokeColor">#DFDEED</item>
+</style>
 </resources>

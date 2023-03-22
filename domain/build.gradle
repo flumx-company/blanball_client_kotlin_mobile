@@ -10,9 +10,11 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "BASE_URL", "\"http://178.151.201.167:49299/api/v1/\""
+        buildConfigField "String", "LOGIN_ENDPOINT", "\"authentication/client/login\""
+        buildConfigField "int", "CODE_401", "401"
     }
 
     buildTypes {

@@ -2,6 +2,6 @@ package com.example.blanball.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 
-class AuthenticationViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }
