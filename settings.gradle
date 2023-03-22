@@ -9,9 +9,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url 'https://dl.bintray.com/rasalexman/kdispatcher'
-        }
     }
 }
 rootProject.name = "Blanball"
