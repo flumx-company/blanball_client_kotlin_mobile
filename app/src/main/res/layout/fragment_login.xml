@@ -16,11 +16,11 @@
 
     <TextView
         android:id="@+id/blandball_title"
-        android:layout_width="143dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
-        android:gravity="top"
+        android:gravity="top|center_horizontal"
         android:text="@string/blanball"
         android:textAppearance="@style/blanball"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,8 +39,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_placeholder"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
         android:layout_gravity="center"
         app:boxBackgroundMode="outline"
@@ -55,7 +57,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_placeholder_edit"
-            android:layout_width="312dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:paddingStart="12dp"
@@ -70,8 +72,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_placeholder"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:hint="@string/password"
@@ -89,7 +93,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_placeholder_edit"
-            android:layout_width="312dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/background_placeholder"
@@ -103,8 +107,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
@@ -138,8 +144,10 @@
 
     <Button
         android:id="@+id/sign_in_btn"
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:background="@drawable/background_button"
@@ -148,8 +156,10 @@
         android:textAllCaps="false" />
 
     <LinearLayout
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
