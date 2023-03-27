@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.fragments
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,13 +28,42 @@ class ResetPasswordStep1Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.sendCodeBtn.setOnClickListener{
+        binding.sendCodeBtn.setOnClickListener {
             navigateToResetPassStep2()
         }
-        binding.cancelBtn.setOnClickListener{
+        binding.cancelBtn.setOnClickListener {
             navigateToLoginScreen()
         }
+
+        val editTextArray = arrayOf(
+            binding.emailPlaceholderEdit,
+            binding.editText1Edit,
+            binding.editText2Edit,
+            binding.editText3Edit,
+            binding.editText4Edit,
+            binding.editText5Edit,
+        )
+
+        var isFirstFocus = true
+
+        for (i in editTextArray) {
+            i.setOnFocusChangeListener{ _, hasFocus ->
+                if (hasFocus && isFirstFocus){
+                    val anim = ValueAnimator.ofInt(120, 0)
+                    anim.duration = 1000
+                    anim.addUpdateListener { valueAnimator ->
+                        val layoutParams =
+                            binding.mainContainer.layoutParams as ViewGroup.MarginLayoutParams
+                        layoutParams.topMargin = valueAnimator.animatedValue as Int
+                        binding.mainContainer.layoutParams = layoutParams
+                    }
+                    anim.start()
+                    isFirstFocus = false
+                }
+            }
+        }
     }
+
 
     fun navigateToResetPassStep2() {
         findNavController().navigate(R.id.action_resetPasswordStep1Fragment_to_resetPasswordStep2Fragment)
@@ -42,5 +72,4 @@ class ResetPasswordStep1Fragment : Fragment() {
     fun navigateToLoginScreen() {
         findNavController().navigate(R.id.action_resetPasswordStep1Fragment_to_loginFragment2)
     }
-
 }

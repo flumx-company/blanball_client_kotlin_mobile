@@ -1,9 +1,12 @@
 package com.example.blanball.presentation.fragments
 
+import android.animation.ValueAnimator
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -58,6 +61,32 @@ class LoginFragment : Fragment() {
             navigateToResetPassword()
         }
 
+        val editTextArray = arrayOf(
+            binding.emailPlaceholderEdit,
+            binding.passwordPlaceholderEdit
+        )
+
+        var isFirstFocus = true
+
+        for (i in editTextArray) {
+            i.setOnFocusChangeListener{ _, hasFocus ->
+                if (hasFocus && isFirstFocus){
+                    val anim = ValueAnimator.ofInt(36, 18)
+                    anim.duration = 1000
+                    anim.addUpdateListener { valueAnimator ->
+                        val layoutParams =
+                            binding.logo.layoutParams as ViewGroup.MarginLayoutParams
+                        layoutParams.topMargin = valueAnimator.animatedValue as Int
+                        binding.logo.layoutParams = layoutParams
+                    }
+                    anim.start()
+                    isFirstFocus = false
+                }
+            }
+        }
+
+        val keyboard = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
 //validation
         form {
             inputLayout(binding.emailPlaceholder, "Email") {
@@ -72,6 +101,7 @@ class LoginFragment : Fragment() {
                 length().atLeast(8).description(getString(R.string.min_chars_error_pass))
             }
             submitWith(binding.signInBtn) {
+                keyboard.hideSoftInputFromWindow(view.windowToken, 0)
                 loadingFragment.view?.visibility = View.VISIBLE
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
             }
