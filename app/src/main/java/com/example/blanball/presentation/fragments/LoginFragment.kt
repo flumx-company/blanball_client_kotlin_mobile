@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.fragments
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +14,7 @@ import com.example.blanball.R
 import com.example.blanball.databinding.FragmentLoginBinding
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.utils.App
+import com.example.blanball.utils.Utils
 import com.example.domain.entity.LoginResultEntity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -66,24 +66,7 @@ class LoginFragment : Fragment() {
             binding.passwordPlaceholderEdit
         )
 
-        var isFirstFocus = true
-
-        for (i in editTextArray) {
-            i.setOnFocusChangeListener{ _, hasFocus ->
-                if (hasFocus && isFirstFocus){
-                    val anim = ValueAnimator.ofInt(36, 18)
-                    anim.duration = 1000
-                    anim.addUpdateListener { valueAnimator ->
-                        val layoutParams =
-                            binding.logo.layoutParams as ViewGroup.MarginLayoutParams
-                        layoutParams.topMargin = valueAnimator.animatedValue as Int
-                        binding.logo.layoutParams = layoutParams
-                    }
-                    anim.start()
-                    isFirstFocus = false
-                }
-            }
-        }
+        Utils.animateEditTextFocus(editTextArray, binding.logo)
 
         val keyboard = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -102,6 +85,7 @@ class LoginFragment : Fragment() {
             }
             submitWith(binding.signInBtn) {
                 keyboard.hideSoftInputFromWindow(view.windowToken, 0)
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 loadingFragment.view?.visibility = View.VISIBLE
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
             }
