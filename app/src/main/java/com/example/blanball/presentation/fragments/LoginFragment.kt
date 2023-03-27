@@ -1,9 +1,11 @@
 package com.example.blanball.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,6 +14,7 @@ import com.example.blanball.R
 import com.example.blanball.databinding.FragmentLoginBinding
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.utils.App
+import com.example.blanball.utils.Utils
 import com.example.domain.entity.LoginResultEntity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -58,6 +61,15 @@ class LoginFragment : Fragment() {
             navigateToResetPassword()
         }
 
+        val editTextArray = arrayOf(
+            binding.emailPlaceholderEdit,
+            binding.passwordPlaceholderEdit
+        )
+
+        Utils.animateEditTextFocus(editTextArray, binding.logo)
+
+        val keyboard = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
 //validation
         form {
             inputLayout(binding.emailPlaceholder, "Email") {
@@ -72,6 +84,8 @@ class LoginFragment : Fragment() {
                 length().atLeast(8).description(getString(R.string.min_chars_error_pass))
             }
             submitWith(binding.signInBtn) {
+                keyboard.hideSoftInputFromWindow(view.windowToken, 0)
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 loadingFragment.view?.visibility = View.VISIBLE
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
             }
