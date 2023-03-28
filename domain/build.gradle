@@ -14,6 +14,9 @@ android {
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "BASE_URL", "\"http://178.151.201.167:49299/api/v1/\""
         buildConfigField "String", "LOGIN_ENDPOINT", "\"authentication/client/login\""
+        buildConfigField "String", "PASSWORD_RESET_ENDPOINT", "\"authentication/client/request-reset/password\""
+        buildConfigField "String", "VALIDATE_RESET_CODE_ENDPOINT", "\"authentication/client/request-reset/password\""
+        buildConfigField "String", "RESET_COMPLETE_ENDPOINT", "\"authentication/client/password/reset-complete\""
         buildConfigField "int", "CODE_401", "401"
     }
 

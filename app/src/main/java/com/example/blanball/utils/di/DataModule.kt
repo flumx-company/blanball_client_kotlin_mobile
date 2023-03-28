@@ -5,12 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.data.backend.ApiService
 import com.example.data.backend.AuthInterceptor
-import com.example.data.backend.LoginRepositoryImpl
+import com.example.data.backend.AppRepositoryImpl
 import com.example.data.backend.TokenAuthenticator
 import com.example.data.tokenmanager.TokenManager
 import com.example.data.tokenmanager.TokenManagerImpl
-import com.example.domain.repository.LoginRepository
-import com.example.domain.utils.AuthEndpoints
+import com.example.domain.repository.AppRepository
+import com.example.domain.utils.Endpoints
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -35,8 +35,8 @@ class DataModule(val context: Context) {
     fun provideLoginRepository(
         service: ApiService,
         tokenManager: TokenManagerImpl,
-    ): LoginRepository {
-        return LoginRepositoryImpl(service, tokenManager)
+    ): AppRepository {
+        return AppRepositoryImpl(service, tokenManager)
     }
 
     @Provides
@@ -63,7 +63,7 @@ class DataModule(val context: Context) {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(AuthEndpoints.BASE_URL)
+                .baseUrl(Endpoints.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()

@@ -3,11 +3,11 @@ package com.example.data.backend
 import com.example.data.backend.models.*
 import com.example.data.tokenmanager.TokenManager
 import com.example.domain.entity.*
-import com.example.domain.repository.LoginRepository
+import com.example.domain.repository.AppRepository
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
-class LoginRepositoryImpl (private val service: ApiService, private val tokenManager: TokenManager) : LoginRepository  {
+class AppRepositoryImpl (private val service: ApiService, private val tokenManager: TokenManager) : AppRepository  {
 
     override suspend fun login(email: String, password: String): LoginResultEntity {
         return try {

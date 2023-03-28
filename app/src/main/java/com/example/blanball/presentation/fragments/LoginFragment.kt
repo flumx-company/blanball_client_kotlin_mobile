@@ -85,7 +85,6 @@ class LoginFragment : Fragment() {
             }
             submitWith(binding.signInBtn) {
                 keyboard.hideSoftInputFromWindow(view.windowToken, 0)
-                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 loadingFragment.view?.visibility = View.VISIBLE
                 viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
             }

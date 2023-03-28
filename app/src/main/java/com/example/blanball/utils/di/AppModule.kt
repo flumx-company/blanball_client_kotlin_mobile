@@ -2,7 +2,7 @@ package com.example.blanball.utils.di
 
 import android.content.Context
 import com.example.blanball.presentation.viewmodels.LoginViewModel
-import com.example.domain.repository.LoginRepository
+import com.example.domain.repository.AppRepository
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +10,7 @@ import dagger.Provides
 class AppModule(val context: Context) {
 
     @Provides
-    fun provideLoginViewModelFactory (loginRepository: LoginRepository): LoginViewModel.LoginViewModelFactory {
+    fun provideLoginViewModelFactory (loginRepository: AppRepository): LoginViewModel.LoginViewModelFactory {
         return LoginViewModel.LoginViewModelFactory(loginRepository = loginRepository)
     }
 }
