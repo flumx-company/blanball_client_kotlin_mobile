@@ -2,9 +2,9 @@ package com.example.data.backend.models
 
 import com.squareup.moshi.Json
 
-data class ResetPassRequestSuccess(
+data class SendEmailPasswordResetSuccess (
     @Json (name = "code") val code: Int,
-    @Json (name = "`data`") val `data`: DataResetPassRequest,
-    @Json (name = "message") val message: Any,
+    @Json (name = "`data`") val `data`: DataEmailReset,
+    @Json (name = "message") val message: Any? = null,
     @Json (name = "status") val status: String
 )

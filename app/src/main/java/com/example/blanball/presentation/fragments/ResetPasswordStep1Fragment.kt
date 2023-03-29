@@ -8,20 +8,20 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.blanball.R
 import com.example.blanball.databinding.FragmentResetPasswordStep1Binding
 import com.example.blanball.presentation.viewmodels.ResetPasswordStep1ViewModel
+import com.example.blanball.utils.App
 import com.example.blanball.utils.Utils
-import com.example.domain.entity.LoginResultEntity
-import com.example.domain.entity.RequestResetResultEntity
+import com.example.domain.entity.EmailResetResultEntity
+import javax.inject.Inject
 
 class ResetPasswordStep1Fragment : Fragment() {
 
-
-    lateinit var viewModelFactory: ResetPasswordStep1ViewModel.LoginViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: ResetPasswordStep1ViewModel.ResetPasswordStep1ViewModelFactory
     private lateinit var loadingFragment: LoadingFragment
     private lateinit var viewModel: ResetPasswordStep1ViewModel
     private var _binding: FragmentResetPasswordStep1Binding? = null
@@ -37,6 +37,8 @@ class ResetPasswordStep1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity?.applicationContext as App).appComponent.inject(this)
 
         loadingFragment = LoadingFragment.newInstance()
 
@@ -84,11 +86,11 @@ class ResetPasswordStep1Fragment : Fragment() {
 
         viewModel.requestResetResult.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is RequestResetResultEntity.Success -> {
+                is EmailResetResultEntity.Success -> {
                     loadingFragment.view?.visibility = View.GONE
                     navigateToResetPassStep2()
                 }
-                is LoginResultEntity.Error -> {
+                is EmailResetResultEntity.Error -> {
                     loadingFragment.view?.visibility = View.GONE
                     binding.emailPlaceholder.error = getString(R.string.invalid_credential_error)
                 }

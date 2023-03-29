@@ -12,7 +12,7 @@ class LoginViewModel(private val appRepository: AppRepository) : ViewModel() {
     val loginResult: LiveData<LoginResultEntity> = _loginResult
 
         fun login(email: String, password: String) {
-        viewModelScope.launch {
+        viewModelScope.launch {  //dispatcher io
             val result = appRepository.login(email, password)
             _loginResult.value = result
         }
