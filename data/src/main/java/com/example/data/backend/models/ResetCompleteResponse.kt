@@ -2,9 +2,9 @@ package com.example.data.backend.models
 
 import com.squareup.moshi.Json
 
-data class EmailPassResetError(
+data class ResetCompleteResponse(
    @Json (name = "code") val code: Int,
-   @Json (name = "`data`") val `data`: EmailPassDataError,
-   @Json (name = "message") val message: Any,
+   @Json (name = "`data`") val `data`: DataResetCompleteResponse,
+   @Json (name = "message") val message: Any? = null,
    @Json (name = "status") val status: String
 )

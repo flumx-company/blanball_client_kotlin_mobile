@@ -31,4 +31,5 @@
     <string name="new_pass">Новий пароль</string>
     <string name="repeat_new_pass">Повторіть новий пароль</string>
     <string name="save_new_pass">Зберегти новий пароль</string>
+    <string name="new_pass_toast">Пароль було змінено</string>
 </resources>

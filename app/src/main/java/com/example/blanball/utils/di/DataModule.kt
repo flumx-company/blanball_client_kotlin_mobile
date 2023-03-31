@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.data.backend.ApiService
-import com.example.data.backend.AuthInterceptor
 import com.example.data.backend.AppRepositoryImpl
+import com.example.data.backend.AuthInterceptor
 import com.example.data.backend.TokenAuthenticator
 import com.example.data.tokenmanager.TokenManager
 import com.example.data.tokenmanager.TokenManagerImpl
+import com.example.data.verifycodemanager.VerifyCodeManager
+import com.example.data.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
 import dagger.Module
@@ -35,12 +37,18 @@ class DataModule(val context: Context) {
     fun provideLoginRepository(
         service: ApiService,
         tokenManager: TokenManagerImpl,
+        verifyCodeManager: VerifyCodeManager,
     ): AppRepository {
-        return AppRepositoryImpl(service, tokenManager)
+        return AppRepositoryImpl(service, tokenManager, verifyCodeManager)
     }
 
     @Provides
-    fun provideTokenManager(dataStore: DataStore<Preferences> ): TokenManager {
+    fun provideVerifyCodeManager(dataStore: DataStore<Preferences>): VerifyCodeManager {
+        return VerifyCodeManagerImpl(dataStore)
+    }
+
+    @Provides
+    fun provideTokenManager(dataStore: DataStore<Preferences>): TokenManager {
         return TokenManagerImpl(dataStore)
     }
 

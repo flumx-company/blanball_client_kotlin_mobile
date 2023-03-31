@@ -102,6 +102,7 @@ class LoginFragment : Fragment() {
                     binding.emailPlaceholder.error = getString(R.string.invalid_credential_error)
                     binding.passwordPlaceholder.error = getString(R.string.invalid_credential_error)
                 }
+                else -> {}
             }
         }
     }

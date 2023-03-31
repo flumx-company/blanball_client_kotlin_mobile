@@ -1,10 +1,7 @@
 package com.example.data.backend
 
 
-import com.example.data.backend.models.AuthRequest
-import com.example.data.backend.models.LoginSucces
-import com.example.data.backend.models.SendEmailPasswordResetRequest
-import com.example.data.backend.models.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.*
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -17,4 +14,10 @@ interface  ApiService  {
 
     @POST(Endpoints.SEND_EMAIL_PASSWORD_RESET_ENDPOINT)
     suspend fun sendEmailPasswordReset(@Body sendEmailPasswordResetRequest: SendEmailPasswordResetRequest) : SendEmailPasswordResetSuccess
+
+    @POST(Endpoints.VALIDATE_RESET_CODE_ENDPOINT)
+    suspend fun validateResetCode(@Body sendResetCodeRequest: SendResetCodeRequest): SendCodeResponse
+
+    @POST (Endpoints.RESET_COMPLETE_ENDPOINT)
+    suspend fun resetComplete(@Body resetCompleteRequest: ResetCompleteRequest): ResetCompleteResponse
 }
