@@ -6,8 +6,9 @@ import com.example.domain.entity.*
 import com.example.domain.repository.LoginRepository
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class LoginRepositoryImpl (private val service: ApiService, private val tokenManager: TokenManager) : LoginRepository  {
+class LoginRepositoryImpl @Inject constructor(internal val service: ApiService, internal val tokenManager: TokenManager) : LoginRepository  {
 
     override suspend fun login(email: String, password: String): LoginResultEntity {
         return try {

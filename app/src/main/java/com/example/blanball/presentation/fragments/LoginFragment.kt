@@ -21,10 +21,8 @@ import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: LoginViewModel.LoginViewModelFactory
     private lateinit var loadingFragment: LoadingFragment
-    private lateinit var viewModel: LoginViewModel
+    internal lateinit var viewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
@@ -38,8 +36,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity?.applicationContext as App).appComponent.inject(this)
-
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
 
@@ -51,7 +47,6 @@ class LoginFragment : Fragment() {
             ?.hide(loadingFragment)
             ?.add(android.R.id.content, loadingFragment)?.commit()
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
         binding.registrationBtn.setOnClickListener {
             navigateToRegistration()
@@ -87,7 +82,6 @@ class LoginFragment : Fragment() {
                 keyboard.hideSoftInputFromWindow(view.windowToken, 0)
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 loadingFragment.view?.visibility = View.VISIBLE
-                viewModel.login(it["Email"]?.value.toString(), it["Password"]?.value.toString())
             }
         }
 
