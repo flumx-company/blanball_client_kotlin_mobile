@@ -26,10 +26,12 @@
     <string name="dash"> — </string>
     <string name="cancel_changes">Скасувати зміни</string>
     <string name="message_atention">Повідомлення прийде протягом 30 сек</string>
-    <string name="resend_code_timer">Надіслати код повторно: 05 сек</string>
     <string name="create_a_new_password">Придумайте новий надійний пароль.Зміни\nвступлять у силу одразу після збереження</string>
     <string name="new_pass">Новий пароль</string>
     <string name="repeat_new_pass">Повторіть новий пароль</string>
     <string name="save_new_pass">Зберегти новий пароль</string>
     <string name="new_pass_toast">Пароль було змінено</string>
+    <string name="resend_code_timer">Надіслати код повторно: 05 сек</string>
+    <string name="doesnt_math_pass">* Введені паролі не збігаються</string>
+    <string name="resend">Надіслати повторно</string>
 </resources>

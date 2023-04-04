@@ -83,6 +83,8 @@ class ResetPasswordStep3Fragment : Fragment() {
             }
         }
 
+
+
         viewModel.requestResetCompleteResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ResetCompleteResultEntity.Success -> {

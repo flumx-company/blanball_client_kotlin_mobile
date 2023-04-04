@@ -14,13 +14,12 @@ class ResetPasswordStep2ViewModel(private val appRepository: AppRepository) : Vi
     private val _sendCodeResult = MutableLiveData<SendCodeResultEntity>()
     val sendCodeResult: LiveData<SendCodeResultEntity> = _sendCodeResult
 
-
-//    fun requestReset(email: String) {
-//        viewModelScope.launch {
-//            val result = appRepository.sendEmailPassReset(email)
-//            _requestResetResult.value = result
-//        }
-//    }
+    fun requestReset(email: String) {
+        viewModelScope.launch {
+            val result = appRepository.sendEmailPassReset(email)
+            _requestResetResult.value = result
+        }
+    }
 
     fun sendCode(code: String) {
         viewModelScope.launch {

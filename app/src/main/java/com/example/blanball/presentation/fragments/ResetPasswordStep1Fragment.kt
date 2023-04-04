@@ -42,11 +42,11 @@ class ResetPasswordStep1Fragment : Fragment() {
 
         loadingFragment = LoadingFragment.newInstance()
 
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.hide(loadingFragment)
+        activity?.supportFragmentManager?.beginTransaction()?.hide(loadingFragment)
             ?.add(android.R.id.content, loadingFragment)?.commit()
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[ResetPasswordStep1ViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, viewModelFactory)[ResetPasswordStep1ViewModel::class.java]
 
         binding.sendCodeBtn.setOnClickListener {
             navigateToResetPassStep2()
@@ -82,7 +82,6 @@ class ResetPasswordStep1Fragment : Fragment() {
                 viewModel.requestReset(it["Email"]?.value.toString())
             }
         }
-
 
         viewModel.requestResetResult.observe(viewLifecycleOwner) { result ->
             when (result) {
