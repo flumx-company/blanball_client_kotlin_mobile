@@ -8,11 +8,12 @@ import com.example.domain.repository.AppRepository
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class AppRepositoryImpl(
-    private val service: ApiService,
-    private val tokenManager: TokenManager,
-    private val verifyCodeManager: VerifyCodeManager,
+class AppRepositoryImpl @Inject constructor(
+    internal val service: ApiService,
+    internal val tokenManager: TokenManager,
+    internal val verifyCodeManager: VerifyCodeManager,
 ) : AppRepository {
 
 

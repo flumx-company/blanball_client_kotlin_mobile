@@ -7,22 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.afollestad.vvalidator.form
 import com.example.blanball.R
 import com.example.blanball.databinding.FragmentLoginBinding
 import com.example.blanball.presentation.viewmodels.LoginViewModel
-import com.example.blanball.utils.App
 import com.example.blanball.utils.Utils
 import com.example.domain.entity.LoginResultEntity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: LoginViewModel.LoginViewModelFactory
+
     private lateinit var loadingFragment: LoadingFragment
     private lateinit var viewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
@@ -38,7 +34,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity?.applicationContext as App).appComponent.inject(this)
 
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
@@ -51,7 +46,6 @@ class LoginFragment : Fragment() {
             ?.hide(loadingFragment)
             ?.add(android.R.id.content, loadingFragment)?.commit()
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
         binding.registrationBtn.setOnClickListener {
             navigateToRegistration()

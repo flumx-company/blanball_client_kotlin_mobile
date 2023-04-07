@@ -16,19 +16,18 @@ class MainContract {
     data class State(
         val state: ScreenViewState,
         val data: UiData? = null,
-        var loginText: String = "",
-        var passwordText: String = "",
+        var emailText: String = "",
         val bottomTabsVisible: Boolean = true,
     ) : UiState
 
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
         object Idle: ScreenViewState()
-        object SuccessLogin: ScreenViewState()
+        object SuccessSendCode: ScreenViewState()
     }
 
     sealed class Effect: UiEffect {
-
+       class ShowToast(val error: String): Effect()
     }
 
     data class UiData(

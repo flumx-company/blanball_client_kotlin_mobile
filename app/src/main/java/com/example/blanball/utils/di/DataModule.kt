@@ -1,55 +1,29 @@
 package com.example.blanball.utils.di
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.example.data.backend.ApiService
-import com.example.data.backend.AppRepositoryImpl
-import com.example.data.backend.AuthInterceptor
-import com.example.data.backend.TokenAuthenticator
+import com.example.data.backend.*
 import com.example.data.tokenmanager.TokenManager
 import com.example.data.tokenmanager.TokenManagerImpl
 import com.example.data.verifycodemanager.VerifyCodeManager
 import com.example.data.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module(includes = [DataStoreModule::class])
-class DataModule(val context: Context) {
-
-    @Provides
-    fun provideContext(): Context {
-        return context
-    }
+@InstallIn(SingletonComponent::class)
+class DataModule {
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
-    }
-
-    @Provides
-    fun provideLoginRepository(
-        service: ApiService,
-        tokenManager: TokenManagerImpl,
-        verifyCodeManager: VerifyCodeManager,
-    ): AppRepository {
-        return AppRepositoryImpl(service, tokenManager, verifyCodeManager)
-    }
-
-    @Provides
-    fun provideVerifyCodeManager(dataStore: DataStore<Preferences>): VerifyCodeManager {
-        return VerifyCodeManagerImpl(dataStore)
-    }
-
-    @Provides
-    fun provideTokenManager(dataStore: DataStore<Preferences>): TokenManager {
-        return TokenManagerImpl(dataStore)
     }
 
     @Provides
@@ -71,7 +45,7 @@ class DataModule(val context: Context) {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(Endpoints.BASE_URL)
+            .baseUrl(Endpoints.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -81,4 +55,18 @@ class DataModule(val context: Context) {
     fun provideAuthInterceptor(tokenManager: TokenManagerImpl): AuthInterceptor {
         return AuthInterceptor(tokenManager)
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface RepositoryModule {
+    @Binds
+    fun bindAppRepository(appRepository: AppRepositoryImpl): AppRepository
+
+    @Binds
+    fun bindTokenManager(tokenManager: TokenManagerImpl): TokenManager
+
+    @Binds
+     fun bindVerifyCodeManager (verifyCodeManager: VerifyCodeManagerImpl): VerifyCodeManager
+
 }

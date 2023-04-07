@@ -1,6 +1,9 @@
 package com.example.blanball.presentation.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.LoginResultEntity
 import com.example.domain.repository.AppRepository
 import kotlinx.coroutines.launch
@@ -15,15 +18,6 @@ class LoginViewModel(private val appRepository: AppRepository) : ViewModel() {
         viewModelScope.launch {  //dispatcher io
             val result = appRepository.login(email, password)
             _loginResult.value = result
-        }
-    }
-
-    class LoginViewModelFactory(
-        val appRepository: AppRepository,
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return LoginViewModel(
-                appRepository = appRepository) as T
         }
     }
 }
