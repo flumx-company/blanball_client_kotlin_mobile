@@ -1,14 +1,13 @@
 package com.example.blanball.presentation.views
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,54 +16,92 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.mainGreen
-import com.example.blanball.presentation.theme.pink200
-import com.example.blanball.presentation.theme.textColor
-import com.example.blanball.presentation.theme.textFieldBorder
+import com.example.blanball.presentation.theme.*
 
-@Preview
+
 @Composable
 fun ResetPasswordScreen(
     state: UiState,
-    onStep2Clicked: () -> Unit
+    onStep2Clicked: () -> Unit,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.verticalScroll(rememberScrollState())
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backgroundGradient),
+        contentAlignment = Alignment.TopCenter,
     ) {
         (state as? MainContract.State)?.let {
-            val defModifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
-            Spacer(modifier = Modifier.padding(36.dp))
             Image(
-                painter = painterResource(id = R.drawable.logo_2_one_color),
+                painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.padding(6.dp))
-            Text(text = stringResource(id = R.string.blanball), fontSize = 36.sp)
-            Spacer(modifier = Modifier.padding(6.dp))
-            Text(text = stringResource(id = R.string.auth_in_system), fontSize = 23.sp)
-            Spacer(modifier = Modifier.padding(16.dp))
-            CustomisedIT(R.string.login, VisualTransformation.None, it, defModifier)
-            Spacer(modifier = Modifier.padding(6.dp))
-            CustomisedIT(R.string.password, PasswordVisualTransformation(), it, defModifier)
-            Spacer(modifier = Modifier.padding(16.dp))
-            Button(
-                modifier = defModifier,
-                onClick = onStep2Clicked,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = mainGreen,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(6.dp)
-            ) {
-                Text(text = stringResource(id = R.string.login))
+            val mainContainer = Card(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 120.dp),
+                shape = shapes.large,
+            )
+            {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = stringResource(R.string.resumption_acces),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 20.dp),
+                        textAlign = TextAlign.Start,
+                        style = typography.h2,
+                    )
+                    Row(
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.stepline_1),
+                            contentDescription = null,
+                            Modifier.weight(1f)
+                        )
+                        Spacer(modifier = Modifier.size(2.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.empty_stepline),
+                            contentDescription = null,
+                            Modifier.weight(1f)
+                        )
+                        Spacer(modifier = Modifier.size(2.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.empty_stepline),
+                            contentDescription = null,
+                            Modifier.weight(1f)
+                        )
+                    }
+                    Text(
+                        text = stringResource(R.string.send_email_text),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                        style = typography.h3,
+                    )
+
+                    CustomisedIT(
+                        labelResId = R.string.email,
+                        transformation = PasswordVisualTransformation(),
+                        state = it,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.message_atention),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp),
+                        textAlign = TextAlign.Start,
+                        style = typography.h4,
+                    )
+                }
             }
         }
     }
@@ -72,10 +109,10 @@ fun ResetPasswordScreen(
 
 @Composable
 fun CustomisedIT(
-    labelResid: Int,
+    labelResId: Int,
     transformation: VisualTransformation,
     state: MainContract.State,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     var text by remember { mutableStateOf("") }
     OutlinedTextField(
@@ -86,12 +123,12 @@ fun CustomisedIT(
         label = {
             Text(
                 stringResource(
-                    id = labelResid
+                    id = labelResId
                 )
             )
         },
         shape = RoundedCornerShape(12.dp),
-        colors =  TextFieldDefaults.outlinedTextFieldColors(
+        colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = textFieldBorder,
             focusedBorderColor = textFieldBorder,
             textColor = Color.Black,

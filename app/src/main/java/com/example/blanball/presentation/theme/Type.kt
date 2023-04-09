@@ -9,84 +9,77 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 
-private val fonts = FontFamily(
-    Font(R.font.exo),
-    Font(R.font.inter, FontWeight.W500),
+private val exo_2 = FontFamily(
+    Font(R.font.exo_2),
     Font(R.font.exo_2_bold, FontWeight.Bold)
 )
+private val inter = FontFamily(
+    Font(R.font.inter),
+)
+
 
 val typography = typographyFromDefaults(
 
+    h1 = TextStyle(
+        fontFamily = exo_2,
+        fontWeight = FontWeight.Bold,
+        color = textColor,
+        fontSize = 36.sp,
+    ),
     h2 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Bold
+        fontFamily = exo_2,
+        fontWeight = FontWeight.Bold,
+        fontSize = 23.sp,
+        color = textColor,
     ),
     h3 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Bold
-    ),
+        fontFamily = exo_2,
+        fontSize = 14.sp,
+        color = textColor,
+        ),
     h4 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Bold,
-        lineHeight = 40.sp
+        fontFamily = inter,
+        fontSize = 12.sp,
     ),
     h5 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.Bold
     ),
     h6 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.W500,
         lineHeight = 28.sp
     ),
     subtitle1 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.W500,
         lineHeight = 22.sp
     ),
     subtitle2 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.W500
     ),
     body1 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.Normal,
         lineHeight = 28.sp
     ),
     body2 = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.Normal,
         lineHeight = 16.sp
     ),
     button = TextStyle(
-        fontFamily = fonts,
+        fontFamily = exo_2,
         fontWeight = FontWeight.Bold
     ),
     caption = TextStyle(
-        fontFamily = fonts
+        fontFamily = exo_2,
     ),
     overline = TextStyle(
         letterSpacing = 0.08.em
     ),
-    h1 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Bold,
-        color = textColor
-    ),
-//            <style name="blanball">
-//            <item name="android:textSize">
-//            36sp
-//            </item>
-//            <item name="fontFamily">
-//            @font/exo_2_bold
-//            </item>
-//            <item name="android:textColor">
-//            #262541
-//            </item>
-//            </style>
-
 )
-
 
 fun typographyFromDefaults(
     h1: TextStyle?,
