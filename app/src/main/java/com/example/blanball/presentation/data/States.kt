@@ -1,5 +1,8 @@
 package com.example.blanball.presentation.data
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+
 interface UiState
 
 interface UiEvent
@@ -10,20 +13,22 @@ class MainContract {
 
     sealed class Event: UiEvent {
         object SendCodeClicked: Event()
+        object SendEmailResetRequest: Event()
         object CancelClicked: Event()
     }
 
     data class State(
         val state: ScreenViewState,
         val data: UiData? = null,
-        var emailText: String = "",
+        var emailText: MutableState<String> = mutableStateOf("") ,
+        var codeText: List<MutableState<String>> = List(5){ mutableStateOf("") },
         val bottomTabsVisible: Boolean = true,
     ) : UiState
 
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
         object Idle: ScreenViewState()
-        object SuccessSendCode: ScreenViewState()
+        object SuccessResetRequest: ScreenViewState()
     }
 
     sealed class Effect: UiEffect {

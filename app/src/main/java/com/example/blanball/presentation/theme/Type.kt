@@ -23,19 +23,16 @@ val typography = typographyFromDefaults(
     h1 = TextStyle(
         fontFamily = exo_2,
         fontWeight = FontWeight.Bold,
-        color = textColor,
         fontSize = 36.sp,
     ),
     h2 = TextStyle(
         fontFamily = exo_2,
         fontWeight = FontWeight.Bold,
         fontSize = 23.sp,
-        color = textColor,
     ),
     h3 = TextStyle(
         fontFamily = exo_2,
         fontSize = 14.sp,
-        color = textColor,
         ),
     h4 = TextStyle(
         fontFamily = inter,

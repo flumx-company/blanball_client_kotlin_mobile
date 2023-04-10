@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
-import com.example.blanball.presentation.views.ResetPasswordScreen
+import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep1
 
 @Composable
 fun AppScreensConfig(navController: NavHostController, resetPassViewModel: ResetPasswordViewModel) {
@@ -32,9 +32,9 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 }
             }
 
-            ResetPasswordScreen(state = state,
+            ResetPasswordScreenStep1(state = state,
                 onStep2Clicked = {
-                    resetPassViewModel.handleEvent(MainContract.Event.SendCodeClicked)
+                    resetPassViewModel.handleEvent(MainContract.Event.SendEmailResetRequest)
                 })
         }
     }

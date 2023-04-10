@@ -31,17 +31,18 @@ class ResetPasswordViewModel
     private val _requestResetCompleteResult = MutableLiveData<ResetCompleteResultEntity>()
     val requestResetCompleteResult: LiveData<ResetCompleteResultEntity> = _requestResetCompleteResult
 
-    fun requestCompleteReset(newPassword: String) {
-        viewModelScope.launch {
-            val result = appRepository.changePassword(newPassword)
-            _requestResetCompleteResult.value = result
-        }
-    }
-
     fun sendCode(code: String) {
         viewModelScope.launch {
             val result = appRepository.sendCode(code)
             _sendCodeResult.value = result
+        }
+    }
+
+
+    fun requestCompleteReset(newPassword: String) {
+        viewModelScope.launch {
+            val result = appRepository.changePassword(newPassword)
+            _requestResetCompleteResult.value = result
         }
     }
 
@@ -65,7 +66,7 @@ class ResetPasswordViewModel
 
     fun handleEvent(event: UiEvent) {
         when (event) {
-            is MainContract.Event.SendCodeClicked -> {
+            is MainContract.Event.SendEmailResetRequest -> {
                 setState {
                     copy(
                         bottomTabsVisible = false,
@@ -78,21 +79,22 @@ class ResetPasswordViewModel
     }
 
    private fun requestReset() {
-
        job = viewModelScope.launch (Dispatchers.IO) {
-             appRepository.sendCode(currentState.emailText).let {
+             appRepository.sendEmailPassReset(currentState.emailText.value).let {
                  when (it) {
-                     is SendCodeResultEntity.Success -> {
-                         it.data
+                     is EmailResetResultEntity.Success ->
+                     {
+                         _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
                          setState { copy(
-                             state =  MainContract.ScreenViewState.SuccessSendCode
+                             state =  MainContract.ScreenViewState.SuccessResetRequest
                          ) }
                      }
-                     is SendCodeResultEntity.Error -> _sideEffect.emit(MainContract.Effect.ShowToast("Erorr"))
+                     is EmailResetResultEntity.Error -> _sideEffect.emit(MainContract.Effect.ShowToast("Erorr"))
                  }
              }
         }
     }
+
     private fun setState(reduce: MainContract.State.() -> MainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
