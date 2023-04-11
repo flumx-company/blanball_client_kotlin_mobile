@@ -12,9 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.blanball.presentation.data.MainContract
-import com.example.blanball.presentation.theme.pink200
-import com.example.blanball.presentation.theme.shapes
-import com.example.blanball.presentation.theme.textFieldBorder
+import com.example.blanball.presentation.theme.*
 
 
 @Composable
@@ -42,10 +40,11 @@ fun CodeTextInput(
                 visualTransformation = VisualTransformation.None,
                 shape = shapes.small,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = textFieldBorder,
-                    focusedBorderColor = textFieldBorder,
+                    unfocusedBorderColor = defaultLightGray,
+                    focusedBorderColor = selectedDarkGray,
                     textColor = Color.Black,
-                    errorBorderColor = pink200,
+                    errorBorderColor = errorRed,
+                    cursorColor = mainGreen,
                 ),
             )
         }

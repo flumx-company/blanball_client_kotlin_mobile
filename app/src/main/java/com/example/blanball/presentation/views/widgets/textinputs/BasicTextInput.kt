@@ -34,11 +34,12 @@ fun BasicTextInput(
         },
         shape = shapes.small,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = textFieldBorder,
+            unfocusedBorderColor = defaultLightGray,
             focusedBorderColor = selectedDarkGray,
             textColor = Color.Black,
-            errorBorderColor = pink200,
-            focusedLabelColor = textPrimary
+            errorBorderColor = errorRed,
+            focusedLabelColor = primaryDark,
+            cursorColor = mainGreen,
         )
     )
 }

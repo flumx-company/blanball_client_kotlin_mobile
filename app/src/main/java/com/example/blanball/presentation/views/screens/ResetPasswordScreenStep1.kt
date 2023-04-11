@@ -54,7 +54,7 @@ fun ResetPasswordScreenStep1(
                         text = stringResource(R.string.resumption_acces),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
-                        color = textPrimary,
+                        color = primaryDark,
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -79,7 +79,7 @@ fun ResetPasswordScreenStep1(
                             .fillMaxWidth()
                             .padding(top = 24.dp),
                         style = typography.h3,
-                        color = textSubtitle,
+                        color = secondaryNavy,
                         textAlign = TextAlign.Start,
                     )
                     BasicTextInput(
@@ -97,7 +97,7 @@ fun ResetPasswordScreenStep1(
                             .padding(top = 12.dp),
                         textAlign = TextAlign.End,
                         style = typography.h4,
-                        color = textSubtitle
+                        color = secondaryNavy,
                     )
                     CodeTextInput(state = it, modifier = Modifier.padding(top = 40.dp))
                 }
