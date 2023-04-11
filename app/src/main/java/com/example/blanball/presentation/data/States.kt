@@ -28,7 +28,8 @@ class MainContract {
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
         object Idle: ScreenViewState()
-        object SuccessResetRequest: ScreenViewState()
+        object SuccessRes
+                    .fillMaxSize()etRequest: ScreenViewState()
     }
 
     sealed class Effect: UiEffect {

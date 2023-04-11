@@ -9,10 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.blanball.presentation.data.MainContract
-import com.example.blanball.presentation.theme.pink200
-import com.example.blanball.presentation.theme.shapes
-import com.example.blanball.presentation.theme.textFieldBorder
-import com.example.blanball.presentation.theme.textPrimary
+import com.example.blanball.presentation.theme.*
 
 
 @Composable
@@ -38,7 +35,7 @@ fun BasicTextInput(
         shape = shapes.small,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = textFieldBorder,
-            focusedBorderColor = textFieldBorder,
+            focusedBorderColor = selectedDarkGray,
             textColor = Color.Black,
             errorBorderColor = pink200,
             focusedLabelColor = textPrimary
