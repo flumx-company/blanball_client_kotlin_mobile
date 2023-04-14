@@ -1,7 +1,5 @@
 package com.example.blanball.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MainContract
@@ -22,37 +20,12 @@ import javax.inject.Inject
 class ResetPasswordViewModel
     @Inject constructor(internal val appRepository: AppRepository): ViewModel() {
 
-    private val _requestResetResult = MutableLiveData<EmailResetResultEntity>()
-    val requestResetResult: LiveData<EmailResetResultEntity> = _requestResetResult
-
-    private val _sendCodeResult = MutableLiveData<SendCodeResultEntity>()
-    val sendCodeResult: LiveData<SendCodeResultEntity> = _sendCodeResult
-
-    private val _requestResetCompleteResult = MutableLiveData<ResetCompleteResultEntity>()
-    val requestResetCompleteResult: LiveData<ResetCompleteResultEntity> = _requestResetCompleteResult
-
-    fun sendCode(code: String) {
-        viewModelScope.launch {
-            val result = appRepository.sendCode(code)
-            _sendCodeResult.value = result
-        }
-    }
-
-
-    fun requestCompleteReset(newPassword: String) {
-        viewModelScope.launch {
-            val result = appRepository.changePassword(newPassword)
-            _requestResetCompleteResult.value = result
-        }
-    }
-
     private var job: Job? = null
 
     val defaultState
         get() = MainContract.State(
             state = MainContract.ScreenViewState.Idle
         )
-
     val currentState: MainContract.State
         get() = uiState.value as MainContract.State
 
@@ -66,32 +39,97 @@ class ResetPasswordViewModel
 
     fun handleEvent(event: UiEvent) {
         when (event) {
-            is MainContract.Event.SendEmailResetRequest -> {
+            is MainContract.Event.SendEmailResetRequestClicked -> {
                 setState {
                     copy(
-                        bottomTabsVisible = false,
                         state = MainContract.ScreenViewState.Loading,
                     )
                 }
                 requestReset()
             }
+            is MainContract.Event.SendCodeClicked -> {
+                setState {
+                    copy(
+                        state = MainContract.ScreenViewState.Loading
+                    )
+                }
+                sendCode()
+            }
+            is MainContract.Event.CompleteResetClicked -> {
+                setState {
+                    copy(
+                        state = MainContract.ScreenViewState.Loading
+                    )
+                }
+                requestCompleteReset()
+            }
         }
     }
 
-   private fun requestReset() {
-       job = viewModelScope.launch (Dispatchers.IO) {
-             appRepository.sendEmailPassReset(currentState.emailText.value).let {
-                 when (it) {
-                     is EmailResetResultEntity.Success ->
-                     {
-                         _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
-                         setState { copy(
-                             state =  MainContract.ScreenViewState.SuccessResetRequest
-                         ) }
-                     }
-                     is EmailResetResultEntity.Error -> _sideEffect.emit(MainContract.Effect.ShowToast("Erorr"))
-                 }
-             }
+    private fun requestReset() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            appRepository.sendEmailPassReset(currentState.emailText.value).let {
+                when (it) {
+                    is EmailResetResultEntity.Success -> {
+                        _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
+                        setState {
+                            copy(
+                                state = MainContract.ScreenViewState.SuccessResetRequest
+                            )
+                        }
+                    }
+                    is EmailResetResultEntity.Error -> _sideEffect.emit(
+                        MainContract.Effect.ShowToast(
+                            "Erorr"
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun sendCode() {
+        val code: String = currentState.codeText.joinToString(separator = "") { it.value }
+        job = viewModelScope.launch(Dispatchers.IO) {
+            appRepository.sendCode(code).let {
+                when (it) {
+                    is SendCodeResultEntity.Success -> {
+                        _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
+                        setState {
+                            copy(
+                                state = MainContract.ScreenViewState.SuccessSendCodeRequest
+                            )
+                        }
+                    }
+                    is SendCodeResultEntity.Error -> _sideEffect.emit(
+                        MainContract.Effect.ShowToast(
+                            "Error"
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun requestCompleteReset() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            appRepository.changePassword(currentState.newPassText.value).let {
+                when (it) {
+                    is ResetCompleteResultEntity.Success -> {
+                        _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
+                        setState {
+                            copy(
+                                state = MainContract.ScreenViewState.SuccessSendCodeRequest
+                            )
+                        }
+                    }
+                    is ResetCompleteResultEntity.Error -> _sideEffect.emit(
+                        MainContract.Effect.ShowToast(
+                            "Error"
+                        )
+                    )
+                }
+            }
         }
     }
 

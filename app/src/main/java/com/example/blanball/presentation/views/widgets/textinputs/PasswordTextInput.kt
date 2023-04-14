@@ -1,29 +1,29 @@
 package com.example.blanball.presentation.views.widgets.textinputs
-
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.theme.*
 
-
 @Composable
-fun BasicTextInput(
+fun PassTextInput(
     labelResId: Int,
-    transformation: VisualTransformation,
+    value: String,
+    onValueChange: (String) -> Unit,
     state: MainContract.State,
     modifier: Modifier,
 ) {
     OutlinedTextField(
         modifier = modifier,
-        value = state.emailText.value,
-        onValueChange = { state.emailText.value = it },
-        visualTransformation = transformation,
+        value = value,
+        onValueChange = onValueChange,
+        visualTransformation = if (state.passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
         singleLine = true,
         label = {
             Text(
@@ -40,6 +40,11 @@ fun BasicTextInput(
             errorBorderColor = errorRed,
             focusedLabelColor = primaryDark,
             cursorColor = mainGreen,
-        )
+        ),
+        trailingIcon = {
+            IconButton(onClick = { state.passwordVisibility.value = !state.passwordVisibility.value}) {
+                Icon(painter = painterResource(id = if (state.passwordVisibility.value) R.drawable.ic_eye_on else R.drawable.ic_eye_off), contentDescription = "Visibility Icon")
+            }
+        }
     )
 }

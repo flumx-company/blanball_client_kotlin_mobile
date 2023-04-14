@@ -36,11 +36,11 @@ val typography = typographyFromDefaults(
         ),
     h4 = TextStyle(
         fontFamily = inter,
-        fontSize = 12.sp,
+        fontSize = 15.sp,
     ),
     h5 = TextStyle(
-        fontFamily = exo_2,
-        fontWeight = FontWeight.Bold
+        fontFamily = inter,
+        fontSize = 12.sp,
     ),
     h6 = TextStyle(
         fontFamily = exo_2,

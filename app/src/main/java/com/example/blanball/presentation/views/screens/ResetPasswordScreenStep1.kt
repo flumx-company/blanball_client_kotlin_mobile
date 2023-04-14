@@ -2,12 +2,8 @@ package com.example.blanball.presentation.views.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +17,8 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
-import com.example.blanball.presentation.views.widgets.textinputs.BasicTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.CodeTextInput
+import com.example.blanball.presentation.views.widgets.textinputs.EmailTextInput
 
 
 @Composable
@@ -49,7 +45,14 @@ fun ResetPasswordScreenStep1(
                 shape = shapes.large,
             )
             {
-                Column(modifier = Modifier.padding(20.dp)) {
+                Column(
+                    modifier = Modifier.padding(
+                        top = 28.dp,
+                        start = 16.dp,
+                        bottom = 30.dp,
+                        end = 16.dp,
+                    )
+                ) {
                     Text(
                         text = stringResource(R.string.resumption_acces),
                         modifier = Modifier.fillMaxWidth(),
@@ -82,7 +85,7 @@ fun ResetPasswordScreenStep1(
                         color = secondaryNavy,
                         textAlign = TextAlign.Start,
                     )
-                    BasicTextInput(
+                    EmailTextInput(
                         labelResId = R.string.email,
                         state = it,
                         modifier = Modifier
@@ -96,36 +99,44 @@ fun ResetPasswordScreenStep1(
                             .fillMaxWidth()
                             .padding(top = 12.dp),
                         textAlign = TextAlign.End,
-                        style = typography.h4,
+                        style = typography.h5,
                         color = secondaryNavy,
                     )
-                    CodeTextInput(state = it, modifier = Modifier.padding(top = 40.dp))
+                    CodeTextInput(
+                        state = it,
+                        modifier = Modifier.padding(top = 8.dp),
+                        enabled = false
+                    )
                 }
                 val buttonContainer = Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
                     verticalArrangement = Arrangement.Bottom,
-                    ) {
-                    Text(
-                        text = stringResource(id = R.string.cancel),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp)
-                            .clickable { },
-                        textAlign = TextAlign.Center,
-                        style = typography.h3,
-                    )
+                )
+                {
                     Button(
                         onClick = onStep2Clicked,
                         Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .height(40.dp),
                         shape = shapes.small,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = mainGreen,
                             contentColor = Color.White,
+                        ),
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.send_code),
+                            style = typography.h4,
                         )
-                    ) { Text(text = stringResource(id = R.string.send_code)) }
+                    }
+                    TextButton(onClick = { /*TODO*/ }, Modifier.padding(top = 14.dp).align(Alignment.CenterHorizontally)) {
+                        Text(
+                            text = stringResource(id = R.string.cancel),
+                            style = typography.h4,
+                        )
+                    }
                 }
             }
         }
