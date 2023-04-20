@@ -25,9 +25,10 @@ class ResetPasswordViewModel
     val defaultState
         get() = MainContract.State(
             state = MainContract.ScreenViewState.Idle
-        )
+        ) //Этот код определяет свойство defaultState, которое является экземпляром MainContract.Stateсо значением по ScreenViewStateумолчанию Idle. Это состояние будет использоваться как начальное для ViewModel.
+
     val currentState: MainContract.State
-        get() = uiState.value as MainContract.State
+        get() = uiState.value as MainContract.State // Этот код определяет свойство currentState, которое возвращает текущее состояние свойства ViewModel uiStateкак экземпляр MainContract.State. Это позволяет ViewModel легко получать доступ и изменять текущее состояние.
 
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(defaultState)
@@ -71,18 +72,14 @@ class ResetPasswordViewModel
             appRepository.sendEmailPassReset(currentState.emailText.value).let {
                 when (it) {
                     is EmailResetResultEntity.Success -> {
-                        _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
                         setState {
                             copy(
                                 state = MainContract.ScreenViewState.SuccessResetRequest
                             )
                         }
+                        MainContract.Effect.ShowToast ("FAIL!=(")
                     }
-                    is EmailResetResultEntity.Error -> _sideEffect.emit(
-                        MainContract.Effect.ShowToast(
-                            "Erorr"
-                        )
-                    )
+                    is EmailResetResultEntity.Error -> MainContract.Effect.ShowToast("FAIL!=(")
                 }
             }
         }
@@ -136,5 +133,5 @@ class ResetPasswordViewModel
     private fun setState(reduce: MainContract.State.() -> MainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
-    }
+    } //Reducer
 }

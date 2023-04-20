@@ -21,7 +21,7 @@ fun CodeTextInput(
     modifier: Modifier,
     enabled: Boolean = true,
 ) {
-    Row {
+    Row () {
         repeat(5) { i ->
             OutlinedTextField(
                 modifier = modifier

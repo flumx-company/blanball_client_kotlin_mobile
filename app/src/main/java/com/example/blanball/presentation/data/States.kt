@@ -11,14 +11,14 @@ interface UiEffect
 
 class MainContract {
 
-    sealed class Event: UiEvent {
+    sealed class Event: UiEvent { //события на екране
         object SendCodeClicked: Event()
         object SendEmailResetRequestClicked: Event()
         object CompleteResetClicked: Event()
         object CancelClicked: Event()
     }
 
-    data class State(
+    data class State(  //состояние екрана
         val state: ScreenViewState,
         val data: UiData? = null,
         var emailText: MutableState<String> = mutableStateOf(""),
@@ -26,18 +26,17 @@ class MainContract {
         var newPassText: MutableState<String> = mutableStateOf(""),
         var repeatNewPassText: MutableState<String> = mutableStateOf(""),
         var passwordVisibility: MutableState<Boolean> = mutableStateOf(false),
-        var isLoading: Boolean = false,
     ) : UiState
 
-    sealed class ScreenViewState {
+    sealed class ScreenViewState { //определяет состояние экрана, которое может быть отображено на пользовательском интерфейсе.
         object Loading : ScreenViewState()
         object Idle: ScreenViewState()
         object SuccessResetRequest: ScreenViewState()
         object SuccessSendCodeRequest: ScreenViewState()
-
+        object SuccessCompleteResetRequest: ScreenViewState()
     }
 
-    sealed class Effect: UiEffect {
+    sealed class Effect: UiEffect {  // еффекты которые могут быть вызваны в ответ на события
        class ShowToast(val message: String): Effect()
     }
 

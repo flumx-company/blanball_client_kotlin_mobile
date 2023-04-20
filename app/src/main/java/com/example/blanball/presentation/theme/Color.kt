@@ -11,6 +11,7 @@ val successGreen = Color(0xFF1CCD62)
 val errorRed = Color(0xFFF32929)
 val selectedDarkGray = Color(0xFF8A8AA8)
 val defaultLightGray = Color(0xFFDFDEED)
+val loadingBackgroundColor = Color(0x73254173)
 
 //TODO incorrect names, will be edited during development
 val bgLight = Color(0xFFF9F9FC)

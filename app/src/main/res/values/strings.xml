@@ -16,7 +16,7 @@
     <string name="min_chars_error_pass">* Кількість символів не може бути меншою ніж 8</string>
     <string name="format_error_email">* Неправильний формат email</string>
     <string name="invalid_credential_error">* Перевірте правильність введених даних</string>
-    <string name="loading">Завантаження...</string>
+    <string name="loading">Завантаження…</string>
     <string name="resumption_acces">Відновлення доступу</string>
     <string name="send_email_text">Лист із кодом-підтвердження надійде на вказану адресу, введіть його у відведене поле</string>
     <string name="email">E-mail</string>

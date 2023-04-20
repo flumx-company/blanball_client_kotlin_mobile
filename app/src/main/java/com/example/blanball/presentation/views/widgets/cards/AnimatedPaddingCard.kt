@@ -16,7 +16,6 @@ import com.example.blanball.presentation.theme.shapes
 fun AnimatedPaddingCard(
     content: @Composable () -> Unit,
 ) {
-
     val isWindowFocused = LocalWindowInfo.current.isWindowFocused
 
     val padding by animateDpAsState(
