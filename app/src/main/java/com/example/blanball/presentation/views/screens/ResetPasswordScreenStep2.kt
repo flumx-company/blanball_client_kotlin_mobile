@@ -3,7 +3,10 @@ package com.example.blanball.presentation.views.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -18,6 +21,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
+import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.textinputs.CodeTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.EmailTextInput
 
@@ -38,12 +42,7 @@ fun ResetPasswordScreenStep2(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            val mainContainer = Card(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 120.dp),
-                shape = shapes.large,
-            )
+            AnimatedPaddingCard()
             {
                 Column(
                     modifier = Modifier.padding(

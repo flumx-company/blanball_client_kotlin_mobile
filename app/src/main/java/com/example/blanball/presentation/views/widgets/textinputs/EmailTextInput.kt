@@ -4,7 +4,9 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
@@ -18,30 +20,30 @@ fun EmailTextInput(
     transformation: VisualTransformation,
     state: MainContract.State,
     modifier: Modifier,
-)  {
-            OutlinedTextField(
-                modifier = modifier,
-                value = state.emailText.value,
-                onValueChange = {state.emailText.value
-                },
-                visualTransformation = transformation,
-//                isError = ,
-                singleLine = true,
-                label = {
-                    Text(
-                        stringResource(
-                            id = labelResId
-                        ),
-                    )
-                },
-                shape = shapes.small,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = defaultLightGray,
-                    focusedBorderColor = selectedDarkGray,
-                    textColor = Color.Black,
-                    errorBorderColor = errorRed,
-                    focusedLabelColor = primaryDark,
-                    cursorColor = mainGreen,
-                )
+) {
+
+    val focusRequesterList = remember { List(5) { FocusRequester() } }
+    OutlinedTextField(
+        modifier = modifier,
+        value = state.emailText.value,
+        onValueChange = { state.emailText.value = it },
+        visualTransformation = transformation,
+        singleLine = true,
+        label = {
+            Text(
+                stringResource(
+                    id = labelResId
+                ),
             )
-        }
+        },
+        shape = shapes.small,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = defaultLightGray,
+            focusedBorderColor = selectedDarkGray,
+            textColor = Color.Black,
+            errorBorderColor = errorRed,
+            focusedLabelColor = primaryDark,
+            cursorColor = mainGreen,
+        )
+    )
+}

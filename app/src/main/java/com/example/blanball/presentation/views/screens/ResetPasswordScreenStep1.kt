@@ -3,7 +3,10 @@ package com.example.blanball.presentation.views.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +20,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
+import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.textinputs.CodeTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.EmailTextInput
 
@@ -38,12 +42,7 @@ fun ResetPasswordScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            val mainContainer = Card(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 120.dp),
-                shape = shapes.large,
-            )
+            AnimatedPaddingCard()
             {
                 Column(
                     modifier = Modifier.padding(
@@ -91,7 +90,7 @@ fun ResetPasswordScreenStep1(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 20.dp),
-                        transformation = VisualTransformation.None
+                        transformation = VisualTransformation.None,
                     )
                     Text(
                         text = stringResource(id = R.string.message_atention),
@@ -103,18 +102,15 @@ fun ResetPasswordScreenStep1(
                         color = secondaryNavy,
                     )
                     CodeTextInput(
-                        state = it,
-                        modifier = Modifier.padding(top = 8.dp),
-                        enabled = false
+                        state = it, modifier = Modifier.padding(top = 8.dp), enabled = false
                     )
                 }
-                val buttonContainer = Column(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
                     verticalArrangement = Arrangement.Bottom,
-                )
-                {
+                ) {
                     Button(
                         onClick = onStep2Clicked,
                         Modifier
@@ -131,7 +127,12 @@ fun ResetPasswordScreenStep1(
                             style = typography.h4,
                         )
                     }
-                    TextButton(onClick = { /*TODO*/ }, Modifier.padding(top = 14.dp).align(Alignment.CenterHorizontally)) {
+                    TextButton(
+                        onClick = { /*TODO*/ },
+                        Modifier
+                            .padding(top = 14.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
                         Text(
                             text = stringResource(id = R.string.cancel),
                             style = typography.h4,
