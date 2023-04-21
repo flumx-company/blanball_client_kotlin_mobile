@@ -26,6 +26,7 @@ class MainContract {
         var newPassText: MutableState<String> = mutableStateOf(""),
         var repeatNewPassText: MutableState<String> = mutableStateOf(""),
         var passwordVisibility: MutableState<Boolean> = mutableStateOf(false),
+        var successValidEmail: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

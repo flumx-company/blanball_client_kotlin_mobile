@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.theme.*
@@ -25,13 +27,16 @@ fun CodeTextInput(
     modifier: Modifier,
     enabled: Boolean = true,
 ) {
+    val centerAlignedTextStyle = TextStyle(
+        textAlign = TextAlign.Center
+    )
     val focusRequesters = remember {
         List(5) { FocusRequester() }
     }
-
     Row () {
         repeat(5) { i ->
             OutlinedTextField(
+                textStyle = centerAlignedTextStyle,
                 modifier = modifier
                     .weight(1f)
                     .fillMaxWidth()

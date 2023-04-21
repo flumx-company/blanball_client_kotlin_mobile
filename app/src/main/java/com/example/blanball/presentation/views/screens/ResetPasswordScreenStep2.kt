@@ -109,7 +109,7 @@ fun ResetPasswordScreenStep2(
                     )
                     EmailTextInput(
                         labelResId = R.string.email,
-                        state = it,
+                        mainState = it,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 20.dp),

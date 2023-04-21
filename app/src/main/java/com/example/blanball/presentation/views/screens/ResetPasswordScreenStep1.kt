@@ -88,7 +88,7 @@ fun ResetPasswordScreenStep1(
                     )
                     EmailTextInput(
                         labelResId = R.string.email,
-                        state = it,
+                        mainState = it,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 20.dp),
@@ -113,32 +113,34 @@ fun ResetPasswordScreenStep1(
                         .padding(20.dp),
                     verticalArrangement = Arrangement.Bottom,
                 ) {
-                    Button(
-                        onClick = onStep2Clicked,
-                        Modifier
-                            .fillMaxWidth()
-                            .height(40.dp),
-                        shape = shapes.small,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = mainGreen,
-                            contentColor = Color.White,
-                        ),
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.send_code),
-                            style = typography.h4,
-                        )
+                            Button(
+                                enabled = it.successValidEmail.value,
+                                onClick = onStep2Clicked,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(40.dp),
+                                shape = shapes.small,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = mainGreen,
+                                    contentColor = Color.White,
+                                ),
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.send_code),
+                                    style = typography.h4,
+                                )
                     }
-                    TextButton(
-                        onClick = { /*TODO*/ },
-                        Modifier
-                            .padding(top = 14.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.cancel),
-                            style = typography.h4,
-                        )
+                        TextButton(
+                            onClick = { /*TODO*/ },
+                            Modifier
+                                .padding(top = 14.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.cancel),
+                                style = typography.h4,
+                            )
+                        }
                     }
                 }
             }
@@ -147,4 +149,3 @@ fun ResetPasswordScreenStep1(
             Loader()
         }
     }
-}

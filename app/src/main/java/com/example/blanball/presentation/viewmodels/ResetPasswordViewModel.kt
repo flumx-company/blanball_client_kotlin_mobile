@@ -18,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel
-    @Inject constructor(internal val appRepository: AppRepository): ViewModel() {
+@Inject constructor(
+    internal val appRepository: AppRepository,
+) : ViewModel() {
 
     private var job: Job? = null
 
