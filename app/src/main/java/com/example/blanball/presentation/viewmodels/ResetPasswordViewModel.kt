@@ -77,7 +77,6 @@ class ResetPasswordViewModel
                                 state = MainContract.ScreenViewState.SuccessResetRequest
                             )
                         }
-                        MainContract.Effect.ShowToast ("FAIL!=(")
                     }
                     is EmailResetResultEntity.Error -> MainContract.Effect.ShowToast("FAIL!=(")
                 }
@@ -116,7 +115,7 @@ class ResetPasswordViewModel
                         _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
                         setState {
                             copy(
-                                state = MainContract.ScreenViewState.SuccessSendCodeRequest
+                                state = MainContract.ScreenViewState.SuccessCompleteResetRequest
                             )
                         }
                     }

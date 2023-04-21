@@ -24,11 +24,6 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 .collectAsState()
                 .value
 
-            val screenViewState = resetPassViewModel.defaultState
-                .state
-
-
-
             val context = LocalContext.current
             LaunchedEffect(key1 = true) {
                 resetPassViewModel.sideEffect.collect {
@@ -57,7 +52,8 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 onStep3Clicked = {
                     resetPassViewModel.handleEvent(MainContract.Event.SendCodeClicked)
                     navController.navigate(Destinations.RESET3.route)
-                }
+                },
+                resendCodeToEmailClicked = { resetPassViewModel.handleEvent(MainContract.Event.SendEmailResetRequestClicked) }
             )
         }
 

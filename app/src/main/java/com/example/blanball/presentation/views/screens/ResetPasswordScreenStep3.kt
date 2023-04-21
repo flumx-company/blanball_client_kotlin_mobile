@@ -20,6 +20,7 @@ import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
 
 @Composable
@@ -27,6 +28,8 @@ fun ResetPasswordScreenStep3(
     state: UiState,
     onFinishResetClicked: () -> Unit,
 ) {
+    val currentState: MainContract.State =
+        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -118,7 +121,12 @@ fun ResetPasswordScreenStep3(
                             style = typography.h4,
                         )
                     }
-                    TextButton(onClick = { /*TODO*/ }, Modifier.padding(top = 14.dp).align(Alignment.CenterHorizontally)) {
+                    TextButton(
+                        onClick = { /*TODO*/ },
+                        Modifier
+                            .padding(top = 14.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
                         Text(
                             text = stringResource(id = R.string.cancel),
                             style = typography.h4,
@@ -126,6 +134,9 @@ fun ResetPasswordScreenStep3(
                     }
                 }
             }
+        }
+        if (currentState.state is MainContract.ScreenViewState.Loading) {
+            Loader()
         }
     }
 }
