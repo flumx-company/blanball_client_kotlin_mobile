@@ -2,12 +2,27 @@ package com.example.blanball.presentation.views.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.End
@@ -21,7 +36,12 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.*
+import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.presentation.views.widgets.textinputs.CodeTextInput
@@ -35,6 +55,7 @@ fun ResetPasswordScreenStep2(
     state: UiState,
     onStep3Clicked: () -> Unit,
     resendCodeToEmailClicked: () -> Unit,
+    onCancelClicked: () -> Unit,
 ) {
     val currentState: MainContract.State =
         (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
@@ -173,7 +194,7 @@ fun ResetPasswordScreenStep2(
                         )
                     }
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick =  onCancelClicked ,
                         Modifier
                             .padding(top = 14.dp)
                             .align(CenterHorizontally)

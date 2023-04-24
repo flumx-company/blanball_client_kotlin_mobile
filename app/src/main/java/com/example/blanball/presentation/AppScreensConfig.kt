@@ -39,7 +39,7 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 onStep2Clicked = {
                     resetPassViewModel.handleEvent(MainContract.Event.SendEmailResetRequestClicked)
                     navController.navigate(Destinations.RESET2.route)
-                },)
+                }, onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
         }
 
         composable(Destinations.RESET2.route) {
@@ -53,8 +53,8 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                     resetPassViewModel.handleEvent(MainContract.Event.SendCodeClicked)
                     navController.navigate(Destinations.RESET3.route)
                 },
-                resendCodeToEmailClicked = { resetPassViewModel.handleEvent(MainContract.Event.SendEmailResetRequestClicked) }
-            )
+                resendCodeToEmailClicked = { resetPassViewModel.handleEvent(MainContract.Event.SendEmailResetRequestClicked) },
+                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
         }
 
         composable(Destinations.RESET3.route) {
@@ -65,8 +65,8 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
             ResetPasswordScreenStep3(state = state,
                 onFinishResetClicked = {
                     resetPassViewModel.handleEvent(MainContract.Event.CompleteResetClicked)
-                }
-            )
+                },
+                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
         }
     }
 }

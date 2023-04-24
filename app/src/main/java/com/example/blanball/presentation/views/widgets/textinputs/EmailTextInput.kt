@@ -28,6 +28,7 @@ fun EmailTextInput(
     mainState: MainContract.State,
     modifier: Modifier,
 ) {
+    //TODO: Email form with validation library
     form(className = EmailForm::class) {
         field(fieldClass = EmailForm::email) {
             mainState.emailText.value = state.value?.value.orEmpty()

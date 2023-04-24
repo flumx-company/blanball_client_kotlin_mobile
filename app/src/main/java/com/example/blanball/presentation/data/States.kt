@@ -15,7 +15,6 @@ class MainContract {
         object SendCodeClicked: Event()
         object SendEmailResetRequestClicked: Event()
         object CompleteResetClicked: Event()
-        object CancelClicked: Event()
     }
 
     data class State(

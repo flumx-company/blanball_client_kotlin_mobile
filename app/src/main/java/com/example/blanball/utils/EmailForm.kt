@@ -8,3 +8,5 @@ data class EmailForm (
     @EmailAddress
     val email: String = "",
     )
+
+//TODO: Validation form
