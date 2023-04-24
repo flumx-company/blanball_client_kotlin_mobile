@@ -11,6 +11,6 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface DomainModule {
 @Binds
-fun bindUResetPasswordUseCase(resetPasswordUseCase: ResetPasswordUseCaseImpl) : ResetPasswordUseCase
+fun bindResetPasswordUseCase(resetPasswordUseCase: ResetPasswordUseCaseImpl) : ResetPasswordUseCase
 
 }

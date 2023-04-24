@@ -8,7 +8,7 @@
     import com.example.domain.entity.EmailResetResultEntity
     import com.example.domain.entity.ResetCompleteResultEntity
     import com.example.domain.entity.SendCodeResultEntity
-    import com.example.domain.repository.AppRepository
+    import com.example.domain.usecases.interfaces.ResetPasswordUseCase
     import dagger.hilt.android.lifecycle.HiltViewModel
     import kotlinx.coroutines.Dispatchers
     import kotlinx.coroutines.Job
@@ -24,7 +24,7 @@
     @HiltViewModel
     class ResetPasswordViewModel
     @Inject constructor(
-        internal val appRepository: AppRepository,
+        internal val resetPasswordUseCase: ResetPasswordUseCase,
     ) : ViewModel() {
 
         private var job: Job? = null
@@ -76,7 +76,7 @@
 
         private fun requestReset() {
             job = viewModelScope.launch(Dispatchers.IO) {
-                appRepository.sendEmailPassReset(currentState.emailText.value).let {
+                resetPasswordUseCase.executeSendEmailPassReset(currentState.emailText.value).let {
                     when (it) {
                         is EmailResetResultEntity.Success -> {
                             setState {
@@ -94,7 +94,7 @@
         private fun sendCode() {
             val code: String = currentState.codeText.joinToString(separator = "") { it.value }
             job = viewModelScope.launch(Dispatchers.IO) {
-                appRepository.sendCode(code).let {
+                resetPasswordUseCase.executeSendCode(code).let {
                     when (it) {
                         is SendCodeResultEntity.Success -> {
                             _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
@@ -116,7 +116,7 @@
 
         private fun requestCompleteReset() {
             job = viewModelScope.launch(Dispatchers.IO) {
-                appRepository.changePassword(currentState.newPassText.value).let {
+                resetPasswordUseCase.executeChangePassword(currentState.newPassText.value).let {
                     when (it) {
                         is ResetCompleteResultEntity.Success -> {
                             _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
