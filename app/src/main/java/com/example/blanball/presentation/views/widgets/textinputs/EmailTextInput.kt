@@ -9,7 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.blanball.presentation.data.MainContract
-import com.example.blanball.presentation.theme.*
+import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.errorRed
+import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.selectedDarkGray
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.utils.di.validation.EmailForm
 import me.naingaungluu.formconductor.FieldResult
 import me.naingaungluu.formconductor.composeui.field
@@ -22,7 +27,6 @@ fun EmailTextInput(
     transformation: VisualTransformation,
     mainState: MainContract.State,
     modifier: Modifier,
-    errorText: String,
 ) {
     form(className = EmailForm::class) {
         field(fieldClass = EmailForm::email) {
