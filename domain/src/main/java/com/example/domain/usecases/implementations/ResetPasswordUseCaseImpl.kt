@@ -1,7 +1,6 @@
 package com.example.domain.usecases.implementations
 
 import com.example.domain.entity.EmailResetResultEntity
-import com.example.domain.entity.RegistrationResultEntity
 import com.example.domain.entity.ResetCompleteResultEntity
 import com.example.domain.entity.SendCodeResultEntity
 import com.example.domain.repository.AppRepository
@@ -19,17 +18,5 @@ class ResetPasswordUseCaseImpl @Inject constructor(internal val appRepository: A
 
     override suspend fun executeChangePassword(newPassword: String): ResetCompleteResultEntity {
         return appRepository.changePassword(newPassword)
-    }
-
-    override suspend fun executeRegistration(
-        email: String,
-        phone: String,
-        password: String,
-        re_password: String,
-        name: String,
-        lastName: String,
-        gender: String
-    ): RegistrationResultEntity {
-        return appRepository.registration(email = email, phone = password, re_password = re_password, name = name, lastName = lastName, gender = gender, password = password)
     }
 }
