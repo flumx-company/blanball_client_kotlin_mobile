@@ -2,16 +2,16 @@ package com.example.data.backend.models
 
 data class RegistrationError(
     val code: Int,
-    val `data`: RegistrationErrorData,
+    val `data`: RegistrationErrorsData,
     val message: Any,
     val status: String
 )
 
-data class RegistrationErrorData(
-    val errors: List<Error>,
+data class RegistrationErrorsData(
+    val errors: List<RegistrationErrorDetail>,
     val type: String
 )
 
-data class Error(
+data class RegistrationErrorDetail(
     val detail: String
 )

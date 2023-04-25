@@ -19,5 +19,5 @@ interface AppRepository {
         name: String,
         lastName: String,
         gender: String
-    ) : RegistrationResultEntity
+    ): RegistrationResultEntity
 }

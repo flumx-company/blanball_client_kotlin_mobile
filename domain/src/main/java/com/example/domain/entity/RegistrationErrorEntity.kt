@@ -1,17 +1,17 @@
 package com.example.domain.entity
 
 data  class RegistrationErrorEntity (
-        val code: Int,
-        val `data`: RegistrationErrorDataEntity,
-        val message: Any,
-        val status: String,
+    val code: Int,
+    val `data`: RegistrationErrorsDataEntity,
+    val message: Any? = null,
+    val status: String,
     )
 
-    data class RegistrationErrorDataEntity(
-        val errors: List<Error>,
+    data class RegistrationErrorsDataEntity(
+        val errors: List<RegistrationErrorDetailEntity>,
         val type: String
     )
 
-    data class Error(
+    data class RegistrationErrorDetailEntity(
         val detail: String
     )

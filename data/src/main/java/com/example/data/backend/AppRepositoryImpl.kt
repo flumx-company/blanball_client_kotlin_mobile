@@ -1,7 +1,7 @@
 package com.example.data.backend
 
 import com.example.data.backend.models.AuthRequest
-import com.example.data.backend.models.RegistrationErrorData
+import com.example.data.backend.models.Data
 import com.example.data.backend.models.DataEmailReset
 import com.example.data.backend.models.DataError
 import com.example.data.backend.models.DataResetCompleteError
@@ -16,6 +16,8 @@ import com.example.data.backend.models.LoginSucces
 import com.example.data.backend.models.Profile
 import com.example.data.backend.models.RegistrationData
 import com.example.data.backend.models.RegistrationError
+import com.example.data.backend.models.RegistrationErrorDetail
+import com.example.data.backend.models.RegistrationErrorsData
 import com.example.data.backend.models.RegistrationRequest
 import com.example.data.backend.models.RegistrationResponse
 import com.example.data.backend.models.ResetCompleteError
@@ -48,8 +50,9 @@ import com.example.domain.entity.LoginResponse
 import com.example.domain.entity.LoginResultEntity
 import com.example.domain.entity.LoginTokens
 import com.example.domain.entity.RegistrationDataEntity
-import com.example.domain.entity.RegistrationErrorDataEntity
+import com.example.domain.entity.RegistrationErrorDetailEntity
 import com.example.domain.entity.RegistrationErrorEntity
+import com.example.domain.entity.RegistrationErrorsDataEntity
 import com.example.domain.entity.RegistrationResponseEntity
 import com.example.domain.entity.RegistrationResultEntity
 import com.example.domain.entity.ResetCompleteDataEntity
@@ -143,14 +146,14 @@ class AppRepositoryImpl @Inject constructor(
         return try {
             val request = RegistrationRequest(
                 email, password, phone,
-                Profile(name = name, last_name = lastName, gender = gender,), re_password,
+                Profile(name = name, last_name = lastName, gender = gender), re_password,
             )
             val registrationSuccess = service.userRegistration(request)
             val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
             RegistrationResultEntity.Success(registrationResponse.data)
-        } catch (ex: Exception) {
+        } catch (ex: HttpException) {
             val errorResponse = handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
-            RegistrationResultEntity.Error
+            RegistrationResultEntity.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -166,18 +169,25 @@ class AppRepositoryImpl @Inject constructor(
         return errorResponse ?: error("Unknown error")
     }
 
-    private fun RegistrationError.toRegistrationErrorEntity() : RegistrationErrorEntity {
-        return  RegistrationErrorEntity(
+    private fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity {
+        return RegistrationErrorEntity(
             this.code,
-            this.data.toRegistrationDataEntity(),
+            this.data.toRegistrationErrorsDataEntity(),
             this.message,
             this.status,
         )
     }
 
-    private fun RegistrationErrorData.toRegistrationDataEntity() : RegistrationErrorDataEntity{
-        return RegistrationErrorDataEntity( listOf(this.errors[0].toResetCompleteErrorsEntity()),
-            this.type)
+
+    private fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity {
+        return RegistrationErrorsDataEntity(
+            listOf(this.errors[0].toRegistrationErrorDetailEntity()),
+            this.type
+        )
+    }
+
+    private fun RegistrationErrorDetail.toRegistrationErrorDetailEntity(): RegistrationErrorDetailEntity {
+        return RegistrationErrorDetailEntity(this.detail)
     }
 
     private fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity {
@@ -300,7 +310,7 @@ class AppRepositoryImpl @Inject constructor(
         return LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
     }
 
-    private fun RegistrationErrorData.toLoginData(): LoginData {
+    private fun Data.toLoginData(): LoginData {
         return LoginData(this.email, this.tokens.toLoginTokens())
     }
 
