@@ -21,5 +21,6 @@ interface  ApiService  {
     @POST (Endpoints.RESET_COMPLETE_ENDPOINT)
     suspend fun resetComplete(@Body resetCompleteRequest: ResetCompleteRequest): ResetCompleteResponse
 
-    
+    @POST (Endpoints.REGISTER_ENDPOINT)
+    suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
 }

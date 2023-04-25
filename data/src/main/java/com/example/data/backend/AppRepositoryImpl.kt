@@ -1,7 +1,7 @@
 package com.example.data.backend
 
 import com.example.data.backend.models.AuthRequest
-import com.example.data.backend.models.Data
+import com.example.data.backend.models.RegistrationErrorData
 import com.example.data.backend.models.DataEmailReset
 import com.example.data.backend.models.DataError
 import com.example.data.backend.models.DataResetCompleteError
@@ -13,6 +13,11 @@ import com.example.data.backend.models.EmailPassResetErrors
 import com.example.data.backend.models.LoginError
 import com.example.data.backend.models.LoginErrors
 import com.example.data.backend.models.LoginSucces
+import com.example.data.backend.models.Profile
+import com.example.data.backend.models.RegistrationData
+import com.example.data.backend.models.RegistrationError
+import com.example.data.backend.models.RegistrationRequest
+import com.example.data.backend.models.RegistrationResponse
 import com.example.data.backend.models.ResetCompleteError
 import com.example.data.backend.models.ResetCompleteErrors
 import com.example.data.backend.models.ResetCompleteRequest
@@ -42,6 +47,11 @@ import com.example.domain.entity.LoginErrorsDomain
 import com.example.domain.entity.LoginResponse
 import com.example.domain.entity.LoginResultEntity
 import com.example.domain.entity.LoginTokens
+import com.example.domain.entity.RegistrationDataEntity
+import com.example.domain.entity.RegistrationErrorDataEntity
+import com.example.domain.entity.RegistrationErrorEntity
+import com.example.domain.entity.RegistrationResponseEntity
+import com.example.domain.entity.RegistrationResultEntity
 import com.example.domain.entity.ResetCompleteDataEntity
 import com.example.domain.entity.ResetCompleteErrorEntity
 import com.example.domain.entity.ResetCompleteErrorsEntity
@@ -121,7 +131,33 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    private inline fun <reified T, R> handleHttpError(ex: HttpException, errorMapper: (T) -> R): R {
+    override suspend fun registration(
+        email: String,
+        phone: String,
+        password: String,
+        re_password: String,
+        name: String,
+        lastName: String,
+        gender: String
+    ): RegistrationResultEntity {
+        return try {
+            val request = RegistrationRequest(
+                email, password, phone,
+                Profile(name = name, last_name = lastName, gender = gender,), re_password,
+            )
+            val registrationSuccess = service.userRegistration(request)
+            val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
+            RegistrationResultEntity.Success(registrationResponse.data)
+        } catch (ex: Exception) {
+            val errorResponse = handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
+            RegistrationResultEntity.Error
+        }
+    }
+
+    private inline fun <reified T, R> handleHttpError(
+        ex: HttpException,
+        errorMapper: (T) -> R
+    ): R {
         val errorBody = ex.response()?.errorBody()?.string()
         val moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(T::class.java)
@@ -130,6 +166,33 @@ class AppRepositoryImpl @Inject constructor(
         return errorResponse ?: error("Unknown error")
     }
 
+    private fun RegistrationError.toRegistrationErrorEntity() : RegistrationErrorEntity {
+        return  RegistrationErrorEntity(
+            this.code,
+            this.data.toRegistrationDataEntity(),
+            this.message,
+            this.status,
+        )
+    }
+
+    private fun RegistrationErrorData.toRegistrationDataEntity() : RegistrationErrorDataEntity{
+        return RegistrationErrorDataEntity( listOf(this.errors[0].toResetCompleteErrorsEntity()),
+            this.type)
+    }
+
+    private fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity {
+        return RegistrationResponseEntity(
+            this.code,
+            this.data.toRegistrationDataEntity(),
+            this.message,
+            this.status
+        )
+    }
+
+
+    private fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity {
+        return RegistrationDataEntity(this.access, this.refresh)
+    }
 
     private fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteErrorEntity {
         return ResetCompleteErrorEntity(
@@ -176,7 +239,10 @@ class AppRepositoryImpl @Inject constructor(
     }
 
     private fun SendCodeDataError.toSendCodeDataErrorEntity(): SendCodeDataErrorEntity {
-        return SendCodeDataErrorEntity(listOf(this.errors[0].toSendCodeErrorsEntity()), this.type)
+        return SendCodeDataErrorEntity(
+            listOf(this.errors[0].toSendCodeErrorsEntity()),
+            this.type
+        )
     }
 
     private fun SendCodeErrors.toSendCodeErrorsEntity(): SendCodeErrorsEntity {
@@ -234,7 +300,7 @@ class AppRepositoryImpl @Inject constructor(
         return LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
     }
 
-    private fun Data.toLoginData(): LoginData {
+    private fun RegistrationErrorData.toLoginData(): LoginData {
         return LoginData(this.email, this.tokens.toLoginTokens())
     }
 
