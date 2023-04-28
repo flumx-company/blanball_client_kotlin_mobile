@@ -9,14 +9,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
+import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
 
 @Composable
-fun AppScreensConfig(navController: NavHostController, resetPassViewModel: ResetPasswordViewModel) {
-    NavHost(navController = navController, startDestination = Destinations.RESET1.route)
+fun AppScreensConfig(navController: NavHostController, resetPassViewModel: ResetPasswordViewModel, registrationViewModel: RegistrationViewModel) {
+    NavHost(navController = navController, startDestination = Destinations.REGISTRATION1.route)
     {
         composable(Destinations.RESET1.route) {
             val state = resetPassViewModel
@@ -68,6 +71,15 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 },
                 onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
         }
+
+        composable(Destinations.REGISTRATION1.route) {
+            val state = registrationViewModel.uiState.collectAsState().value
+            RegistrationScreenStep1(state = state, onRegistrationStep2Clicked = {navController.navigate(Destinations.REGISTRATION2.route)})
+        }
+        composable(Destinations.REGISTRATION2.route) {
+            val state = registrationViewModel.uiState.collectAsState().value
+            RegistrationScreenStep2(state = state, onRegistrationClicked = { registrationViewModel.handleEvent(MainContract.Event.RegistrationClicked) })
+        }
     }
 }
 
@@ -75,4 +87,6 @@ enum class  Destinations(val route: String) {
     RESET1("reset1"),
     RESET2("reset2"),
     RESET3("reset3"),
+    REGISTRATION1("registration1"),
+    REGISTRATION2("registration2"),
 }

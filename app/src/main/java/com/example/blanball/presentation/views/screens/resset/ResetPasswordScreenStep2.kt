@@ -159,7 +159,7 @@ fun ResetPasswordScreenStep2(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.resend),
-                                style = typography.h5,
+                                style = typography.h6,
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -182,7 +182,7 @@ fun ResetPasswordScreenStep2(
                         Modifier
                             .fillMaxWidth()
                             .height(40.dp),
-                        shape = shapes.small,
+                        shape = shapes.medium,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = mainGreen,
                             contentColor = Color.White,

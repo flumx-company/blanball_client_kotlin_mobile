@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     AppScreensConfig(
                         navController = rememberNavController(),
                         resetPassViewModel = viewModel(),
+                        registrationViewModel = viewModel(),
                     )
                 }
             }

@@ -115,7 +115,7 @@ fun ResetPasswordScreenStep1(
                             .fillMaxWidth()
                             .padding(top = 12.dp),
                         textAlign = TextAlign.End,
-                        style = typography.h5,
+                        style = typography.h6,
                         color = secondaryNavy,
                     )
                     CodeTextInput(
@@ -134,7 +134,7 @@ fun ResetPasswordScreenStep1(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(40.dp),
-                                shape = shapes.small,
+                                shape = shapes.medium,
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = mainGreen,
                                     contentColor = Color.White,

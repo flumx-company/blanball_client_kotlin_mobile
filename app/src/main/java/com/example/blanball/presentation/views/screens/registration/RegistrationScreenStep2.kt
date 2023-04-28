@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens
+package com.example.blanball.presentation.views.screens.registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
@@ -30,18 +31,17 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.loaders.Loader
+import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
 
 @Composable
-fun ResetPasswordScreenStep3(
+fun RegistrationScreenStep2(
     state: UiState,
-    onFinishResetClicked: () -> Unit,
-    onCancelClicked: () -> Unit,
+    onRegistrationClicked: () -> Unit,
 ) {
     val currentState: MainContract.State =
         (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
@@ -68,49 +68,54 @@ fun ResetPasswordScreenStep3(
                     )
                 ) {
                     Text(
-                        text = stringResource(R.string.resumption_acces),
+                        text = stringResource(R.string.creation_new_acc),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
+                        textAlign = TextAlign.Center,
                     )
                     Row(
-                        Modifier.padding(top = 20.dp)
-                    ) {
-                        repeat(3) {
-                            Image(
-                                painter = painterResource(R.drawable.stepline_1),
-                                contentDescription = null,
-                                Modifier.weight(1f)
-                            )
-                            Spacer(modifier = Modifier.size(2.dp))
-                        }
-                    }
-                    Text(
-                        text = stringResource(R.string.create_a_new_password),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 24.dp),
-                        style = typography.h3,
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Start,
-                    )
-                    PassTextInput(
-                        labelResId = R.string.new_pass,
-                        value = state.newPassText.value,
-                        onValueChange = { state.newPassText.value = it },
-                        state = it,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        Modifier
                             .padding(top = 20.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.stepline_1),
+                            contentDescription = null,
+                        )
+                        Spacer(modifier = Modifier.size(2.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.stepline_1),
+                            contentDescription = null,
+                        )
+                    }
+                    DefaultTextInput(
+                        labelResId = (R.string.email),
+                        state = it,
+                        value = state.registerEmailText.value,
+                        onValueChange = { state.registerEmailText.value = it },
+                        transformation = VisualTransformation.None,
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .fillMaxWidth()
                     )
                     PassTextInput(
-                        labelResId = R.string.repeat_new_pass,
-                        value = state.repeatNewPassText.value,
-                        onValueChange = { state.repeatNewPassText.value = it },
+                        labelResId = R.string.create_password,
+                        value = it.resetPassText.value,
+                        onValueChange = {state.resetPassText.value = it} ,
                         state = it,
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(top = 12.dp)
+                            .fillMaxWidth()
+                    )
+                    PassTextInput(
+                        labelResId = R.string.repeat_password,
+                        value = it.resetPassTextRemember.value,
+                        onValueChange = {state.resetPassTextRemember.value = it} ,
+                        state = it,
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .fillMaxWidth()
                     )
                 }
                 Column(
@@ -118,26 +123,25 @@ fun ResetPasswordScreenStep3(
                         .fillMaxWidth()
                         .padding(20.dp),
                     verticalArrangement = Arrangement.Bottom,
-                )
-                {
+                ) {
                     Button(
-                        onClick = onFinishResetClicked,
-                        Modifier
+                        onClick = onRegistrationClicked,
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp),
-                        shape = shapes.small,
+                        shape = shapes.medium,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = mainGreen,
                             contentColor = Color.White,
                         ),
                     ) {
                         Text(
-                            text = stringResource(id = R.string.send_code),
+                            text = stringResource(id = R.string.next),
                             style = typography.h4,
                         )
                     }
                     TextButton(
-                        onClick = onCancelClicked,
+                        onClick = {},
                         Modifier
                             .padding(top = 14.dp)
                             .align(Alignment.CenterHorizontally)
@@ -149,9 +153,9 @@ fun ResetPasswordScreenStep3(
                     }
                 }
             }
-        }
-        if (currentState.state is MainContract.ScreenViewState.Loading) {
-            Loader()
+            if (currentState.state is MainContract.ScreenViewState.Loading) {
+                Loader()
+            }
         }
     }
 }

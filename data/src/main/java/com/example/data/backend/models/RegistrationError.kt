@@ -1,17 +1,19 @@
 package com.example.data.backend.models
 
+import com.squareup.moshi.Json
+
 data class RegistrationError(
-    val code: Int,
-    val `data`: RegistrationErrorsData,
-    val message: Any,
-    val status: String
+   @Json (name = "code") val code: Int,
+   @Json (name = "`data`") val `data`: RegistrationErrorsData,
+   @Json (name = "message") val message: Any? = null,
+   @Json (name = "status") val status: String
 )
 
 data class RegistrationErrorsData(
-    val errors: List<RegistrationErrorDetail>,
-    val type: String
+   @Json (name = "errors") val errors: List<RegistrationErrorDetail>,
+   @Json (name = "type") val type: String
 )
 
 data class RegistrationErrorDetail(
-    val detail: String
+   @Json (name = "detail") val detail: String
 )

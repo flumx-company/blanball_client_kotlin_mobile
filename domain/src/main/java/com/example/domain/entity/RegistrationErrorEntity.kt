@@ -4,8 +4,7 @@ data  class RegistrationErrorEntity (
     val code: Int,
     val `data`: RegistrationErrorsDataEntity,
     val message: Any? = null,
-    val status: String,
-    )
+    val status: String   )
 
     data class RegistrationErrorsDataEntity(
         val errors: List<RegistrationErrorDetailEntity>,

@@ -15,6 +15,7 @@ private val exo_2 = FontFamily(
 )
 private val inter = FontFamily(
     Font(R.font.inter),
+    Font(R.font.inter_medium, FontWeight.Medium)
 )
 
 
@@ -40,12 +41,12 @@ val typography = typographyFromDefaults(
     ),
     h5 = TextStyle(
         fontFamily = inter,
-        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
     ),
     h6 = TextStyle(
-        fontFamily = exo_2,
-        fontWeight = FontWeight.W500,
-        lineHeight = 28.sp
+        fontFamily = inter,
+        fontSize = 12.sp,
     ),
     subtitle1 = TextStyle(
         fontFamily = exo_2,

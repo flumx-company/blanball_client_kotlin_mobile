@@ -76,7 +76,7 @@
 
         private fun requestReset() {
             job = viewModelScope.launch(Dispatchers.IO) {
-                resetPasswordUseCase.executeSendEmailPassReset(currentState.emailText.value).let {
+                resetPasswordUseCase.executeSendEmailPassReset(currentState.resetEmailText.value).let {
                     when (it) {
                         is EmailResetResultEntity.Success -> {
                             setState {

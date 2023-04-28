@@ -134,28 +134,28 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun registration(
-        email: String,
-        phone: String,
-        password: String,
-        re_password: String,
-        name: String,
-        lastName: String,
-        gender: String
-    ): RegistrationResultEntity {
-        return try {
-            val request = RegistrationRequest(
-                email, password, phone,
-                Profile(name = name, last_name = lastName, gender = gender), re_password,
-            )
-            val registrationSuccess = service.userRegistration(request)
-            val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
-            RegistrationResultEntity.Success(registrationResponse.data)
-        } catch (ex: HttpException) {
-            val errorResponse = handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
-            RegistrationResultEntity.Error(errorResponse.data.errors[0])
+        override suspend fun registration(
+            email: String,
+            phone: String,
+            password: String,
+            re_password: String,
+            name: String,
+            lastName: String,
+            gender: String,
+        ): RegistrationResultEntity {
+            return try {
+                val request = RegistrationRequest(email =
+                    email, password = password, phone = phone, profile =
+                    Profile (name = name, last_name = lastName, gender = gender), re_password = re_password,
+                )
+                val registrationSuccess = service.userRegistration(request)
+                val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
+                RegistrationResultEntity.Success(registrationResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse = handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
+                RegistrationResultEntity.Error(errorResponse.data.errors[0])
+            }
         }
-    }
 
     private inline fun <reified T, R> handleHttpError(
         ex: HttpException,

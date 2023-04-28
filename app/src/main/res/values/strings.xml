@@ -34,4 +34,16 @@
     <string name="resend_code_timer">Надіслати код повторно: 05 сек</string>
     <string name="doesnt_math_pass">* Введені паролі не збігаються</string>
     <string name="resend">Надіслати повторно</string>
+    <string name="creation_new_acc">Створення\nоблікового запису</string>
+    <string name="your_name">Ваше повне ім\'я</string>
+    <string name="your_gender">Ваша стать</string>
+    <string name="can_pick_once">Можна обрати лише раз</string>
+    <string name="male">Чоловік</string>
+    <string name="female">Жінка</string>
+    <string name="next">Далі</string>
+    <string name="you_phone_number">Ваш номер телефону</string>
+    <string name="create_password">Придумайте пароль</string>
+    <string name="repeat_password">Повторіть пароль</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
 </resources>

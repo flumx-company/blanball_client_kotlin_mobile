@@ -15,6 +15,6 @@ class RegistrationUseCaseImpl @Inject constructor(internal val appRepository: Ap
         lastName: String,
         gender: String
     ): RegistrationResultEntity {
-        return appRepository.registration(email = email, phone = password, re_password = re_password, name = name, lastName = lastName, gender = gender, password = password)
+        return appRepository.registration(email = email, phone = phone, re_password = re_password, name = name, lastName = lastName, gender = gender, password = password)
     }
 }

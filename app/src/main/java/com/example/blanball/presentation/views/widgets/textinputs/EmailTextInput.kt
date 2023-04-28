@@ -31,7 +31,7 @@ fun EmailTextInput(
     //TODO: Email form with validation library
     form(className = EmailForm::class) {
         field(fieldClass = EmailForm::email) {
-            mainState.emailText.value = state.value?.value.orEmpty()
+            mainState.resetEmailText.value = state.value?.value.orEmpty()
             mainState.successValidEmail.value = resultState.value is FieldResult.Success
             OutlinedTextField(
                 modifier = modifier,
