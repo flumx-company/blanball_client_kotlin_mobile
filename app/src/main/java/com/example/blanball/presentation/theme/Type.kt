@@ -18,6 +18,7 @@ private val inter = FontFamily(
     Font(R.font.inter_medium, FontWeight.Medium)
 )
 
+//TODO: Need to refactor naming and structure
 
 val typography = typographyFromDefaults(
 
@@ -72,7 +73,8 @@ val typography = typographyFromDefaults(
         fontWeight = FontWeight.Bold
     ),
     caption = TextStyle(
-        fontFamily = exo_2,
+        fontFamily = inter,
+        fontSize = 13.sp,
     ),
     overline = TextStyle(
         letterSpacing = 0.08.em
@@ -92,7 +94,7 @@ fun typographyFromDefaults(
     body2: TextStyle?,
     button: TextStyle?,
     caption: TextStyle?,
-    overline: TextStyle?
+    overline: TextStyle?,
 ): Typography {
     val defaults = Typography()
     return Typography(

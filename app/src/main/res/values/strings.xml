@@ -46,4 +46,7 @@
     <string name="repeat_password">Повторіть пароль</string>
     <string name="man">Man</string>
     <string name="woman">Woman</string>
+    <string name="lost_in_system">Залишатися авторизованим у системі</string>
+    <string name="accept_terms">Я приймаю умови</string>
+    <string name="privacy_policy"> політики конфіденційності</string>
 </resources>

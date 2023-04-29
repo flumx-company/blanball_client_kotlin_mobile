@@ -17,6 +17,7 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun OutlineRadioButton(
@@ -45,7 +46,7 @@ fun OutlineRadioButton(
                 unselectedColor = primaryDark,
             ),
         )
-        Text(text = text)
+        Text(text = text, style = typography.caption)
         Icon(painter = icon, contentDescription = null)
     }
 }

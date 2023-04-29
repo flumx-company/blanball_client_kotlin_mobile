@@ -34,6 +34,8 @@ class MainContract {
         var registerEmailText: MutableState<String> = mutableStateOf(""),
         var resetPassText: MutableState<String> = mutableStateOf(""),
         var resetPassTextRemember: MutableState<String> = mutableStateOf(""),
+        var lostInSystemSwitchButton: MutableState<Boolean> = mutableStateOf(false),
+        var privacyPolicyCheckbox: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

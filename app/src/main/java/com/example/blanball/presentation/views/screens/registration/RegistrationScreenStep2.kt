@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.screens.registration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -24,17 +27,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.loaders.Loader
+import com.example.blanball.presentation.views.widgets.switches.SwitchButton
 import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
 
@@ -111,12 +117,51 @@ fun RegistrationScreenStep2(
                     PassTextInput(
                         labelResId = R.string.repeat_password,
                         value = it.resetPassTextRemember.value,
-                        onValueChange = {state.resetPassTextRemember.value = it} ,
+                        onValueChange = { state.resetPassTextRemember.value = it },
                         state = it,
                         modifier = Modifier
                             .padding(top = 12.dp)
                             .fillMaxWidth()
                     )
+                    Row(modifier = Modifier.padding(top = 32.dp)) {
+                        SwitchButton(
+                            state = it,
+                            selected = it.lostInSystemSwitchButton.value,
+                            onCheckedChange = { state.lostInSystemSwitchButton.value = it })
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(
+                            text = stringResource(id = R.string.lost_in_system),
+                            style = typography.h6,
+                            color = primaryDark
+                        )
+                    }
+                    Row(Modifier.padding(top = 16.5.dp)) {
+                        Checkbox(
+                            checked = it.privacyPolicyCheckbox.value,
+                            onCheckedChange = { state.privacyPolicyCheckbox.value = it },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = mainGreen,
+                                uncheckedColor = defaultLightGray,
+                            ),
+                            modifier = Modifier.size(15.dp)
+                        )
+                        Spacer(modifier = Modifier.size(10.5.dp))
+                        Text(
+                            text = stringResource(id = R.string.accept_terms).plus(" "),
+                            style = typography.h6,
+                            color = primaryDark,
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = stringResource(R.string.privacy_policy),
+                            textDecoration = TextDecoration.Underline,
+                            style = typography.h6,
+                            color = primaryDark,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.clickable { //TODO("Navigation to privacy policy")
+                            }
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -136,7 +181,7 @@ fun RegistrationScreenStep2(
                         ),
                     ) {
                         Text(
-                            text = stringResource(id = R.string.next),
+                            text = stringResource(id = R.string.register),
                             style = typography.h4,
                         )
                     }

@@ -42,6 +42,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<MainContract.Effect> = _sideEffect.asSharedFlow()
 
+
+
     fun handleEvent(event: UiEvent) {
         when (event) {
             is MainContract.Event.RegistrationClicked -> {
@@ -56,6 +58,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
     }
 
     private fun requestRegistration() {
+         val fullName = currentState.nameText.value
+         val parts = fullName.split(" ")
 
         job = viewModelScope.launch(Dispatchers.IO) {
             registrationUseCase.executeRegistration(
@@ -63,8 +67,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
                 phone = "+${currentState.phoneNumberText.value}",
                 password = currentState.resetPassText.value,
                 re_password = currentState.resetPassTextRemember.value,
-                name = "Іван",
-                lastName = "Франко",
+                name = parts[0],
+                lastName = parts[1],
                 gender = when (currentState.genderIsMale.value) {
                     true -> Strings.MAN
                     else -> Strings.WOMAN
@@ -84,10 +88,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
         }
     }
 
-
     private fun setState(reduce: MainContract.State.() -> MainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }
-
 }
