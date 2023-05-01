@@ -1,5 +1,7 @@
 package com.example.blanball.presentation.views.screens.registration
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
@@ -43,12 +47,17 @@ import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.presentation.views.widgets.switches.SwitchButton
 import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
+import com.example.domain.utils.Endpoints
+
 
 @Composable
 fun RegistrationScreenStep2(
     state: UiState,
     onRegistrationClicked: () -> Unit,
 ) {
+    val intent =
+        Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
+    val context = LocalContext.current
     val currentState: MainContract.State =
         (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
     Box(
@@ -158,7 +167,8 @@ fun RegistrationScreenStep2(
                             style = typography.h6,
                             color = primaryDark,
                             textAlign = TextAlign.Start,
-                            modifier = Modifier.clickable { //TODO("Navigation to privacy policy")
+                            modifier = Modifier.clickable {
+                                startActivity(context, intent, null)
                             }
                         )
                     }
