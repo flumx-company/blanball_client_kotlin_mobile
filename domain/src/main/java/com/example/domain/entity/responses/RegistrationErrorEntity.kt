@@ -1,4 +1,4 @@
-package com.example.domain.entity
+package com.example.domain.entity.responses
 
 data  class RegistrationErrorEntity (
     val code: Int,

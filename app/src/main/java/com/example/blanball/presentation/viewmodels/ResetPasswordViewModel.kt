@@ -5,9 +5,9 @@
     import com.example.blanball.presentation.data.MainContract
     import com.example.blanball.presentation.data.UiEvent
     import com.example.blanball.presentation.data.UiState
-    import com.example.domain.entity.EmailResetResultEntity
-    import com.example.domain.entity.ResetCompleteResultEntity
-    import com.example.domain.entity.SendCodeResultEntity
+    import com.example.domain.entity.results.EmailResetResultEntity
+    import com.example.domain.entity.results.ResetCompleteResultEntity
+    import com.example.domain.entity.results.SendCodeResultEntity
     import com.example.domain.usecases.interfaces.ResetPasswordUseCase
     import dagger.hilt.android.lifecycle.HiltViewModel
     import kotlinx.coroutines.Dispatchers

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.LoginResultEntity
+import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.repository.AppRepository
 import kotlinx.coroutines.launch
 

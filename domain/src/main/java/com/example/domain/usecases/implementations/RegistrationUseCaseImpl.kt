@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.RegistrationResultEntity
+import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import javax.inject.Inject

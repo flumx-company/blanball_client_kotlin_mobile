@@ -1,8 +1,8 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.EmailResetResultEntity
-import com.example.domain.entity.ResetCompleteResultEntity
-import com.example.domain.entity.SendCodeResultEntity
+import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.ResetCompleteResultEntity
+import com.example.domain.entity.results.SendCodeResultEntity
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
 import javax.inject.Inject

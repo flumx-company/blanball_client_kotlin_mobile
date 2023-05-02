@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
-import com.example.domain.entity.RegistrationResultEntity
+import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.utils.Strings
 import dagger.hilt.android.lifecycle.HiltViewModel

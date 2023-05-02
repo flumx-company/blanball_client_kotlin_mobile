@@ -1,10 +1,10 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.EmailResetResultEntity
-import com.example.domain.entity.LoginResultEntity
-import com.example.domain.entity.RegistrationResultEntity
-import com.example.domain.entity.ResetCompleteResultEntity
-import com.example.domain.entity.SendCodeResultEntity
+import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.RegistrationResultEntity
+import com.example.domain.entity.results.ResetCompleteResultEntity
+import com.example.domain.entity.results.SendCodeResultEntity
 
 interface AppRepository {
     suspend fun login(email: String, password: String): LoginResultEntity

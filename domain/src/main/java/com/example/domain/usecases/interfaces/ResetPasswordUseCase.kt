@@ -1,8 +1,8 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.EmailResetResultEntity
-import com.example.domain.entity.ResetCompleteResultEntity
-import com.example.domain.entity.SendCodeResultEntity
+import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.ResetCompleteResultEntity
+import com.example.domain.entity.results.SendCodeResultEntity
 
 interface ResetPasswordUseCase {
 
