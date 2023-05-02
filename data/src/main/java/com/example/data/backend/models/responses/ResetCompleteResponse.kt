@@ -1,4 +1,4 @@
-package com.example.data.backend.models
+package com.example.data.backend.models.responses
 
 import com.squareup.moshi.Json
 
@@ -7,4 +7,8 @@ data class ResetCompleteResponse(
    @Json (name = "`data`") val `data`: DataResetCompleteResponse,
    @Json (name = "message") val message: Any? = null,
    @Json (name = "status") val status: String
+)
+
+data class DataResetCompleteResponse(
+   @Json(name = "success") val success: String
 )

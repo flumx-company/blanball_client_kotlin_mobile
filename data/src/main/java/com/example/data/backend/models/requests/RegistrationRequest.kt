@@ -1,4 +1,4 @@
-package com.example.data.backend.models
+package com.example.data.backend.models.requests
 
 import com.squareup.moshi.Json
 import javax.annotation.Nullable

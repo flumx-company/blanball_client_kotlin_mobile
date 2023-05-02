@@ -1,37 +1,37 @@
 package com.example.data.backend
 
-import com.example.data.backend.models.AuthRequest
-import com.example.data.backend.models.Data
-import com.example.data.backend.models.DataEmailReset
-import com.example.data.backend.models.DataError
-import com.example.data.backend.models.DataResetCompleteError
-import com.example.data.backend.models.DataResetCompleteResponse
-import com.example.data.backend.models.DataSendCode
-import com.example.data.backend.models.EmailPassDataError
-import com.example.data.backend.models.EmailPassResetError
-import com.example.data.backend.models.EmailPassResetErrors
-import com.example.data.backend.models.LoginError
-import com.example.data.backend.models.LoginErrors
-import com.example.data.backend.models.LoginSucces
-import com.example.data.backend.models.Profile
-import com.example.data.backend.models.RegistrationData
-import com.example.data.backend.models.RegistrationError
-import com.example.data.backend.models.RegistrationErrorDetail
-import com.example.data.backend.models.RegistrationErrorsData
-import com.example.data.backend.models.RegistrationRequest
-import com.example.data.backend.models.RegistrationResponse
-import com.example.data.backend.models.ResetCompleteError
-import com.example.data.backend.models.ResetCompleteErrors
-import com.example.data.backend.models.ResetCompleteRequest
-import com.example.data.backend.models.ResetCompleteResponse
-import com.example.data.backend.models.SendCodeDataError
-import com.example.data.backend.models.SendCodeError
-import com.example.data.backend.models.SendCodeErrors
-import com.example.data.backend.models.SendCodeResponse
-import com.example.data.backend.models.SendEmailPasswordResetRequest
-import com.example.data.backend.models.SendEmailPasswordResetSuccess
-import com.example.data.backend.models.SendResetCodeRequest
-import com.example.data.backend.models.Tokens
+import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.responses.Data
+import com.example.data.backend.models.responses.DataEmailReset
+import com.example.data.backend.models.responses.DataError
+import com.example.data.backend.models.responses.DataResetCompleteError
+import com.example.data.backend.models.responses.DataResetCompleteResponse
+import com.example.data.backend.models.responses.DataSendCode
+import com.example.data.backend.models.responses.EmailPassDataError
+import com.example.data.backend.models.responses.EmailPassResetError
+import com.example.data.backend.models.responses.EmailPassResetErrors
+import com.example.data.backend.models.responses.LoginError
+import com.example.data.backend.models.responses.LoginErrors
+import com.example.data.backend.models.responses.LoginSuccess
+import com.example.data.backend.models.requests.Profile
+import com.example.data.backend.models.responses.RegistrationData
+import com.example.data.backend.models.responses.RegistrationError
+import com.example.data.backend.models.responses.RegistrationErrorDetail
+import com.example.data.backend.models.responses.RegistrationErrorsData
+import com.example.data.backend.models.requests.RegistrationRequest
+import com.example.data.backend.models.responses.RegistrationResponse
+import com.example.data.backend.models.responses.ResetCompleteError
+import com.example.data.backend.models.responses.ResetCompleteErrors
+import com.example.data.backend.models.requests.ResetCompleteRequest
+import com.example.data.backend.models.responses.ResetCompleteResponse
+import com.example.data.backend.models.responses.SendCodeDataError
+import com.example.data.backend.models.responses.SendCodeError
+import com.example.data.backend.models.responses.SendCodeErrors
+import com.example.data.backend.models.responses.SendCodeResponse
+import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
+import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.requests.SendResetCodeRequest
+import com.example.data.backend.models.responses.Tokens
 import com.example.data.tokenmanager.TokenManager
 import com.example.data.verifycodemanager.VerifyCodeManager
 import com.example.domain.entity.responses.DataCompleteResponseEntity
@@ -305,7 +305,7 @@ class AppRepositoryImpl @Inject constructor(
         return DataEmailResetEntity(this.success)
     }
 
-    private fun LoginSucces.toLoginResponse(): LoginResponse {
+    private fun LoginSuccess.toLoginResponse(): LoginResponse {
 
         return LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
     }
