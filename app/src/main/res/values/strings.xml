@@ -49,4 +49,6 @@
     <string name="lost_in_system">Залишатися авторизованим у системі</string>
     <string name="accept_terms">Я приймаю умови</string>
     <string name="privacy_policy"> політики конфіденційності</string>
+    <string name="back">Назад</string>
+    <string name="optional">Опціонально</string>
 </resources>

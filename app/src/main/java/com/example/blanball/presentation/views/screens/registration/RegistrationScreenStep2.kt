@@ -37,9 +37,11 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
@@ -54,6 +56,7 @@ import com.example.domain.utils.Endpoints
 fun RegistrationScreenStep2(
     state: UiState,
     onRegistrationClicked: () -> Unit,
+    onBackClicked: () -> Unit,
 ) {
     val intent =
         Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
@@ -104,6 +107,16 @@ fun RegistrationScreenStep2(
                             contentDescription = null,
                         )
                     }
+                    Spacer(modifier = Modifier.size(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.optional),
+                        style = typography.h6,
+                        color = secondaryNavy,
+                        modifier = Modifier.background(
+                            color = backgroundItems,
+                            shape = shapes.small
+                        ).align(Alignment.End),
+                    )
                     DefaultTextInput(
                         labelResId = (R.string.email),
                         state = it,
@@ -111,7 +124,6 @@ fun RegistrationScreenStep2(
                         onValueChange = { state.registerEmailText.value = it },
                         transformation = VisualTransformation.None,
                         modifier = Modifier
-                            .padding(top = 20.dp)
                             .fillMaxWidth()
                     )
                     PassTextInput(
@@ -196,13 +208,13 @@ fun RegistrationScreenStep2(
                         )
                     }
                     TextButton(
-                        onClick = {},
+                        onClick = onBackClicked,
                         Modifier
                             .padding(top = 14.dp)
                             .align(Alignment.CenterHorizontally)
                     ) {
                         Text(
-                            text = stringResource(id = R.string.cancel),
+                            text = stringResource(id = R.string.back),
                             style = typography.h4,
                         )
                     }

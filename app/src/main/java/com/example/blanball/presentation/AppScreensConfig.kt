@@ -78,7 +78,10 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
         }
         composable(Destinations.REGISTRATION2.route) {
             val state = registrationViewModel.uiState.collectAsState().value
-            RegistrationScreenStep2(state = state, onRegistrationClicked = { registrationViewModel.handleEvent(MainContract.Event.RegistrationClicked) })
+            RegistrationScreenStep2(
+                state = state,
+                onRegistrationClicked = { registrationViewModel.handleEvent(MainContract.Event.RegistrationClicked) },
+                onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
         }
     }
 }

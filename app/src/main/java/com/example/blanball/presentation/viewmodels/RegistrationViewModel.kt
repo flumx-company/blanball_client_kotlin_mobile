@@ -58,8 +58,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
     }
 
     private fun requestRegistration() {
-         val fullName = currentState.nameText.value
-         val parts = fullName.split(" ")
+        val fullName = currentState.nameText.value
+        val parts = fullName?.split(" ")
 
         job = viewModelScope.launch(Dispatchers.IO) {
             registrationUseCase.executeRegistration(
@@ -67,8 +67,8 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
                 phone = "+${currentState.phoneNumberText.value}",
                 password = currentState.resetPassText.value,
                 re_password = currentState.resetPassTextRemember.value,
-                name = parts[0],
-                lastName = parts[1],
+                name = parts?.getOrNull(0) ?: "",
+                lastName = parts?.getOrNull(1) ?: "",
                 gender = when (currentState.genderIsMale.value) {
                     true -> Strings.MAN
                     else -> Strings.WOMAN
@@ -82,11 +82,13 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
                             )
                         }
                     }
+
                     is RegistrationResultEntity.Error -> MainContract.Effect.ShowToast("FAIL!=(")
                 }
             }
         }
-    }
+    } // TODO: If we pass " " in the lastname/name filed - the validation will work on the backend ([{"detail":"profile.last_name_blank"}]).
+    // TODO: We need to build the validation from this - show the text about the incorrect field format.
 
     private fun setState(reduce: MainContract.State.() -> MainContract.State) {
         val newState = currentState.reduce()
