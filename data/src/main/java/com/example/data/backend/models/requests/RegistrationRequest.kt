@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import javax.annotation.Nullable
 
 data class RegistrationRequest(
-    @Json(name = "email") val email: String,
+    @Json(name = "email") val email: String? = null,
     @Json(name = "password") val password: String,
     @Json(name = "phone") val phone: String,
     @Json(name = "profile") val profile: Profile,
