@@ -1,5 +1,6 @@
     package com.example.blanball.presentation.views.widgets.textinputs
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -10,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
@@ -23,10 +25,12 @@ fun DefaultTextInput(
     labelResId: Int,
     state: MainContract.State,
     value: String,
+    isError: Boolean? = null,
     onValueChange: (String) -> Unit,
     transformation: VisualTransformation,
     modifier: Modifier,
-    keyboardOptions: KeyboardOptions? = KeyboardOptions(keyboardType = KeyboardType.Text),
+    leadIcon: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -51,5 +55,6 @@ fun DefaultTextInput(
             cursorColor = mainGreen,
         ),
         keyboardOptions = keyboardOptions!!,
+        isError = isError ?: false
     )
 }

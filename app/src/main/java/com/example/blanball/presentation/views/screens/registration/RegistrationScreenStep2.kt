@@ -2,10 +2,7 @@ package com.example.blanball.presentation.views.screens.registration
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,9 +34,11 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
@@ -47,6 +46,7 @@ import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.presentation.views.widgets.switches.SwitchButton
 import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
+import com.example.blanball.utils.ext.*
 import com.example.domain.utils.Endpoints
 
 
@@ -73,15 +73,16 @@ fun RegistrationScreenStep2(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard()
-            {
+            AnimatedPaddingCard() {
                 Column(
-                    modifier = Modifier.padding(
-                        top = 28.dp,
-                        start = 16.dp,
-                        bottom = 30.dp,
-                        end = 16.dp,
-                    )
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(
+                            top = 28.dp,
+                            start = 16.dp,
+                            bottom = 30.dp,
+                            end = 16.dp,
+                        )
                 ) {
                     Text(
                         text = stringResource(R.string.creation_new_acc),
@@ -105,21 +106,41 @@ fun RegistrationScreenStep2(
                             contentDescription = null,
                         )
                     }
-                    DefaultTextInput(
-                        labelResId = (R.string.email),
-                        state = it,
-                        value = state.registerEmailText.value,
-                        onValueChange = { state.registerEmailText.value = it },
-                        transformation = VisualTransformation.None,
-                        modifier = Modifier
-                            .padding(top = 20.dp)
-                            .fillMaxWidth()
-                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    Box(
+                        modifier = Modifier,
+                        contentAlignment = Alignment.TopEnd
+                    ) {
+                        DefaultTextInput(
+                            labelResId = (R.string.email),
+                            state = state,
+                            transformation = VisualTransformation.None,
+                            value = state.registerEmailText.value,
+                            onValueChange = { state.registerEmailText.value = it },
+                            isError = state.registerEmailText.value.isNotValidEmail(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                        Text(
+                            text = stringResource(id = R.string.optional),
+                            style = typography.h6,
+                            color = secondaryNavy,
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .background(
+                                    color = backgroundItems,
+                                    shape = shapes.small
+                                )
+
+                        )
+                    }
+
                     PassTextInput(
                         labelResId = R.string.create_password,
                         value = it.resetPassText.value,
-                        onValueChange = {state.resetPassText.value = it} ,
+                        onValueChange = { state.resetPassText.value = it },
                         state = it,
+                        isError = it.resetPassText.value.isNotInReqRange(8),
                         modifier = Modifier
                             .padding(top = 12.dp)
                             .fillMaxWidth()
@@ -128,6 +149,8 @@ fun RegistrationScreenStep2(
                         labelResId = R.string.repeat_password,
                         value = it.resetPassTextRemember.value,
                         onValueChange = { state.resetPassTextRemember.value = it },
+                        isError = it.resetPassTextRemember.value.isNotInReqRange(8)
+                                || it.resetPassText.value != it.resetPassTextRemember.value,
                         state = it,
                         modifier = Modifier
                             .padding(top = 12.dp)
@@ -173,14 +196,14 @@ fun RegistrationScreenStep2(
                             }
                         )
                     }
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.Bottom,
-                ) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.resetPassText.value.isInReqRange(8)
+                                && it.resetPassTextRemember.value.isInReqRange(8)
+                                && it.resetPassText.value == it.resetPassTextRemember.value
+                                && it.registerEmailText.value.isValidEmail()
+                                && state.privacyPolicyCheckbox.value,
                         onClick = onRegistrationClicked,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -209,6 +232,7 @@ fun RegistrationScreenStep2(
                     }
                 }
             }
+
             if (currentState.state is MainContract.ScreenViewState.Loading) {
                 Loader()
             }

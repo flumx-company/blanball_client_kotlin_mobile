@@ -30,7 +30,7 @@ fun EmailTextInput(
 ) {
     //TODO: Email form with validation library
     form(className = EmailForm::class) {
-        field(fieldClass = EmailForm::email) {
+        field(EmailForm::email) {
             mainState.resetEmailText.value = state.value?.value.orEmpty()
             mainState.successValidEmail.value = resultState.value is FieldResult.Success
             OutlinedTextField(
@@ -40,13 +40,7 @@ fun EmailTextInput(
                 isError = resultState.value is FieldResult.Error,
                 visualTransformation = transformation,
                 singleLine = true,
-                label = {
-                    Text(
-                        stringResource(
-                            id = labelResId
-                        ),
-                    )
-                },
+                label = { Text(stringResource(labelResId)) },
                 shape = shapes.small,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = defaultLightGray,
