@@ -3,7 +3,6 @@ package com.example.blanball.presentation.views.screens.registration
 import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -32,16 +30,15 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.backgroundGradient
-import com.example.blanball.presentation.theme.backgroundItems
-import com.example.blanball.presentation.theme.mainGreen
-import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
-import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.theme.*
 import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isInReqRange
+import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
+import com.example.blanball.utils.ext.isNotInReqRange
+import com.example.blanball.utils.ext.isValidPhoneNumber
+import androidx.compose.material.OutlinedTextField
 
 @Composable
 fun RegistrationScreenStep1(
@@ -62,15 +59,16 @@ fun RegistrationScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard()
-            {
+            AnimatedPaddingCard {
                 Column(
-                    modifier = Modifier.padding(
-                        top = 28.dp,
-                        start = 16.dp,
-                        bottom = 30.dp,
-                        end = 16.dp,
-                    )
+                    modifier = Modifier
+                        .padding(
+                            top = 28.dp,
+                            start = 16.dp,
+                            bottom = 30.dp,
+                            end = 16.dp,
+                        )
+                        .verticalScroll(rememberScrollState()),
                 ) {
                     Text(
                         text = stringResource(R.string.creation_new_acc),
@@ -99,21 +97,46 @@ fun RegistrationScreenStep1(
                         state = it,
                         value = state.nameText.value,
                         onValueChange = { state.nameText.value = it },
+                        isError = state.nameText.value.isNotInReqRange(3),
                         transformation = VisualTransformation.None,
                         modifier = Modifier
                             .padding(top = 20.dp)
                             .fillMaxWidth()
                     )
-                    DefaultTextInput(
-                        labelResId = (R.string.you_phone_number),
-                        state = it,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        value = state.phoneNumberText.value,
-                        onValueChange = { state.phoneNumberText.value = it },
-                        transformation = VisualTransformation.None,
+
+                    //TODO Create some new field for text with prefix!
+                    OutlinedTextField(
                         modifier = Modifier
                             .padding(top = 12.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        value = state.phoneNumberText.value,
+                        onValueChange = { state.phoneNumberText.value = it },
+                        singleLine = true,
+                        label = {
+                            Text(
+                                stringResource(
+                                    id = R.string.you_phone_number
+                                ),
+                            )
+                        },
+                        shape = shapes.small,
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            unfocusedBorderColor = defaultLightGray,
+                            focusedBorderColor = selectedDarkGray,
+                            textColor = Color.Black,
+                            errorBorderColor = errorRed,
+                            focusedLabelColor = primaryDark,
+                            cursorColor = mainGreen,
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        isError = it.phoneNumberText.value.isInvalidValidPhoneNumber(),
+                        leadingIcon = {
+                            Text(
+                                text = "+380",//TODO Make some resource
+                                modifier = Modifier.padding(start = 14.dp),
+                                color = Color.Black
+                            )
+                        }
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -129,23 +152,21 @@ fun RegistrationScreenStep1(
                             style = typography.h6,
                             color = secondaryNavy,
                             modifier = Modifier.background(
-                                color = backgroundItems,
-                                shape = shapes.small
+                                color = backgroundItems, shape = shapes.small
                             )
                         )
                     }
                     Row(Modifier.padding(top = 20.dp)) {
-                        OutlineRadioButton(
-                            state = it,
+                        OutlineRadioButton(state = it,
                             text = stringResource(R.string.male),
                             selected = it.genderIsMale.value,
                             icon = painterResource(id = R.drawable.male_ic),
                             onClick = {
                                 it.genderIsMale.value = true
                                 it.genderIsFemale.value = false
-                            }
-                        )
+                            })
                         Spacer(modifier = Modifier.size(8.dp))
+
                         OutlineRadioButton(
                             state = it,
                             text = stringResource(R.string.female),
@@ -157,45 +178,43 @@ fun RegistrationScreenStep1(
                             },
                         )
                     }
-                }
-                    Column(
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.size(24.dp))
+                    Button(
+                        enabled = it.phoneNumberText.value.isValidPhoneNumber()
+                                && state.nameText.value.isInReqRange(3)
+                                && (state.genderIsMale.value || state.genderIsFemale.value),
+                        onClick = onRegistrationStep2Clicked,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(20.dp),
-                        verticalArrangement = Arrangement.Bottom,
+                            .height(40.dp),
+                        shape = shapes.medium,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = mainGreen,
+                            contentColor = Color.White,
+                        ),
                     ) {
-                        Button(
-                            onClick =  onRegistrationStep2Clicked,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(40.dp),
-                            shape = shapes.medium,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = mainGreen,
-                                contentColor = Color.White,
-                            ),
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.next),
-                                style = typography.h4,
-                            )
-                        }
-                        TextButton(
-                            onClick = {},
-                            Modifier
-                                .padding(top = 14.dp)
-                                .align(CenterHorizontally)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.cancel),
-                                style = typography.h4,
-                            )
-                        }
+                        Text(
+                            text = stringResource(id = R.string.next),
+                            style = typography.h4,
+                        )
+                    }
+                    TextButton(
+                        onClick = {},
+                        Modifier
+                            .padding(top = 14.dp)
+                            .align(CenterHorizontally)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.cancel),
+                            style = typography.h4,
+                        )
                     }
                 }
-                if (currentState.state is MainContract.ScreenViewState.Loading) {
-                    Loader()
-                }
+            }
+            if (currentState.state is MainContract.ScreenViewState.Loading) {
+                Loader()
             }
         }
     }
+}

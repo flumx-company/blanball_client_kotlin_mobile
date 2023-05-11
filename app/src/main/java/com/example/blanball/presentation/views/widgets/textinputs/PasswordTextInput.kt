@@ -17,6 +17,7 @@ fun PassTextInput(
     value: String,
     onValueChange: (String) -> Unit,
     state: MainContract.State,
+    isError: Boolean = false,
     modifier: Modifier,
 ) {
     OutlinedTextField(
@@ -45,6 +46,7 @@ fun PassTextInput(
             IconButton(onClick = { state.passwordVisibility.value = !state.passwordVisibility.value}) {
                 Icon(painter = painterResource(id = if (state.passwordVisibility.value) R.drawable.ic_eye_on else R.drawable.ic_eye_off), contentDescription = "Visibility Icon")
             }
-        }
+        },
+        isError = isError
     )
 }
