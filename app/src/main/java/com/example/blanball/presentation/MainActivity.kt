@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
                         navController = rememberNavController(),
                         resetPassViewModel = viewModel(),
                         registrationViewModel = viewModel(),
+                        publicProfileViewModel = viewModel(),
                     )
                 }
             }

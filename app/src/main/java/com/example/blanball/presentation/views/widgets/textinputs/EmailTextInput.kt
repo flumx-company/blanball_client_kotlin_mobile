@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
@@ -25,7 +25,7 @@ import me.naingaungluu.formconductor.composeui.form
 fun EmailTextInput(
     labelResId: Int,
     transformation: VisualTransformation,
-    mainState: MainContract.State,
+    mainState: StartScreensMainContract.State,
     modifier: Modifier,
 ) {
     //TODO: Email form with validation library

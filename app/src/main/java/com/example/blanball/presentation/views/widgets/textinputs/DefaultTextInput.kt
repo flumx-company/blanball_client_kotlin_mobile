@@ -1,6 +1,5 @@
     package com.example.blanball.presentation.views.widgets.textinputs
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -11,8 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
@@ -23,7 +21,7 @@ import com.example.blanball.presentation.theme.shapes
 @Composable
 fun DefaultTextInput(
     labelResId: Int,
-    state: MainContract.State,
+    state: StartScreensMainContract.State,
     value: String,
     isError: Boolean? = null,
     onValueChange: (String) -> Unit,

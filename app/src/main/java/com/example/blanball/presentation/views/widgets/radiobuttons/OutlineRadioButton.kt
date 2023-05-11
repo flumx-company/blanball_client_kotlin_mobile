@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -21,7 +21,7 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun OutlineRadioButton(
-    state: MainContract.State,
+    state: StartScreensMainContract.State,
     text: String,
     selected: Boolean,
     icon: Painter,

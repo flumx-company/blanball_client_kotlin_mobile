@@ -51,4 +51,17 @@
     <string name="privacy_policy"> політики конфіденційності</string>
     <string name="back">Назад</string>
     <string name="optional">Опціонально</string>
+    <string name="qualification">Кваліфікація</string>
+    <string name="verifed">Верифіковано</string>
+    <string name="invite_to_an_event">Запросити на подію</string>
+    <string name="write_email">Написати email</string>
+    <string name="to_call">Подзвонити</string>
+    <string name="about_youself">Про себе:</string>
+    <string name="game_stats">Ігрові характеристики</string>
+    <string name="game_position">Ігрова позиція</string>
+    <string name="weight">Вага</string>
+    <string name="height">Зріст</string>
+    <string name="kicking_leg">Ударна нога</string>
+    <string name="ratings_and_reviews">Рейтинги та відгуки</string>
+    <string name="five_scores">/5.0</string>
 </resources>

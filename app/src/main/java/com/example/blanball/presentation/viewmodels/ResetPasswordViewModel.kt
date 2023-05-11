@@ -2,7 +2,7 @@
 
     import androidx.lifecycle.ViewModel
     import androidx.lifecycle.viewModelScope
-    import com.example.blanball.presentation.data.MainContract
+    import com.example.blanball.presentation.data.StartScreensMainContract
     import com.example.blanball.presentation.data.UiEvent
     import com.example.blanball.presentation.data.UiState
     import com.example.domain.entity.results.EmailResetResultEntity
@@ -30,43 +30,43 @@
         private var job: Job? = null
 
         val defaultState
-            get() = MainContract.State(
-                state = MainContract.ScreenViewState.Idle
+            get() = StartScreensMainContract.State(
+                state = StartScreensMainContract.ScreenViewState.Idle
             )
 
-        val currentState: MainContract.State
-            get() = uiState.value as MainContract.State
+        val currentState: StartScreensMainContract.State
+            get() = uiState.value as StartScreensMainContract.State
 
         private val _uiState: MutableStateFlow<UiState> =
             MutableStateFlow(defaultState)
         val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-        private val _sideEffect: MutableSharedFlow<MainContract.Effect> =
+        private val _sideEffect: MutableSharedFlow<StartScreensMainContract.Effect> =
             MutableSharedFlow(replay = 0)
-        val sideEffect: SharedFlow<MainContract.Effect> = _sideEffect.asSharedFlow()
+        val sideEffect: SharedFlow<StartScreensMainContract.Effect> = _sideEffect.asSharedFlow()
 
         fun handleEvent(event: UiEvent) {
             when (event) {
-                is MainContract.Event.SendEmailResetRequestClicked -> {
+                is StartScreensMainContract.Event.SendEmailResetRequestClicked -> {
                     setState {
                         copy(
-                            state = MainContract.ScreenViewState.Loading,
+                            state = StartScreensMainContract.ScreenViewState.Loading,
                         )
                     }
                     requestReset()
                 }
-                is MainContract.Event.SendCodeClicked -> {
+                is StartScreensMainContract.Event.SendCodeClicked -> {
                     setState {
                         copy(
-                            state = MainContract.ScreenViewState.Loading
+                            state = StartScreensMainContract.ScreenViewState.Loading
                         )
                     }
                     sendCode()
                 }
-                is MainContract.Event.CompleteResetClicked -> {
+                is StartScreensMainContract.Event.CompleteResetClicked -> {
                     setState {
                         copy(
-                            state = MainContract.ScreenViewState.Loading
+                            state = StartScreensMainContract.ScreenViewState.Loading
                         )
                     }
                     requestCompleteReset()
@@ -81,11 +81,11 @@
                         is EmailResetResultEntity.Success -> {
                             setState {
                                 copy(
-                                    state = MainContract.ScreenViewState.SuccessResetRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessResetRequest
                                 )
                             }
                         }
-                        is EmailResetResultEntity.Error -> MainContract.Effect.ShowToast("FAIL!=(")
+                        is EmailResetResultEntity.Error -> StartScreensMainContract.Effect.ShowToast("FAIL!=(")
                     }
                 }
             }
@@ -97,15 +97,15 @@
                 resetPasswordUseCase.executeSendCode(code).let {
                     when (it) {
                         is SendCodeResultEntity.Success -> {
-                            _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
+                            _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Succes"))
                             setState {
                                 copy(
-                                    state = MainContract.ScreenViewState.SuccessSendCodeRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessSendCodeRequest
                                 )
                             }
                         }
                         is SendCodeResultEntity.Error -> _sideEffect.emit(
-                            MainContract.Effect.ShowToast(
+                            StartScreensMainContract.Effect.ShowToast(
                                 "Error"
                             )
                         )
@@ -119,15 +119,15 @@
                 resetPasswordUseCase.executeChangePassword(currentState.newPassText.value).let {
                     when (it) {
                         is ResetCompleteResultEntity.Success -> {
-                            _sideEffect.emit(MainContract.Effect.ShowToast("Succes"))
+                            _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Succes"))
                             setState {
                                 copy(
-                                    state = MainContract.ScreenViewState.SuccessCompleteResetRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessCompleteResetRequest
                                 )
                             }
                         }
                         is ResetCompleteResultEntity.Error -> _sideEffect.emit(
-                            MainContract.Effect.ShowToast(
+                            StartScreensMainContract.Effect.ShowToast(
                                 "Error"
                             )
                         )
@@ -136,7 +136,7 @@
             }
         }
 
-        private fun setState(reduce: MainContract.State.() -> MainContract.State) {
+        private fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
             val newState = currentState.reduce()
             _uiState.value = newState
         }

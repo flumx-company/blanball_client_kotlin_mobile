@@ -26,7 +26,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
@@ -46,15 +46,15 @@ fun ResetPasswordScreenStep1(
     onStep2Clicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
-    val currentState: MainContract.State =
-        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
+    val currentState: StartScreensMainContract.State =
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient),
         contentAlignment = Alignment.TopCenter,
     ) {
-        (state as? MainContract.State)?.let {
+        (state as? StartScreensMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
@@ -161,7 +161,7 @@ fun ResetPasswordScreenStep1(
             }
         }
     }
-    if (currentState.state is MainContract.ScreenViewState.Loading) {
+    if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
         Loader()
     }
 }

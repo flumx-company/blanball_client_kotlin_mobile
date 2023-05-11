@@ -18,12 +18,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.*
 
 @Composable
 fun CodeTextInput(
-    state: MainContract.State,
+    state: StartScreensMainContract.State,
     modifier: Modifier,
     enabled: Boolean = true,
 ) {

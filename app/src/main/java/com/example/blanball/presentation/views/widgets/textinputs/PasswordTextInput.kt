@@ -8,7 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.*
 
 @Composable
@@ -16,7 +16,7 @@ fun PassTextInput(
     labelResId: Int,
     value: String,
     onValueChange: (String) -> Unit,
-    state: MainContract.State,
+    state: StartScreensMainContract.State,
     isError: Boolean = false,
     modifier: Modifier,
 ) {
