@@ -11,6 +11,9 @@ object Endpoints {
      const val RESET_COMPLETE_ENDPOINT = BuildConfig.RESET_COMPLETE_ENDPOINT
      const val REGISTER_ENDPOINT = BuildConfig.REGISTER_ENDPOINT
      const val PRIVACY_POLICY_URL = BuildConfig.PRIVACY_POLICY_URL
+     const val USER_PROFILE_ENDPOINT = BuildConfig.USER_PROFILE_ENDPOINT
+     const val REVIEWS_ENDPOINT = BuildConfig.REVIEWS_ENDPOINT
+     const val PLANNED_EVENTS = BuildConfig.PLANNED_EVENTS
      }
 object Code {
      const val CODE_401 = BuildConfig.CODE_401

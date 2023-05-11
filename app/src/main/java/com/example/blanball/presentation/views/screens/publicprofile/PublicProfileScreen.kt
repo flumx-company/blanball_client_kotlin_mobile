@@ -220,7 +220,6 @@ fun PublicProfileScreen(
                         text = stringResource(id = R.string.game_stats), style = typography.h2, fontSize = 16.sp,
                         color = primaryDark
                     )
-                    Icon(painter = painterResource(id = R.drawable.empty_star), contentDescription = null)
                     Spacer(modifier = Modifier.size(28.dp))
                     Row() {
                         Box(

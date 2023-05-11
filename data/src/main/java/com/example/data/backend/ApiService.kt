@@ -3,10 +3,16 @@ package com.example.data.backend
 
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.requests.GetListOfUsersEventsRequest
+import com.example.data.backend.models.requests.GetUserProfileByIdRequest
+import com.example.data.backend.models.requests.GetUserReviewsByIdRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
+import com.example.data.backend.models.responses.GetListOfUsersEventsRequest
+import com.example.data.backend.models.responses.GetUserProfileByIdResponse
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
@@ -14,6 +20,7 @@ import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 
@@ -33,4 +40,13 @@ interface  ApiService  {
 
     @POST (Endpoints.REGISTER_ENDPOINT)
     suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
+
+    @GET (Endpoints.USER_PROFILE_ENDPOINT)
+    suspend fun getUserProfileById(@Body getUserProfileByIdRequest: GetUserProfileByIdRequest): GetUserProfileByIdResponse
+
+    @GET (Endpoints.REVIEWS_ENDPOINT)
+    suspend fun getUserReviewsById(@Body getUserReviewsByIdRequest: GetUserReviewsByIdRequest): GetUserReviewsByIdResponse
+
+    @GET (Endpoints.PLANNED_EVENTS)
+    suspend fun  getListOfUsersEvents(@Body getListOfUsersEventsRequest: GetListOfUsersEventsRequest): GetListOfUsersEventsRequest
 }
