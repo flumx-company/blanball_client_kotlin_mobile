@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -14,6 +16,11 @@ android {
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "BASE_URL", "\"http://178.151.201.167:49299/api/v1/\""
         buildConfigField "String", "LOGIN_ENDPOINT", "\"authentication/client/login\""
+        buildConfigField "String", "PASSWORD_RESET_ENDPOINT", "\"authentication/client/request-reset/password\""
+        buildConfigField "String", "VALIDATE_RESET_CODE_ENDPOINT", "\"authentication/client/validate/reset-password/code\""
+        buildConfigField "String", "RESET_COMPLETE_ENDPOINT", "\"authentication/client/password/reset-complete\""
+        buildConfigField "String", "REGISTER_ENDPOINT", "\"authentication/client/register\""
+        buildConfigField "String", "PRIVACY_POLICY_URL", "\"http://178.151.201.167:49201/privacy/policy\""
         buildConfigField "int", "CODE_401", "401"
     }
 
@@ -37,7 +44,11 @@ dependencies {
     //Core
     implementation 'androidx.core:core-ktx:1.9.0'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     //Tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 }
