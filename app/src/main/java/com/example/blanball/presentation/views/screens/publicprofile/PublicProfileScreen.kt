@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +44,8 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.makeCall
+import com.example.blanball.utils.writeEmail
 
 @Composable
 fun PublicProfileScreen(
@@ -55,6 +58,7 @@ fun PublicProfileScreen(
         (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
             PublicProfileMainContract.ScreenViewState.Idle
         )
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -149,7 +153,8 @@ fun PublicProfileScreen(
                     Spacer(modifier = Modifier.size(8.dp))
                     Row() {
                         Button(
-                            onClick = { onInviteToAnEventClicked },
+                            onClick = { writeEmail(arrayOf("alexwork778@gmail.com"), "Subject",
+                                "Body", context) },
                             modifier = Modifier
                                 .height(45.dp)
                                 .weight(1f),
@@ -171,7 +176,7 @@ fun PublicProfileScreen(
                         }
                         Spacer(modifier = Modifier.size(10.dp))
                         Button(
-                            onClick = { onCallToUserClicked },
+                            onClick = { makeCall("+380635553280", context) },
                             modifier = Modifier
                                 .height(45.dp)
                                 .weight(1f),

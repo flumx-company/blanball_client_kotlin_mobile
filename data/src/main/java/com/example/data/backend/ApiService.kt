@@ -10,7 +10,7 @@ import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
-import com.example.data.backend.models.responses.GetListOfUsersEventsRequest
+import com.example.data.backend.models.responses.GetListOfUsersEventsResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.LoginSuccess
@@ -41,12 +41,12 @@ interface  ApiService  {
     @POST (Endpoints.REGISTER_ENDPOINT)
     suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
 
-    @GET (Endpoints.USER_PROFILE_ENDPOINT)
+    @GET(Endpoints.USER_PROFILE_ENDPOINT)
     suspend fun getUserProfileById(@Body getUserProfileByIdRequest: GetUserProfileByIdRequest): GetUserProfileByIdResponse
 
     @GET (Endpoints.REVIEWS_ENDPOINT)
     suspend fun getUserReviewsById(@Body getUserReviewsByIdRequest: GetUserReviewsByIdRequest): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun  getListOfUsersEvents(@Body getListOfUsersEventsRequest: GetListOfUsersEventsRequest): GetListOfUsersEventsRequest
+    suspend fun  getListOfUsersEvents(@Body getListOfUsersEventsRequest: GetListOfUsersEventsRequest): GetListOfUsersEventsResponse
 }
