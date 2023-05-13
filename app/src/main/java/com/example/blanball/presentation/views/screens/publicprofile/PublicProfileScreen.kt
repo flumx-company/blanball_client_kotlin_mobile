@@ -73,7 +73,7 @@ fun PublicProfileScreen(
                     .fillMaxWidth()
             )
         }
-        Column() {
+        Column {
             Card(
                 Modifier
                     .fillMaxWidth()
@@ -160,7 +160,7 @@ fun PublicProfileScreen(
                                 .weight(1f),
                             shape = shapes.medium,
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
+                                backgroundColor = Color.Black,
                                 contentColor = secondaryNavy,
                             ),
                         ) {

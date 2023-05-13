@@ -1,69 +1,43 @@
 package com.example.data.backend
 
 import com.example.data.backend.models.requests.AuthRequest
-import com.example.data.backend.models.responses.Data
-import com.example.data.backend.models.responses.DataEmailReset
-import com.example.data.backend.models.responses.DataError
-import com.example.data.backend.models.responses.DataResetCompleteError
-import com.example.data.backend.models.responses.DataResetCompleteResponse
-import com.example.data.backend.models.responses.DataSendCode
-import com.example.data.backend.models.responses.EmailPassDataError
-import com.example.data.backend.models.responses.EmailPassResetError
-import com.example.data.backend.models.responses.EmailPassResetErrors
-import com.example.data.backend.models.responses.LoginError
-import com.example.data.backend.models.responses.LoginErrors
-import com.example.data.backend.models.responses.LoginSuccess
-import com.example.data.backend.models.requests.Profile
-import com.example.data.backend.models.responses.RegistrationData
-import com.example.data.backend.models.responses.RegistrationError
-import com.example.data.backend.models.responses.RegistrationErrorDetail
-import com.example.data.backend.models.responses.RegistrationErrorsData
+import com.example.data.backend.models.requests.GetUserProfileByIdRequest
+import com.example.data.backend.models.requests.ProfileRegistrationRequest
 import com.example.data.backend.models.requests.RegistrationRequest
-import com.example.data.backend.models.responses.RegistrationResponse
-import com.example.data.backend.models.responses.ResetCompleteError
-import com.example.data.backend.models.responses.ResetCompleteErrors
 import com.example.data.backend.models.requests.ResetCompleteRequest
-import com.example.data.backend.models.responses.ResetCompleteResponse
-import com.example.data.backend.models.responses.SendCodeDataError
-import com.example.data.backend.models.responses.SendCodeError
-import com.example.data.backend.models.responses.SendCodeErrors
-import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
-import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
 import com.example.data.backend.models.requests.SendResetCodeRequest
-import com.example.data.backend.models.responses.Tokens
+import com.example.data.backend.models.responses.EmailPassResetError
+import com.example.data.backend.models.responses.GetUserProfileByIdError
+import com.example.data.backend.models.responses.LoginError
+import com.example.data.backend.models.responses.RegistrationError
+import com.example.data.backend.models.responses.ResetCompleteError
+import com.example.data.backend.models.responses.SendCodeError
 import com.example.data.tokenmanager.TokenManager
+import com.example.data.utils.ext.toEmailPassResetErrorEntity
+import com.example.data.utils.ext.toEmailResetResponse
+import com.example.data.utils.ext.toErrorResponse
+import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
+import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
+import com.example.data.utils.ext.toLoginResponse
+import com.example.data.utils.ext.toRegistrationErrorEntity
+import com.example.data.utils.ext.toRegistrationResponseEntity
+import com.example.data.utils.ext.toResetCompleteErrorEntity
+import com.example.data.utils.ext.toResetCompleteResponseEntity
+import com.example.data.utils.ext.toSendCodeErrorEntity
+import com.example.data.utils.ext.toSendCodeResponseEntity
 import com.example.data.verifycodemanager.VerifyCodeManager
-import com.example.domain.entity.responses.DataCompleteResponseEntity
-import com.example.domain.entity.responses.DataEmailResetEntity
-import com.example.domain.entity.responses.DataSendCodeDomain
-import com.example.domain.entity.responses.EmailPassDataErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
-import com.example.domain.entity.responses.EmailPassResetErrorsEntity
-import com.example.domain.entity.responses.EmailResetResponseEntity
-import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.responses.ErrorResponse
-import com.example.domain.entity.responses.LoginData
-import com.example.domain.entity.responses.LoginDataError
-import com.example.domain.entity.responses.LoginErrorsDomain
-import com.example.domain.entity.responses.LoginResponse
-import com.example.domain.entity.results.LoginResultEntity
-import com.example.domain.entity.responses.LoginTokens
-import com.example.domain.entity.responses.RegistrationDataEntity
-import com.example.domain.entity.responses.RegistrationErrorDetailEntity
+import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
 import com.example.domain.entity.responses.RegistrationErrorEntity
-import com.example.domain.entity.responses.RegistrationErrorsDataEntity
-import com.example.domain.entity.responses.RegistrationResponseEntity
-import com.example.domain.entity.results.RegistrationResultEntity
-import com.example.domain.entity.responses.ResetCompleteDataEntity
 import com.example.domain.entity.responses.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.ResetCompleteErrorsEntity
-import com.example.domain.entity.responses.ResetCompleteResponseEntity
-import com.example.domain.entity.results.ResetCompleteResultEntity
-import com.example.domain.entity.responses.SendCodeDataErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorEntity
-import com.example.domain.entity.responses.SendCodeErrorsEntity
-import com.example.domain.entity.responses.SendCodeResponseEntity
+import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.GetUserProfileByIdResultEntity
+import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.RegistrationResultEntity
+import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
 import com.example.domain.repository.AppRepository
 import com.squareup.moshi.Moshi
@@ -77,6 +51,18 @@ class AppRepositoryImpl @Inject constructor(
     internal val verifyCodeManager: VerifyCodeManager,
 ) : AppRepository {
 
+    override suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity {
+        return try {
+            val getUserProfileByIdRequest = GetUserProfileByIdRequest(id)
+            val getUserProfileByIdResponse = service.getUserProfileById(getUserProfileByIdRequest)
+            val getUserProfileByIdDomainResponse =
+                getUserProfileByIdResponse.toGetUserProfileByIdResponseEntity()
+            GetUserProfileByIdResultEntity.Success(getUserProfileByIdDomainResponse)
+        } catch (ex: HttpException) {
+           val errorResponse = handleHttpError<GetUserProfileByIdError, GetUserProfileByIdErrorEntity>(ex) { it.toGetUserProfileByIdErrorEntity() }
+            GetUserProfileByIdResultEntity.Error(errorResponse.data.errors[0])
+        }
+    }
 
     override suspend fun changePassword(newPassword: String): ResetCompleteResultEntity {
         return try {
@@ -90,7 +76,6 @@ class AppRepositoryImpl @Inject constructor(
                 handleHttpError<ResetCompleteError, ResetCompleteErrorEntity>(ex) { it.toResetCompleteErrorEntity() }
             ResetCompleteResultEntity.Error(errorResponse.data.errors[0])
         }
-
     }
 
     override suspend fun sendCode(code: String): SendCodeResultEntity {
@@ -144,9 +129,13 @@ class AppRepositoryImpl @Inject constructor(
             gender: String,
         ): RegistrationResultEntity {
             return try {
-                val request = RegistrationRequest(email =
-                    email, password = password, phone = phone, profile =
-                    Profile (name = name, last_name = lastName, gender = gender), re_password = re_password,
+                val request = RegistrationRequest(
+                    email =
+                    email,
+                    password = password, phone = phone,
+                    profile =
+                    ProfileRegistrationRequest(name = name, last_name = lastName, gender = gender),
+                    re_password = re_password,
                 )
                 val registrationSuccess = service.userRegistration(request)
                 val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
@@ -167,166 +156,5 @@ class AppRepositoryImpl @Inject constructor(
         val errorDto = errorBody?.let { adapter.fromJson(it) }
         val errorResponse = errorDto?.let { errorMapper(it) }
         return errorResponse ?: error("Unknown error")
-    }
-
-    private fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity {
-        return RegistrationErrorEntity(
-            this.code,
-            this.data.toRegistrationErrorsDataEntity(),
-            this.message,
-            this.status,
-        )
-    }
-
-
-    private fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity {
-        return RegistrationErrorsDataEntity(
-            listOf(this.errors[0].toRegistrationErrorDetailEntity()),
-            this.type
-        )
-    }
-
-    private fun RegistrationErrorDetail.toRegistrationErrorDetailEntity(): RegistrationErrorDetailEntity {
-        return RegistrationErrorDetailEntity(this.detail)
-    }
-
-    private fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity {
-        return RegistrationResponseEntity(
-            this.code,
-            this.data.toRegistrationDataEntity(),
-            this.message,
-            this.status
-        )
-    }
-
-
-    private fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity {
-        return RegistrationDataEntity(this.access, this.refresh)
-    }
-
-    private fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteErrorEntity {
-        return ResetCompleteErrorEntity(
-            this.code,
-            this.data.toResetCompleteDataEntity(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun DataResetCompleteError.toResetCompleteDataEntity(): ResetCompleteDataEntity {
-        return ResetCompleteDataEntity(
-            listOf(this.errors[0].toResetCompleteErrorsEntity()),
-            this.type
-        )
-    }
-
-
-    private fun ResetCompleteErrors.toResetCompleteErrorsEntity(): ResetCompleteErrorsEntity {
-        return ResetCompleteErrorsEntity(this.detail)
-    }
-
-
-    private fun DataResetCompleteResponse.toResetCompleteResponseEntity(): DataCompleteResponseEntity {
-        return DataCompleteResponseEntity(this.success)
-    }
-
-    private fun ResetCompleteResponse.toResetCompleteResponseEntity(): ResetCompleteResponseEntity {
-        return ResetCompleteResponseEntity(
-            this.code,
-            this.data.toResetCompleteResponseEntity(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun SendCodeError.toSendCodeErrorEntity(): SendCodeErrorEntity {
-        return SendCodeErrorEntity(
-            this.code,
-            this.data.toSendCodeDataErrorEntity(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun SendCodeDataError.toSendCodeDataErrorEntity(): SendCodeDataErrorEntity {
-        return SendCodeDataErrorEntity(
-            listOf(this.errors[0].toSendCodeErrorsEntity()),
-            this.type
-        )
-    }
-
-    private fun SendCodeErrors.toSendCodeErrorsEntity(): SendCodeErrorsEntity {
-        return SendCodeErrorsEntity(this.detail)
-    }
-
-    private fun SendCodeResponse.toSendCodeResponseEntity(): SendCodeResponseEntity {
-        return SendCodeResponseEntity(
-            this.code,
-            this.data.toDataSendDomain(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun DataSendCode.toDataSendDomain(): DataSendCodeDomain {
-        return DataSendCodeDomain(this.success)
-    }
-
-    private fun EmailPassResetError.toEmailPassResetErrorEntity(): EmailPassResetErrorEntity {
-        return EmailPassResetErrorEntity(
-            this.code,
-            this.data.toEmailPassDataErrorEntity(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun EmailPassDataError.toEmailPassDataErrorEntity(): EmailPassDataErrorEntity {
-        return EmailPassDataErrorEntity(
-            listOf(this.errors[0].toEmailPassDataErrorEntity()),
-            this.type
-        )
-    }
-
-    private fun EmailPassResetErrors.toEmailPassDataErrorEntity(): EmailPassResetErrorsEntity {
-        return EmailPassResetErrorsEntity(this.detail)
-    }
-
-    private fun SendEmailPasswordResetSuccess.toEmailResetResponse(): EmailResetResponseEntity {
-        return EmailResetResponseEntity(
-            this.code,
-            this.data.toDataEmailReset(),
-            this.message,
-            this.status
-        )
-    }
-
-    private fun DataEmailReset.toDataEmailReset(): DataEmailResetEntity {
-        return DataEmailResetEntity(this.success)
-    }
-
-    private fun LoginSuccess.toLoginResponse(): LoginResponse {
-
-        return LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
-    }
-
-    private fun Data.toLoginData(): LoginData {
-        return LoginData(this.email, this.tokens.toLoginTokens())
-    }
-
-    private fun Tokens.toLoginTokens(): LoginTokens {
-        return LoginTokens(this.access, this.refresh)
-    }
-
-    private fun LoginError.toErrorResponse(): ErrorResponse {
-        return ErrorResponse(this.code, this.data.toDataError(), this.message, this.status)
-    }
-
-    private fun DataError.toDataError(): LoginDataError {
-        return LoginDataError(listOf(this.errors[0].toLoginErrors()), this.type)
-    }
-
-    private fun LoginErrors.toLoginErrors(): LoginErrorsDomain {
-        return LoginErrorsDomain(this.detail)
     }
 }
