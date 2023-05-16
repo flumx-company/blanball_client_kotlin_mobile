@@ -1,7 +1,6 @@
 package com.example.data.backend
 
 import com.example.data.backend.models.requests.AuthRequest
-import com.example.data.backend.models.requests.GetUserProfileByIdRequest
 import com.example.data.backend.models.requests.ProfileRegistrationRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
@@ -53,11 +52,10 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity {
         return try {
-            val getUserProfileByIdRequest = GetUserProfileByIdRequest(id)
-            val getUserProfileByIdResponse = service.getUserProfileById(getUserProfileByIdRequest)
+            val getUserProfileByIdResponse = service.getUserProfileById(id)
             val getUserProfileByIdDomainResponse =
                 getUserProfileByIdResponse.toGetUserProfileByIdResponseEntity()
-            GetUserProfileByIdResultEntity.Success(getUserProfileByIdDomainResponse)
+            GetUserProfileByIdResultEntity.Success(getUserProfileByIdDomainResponse.data)
         } catch (ex: HttpException) {
            val errorResponse = handleHttpError<GetUserProfileByIdError, GetUserProfileByIdErrorEntity>(ex) { it.toGetUserProfileByIdErrorEntity() }
             GetUserProfileByIdResultEntity.Error(errorResponse.data.errors[0])

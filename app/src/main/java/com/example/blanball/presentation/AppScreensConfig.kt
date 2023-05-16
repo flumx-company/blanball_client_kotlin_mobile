@@ -87,7 +87,7 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
         }
         composable(Destinations.PUBLIC_PROFILE.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            PublicProfileScreen(state = state, onInviteToAnEventClicked = { TODO("Invite to event action") }, onWriteToEmailClicked = { TODO("Write to email action") }, onCallToUserClicked =  { TODO("Write to email action") } )
+            PublicProfileScreen(state = state, onInviteToAnEventClicked = { TODO("Invite to event action") },)
         }
     }
 }

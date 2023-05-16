@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUserProfileByIdResponseEntity(
     val code: Int,
     val `data`: PublicProfileDataResponseEntity,
-    val message: Any,
+    val message: Any? = null,
     val status: String
 )
 
@@ -15,7 +15,7 @@ data class PublicProfileDataResponseEntity(
     val is_verified: Boolean,
     val phone: String,
     val profile: PublicProfileResponseEntity,
-    val raiting: Any,
+    val raiting: Any? = null,
     val role: String
 )
 

@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(internal val registrationUseCase: RegistrationUseCase) :
+class   RegistrationViewModel @Inject constructor(internal val registrationUseCase: RegistrationUseCase) :
     ViewModel() {
 
     private var job: Job? = null
@@ -82,7 +82,6 @@ class RegistrationViewModel @Inject constructor(internal val registrationUseCase
                             )
                         }
                     }
-
                     is RegistrationResultEntity.Error -> StartScreensMainContract.Effect.ShowToast("FAIL!=(")
                 }
             }

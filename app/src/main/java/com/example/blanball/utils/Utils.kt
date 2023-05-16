@@ -12,8 +12,6 @@ internal fun makeCall(number: String, context: Context) {
 
 internal fun writeEmail(
     addresses: Array<String>,
-    subject: String,
-    body: String,
     context: Context,
 ) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {

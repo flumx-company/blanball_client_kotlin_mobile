@@ -3,9 +3,6 @@ package com.example.data.backend
 
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
-import com.example.data.backend.models.requests.GetListOfUsersEventsRequest
-import com.example.data.backend.models.requests.GetUserProfileByIdRequest
-import com.example.data.backend.models.requests.GetUserReviewsByIdRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
@@ -22,9 +19,10 @@ import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 
-interface  ApiService  {
+interface ApiService  {
 
     @POST(Endpoints.LOGIN_ENDPOINT)
     suspend fun loginAuthorization(@Body authRequest: AuthRequest): LoginSuccess
@@ -42,11 +40,11 @@ interface  ApiService  {
     suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
 
     @GET(Endpoints.USER_PROFILE_ENDPOINT)
-    suspend fun getUserProfileById(@Body getUserProfileByIdRequest: GetUserProfileByIdRequest): GetUserProfileByIdResponse
+    suspend fun getUserProfileById(@Path ("id") id: Int): GetUserProfileByIdResponse
 
     @GET (Endpoints.REVIEWS_ENDPOINT)
-    suspend fun getUserReviewsById(@Body getUserReviewsByIdRequest: GetUserReviewsByIdRequest): GetUserReviewsByIdResponse
+    suspend fun getUserReviewsById(@Path ("id") id: Int): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun  getListOfUsersEvents(@Body getListOfUsersEventsRequest: GetListOfUsersEventsRequest): GetListOfUsersEventsResponse
+    suspend fun  getListOfUsersEvents (@Path ("id") id: Int): GetListOfUsersEventsResponse
 }

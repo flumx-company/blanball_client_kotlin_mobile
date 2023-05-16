@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUserProfileByIdErrorEntity(
     val code: Int,
     val `data`: GetUserProfileByIdErrorDataEntity,
-    val message: Any,
+    val message: Any? = null,
     val status: String
 )
 
