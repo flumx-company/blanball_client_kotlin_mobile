@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
@@ -86,8 +87,18 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
         }
         composable(Destinations.PUBLIC_PROFILE.route) {
+            val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            PublicProfileScreen(state = state, onInviteToAnEventClicked = { TODO("Invite to event action") },)
+            LaunchedEffect(key1 = true) {
+                publicProfileViewModel.sideEffect.collect {
+                    when (it) {
+                        is PublicProfileMainContract.Effect.ShowToast -> {
+                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+            PublicProfileScreen(state = state, onInviteToAnEventClicked = { TODO("Invite to event action") })
         }
     }
 }

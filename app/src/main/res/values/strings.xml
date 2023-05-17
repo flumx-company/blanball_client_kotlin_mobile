@@ -65,4 +65,5 @@
     <string name="kicking_leg">Ударна нога</string>
     <string name="ratings_and_reviews">Рейтинги та відгуки</string>
     <string name="five_scores">/5.0</string>
+    <string name="empty_text_field">----</string>
 </resources>

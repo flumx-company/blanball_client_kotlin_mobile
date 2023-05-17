@@ -43,10 +43,10 @@ class PublicProfileViewModel @Inject constructor(internal val getUserProfileById
     val sideEffect: SharedFlow<PublicProfileMainContract.Effect> = _sideEffect.asSharedFlow()
 
     init {
-        handleEvent(currentState.state)
+        handleScreenState(currentState.state)
     }
 
-    fun handleEvent(screenViewState: PublicProfileMainContract.ScreenViewState) {
+    private fun handleScreenState (screenViewState: PublicProfileMainContract.ScreenViewState) {
         when (screenViewState) {
             is PublicProfileMainContract.ScreenViewState.Loading -> {
                 getUserPublicProfileById()
@@ -62,7 +62,7 @@ class PublicProfileViewModel @Inject constructor(internal val getUserProfileById
                         setState {
                             copy(
                                 userFirstNameText = mutableStateOf(it.data.profile.name),
-                                userLastNameText = mutableStateOf(it.data.profile.name),
+                                userLastNameText = mutableStateOf(it.data.profile.last_name),
                                 userAvatar = mutableStateOf(it.data.profile.avatar_url),
                                 userRoleText = mutableStateOf(it.data.role),
                                 userIsVerified = mutableStateOf(it.data.is_verified),
@@ -75,10 +75,13 @@ class PublicProfileViewModel @Inject constructor(internal val getUserProfileById
                                 userWorkingLegText = mutableStateOf(it.data.profile.working_leg),
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
+                    }
+                    is GetUserProfileByIdResultEntity.Error -> {
+                        setState {
+                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
-
-                    is GetUserProfileByIdResultEntity.Error ->
-                        _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast(it.error.detail))
+                        _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
+                    }
                 }
             }
         }

@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
@@ -87,7 +88,7 @@ fun PublicProfileScreen(
                         )
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.test_user_photo),
+                            painter = rememberAsyncImagePainter(state.userAvatar.value),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(144.dp)
@@ -97,7 +98,7 @@ fun PublicProfileScreen(
                         Spacer(modifier = Modifier.size(12.dp))
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
-                                text = "Мирославcький", style = typography.h2, fontSize = 20.sp,
+                                text = state.userLastNameText.value, style = typography.h2, fontSize = 20.sp,
                                 color = primaryDark
                             )
                         }
