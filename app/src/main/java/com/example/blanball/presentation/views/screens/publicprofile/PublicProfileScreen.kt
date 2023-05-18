@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.screens.publicprofile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -248,7 +249,10 @@ fun PublicProfileScreen(
                             color = primaryDark
                         )
                         Spacer(modifier = Modifier.size(28.dp))
-                        Row() {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
                             Box(
                                 modifier = Modifier
                                     .size(40.dp)
@@ -260,8 +264,7 @@ fun PublicProfileScreen(
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            Column() {
+                            Column(Modifier.weight(1f)) {
                                 Text(
                                     text = stringResource(id = R.string.game_position),
                                     style = typography.h6,
@@ -269,7 +272,7 @@ fun PublicProfileScreen(
                                 )
                                 Text(text = state.userPositionText.value, style = typography.h5, color = primaryDark)
                             }
-                            Spacer(modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.weight(1f))
                             Box(
                                 modifier = Modifier
                                     .size(40.dp)
@@ -281,8 +284,7 @@ fun PublicProfileScreen(
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            Column() {
+                            Column(Modifier.weight(1f)) {
                                 Text(
                                     text = stringResource(id = R.string.weight),
                                     style = typography.h6,
@@ -292,7 +294,10 @@ fun PublicProfileScreen(
                             }
                         }
                         Spacer(modifier = Modifier.size(16.dp))
-                        Row() {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Box(
                                 modifier = Modifier
                                     .size(40.dp)
@@ -304,16 +309,19 @@ fun PublicProfileScreen(
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            Column() {
+                            Column(Modifier.weight(1f)) {
                                 Text(
                                     text = stringResource(id = R.string.kicking_leg),
                                     style = typography.h6,
                                     color = DarkOverlay
                                 )
-                                Text(text = state.userWorkingLegText.value, style = typography.h5, color = primaryDark)
+                                Text(
+                                    text = state.userWorkingLegText.value,
+                                    style = typography.h5,
+                                    color = primaryDark
+                                )
                             }
-                            Spacer(modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.weight(1f))
                             Box(
                                 modifier = Modifier
                                     .size(40.dp)
@@ -325,14 +333,17 @@ fun PublicProfileScreen(
                                     modifier = Modifier.align(Alignment.Center)
                                 )
                             }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            Column() {
+                            Column(Modifier.weight(1f)) {
                                 Text(
                                     text = stringResource(id = R.string.height),
                                     style = typography.h6,
                                     color = DarkOverlay
                                 )
-                                Text(text = state.userHeightText.value.toString(), style = typography.h5, color = primaryDark)
+                                Text(
+                                    text = state.userHeightText.value.toString(),
+                                    style = typography.h5,
+                                    color = primaryDark
+                                )
                             }
                         }
                     }
