@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -53,6 +54,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.widgets.colums.DisplayUserReviewsColumn
 import com.example.blanball.presentation.views.widgets.loaders.Loader
+import com.example.blanball.utils.formatRating
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail
 
@@ -375,7 +377,7 @@ fun PublicProfileScreen(
                     Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .padding(top = 20.dp, start = 16.dp, end = 16.dp, bottom = 0.dp)
+                        .padding(top = 20.dp, start = 16.dp, end = 16.dp, bottom = 20.dp)
                 ) {
                     Column(
                         Modifier.padding(
@@ -399,7 +401,7 @@ fun PublicProfileScreen(
                             ) {
                                 Row() {
                                     Text(
-                                        text = state.rating.value.toString(),
+                                        text = formatRating(state.rating.value),
                                         style = typography.subtitle2,
                                         fontSize = 22.sp,
                                         color = primaryDark,
@@ -430,6 +432,7 @@ fun PublicProfileScreen(
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         DisplayUserReviewsColumn(it)
+                        Text(text = "Показати ще ${it.remainingReviewsCount.value} відгуків", style = typography.h6, color = secondaryNavy, textDecoration = TextDecoration.Underline)
                     }
                 }
             }

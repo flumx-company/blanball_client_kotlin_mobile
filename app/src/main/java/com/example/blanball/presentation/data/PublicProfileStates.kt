@@ -23,9 +23,11 @@ class PublicProfileMainContract {
         var userWorkingLegText: MutableState<String> = mutableStateOf("----"),
         var userHeightText: MutableState<Int> = mutableStateOf(0),
         var userAvatar: MutableState<String> = mutableStateOf("----"),
-        var rating: MutableState<Int> = mutableStateOf(0),
+        var rating: MutableState<Any?> = mutableStateOf(0),
         var gradesCount: MutableState<Int> = mutableStateOf(0),
         val resultList: MutableState<List<GetUserReviewsByIdResponseResultEntity>> = mutableStateOf(emptyList()),
+        val totalCount: MutableState<Int> = mutableStateOf(0),
+        val remainingReviewsCount: MutableState<Int> = mutableStateOf(0)
     ) : UiState
 
     sealed class ScreenViewState {

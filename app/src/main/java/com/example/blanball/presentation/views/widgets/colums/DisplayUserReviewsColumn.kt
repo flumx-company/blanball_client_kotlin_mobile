@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -20,6 +21,7 @@ import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.formatDate
 
 @Composable
 fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
@@ -51,6 +53,9 @@ fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
                         fontSize = 13.sp,
                         color = secondaryNavy
                     )
+                    Text(text = formatDate(review.time_created), textAlign = TextAlign.End, style = typography.h5, color = secondaryNavy, modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),)
                 }
                 Text(
                     text = review.text, style = typography.h5, color = primaryDark,

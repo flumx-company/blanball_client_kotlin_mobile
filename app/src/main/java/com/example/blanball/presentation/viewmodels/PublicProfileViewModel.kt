@@ -76,6 +76,7 @@ class PublicProfileViewModel @Inject constructor(
                                 gradesCount = mutableStateOf(it.data.total_count),
                                 resultList = mutableStateOf(it.data.results ?: emptyList()) ,
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
+                                remainingReviewsCount = mutableStateOf(it.data.total_count - 3)
                             )
                         }
                     }
@@ -108,6 +109,7 @@ class PublicProfileViewModel @Inject constructor(
                                 aboutUserText = mutableStateOf(it.data.profile.about_me),
                                 userPositionText = mutableStateOf(it.data.profile.position),
                                 userWorkingLegText = mutableStateOf(it.data.profile.working_leg),
+                                rating = mutableStateOf(it.data.raiting),
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
                     }
