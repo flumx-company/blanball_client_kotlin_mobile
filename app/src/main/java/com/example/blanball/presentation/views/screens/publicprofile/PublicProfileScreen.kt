@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.screens.publicprofile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -42,10 +44,14 @@ import com.example.blanball.presentation.theme.DarkOverlay
 import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.bgLight
+import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.widgets.colums.DisplayUserReviewsColumn
 import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail
@@ -171,7 +177,12 @@ fun PublicProfileScreen(
                                 },
                                 modifier = Modifier
                                     .height(45.dp)
-                                    .weight(1f),
+                                    .weight(1f)
+                                    .border(
+                                        width = 1.dp,
+                                        color = defaultLightGray,
+                                        shape = shapes.medium
+                                    ),
                                 shape = shapes.medium,
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.White,
@@ -193,7 +204,11 @@ fun PublicProfileScreen(
                                 onClick = { makeCall(state.userPhoneNumberText.value, context) },
                                 modifier = Modifier
                                     .height(45.dp)
-                                    .weight(1f),
+                                    .weight(1f)
+                                    .border(
+                                        width = 1.dp,
+                                        color = defaultLightGray
+                                    ),
                                 shape = shapes.medium,
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.White,
@@ -290,7 +305,13 @@ fun PublicProfileScreen(
                                     style = typography.h6,
                                     color = DarkOverlay
                                 )
-                                Text(text = state.userWeightText.value.toString(), style = typography.h5, color = primaryDark)
+                                val userWeight = state.userWeightText.value.toString()
+                                val weightSuffix = stringResource(id = R.string.weight_meas_units)
+                                Text(
+                                    text = "$userWeight $weightSuffix",
+                                    style = typography.h5,
+                                    color = primaryDark
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.size(16.dp))
@@ -339,8 +360,10 @@ fun PublicProfileScreen(
                                     style = typography.h6,
                                     color = DarkOverlay
                                 )
+                                val userHeight = state.userHeightText.value.toString()
+                                val heightSuffix = stringResource(id = R.string.height_meas_units)
                                 Text(
-                                    text = state.userHeightText.value.toString(),
+                                    text = "$userHeight $heightSuffix",
                                     style = typography.h5,
                                     color = primaryDark
                                 )
@@ -376,18 +399,37 @@ fun PublicProfileScreen(
                             ) {
                                 Row() {
                                     Text(
-                                        text = "4.7",
+                                        text = state.rating.value.toString(),
                                         style = typography.subtitle2,
+                                        fontSize = 22.sp,
                                         color = primaryDark,
                                     )
-                                    Text(text = stringResource(id = R.string.five_scores))
+                                    Text(
+                                        text = stringResource(id = R.string.five_scores),
+                                        style = typography.h5,
+                                        color = DarkOverlay
+                                    )
+                                    Spacer(modifier = Modifier.size(4.dp))
                                     Icon(
+                                        modifier = Modifier
+                                            .size(20.dp)
+                                            .align(CenterVertically),
                                         painter = painterResource(id = R.drawable.empty_star),
+                                        tint = orangeStarColor,
                                         contentDescription = null
                                     )
                                 }
                             }
                         }
+                        val gradesCount = state.gradesCount.value.toString()
+                        val gradesText = stringResource(id = R.string.grades)
+                        Text(
+                            text = "$gradesCount $gradesText",
+                            style = typography.h6,
+                            color = selectedDarkGray
+                        )
+                        Spacer(modifier = Modifier.size(12.dp))
+                        DisplayUserReviewsColumn(it)
                     }
                 }
             }

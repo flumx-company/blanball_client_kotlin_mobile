@@ -1,5 +1,6 @@
 package com.example.data.backend
 
+import android.util.Log
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.ProfileRegistrationRequest
 import com.example.data.backend.models.requests.RegistrationRequest
@@ -8,6 +9,7 @@ import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.responses.EmailPassResetError
 import com.example.data.backend.models.responses.GetUserProfileByIdError
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
 import com.example.data.backend.models.responses.LoginError
 import com.example.data.backend.models.responses.RegistrationError
 import com.example.data.backend.models.responses.ResetCompleteError
@@ -18,6 +20,8 @@ import com.example.data.utils.ext.toEmailResetResponse
 import com.example.data.utils.ext.toErrorResponse
 import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
 import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
+import com.example.data.utils.ext.toGetUserReviewsByIdResponseEntity
+import com.example.data.utils.ext.toGetUserReviewsByIdResponseErrorEntity
 import com.example.data.utils.ext.toLoginResponse
 import com.example.data.utils.ext.toRegistrationErrorEntity
 import com.example.data.utils.ext.toRegistrationResponseEntity
@@ -29,11 +33,13 @@ import com.example.data.verifycodemanager.VerifyCodeManager
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.ErrorResponse
 import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
 import com.example.domain.entity.responses.RegistrationErrorEntity
 import com.example.domain.entity.responses.ResetCompleteErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
+import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
@@ -50,6 +56,19 @@ class AppRepositoryImpl @Inject constructor(
     internal val verifyCodeManager: VerifyCodeManager,
 ) : AppRepository {
 
+    override suspend fun getUserReviewsById(id: Int): GetUserReviewsByIdResultEntity {
+        return try {
+            val getUserReviewsByIdResponse = service.getUserReviewsById(id)
+            Log.d("MyLOG", service.getUserReviewsById(id).toString())
+            val getUserReviewsByIdDomainResponse =
+                getUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity()
+            GetUserReviewsByIdResultEntity.Success(getUserReviewsByIdDomainResponse.data)
+        } catch (ex: HttpException) {
+            val errorResponse = handleHttpError<GetUserReviewsByIdResponseError, GetUserReviewsByIdResponseErrorEntity>(ex) { it.toGetUserReviewsByIdResponseErrorEntity() }
+            GetUserReviewsByIdResultEntity.Error(errorResponse.data.errors[0])
+        }
+    }
+
     override suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity {
         return try {
             val getUserProfileByIdResponse = service.getUserProfileById(id)
@@ -57,7 +76,8 @@ class AppRepositoryImpl @Inject constructor(
                 getUserProfileByIdResponse.toGetUserProfileByIdResponseEntity()
             GetUserProfileByIdResultEntity.Success(getUserProfileByIdDomainResponse.data)
         } catch (ex: HttpException) {
-           val errorResponse = handleHttpError<GetUserProfileByIdError, GetUserProfileByIdErrorEntity>(ex) { it.toGetUserProfileByIdErrorEntity() }
+            val errorResponse =
+                handleHttpError<GetUserProfileByIdError, GetUserProfileByIdErrorEntity>(ex) { it.toGetUserProfileByIdErrorEntity() }
             GetUserProfileByIdResultEntity.Error(errorResponse.data.errors[0])
         }
     }

@@ -66,4 +66,7 @@
     <string name="ratings_and_reviews">Рейтинги та відгуки</string>
     <string name="five_scores">/5.0</string>
     <string name="empty_text_field">----</string>
+    <string name="height_meas_units">см</string>
+    <string name="weight_meas_units">кг</string>
+    <string name="grades">оцінок</string>
 </resources>

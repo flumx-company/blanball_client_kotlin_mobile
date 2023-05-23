@@ -2,6 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
 
 class PublicProfileMainContract {
 
@@ -9,7 +10,7 @@ class PublicProfileMainContract {
     }
 
     data class State(
-        val state: PublicProfileMainContract.ScreenViewState,
+        val state: ScreenViewState,
         var userFirstNameText: MutableState<String> = mutableStateOf("----"),
         var userLastNameText: MutableState<String> = mutableStateOf("----"),
         var userRoleText: MutableState<String> = mutableStateOf("----"),
@@ -22,6 +23,9 @@ class PublicProfileMainContract {
         var userWorkingLegText: MutableState<String> = mutableStateOf("----"),
         var userHeightText: MutableState<Int> = mutableStateOf(0),
         var userAvatar: MutableState<String> = mutableStateOf("----"),
+        var rating: MutableState<Int> = mutableStateOf(0),
+        var gradesCount: MutableState<Int> = mutableStateOf(0),
+        val resultList: MutableState<List<GetUserReviewsByIdResponseResultEntity>> = mutableStateOf(emptyList()),
     ) : UiState
 
     sealed class ScreenViewState {

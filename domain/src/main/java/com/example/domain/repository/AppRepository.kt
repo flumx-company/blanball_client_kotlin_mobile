@@ -2,6 +2,7 @@ package com.example.domain.repository
 
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
+import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
@@ -22,4 +23,5 @@ interface AppRepository {
         gender: String
     ): RegistrationResultEntity
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
+    suspend fun getUserReviewsById(id: Int): GetUserReviewsByIdResultEntity
 }

@@ -14,6 +14,7 @@ val defaultLightGray = Color(0xFFDFDEED)
 val loadingBackgroundColor = Color(0x73254173)
 val backgroundItems = Color(0xFFEFEFF6)
 val annotationGray = Color(0xFF6F6F77)
+val orangeStarColor = Color(0xFFF6803C)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)

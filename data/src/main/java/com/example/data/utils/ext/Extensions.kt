@@ -14,6 +14,14 @@ import com.example.data.backend.models.responses.GetUserProfileByIdDetailData
 import com.example.data.backend.models.responses.GetUserProfileByIdError
 import com.example.data.backend.models.responses.GetUserProfileByIdErrorData
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
+import com.example.data.backend.models.responses.GetUserReviewsByIdData
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseAuthor
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseDetailData
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseErrorData
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseProfile
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponseResult
 import com.example.data.backend.models.responses.LoginError
 import com.example.data.backend.models.responses.LoginErrors
 import com.example.data.backend.models.responses.LoginSuccess
@@ -47,6 +55,14 @@ import com.example.domain.entity.responses.GetUserProfileByIdDetailDataEntity
 import com.example.domain.entity.responses.GetUserProfileByIdErrorDataEntity
 import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
 import com.example.domain.entity.responses.GetUserProfileByIdResponseEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdDataEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseAuthorEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseDetailDataEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseProfileEntity
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
 import com.example.domain.entity.responses.LoginData
 import com.example.domain.entity.responses.LoginDataError
 import com.example.domain.entity.responses.LoginErrorsDomain
@@ -298,4 +314,71 @@ internal fun GetUserProfileByIdErrorData.toGetUserProfileByIdErrorDataEntity(): 
 
 internal fun GetUserProfileByIdDetailData.toGetUserProfileByIdDetailDataEntity(): GetUserProfileByIdDetailDataEntity {
     return GetUserProfileByIdDetailDataEntity(this.detail)
+}
+
+internal fun GetUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity(): GetUserReviewsByIdResponseEntity {
+    return GetUserReviewsByIdResponseEntity(
+        this.code,
+        this.data.toGetUserReviewsByIdDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserReviewsByIdDataEntity {
+    return GetUserReviewsByIdDataEntity(
+        this.current_page,
+        this.next,
+        this.page_size,
+        this.previous,
+        this.results?.map { it.toGetUserReviewsByIdResponseResultEntity() },
+        this.success,
+        this.total_count,
+    )
+}
+
+internal fun GetUserReviewsByIdResponseResult.toGetUserReviewsByIdResponseResultEntity(): GetUserReviewsByIdResponseResultEntity {
+    return GetUserReviewsByIdResponseResultEntity(
+        this.author.toGetUserReviewsByIdResponseAuthorEntity(),
+        this.id,
+        this.stars,
+        this.text,
+        this.time_created
+    )
+}
+
+internal fun GetUserReviewsByIdResponseAuthor.toGetUserReviewsByIdResponseAuthorEntity(): GetUserReviewsByIdResponseAuthorEntity {
+    return GetUserReviewsByIdResponseAuthorEntity(
+        this.id,
+        this.profile.toGetUserReviewsByIdResponseProfile(),
+    )
+}
+
+internal fun GetUserReviewsByIdResponseProfile.toGetUserReviewsByIdResponseProfile(): GetUserReviewsByIdResponseProfileEntity {
+    return GetUserReviewsByIdResponseProfileEntity(
+        this.last_name,
+        this.name,
+    )
+}
+
+internal fun GetUserReviewsByIdResponseError.toGetUserReviewsByIdResponseErrorEntity(): GetUserReviewsByIdResponseErrorEntity {
+    return GetUserReviewsByIdResponseErrorEntity(
+        this.code,
+        this.data.toGetUserReviewsByIdResponseErrorDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErrorDataEntity(): GetUserReviewsByIdResponseErrorDataEntity {
+    return GetUserReviewsByIdResponseErrorDataEntity(
+        listOf(
+            this.errors[0].toGetUserReviewsByIdResponseDetailDataEntity()
+        ),
+        this.type,
+    )
+}
+
+internal fun GetUserReviewsByIdResponseDetailData.toGetUserReviewsByIdResponseDetailDataEntity(): GetUserReviewsByIdResponseDetailDataEntity {
+    return GetUserReviewsByIdResponseDetailDataEntity(this.detail)
 }

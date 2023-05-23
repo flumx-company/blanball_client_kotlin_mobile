@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
+import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
+import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,8 +23,10 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class PublicProfileViewModel @Inject constructor(internal val getUserProfileByIdUseCase: GetUserProfileByIdUseCase) :
-    ViewModel() {
+class PublicProfileViewModel @Inject constructor(
+    internal val getUserProfileByIdUseCase: GetUserProfileByIdUseCase,
+    internal val getUserReviewsByIdUseCase: GetUserReviewsByIdUseCase
+) : ViewModel() {
 
     private var job: Job? = null
 
@@ -49,7 +53,38 @@ class PublicProfileViewModel @Inject constructor(internal val getUserProfileById
     private fun handleScreenState (screenViewState: PublicProfileMainContract.ScreenViewState) {
         when (screenViewState) {
             is PublicProfileMainContract.ScreenViewState.Loading -> {
+                getUserReviewsById()
                 getUserPublicProfileById()
+            }
+            is PublicProfileMainContract.ScreenViewState.LoadingError -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
+                    _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
+                }
+            }
+        }
+    }
+
+
+
+    private fun getUserReviewsById() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            getUserReviewsByIdUseCase.executeGetUserReviewsById().let {
+                when (it) {
+                    is GetUserReviewsByIdResultEntity.Success -> {
+                        setState {
+                            copy(
+                                gradesCount = mutableStateOf(it.data.total_count),
+                                resultList = mutableStateOf(it.data.results ?: emptyList()) ,
+                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
+                            )
+                        }
+                    }
+
+                    is GetUserReviewsByIdResultEntity.Error ->
+                        setState {
+                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
+                        }
+                }
             }
         }
     }
@@ -76,17 +111,16 @@ class PublicProfileViewModel @Inject constructor(internal val getUserProfileById
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
                     }
+
                     is GetUserProfileByIdResultEntity.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
-                        _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
                     }
                 }
             }
         }
     }
-
 
     private fun setState(reduce: PublicProfileMainContract.State.() -> PublicProfileMainContract.State) {
         val newState = currentState.reduce()
