@@ -1,6 +1,5 @@
 package com.example.data.backend
 
-import android.util.Log
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.ProfileRegistrationRequest
 import com.example.data.backend.models.requests.RegistrationRequest
@@ -8,6 +7,7 @@ import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.responses.EmailPassResetError
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
 import com.example.data.backend.models.responses.GetUserProfileByIdError
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
 import com.example.data.backend.models.responses.LoginError
@@ -18,6 +18,8 @@ import com.example.data.tokenmanager.TokenManager
 import com.example.data.utils.ext.toEmailPassResetErrorEntity
 import com.example.data.utils.ext.toEmailResetResponse
 import com.example.data.utils.ext.toErrorResponse
+import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
+import com.example.data.utils.ext.toGetUserPlannedEventsByIdResponseEntity
 import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
 import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
 import com.example.data.utils.ext.toGetUserReviewsByIdResponseEntity
@@ -32,12 +34,14 @@ import com.example.data.utils.ext.toSendCodeResponseEntity
 import com.example.data.verifycodemanager.VerifyCodeManager
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
 import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
 import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
 import com.example.domain.entity.responses.RegistrationErrorEntity
 import com.example.domain.entity.responses.ResetCompleteErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.LoginResultEntity
@@ -56,15 +60,32 @@ class AppRepositoryImpl @Inject constructor(
     internal val verifyCodeManager: VerifyCodeManager,
 ) : AppRepository {
 
+    override suspend fun getUserPlannedEventsById(id: Int): GetUserPlannedEventsByIdResultEntity {
+        return try {
+            val getUserPlannedByIdResponse = service.getListOfUsersEvents(id)
+            val getUserPlannedByIdDomainResponse =
+                getUserPlannedByIdResponse.toGetUserPlannedEventsByIdResponseEntity()
+            GetUserPlannedEventsByIdResultEntity.Success(getUserPlannedByIdDomainResponse.data)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<GetUserPlannedEventsByIdError, GetUserPlannedEventsByIdErrorEntity>(
+                    ex
+                ) { it.toGetUserPlannedEventsByIdErrorEntity() }
+            GetUserPlannedEventsByIdResultEntity.Error(errorResponse.data.errors[0])
+        }
+    }
+
     override suspend fun getUserReviewsById(id: Int): GetUserReviewsByIdResultEntity {
         return try {
             val getUserReviewsByIdResponse = service.getUserReviewsById(id)
-            Log.d("MyLOG", service.getUserReviewsById(id).toString())
             val getUserReviewsByIdDomainResponse =
                 getUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity()
             GetUserReviewsByIdResultEntity.Success(getUserReviewsByIdDomainResponse.data)
         } catch (ex: HttpException) {
-            val errorResponse = handleHttpError<GetUserReviewsByIdResponseError, GetUserReviewsByIdResponseErrorEntity>(ex) { it.toGetUserReviewsByIdResponseErrorEntity() }
+            val errorResponse =
+                handleHttpError<GetUserReviewsByIdResponseError, GetUserReviewsByIdResponseErrorEntity>(
+                    ex
+                ) { it.toGetUserReviewsByIdResponseErrorEntity() }
             GetUserReviewsByIdResultEntity.Error(errorResponse.data.errors[0])
         }
     }

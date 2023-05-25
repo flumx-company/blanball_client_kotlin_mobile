@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.LoginResultEntity
@@ -24,4 +25,5 @@ interface AppRepository {
     ): RegistrationResultEntity
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
     suspend fun getUserReviewsById(id: Int): GetUserReviewsByIdResultEntity
+    suspend fun getUserPlannedEventsById(id: Int): GetUserPlannedEventsByIdResultEntity
 }

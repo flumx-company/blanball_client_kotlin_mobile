@@ -7,7 +7,7 @@ import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
-import com.example.data.backend.models.responses.GetListOfUsersEventsResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.LoginSuccess
@@ -46,5 +46,5 @@ interface ApiService  {
     suspend fun getUserReviewsById(@Path ("id") id: Int): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun  getListOfUsersEvents (@Path ("id") id: Int): GetListOfUsersEventsResponse
+    suspend fun  getListOfUsersEvents (@Path ("id") id: Int): GetUserPlannedEventsByIdResponse
 }

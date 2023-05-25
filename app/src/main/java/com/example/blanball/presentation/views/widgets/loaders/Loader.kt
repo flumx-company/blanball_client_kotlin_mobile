@@ -1,9 +1,18 @@
 package com.example.blanball.presentation.views.widgets.loaders
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,23 +29,26 @@ import com.example.blanball.presentation.theme.typography
 
 
 @Composable
-fun Loader() {
+fun Loader(
+    backgroundColor: Color = loadingBackgroundColor,
+    textColor: Color = Color.White
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(loadingBackgroundColor),
+            .background(backgroundColor),
         contentAlignment = Alignment.Center
     ) {
         Column(
         ) {
             RotatingImage()
+            Spacer(modifier = Modifier.size(24.dp))
             Text(
                 modifier = Modifier
-                    .padding(top = 12.dp)
                     .align(CenterHorizontally),
                 text = stringResource(id = R.string.loading),
                 style = typography.h4,
-                color = Color.White,
+                color = textColor,
             )
         }
     }
@@ -62,9 +74,8 @@ fun RotatingImage() {
             painter = painterResource(id = R.drawable.steps_1),
             contentDescription = null,
             modifier = Modifier
-                .size(200.dp)
-                .graphicsLayer {
-                }
+                .size(133.3.dp)
+                .graphicsLayer {}
         )
     }
 }

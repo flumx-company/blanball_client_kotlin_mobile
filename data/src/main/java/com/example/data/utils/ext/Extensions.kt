@@ -10,6 +10,15 @@ import com.example.data.backend.models.responses.DataSendCode
 import com.example.data.backend.models.responses.EmailPassDataError
 import com.example.data.backend.models.responses.EmailPassResetError
 import com.example.data.backend.models.responses.EmailPassResetErrors
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdAuthorResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdDataResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdDetailData
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdErrorData
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdPlaceResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdProfileResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResultResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdDetailData
 import com.example.data.backend.models.responses.GetUserProfileByIdError
 import com.example.data.backend.models.responses.GetUserProfileByIdErrorData
@@ -51,6 +60,15 @@ import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorsEntity
 import com.example.domain.entity.responses.EmailResetResponseEntity
 import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdAuthorResponseEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdDataResponseEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdDetailDataEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorDataEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdPlaceResponseEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdProfileResponseEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdResponseEntity
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdResultResponseEntity
 import com.example.domain.entity.responses.GetUserProfileByIdDetailDataEntity
 import com.example.domain.entity.responses.GetUserProfileByIdErrorDataEntity
 import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
@@ -113,7 +131,6 @@ internal fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationRe
         this.status
     )
 }
-
 
 internal fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity {
     return RegistrationDataEntity(this.access, this.refresh)
@@ -382,3 +399,82 @@ internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErr
 internal fun GetUserReviewsByIdResponseDetailData.toGetUserReviewsByIdResponseDetailDataEntity(): GetUserReviewsByIdResponseDetailDataEntity {
     return GetUserReviewsByIdResponseDetailDataEntity(this.detail)
 }
+
+internal fun GetUserPlannedEventsByIdResponse.toGetUserPlannedEventsByIdResponseEntity(): GetUserPlannedEventsByIdResponseEntity {
+    return GetUserPlannedEventsByIdResponseEntity(
+        this.code, this.data.toGetUserPlannedEventsByIdDataResponseEntity(), this.message, this.status
+    )
+}
+
+internal fun GetUserPlannedEventsByIdDataResponse.toGetUserPlannedEventsByIdDataResponseEntity(): GetUserPlannedEventsByIdDataResponseEntity {
+    return GetUserPlannedEventsByIdDataResponseEntity(
+        this.current_page,
+        this.next,
+        this.page_size,
+        this.previous,
+        this.results?.map { it.toGetUserPlannedEventsByIdResultResponseEntity() },
+        this.success,
+        this.total_count
+    )
+}
+
+internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdResultResponseEntity(): GetUserPlannedEventsByIdResultResponseEntity {
+    return GetUserPlannedEventsByIdResultResponseEntity(
+        this.amount_members,
+        this.author.toGetUserPlannedEventsByIdAuthorResponseEntity(),
+        this.count_current_fans,
+        this.count_current_users,
+        this.date_and_time,
+        this.description,
+        this.duration,
+        this.gender,
+        this.id,
+        this.name,
+        this.need_ball,
+        this.need_form,
+        this.pk_user_role,
+        this.place.toGetUserPlannedEventsByIdPlaceResponseEntity(),
+        this.price,
+        this.privacy,
+        this.request_user_role,
+        this.status,
+        this.type,
+    )
+}
+
+internal fun GetUserPlannedEventsByIdAuthorResponse.toGetUserPlannedEventsByIdAuthorResponseEntity(): GetUserPlannedEventsByIdAuthorResponseEntity {
+    return GetUserPlannedEventsByIdAuthorResponseEntity(
+        this.id,
+        this.phone,
+        this.profile.toGetUserPlannedEventsByIdProfileResponseEntity(),
+    )
+}
+
+internal fun GetUserPlannedEventsByIdProfileResponse.toGetUserPlannedEventsByIdProfileResponseEntity(): GetUserPlannedEventsByIdProfileResponseEntity {
+    return GetUserPlannedEventsByIdProfileResponseEntity(
+        this.avatar_url, this.id, this.last_name, this.name
+    )
+}
+
+internal fun GetUserPlannedEventsByIdPlaceResponse.toGetUserPlannedEventsByIdPlaceResponseEntity(): GetUserPlannedEventsByIdPlaceResponseEntity {
+    return GetUserPlannedEventsByIdPlaceResponseEntity(this.lat, this.lon, this.place_name)
+}
+
+internal fun GetUserPlannedEventsByIdError.toGetUserPlannedEventsByIdErrorEntity(): GetUserPlannedEventsByIdErrorEntity {
+    return GetUserPlannedEventsByIdErrorEntity(
+        this.code, this.data.toGetUserPlannedByIdErrorData(), this.message, this.status
+    )
+}
+
+internal fun GetUserPlannedEventsByIdErrorData.toGetUserPlannedByIdErrorData(): GetUserPlannedEventsByIdErrorDataEntity {
+    return GetUserPlannedEventsByIdErrorDataEntity(
+        listOf(
+            this.errors[0].toGetUserPlannedEventsByIdDetailDataEntity()
+        ), this.type
+    )
+}
+
+internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetailDataEntity(): GetUserPlannedEventsByIdDetailDataEntity {
+    return GetUserPlannedEventsByIdDetailDataEntity(this.detail)
+}
+

@@ -16,6 +16,7 @@ import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
@@ -45,7 +46,8 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 onStep2Clicked = {
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked)
                     navController.navigate(Destinations.RESET2.route)
-                }, onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
+                },
+                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
         }
 
         composable(Destinations.RESET2.route) {
@@ -77,7 +79,9 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
 
         composable(Destinations.REGISTRATION1.route) {
             val state = registrationViewModel.uiState.collectAsState().value
-            RegistrationScreenStep1(state = state, onRegistrationStep2Clicked = {navController.navigate(Destinations.REGISTRATION2.route)})
+            RegistrationScreenStep1(
+                state = state,
+                onRegistrationStep2Clicked = { navController.navigate(Destinations.REGISTRATION2.route) })
         }
         composable(Destinations.REGISTRATION2.route) {
             val state = registrationViewModel.uiState.collectAsState().value
@@ -98,7 +102,16 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                     }
                 }
             }
-            PublicProfileScreen(state = state, onInviteToAnEventClicked = { TODO("Invite to event action") })
+            PublicProfileScreen(
+                state = state,
+                onInviteToAnEventClicked = { TODO("Invite to event action") },
+                onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route)},
+            )
+        }
+
+        composable(Destinations.ALL_REVIEWS.route) {
+            val state = publicProfileViewModel.uiState.collectAsState().value
+            AllReviewsScreen(state = state)
         }
     }
 }
@@ -110,4 +123,5 @@ enum class  Destinations(val route: String) {
     REGISTRATION1("registration1"),
     REGISTRATION2("registration2"),
     PUBLIC_PROFILE("publicProfile"),
+    ALL_REVIEWS("allReviews")
 }

@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.widgets.colums
 
+import DottedLine
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +22,7 @@ import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.utils.formatDate
+import com.example.blanball.utils.ext.formatDateReview
 
 @Composable
 fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
@@ -29,7 +30,8 @@ fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
         val reviews = state.resultList.value.take(3)
         for (review in reviews) {
             Column {
-                Spacer(Modifier.size(12.dp))
+                DottedLine()
+                Spacer(Modifier.size(16.dp))
                 Row {
                     Text(
                         text = review.stars.toString(),
@@ -53,7 +55,7 @@ fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
                         fontSize = 13.sp,
                         color = secondaryNavy
                     )
-                    Text(text = formatDate(review.time_created), textAlign = TextAlign.End, style = typography.h5, color = secondaryNavy, modifier = Modifier
+                    Text(text = review.time_created.formatDateReview(), textAlign = TextAlign.End, style = typography.h5, color = secondaryNavy, modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),)
                 }

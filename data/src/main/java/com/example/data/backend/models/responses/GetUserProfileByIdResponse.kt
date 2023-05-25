@@ -30,7 +30,7 @@ data class Configuration(
 data class PublicProfileResponse(
      @Json (name = "about_me") val about_me: String,
      @Json (name = "age") val age: Int,
-     @Json (name = "avatar_url") val avatar_url: String,
+     @Json (name = "avatar_url") val avatar_url: String? = null,
      @Json (name = "birthday") val birthday: String,
      @Json (name = "created_at") val created_at: String,
      @Json (name = "gender") val gender: String,

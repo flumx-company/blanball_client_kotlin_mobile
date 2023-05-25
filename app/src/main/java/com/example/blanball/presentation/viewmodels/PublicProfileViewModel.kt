@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
+import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PublicProfileViewModel @Inject constructor(
     internal val getUserProfileByIdUseCase: GetUserProfileByIdUseCase,
-    internal val getUserReviewsByIdUseCase: GetUserReviewsByIdUseCase
+    internal val getUserReviewsByIdUseCase: GetUserReviewsByIdUseCase,
+    internal val getUserPlannedEventsByIdUseCase: GetUserPlannedEventsByIdUseCase,
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -55,36 +58,12 @@ class PublicProfileViewModel @Inject constructor(
             is PublicProfileMainContract.ScreenViewState.Loading -> {
                 getUserReviewsById()
                 getUserPublicProfileById()
+                getUserPlannedEventsById()
             }
+
             is PublicProfileMainContract.ScreenViewState.LoadingError -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
-                }
-            }
-        }
-    }
-
-
-
-    private fun getUserReviewsById() {
-        job = viewModelScope.launch(Dispatchers.IO) {
-            getUserReviewsByIdUseCase.executeGetUserReviewsById().let {
-                when (it) {
-                    is GetUserReviewsByIdResultEntity.Success -> {
-                        setState {
-                            copy(
-                                gradesCount = mutableStateOf(it.data.total_count),
-                                resultList = mutableStateOf(it.data.results ?: emptyList()) ,
-                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
-                                remainingReviewsCount = mutableStateOf(it.data.total_count - 3)
-                            )
-                        }
-                    }
-
-                    is GetUserReviewsByIdResultEntity.Error ->
-                        setState {
-                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
-                        }
                 }
             }
         }
@@ -112,13 +91,62 @@ class PublicProfileViewModel @Inject constructor(
                                 rating = mutableStateOf(it.data.raiting),
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
-                    }
+                        }
 
                     is GetUserProfileByIdResultEntity.Error -> {
                         setState {
-                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
+                            copy(state = PublicProfileMainContract.ScreenViewState.Loading)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun getUserReviewsById() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            getUserReviewsByIdUseCase.executeGetUserReviewsById().let {
+                when (it) {
+                    is GetUserReviewsByIdResultEntity.Success -> {
+                        setState {
+                            copy(
+                                gradesCount = mutableStateOf(it.data.total_count),
+                                resultList = mutableStateOf(it.data.results ?: emptyList()) ,
+                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
+                            )
+                        }
+                    }
+                    is GetUserReviewsByIdResultEntity.Error ->
+                        setState {
+                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
+                        }
+                }
+            }
+        }
+    }
+
+    private fun getUserPlannedEventsById() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            getUserPlannedEventsByIdUseCase.executeGetUserPlannedEventsById().let {
+                when (it) {
+                    is GetUserPlannedEventsByIdResultEntity.Success -> {
+                        setState {
+                            copy(
+                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
+                                plannedEventsList = mutableStateOf(it.data.results ?: emptyList())
+                            )
+                        }
+                    }
+
+                    is GetUserPlannedEventsByIdResultEntity.Error -> {
+                        setState {
+                            copy(
+                                state = PublicProfileMainContract.ScreenViewState.LoadingError
+                            )
+                        }
+                    }
+
+
                 }
             }
         }

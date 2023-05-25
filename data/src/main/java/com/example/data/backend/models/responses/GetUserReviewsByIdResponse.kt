@@ -11,7 +11,7 @@ data class GetUserReviewsByIdResponse(
 
 data class GetUserReviewsByIdData (
     @Json (name = "current_page") val current_page: Int,
-    @Json (name = "next") val next: String,
+    @Json (name = "next") val next: String? = null,
     @Json (name = "page_size") val page_size: Int,
     @Json (name = "previous") val previous: Any? = null,
     @Json (name = "results") val results: List<GetUserReviewsByIdResponseResult>? = null,

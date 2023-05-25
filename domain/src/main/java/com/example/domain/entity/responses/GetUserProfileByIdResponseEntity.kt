@@ -28,7 +28,7 @@ data class ConfigurationEntity(
 data class PublicProfileResponseEntity(
     val about_me: String,
     val age: Int,
-    val avatar_url: String,
+    val avatar_url: String? = null,
     val birthday: String,
     val created_at: String,
     val gender: String,

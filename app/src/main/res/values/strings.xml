@@ -69,4 +69,13 @@
     <string name="height_meas_units">см</string>
     <string name="weight_meas_units">кг</string>
     <string name="grades">оцінок</string>
+    <string name="show_all_reviews">Показать всі відгуки</string>
+    <string name="have_not_yet_received_reviews">ще не отримував оцінок та коментарів</string>
+    <string name="have_not_yet_received_planned_events">ще не додав жодної події до запланованих</string>
+    <string name="tournament">Турнір</string>
+    <string name="three_dots">...</string>
+    <string name="planned_submissions">Заплановані події</string>
+    <string name="history_of_participation_in_events">Історія участі у заходах</string>
+    <string name="сonfirmed">Підтверджено</string>
+    <string name="unсonfirmed">Не підтверджено</string>
 </resources>

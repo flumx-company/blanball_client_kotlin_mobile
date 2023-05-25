@@ -9,7 +9,7 @@ data class GetUserReviewsByIdResponseEntity(
 
 data class GetUserReviewsByIdDataEntity(
     val current_page: Int,
-    val next: String,
+    val next: String? = null,
     val page_size: Int,
     val previous: Any? = null,
     val results: List<GetUserReviewsByIdResponseResultEntity>? = null,
