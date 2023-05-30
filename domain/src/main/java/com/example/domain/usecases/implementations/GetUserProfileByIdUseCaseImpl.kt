@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class GetUserProfileByIdUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetUserProfileByIdUseCase {
     override suspend fun executeGetUserProfileById(): GetUserProfileByIdResultEntity {
-        return appRepository.getUserProfileById(351)
+        return appRepository.getUserProfileById(2)
     }
 }

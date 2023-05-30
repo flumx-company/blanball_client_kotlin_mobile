@@ -26,6 +26,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.utils.ext.formatDatePlannedEvents
+import com.example.blanball.utils.ext.formatDatePlannedEventsToTime
 
 @Composable
 fun DisplayUserPlannedEventsColumn(state: PublicProfileMainContract.State) {
@@ -106,9 +107,18 @@ fun DisplayUserPlannedEventsColumn(state: PublicProfileMainContract.State) {
                         style = typography.h5,
                         color = secondaryNavy
                     )
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Text(
+                        text = "${plannedEvent.date_and_time.formatDatePlannedEventsToTime()} - ${
+                            plannedEvent.date_and_time.formatDatePlannedEventsToTime(
+                                plannedEvent.duration
+                            )
+                        }", style = typography.h5,
+                        color = secondaryNavy
+                    )
                 }
-                Spacer(Modifier.size(12.dp))
-            }
+                Spacer(modifier = Modifier.size(12.dp))
         }
     }
+}
 }

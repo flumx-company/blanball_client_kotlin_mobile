@@ -6,7 +6,7 @@ import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import javax.inject.Inject
 
 class GetUserReviewsByIdUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetUserReviewsByIdUseCase {
-    override suspend fun executeGetUserReviewsById(): GetUserReviewsByIdResultEntity {
-        return appRepository.getUserReviewsById(2)
+    override suspend fun executeGetUserReviewsById(page: Int): GetUserReviewsByIdResultEntity {
+        return appRepository.getUserReviewsById(id = 2, page = page)
     }
 }

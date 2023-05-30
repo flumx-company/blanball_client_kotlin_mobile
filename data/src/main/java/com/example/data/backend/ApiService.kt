@@ -20,6 +20,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ApiService  {
@@ -43,7 +44,7 @@ interface ApiService  {
     suspend fun getUserProfileById(@Path ("id") id: Int): GetUserProfileByIdResponse
 
     @GET (Endpoints.REVIEWS_ENDPOINT)
-    suspend fun getUserReviewsById(@Path ("id") id: Int): GetUserReviewsByIdResponse
+    suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
     suspend fun  getListOfUsersEvents (@Path ("id") id: Int): GetUserPlannedEventsByIdResponse

@@ -1,10 +1,12 @@
 package com.example.blanball.presentation.viewmodels
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
@@ -95,7 +97,7 @@ class PublicProfileViewModel @Inject constructor(
 
                     is GetUserProfileByIdResultEntity.Error -> {
                         setState {
-                            copy(state = PublicProfileMainContract.ScreenViewState.Loading)
+                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
                     }
                 }
@@ -105,21 +107,29 @@ class PublicProfileViewModel @Inject constructor(
 
     private fun getUserReviewsById() {
         job = viewModelScope.launch(Dispatchers.IO) {
-            getUserReviewsByIdUseCase.executeGetUserReviewsById().let {
-                when (it) {
+            var page = 1
+            val allReviews = mutableStateListOf<GetUserReviewsByIdResponseResultEntity>()
+            while (true) {
+                val result = getUserReviewsByIdUseCase.executeGetUserReviewsById(page)
+                when (result) {
                     is GetUserReviewsByIdResultEntity.Success -> {
-                        setState {
-                            copy(
-                                gradesCount = mutableStateOf(it.data.total_count),
-                                resultList = mutableStateOf(it.data.results ?: emptyList()) ,
-                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
-                            )
+                        val reviews = result.data.results
+                        val nextPage = result.data.next
+                        if (nextPage.isNullOrEmpty()) {
+                            setState { copy(resultList = mutableStateOf(allReviews)) }
+                            break
+                        } else {
+                            reviews?.let { allReviews.addAll(it) }
+                            page++
                         }
                     }
-                    is GetUserReviewsByIdResultEntity.Error ->
+
+                    is GetUserReviewsByIdResultEntity.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
+                        break
+                    }
                 }
             }
         }
@@ -145,8 +155,6 @@ class PublicProfileViewModel @Inject constructor(
                             )
                         }
                     }
-
-
                 }
             }
         }

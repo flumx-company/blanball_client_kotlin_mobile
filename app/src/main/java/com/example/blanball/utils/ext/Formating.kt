@@ -2,6 +2,7 @@ package com.example.blanball.utils.ext
 
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 internal fun String.formatDateReview(): String {
@@ -31,4 +32,14 @@ internal fun Any.formatRatingToFloat(): Float? {
         is Double -> this.toFloat()
         else -> null
     }
+}
+
+internal fun String.formatDatePlannedEventsToTime(duration: Int = 0): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("HH:mm", Locale("uk", "UA"))
+    val calendar = Calendar.getInstance()
+    val date = inputFormat.parse(this)
+    calendar.time = date!!
+    calendar.add(Calendar.HOUR_OF_DAY, duration)
+    return outputFormat.format(calendar.time)
 }

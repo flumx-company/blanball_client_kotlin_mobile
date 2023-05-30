@@ -52,10 +52,10 @@
     <string name="back">Назад</string>
     <string name="optional">Опціонально</string>
     <string name="qualification">Кваліфікація</string>
-    <string name="verified">Верифіковано</string>
-    <string name="unverified">Не верифіковано</string>
+    <string name="verified">Профіль верифіковано</string>
+    <string name="unverified">Профіль не верифіковано</string>
     <string name="invite_to_an_event">Запросити на подію</string>
-    <string name="write_email">Написати email</string>
+    <string name="write_email">Написати e-mail</string>
     <string name="to_call">Подзвонити</string>
     <string name="about_youself">Про себе:</string>
     <string name="game_stats">Ігрові характеристики</string>

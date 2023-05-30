@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -43,12 +44,10 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.DarkOverlay
+import com.example.blanball.presentation.theme.accentLightGreen
 import com.example.blanball.presentation.theme.annotationGray
-import com.example.blanball.presentation.theme.bgItemsGray
-import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
-import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.selectedDarkGray
@@ -56,14 +55,13 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.successValidationGreen
 import com.example.blanball.presentation.theme.successValidationGreenBG
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.widgets.boxes.IcBox
 import com.example.blanball.presentation.views.widgets.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.widgets.colums.DisplayUserPlannedEventsColumn
 import com.example.blanball.presentation.views.widgets.colums.DisplayUserReviewsColumn
 import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.ratingbars.RatingBar
 import com.example.blanball.presentation.views.widgets.texts.AttentionText
 import com.example.blanball.utils.ext.formatRating
-import com.example.blanball.utils.ext.formatRatingToFloat
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail
 
@@ -84,20 +82,44 @@ fun PublicProfileScreen(
             .verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.TopCenter,
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.public_profile_cover_blue),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
         (state as? PublicProfileMainContract.State)?.let {
-            Image(
-                painter = painterResource(id = R.drawable.public_profile_cover),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
             Column {
-                DefaultCardWithColumn {
-                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Spacer(modifier = Modifier.size(16.dp))
+                DefaultCardWithColumn(padStart = 0.dp, padTop = 0.dp, padEnd = 0.dp) {
+                    Box(
+                        Modifier
+                            .background(color = accentLightGreen)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Row() {
+                            Text(
+                                text = if (state.userIsVerified.value)
+                                    stringResource(id = R.string.verified)
+                                else stringResource(id = R.string.unverified),
+                                style = typography.h6,
+                                color = mainGreen,
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.logo_green),
+                                contentDescription = null,
+                                modifier = Modifier.size(15.dp, 16.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(4.dp))
+                    }
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Row(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
                         if (state.userAvatar.value.isNullOrEmpty()) {
                             Box(
-                                modifier = Modifier.size(144.dp)
+                                modifier = Modifier.size(112.dp)
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.circle_avatar),
@@ -124,84 +146,63 @@ fun PublicProfileScreen(
                                 contentScale = ContentScale.Crop
                             )
                         }
-                        Spacer(modifier = Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .background(bgItemsGray)
-                                .padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 2.dp)
-                        ) {
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Column(horizontalAlignment = Start, modifier = Modifier.height(144.dp)) {
                             Text(
-                                text = if (state.userIsVerified.value)
-                                    stringResource(id = R.string.verified)
-                                else stringResource(id = R.string.unverified),
+                                text = state.userLastNameText.value,
+                                style = typography.h2,
+                                fontSize = 20.sp,
+                                color = primaryDark
+                            )
+                            Text(
+                                text = state.userFirstNameText.value,
+                                style = typography.h2, fontSize = 20.sp,
+                                color = primaryDark,
+                                textAlign = TextAlign.Start,
+                                modifier = Modifier.wrapContentWidth()
+                            )
+                            Spacer(modifier = Modifier.size(8.dp))
+                            Text(
+                                text = "${state.userRoleText.value} / ${state.userPositionText.value}",
                                 style = typography.h6,
                                 color = primaryDark,
+                                modifier = Modifier
+                                    .wrapContentWidth()
                             )
-                            Spacer(modifier = Modifier.size(6.dp))
+                            Spacer(modifier = Modifier.size(8.dp))
+                            Row() {
+                                Text(
+                                    text = state.rating.value.formatRating(),
+                                    style = typography.subtitle2,
+                                    fontSize = 22.sp,
+                                    color = primaryDark,
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.five_scores),
+                                    style = typography.h5,
+                                    fontSize = 14.sp,
+                                    color = secondaryNavy,
+                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                )
+                                Spacer(modifier = Modifier.size(5.dp))
+                                Icon(
+                                    painter = painterResource(id = R.drawable.full_star),
+                                    tint = mainGreen,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .size(17.92.dp, 17.08.dp)
+                                )
+                            }
                         }
                     }
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = state.userLastNameText.value,
-                            style = typography.h2,
-                            fontSize = 20.sp,
-                            color = primaryDark
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        RatingBar(
-                            rating = state.rating.value?.formatRatingToFloat() ?: 0f,
-                            maxRating = 5
-                        )
-                    }
-                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(
-                            text = state.userFirstNameText.value,
-                            style = typography.h2, fontSize = 20.sp,
-                            color = primaryDark,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Start,
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = state.userRoleText.value,
-                            style = typography.h5,
-                            color = secondaryNavy,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.End,
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(
-                            text = stringResource(id = R.string.qualification),
-                            style = typography.h6,
-                            color = annotationGray,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Start,
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = if (state.userIsConfirmed.value)
-                                stringResource(id = R.string.сonfirmed)
-                            else stringResource(id = R.string.unсonfirmed),
-                            style = typography.h6,
-                            color = successValidationGreen,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .background(
-                                    successValidationGreenBG,
-                                    shapes.small
-                                )
-                                .padding(start = 4.dp, end = 4.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(12.dp))
+                    Spacer(modifier = Modifier.size(16.dp))
                     Button(
                         onClick = { onInviteToAnEventClicked },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp),
+                            .height(40.dp)
+                            .padding(start = 16.dp, end = 16.dp),
                         shape = shapes.medium,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = primaryDark,
@@ -214,7 +215,7 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(8.dp))
-                    Row() {
+                    Row(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
                         Button(
                             onClick = {
                                 writeEmail(
@@ -271,20 +272,50 @@ fun PublicProfileScreen(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.size(10.dp))
+                    Spacer(modifier = Modifier.size(18.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.qualification),
+                            style = typography.h6,
+                            color = annotationGray,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Start,
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = if (state.userIsConfirmed.value)
+                                stringResource(id = R.string.сonfirmed)
+                            else stringResource(id = R.string.unсonfirmed),
+                            style = typography.h6,
+                            color = successValidationGreen,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .background(
+                                    successValidationGreenBG,
+                                    shapes.small
+                                )
+                                .padding(start = 4.dp, end = 4.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(18.dp))
                     Text(
                         text = stringResource(id = R.string.about_youself),
                         style = typography.h5,
-                        color = annotationGray
+                        color = annotationGray,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
                     )
-                    Spacer(modifier = Modifier.size(10.dp))
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         text = state.aboutUserText.value,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight(),
+                            .wrapContentHeight()
+                            .padding(start = 16.dp, end = 16.dp),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
                     )
                 }
                 DefaultCardWithColumn {
@@ -299,24 +330,15 @@ fun PublicProfileScreen(
                     Spacer(modifier = Modifier.size(16.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.wrapContentWidth()
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(color = bgLight, shape = shapes.medium)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_flag),
-                                contentDescription = null,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
+                        IcBox(icon = R.drawable.ic_flag)
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.game_position),
                                 style = typography.h6,
-                                color = DarkOverlay
+                                color = DarkOverlay,
                             )
                             Text(
                                 text = state.userPositionText.value,
@@ -325,17 +347,7 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(color = bgLight, shape = shapes.medium)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_dumbbell),
-                                contentDescription = null,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
+                        IcBox(icon = R.drawable.ic_dumbbell)
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.weight),
@@ -356,17 +368,7 @@ fun PublicProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(color = bgLight, shape = shapes.medium)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_leg),
-                                contentDescription = null,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
+                        IcBox(icon = R.drawable.ic_leg)
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.kicking_leg),
@@ -380,17 +382,7 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(color = bgLight, shape = shapes.medium)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_ruler),
-                                contentDescription = null,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
+                        IcBox(icon = R.drawable.ic_ruler)
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.height),
@@ -416,33 +408,6 @@ fun PublicProfileScreen(
                             fontSize = 16.sp,
                             modifier = Modifier.weight(1f)
                         )
-                        Box(
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.BottomEnd
-                        ) {
-                            Row() {
-                                Text(
-                                    text = state.rating.value.formatRating(),
-                                    style = typography.subtitle2,
-                                    fontSize = 22.sp,
-                                    color = primaryDark,
-                                )
-                                Text(
-                                    text = stringResource(id = R.string.five_scores),
-                                    style = typography.h5,
-                                    color = DarkOverlay
-                                )
-                                Spacer(modifier = Modifier.size(4.dp))
-                                Icon(
-                                    modifier = Modifier
-                                        .size(20.dp)
-                                        .align(CenterVertically),
-                                    painter = painterResource(id = R.drawable.empty_star),
-                                    tint = orangeStarColor,
-                                    contentDescription = null
-                                )
-                            }
-                        }
                     }
                     val gradesCount = state.gradesCount.value.toString()
                     val gradesText = stringResource(id = R.string.grades)
@@ -490,7 +455,6 @@ fun PublicProfileScreen(
                     } else {
                         DisplayUserPlannedEventsColumn(state = it)
                     }
-                    Spacer(modifier = Modifier.size(12.dp))
                     DottedLine()
                     Spacer(modifier = Modifier.size(12.dp))
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
