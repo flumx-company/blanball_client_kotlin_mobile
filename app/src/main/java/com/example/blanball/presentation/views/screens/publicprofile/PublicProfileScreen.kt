@@ -216,61 +216,74 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(8.dp))
-                    Row(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-                        Button(
-                            onClick = {
-                                writeEmail(
-                                    arrayOf(state.userEmail.value), context
-                                )
-                            },
-                            modifier = Modifier
-                                .height(45.dp)
-                                .weight(1f)
-                                .border(
-                                    width = 1.dp,
-                                    color = defaultLightGray,
-                                    shape = shapes.medium
-                                ),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = secondaryNavy,
-                            ),
+                    if (!state.userEmail.value.isEmpty() || !state.userPhoneNumberText.value.isEmpty()) {
+                        Row(
+                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.mail_ic),
-                                contentDescription = null
-                            )
-                            Spacer(modifier = Modifier.size(10.dp))
-                            Text(
-                                text = stringResource(id = R.string.write_email),
-                                style = typography.h6,
-                            )
-                        }
-                        Spacer(modifier = Modifier.size(10.dp))
-                        Button(
-                            onClick = { makeCall(state.userPhoneNumberText.value, context) },
-                            modifier = Modifier
-                                .height(45.dp)
-                                .weight(1f)
-                                .border(
-                                    width = 1.dp,
-                                    color = defaultLightGray,
-                                    shape = shapes.medium,
-                                ),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = secondaryNavy,
-                            )
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.phone_ic),
-                                contentDescription = null
-                            )
-                            Spacer(modifier = Modifier.size(10.dp))
-                            Text(
-                                text = stringResource(id = R.string.to_call),
-                                style = typography.h6,
-                            )
+                            if (!state.userEmail.value.isEmpty()) {
+                                Button(
+                                    onClick = {
+                                        writeEmail(
+                                            arrayOf(state.userEmail.value), context
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .height(45.dp)
+                                        .weight(1f)
+                                        .border(
+                                            width = 1.dp,
+                                            color = defaultLightGray,
+                                            shape = shapes.medium
+                                        ),
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = Color.White,
+                                        contentColor = secondaryNavy,
+                                    ),
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.mail_ic),
+                                        contentDescription = null
+                                    )
+                                    Spacer(modifier = Modifier.size(10.dp))
+                                    Text(
+                                        text = stringResource(id = R.string.write_email),
+                                        style = typography.h6,
+                                    )
+                                }
+                            }
+                            if (!state.userPhoneNumberText.value.isEmpty()) {
+                                Button(
+                                    onClick = {
+                                        makeCall(
+                                            state.userPhoneNumberText.value,
+                                            context
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .height(45.dp)
+                                        .weight(1f)
+                                        .border(
+                                            width = 1.dp,
+                                            color = defaultLightGray,
+                                            shape = shapes.medium,
+                                        ),
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = Color.White,
+                                        contentColor = secondaryNavy,
+                                    )
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.phone_ic),
+                                        contentDescription = null
+                                    )
+                                    Spacer(modifier = Modifier.size(10.dp))
+                                    Text(
+                                        text = stringResource(id = R.string.to_call),
+                                        style = typography.h6,
+                                    )
+                                }
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.size(18.dp))
