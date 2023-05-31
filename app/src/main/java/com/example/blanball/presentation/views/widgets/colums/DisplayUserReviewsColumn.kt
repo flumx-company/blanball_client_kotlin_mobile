@@ -27,7 +27,7 @@ import com.example.blanball.utils.ext.formatDateReview
 @Composable
 fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
     Column {
-        val reviews = state.resultList.value.take(3)
+        val reviews = state.reviewsList.value.take(3)
         for (review in reviews) {
             Column {
                 DottedLine()

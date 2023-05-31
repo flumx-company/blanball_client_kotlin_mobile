@@ -11,7 +11,7 @@ data class GetUserPlannedEventsByIdResponse(
 
 data class GetUserPlannedEventsByIdDataResponse(
     @Json (name = "current_page") val current_page: Int,
-    @Json (name = "next") val next: Any? = null,
+    @Json (name = "next") val next: String? = null,
     @Json (name = "page_size") val page_size: Int,
     @Json (name = "previous") val previous: Any? = null,
     @Json (name = "results") val results: List<GetUserPlannedEventsByIdResultResponse>?,
@@ -36,7 +36,7 @@ data class GetUserPlannedEventsByIdResultResponse(
     @Json (name = "place") val place: GetUserPlannedEventsByIdPlaceResponse,
     @Json (name = "price") val price: Int,
     @Json (name = "privacy") val privacy: Boolean,
-    @Json (name = "request_user_role") val request_user_role: String,
+    @Json (name = "request_user_role") val request_user_role: String? = null,
     @Json (name = "status") val status: String,
     @Json (name = "type") val type: String
 )

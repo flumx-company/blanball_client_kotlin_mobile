@@ -16,6 +16,7 @@ import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
@@ -83,6 +84,7 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 state = state,
                 onRegistrationStep2Clicked = { navController.navigate(Destinations.REGISTRATION2.route) })
         }
+
         composable(Destinations.REGISTRATION2.route) {
             val state = registrationViewModel.uiState.collectAsState().value
             RegistrationScreenStep2(
@@ -90,6 +92,7 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 onRegistrationClicked = { registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked) },
                 onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
         }
+
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
@@ -106,12 +109,18 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
                 state = state,
                 onInviteToAnEventClicked = { TODO("Invite to event action") },
                 onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route)},
+                onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route)}
             )
         }
 
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
             AllReviewsScreen(state = state)
+        }
+
+        composable(Destinations.ALL_PLANNED_EVENTS.route) {
+            val state = publicProfileViewModel.uiState.collectAsState().value
+            AllPlannedEventsScreen(state = state)
         }
     }
 }
@@ -123,5 +132,6 @@ enum class  Destinations(val route: String) {
     REGISTRATION1("registration1"),
     REGISTRATION2("registration2"),
     PUBLIC_PROFILE("publicProfile"),
-    ALL_REVIEWS("allReviews")
+    ALL_REVIEWS("allReviews"),
+    ALL_PLANNED_EVENTS("allPlannedEvents")
 }

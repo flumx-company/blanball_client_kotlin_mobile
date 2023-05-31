@@ -25,8 +25,9 @@ class PublicProfileMainContract {
         var userHeightText: MutableState<Int> = mutableStateOf(0),
         var userAvatar: MutableState<String?> = mutableStateOf(null),
         var rating: MutableState<Any?> = mutableStateOf(0),
-        var gradesCount: MutableState<Int> = mutableStateOf(0),
-        val resultList: MutableState<List<GetUserReviewsByIdResponseResultEntity>> = mutableStateOf(
+        var reviewsCount: MutableState<Int> = mutableStateOf(0),
+        var plannedEventsCount: MutableState<Int> = mutableStateOf(0),
+        val reviewsList: MutableState<List<GetUserReviewsByIdResponseResultEntity>> = mutableStateOf(
             emptyList()
         ),
         val totalCount: MutableState<Int> = mutableStateOf(0),

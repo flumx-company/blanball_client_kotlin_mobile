@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.publicprofile
 
+import DottedLine
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +15,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,17 +26,12 @@ import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.widgets.loaders.Loader
 import com.example.blanball.utils.ext.formatDateReview
 
 @Composable
 fun AllReviewsScreen(
     state: UiState,
 ) {
-    val currentState: PublicProfileMainContract.State =
-        (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
-            PublicProfileMainContract.ScreenViewState.Loading
-        )
     (state as? PublicProfileMainContract.State)?.let {
         LazyColumn (Modifier.padding(
             top = 16.dp,
@@ -44,8 +39,9 @@ fun AllReviewsScreen(
             end = 16.dp,
             bottom = 20.dp
         )) {
-            items(state.resultList.value) { review ->
+            items(state.reviewsList.value) { review ->
                 Column {
+                    DottedLine()
                     Spacer(Modifier.size(12.dp))
                     Row {
                         Text(
@@ -92,8 +88,5 @@ fun AllReviewsScreen(
                 }
             }
         }
-    }
-    if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
-        Loader(backgroundColor = Color.White, textColor = primaryDark)
     }
 }

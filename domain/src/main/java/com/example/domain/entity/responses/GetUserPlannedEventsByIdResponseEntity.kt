@@ -9,7 +9,7 @@ data class GetUserPlannedEventsByIdResponseEntity(
 
 data class GetUserPlannedEventsByIdDataResponseEntity(
     val current_page: Int,
-    val next: Any? = null,
+    val next: String? = null,
     val page_size: Int,
     val previous: Any? = null,
     val results: List<GetUserPlannedEventsByIdResultResponseEntity>?,
@@ -34,7 +34,7 @@ data class GetUserPlannedEventsByIdResultResponseEntity(
     val place: GetUserPlannedEventsByIdPlaceResponseEntity,
     val price: Int,
     val privacy: Boolean,
-    val request_user_role: String,
+    val request_user_role: String? = null,
     val status: String,
     val type: String
 )

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.domain.entity.responses.GetUserPlannedEventsByIdResultResponseEntity
 import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
@@ -110,13 +111,14 @@ class PublicProfileViewModel @Inject constructor(
             var page = 1
             val allReviews = mutableStateListOf<GetUserReviewsByIdResponseResultEntity>()
             while (true) {
-                val result = getUserReviewsByIdUseCase.executeGetUserReviewsById(page)
-                when (result) {
+                when (val result = getUserReviewsByIdUseCase.executeGetUserReviewsById(page)) {
                     is GetUserReviewsByIdResultEntity.Success -> {
+                        setState { copy(reviewsCount = mutableStateOf(result.data.total_count))}
                         val reviews = result.data.results
                         val nextPage = result.data.next
                         if (nextPage.isNullOrEmpty()) {
-                            setState { copy(resultList = mutableStateOf(allReviews)) }
+                            reviews?.let { allReviews.addAll(it) }
+                            setState { copy(reviewsList = mutableStateOf(allReviews)) }
                             break
                         } else {
                             reviews?.let { allReviews.addAll(it) }
@@ -137,23 +139,31 @@ class PublicProfileViewModel @Inject constructor(
 
     private fun getUserPlannedEventsById() {
         job = viewModelScope.launch(Dispatchers.IO) {
-            getUserPlannedEventsByIdUseCase.executeGetUserPlannedEventsById().let {
-                when (it) {
+            var page = 1
+            val allPlannedEvents =
+                mutableStateListOf<GetUserPlannedEventsByIdResultResponseEntity>()
+            while (true) {
+                when (val result = getUserPlannedEventsByIdUseCase.executeGetUserPlannedEventsById(page)) {
                     is GetUserPlannedEventsByIdResultEntity.Success -> {
-                        setState {
-                            copy(
-                                state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
-                                plannedEventsList = mutableStateOf(it.data.results ?: emptyList())
-                            )
+                        setState { copy(plannedEventsCount = mutableStateOf(result.data.total_count))}
+                        val plannedEvents = result.data.results
+                        val nextPage = result.data.next
+                        if (nextPage.isNullOrEmpty()) {
+                            plannedEvents?.let { allPlannedEvents.addAll(it) }
+                            setState { copy(plannedEventsList = mutableStateOf(allPlannedEvents)) }
+                            break
+                        }
+                        else {
+                            plannedEvents?.let { allPlannedEvents.addAll(it) }
+                            page++
                         }
                     }
 
                     is GetUserPlannedEventsByIdResultEntity.Error -> {
                         setState {
-                            copy(
-                                state = PublicProfileMainContract.ScreenViewState.LoadingError
-                            )
+                            copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
+                        break
                     }
                 }
             }

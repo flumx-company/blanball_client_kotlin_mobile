@@ -70,6 +70,7 @@ fun PublicProfileScreen(
     state: UiState,
     onInviteToAnEventClicked: () -> Unit,
     onAllReviewsScreenClicked: () -> Unit,
+    onAllPlannedEventsScreenClicked: () -> Unit,
 ) {
     val currentState: PublicProfileMainContract.State =
         (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
@@ -400,24 +401,19 @@ fun PublicProfileScreen(
                     }
                 }
                 DefaultCardWithColumn {
-                    Row() {
-                        Text(
-                            text = stringResource(id = R.string.ratings_and_reviews),
-                            style = typography.h2,
-                            color = primaryDark,
-                            fontSize = 16.sp,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                    val gradesCount = state.gradesCount.value.toString()
-                    val gradesText = stringResource(id = R.string.grades)
                     Text(
-                        text = "$gradesCount $gradesText",
+                        text = stringResource(id = R.string.ratings_and_reviews),
+                        style = typography.h2,
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                    )
+                    Text(
+                        text = "${state.reviewsCount.value} ${stringResource(id = R.string.grades)}",
                         style = typography.h6,
                         color = selectedDarkGray
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    if (state.resultList.value.isEmpty()) {
+                    if (state.reviewsList.value.isEmpty()) {
                         AttentionText(
                             text = "${state.userLastNameText.value} ${state.userFirstNameText.value} ${
                                 stringResource(
@@ -443,6 +439,11 @@ fun PublicProfileScreen(
                         color = primaryDark,
                         fontSize = 16.sp
                     )
+                    Text(
+                        text = "${state.plannedEventsCount.value} ${stringResource(id = R.string.planned_events)}",
+                        style = typography.h6,
+                        color = selectedDarkGray
+                    )
                     Spacer(modifier = Modifier.size(12.dp))
                     if (state.plannedEventsList.value.isEmpty()) {
                         AttentionText(
@@ -453,8 +454,16 @@ fun PublicProfileScreen(
                             }"
                         )
                     } else {
-                        DisplayUserPlannedEventsColumn(state = it)
+                        DisplayUserPlannedEventsColumn(it)
+                        Text(
+                            stringResource(id = R.string.show_all_planned_events),
+                            style = typography.h6,
+                            color = secondaryNavy,
+                            textDecoration = TextDecoration.Underline,
+                            modifier = Modifier.clickable(onClick = onAllPlannedEventsScreenClicked)
+                        )
                     }
+                    Spacer(modifier = Modifier.size(12.dp))
                     DottedLine()
                     Spacer(modifier = Modifier.size(12.dp))
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetUserPlannedEventsByIdUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) :
     GetUserPlannedEventsByIdUseCase {
-    override suspend fun executeGetUserPlannedEventsById(): GetUserPlannedEventsByIdResultEntity {
-        return appRepository.getUserPlannedEventsById(351)
+    override suspend fun executeGetUserPlannedEventsById(page: Int): GetUserPlannedEventsByIdResultEntity {
+        return appRepository.getUserPlannedEventsById(478, page = page)
     }
 }

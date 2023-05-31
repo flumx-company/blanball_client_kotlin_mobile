@@ -60,9 +60,9 @@
         internal val verifyCodeManager: VerifyCodeManager,
     ) : AppRepository {
     
-        override suspend fun getUserPlannedEventsById(id: Int): GetUserPlannedEventsByIdResultEntity {
+        override suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity {
             return try {
-                val getUserPlannedByIdResponse = service.getListOfUsersEvents(id)
+                val getUserPlannedByIdResponse = service.getListOfUsersPlannedEvents(id, page)
                 val getUserPlannedByIdDomainResponse =
                     getUserPlannedByIdResponse.toGetUserPlannedEventsByIdResponseEntity()
                 GetUserPlannedEventsByIdResultEntity.Success(getUserPlannedByIdDomainResponse.data)
