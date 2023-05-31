@@ -36,12 +36,12 @@ class PublicProfileViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    val defaultState
+    private val defaultState
         get() = PublicProfileMainContract.State(
             state = PublicProfileMainContract.ScreenViewState.Loading
         )
 
-    val currentState: PublicProfileMainContract.State
+    private val currentState: PublicProfileMainContract.State
         get() = uiState.value as PublicProfileMainContract.State
 
     private val _uiState: MutableStateFlow<UiState> =
@@ -63,7 +63,6 @@ class PublicProfileViewModel @Inject constructor(
                 getUserPublicProfileById()
                 getUserPlannedEventsById()
             }
-
             is PublicProfileMainContract.ScreenViewState.LoadingError -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
@@ -95,7 +94,6 @@ class PublicProfileViewModel @Inject constructor(
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
-
                     is GetUserProfileByIdResultEntity.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
@@ -125,7 +123,6 @@ class PublicProfileViewModel @Inject constructor(
                             page++
                         }
                     }
-
                     is GetUserReviewsByIdResultEntity.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
@@ -158,7 +155,6 @@ class PublicProfileViewModel @Inject constructor(
                             page++
                         }
                     }
-
                     is GetUserPlannedEventsByIdResultEntity.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)

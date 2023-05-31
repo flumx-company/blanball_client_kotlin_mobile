@@ -96,10 +96,10 @@ fun PublicProfileScreen(
                         Modifier
                             .background(color = accentLightGreen)
                             .fillMaxWidth(),
-                        contentAlignment = Alignment.Center,
+                        contentAlignment = Center,
                     ) {
                         Spacer(modifier = Modifier.size(4.dp))
-                        Row() {
+                        Row {
                             Text(
                                 text = if (state.userIsVerified.value)
                                     stringResource(id = R.string.verified)
@@ -171,7 +171,7 @@ fun PublicProfileScreen(
                                     .wrapContentWidth()
                             )
                             Spacer(modifier = Modifier.size(8.dp))
-                            Row() {
+                            Row {
                                 Text(
                                     text = state.rating.value.formatRating(),
                                     style = typography.subtitle2,
@@ -216,12 +216,12 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(8.dp))
-                    if (!state.userEmail.value.isEmpty() || !state.userPhoneNumberText.value.isEmpty()) {
+                    if (state.userEmail.value.isNotEmpty() || state.userPhoneNumberText.value.isNotEmpty()) {
                         Row(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            if (!state.userEmail.value.isEmpty()) {
+                            if (state.userEmail.value.isNotEmpty()) {
                                 Button(
                                     onClick = {
                                         writeEmail(
@@ -252,7 +252,7 @@ fun PublicProfileScreen(
                                     )
                                 }
                             }
-                            if (!state.userPhoneNumberText.value.isEmpty()) {
+                            if (state.userPhoneNumberText.value.isNotEmpty()) {
                                 Button(
                                     onClick = {
                                         makeCall(
@@ -368,10 +368,8 @@ fun PublicProfileScreen(
                                 style = typography.h6,
                                 color = DarkOverlay
                             )
-                            val userWeight = state.userWeightText.value.toString()
-                            val weightSuffix = stringResource(id = R.string.weight_meas_units)
                             Text(
-                                text = "$userWeight $weightSuffix",
+                                text = " ${state.userWeightText.value} ${stringResource(id = R.string.weight_meas_units)}",
                                 style = typography.h5,
                                 color = primaryDark
                             )
@@ -403,10 +401,8 @@ fun PublicProfileScreen(
                                 style = typography.h6,
                                 color = DarkOverlay
                             )
-                            val userHeight = state.userHeightText.value.toString()
-                            val heightSuffix = stringResource(id = R.string.height_meas_units)
                             Text(
-                                text = "$userHeight $heightSuffix",
+                                text = "${state.userHeightText.value} ${stringResource(id = R.string.height_meas_units)}",
                                 style = typography.h5,
                                 color = primaryDark
                             )
