@@ -11,3 +11,5 @@ class GetUserPlannedEventsByIdUseCaseImpl @Inject constructor(internal val appRe
         return appRepository.getUserPlannedEventsById(478, page = page)
     }
 }
+
+// TODO: id will match the selected user when going to their public profile

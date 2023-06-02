@@ -10,3 +10,5 @@ class GetUserReviewsByIdUseCaseImpl @Inject constructor(internal val appReposito
         return appRepository.getUserReviewsById(id = 2, page = page)
     }
 }
+
+// TODO: id will match the selected user when going to their public profile

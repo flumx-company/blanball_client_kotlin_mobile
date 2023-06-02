@@ -10,3 +10,5 @@ class GetUserProfileByIdUseCaseImpl @Inject constructor(internal val appReposito
         return appRepository.getUserProfileById(2)
     }
 }
+
+// TODO: id will match the selected user when going to their public profile
