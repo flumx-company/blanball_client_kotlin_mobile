@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.textinputs
+package com.example.blanball.presentation.views.components.textinputs
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

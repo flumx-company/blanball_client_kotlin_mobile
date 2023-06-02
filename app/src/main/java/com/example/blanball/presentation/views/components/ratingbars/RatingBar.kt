@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.ratingbars
+package com.example.blanball.presentation.views.components.ratingbars
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

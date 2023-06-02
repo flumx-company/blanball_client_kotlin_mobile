@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.boxes
+package com.example.blanball.presentation.views.components.boxes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

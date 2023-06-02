@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.loaders
+package com.example.blanball.presentation.views.components.loaders
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode

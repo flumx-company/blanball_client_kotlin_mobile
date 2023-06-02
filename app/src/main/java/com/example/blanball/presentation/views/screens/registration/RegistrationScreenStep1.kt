@@ -31,9 +31,9 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.utils.ext.isInReqRange
 import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
 import com.example.blanball.utils.ext.isNotInReqRange

@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.textinputs
+package com.example.blanball.presentation.views.components.textinputs
 
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text

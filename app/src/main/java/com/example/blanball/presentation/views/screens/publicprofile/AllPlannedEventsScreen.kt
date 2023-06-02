@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,16 +27,22 @@ import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.bgLight2
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.utils.ext.formatDatePlannedEvents
 import com.example.blanball.utils.ext.formatDatePlannedEventsToTime
 
 @Composable
-fun AllPlannedEventsScreen(state: UiState) {
+fun AllPlannedEventsScreen(
+    state: UiState,
+    onLoadMoreEvents: () -> Unit,
+) {
     (state as? PublicProfileMainContract.State)?.let {
+        val lazyListState = rememberLazyListState()
         LazyColumn(
             Modifier.padding(
                 top = 16.dp,
@@ -129,6 +138,24 @@ fun AllPlannedEventsScreen(state: UiState) {
                     }
                     Spacer(modifier = Modifier.size(12.dp))
                 }
+            }
+            if (state.isLoadingMoreEvents) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator(color = mainGreen)
+                    }
+                }
+            }
+            item {
+                InfiniteListHandler(
+                    lazyListState = lazyListState,
+                    onLoadMore = onLoadMoreEvents,
+                )
             }
         }
     }

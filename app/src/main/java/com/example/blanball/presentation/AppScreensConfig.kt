@@ -115,12 +115,16 @@ fun AppScreensConfig(navController: NavHostController, resetPassViewModel: Reset
 
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            AllReviewsScreen(state = state)
+            AllReviewsScreen(
+                state = state,
+                onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() })
         }
 
         composable(Destinations.ALL_PLANNED_EVENTS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            AllPlannedEventsScreen(state = state)
+            AllPlannedEventsScreen(state = state, onLoadMoreEvents = {
+                publicProfileViewModel.loadMoreEvents()
+            })
         }
     }
 }

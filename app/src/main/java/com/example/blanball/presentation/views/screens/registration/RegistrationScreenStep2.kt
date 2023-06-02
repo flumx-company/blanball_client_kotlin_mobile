@@ -45,11 +45,11 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.switches.SwitchButton
-import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
-import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.switches.SwitchButton
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
 import com.example.blanball.utils.ext.isNotInReqRange
 import com.example.blanball.utils.ext.isNotValidEmail

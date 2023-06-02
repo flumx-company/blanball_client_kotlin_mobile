@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.switches
+package com.example.blanball.presentation.views.components.switches
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Switch

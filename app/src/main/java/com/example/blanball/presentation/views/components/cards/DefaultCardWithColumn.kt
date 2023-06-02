@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.cards
+package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope

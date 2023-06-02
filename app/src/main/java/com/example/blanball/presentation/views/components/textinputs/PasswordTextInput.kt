@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.textinputs
+package com.example.blanball.presentation.views.components.textinputs
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

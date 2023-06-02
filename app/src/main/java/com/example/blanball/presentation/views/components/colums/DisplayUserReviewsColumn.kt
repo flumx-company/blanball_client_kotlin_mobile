@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.widgets.colums
+package com.example.blanball.presentation.views.components.colums
 
 import DottedLine
 import androidx.compose.foundation.layout.Column

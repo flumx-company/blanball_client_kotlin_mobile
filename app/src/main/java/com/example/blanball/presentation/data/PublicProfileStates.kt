@@ -7,7 +7,8 @@ import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntit
 
 class PublicProfileMainContract {
 
-    sealed class Event : UiEvent {}
+    sealed class Event : UiEvent {
+    }
 
     data class State(
         val state: ScreenViewState,
@@ -32,7 +33,11 @@ class PublicProfileMainContract {
         val plannedEventsList: MutableState<List<GetUserPlannedEventsByIdResultResponseEntity>> = mutableStateOf(
             emptyList()
         ),
-        var userIsConfirmed: MutableState<Boolean> = mutableStateOf(false)
+        var userIsConfirmed: MutableState<Boolean> = mutableStateOf(false),
+        val isLoadingMoreReviews: Boolean = false,
+        val allReviewsLoaded: Boolean = false,
+        val isLoadingMoreEvents: Boolean = false,
+        val allEventsLoaded: Boolean = false
     ) : UiState
 
     sealed class ScreenViewState {
