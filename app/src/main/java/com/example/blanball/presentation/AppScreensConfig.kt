@@ -23,8 +23,15 @@ import com.example.blanball.presentation.views.screens.registration.Registration
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
 
 @Composable
-fun AppScreensConfig(navController: NavHostController, resetPassViewModel: ResetPasswordViewModel, registrationViewModel: RegistrationViewModel, publicProfileViewModel: PublicProfileViewModel) {
-    NavHost(navController = navController, startDestination = Destinations.PUBLIC_PROFILE.route)
+fun AppScreensConfig(
+    navController: NavHostController,
+    resetPassViewModel: ResetPasswordViewModel,
+    registrationViewModel: RegistrationViewModel,
+    publicProfileViewModel: PublicProfileViewModel
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Destinations.PUBLIC_PROFILE.route)
     {
         composable(Destinations.RESET1.route) {
             val state = resetPassViewModel
