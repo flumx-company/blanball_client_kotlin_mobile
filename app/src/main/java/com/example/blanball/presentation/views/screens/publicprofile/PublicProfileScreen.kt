@@ -323,7 +323,7 @@ fun PublicProfileScreen(
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
-                        text = state.aboutUserText.value,
+                        text = state.aboutUserText.value!!,
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
@@ -355,7 +355,7 @@ fun PublicProfileScreen(
                                 color = DarkOverlay,
                             )
                             Text(
-                                text = state.userPositionText.value,
+                                text = state.userPositionText.value!!,
                                 style = typography.h5,
                                 color = primaryDark
                             )
@@ -388,7 +388,7 @@ fun PublicProfileScreen(
                                 color = DarkOverlay
                             )
                             Text(
-                                text = state.userWorkingLegText.value,
+                                text = state.userWorkingLegText.value!!,
                                 style = typography.h5,
                                 color = primaryDark
                             )

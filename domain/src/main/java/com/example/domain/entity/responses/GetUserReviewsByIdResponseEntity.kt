@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUserReviewsByIdResponseEntity(
     val code: Int,
     val `data`: GetUserReviewsByIdDataEntity,
-    val message: Any? = null,
+    val message: String? = null,
     val status: String
 )
 
@@ -11,7 +11,7 @@ data class GetUserReviewsByIdDataEntity(
     val current_page: Int,
     val next: String? = null,
     val page_size: Int,
-    val previous: Any? = null,
+    val previous: String? = null,
     val results: List<GetUserReviewsByIdResponseResultEntity>? = null,
     val success: Boolean,
     val total_count: Int

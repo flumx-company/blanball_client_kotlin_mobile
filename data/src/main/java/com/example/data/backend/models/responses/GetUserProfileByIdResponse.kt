@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class GetUserProfileByIdResponse(
      @Json (name = "code") val code: Int,
      @Json (name = "`data`") val `data`: PublicProfileDataResponse,
-     @Json (name = "message") val message: Any? = null,
+     @Json (name = "message") val message: String? = null,
      @Json (name = "status") val status: String
 )
 
@@ -18,7 +18,7 @@ data class PublicProfileDataResponse(
      @Json (name = "phone") val phone: String,
      @Json (name = "profile") val profile: PublicProfileResponse,
      @Json (name = "raiting") val raiting: Any? = null,
-     @Json (name = "role") val role: String
+     @Json (name = "role") val role: String? = null
 )
 
 data class Configuration(
@@ -28,20 +28,20 @@ data class Configuration(
 )
 
 data class PublicProfileResponse(
-     @Json (name = "about_me") val about_me: String,
-     @Json (name = "age") val age: Int,
+     @Json (name = "about_me") val about_me: String? = null ,
+     @Json (name = "age") val age: Int? = null,
      @Json (name = "avatar_url") val avatar_url: String? = null,
-     @Json (name = "birthday") val birthday: String,
+     @Json (name = "birthday") val birthday: String? = null,
      @Json (name = "created_at") val created_at: String,
-     @Json (name = "gender") val gender: String,
-     @Json (name = "height") val height: Int,
+     @Json (name = "gender") val gender: String? = null,
+     @Json (name = "height") val height: Int? = null,
      @Json (name = "id") val id: Int,
      @Json (name = "last_name") val last_name: String,
      @Json (name = "name") val name: String,
      @Json (name = "place") val place: PlayingPlace,
-     @Json (name = "position") val position: String,
-     @Json (name = "weight") val weight: Int,
-     @Json (name = "working_leg") val working_leg: String
+     @Json (name = "position") val position: String? = null,
+     @Json (name = "weight") val weight: Int? = null,
+     @Json (name = "working_leg") val working_leg: String? = null,
 )
 
 data class PlayingPlace(

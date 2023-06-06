@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class LoginResponse(
     val code: Int,
     val `data`: LoginData,
-    val message: Any? = null,
+    val message: String? = null,
     val status: String
 )
 

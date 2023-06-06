@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class GetUserPlannedEventsByIdResponse(
     @Json (name = "code")  val code: Int,
     @Json (name = "`data`") val `data`: GetUserPlannedEventsByIdDataResponse,
-    @Json (name = "message") val message: Any? = null,
+    @Json (name = "message") val message: String? = null,
     @Json (name = "status") val status: String
 )
 
@@ -13,7 +13,7 @@ data class GetUserPlannedEventsByIdDataResponse(
     @Json (name = "current_page") val current_page: Int,
     @Json (name = "next") val next: String? = null,
     @Json (name = "page_size") val page_size: Int,
-    @Json (name = "previous") val previous: Any? = null,
+    @Json (name = "previous") val previous: String? = null,
     @Json (name = "results") val results: List<GetUserPlannedEventsByIdResultResponse>?,
     @Json (name = "success") val success: Boolean,
     @Json (name = "total_count") val total_count: Int
@@ -33,7 +33,7 @@ data class GetUserPlannedEventsByIdResultResponse(
     @Json (name = "need_ball") val need_ball: Boolean,
     @Json (name = "need_form") val need_form: Boolean,
     @Json (name = "pk_user_role") val pk_user_role: String,
-    @Json (name = "place") val place: GetUserPlannedEventsByIdPlaceResponse,
+    @Json (name = "place") val place: GetUserPlannedEventsByIdPlaceResponse? = null,
     @Json (name = "price") val price: Int,
     @Json (name = "privacy") val privacy: Boolean,
     @Json (name = "request_user_role") val request_user_role: String? = null,

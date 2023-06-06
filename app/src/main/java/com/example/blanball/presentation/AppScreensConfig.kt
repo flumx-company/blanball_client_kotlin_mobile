@@ -114,7 +114,7 @@ fun AppScreensConfig(
             }
             PublicProfileScreen(
                 state = state,
-                onInviteToAnEventClicked = { TODO("Invite to event action") },
+                onInviteToAnEventClicked = {}, // TODO("Invite to event action")
                 onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route)},
                 onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route)}
             )

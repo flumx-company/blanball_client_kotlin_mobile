@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUserProfileByIdResponseEntity(
     val code: Int,
     val `data`: PublicProfileDataResponseEntity,
-    val message: Any? = null,
+    val message: String? = null,
     val status: String
 )
 
@@ -16,7 +16,7 @@ data class PublicProfileDataResponseEntity(
     val phone: String,
     val profile: PublicProfileResponseEntity,
     val raiting: Any? = null,
-    val role: String
+    val role: String? = null,
 )
 
 data class ConfigurationEntity(
@@ -26,20 +26,20 @@ data class ConfigurationEntity(
 )
 
 data class PublicProfileResponseEntity(
-    val about_me: String,
-    val age: Int,
+    val about_me: String? = null,
+    val age: Int? = null,
     val avatar_url: String? = null,
-    val birthday: String,
+    val birthday: String? = null,
     val created_at: String,
-    val gender: String,
-    val height: Int,
+    val gender: String? = null,
+    val height: Int? = null,
     val id: Int,
     val last_name: String,
     val name: String,
     val place: PlayingPlaceEntity,
-    val position: String,
-    val weight: Int,
-    val working_leg: String
+    val position: String? = null,
+    val weight: Int? = null,
+    val working_leg: String? = null,
 )
 
 data class PlayingPlaceEntity(

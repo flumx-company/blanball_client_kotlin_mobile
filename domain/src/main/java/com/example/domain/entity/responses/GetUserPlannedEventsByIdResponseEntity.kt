@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUserPlannedEventsByIdResponseEntity(
     val code: Int,
     val `data`: GetUserPlannedEventsByIdDataResponseEntity,
-    val message: Any? = null,
+    val message: String? = null,
     val status: String
 )
 
@@ -11,7 +11,7 @@ data class GetUserPlannedEventsByIdDataResponseEntity(
     val current_page: Int,
     val next: String? = null,
     val page_size: Int,
-    val previous: Any? = null,
+    val previous: String? = null,
     val results: List<GetUserPlannedEventsByIdResultResponseEntity>?,
     val success: Boolean,
     val total_count: Int
@@ -32,7 +32,7 @@ data class GetUserPlannedEventsByIdResultResponseEntity(
     val need_form: Boolean,
     val pk_user_role: String,
     val place: GetUserPlannedEventsByIdPlaceResponseEntity,
-    val price: Int,
+    val price: Int? = null,
     val privacy: Boolean,
     val request_user_role: String? = null,
     val status: String,

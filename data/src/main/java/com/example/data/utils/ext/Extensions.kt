@@ -433,7 +433,7 @@ internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdRe
         this.need_ball,
         this.need_form,
         this.pk_user_role,
-        this.place.toGetUserPlannedEventsByIdPlaceResponseEntity(),
+        this.place?.toGetUserPlannedEventsByIdPlaceResponseEntity()!!,
         this.price,
         this.privacy,
         this.request_user_role,
