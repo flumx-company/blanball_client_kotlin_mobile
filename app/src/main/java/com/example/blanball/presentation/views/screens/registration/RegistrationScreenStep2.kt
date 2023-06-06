@@ -2,7 +2,9 @@ package com.example.blanball.presentation.views.screens.registration
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Checkbox
@@ -31,7 +35,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.backgroundItems
@@ -41,12 +45,15 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.switches.SwitchButton
-import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
-import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
-import com.example.blanball.utils.ext.*
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.switches.SwitchButton
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.textinputs.PassTextInput
+import com.example.blanball.utils.ext.isInReqRange
+import com.example.blanball.utils.ext.isNotInReqRange
+import com.example.blanball.utils.ext.isNotValidEmail
+import com.example.blanball.utils.ext.isValidEmail
 import com.example.domain.utils.Endpoints
 
 
@@ -59,15 +66,15 @@ fun RegistrationScreenStep2(
     val intent =
         Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
     val context = LocalContext.current
-    val currentState: MainContract.State =
-        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
+    val currentState: StartScreensMainContract.State =
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient),
         contentAlignment = Alignment.TopCenter,
     ) {
-        (state as? MainContract.State)?.let {
+        (state as? StartScreensMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
@@ -232,8 +239,7 @@ fun RegistrationScreenStep2(
                     }
                 }
             }
-
-            if (currentState.state is MainContract.ScreenViewState.Loading) {
+            if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
                 Loader()
             }
         }

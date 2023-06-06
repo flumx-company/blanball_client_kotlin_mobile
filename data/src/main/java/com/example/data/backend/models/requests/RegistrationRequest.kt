@@ -7,11 +7,11 @@ data class RegistrationRequest(
     @Json(name = "email") val email: String,
     @Json(name = "password") val password: String,
     @Json(name = "phone") val phone: String,
-    @Json(name = "profile") val profile: Profile,
+    @Json(name = "profile") val profile: ProfileRegistrationRequest,
     @Json(name = "re_password") val re_password: String
 )
 
-data class Profile(
+data class ProfileRegistrationRequest(
     @Json(name = "about_me") @Nullable val about_me: String? = null,
     @Json(name = "birthday") @Nullable val birthday: String? = null,
     @Json(name = "gender") val gender: String,

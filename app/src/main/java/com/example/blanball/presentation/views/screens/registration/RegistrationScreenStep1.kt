@@ -28,12 +28,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.*
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.utils.ext.isInReqRange
 import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
 import com.example.blanball.utils.ext.isNotInReqRange
@@ -45,15 +45,15 @@ fun RegistrationScreenStep1(
     state: UiState,
     onRegistrationStep2Clicked: () -> Unit,
 ) {
-    val currentState: MainContract.State =
-        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
+    val currentState: StartScreensMainContract.State =
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient),
         contentAlignment = Alignment.TopCenter,
     ) {
-        (state as? MainContract.State)?.let {
+        (state as? StartScreensMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
@@ -212,7 +212,7 @@ fun RegistrationScreenStep1(
                     }
                 }
             }
-            if (currentState.state is MainContract.ScreenViewState.Loading) {
+            if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
                 Loader()
             }
         }

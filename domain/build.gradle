@@ -22,6 +22,9 @@ android {
         buildConfigField "String", "REGISTER_ENDPOINT", "\"authentication/client/register\""
         buildConfigField "String", "PRIVACY_POLICY_URL", "\"http://178.151.201.167:49201/privacy/policy\""
         buildConfigField "int", "CODE_401", "401"
+        buildConfigField "String", "USER_PROFILE_ENDPOINT", "\"authentication/client/profile/{id}\""
+        buildConfigField "String", "REVIEWS_ENDPOINT", "\"reviews/client/user/reviews/list/{id}\""
+        buildConfigField "String", "PLANNED_EVENTS", "\"events/client/user/planned/events/list/{id}\""
     }
 
     buildTypes {

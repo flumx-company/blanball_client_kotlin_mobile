@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
@@ -33,9 +33,9 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.textinputs.PassTextInput
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 
 @Composable
 fun ResetPasswordScreenStep3(
@@ -43,15 +43,15 @@ fun ResetPasswordScreenStep3(
     onFinishResetClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
-    val currentState: MainContract.State =
-        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
+    val currentState: StartScreensMainContract.State =
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient),
         contentAlignment = Alignment.TopCenter,
     ) {
-        (state as? MainContract.State)?.let {
+        (state as? StartScreensMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
@@ -150,7 +150,7 @@ fun ResetPasswordScreenStep3(
                 }
             }
         }
-        if (currentState.state is MainContract.ScreenViewState.Loading) {
+        if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
             Loader()
         }
     }

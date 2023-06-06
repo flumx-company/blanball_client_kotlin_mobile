@@ -15,7 +15,8 @@ private val exo_2 = FontFamily(
 )
 private val inter = FontFamily(
     Font(R.font.inter),
-    Font(R.font.inter_medium, FontWeight.Medium)
+    Font(R.font.inter_medium, FontWeight.Medium),
+    Font(R.font.inter_bold, FontWeight.Bold)
 )
 
 //TODO: Need to refactor naming and structure
@@ -35,7 +36,7 @@ val typography = typographyFromDefaults(
     h3 = TextStyle(
         fontFamily = exo_2,
         fontSize = 14.sp,
-        ),
+    ),
     h4 = TextStyle(
         fontFamily = inter,
         fontSize = 15.sp,
@@ -55,8 +56,8 @@ val typography = typographyFromDefaults(
         lineHeight = 22.sp
     ),
     subtitle2 = TextStyle(
-        fontFamily = exo_2,
-        fontWeight = FontWeight.W500
+        fontFamily = inter,
+        fontWeight = FontWeight.Bold
     ),
     body1 = TextStyle(
         fontFamily = exo_2,

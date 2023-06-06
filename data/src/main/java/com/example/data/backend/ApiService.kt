@@ -7,6 +7,9 @@ import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
+import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
+import com.example.data.backend.models.responses.GetUserProfileByIdResponse
+import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
@@ -14,10 +17,13 @@ import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 
-interface  ApiService  {
+interface ApiService  {
 
     @POST(Endpoints.LOGIN_ENDPOINT)
     suspend fun loginAuthorization(@Body authRequest: AuthRequest): LoginSuccess
@@ -33,4 +39,13 @@ interface  ApiService  {
 
     @POST (Endpoints.REGISTER_ENDPOINT)
     suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
+
+    @GET(Endpoints.USER_PROFILE_ENDPOINT)
+    suspend fun getUserProfileById(@Path ("id") id: Int): GetUserProfileByIdResponse
+
+    @GET (Endpoints.REVIEWS_ENDPOINT)
+    suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
+
+    @GET (Endpoints.PLANNED_EVENTS)
+    suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 }

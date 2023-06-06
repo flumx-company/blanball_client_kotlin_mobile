@@ -3,13 +3,7 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
-interface UiState
-
-interface UiEvent
-
-interface UiEffect
-
-class MainContract {
+class StartScreensMainContract {
 
     sealed class Event: UiEvent {
         object SendCodeClicked: Event()

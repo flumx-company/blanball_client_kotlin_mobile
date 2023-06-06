@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MainContract
+import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
@@ -42,10 +42,10 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.widgets.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.widgets.loaders.Loader
-import com.example.blanball.presentation.views.widgets.textinputs.CodeTextInput
-import com.example.blanball.presentation.views.widgets.textinputs.EmailTextInput
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
+import com.example.blanball.presentation.views.components.textinputs.EmailTextInput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -57,8 +57,8 @@ fun ResetPasswordScreenStep2(
     resendCodeToEmailClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
-    val currentState: MainContract.State =
-        (state as? MainContract.State) ?: MainContract.State(MainContract.ScreenViewState.Idle)
+    val currentState: StartScreensMainContract.State =
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     val initialTimerValue = 30
     var (timerValue, setTimerValue) = remember { mutableStateOf(initialTimerValue) }
     var isRunning by remember { mutableStateOf(false) }
@@ -81,7 +81,7 @@ fun ResetPasswordScreenStep2(
             .background(backgroundGradient),
         contentAlignment = Alignment.TopCenter,
     ) {
-        (state as? MainContract.State)?.let {
+        (state as? StartScreensMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.ukraine), contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
@@ -207,7 +207,7 @@ fun ResetPasswordScreenStep2(
                 }
             }
         }
-        if (currentState.state is MainContract.ScreenViewState.Loading) {
+        if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
             Loader()
         }
     }

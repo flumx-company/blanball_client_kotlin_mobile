@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class LoginSuccess(
     @Json (name = "code") val code: Int,
     @Json (name = "`data`") val `data`: Data,
-    @Json (name = "message") val message: Any? = null,
+    @Json (name = "message") val message: String? = null,
     @Json (name = "status") val status: String
     )
 

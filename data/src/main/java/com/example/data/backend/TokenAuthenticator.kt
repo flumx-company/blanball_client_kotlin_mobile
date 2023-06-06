@@ -23,7 +23,7 @@ class TokenAuthenticator (private val tokenManager: TokenManager) : Authenticato
             return null
         }
         return response.request.newBuilder()
-            .addHeader("Authorization", "Bearer $token")
+            .addHeader("Authorization", "")
             .build()
         }
     }
