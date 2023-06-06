@@ -25,3 +25,12 @@ object Strings {
 object Ints {
      const val ONE = 1
 }
+
+object Formats {
+     const val REVIEW_DATE_FORMAT_INPUT = "yyyy-MM-dd'T'HH:mm:ss.SSSSS"
+     const val REVIEW_DATE_FORMAT_OUTPUT = "dd MMMM"
+     const val EVENTS_DATE_FORMAT_INPUT = "yyyy-MM-dd'T'HH:mm:ss"
+     const val EVENTS_DATE_FORMAT_OUTPUT = "dd MMMM"
+     const val EVENTS_DATE_FORMAT_TO_TIME_OUTPUT = "HH:mm"
+     const val DECIMAL_FORMAT = "0.0"
+}
