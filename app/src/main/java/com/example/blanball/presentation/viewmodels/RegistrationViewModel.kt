@@ -1,14 +1,16 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.formatBooleanToString
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.usecases.interfaces.RegistrationUseCase
-import com.example.domain.utils.Strings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,7 +24,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class   RegistrationViewModel @Inject constructor(internal val registrationUseCase: RegistrationUseCase) :
+class   RegistrationViewModel @Inject constructor(
+    internal val registrationUseCase: RegistrationUseCase,
+    private val application: Application
+    ) :
     ViewModel() {
 
     private var job: Job? = null
@@ -65,10 +70,8 @@ class   RegistrationViewModel @Inject constructor(internal val registrationUseCa
                 re_password = currentState.registrationPassTextRemember.value,
                 name = currentState.firstNameText.value,
                 lastName = currentState.lastNameText.value,
-                gender = when (currentState.genderIsMale.value) {
-                    true -> Strings.MAN
-                    else -> Strings.WOMAN
-                },
+                gender = currentState.genderIsMale.value.formatBooleanToString(trueToString = application.applicationContext.getString(
+                    R.string.man), falseToString = application.applicationContext.getString(R.string.woman))
             ).let {
                 when (it) {
                     is RegistrationResultEntity.Success -> {

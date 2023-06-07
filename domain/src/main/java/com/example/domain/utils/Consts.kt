@@ -17,10 +17,6 @@ object Endpoints {
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }
-object Strings {
-     const val MAN = "Man"
-     const val WOMAN = "Woman"
-}
 
 object Ints {
      const val ONE = 1
