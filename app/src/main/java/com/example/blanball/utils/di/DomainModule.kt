@@ -5,11 +5,13 @@ import com.example.domain.usecases.implementations.GetUserProfileByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
+import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
+import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,6 +20,9 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface DomainModule {
+    @Binds
+    fun bindUserLoginUseCase(loginUseCase: UserLoginUseCaseImpl): UserLoginUseCase
+
     @Binds
     fun bindResetPasswordUseCase(resetPasswordUseCase: ResetPasswordUseCaseImpl): ResetPasswordUseCase
 

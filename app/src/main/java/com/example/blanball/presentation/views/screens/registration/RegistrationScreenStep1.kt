@@ -13,16 +13,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -30,21 +36,29 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.*
+import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
-import com.example.blanball.utils.ext.isInReqRange
+import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
 import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
-import com.example.blanball.utils.ext.isNotInReqRange
+import com.example.blanball.utils.ext.isNotValidUserName
 import com.example.blanball.utils.ext.isValidPhoneNumber
-import androidx.compose.material.OutlinedTextField
+import com.example.blanball.utils.ext.isValidUserName
 
 @Composable
 fun RegistrationScreenStep1(
     state: UiState,
     onRegistrationStep2Clicked: () -> Unit,
+    onCancelClicked: () -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
     val currentState: StartScreensMainContract.State =
         (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
@@ -92,51 +106,68 @@ fun RegistrationScreenStep1(
                             contentDescription = null,
                         )
                     }
+                    Spacer(modifier = Modifier.size(20.dp))
                     DefaultTextInput(
-                        labelResId = (R.string.your_name),
+                        labelResId = (R.string.your_firstname),
                         state = it,
-                        value = state.nameText.value,
-                        onValueChange = { state.nameText.value = it },
-                        isError = state.nameText.value.isNotInReqRange(3),
+                        value = state.firstNameText.value,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { state.firstNameText.value = it },
+                        isError = when {
+                            it.isErrorRegistrationNewPass.value -> true
+                            it.firstNameText.value.isNotValidUserName() -> true
+                            else -> false },
+                        errorMessage = when {
+                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                            it.firstNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
+                            else -> {("")} },
                         transformation = VisualTransformation.None,
                         modifier = Modifier
-                            .padding(top = 20.dp)
                             .fillMaxWidth()
                     )
-
-                    //TODO Create some new field for text with prefix!
-                    OutlinedTextField(
+                    Spacer(modifier = Modifier.size(12.dp))
+                    DefaultTextInput(
+                        labelResId = (R.string.your_lastname),
+                        state = it,
+                        value = state.lastNameText.value,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        onValueChange = { state.lastNameText.value = it },
+                        isError = when {
+                            it.isErrorRegistrationNewPass.value -> true
+                            it.lastNameText.value.isNotValidUserName() -> true
+                            else -> false },
+                        errorMessage = when {
+                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                            it.lastNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
+                            else -> {("")} },
+                        transformation = VisualTransformation.None,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    PhoneNumberInput(
+                        value = state.phoneNumberText.value,
+                        onValueChange =  { state.phoneNumberText.value = it },
                         modifier = Modifier
                             .padding(top = 12.dp)
                             .fillMaxWidth(),
-                        value = state.phoneNumberText.value,
-                        onValueChange = { state.phoneNumberText.value = it },
-                        singleLine = true,
-                        label = {
-                            Text(
-                                stringResource(
-                                    id = R.string.you_phone_number
-                                ),
-                            )
+                        isError = when {
+                            it.phoneNumberText.value.isInvalidValidPhoneNumber() -> true
+                            it.isErrorRegistrationNewPass.value -> true
+                            else -> false
                         },
-                        shape = shapes.small,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = defaultLightGray,
-                            focusedBorderColor = selectedDarkGray,
-                            textColor = Color.Black,
-                            errorBorderColor = errorRed,
-                            focusedLabelColor = primaryDark,
-                            cursorColor = mainGreen,
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        isError = it.phoneNumberText.value.isInvalidValidPhoneNumber(),
-                        leadingIcon = {
-                            Text(
-                                text = "+380",//TODO Make some resource
-                                modifier = Modifier.padding(start = 14.dp),
-                                color = Color.Black
+                        errorMessage = when {
+                            it.phoneNumberText.value.isInvalidValidPhoneNumber() -> stringResource(
+                                id = R.string.phone_format_error
                             )
-                        }
+                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {("")}
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()})
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -151,9 +182,11 @@ fun RegistrationScreenStep1(
                             text = stringResource(id = R.string.can_pick_once),
                             style = typography.h6,
                             color = secondaryNavy,
-                            modifier = Modifier.background(
-                                color = backgroundItems, shape = shapes.small
-                            )
+                            modifier = Modifier
+                                .background(
+                                    color = backgroundItems, shape = shapes.small
+                                )
+                                .padding(start = 2.dp, end = 2.dp)
                         )
                     }
                     Row(Modifier.padding(top = 20.dp)) {
@@ -166,7 +199,6 @@ fun RegistrationScreenStep1(
                                 it.genderIsFemale.value = false
                             })
                         Spacer(modifier = Modifier.size(8.dp))
-
                         OutlineRadioButton(
                             state = it,
                             text = stringResource(R.string.female),
@@ -182,7 +214,8 @@ fun RegistrationScreenStep1(
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
                         enabled = it.phoneNumberText.value.isValidPhoneNumber()
-                                && state.nameText.value.isInReqRange(3)
+                                && state.firstNameText.value.isValidUserName()
+                                && state.lastNameText.value.isValidUserName()
                                 && (state.genderIsMale.value || state.genderIsFemale.value),
                         onClick = onRegistrationStep2Clicked,
                         modifier = Modifier
@@ -200,7 +233,7 @@ fun RegistrationScreenStep1(
                         )
                     }
                     TextButton(
-                        onClick = {},
+                        onClick = onCancelClicked,
                         Modifier
                             .padding(top = 14.dp)
                             .align(CenterHorizontally)

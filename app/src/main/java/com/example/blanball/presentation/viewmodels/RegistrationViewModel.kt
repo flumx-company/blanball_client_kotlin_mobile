@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.viewmodels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.StartScreensMainContract
@@ -42,8 +43,6 @@ class   RegistrationViewModel @Inject constructor(internal val registrationUseCa
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<StartScreensMainContract.Effect> = _sideEffect.asSharedFlow()
 
-
-
     fun handleEvent(event: UiEvent) {
         when (event) {
             is StartScreensMainContract.Event.RegistrationClicked -> {
@@ -58,17 +57,14 @@ class   RegistrationViewModel @Inject constructor(internal val registrationUseCa
     }
 
     private fun requestRegistration() {
-        val fullName = currentState.nameText.value
-        val parts = fullName?.split(" ")
-
         job = viewModelScope.launch(Dispatchers.IO) {
             registrationUseCase.executeRegistration(
-                email = currentState.registerEmailText.value,
-                phone = "+${currentState.phoneNumberText.value}",
-                password = currentState.resetPassText.value,
-                re_password = currentState.resetPassTextRemember.value,
-                name = parts?.getOrNull(0) ?: "",
-                lastName = parts?.getOrNull(1) ?: "",
+                email = currentState.registrationEmailText.value,
+                phone = "+380${currentState.phoneNumberText.value}",
+                password = currentState.registrationPassText.value,
+                re_password = currentState.registrationPassTextRemember.value,
+                name = currentState.firstNameText.value,
+                lastName = currentState.lastNameText.value,
                 gender = when (currentState.genderIsMale.value) {
                     true -> Strings.MAN
                     else -> Strings.WOMAN
@@ -78,16 +74,23 @@ class   RegistrationViewModel @Inject constructor(internal val registrationUseCa
                     is RegistrationResultEntity.Success -> {
                         setState {
                             copy(
-                                state = StartScreensMainContract.ScreenViewState.SuccessResetRequest
+                                state = StartScreensMainContract.ScreenViewState.SuccessRegistration,
+                                isErrorRegistrationNewPass = mutableStateOf(false),
                             )
                         }
                     }
-                    is RegistrationResultEntity.Error -> StartScreensMainContract.Effect.ShowToast("FAIL!=(")
+                    is RegistrationResultEntity.Error -> {
+                        setState {
+                            copy(
+                                state = StartScreensMainContract.ScreenViewState.ErrorRegistration,
+                                isErrorRegistrationNewPass = mutableStateOf(true),
+                            )
+                        }
+                    }
                 }
             }
         }
-    } // TODO: If we pass " " in the lastname/name filed - the validation will work on the backend ([{"detail":"profile.last_name_blank"}]).
-    // TODO: We need to build the validation from this - show the text about the incorrect field format.
+    }
 
     private fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
         val newState = currentState.reduce()

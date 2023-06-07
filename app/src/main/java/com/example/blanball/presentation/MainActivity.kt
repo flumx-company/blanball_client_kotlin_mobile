@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
                         resetPassViewModel = viewModel(),
                         registrationViewModel = viewModel(),
                         publicProfileViewModel = viewModel(),
+                        loginViewModel = viewModel(),
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens
+package com.example.blanball.presentation.views.screens.resset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -20,8 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
@@ -36,6 +42,8 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
+import com.example.blanball.utils.ext.isInReqRange
+import com.example.blanball.utils.ext.isNotInReqRange
 
 @Composable
 fun ResetPasswordScreenStep3(
@@ -43,8 +51,11 @@ fun ResetPasswordScreenStep3(
     onFinishResetClicked: () -> Unit,
     onCancelClicked: () -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
     val currentState: StartScreensMainContract.State =
-        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(
+            StartScreensMainContract.ScreenViewState.Idle
+        )
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +76,7 @@ fun ResetPasswordScreenStep3(
                         start = 16.dp,
                         bottom = 30.dp,
                         end = 16.dp,
-                    )
+                    ).verticalScroll(rememberScrollState()),
                 ) {
                     Text(
                         text = stringResource(R.string.resumption_acces),
@@ -94,23 +105,55 @@ fun ResetPasswordScreenStep3(
                         color = secondaryNavy,
                         textAlign = TextAlign.Start,
                     )
+                    Spacer(modifier = Modifier.size(20.dp))
                     PassTextInput(
                         labelResId = R.string.new_pass,
                         value = state.newPassText.value,
                         onValueChange = { state.newPassText.value = it },
                         state = it,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
+                            .fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        keyboardActions = KeyboardActions.Default,
+                        isError = when {
+                            it.newPassText.value.isNotInReqRange(8) -> true
+                            it.newPassText.value != it.repeatNewPassText.value -> true
+                            it.isErrorCompleteResetState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
+                            it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
+                            it.isErrorCompleteResetState.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {""}
+                        },
                     )
+                    Spacer(modifier = Modifier.size(12.dp))
                     PassTextInput(
                         labelResId = R.string.repeat_new_pass,
                         value = state.repeatNewPassText.value,
                         onValueChange = { state.repeatNewPassText.value = it },
                         state = it,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp)
+                            .fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions { localFocusManager.clearFocus() },
+                        isError = when {
+                            it.newPassText.value.isNotInReqRange(8) -> true
+                            it.newPassText.value != it.repeatNewPassText.value -> true
+                            it.isErrorCompleteResetState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
+                            it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
+                            it.isErrorCompleteResetState.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {""}
+                        },
                     )
                 }
                 Column(
@@ -121,8 +164,9 @@ fun ResetPasswordScreenStep3(
                 )
                 {
                     Button(
+                        enabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
                         onClick = onFinishResetClicked,
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp),
                         shape = shapes.medium,

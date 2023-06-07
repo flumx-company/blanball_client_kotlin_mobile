@@ -10,28 +10,31 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
-import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep1
-import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep2
-import com.example.blanball.presentation.views.screens.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
+import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
+import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
+import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 
 @Composable
 fun AppScreensConfig(
     navController: NavHostController,
     resetPassViewModel: ResetPasswordViewModel,
     registrationViewModel: RegistrationViewModel,
-    publicProfileViewModel: PublicProfileViewModel
+    publicProfileViewModel: PublicProfileViewModel,
+    loginViewModel: LoginViewModel,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.PUBLIC_PROFILE.route)
+        startDestination = Destinations.LOGIN.route)
     {
         composable(Destinations.RESET1.route) {
             val state = resetPassViewModel
@@ -55,7 +58,7 @@ fun AppScreensConfig(
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked)
                     navController.navigate(Destinations.RESET2.route)
                 },
-                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
+                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
         }
 
         composable(Destinations.RESET2.route) {
@@ -70,7 +73,7 @@ fun AppScreensConfig(
                     navController.navigate(Destinations.RESET3.route)
                 },
                 resendCodeToEmailClicked = { resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked) },
-                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
+                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
         }
 
         composable(Destinations.RESET3.route) {
@@ -82,14 +85,15 @@ fun AppScreensConfig(
                 onFinishResetClicked = {
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.CompleteResetClicked)
                 },
-                onCancelClicked = { navController.navigate(Destinations.RESET1.route) }) // TODO: change to Login Route in the future
+                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
         }
 
         composable(Destinations.REGISTRATION1.route) {
             val state = registrationViewModel.uiState.collectAsState().value
             RegistrationScreenStep1(
                 state = state,
-                onRegistrationStep2Clicked = { navController.navigate(Destinations.REGISTRATION2.route) })
+                onRegistrationStep2Clicked = { navController.navigate(Destinations.REGISTRATION2.route) },
+                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
         }
 
         composable(Destinations.REGISTRATION2.route) {
@@ -133,10 +137,31 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadMoreEvents()
             })
         }
+        composable(Destinations.LOGIN.route) {
+            val state = loginViewModel.uiState.collectAsState().value
+            val context = LocalContext.current
+            LaunchedEffect(key1 = true) {
+                loginViewModel.sideEffect.collect {
+                    when (it) {
+                        is StartScreensMainContract.Effect.ShowToast -> {
+                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+            LoginScreen(
+                state = state,
+                onLoginClicked = {
+                    loginViewModel.handleEvent(StartScreensMainContract.Event.LoginClicked)
+                },
+                dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
+                registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
+        }
     }
 }
 
 enum class  Destinations(val route: String) {
+    LOGIN("login"),
     RESET1("reset1"),
     RESET2("reset2"),
     RESET3("reset3"),
@@ -144,5 +169,5 @@ enum class  Destinations(val route: String) {
     REGISTRATION2("registration2"),
     PUBLIC_PROFILE("publicProfile"),
     ALL_REVIEWS("allReviews"),
-    ALL_PLANNED_EVENTS("allPlannedEvents")
+    ALL_PLANNED_EVENTS("allPlannedEvents"),
 }
