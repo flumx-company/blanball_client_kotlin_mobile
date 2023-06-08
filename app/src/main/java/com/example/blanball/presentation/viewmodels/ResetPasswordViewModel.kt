@@ -1,5 +1,7 @@
     package com.example.blanball.presentation.viewmodels
 
+    import android.util.Log
+    import androidx.compose.runtime.mutableStateOf
     import androidx.lifecycle.ViewModel
     import androidx.lifecycle.viewModelScope
     import com.example.blanball.presentation.data.StartScreensMainContract
@@ -45,6 +47,7 @@
             MutableSharedFlow(replay = 0)
         val sideEffect: SharedFlow<StartScreensMainContract.Effect> = _sideEffect.asSharedFlow()
 
+
         fun handleEvent(event: UiEvent) {
             when (event) {
                 is StartScreensMainContract.Event.SendEmailResetRequestClicked -> {
@@ -81,15 +84,26 @@
                         is EmailResetResultEntity.Success -> {
                             setState {
                                 copy(
-                                    state = StartScreensMainContract.ScreenViewState.SuccessResetRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessResetRequest,
+                                    isErrorResetEmailState = mutableStateOf(false),
+                                    isSuccessResetRequest = mutableStateOf(true),
                                 )
                             }
                         }
-                        is EmailResetResultEntity.Error -> StartScreensMainContract.Effect.ShowToast("FAIL!=(")
+
+                        is EmailResetResultEntity.Error -> setState {
+                            copy(
+                                isErrorResetEmailState = mutableStateOf(
+                                    true
+                                ),
+                                state = StartScreensMainContract.ScreenViewState.ErrorResetRequest
+                            )
+                        }
                     }
                 }
             }
         }
+
 
         private fun sendCode() {
             val code: String = currentState.codeText.joinToString(separator = "") { it.value }
@@ -97,18 +111,23 @@
                 resetPasswordUseCase.executeSendCode(code).let {
                     when (it) {
                         is SendCodeResultEntity.Success -> {
-                            _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Succes"))
                             setState {
                                 copy(
-                                    state = StartScreensMainContract.ScreenViewState.SuccessSendCodeRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessSendCodeRequest,
+                                    isErrorSendCodeState = mutableStateOf(false),
+                                    isSuccessSendCodeState = mutableStateOf(true),
                                 )
                             }
                         }
-                        is SendCodeResultEntity.Error -> _sideEffect.emit(
-                            StartScreensMainContract.Effect.ShowToast(
-                                "Error"
+
+                        is SendCodeResultEntity.Error -> setState {
+                            copy(
+                                isErrorSendCodeState = mutableStateOf(
+                                    true
+                                ),
+                                state = StartScreensMainContract.ScreenViewState.ErrorSendCodeRequest
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -122,15 +141,17 @@
                             _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Succes"))
                             setState {
                                 copy(
-                                    state = StartScreensMainContract.ScreenViewState.SuccessCompleteResetRequest
+                                    state = StartScreensMainContract.ScreenViewState.SuccessCompleteResetRequest,
+                                    isErrorCompleteResetState = mutableStateOf(false),
+                                    isSuccessCompleteResetState = mutableStateOf(true)
                                 )
                             }
                         }
-                        is ResetCompleteResultEntity.Error -> _sideEffect.emit(
-                            StartScreensMainContract.Effect.ShowToast(
-                                "Error"
-                            )
-                        )
+                        is ResetCompleteResultEntity.Error ->
+                            setState { copy(
+                                state = StartScreensMainContract.ScreenViewState.ErrorCompleteResetRequest,
+                                isErrorCompleteResetState = mutableStateOf(true),
+                            ) }
                     }
                 }
             }
@@ -139,5 +160,6 @@
         private fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
             val newState = currentState.reduce()
             _uiState.value = newState
+            Log.d("CurrentState", newState.toString())
         }
     }

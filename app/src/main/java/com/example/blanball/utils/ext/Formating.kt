@@ -37,10 +37,15 @@ internal fun Any.formatRatingToFloat(): Float? {
 
 internal fun String.formatDatePlannedEventsToTime(duration: Int = 0): String {
     val inputFormat = SimpleDateFormat(Formats.EVENTS_DATE_FORMAT_INPUT, Locale.getDefault())
-    val outputFormat = SimpleDateFormat(Formats.EVENTS_DATE_FORMAT_TO_TIME_OUTPUT, Locale("uk", "UA"))
+    val outputFormat =
+        SimpleDateFormat(Formats.EVENTS_DATE_FORMAT_TO_TIME_OUTPUT, Locale("uk", "UA"))
     val calendar = Calendar.getInstance()
     val date = inputFormat.parse(this)
     calendar.time = date!!
     calendar.add(Calendar.HOUR_OF_DAY, duration)
     return outputFormat.format(calendar.time)
+}
+
+internal fun Boolean.formatBooleanToString(trueToString: String, falseToString: String): String {
+    return if (this) trueToString else falseToString
 }

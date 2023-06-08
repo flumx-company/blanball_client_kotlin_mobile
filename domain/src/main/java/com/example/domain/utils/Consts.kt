@@ -17,13 +17,10 @@ object Endpoints {
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }
-object Strings {
-     const val MAN = "Man"
-     const val WOMAN = "Woman"
-}
 
-object Ints {
+object Integers {
      const val ONE = 1
+     const val DURATION_MILLIS_ON_CARD = 1000
 }
 
 object Formats {
@@ -33,4 +30,5 @@ object Formats {
      const val EVENTS_DATE_FORMAT_OUTPUT = "dd MMMM"
      const val EVENTS_DATE_FORMAT_TO_TIME_OUTPUT = "HH:mm"
      const val DECIMAL_FORMAT = "0.0"
+     const val EMAIl_FORMAT = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
 }

@@ -1,5 +1,7 @@
     package com.example.blanball.presentation.views.components.textinputs
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -17,19 +19,21 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun DefaultTextInput(
-    labelResId: Int,
-    state: StartScreensMainContract.State,
-    value: String,
-    isError: Boolean? = null,
-    onValueChange: (String) -> Unit,
-    transformation: VisualTransformation,
-    modifier: Modifier,
-    leadIcon: String? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-) {
+        labelResId: Int,
+        state: StartScreensMainContract.State,
+        value: String,
+        isError: Boolean = false,
+        onValueChange: (String) -> Unit,
+        transformation: VisualTransformation,
+        modifier: Modifier,
+        keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        keyboardActions: KeyboardActions = KeyboardActions.Default,
+        errorMessage: String = "",
+    ) {
     OutlinedTextField(
         modifier = modifier,
         value = value,
@@ -52,7 +56,13 @@ fun DefaultTextInput(
             focusedLabelColor = primaryDark,
             cursorColor = mainGreen,
         ),
-        keyboardOptions = keyboardOptions!!,
-        isError = isError ?: false
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        isError = isError,
     )
-}
+        Column(modifier = modifier) {
+            if (isError) {
+                Text(text = errorMessage, style = typography.h6, color = errorRed)
+            }
+        }
+    }

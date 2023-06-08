@@ -30,10 +30,10 @@ class DataModule {
     fun provideOkHttpClient(tokenManager: TokenManager, authenticator: TokenAuthenticator? = null): OkHttpClient {
         return OkHttpClient.Builder()
             .also { client ->
+                authenticator?.let { client.authenticator(TokenAuthenticator(tokenManager)) }
                 val logging = HttpLoggingInterceptor()
                 logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                 client.addInterceptor(logging)
-                client.addInterceptor(AuthInterceptor(tokenManager))
             }.build()
     }
 

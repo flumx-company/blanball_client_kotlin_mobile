@@ -1,23 +1,80 @@
 package com.example.blanball.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.data.UiEvent
+import com.example.blanball.presentation.data.UiState
 import com.example.domain.entity.results.LoginResultEntity
-import com.example.domain.repository.AppRepository
+import com.example.domain.usecases.interfaces.UserLoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val appRepository: AppRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel
+@Inject constructor(internal val loginUseCase: UserLoginUseCase) : ViewModel() {
 
+    private var job: Job? = null
 
-    private val _loginResult = MutableLiveData<LoginResultEntity>()
-    val loginResult: LiveData<LoginResultEntity> = _loginResult
+    val defaultState
+        get() = StartScreensMainContract.State(
+            state = StartScreensMainContract.ScreenViewState.Idle,
+        )
 
-        fun login(email: String, password: String) {
-        viewModelScope.launch {  //dispatcher io
-            val result = appRepository.login(email, password)
-            _loginResult.value = result
+    val currentState: StartScreensMainContract.State
+        get() = uiState.value as StartScreensMainContract.State
+
+    private val _uiState : MutableStateFlow<UiState> =
+        MutableStateFlow(defaultState)
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+    private val _sideEffect : MutableSharedFlow<StartScreensMainContract.Effect> =
+        MutableSharedFlow(replay = 0)
+    val sideEffect: SharedFlow<StartScreensMainContract.Effect> = _sideEffect.asSharedFlow()
+
+    fun handleEvent(event: UiEvent) {
+        when (event) {
+            is StartScreensMainContract.Event.LoginClicked -> {
+                setState {
+                    copy(
+                        state = StartScreensMainContract.ScreenViewState.Loading,
+                    )
+                }
+                login()
+            }
         }
+    }
+
+
+    private fun login() {
+        job = viewModelScope.launch (Dispatchers.IO){
+           loginUseCase.executeUserLogin(currentState.loginEmailText.value, currentState.loginPasswordText.value).let {
+               when(it) {
+                   is LoginResultEntity.Success -> {
+                       _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Success"))
+                       setState { copy(
+                           isErrorLoginEmailState = mutableStateOf(false),
+                           state = StartScreensMainContract.ScreenViewState.SuccessLogin,
+                       ) }
+                   }
+                   is LoginResultEntity.Error -> setState { copy(isErrorLoginEmailState =  mutableStateOf(true), state = StartScreensMainContract.ScreenViewState.LoginError) }
+               }
+           }
+        }
+    }
+
+    private fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
+        val newState = currentState.reduce()
+        _uiState.value = newState
     }
 }

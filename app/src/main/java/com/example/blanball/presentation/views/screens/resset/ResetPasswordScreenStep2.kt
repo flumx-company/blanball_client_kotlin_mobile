@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens
+package com.example.blanball.presentation.views.screens.resset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -30,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,7 +49,11 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
-import com.example.blanball.presentation.views.components.textinputs.EmailTextInput
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidCode
+import com.example.blanball.utils.ext.isNotValidEmail
+import com.example.blanball.utils.ext.isValidCode
+import com.example.blanball.utils.ext.isValidEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -58,7 +66,9 @@ fun ResetPasswordScreenStep2(
     onCancelClicked: () -> Unit,
 ) {
     val currentState: StartScreensMainContract.State =
-        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(
+            StartScreensMainContract.ScreenViewState.Idle
+        )
     val initialTimerValue = 30
     var (timerValue, setTimerValue) = remember { mutableStateOf(initialTimerValue) }
     var isRunning by remember { mutableStateOf(false) }
@@ -94,7 +104,7 @@ fun ResetPasswordScreenStep2(
                         start = 16.dp,
                         bottom = 30.dp,
                         end = 16.dp,
-                    )
+                    ).verticalScroll(rememberScrollState()),
                 ) {
                     Text(
                         text = stringResource(R.string.resumption_acces),
@@ -128,26 +138,45 @@ fun ResetPasswordScreenStep2(
                         color = secondaryNavy,
                         textAlign = TextAlign.Start,
                     )
-                    EmailTextInput(
+                    Spacer(modifier = Modifier.size(20.dp))
+                    DefaultTextInput(
                         labelResId = R.string.email,
-                        mainState = it,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp),
-                        transformation = VisualTransformation.None
+                        state = it,
+                        value = state.resetEmailText.value,
+                        onValueChange = { state.resetEmailText.value = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        transformation = VisualTransformation.None,
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = when {
+                            it.resetEmailText.value.isNotValidEmail() -> true
+                            it.isErrorResetEmailState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.resetEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
+                            it.isErrorResetEmailState.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {
+                                ""
+                            }
+                        }
                     )
                     if (!showButton)
                         Text(
-                            text = "Надіслати код повторно: $timerValue сек",
+                            text = "${stringResource(id = R.string.send_mail_repeat)} $timerValue ${
+                                stringResource(
+                                    id = R.string.sec
+                                )
+                            }",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 12.dp),
                             textAlign = TextAlign.End,
-                            style = typography.h5,
+                            style = typography.h6,
                             color = secondaryNavy,
                         )
                     if (showButton) {
                         TextButton(
+                            enabled = currentState.resetEmailText.value.isValidEmail(),
                             onClick = {
                                 resendCodeToEmailClicked()
                                 setTimerValue(initialTimerValue)
@@ -168,6 +197,21 @@ fun ResetPasswordScreenStep2(
                         state = it,
                         modifier = Modifier.padding(top = 8.dp),
                         enabled = true,
+                        isError = when {
+                            it.codeText.joinToString(separator = "") { it.value }
+                                .isNotValidCode() -> true
+
+                            it.isErrorSendCodeState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.isErrorSendCodeState.value -> stringResource(id = R.string.check_code)
+                            it.codeText.joinToString(separator = "") { it.value }
+                                .isNotValidCode() -> stringResource(
+                                id = R.string.letter_only_error
+                            )
+                            else -> {""}
+                        }
                     )
                 }
                 Column(
@@ -178,8 +222,10 @@ fun ResetPasswordScreenStep2(
                 )
                 {
                     Button(
+                        enabled = it.codeText.joinToString(separator = "") { it.value }
+                            .isValidCode(),
                         onClick = onStep3Clicked,
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp),
                         shape = shapes.medium,

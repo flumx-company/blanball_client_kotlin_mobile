@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -27,8 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -38,11 +42,9 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
-import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
@@ -66,8 +68,11 @@ fun RegistrationScreenStep2(
     val intent =
         Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
     val context = LocalContext.current
+    val localFocusManager = LocalFocusManager.current
     val currentState: StartScreensMainContract.State =
-        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(
+            StartScreensMainContract.ScreenViewState.Idle
+        )
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -114,53 +119,97 @@ fun RegistrationScreenStep2(
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
-                    Box(
-                        modifier = Modifier,
-                        contentAlignment = Alignment.TopEnd
-                    ) {
                         DefaultTextInput(
                             labelResId = (R.string.email),
                             state = state,
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                imeAction = ImeAction.Next
+                            ),
                             transformation = VisualTransformation.None,
-                            value = state.registerEmailText.value,
-                            onValueChange = { state.registerEmailText.value = it },
-                            isError = state.registerEmailText.value.isNotValidEmail(),
+                            value = state.registrationEmailText.value,
+                            onValueChange = { state.registrationEmailText.value = it },
+                            isError = when {
+                                it.registrationEmailText.value.isNotValidEmail() -> true
+                                it.isErrorRegistrationNewPass.value -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.registrationEmailText.value.isNotValidEmail() -> stringResource(
+                                    id = R.string.format_error_email
+                                )
+
+                                it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                                else -> {
+                                    ""
+                                }
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
-                        Text(
-                            text = stringResource(id = R.string.optional),
-                            style = typography.h6,
-                            color = secondaryNavy,
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .background(
-                                    color = backgroundItems,
-                                    shape = shapes.small
-                                )
-
-                        )
-                    }
-
+                    Spacer(modifier = Modifier.size(12.dp))
                     PassTextInput(
                         labelResId = R.string.create_password,
-                        value = it.resetPassText.value,
-                        onValueChange = { state.resetPassText.value = it },
+                        value = it.registrationPassText.value,
+                        onValueChange = { state.registrationPassText.value = it },
                         state = it,
-                        isError = it.resetPassText.value.isNotInReqRange(8),
+                        isError = when {
+                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> true
+                            it.registrationPassText.value != it.registrationPassTextRemember.value -> true
+                            it.isErrorRegistrationNewPass.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> stringResource(
+                                id = R.string.min_chars_error_pass
+                            )
+
+                            it.registrationPassText.value != it.registrationPassTextRemember.value -> stringResource(
+                                id = R.string.doesnt_math_pass
+                            )
+
+                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {
+                                ""
+                            }
+                        },
                         modifier = Modifier
-                            .padding(top = 12.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        keyboardActions = KeyboardActions.Default,
                     )
+                    Spacer(modifier = Modifier.size(12.dp))
                     PassTextInput(
                         labelResId = R.string.repeat_password,
-                        value = it.resetPassTextRemember.value,
-                        onValueChange = { state.resetPassTextRemember.value = it },
-                        isError = it.resetPassTextRemember.value.isNotInReqRange(8)
-                                || it.resetPassText.value != it.resetPassTextRemember.value,
+                        value = it.registrationPassTextRemember.value,
+                        onValueChange = { state.registrationPassTextRemember.value = it },
+                        isError = when {
+                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> true
+                            it.registrationPassText.value != it.registrationPassTextRemember.value -> true
+                            it.isErrorRegistrationNewPass.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> stringResource(
+                                id = R.string.min_chars_error_pass
+                            )
+
+                            it.registrationPassText.value != it.registrationPassTextRemember.value -> stringResource(
+                                id = R.string.doesnt_math_pass
+                            )
+
+                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {
+                                ""
+                            }
+                        },
                         state = it,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         modifier = Modifier
-                            .padding(top = 12.dp)
                             .fillMaxWidth()
                     )
                     Row(modifier = Modifier.padding(top = 32.dp)) {
@@ -206,10 +255,10 @@ fun RegistrationScreenStep2(
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
-                        enabled = it.resetPassText.value.isInReqRange(8)
-                                && it.resetPassTextRemember.value.isInReqRange(8)
-                                && it.resetPassText.value == it.resetPassTextRemember.value
-                                && it.registerEmailText.value.isValidEmail()
+                        enabled = it.registrationPassText.value.isInReqRange(8)
+                                && it.registrationPassTextRemember.value.isInReqRange(8)
+                                && it.registrationPassText.value == it.registrationPassTextRemember.value
+                                && it.registrationEmailText.value.isValidEmail()
                                 && state.privacyPolicyCheckbox.value,
                         onClick = onRegistrationClicked,
                         modifier = Modifier
