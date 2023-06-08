@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">BlanBall</string>
+    <string name="app_name">Blanball</string>
     <string name="login">Логін</string>
-    <string name="blanball">BlanBall</string>
+    <string name="blanball">Blanball</string>
     <string name="auth_in_system">Авторизація у системі</string>
     <string name="password">Пароль</string>
     <string name="remember_me">Запам’ятати мене</string>
@@ -52,10 +52,10 @@
     <string name="back">Назад</string>
     <string name="optional">Опціонально</string>
     <string name="qualification">Кваліфікація</string>
-    <string name="verified">Профіль верифіковано</string>
-    <string name="unverified">Профіль не верифіковано</string>
+    <string name="verified">Верифіковано</string>
+    <string name="unverified">Не верифіковано</string>
     <string name="invite_to_an_event">Запросити на подію</string>
-    <string name="write_email">Написати e-mail</string>
+    <string name="write_email">Написати email</string>
     <string name="to_call">Подзвонити</string>
     <string name="about_youself">Про себе:</string>
     <string name="game_stats">Ігрові характеристики</string>
@@ -69,9 +69,7 @@
     <string name="height_meas_units">см</string>
     <string name="weight_meas_units">кг</string>
     <string name="grades">оцінок</string>
-    <string name="planned_events">запланованих подій</string>
-    <string name="show_all_reviews">Показати всі відгуки</string>
-    <string name="show_all_planned_events">Показати всі заплановані події</string>
+    <string name="show_all_reviews">Показать всі відгуки</string>
     <string name="have_not_yet_received_reviews">ще не отримував оцінок та коментарів</string>
     <string name="have_not_yet_received_planned_events">ще не додав жодної події до запланованих</string>
     <string name="tournament">Турнір</string>
@@ -80,14 +78,6 @@
     <string name="history_of_participation_in_events">Історія участі у заходах</string>
     <string name="сonfirmed">Підтверджено</string>
     <string name="unсonfirmed">Не підтверджено</string>
-    <string name="send_mail_repeat">Надіслати лист повторно:</string>
-    <string name="sec">сек</string>
-    <string name="check_code">* Перевірте правильність введеного коду підтвердження</string>
-    <string name="phone_start_code">+380</string>
-    <string name="letter_only_error">* Повинно містити тільки букви</string>
-    <string name="phone_format_error">* Невірний формат телефонного номеру </string>
-    <string name="your_firstname">Ваше  ім\'я</string>
-    <string name="your_lastname">Ваше прізвище</string>
     <string name="users_rating">Рейтинг користувачів</string>
     <string name="general">Загальний</string>
     <string name="players">Гравці</string>

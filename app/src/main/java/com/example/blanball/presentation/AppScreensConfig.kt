@@ -14,6 +14,7 @@ import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
@@ -23,6 +24,7 @@ import com.example.blanball.presentation.views.screens.registration.Registration
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.usersrating.UsersRatingScreen
 
 @Composable
 fun AppScreensConfig(
@@ -31,10 +33,11 @@ fun AppScreensConfig(
     registrationViewModel: RegistrationViewModel,
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
+    usersRatingViewModel: UsersRatingViewModel,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.LOGIN.route)
+        startDestination = Destinations.USERS_RATING.route)
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
@@ -171,8 +174,7 @@ fun AppScreensConfig(
 
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            AllReviewsScreen(
-                state = state,
+            AllReviewsScreen(state = state,
                 onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() })
         }
 
@@ -182,10 +184,15 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadMoreEvents()
             })
         }
-    }
-}
 
-enum class  Destinations(val route: String) {
+        composable(Destinations.USERS_RATING.route) {
+            val state = usersRatingViewModel.uiState.collectAsState().value
+            UsersRatingScreen(state = state)
+        }
+    }
+    }
+
+enum class Destinations(val route: String) {
     LOGIN("login"),
     RESET1("reset1"),
     RESET2("reset2"),
@@ -195,4 +202,5 @@ enum class  Destinations(val route: String) {
     PUBLIC_PROFILE("publicProfile"),
     ALL_REVIEWS("allReviews"),
     ALL_PLANNED_EVENTS("allPlannedEvents"),
+    USERS_RATING("usersRating")
 }

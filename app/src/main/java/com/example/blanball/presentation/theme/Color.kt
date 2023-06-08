@@ -16,6 +16,7 @@ val backgroundItems = Color(0xFFEFEFF6)
 val annotationGray = Color(0xFF6F6F77)
 val orangeStarColor = Color(0xFFF57125)
 val accentLightGreen = Color(0xFFECFCFB)
+val itemsGrayBlue = Color(0xFF7F7DB5)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)
