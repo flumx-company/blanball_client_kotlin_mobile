@@ -1,11 +1,14 @@
 package com.example.blanball.presentation.views.screens.usersrating
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.tabrows.ScrollableTabRow
 
 @Composable
@@ -49,6 +55,40 @@ fun UsersRatingScreen(
             )
             Spacer(modifier = Modifier.size(20.dp))
             ScrollableTabRow(tabs = tabs, icons = icons)
+            Spacer(modifier = Modifier.size(20.dp))
+            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                IcBox(icon = R.drawable.ic_sorting)
+                Spacer(modifier = Modifier.size(4.dp))
+                Column(Modifier.wrapContentWidth()) {
+                    Text(
+                        text = stringResource(id = R.string.sorting),
+                        style = typography.h5,
+                        color = primaryDark,
+                        fontSize = 14.sp,
+                    )
+                    Text(
+                        text = stringResource(id = R.string.new_ones_first),
+                        style = typography.h6,
+                        color = secondaryNavy
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IcBox(icon = R.drawable.ic_filters)
+                Spacer(modifier = Modifier.size(4.dp))
+                Column(Modifier.wrapContentWidth()) {
+                    Text(
+                        text = stringResource(id = R.string.filters),
+                        style = typography.h5,
+                        color = primaryDark,
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = "${stringResource(id = R.string.found)} 15 ${stringResource(id = R.string.ads)}",
+                        style = typography.h6,
+                        color = secondaryNavy
+                    )
+                }
+            }
         }
     }
 }

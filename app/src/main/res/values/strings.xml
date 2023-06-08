@@ -94,4 +94,9 @@
     <string name="trainers">Тренери</string>
     <string name="referee">Рефері</string>
     <string name="teams">Команди</string>
+    <string name="sorting">Сортування</string>
+    <string name="new_ones_first">спочатку нові</string>
+    <string name="filters">Фільтри</string>
+    <string name="found">знайдено</string>
+    <string name="ads">оголошень</string>
 </resources>
