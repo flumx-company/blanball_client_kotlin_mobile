@@ -30,4 +30,5 @@ object Formats {
      const val EVENTS_DATE_FORMAT_OUTPUT = "dd MMMM"
      const val EVENTS_DATE_FORMAT_TO_TIME_OUTPUT = "HH:mm"
      const val DECIMAL_FORMAT = "0.0"
+     const val EMAIl_FORMAT = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
 }

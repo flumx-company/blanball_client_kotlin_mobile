@@ -1,5 +1,7 @@
 package com.example.blanball.utils.ext
 
+import com.example.domain.utils.Formats
+
 fun String.isValidPhoneNumber() =
     length == 9 && none { !it.isDigit() }
 
@@ -11,7 +13,7 @@ fun String.isInReqRange(min: Int, max: Int = Int.MAX_VALUE) = this.length in min
 fun String.isNotInReqRange(min: Int, max: Int = Int.MAX_VALUE) = this.length !in min..max && isNotEmpty()
 
 fun String.isValidEmail(): Boolean {
-    val emailRegex = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+    val emailRegex = Regex(Formats.EMAIl_FORMAT)
     return emailRegex.matches(this)
 }
 
