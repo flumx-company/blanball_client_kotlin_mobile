@@ -111,10 +111,13 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessCompleteResetState.value) {
                 if (currentState.isSuccessCompleteResetState.value) {
                     currentState.isSuccessCompleteResetState.value = false
-                    navController.navigate(Destinations.LOGIN.route)
+                    navController.navigate(Destinations.LOGIN.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
-
         }
 
         composable(Destinations.REGISTRATION1.route) {
@@ -137,7 +140,11 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRegistrationNewPass.value) {
                 if (currentState.isSuccessRegistrationNewPass.value) {
                     currentState.isSuccessRegistrationNewPass.value = false
-                    navController.navigate(Destinations.LOGIN.route)
+                    navController.navigate(Destinations.LOGIN.route){
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
