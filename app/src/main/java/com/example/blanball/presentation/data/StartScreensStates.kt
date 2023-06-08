@@ -37,7 +37,7 @@ class StartScreensMainContract {
         val rememberMeCheckbox: MutableState<Boolean> = mutableStateOf(false),
         val isErrorLoginEmailState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorResetEmailState: MutableState<Boolean> = mutableStateOf(false),
-        val isSuccessResetComplete: MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessResetRequest: MutableState<Boolean> = mutableStateOf(false),
         val isErrorSendCodeState: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessSendCodeState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorCompleteResetState: MutableState<Boolean> = mutableStateOf(false),

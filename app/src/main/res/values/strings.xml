@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Blanball</string>
+    <string name="app_name">BlanBall</string>
     <string name="login">Логін</string>
-    <string name="blanball">Blanball</string>
+    <string name="blanball">BlanBall</string>
     <string name="auth_in_system">Авторизація у системі</string>
     <string name="password">Пароль</string>
     <string name="remember_me">Запам’ятати мене</string>

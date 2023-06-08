@@ -18,8 +18,9 @@ object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }
 
-object Ints {
+object Integers {
      const val ONE = 1
+     const val DURATION_MILLIS_ON_CARD = 1000
 }
 
 object Formats {

@@ -11,7 +11,7 @@ import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
-import com.example.domain.utils.Ints
+import com.example.domain.utils.Integers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,8 +34,8 @@ class PublicProfileViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    private var reviewsPage = Ints.ONE
-    private var eventsPage = Ints.ONE
+    private var reviewsPage = Integers.ONE
+    private var eventsPage = Integers.ONE
 
     private val defaultState
         get() = PublicProfileMainContract.State(
@@ -61,8 +61,8 @@ class PublicProfileViewModel @Inject constructor(
         when (screenViewState) {
             is PublicProfileMainContract.ScreenViewState.Loading -> {
                 getUserPublicProfileById()
-                getUserReviewsById(Ints.ONE)
-                getUserPlannedEventsById(Ints.ONE)
+                getUserReviewsById(Integers.ONE)
+                getUserPlannedEventsById(Integers.ONE)
             }
 
             is PublicProfileMainContract.ScreenViewState.LoadingError -> {

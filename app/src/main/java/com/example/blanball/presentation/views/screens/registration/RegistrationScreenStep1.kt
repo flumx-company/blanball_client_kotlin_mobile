@@ -23,6 +23,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -148,11 +149,11 @@ fun RegistrationScreenStep1(
                         modifier = Modifier
                             .fillMaxWidth()
                     )
+                    Spacer(modifier = Modifier.size(12.dp))
                     PhoneNumberInput(
                         value = state.phoneNumberText.value,
                         onValueChange =  { state.phoneNumberText.value = it },
                         modifier = Modifier
-                            .padding(top = 12.dp)
                             .fillMaxWidth(),
                         isError = when {
                             it.phoneNumberText.value.isInvalidValidPhoneNumber() -> true
@@ -169,9 +170,8 @@ fun RegistrationScreenStep1(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()})
                     )
-                    Row(
-                        Modifier.padding(top = 20.dp)
-                    ) {
+                    Spacer(Modifier.size(12.dp))
+                    Row (verticalAlignment = CenterVertically) {
                         Text(
                             text = stringResource(id = R.string.your_gender),
                             style = typography.h5,
@@ -186,8 +186,7 @@ fun RegistrationScreenStep1(
                                 .background(
                                     color = backgroundItems, shape = shapes.small
                                 )
-                                .padding(start = 2.dp, end = 2.dp)
-                        )
+                                .padding(start = 2.dp, end = 2.dp))
                     }
                     Row(Modifier.padding(top = 20.dp)) {
                         OutlineRadioButton(state = it,

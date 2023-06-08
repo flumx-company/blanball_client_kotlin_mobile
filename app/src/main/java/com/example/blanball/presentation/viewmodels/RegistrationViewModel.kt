@@ -79,6 +79,7 @@ class   RegistrationViewModel @Inject constructor(
                             copy(
                                 state = StartScreensMainContract.ScreenViewState.SuccessRegistration,
                                 isErrorRegistrationNewPass = mutableStateOf(false),
+                                isSuccessRegistrationNewPass = mutableStateOf(true)
                             )
                         }
                     }

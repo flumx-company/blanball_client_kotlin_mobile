@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
+import com.example.domain.utils.Integers
 
 @Composable
 fun AnimatedPaddingCard(
@@ -21,13 +22,13 @@ fun AnimatedPaddingCard(
     val padding by animateDpAsState( targetValue =
         if (isWindowFocused) 0.dp
         else 200.dp,
-        tween(durationMillis = 1000)
+        tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
     val shape by animateDpAsState(targetValue =
     if (isWindowFocused) 0.dp
     else 28.dp,
-    tween(durationMillis = 1000)
+    tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
     Card(
