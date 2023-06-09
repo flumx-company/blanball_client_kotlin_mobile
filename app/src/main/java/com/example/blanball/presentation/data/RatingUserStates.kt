@@ -1,5 +1,9 @@
 package com.example.blanball.presentation.data
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetUsersListResponseResultEntity
+
 class RatingUsersMainContract {
 
 sealed class Event : UiEvent {
@@ -7,9 +11,12 @@ sealed class Event : UiEvent {
 }
 
 data class State(
-    val state: RatingUsersMainContract.ScreenViewState
+    val state: RatingUsersMainContract.ScreenViewState,
+    val usersList: MutableState<List<GetUsersListResponseResultEntity>> = mutableStateOf(
+        emptyList()
+    ),
 
-) : UiState
+    ) : UiState
 
 sealed class ScreenViewState {
     object Loading : ScreenViewState()

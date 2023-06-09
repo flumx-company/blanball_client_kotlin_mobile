@@ -25,6 +25,7 @@ android {
         buildConfigField "String", "USER_PROFILE_ENDPOINT", "\"authentication/client/profile/{id}\""
         buildConfigField "String", "REVIEWS_ENDPOINT", "\"reviews/client/user/reviews/list/{id}\""
         buildConfigField "String", "PLANNED_EVENTS", "\"events/client/user/planned/events/list/{id}\""
+        buildConfigField "String", "USERS_LIST", "\"authentication/client/users/list\""
     }
 
     buildTypes {

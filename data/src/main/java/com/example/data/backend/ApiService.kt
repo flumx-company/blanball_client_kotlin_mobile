@@ -10,6 +10,7 @@ import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
+import com.example.data.backend.models.responses.GetUsersListResponse
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
@@ -48,4 +49,7 @@ interface ApiService  {
 
     @GET (Endpoints.PLANNED_EVENTS)
     suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+
+    @GET (Endpoints.USERS_LIST)
+    suspend fun getUsersList (@Query ("page") page: Int ): GetUsersListResponse
 }
