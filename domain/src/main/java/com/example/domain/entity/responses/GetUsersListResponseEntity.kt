@@ -12,8 +12,8 @@ data class GetUsersListResponseDataEntity(
     val current_page: Int,
     val next: String? = null,
     val page_size: Int,
-    val previous: Any? = null,
-    val results: List<GetUsersListResponseResultEntity>,
+    val previous: String? = null,
+    val results: List<GetUsersListResponseResultEntity>? = null,
     val success: Boolean,
     val total_count: Int
 )
@@ -28,7 +28,7 @@ data class GetUsersListResponseResultEntity(
 
 data class GetUsersListResponseProfileEntity(
     val age: Any? = null,
-    val avatar_url: Any,
+    val avatar_url: String? = null,
     val gender: String? = null,
     val id: Int,
     val last_name: String,

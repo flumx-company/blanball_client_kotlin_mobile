@@ -187,7 +187,9 @@ fun AppScreensConfig(
 
         composable(Destinations.USERS_RATING.route) {
             val state = usersRatingViewModel.uiState.collectAsState().value
-            UsersRatingScreen(state = state)
+            UsersRatingScreen(state = state, onLoadMoreUsers = {
+                usersRatingViewModel.loadMoreUsers()
+            })
         }
     }
     }

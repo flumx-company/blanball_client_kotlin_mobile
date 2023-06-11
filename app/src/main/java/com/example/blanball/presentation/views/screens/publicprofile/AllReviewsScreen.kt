@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.views.screens.publicprofile
 
 import DottedLine
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,12 +23,12 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
+import com.example.blanball.presentation.views.components.loaders.MainGreenCircularProgressIndicator
 import com.example.blanball.utils.ext.formatDateReview
 
 @Composable
@@ -98,14 +96,7 @@ fun AllReviewsScreen(
             }
             if (state.isLoadingMoreReviews) {
                 item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(color = mainGreen)
-                    }
+                    MainGreenCircularProgressIndicator()
                 }
             }
             item {

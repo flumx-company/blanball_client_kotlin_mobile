@@ -13,8 +13,8 @@ data class GetUsersListResponseData(
     @Json (name = "current_page" ) val current_page: Int,
     @Json (name = "next" ) val next: String? = null,
     @Json (name = "page_size" ) val page_size: Int,
-    @Json (name = "previous" ) val previous: Any? = null,
-    @Json (name = "results" ) val results: List<GetUsersListResponseResult>,
+    @Json (name = "previous" ) val previous: String? = null,
+    @Json (name = "results" ) val results: List<GetUsersListResponseResult>? = null,
     @Json (name = "success" ) val success: Boolean,
     @Json (name = "total_count" ) val total_count: Int
 )
@@ -29,7 +29,7 @@ data class GetUsersListResponseResult(
 
 data class GetUsersListResponseProfile(
     @Json (name = "age" ) val age: Any? = null,
-    @Json (name = "avatar_url" ) val avatar_url: Any,
+    @Json (name = "avatar_url" ) val avatar_url: String? = null,
     @Json (name = "gender" ) val gender: String? = null,
     @Json (name = "id" ) val id: Int,
     @Json (name = "last_name" ) val last_name: String,

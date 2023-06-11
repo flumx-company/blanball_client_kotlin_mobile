@@ -15,7 +15,8 @@ data class State(
     val usersList: MutableState<List<GetUsersListResponseResultEntity>> = mutableStateOf(
         emptyList()
     ),
-
+    val isLoadingMoreUsers: Boolean = false,
+    val allUsersLoaded: Boolean = false,
     ) : UiState
 
 sealed class ScreenViewState {
