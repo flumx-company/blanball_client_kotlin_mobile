@@ -21,7 +21,6 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun OutlineRadioButton(
-    state: StartScreensMainContract.State,
     text: String,
     selected: Boolean,
     icon: Painter,

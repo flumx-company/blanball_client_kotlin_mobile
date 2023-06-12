@@ -17,6 +17,9 @@ data class State(
     ),
     val isLoadingMoreUsers: Boolean = false,
     val allUsersLoaded: Boolean = false,
+    val isMaleRadioButton: Boolean = false,
+    val isFemaleRadioButton: Boolean = false,
+    val isAllGenderRadioButton: Boolean = false,
     ) : UiState
 
 sealed class ScreenViewState {

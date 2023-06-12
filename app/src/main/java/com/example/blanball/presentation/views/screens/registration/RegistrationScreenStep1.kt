@@ -189,7 +189,7 @@ fun RegistrationScreenStep1(
                                 .padding(start = 2.dp, end = 2.dp))
                     }
                     Row(Modifier.padding(top = 20.dp)) {
-                        OutlineRadioButton(state = it,
+                        OutlineRadioButton(
                             text = stringResource(R.string.male),
                             selected = it.genderIsMale.value,
                             icon = painterResource(id = R.drawable.male_ic),
@@ -199,7 +199,6 @@ fun RegistrationScreenStep1(
                             })
                         Spacer(modifier = Modifier.size(8.dp))
                         OutlineRadioButton(
-                            state = it,
                             text = stringResource(R.string.female),
                             selected = it.genderIsFemale.value,
                             icon = painterResource(id = R.drawable.female_ic),
