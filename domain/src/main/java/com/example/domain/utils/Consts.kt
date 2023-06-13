@@ -24,6 +24,12 @@ object Integers {
      const val DURATION_MILLIS_ON_CARD = 1000
 }
 
+object Strings {
+     const val MALE = "Man"
+     const val FEMALE = "Woman"
+     const val ALL = "--"
+}
+
 object Formats {
      const val REVIEW_DATE_FORMAT_INPUT = "yyyy-MM-dd'T'HH:mm:ss.SSSSS"
      const val REVIEW_DATE_FORMAT_OUTPUT = "dd MMMM"

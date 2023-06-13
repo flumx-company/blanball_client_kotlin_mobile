@@ -354,12 +354,10 @@ fun UsersRatingScreen(
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 OutlinedButton(
                                     onClick = {
-                                        it.isMaleSelected.value = true
-                                        it.isFemaleSelected.value = false
-                                        it.isAllGenderSelected.value = false
+                                               it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.MALE
                                     },
                                     modifier = Modifier.wrapContentWidth(),
-                                    border = if (it.isMaleSelected.value) BorderStroke(
+                                    border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.MALE) BorderStroke(
                                         2.dp,
                                         mainGreen
                                     ) else BorderStroke(2.dp, defaultLightGray)
@@ -375,12 +373,10 @@ fun UsersRatingScreen(
                                 Spacer(modifier = Modifier.size(8.dp))
                                 OutlinedButton(
                                     onClick = {
-                                        it.isMaleSelected.value = false
-                                        it.isFemaleSelected.value = true
-                                        it.isAllGenderSelected.value = false
+                                        it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.FEMALE
                                     },
                                     modifier = Modifier.wrapContentWidth(),
-                                    border = if (it.isFemaleSelected.value) BorderStroke(
+                                    border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.FEMALE) BorderStroke(
                                         2.dp,
                                         mainGreen
                                     ) else BorderStroke(2.dp, defaultLightGray)
@@ -396,12 +392,10 @@ fun UsersRatingScreen(
                                 Spacer(modifier = Modifier.size(8.dp))
                                 OutlinedButton(
                                     onClick = {
-                                        it.isMaleSelected.value = false
-                                        it.isFemaleSelected.value = false
-                                        it.isAllGenderSelected.value = true
+                                        it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.ALL
                                     },
                                     modifier = Modifier.wrapContentWidth(),
-                                    border = if (it.isAllGenderSelected.value) BorderStroke(
+                                    border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.ALL) BorderStroke(
                                         2.dp,
                                         mainGreen
                                     ) else BorderStroke(2.dp, defaultLightGray)

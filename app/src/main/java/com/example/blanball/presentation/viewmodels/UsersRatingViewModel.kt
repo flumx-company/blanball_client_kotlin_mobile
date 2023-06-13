@@ -66,6 +66,7 @@ class UsersRatingViewModel @Inject constructor(
                     page = Integers.ONE,
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
+                    gender = currentState.genderSelectionState.value.stringValue,
                 )
             }
 

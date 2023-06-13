@@ -3,11 +3,11 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.GetUsersListResponseResultEntity
+import com.example.domain.utils.Strings
 
 class RatingUsersMainContract {
 
 sealed class Event : UiEvent {
-
 }
 
 data class State(
@@ -18,24 +18,30 @@ data class State(
     val isLoadingMoreUsers: Boolean = false,
     val allUsersLoaded: Boolean = false,
     val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false),
-    val isMaleSelected:  MutableState<Boolean> = mutableStateOf(false),
-    val isFemaleSelected:  MutableState<Boolean> = mutableStateOf(false),
-    val isAllGenderSelected:  MutableState<Boolean> = mutableStateOf(false),
+    val genderSelectionState: MutableState<GenderSelectionState> = mutableStateOf(
+        GenderSelectionState.ALL
+    ),
     val ageSliderPosition: MutableState<ClosedFloatingPointRange<Float>> = mutableStateOf(6f..80f),
-    ) : UiState
+) : UiState
 
-sealed class ScreenViewState {
-    object Loading : ScreenViewState()
-    object LoadingSuccess: ScreenViewState()
-    object LoadingError : ScreenViewState()
-    object LoadingWithFilters: ScreenViewState()
-}
+    enum class GenderSelectionState(val stringValue: String) {
+        MALE(Strings.MALE),
+        FEMALE(Strings.FEMALE),
+        ALL(Strings.ALL)
+    }
 
-sealed class Effect : UiEffect {
-    class ShowToast(val message: String) : Effect()
-}
+    sealed class ScreenViewState {
+        object Loading : ScreenViewState()
+        object LoadingSuccess : ScreenViewState()
+        object LoadingError : ScreenViewState()
+        object LoadingWithFilters : ScreenViewState()
+    }
 
-data class UiData(
-    val progress: Float
-)
+    sealed class Effect : UiEffect {
+        class ShowToast(val message: String) : Effect()
+    }
+
+    data class UiData(
+        val progress: Float
+    )
 }
