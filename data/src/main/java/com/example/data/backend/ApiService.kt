@@ -45,11 +45,23 @@ interface ApiService  {
     suspend fun getUserProfileById(@Path ("id") id: Int): GetUserProfileByIdResponse
 
     @GET (Endpoints.REVIEWS_ENDPOINT)
-    suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
+    suspend fun getUserReviewsById(
+        @Path ("id") id: Int,
+        @Query ("page") page: Int,
+    ): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+    suspend fun  getListOfUsersPlannedEvents (
+        @Path ("id") id: Int,
+        @Query ("page") page: Int,
+    ): GetUserPlannedEventsByIdResponse
 
     @GET (Endpoints.USERS_LIST)
-    suspend fun getUsersList (@Query ("page") page: Int ): GetUsersListResponse
+    suspend fun getUsersList (
+        @Query ("page") page: Int,
+        @Query ("profile__gender") profile__gender: String?,
+        @Query ("profile__age_min") profile__age_min: Int?,
+        @Query ("profile__age_max") profile__age_max: Int?,
+        @Query ("ordering") ordering: String?,
+    ) : GetUsersListResponse
 }

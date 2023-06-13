@@ -49,3 +49,7 @@ internal fun String.formatDatePlannedEventsToTime(duration: Int = 0): String {
 internal fun Boolean.formatBooleanToString(trueToString: String, falseToString: String): String {
     return if (this) trueToString else falseToString
 }
+
+internal fun ClosedFloatingPointRange<Float>.toIntRange(): IntRange {
+    return this.start.toInt()..this.endInclusive.toInt()}
+

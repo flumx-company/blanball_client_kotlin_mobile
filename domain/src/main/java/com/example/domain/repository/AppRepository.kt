@@ -11,7 +11,11 @@ import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
 
 interface AppRepository {
-    suspend fun login(email: String, password: String): LoginResultEntity
+
+    suspend fun login(
+        email: String,
+        password: String
+    ): LoginResultEntity
     suspend fun sendEmailPassReset(email: String): EmailResetResultEntity
     suspend fun sendCode(code: String): SendCodeResultEntity
     suspend fun changePassword(newPassword: String): ResetCompleteResultEntity
@@ -24,8 +28,20 @@ interface AppRepository {
         lastName: String,
         gender: String
     ): RegistrationResultEntity
-    suspend fun getUserProfileById(id: Int,): GetUserProfileByIdResultEntity
-    suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity
-    suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity
-    suspend fun getUsersList(page: Int): GetUsersListResultEntity
+    suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
+    suspend fun getUserReviewsById(
+        id: Int,
+        page: Int
+    ): GetUserReviewsByIdResultEntity
+    suspend fun getUserPlannedEventsById(
+        id: Int,
+        page: Int
+    ): GetUserPlannedEventsByIdResultEntity
+    suspend fun getUsersList(
+        page: Int,
+        gender: String?,
+        age_min: Int?,
+        age_max: Int?,
+        ordering: String?
+    ): GetUsersListResultEntity
 }

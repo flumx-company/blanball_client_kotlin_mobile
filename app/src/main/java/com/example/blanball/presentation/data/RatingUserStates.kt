@@ -17,15 +17,18 @@ data class State(
     ),
     val isLoadingMoreUsers: Boolean = false,
     val allUsersLoaded: Boolean = false,
-    val isMaleRadioButton: Boolean = false,
-    val isFemaleRadioButton: Boolean = false,
-    val isAllGenderRadioButton: Boolean = false,
+    val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false),
+    val isMaleSelected:  MutableState<Boolean> = mutableStateOf(false),
+    val isFemaleSelected:  MutableState<Boolean> = mutableStateOf(false),
+    val isAllGenderSelected:  MutableState<Boolean> = mutableStateOf(false),
+    val ageSliderPosition: MutableState<ClosedFloatingPointRange<Float>> = mutableStateOf(6f..80f),
     ) : UiState
 
 sealed class ScreenViewState {
     object Loading : ScreenViewState()
     object LoadingSuccess: ScreenViewState()
     object LoadingError : ScreenViewState()
+    object LoadingWithFilters: ScreenViewState()
 }
 
 sealed class Effect : UiEffect {

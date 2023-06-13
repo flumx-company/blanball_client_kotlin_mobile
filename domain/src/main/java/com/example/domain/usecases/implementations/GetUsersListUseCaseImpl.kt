@@ -6,7 +6,13 @@ import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import javax.inject.Inject
 
 class GetUsersListUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetUsersListUseCase {
-    override suspend fun executeGetUsersList(page: Int): GetUsersListResultEntity {
-        return appRepository.getUsersList(page)
+    override suspend fun executeGetUsersList(page: Int, gender: String?, age_min: Int?, age_max: Int?, ordering: String? ): GetUsersListResultEntity {
+        return appRepository.getUsersList(
+            page,
+            gender = gender,
+            age_min = age_min,
+            age_max = age_max,
+            ordering = ordering,
+        )
     }
 }

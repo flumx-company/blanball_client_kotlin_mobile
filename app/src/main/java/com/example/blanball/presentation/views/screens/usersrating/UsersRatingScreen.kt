@@ -1,6 +1,6 @@
 package com.example.blanball.presentation.views.screens.usersrating
 
-import OutlineRadioButton
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,10 +24,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +48,7 @@ import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.bgLight2
+import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -55,15 +57,19 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.dropdownmenu.OutlineDropDownMenu
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.loaders.MainGreenCircularProgressIndicator
 import com.example.blanball.presentation.views.components.ratingbars.RatingBar
+import com.example.blanball.presentation.views.components.sliders.SteppedSlider
 import com.example.blanball.presentation.views.components.tabrows.ScrollableTabRow
 import com.example.blanball.utils.ext.formatRatingToFloat
+import com.example.blanball.utils.ext.toIntRange
 
 @Composable
 fun UsersRatingScreen(
     state: UiState,
     onLoadMoreUsers: () -> Unit,
+    onClickedToLoadWithNewFilters: () -> Unit,
 ) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_people),
@@ -81,8 +87,10 @@ fun UsersRatingScreen(
     )
 
     val expandedStateMap = remember { mutableStateMapOf<Int, Boolean>() }
-    val openFiltersDialog = remember { mutableStateOf(false) }
     val configuration = LocalConfiguration.current
+    val currentState: RatingUsersMainContract.State =
+        (state as? RatingUsersMainContract.State) ?: RatingUsersMainContract.State(
+            RatingUsersMainContract.ScreenViewState.Loading)
 
     (state as? RatingUsersMainContract.State)?.let {
         val lazyListState = rememberLazyListState()
@@ -119,12 +127,15 @@ fun UsersRatingScreen(
                     IcBox(
                         icon = R.drawable.ic_filters,
                         modifier = Modifier
-                            .clickable(onClick = { openFiltersDialog.value = true })
+                            .clickable(onClick ={ it.openFiltersDialog.value = true })
                             .size(40.dp)
                             .background(color = bgLight, shape = shapes.medium)
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Column(Modifier.wrapContentWidth()) {
+                    Column(
+                        Modifier
+                            .wrapContentWidth()
+                            .weight(1f)) {
                         Text(
                             text = stringResource(id = R.string.filters),
                             style = typography.h5,
@@ -132,7 +143,7 @@ fun UsersRatingScreen(
                             fontSize = 14.sp
                         )
                         Text(
-                            text = "${stringResource(id = R.string.found)} 15 ${stringResource(id = R.string.users)}",
+                            text = "${stringResource(id = R.string.found)} 15",
                             style = typography.h6,
                             color = secondaryNavy
                         )
@@ -272,13 +283,9 @@ fun UsersRatingScreen(
                     }
                 }
             }
-            if (openFiltersDialog.value) {
+            if (it.openFiltersDialog.value) {
                 AlertDialog(
-                    modifier = Modifier.sizeIn(
-                        maxWidth = configuration.screenWidthDp.dp - 80.dp,
-                        maxHeight = configuration.screenWidthDp.dp - 80.dp,
-                        minHeight = configuration.screenWidthDp.dp - 80.dp
-                    ),
+                    modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
                     shape = RoundedCornerShape(6.dp),
                     backgroundColor = Color.White,
                     title = {
@@ -297,23 +304,24 @@ fun UsersRatingScreen(
                                 style = typography.h6,
                                 color = secondaryNavy
                             )
-                            var expanded = remember { mutableStateOf(false) }
                         }
                     },
                     confirmButton = {
                         Button(
-                            onClick = { openFiltersDialog.value = false }, shape = shapes.medium,
+                            onClick = onClickedToLoadWithNewFilters ,
+                            shape = shapes.medium,
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = mainGreen,
                                 contentColor = Color.White,
                             ),
                         ) {
-                            Row() {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_apply),
                                     tint = Color.White,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
+                                Spacer(modifier = Modifier.size(10.dp))
                                 Text(
                                     text = stringResource(id = R.string.apply),
                                     style = typography.h5
@@ -321,8 +329,17 @@ fun UsersRatingScreen(
                             }
                         }
                     },
+                    dismissButton = {
+                        TextButton(onClick = { it.openFiltersDialog.value = false }) {
+                            Text(
+                                text = stringResource(id = R.string.clean),
+                                style = typography.h4,
+                                fontSize = 14.sp,
+                                color = secondaryNavy
+                            )
+                        }
+                    },
                     onDismissRequest = {
-                        openFiltersDialog.value = false
                     },
                     text = {
                         Column() {
@@ -334,34 +351,91 @@ fun UsersRatingScreen(
                                 fontSize = 13.sp,
                                 color = secondaryNavy
                             )
-                            Row() {
-                                OutlineRadioButton(
-                                    text = stringResource(
-                                        id = R.string.male
-                                    ),
-                                    selected = state.isMaleRadioButton,
-                                    icon = painterResource(id = R.drawable.male_ic),
-                                )
+                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                                OutlinedButton(
+                                    onClick = {
+                                        it.isMaleSelected.value = true
+                                        it.isFemaleSelected.value = false
+                                        it.isAllGenderSelected.value = false
+                                    },
+                                    modifier = Modifier.wrapContentWidth(),
+                                    border = if (it.isMaleSelected.value) BorderStroke(
+                                        2.dp,
+                                        mainGreen
+                                    ) else BorderStroke(2.dp, defaultLightGray)
+                                ) {
+                                    Row {
+                                        Text(
+                                            text = stringResource(id = R.string.male),
+                                            style = typography.h6,
+                                            fontSize = 13.sp
+                                        )
+                                    }
+                                }
                                 Spacer(modifier = Modifier.size(8.dp))
-                                OutlineRadioButton(
-                                    text = stringResource(
-                                        id = R.string.female
-                                    ),
-                                    selected = state.isFemaleRadioButton,
-                                    icon = painterResource(id = R.drawable.female_ic)
-                                )
+                                OutlinedButton(
+                                    onClick = {
+                                        it.isMaleSelected.value = false
+                                        it.isFemaleSelected.value = true
+                                        it.isAllGenderSelected.value = false
+                                    },
+                                    modifier = Modifier.wrapContentWidth(),
+                                    border = if (it.isFemaleSelected.value) BorderStroke(
+                                        2.dp,
+                                        mainGreen
+                                    ) else BorderStroke(2.dp, defaultLightGray)
+                                ) {
+                                    Row {
+                                        Text(
+                                            text = stringResource(id = R.string.female),
+                                            style = typography.h6,
+                                            fontSize = 13.sp
+                                        )
+                                    }
+                                }
                                 Spacer(modifier = Modifier.size(8.dp))
-                                OutlineRadioButton(
-                                    text = stringResource(
-                                        id = R.string.all
-                                    ),
-                                    selected = state.isAllGenderRadioButton,
-                                    icon = painterResource(id = R.drawable.ic_all_genders)
-                                )
+                                OutlinedButton(
+                                    onClick = {
+                                        it.isMaleSelected.value = false
+                                        it.isFemaleSelected.value = false
+                                        it.isAllGenderSelected.value = true
+                                    },
+                                    modifier = Modifier.wrapContentWidth(),
+                                    border = if (it.isAllGenderSelected.value) BorderStroke(
+                                        2.dp,
+                                        mainGreen
+                                    ) else BorderStroke(2.dp, defaultLightGray)
+                                ) {
+                                    Row() {
+                                        Text(
+                                            text = stringResource(id = R.string.all),
+                                            style = typography.h6,
+                                            fontSize = 13.sp
+                                        )
+                                    }
+                                }
                             }
+                            Text(
+                                text = stringResource(id = R.string.age_range),
+                                style = typography.h6,
+                                fontSize = 13.sp,
+                                color = secondaryNavy
+                            )
+                            Text(
+                                text = "${state.ageSliderPosition.value.toIntRange()}",
+                                style = typography.h6,
+                                fontSize = 13.sp,
+                                color = secondaryNavy
+                            )
+                            SteppedSlider(
+                                value = it.ageSliderPosition.value,
+                                onValueChange = { state.ageSliderPosition.value = it })
                         }
                     })
             }
         }
+    }
+    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters) {
+        Loader(backgroundColor = Color.White, textColor = primaryDark)
     }
 }

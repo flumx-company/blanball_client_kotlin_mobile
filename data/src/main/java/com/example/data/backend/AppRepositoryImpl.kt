@@ -66,14 +66,21 @@
     ) : AppRepository {
 
 
-        override suspend fun getUsersList(page: Int): GetUsersListResultEntity {
+        override suspend fun getUsersList(
+            page: Int,
+            gender: String?,
+            age_min: Int?,
+            age_max: Int?,
+            ordering: String?
+        ): GetUsersListResultEntity {
             return try {
-                val getUsersListResponse = service.getUsersList(page)
-                val getUsersListResponseDomainResponse = getUsersListResponse.toGetUsersListResponseEntity()
+                val getUsersListResponse = service.getUsersList(page, gender, age_min, age_max, ordering)
+                val getUsersListResponseDomainResponse =
+                    getUsersListResponse.toGetUsersListResponseEntity()
                 GetUsersListResultEntity.Success(getUsersListResponseDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
-                    handleHttpError<GetUsersListResponseError ,GetUsersListResponseErrorEntity>(ex) {it.toGetUsersListResponseErrorEntity()}
+                    handleHttpError<GetUsersListResponseError, GetUsersListResponseErrorEntity>(ex) { it.toGetUsersListResponseErrorEntity() }
                 GetUsersListResultEntity.Error(errorResponse.data.errors[0])
             }
         }

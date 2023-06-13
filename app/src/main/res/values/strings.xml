@@ -122,4 +122,5 @@
     <string name="forward_striker">Форвард страйкер</string>
     <string name="gender">Стать</string>
     <string name="all">Всі</string>
+    <string name="age_range">Віковий діапазон</string>
 </resources>

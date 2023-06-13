@@ -4,11 +4,13 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.PublicProfileMainContract
+import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
@@ -187,9 +189,28 @@ fun AppScreensConfig(
 
         composable(Destinations.USERS_RATING.route) {
             val state = usersRatingViewModel.uiState.collectAsState().value
-            UsersRatingScreen(state = state, onLoadMoreUsers = {
-                usersRatingViewModel.loadMoreUsers()
-            })
+            val currentState = usersRatingViewModel.currentState
+
+
+            LaunchedEffect(currentState) {
+                if (currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters) {
+                    usersRatingViewModel.handleScreenState(currentState.state)
+                }
+            }
+            UsersRatingScreen(
+                state = state,
+                onLoadMoreUsers = {
+                    usersRatingViewModel.loadMoreUsers()
+                },
+                onClickedToLoadWithNewFilters = {
+                    usersRatingViewModel.setState {
+                        copy(
+                            openFiltersDialog = mutableStateOf(false),
+                            state = RatingUsersMainContract.ScreenViewState.LoadingWithFilters,
+                        )
+                    }
+                },
+            )
         }
     }
     }

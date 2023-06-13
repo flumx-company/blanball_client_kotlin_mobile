@@ -43,16 +43,30 @@ class UsersRatingViewModel @Inject constructor(
 
     private val _sideEffect: MutableSharedFlow<RatingUsersMainContract.Effect> =
         MutableSharedFlow(replay = 0)
+
     val sideEffect: SharedFlow<RatingUsersMainContract.Effect> = _sideEffect.asSharedFlow()
 
     init {
         handleScreenState(currentState.state)
     }
 
-    private fun handleScreenState(screenViewState: RatingUsersMainContract.ScreenViewState) {
+    fun handleScreenState(screenViewState: RatingUsersMainContract.ScreenViewState) {
         when (screenViewState) {
             is RatingUsersMainContract.ScreenViewState.Loading -> {
                 getUsersList(Integers.ONE)
+            }
+
+            is RatingUsersMainContract.ScreenViewState.LoadingWithFilters -> {
+                setState {
+                    copy(
+                        usersList = mutableStateOf(emptyList()),
+                    )
+                }
+                getUsersList(
+                    page = Integers.ONE,
+                    age_min = currentState.ageSliderPosition.value.start.toInt(),
+                    age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
+                )
             }
 
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
@@ -63,9 +77,21 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    private fun getUsersList(page: Int) {
+    fun getUsersList(
+        page: Int,
+        gender: String? = null,
+        age_min: Int? = null,
+        age_max: Int? = null,
+        ordering: String? = null
+    ) {
         job = viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getUsersListUseCase.executeGetUsersList(page)) {
+            when (val result = getUsersListUseCase.executeGetUsersList(
+                page,
+                gender = gender,
+                age_min = age_min,
+                age_max = age_max,
+                ordering = ordering
+            )) {
                 is GetUsersListResultEntity.Success -> {
                     val users = result.data.results
                     users?.let {
@@ -73,6 +99,7 @@ class UsersRatingViewModel @Inject constructor(
                             copy(
                                 usersList = mutableStateOf(currentState.usersList.value + it),
                                 isLoadingMoreUsers = false,
+                                state = RatingUsersMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
                     }
@@ -108,7 +135,7 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    private fun setState(reduce: RatingUsersMainContract.State.() -> RatingUsersMainContract.State) {
+    fun setState(reduce: RatingUsersMainContract.State.() -> RatingUsersMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }
