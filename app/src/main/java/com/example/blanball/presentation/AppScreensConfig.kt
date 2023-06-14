@@ -193,7 +193,7 @@ fun AppScreensConfig(
 
 
             LaunchedEffect(currentState) {
-                if (currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadindWithNewOrdering) {
+                if (currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
                     usersRatingViewModel.handleScreenState(currentState.state)
                 }
             }
@@ -212,8 +212,9 @@ fun AppScreensConfig(
                 },
                 onClickedToChangeOrdering = {usersRatingViewModel.setState {
                     copy(
+                        orderingIconState = mutableStateOf(!orderingIconState.value),
                         usersOrderingSelectionState = mutableStateOf(RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER),
-                        state = RatingUsersMainContract.ScreenViewState.LoadindWithNewOrdering
+                        state = RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering
                     )
                 }
                 }

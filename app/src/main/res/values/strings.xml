@@ -142,4 +142,7 @@
     <string name="st">ST</string>
     <string name="any_position">Будь яка</string>
     <string name="empty">--</string>
+    <string name="from">Від</string>
+    <string name="to">до</string>
+    <string name="years">років</string>
 </resources>

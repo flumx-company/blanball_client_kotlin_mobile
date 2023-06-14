@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -75,6 +76,18 @@ class UsersRatingViewModel @Inject constructor(
                 )
             }
 
+            is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering -> {
+                setState {
+                    copy(
+                        usersList = mutableStateOf(emptyList())
+                    )
+                }
+                getUsersList(
+                    page = Integers.ONE,
+                    ordering = currentState.usersOrderingSelectionState.value.stringValue,
+                )
+            }
+
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     _sideEffect.emit(RatingUsersMainContract.Effect.ShowToast("Error"))
@@ -140,7 +153,18 @@ class UsersRatingViewModel @Inject constructor(
                     copy(isLoadingMoreUsers = true)
                 }
             page++
-            getUsersList(page)
+            Log.d("Current", currentState.state.toString())
+            if ( currentState.state == RatingUsersMainContract.ScreenViewState.LoadingWithFilters) {
+                getUsersList(
+                    page = page,
+                    age_min = currentState.ageSliderPosition.value.start.toInt(),
+                    age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
+                    gender = currentState.genderSelectionState.value.stringValue,
+                    position = currentState.positionSelectedItem.value.convertToPositionCode(context = application.applicationContext),
+                )
+            } else {
+                getUsersList(page)
+            }
         }
     }
 

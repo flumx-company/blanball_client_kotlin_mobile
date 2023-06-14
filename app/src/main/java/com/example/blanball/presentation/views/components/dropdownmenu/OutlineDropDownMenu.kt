@@ -19,7 +19,6 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.selectedDarkGray
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -71,7 +70,7 @@ fun OutlineDropDownMenu(
             },
             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = defaultLightGray,
-                focusedBorderColor = selectedDarkGray,
+                focusedBorderColor = mainGreen,
                 textColor = Color.Black,
                 errorBorderColor = errorRed,
                 focusedLabelColor = primaryDark,

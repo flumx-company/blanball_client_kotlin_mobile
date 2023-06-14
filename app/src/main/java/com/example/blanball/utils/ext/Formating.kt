@@ -75,6 +75,6 @@ internal fun String.convertToPositionCode(context: Context): String {
         context.getString(R.string.central_forward) -> context.getString(R.string.cf)
         context.getString(R.string.left_forward) -> context.getString(R.string.lf)
         context.getString(R.string.forward_striker) -> context.getString(R.string.st)
-        else -> context.getString(R.string.empty)
+        else -> "--"
     }
 }

@@ -64,7 +64,6 @@ import com.example.blanball.presentation.views.components.ratingbars.RatingBar
 import com.example.blanball.presentation.views.components.sliders.SteppedSlider
 import com.example.blanball.presentation.views.components.tabrows.ScrollableTabRow
 import com.example.blanball.utils.ext.formatRatingToFloat
-import com.example.blanball.utils.ext.toIntRange
 
 @Composable
 fun UsersRatingScreen(
@@ -109,52 +108,58 @@ fun UsersRatingScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 ScrollableTabRow(tabs = tabs, icons = icons)
                 Spacer(modifier = Modifier.size(20.dp))
-                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                    IcBox(
-                        icon = R.drawable.ic_sorting,
-                        modifier = Modifier
-                            .clickable(onClick = onClickedToChangeOrdering)
-                            .size(40.dp)
-                            .background(color = bgLight, shape = shapes.medium)
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Column(Modifier.wrapContentWidth()) {
-                        Text(
-                            text = stringResource(id = R.string.sorting),
-                            style = typography.h5,
-                            color = primaryDark,
-                            fontSize = 14.sp,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.new_ones_first),
-                            style = typography.h6,
-                            color = secondaryNavy
-                        )
+                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                    Box(modifier = Modifier.weight(1f)) {
+                        Row {
+                            IcBox(
+                                icon = if (it.orderingIconState.value) R.drawable.ic_sorting_old else
+                                    R.drawable.ic_sorting_new,
+                                modifier = Modifier
+                                    .clickable(onClick = onClickedToChangeOrdering)
+                                    .size(40.dp)
+                                    .background(color = bgLight, shape = shapes.medium)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Column(Modifier.wrapContentWidth()) {
+                                Text(
+                                    text = stringResource(id = R.string.sorting),
+                                    style = typography.h5,
+                                    color = primaryDark,
+                                    fontSize = 14.sp,
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.new_ones_first),
+                                    style = typography.h6,
+                                    color = secondaryNavy
+                                )
+                            }
+                        }
                     }
-                    Spacer(modifier = Modifier.weight(1f))
-                    IcBox(
-                        icon = R.drawable.ic_filters,
-                        modifier = Modifier
-                            .clickable(onClick = { it.openFiltersDialog.value = true })
-                            .size(40.dp)
-                            .background(color = bgLight, shape = shapes.medium)
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Column(
-                        Modifier
-                            .wrapContentWidth()
-                            .weight(1f)) {
-                        Text(
-                            text = stringResource(id = R.string.filters),
-                            style = typography.h5,
-                            color = primaryDark,
-                            fontSize = 14.sp
-                        )
-                        Text(
-                            text = "${stringResource(id = R.string.found)} ${it.userCounter.value}",
-                            style = typography.h6,
-                            color = secondaryNavy
-                        )
+                    Spacer(modifier = Modifier.weight(0.5f))
+                    Box(modifier = Modifier.weight(1f)) {
+                        Row() {
+                            IcBox(
+                                icon = R.drawable.ic_filters,
+                                modifier = Modifier
+                                    .clickable(onClick = { it.openFiltersDialog.value = true })
+                                    .size(40.dp)
+                                    .background(color = bgLight, shape = shapes.medium)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Column {
+                                Text(
+                                    text = stringResource(id = R.string.filters),
+                                    style = typography.h5,
+                                    color = primaryDark,
+                                    fontSize = 14.sp
+                                )
+                                Text(
+                                    text = "${stringResource(id = R.string.found)} ${it.userCounter.value}",
+                                    style = typography.h6,
+                                    color = secondaryNavy,
+                                )
+                            }
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.size(6.dp))
@@ -293,7 +298,7 @@ fun UsersRatingScreen(
             }
             if (it.openFiltersDialog.value) {
                 AlertDialog(
-                    modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
+                    modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 30.dp),
                     shape = RoundedCornerShape(6.dp),
                     backgroundColor = Color.White,
                     title = {
@@ -304,7 +309,7 @@ fun UsersRatingScreen(
                                 color = primaryDark,
                             )
                             Text(
-                                text = "${stringResource(id = R.string.found)} 15 ${
+                                text = "${stringResource(id = R.string.found)} ${it.userCounter.value} ${
                                     stringResource(
                                         id = R.string.users
                                     )
@@ -338,33 +343,45 @@ fun UsersRatingScreen(
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = { it.openFiltersDialog.value = false }) {
+                        TextButton(
+                            onClick = { it.openFiltersDialog.value = false },
+                            modifier = Modifier.align(alignment = Alignment.CenterStart)
+                        ) {
                             Text(
                                 text = stringResource(id = R.string.clean),
                                 style = typography.h4,
                                 fontSize = 14.sp,
-                                color = secondaryNavy
+                                color = secondaryNavy,
                             )
                         }
                     },
                     onDismissRequest = {
                     },
                     text = {
-                        Column() {
-                            OutlineDropDownMenu(state = it, value = it.positionSelectedItem.value, onValueChange = {state.positionSelectedItem.value = it} )
-                            Spacer(modifier = Modifier.size(12.dp))
+                        Column {
+                            Spacer(modifier = Modifier.size(8.dp))
+                            OutlineDropDownMenu(
+                                state = it,
+                                value = it.positionSelectedItem.value,
+                                onValueChange = { state.positionSelectedItem.value = it })
+                            Spacer(modifier = Modifier.size(16.dp))
                             Text(
                                 text = stringResource(id = R.string.gender),
                                 style = typography.h6,
                                 fontSize = 13.sp,
                                 color = secondaryNavy
                             )
+                            Spacer(modifier = Modifier.size(8.dp))
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                                 OutlinedButton(
                                     onClick = {
-                                               it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.MALE
+                                        it.genderSelectionState.value =
+                                            RatingUsersMainContract.GenderSelectionState.MALE
                                     },
-                                    modifier = Modifier.wrapContentWidth(),
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .weight(1f)
+                                        .padding(0.dp),
                                     border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.MALE) BorderStroke(
                                         2.dp,
                                         mainGreen
@@ -381,9 +398,12 @@ fun UsersRatingScreen(
                                 Spacer(modifier = Modifier.size(8.dp))
                                 OutlinedButton(
                                     onClick = {
-                                        it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.FEMALE
+                                        it.genderSelectionState.value =
+                                            RatingUsersMainContract.GenderSelectionState.FEMALE
                                     },
-                                    modifier = Modifier.wrapContentWidth(),
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .weight(1f),
                                     border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.FEMALE) BorderStroke(
                                         2.dp,
                                         mainGreen
@@ -400,10 +420,13 @@ fun UsersRatingScreen(
                                 Spacer(modifier = Modifier.size(8.dp))
                                 OutlinedButton(
                                     onClick = {
-                                        it.genderSelectionState.value = RatingUsersMainContract.GenderSelectionState.ALL
+                                        it.genderSelectionState.value =
+                                            RatingUsersMainContract.GenderSelectionState.ALL
                                     },
-                                    modifier = Modifier.wrapContentWidth(),
-                                    border = if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.ALL) BorderStroke(
+                                    modifier = Modifier
+                                        .weight(1f),
+                                    border =
+                                    if (it.genderSelectionState.value == RatingUsersMainContract.GenderSelectionState.ALL) BorderStroke(
                                         2.dp,
                                         mainGreen
                                     ) else BorderStroke(2.dp, defaultLightGray)
@@ -417,6 +440,7 @@ fun UsersRatingScreen(
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.size(16.dp))
                             Text(
                                 text = stringResource(id = R.string.age_range),
                                 style = typography.h6,
@@ -424,7 +448,13 @@ fun UsersRatingScreen(
                                 color = secondaryNavy
                             )
                             Text(
-                                text = "${state.ageSliderPosition.value.toIntRange()}",
+                                text = "${stringResource(id = R.string.from)} ${it.ageSliderPosition.value.start.toInt()} ${
+                                    stringResource(id = R.string.to)
+                                } ${it.ageSliderPosition.value.endInclusive.toInt()} ${
+                                    stringResource(
+                                        id = R.string.years
+                                    )
+                                }",
                                 style = typography.h6,
                                 fontSize = 13.sp,
                                 color = secondaryNavy
@@ -437,7 +467,7 @@ fun UsersRatingScreen(
             }
         }
     }
-    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadindWithNewOrdering ) {
+    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
         Loader(backgroundColor = Color.White, textColor = primaryDark)
     }
 }

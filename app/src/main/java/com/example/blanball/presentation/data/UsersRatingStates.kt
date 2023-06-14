@@ -26,7 +26,8 @@ data class State(
     val GamePositionSelectionState: MutableState<GamePositionSelectionState> = mutableStateOf(
         RatingUsersMainContract.GamePositionSelectionState.ALl),
     var positionSelectedItem: MutableState<String> = mutableStateOf("--"),
-    val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL)
+    val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL),
+    val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
 ) : UiState
 
     enum class GenderSelectionState(val stringValue: String) {
@@ -67,7 +68,9 @@ data class State(
         object LoadingSuccess : ScreenViewState()
         object LoadingError : ScreenViewState()
         object LoadingWithFilters : ScreenViewState()
-        object LoadindWithNewOrdering: ScreenViewState()
+        object LoadingSuccessWithFilters : ScreenViewState()
+        object LoadingWithNewOrdering: ScreenViewState()
+        object LoadingSuccessWithNewOrdering: ScreenViewState()
     }
 
     sealed class Effect : UiEffect {
