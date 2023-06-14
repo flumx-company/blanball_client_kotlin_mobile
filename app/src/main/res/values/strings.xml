@@ -110,7 +110,7 @@
     <string name="left_flank_defender">Лівий фланговий захисник</string>
     <string name="right_flank_defender">Правий фланговий захисник</string>
     <string name="supporting_mid_defender">Опорний півзахисник</string>
-    <string name="central_mid_defender">Лівий півзахисник</string>
+    <string name="left_mid_defender">Лівий півзахисник</string>
     <string name="attacking_mid_defender">Атакуючий півзахисник</string>
     <string name="right_winger">Правий крайній півзахисник</string>
     <string name="left_winger">Лівий крайній  півзахисник</string>
@@ -123,4 +123,23 @@
     <string name="gender">Стать</string>
     <string name="all">Всі</string>
     <string name="age_range">Віковий діапазон</string>
+    <string name="gk">GK</string>
+    <string name="lb">LB</string>
+    <string name="rb">RB</string>
+    <string name="cb">CB</string>
+    <string name="lwb">LWB</string>
+    <string name="rwb">RWB</string>
+    <string name="cdm">CDM</string>
+    <string name="cm">CM</string>
+    <string name="cam">CAM</string>
+    <string name="rm">RM</string>
+    <string name="lm">LM</string>
+    <string name="rw">RW</string>
+    <string name="lw">LW</string>
+    <string name="rf">RF</string>
+    <string name="cf">CF</string>
+    <string name="lf">LF</string>
+    <string name="st">ST</string>
+    <string name="any_position">Будь яка</string>
+    <string name="empty">--</string>
 </resources>

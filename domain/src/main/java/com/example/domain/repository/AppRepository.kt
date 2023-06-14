@@ -42,6 +42,7 @@ interface AppRepository {
         gender: String?,
         age_min: Int?,
         age_max: Int?,
-        ordering: String?
+        ordering: String?,
+        position: String?
     ): GetUsersListResultEntity
 }

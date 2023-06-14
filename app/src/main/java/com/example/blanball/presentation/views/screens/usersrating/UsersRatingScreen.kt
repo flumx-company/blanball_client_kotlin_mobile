@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -70,6 +71,7 @@ fun UsersRatingScreen(
     state: UiState,
     onLoadMoreUsers: () -> Unit,
     onClickedToLoadWithNewFilters: () -> Unit,
+    onClickedToChangeOrdering: () -> Unit,
 ) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_people),
@@ -108,7 +110,13 @@ fun UsersRatingScreen(
                 ScrollableTabRow(tabs = tabs, icons = icons)
                 Spacer(modifier = Modifier.size(20.dp))
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                    IcBox(icon = R.drawable.ic_sorting)
+                    IcBox(
+                        icon = R.drawable.ic_sorting,
+                        modifier = Modifier
+                            .clickable(onClick = onClickedToChangeOrdering)
+                            .size(40.dp)
+                            .background(color = bgLight, shape = shapes.medium)
+                    )
                     Spacer(modifier = Modifier.size(4.dp))
                     Column(Modifier.wrapContentWidth()) {
                         Text(
@@ -127,7 +135,7 @@ fun UsersRatingScreen(
                     IcBox(
                         icon = R.drawable.ic_filters,
                         modifier = Modifier
-                            .clickable(onClick ={ it.openFiltersDialog.value = true })
+                            .clickable(onClick = { it.openFiltersDialog.value = true })
                             .size(40.dp)
                             .background(color = bgLight, shape = shapes.medium)
                     )
@@ -143,7 +151,7 @@ fun UsersRatingScreen(
                             fontSize = 14.sp
                         )
                         Text(
-                            text = "${stringResource(id = R.string.found)} 15",
+                            text = "${stringResource(id = R.string.found)} ${it.userCounter.value}",
                             style = typography.h6,
                             color = secondaryNavy
                         )
@@ -168,7 +176,7 @@ fun UsersRatingScreen(
                                         contentDescription = null,
                                         modifier = Modifier
                                             .clip(RoundedCornerShape(6.dp))
-                                            .fillMaxSize()
+                                            .size(36.dp)
                                     )
                                     Text(
                                         text = "${user.profile.last_name.firstOrNull() ?: ""}${user.profile.name.firstOrNull() ?: ""}",
@@ -183,7 +191,7 @@ fun UsersRatingScreen(
                                     painter = rememberAsyncImagePainter(user.profile.avatar_url),
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .clip(RoundedCornerShape(6.dp))
+                                        .clip(CircleShape)
                                         .size(36.dp),
                                     contentScale = ContentScale.Crop
                                 )
@@ -343,7 +351,7 @@ fun UsersRatingScreen(
                     },
                     text = {
                         Column() {
-                            OutlineDropDownMenu()
+                            OutlineDropDownMenu(state = it, value = it.positionSelectedItem.value, onValueChange = {state.positionSelectedItem.value = it} )
                             Spacer(modifier = Modifier.size(12.dp))
                             Text(
                                 text = stringResource(id = R.string.gender),
@@ -429,7 +437,7 @@ fun UsersRatingScreen(
             }
         }
     }
-    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters) {
+    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadindWithNewOrdering ) {
         Loader(backgroundColor = Color.White, textColor = primaryDark)
     }
 }

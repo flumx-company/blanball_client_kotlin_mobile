@@ -62,6 +62,7 @@ interface ApiService  {
         @Query ("profile__gender") profile__gender: String?,
         @Query ("profile__age_min") profile__age_min: Int?,
         @Query ("profile__age_max") profile__age_max: Int?,
+        @Query ("profile__position") profile__position: String?,
         @Query ("ordering") ordering: String?,
     ) : GetUsersListResponse
 }

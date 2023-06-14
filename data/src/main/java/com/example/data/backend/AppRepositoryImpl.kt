@@ -71,10 +71,11 @@
             gender: String?,
             age_min: Int?,
             age_max: Int?,
-            ordering: String?
+            ordering: String?,
+            position: String?,
         ): GetUsersListResultEntity {
             return try {
-                val getUsersListResponse = service.getUsersList(page, gender, age_min, age_max, ordering)
+                val getUsersListResponse = service.getUsersList(page = page, profile__gender = gender, profile__age_min = age_min, profile__age_max = age_max, ordering = ordering, profile__position = position)
                 val getUsersListResponseDomainResponse =
                     getUsersListResponse.toGetUsersListResponseEntity()
                 GetUsersListResultEntity.Success(getUsersListResponseDomainResponse.data)

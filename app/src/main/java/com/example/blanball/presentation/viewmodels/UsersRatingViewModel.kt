@@ -1,10 +1,12 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.convertToPositionCode
 import com.example.domain.entity.results.GetUsersListResultEntity
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.utils.Integers
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UsersRatingViewModel @Inject constructor(
     internal val getUsersListUseCase: GetUsersListUseCase,
+    private val application: Application
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -50,16 +53,17 @@ class UsersRatingViewModel @Inject constructor(
         handleScreenState(currentState.state)
     }
 
+
+
     fun handleScreenState(screenViewState: RatingUsersMainContract.ScreenViewState) {
         when (screenViewState) {
             is RatingUsersMainContract.ScreenViewState.Loading -> {
                 getUsersList(Integers.ONE)
             }
-
             is RatingUsersMainContract.ScreenViewState.LoadingWithFilters -> {
                 setState {
                     copy(
-                        usersList = mutableStateOf(emptyList()),
+                        usersList = mutableStateOf(emptyList())
                     )
                 }
                 getUsersList(
@@ -67,6 +71,7 @@ class UsersRatingViewModel @Inject constructor(
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
                     gender = currentState.genderSelectionState.value.stringValue,
+                    position = currentState.positionSelectedItem.value.convertToPositionCode(context = application.applicationContext),
                 )
             }
 
@@ -78,12 +83,13 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    fun getUsersList(
+    private fun getUsersList(
         page: Int,
         gender: String? = null,
         age_min: Int? = null,
         age_max: Int? = null,
-        ordering: String? = null
+        ordering: String? = null,
+        position: String? = null,
     ) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (val result = getUsersListUseCase.executeGetUsersList(
@@ -91,7 +97,8 @@ class UsersRatingViewModel @Inject constructor(
                 gender = gender,
                 age_min = age_min,
                 age_max = age_max,
-                ordering = ordering
+                ordering = ordering,
+                position = position,
             )) {
                 is GetUsersListResultEntity.Success -> {
                     val users = result.data.results
@@ -100,6 +107,7 @@ class UsersRatingViewModel @Inject constructor(
                             copy(
                                 usersList = mutableStateOf(currentState.usersList.value + it),
                                 isLoadingMoreUsers = false,
+                                userCounter = mutableStateOf(result.data.total_count),
                                 state = RatingUsersMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }

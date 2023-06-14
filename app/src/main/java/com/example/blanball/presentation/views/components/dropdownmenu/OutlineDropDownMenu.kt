@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.blanball.R
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
@@ -22,8 +23,13 @@ import com.example.blanball.presentation.theme.selectedDarkGray
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun OutlineDropDownMenu() {
+fun OutlineDropDownMenu(
+    value: String,
+    state: UiState,
+    onValueChange: (String) -> Unit,
+) {
     val listItems = listOf(
+        stringResource(id = R.string.any_position),
         stringResource(id = R.string.goalkeeper),
         stringResource(id = R.string.right_defender),
         stringResource(id = R.string.left_defender),
@@ -31,7 +37,7 @@ fun OutlineDropDownMenu() {
         stringResource(id = R.string.left_flank_defender),
         stringResource(id = R.string.right_flank_defender),
         stringResource(id = R.string.supporting_mid_defender),
-        stringResource(id = R.string.central_mid_defender),
+        stringResource(id = R.string.left_mid_defender),
         stringResource(id = R.string.attacking_mid_defender),
         stringResource(id = R.string.right_winger),
         stringResource(id = R.string.left_winger),
@@ -47,10 +53,6 @@ fun OutlineDropDownMenu() {
         mutableStateOf(false)
     }
 
-    var selectedItem by remember {
-        mutableStateOf(listItems[0])
-    }
-
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = {
@@ -58,8 +60,8 @@ fun OutlineDropDownMenu() {
         }
     ) {
         OutlinedTextField(
-            value = selectedItem,
-            onValueChange = {},
+            value = value,
+            onValueChange = onValueChange,
             readOnly = true,
             label = { Text(text = stringResource(id = R.string.game_position)) },
             trailingIcon = {
@@ -84,8 +86,8 @@ fun OutlineDropDownMenu() {
 
             listItems.forEach { selectedOption ->
                 DropdownMenuItem(onClick = {
-                    selectedItem = selectedOption
                     expanded = false
+                    onValueChange(selectedOption)
                 }) {
                     Text(text = selectedOption)
                 }
