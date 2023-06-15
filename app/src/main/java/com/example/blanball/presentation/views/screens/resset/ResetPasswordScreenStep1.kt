@@ -2,7 +2,6 @@ package com.example.blanball.presentation.views.screens.resset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +39,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
@@ -69,21 +69,22 @@ fun ResetPasswordScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard()
-            {
+            AnimatedPaddingCard() {
                 Column(
                     modifier = Modifier.padding(
                         top = 28.dp,
                         start = 16.dp,
                         bottom = 30.dp,
                         end = 16.dp,
-                    ).verticalScroll(rememberScrollState()),
+                    ).verticalScroll(rememberScrollState())
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.resumption_acces),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
+                        textAlign = TextAlign.Center,
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -116,8 +117,8 @@ fun ResetPasswordScreenStep1(
                         state = it,
                         value = state.resetEmailText.value,
                         onValueChange = { state.resetEmailText.value = it },
-                        keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         transformation = VisualTransformation.None,
                         modifier = Modifier.fillMaxWidth(),
                         isError = when {
@@ -128,7 +129,9 @@ fun ResetPasswordScreenStep1(
                         errorMessage = when {
                             it.resetEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
                             it.isErrorResetEmailState.value -> stringResource(id = R.string.invalid_credential_error)
-                            else -> {""}
+                            else -> {
+                                ""
+                            }
                         }
                     )
                     Text(
@@ -143,45 +146,40 @@ fun ResetPasswordScreenStep1(
                     CodeTextInput(
                         state = it, modifier = Modifier.padding(top = 8.dp), enabled = false
                     )
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.Bottom,
-                ) {
-                    Button(
-                        enabled = currentState.resetEmailText.value.isValidEmail(),
-                        onClick =  onStep2Clicked,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(40.dp),
-                        shape = shapes.medium,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = mainGreen,
-                            contentColor = Color.White,
-                        ),
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.send_code),
-                            style = typography.h4,
-                        )
-                    }
-                    TextButton(
-                        onClick = onCancelClicked,
-                        Modifier
-                            .padding(top = 14.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.cancel),
-                            style = typography.h4,
-                        )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.size(24.dp))
+                        Button(
+                            enabled = currentState.resetEmailText.value.isValidEmail(),
+                            onClick = onStep2Clicked,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            shape = shapes.medium,
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = mainGreen,
+                                contentColor = Color.White,
+                            ),
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.send_code),
+                                style = typography.h4,
+                            )
+                        }
+                        TextButton(
+                            onClick = onCancelClicked,
+                            Modifier
+                                .padding(top = 14.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.cancel),
+                                style = typography.h4,
+                            )
+                        }
                     }
                 }
             }
         }
-    }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
         Loader()
     }

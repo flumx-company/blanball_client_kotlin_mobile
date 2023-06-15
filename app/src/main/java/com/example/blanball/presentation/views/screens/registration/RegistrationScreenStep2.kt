@@ -47,6 +47,7 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
@@ -88,14 +89,14 @@ fun RegistrationScreenStep2(
             AnimatedPaddingCard() {
                 Column(
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState())
                         .padding(
                             top = 28.dp,
                             start = 16.dp,
                             bottom = 30.dp,
                             end = 16.dp,
-                        )
+                        ).verticalScroll(rememberScrollState())
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.creation_new_acc),
                         modifier = Modifier.fillMaxWidth(),

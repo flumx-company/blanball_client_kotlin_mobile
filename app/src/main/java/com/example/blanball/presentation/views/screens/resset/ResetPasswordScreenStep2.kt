@@ -2,7 +2,6 @@ package com.example.blanball.presentation.views.screens.resset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,6 +45,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
@@ -106,11 +106,13 @@ fun ResetPasswordScreenStep2(
                         end = 16.dp,
                     ).verticalScroll(rememberScrollState()),
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.resumption_acces),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
+                        textAlign = TextAlign.Center,
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -210,17 +212,14 @@ fun ResetPasswordScreenStep2(
                                 .isNotValidCode() -> stringResource(
                                 id = R.string.letter_only_error
                             )
-                            else -> {""}
+
+                            else -> {
+                                ""
+                            }
                         }
                     )
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.Bottom,
-                )
-                {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.size(24.dp))
                     Button(
                         enabled = it.codeText.joinToString(separator = "") { it.value }
                             .isValidCode(),
@@ -240,7 +239,7 @@ fun ResetPasswordScreenStep2(
                         )
                     }
                     TextButton(
-                        onClick =  onCancelClicked ,
+                        onClick = onCancelClicked,
                         Modifier
                             .padding(top = 14.dp)
                             .align(CenterHorizontally)
