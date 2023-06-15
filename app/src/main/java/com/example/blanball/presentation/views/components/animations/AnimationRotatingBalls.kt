@@ -29,9 +29,9 @@ fun AnimationRotatingBalls() {
 
     LaunchedEffect(Unit) {
         rotationAnim.animateTo(
-            targetValue = 360f,
+            targetValue = 90f,
             animationSpec = repeatable(
-                iterations = 3,
+                iterations = 1,
                 animation = tween(durationMillis = 2000),
                 repeatMode = RepeatMode.Restart
             ),
