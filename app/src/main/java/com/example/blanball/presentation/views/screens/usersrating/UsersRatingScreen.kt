@@ -291,7 +291,7 @@ fun UsersRatingScreen(
                         InfiniteListHandler(
                             lazyListState = lazyListState,
                             onLoadMore = onLoadMoreUsers,
-                            buffer = 2
+                            buffer = 1
                         )
                     }
                 }

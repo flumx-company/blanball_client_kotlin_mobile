@@ -19,7 +19,6 @@ internal fun InfiniteListHandler(
             val layoutInfo = lazyListState.layoutInfo
             val totalItems = layoutInfo.totalItemsCount
             val lastVisibleItemIndex = (layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) + 1
-
             lastVisibleItemIndex > (totalItems - buffer)
         }
     }
