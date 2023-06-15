@@ -143,7 +143,11 @@
                                 copy(
                                     state = StartScreensMainContract.ScreenViewState.SuccessCompleteResetRequest,
                                     isErrorCompleteResetState = mutableStateOf(false),
-                                    isSuccessCompleteResetState = mutableStateOf(true)
+                                    isSuccessCompleteResetState = mutableStateOf(true),
+                                    resetEmailText = mutableStateOf(""),
+                                    codeText = List(5){ mutableStateOf("") },
+                                    newPassText = mutableStateOf(""),
+                                    repeatNewPassText = mutableStateOf(""),
                                 )
                             }
                         }

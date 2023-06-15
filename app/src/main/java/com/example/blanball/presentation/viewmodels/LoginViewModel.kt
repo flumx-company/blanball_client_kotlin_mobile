@@ -65,6 +65,8 @@ class LoginViewModel
                        setState { copy(
                            isErrorLoginEmailState = mutableStateOf(false),
                            state = StartScreensMainContract.ScreenViewState.SuccessLogin,
+                           loginEmailText = mutableStateOf(""),
+                           loginPasswordText = mutableStateOf(""),
                        ) }
                    }
                    is LoginResultEntity.Error -> setState { copy(isErrorLoginEmailState =  mutableStateOf(true), state = StartScreensMainContract.ScreenViewState.LoginError) }
