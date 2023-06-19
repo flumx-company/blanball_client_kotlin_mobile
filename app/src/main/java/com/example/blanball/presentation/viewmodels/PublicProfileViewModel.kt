@@ -70,6 +70,7 @@ class PublicProfileViewModel @Inject constructor(
                     _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
                 }
             }
+            else -> {}
         }
     }
 

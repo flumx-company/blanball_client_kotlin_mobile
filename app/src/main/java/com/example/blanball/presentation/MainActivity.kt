@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
                         registrationViewModel = viewModel(),
                         publicProfileViewModel = viewModel(),
                         loginViewModel = viewModel(),
+                        onboardingProfileViewModel = viewModel(),
                     )
                 }
             }

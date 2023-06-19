@@ -88,4 +88,27 @@
     <string name="phone_format_error">* Невірний формат телефонного номеру </string>
     <string name="your_firstname">Ваше  ім\'я</string>
     <string name="your_lastname">Ваше прізвище</string>
+    <string name="lets_meet">Давайте знайомитись!</string>
+    <string name="when_were_you_born">Коли ви народилися?</string>
+    <string name="turn_back">Повернутися назад</string>
+    <string name="day">День</string>
+    <string name="month">Місяць</string>
+    <string name="year">Рік</string>
+    <string name="january">Січень</string>
+    <string name="february">Лютий</string>
+    <string name="march">Березень</string>
+    <string name="april">Квітень</string>
+    <string name="may">Травень</string>
+    <string name="june">Червень</string>
+    <string name="july">Липень</string>
+    <string name="august">Серпень</string>
+    <string name="september">Вересень</string>
+    <string name="october">Жовтень</string>
+    <string name="november">Листопад</string>
+    <string name="december">Грудень</string>
+    <string name="prepare_your_profile">Підготуймо ваш профіль для використання додатку</string>
+    <string name="set_up">Налаштувати</string>
+    <string name="remind_me_later">Нагадати пізніше</string>
+    <string name="tell_us_about_yourself">Розкажіть нам трохи про себе, щоби ми могли підлаштувати ваш профіль для зручної взаємодії з усіма користувачами додатку</string>
+
 </resources>

@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,10 +13,14 @@ import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
+import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep1
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep2
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileStartScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
@@ -23,6 +29,9 @@ import com.example.blanball.presentation.views.screens.registration.Registration
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.domain.utils.Integers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun AppScreensConfig(
@@ -31,10 +40,12 @@ fun AppScreensConfig(
     registrationViewModel: RegistrationViewModel,
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
+    onboardingProfileViewModel: OnboardingProfileViewModel,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.LOGIN.route)
+        startDestination = Destinations.RESET3.route
+    )
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
@@ -182,10 +193,48 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadMoreEvents()
             })
         }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileStartScreen(
+                state = state,
+                onFillingOutTheUserProfileStep1Clicked = {
+                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
+                },
+                onRemindMeLater = { /*TODO*/ })
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            val yearsList = remember { mutableStateOf<List<String>>(emptyList()) }
+            LaunchedEffect(Unit) {
+                val years = withContext(Dispatchers.IO) {
+                    List(Integers.YEARS_COUNT_IN_DROPDOWN_MENU) { index ->
+                        (Integers.YEAR_1994 + index).toString()
+                    }.reversed()
+                }
+                yearsList.value = years
+            }
+            FillingOutTheUserProfileScreenStep1(
+                state = state,
+                onFillingOutTheUserProfileStep2Clicked = {},
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)},
+                years = yearsList.value,
+            )
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE2.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep2(
+                state = state,
+                onFillingOutTheUserProfileStep3Clicked = {},
+                onTurnBackClicked = {},
+            )
+        }
     }
 }
 
-enum class  Destinations(val route: String) {
+enum class Destinations(val route: String) {
     LOGIN("login"),
     RESET1("reset1"),
     RESET2("reset2"),
@@ -195,4 +244,8 @@ enum class  Destinations(val route: String) {
     PUBLIC_PROFILE("publicProfile"),
     ALL_REVIEWS("allReviews"),
     ALL_PLANNED_EVENTS("allPlannedEvents"),
+    FILLING_OUT_THE_USER_PROFILE_START("fillingOutTheUserProfileStart"),
+    FILLING_OUT_THE_USER_PROFILE1("fillingOutTheUserProfile1"),
+    FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
+    FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
 }
