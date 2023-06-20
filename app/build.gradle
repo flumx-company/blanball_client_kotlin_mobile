@@ -50,7 +50,6 @@ dependencies {
     //Core
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
     implementation 'org.greenrobot:eventbus:3.3.1'
 
     //Retrofit && Moshi

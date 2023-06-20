@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.onboarding
 
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,6 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 
 @Composable

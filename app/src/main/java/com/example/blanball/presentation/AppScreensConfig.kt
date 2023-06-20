@@ -44,7 +44,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.RESET3.route
+        startDestination = Destinations.FILLING_OUT_THE_USER_PROFILE_START.route
     )
     {
         composable(Destinations.LOGIN.route) {
