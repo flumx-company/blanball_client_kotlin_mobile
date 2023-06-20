@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -21,11 +21,12 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun OutlineRadioButton(
-    state: StartScreensMainContract.State,
+    state: UiState,
     text: String,
     selected: Boolean,
-    icon: Painter,
-    onClick: () -> Unit = {}
+    icon: Painter?,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = Modifier
@@ -47,6 +48,6 @@ fun OutlineRadioButton(
             ),
         )
         Text(text = text, style = typography.caption)
-        Icon(painter = icon, contentDescription = null)
+        icon?.let { Icon(painter = it, contentDescription = null) }
     }
 }

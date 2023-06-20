@@ -18,21 +18,21 @@ import com.example.domain.utils.Integers
 fun AnimatedPaddingCard(
     content: @Composable () -> Unit,
 ) {
-    val isKeyboardVisible = WindowInsets.isImeVisible
-
     val keyboardVisible = remember { mutableStateOf(false) }
+
+    val isKeyboardVisible = WindowInsets.isImeVisible
 
     LaunchedEffect(key1 = isKeyboardVisible) {
         keyboardVisible.value = isKeyboardVisible
     }
 
     val padding by animateDpAsState(
-        targetValue = if (keyboardVisible.value) 190.dp else 0.dp,
+        targetValue = if (keyboardVisible.value) 0.dp else 190.dp,
         tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
     val shape by animateDpAsState(
-        targetValue = if (keyboardVisible.value) 28.dp else 0.dp,
+        targetValue = if (keyboardVisible.value) 0.dp else 28.dp,
         tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 

@@ -1,5 +1,8 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
@@ -11,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -40,25 +44,34 @@ fun CustomDropDownMenu(
             expanded = !expanded
         },
     ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            readOnly = true,
-            label = { Text(text = stringResource(id = labelResId), style = typography.h6, color = primaryDark, maxLines = 1)},
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded,
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            OutlinedTextField(
+                value = value,
+                onValueChange = onValueChange,
+                readOnly = true,
+                textStyle = typography.h6,
+                label = {
+                    Text(
+                        text = stringResource(id = labelResId),
+                        style = typography.h6,
+                        color = primaryDark,
+                        maxLines = 1,
+                    )
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                    unfocusedBorderColor = defaultLightGray,
+                    focusedBorderColor = mainGreen,
+                    textColor = Color.Black,
+                    errorBorderColor = errorRed,
+                    focusedLabelColor = primaryDark,
+                    cursorColor = mainGreen,
                 )
-            },
-            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = defaultLightGray,
-                focusedBorderColor = mainGreen,
-                textColor = Color.Black,
-                errorBorderColor = errorRed,
-                focusedLabelColor = primaryDark,
-                cursorColor = mainGreen,
             )
-        )
+        }
 
         ExposedDropdownMenu(
             expanded = expanded,
@@ -69,7 +82,9 @@ fun CustomDropDownMenu(
                     expanded = false
                     onValueChange(selectedOption)
                 }) {
-                    Text(text = selectedOption)
+                    Text(
+                        text = selectedOption, style = typography.h6, color = primaryDark
+                    )
                 }
             }
         }

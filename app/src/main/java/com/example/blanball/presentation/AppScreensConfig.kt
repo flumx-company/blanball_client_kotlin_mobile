@@ -217,7 +217,7 @@ fun AppScreensConfig(
             }
             FillingOutTheUserProfileScreenStep1(
                 state = state,
-                onFillingOutTheUserProfileStep2Clicked = {},
+                onFillingOutTheUserProfileStep2Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)},
                 onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)},
                 years = yearsList.value,
             )

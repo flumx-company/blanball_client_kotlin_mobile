@@ -109,6 +109,14 @@
     <string name="prepare_your_profile">Підготуймо ваш профіль для використання додатку</string>
     <string name="set_up">Налаштувати</string>
     <string name="remind_me_later">Нагадати пізніше</string>
+    <string name="your_sports_skills">Ваші спортивні навички</string>
     <string name="tell_us_about_yourself">Розкажіть нам трохи про себе, щоби ми могли підлаштувати ваш профіль для зручної взаємодії з усіма користувачами додатку</string>
-
+    <string name="what_about_your_background">Чудово!\nА як щодо вашого досвіду у футболі?</string>
+    <string name="have_you_played_football_before">Ви раніше займалися футболом?</string>
+    <string name="didnt_practice">Не займався</string>
+    <string name="amateurish">Любительськи</string>
+    <string name="professionally">Професійно</string>
+    <string name="independently">Самостійно</string>
+    <string name="confirm_your_qualifications_with_a_document">Підтвердіть вашу кваліфікацію документом</string>
+    <string name="document">Документ</string>
 </resources>

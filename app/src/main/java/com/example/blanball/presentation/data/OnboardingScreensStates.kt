@@ -13,6 +13,7 @@ class OnboardingScreensStatesMainContract {
         val dayDropDownState: MutableState<String> = mutableStateOf(""),
         val monthDropDownState: MutableState<String> = mutableStateOf(""),
         val yearDropDownState: MutableState<String> = mutableStateOf(""),
+        val selectDocumentState: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
