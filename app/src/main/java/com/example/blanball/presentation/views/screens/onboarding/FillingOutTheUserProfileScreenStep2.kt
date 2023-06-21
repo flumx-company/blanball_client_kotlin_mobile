@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,7 +45,7 @@ fun FillingOutTheUserProfileScreenStep2 (
     onFillingOutTheUserProfileStep3Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-
+    val localFocusManager = LocalFocusManager.current
     val currentState: OnboardingScreensStatesMainContract.State =
         (state as? OnboardingScreensStatesMainContract.State)
             ?: OnboardingScreensStatesMainContract.State(
@@ -91,11 +92,13 @@ fun FillingOutTheUserProfileScreenStep2 (
                             )
                             Spacer(modifier = Modifier.size(2.dp))
                         }
-                        Image(
-                            painter = painterResource(id = R.drawable.empty_stepline),
-                            contentDescription = null,
-                            Modifier.weight(1f)
-                        )
+                        repeat(2) {
+                            Image(
+                                painter = painterResource(id = R.drawable.empty_stepline),
+                                contentDescription = null,
+                                Modifier.weight(1f)
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.size(24.dp))
                     Text(
@@ -112,41 +115,53 @@ fun FillingOutTheUserProfileScreenStep2 (
                     Spacer(modifier = Modifier.size(12.dp))
                     Row(modifier = Modifier.fillMaxWidth()) {
                         OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                it.footballQualificationsState.value =
+                                    OnboardingScreensStatesMainContract.FootballQualificationsState.INDEPENDENTLY
+                            },
                             state = it,
                             text = stringResource(id = R.string.independently),
-                            selected = true,
+                            selected = it.footballQualificationsState.value == OnboardingScreensStatesMainContract.FootballQualificationsState.INDEPENDENTLY,
                             icon = null,
-                            modifier = Modifier.fillMaxWidth(1f),
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                         OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                it.footballQualificationsState.value =
+                                    OnboardingScreensStatesMainContract.FootballQualificationsState.PROFESSIONALLY
+                            },
                             state = it,
                             text = stringResource(id = R.string.professionally),
-                            selected = true,
+                            selected = it.footballQualificationsState.value == OnboardingScreensStatesMainContract.FootballQualificationsState.PROFESSIONALLY,
                             icon = null,
-                            modifier = Modifier.fillMaxWidth(1f)
                         )
                     }
                     Spacer(modifier = Modifier.size(12.dp))
                     Row(modifier = Modifier.fillMaxWidth()) {
                         OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                it.footballQualificationsState.value =
+                                    OnboardingScreensStatesMainContract.FootballQualificationsState.AMATEURISH
+                            },
                             state = it,
                             text = stringResource(id = R.string.amateurish),
-                            selected = true,
+                            selected = it.footballQualificationsState.value == OnboardingScreensStatesMainContract.FootballQualificationsState.AMATEURISH,
                             icon = null,
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                         OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                it.footballQualificationsState.value =
+                                    OnboardingScreensStatesMainContract.FootballQualificationsState.DID_N0T_PRACTICE
+                            },
                             state = it,
                             text = stringResource(id = R.string.didnt_practice),
-                            selected = true,
+                            selected = it.footballQualificationsState.value == OnboardingScreensStatesMainContract.FootballQualificationsState.DID_N0T_PRACTICE,
                             icon = null,
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
@@ -195,6 +210,4 @@ fun FillingOutTheUserProfileScreenStep2 (
             }
         }
     }
-
-
 }

@@ -2,7 +2,6 @@ package com.example.blanball.presentation.views.screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,49 +18,33 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.LightGray
 import com.example.blanball.presentation.theme.backgroundGradient
+import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
-import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
+import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 
 @Composable
-fun FillingOutTheUserProfileScreenStep1(
+fun FillingOutTheUserProfileScreenStep4(
     state: UiState,
-    onFillingOutTheUserProfileStep2Clicked: () -> Unit,
+    onFinishClicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-    val dayNumbers = remember { (1..30).toList() }
-    val months = listOf(
-        stringResource(R.string.january),
-        stringResource(R.string.february),
-        stringResource(R.string.march),
-        stringResource(R.string.april),
-        stringResource(R.string.may),
-        stringResource(R.string.june),
-        stringResource(R.string.july),
-        stringResource(R.string.august),
-        stringResource(R.string.september),
-        stringResource(R.string.october),
-        stringResource(R.string.november),
-        stringResource(R.string.december)
-    )
-    val rememberMonth = remember { months}
-
     val currentState: OnboardingScreensStatesMainContract.State =
         (state as? OnboardingScreensStatesMainContract.State)
             ?: OnboardingScreensStatesMainContract.State(
@@ -75,7 +58,7 @@ fun FillingOutTheUserProfileScreenStep1(
     ) {
         (state as? OnboardingScreensStatesMainContract.State)?.let {
             Image(
-                painter = painterResource(id = R.drawable.onboard_bg),
+                painter = painterResource(id = R.drawable.ukraine),
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -91,67 +74,78 @@ fun FillingOutTheUserProfileScreenStep1(
                         .verticalScroll(rememberScrollState()),
                 ) {
                     Text(
-                        text = stringResource(R.string.lets_meet),
+                        text = stringResource(R.string.locations),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
                         textAlign = TextAlign.Center,
                     )
                     Row(
-                        Modifier
-                            .padding(top = 20.dp)
-                            .align(Alignment.CenterHorizontally)
+                        Modifier.padding(top = 20.dp)
                     ) {
-                        Image(
-                            painter = painterResource(R.drawable.stepline_1),
-                            contentDescription = null,
-                            Modifier.weight(1f)
-                        )
-                        repeat(3) {
-                            Spacer(modifier = Modifier.size(2.dp))
+                        repeat(4) {
                             Image(
-                                painter = painterResource(id = R.drawable.empty_stepline),
+                                painter = painterResource(R.drawable.stepline_1),
                                 contentDescription = null,
                                 Modifier.weight(1f)
                             )
+                            Spacer(modifier = Modifier.size(2.dp))
                         }
                     }
                     Spacer(modifier = Modifier.size(24.dp))
                     Text(
-                        text = stringResource(id = R.string.when_were_you_born),
+                        text = stringResource(id = R.string.help_us_figure_out),
+                        style = typography.h3,
+                        color = secondaryNavy
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.your_place_of_residence),
                         style = typography.h5,
                         color = primaryDark
                     )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        BottomLineDefaultTextInput(
-                            labelResId = R.string.day,
-                            modifier = Modifier.weight(1f),
-                            value = it.dayDropDownState.value,
-                            onValueChange = { state.dayDropDownState.value = it },
-                            state = it,
-                            transformation = VisualTransformation.None,
+                    Spacer(modifier = Modifier.size(12.dp))
+                    CustomDropDownMenu(
+                        labelResId = R.string.city,
+                        listItems = listOf(),
+                        value = it.cityState.value,
+                        onValueChange = { state.cityState.value = it }
+                    )
+                    Spacer(modifier = Modifier.size(12.dp))
+                    CustomDropDownMenu(
+                        labelResId = R.string.area,
+                        listItems = listOf(),
+                        value = it.districtState.value,
+                        onValueChange = { state.districtState.value = it }
+                    )
+                    Spacer(modifier = Modifier.size(12.dp))
+                    Box(
+                        modifier = Modifier,
+                        contentAlignment = Alignment.TopEnd
+                    ) {
+                        CustomDropDownMenu(
+                            labelResId = R.string.add_district,
+                            listItems = listOf(),
+                            value = it.addDistrictState.value,
+                            onValueChange = { state.addDistrictState.value = it },
+                            modifier = Modifier.fillMaxWidth()
                         )
-                        BottomLineDefaultTextInput(
-                            labelResId = R.string.month,
-                            value = it.monthDropDownState.value,
-                            modifier = Modifier.weight(1f),
-                            state = it,
-                            transformation = VisualTransformation.None,
-                            onValueChange = { state.monthDropDownState.value = it },
-                        )
-                        BottomLineDefaultTextInput(
-                            labelResId = R.string.year,
-                            state = it,
-                            modifier = Modifier.weight(1f),
-                            transformation = VisualTransformation.None,
-                            value = it.yearDropDownState.value,
-                            onValueChange = { state.yearDropDownState.value = it },
+                        Text(
+                            text = stringResource(id = R.string.optional),
+                            style = typography.h6,
+                            color = LightGray,
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .background(
+                                    color = backgroundItems,
+                                    shape = shapes.small
+                                )
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
-                        onClick = onFillingOutTheUserProfileStep2Clicked,
+                        onClick = onFinishClicked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp),

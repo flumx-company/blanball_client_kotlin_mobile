@@ -4,8 +4,6 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,6 +18,8 @@ import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep1
 import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep2
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep3
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep4
 import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileStartScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
@@ -29,9 +29,6 @@ import com.example.blanball.presentation.views.screens.registration.Registration
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
-import com.example.domain.utils.Integers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun AppScreensConfig(
@@ -206,20 +203,10 @@ fun AppScreensConfig(
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
             val state = onboardingProfileViewModel.uiState.collectAsState().value
-            val yearsList = remember { mutableStateOf<List<String>>(emptyList()) }
-            LaunchedEffect(Unit) {
-                val years = withContext(Dispatchers.IO) {
-                    List(Integers.YEARS_COUNT_IN_DROPDOWN_MENU) { index ->
-                        (Integers.YEAR_1994 + index).toString()
-                    }.reversed()
-                }
-                yearsList.value = years
-            }
             FillingOutTheUserProfileScreenStep1(
                 state = state,
                 onFillingOutTheUserProfileStep2Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)},
                 onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)},
-                years = yearsList.value,
             )
         }
 
@@ -227,12 +214,25 @@ fun AppScreensConfig(
             val state = onboardingProfileViewModel.uiState.collectAsState().value
             FillingOutTheUserProfileScreenStep2(
                 state = state,
-                onFillingOutTheUserProfileStep3Clicked = {},
-                onTurnBackClicked = {},
+                onFillingOutTheUserProfileStep3Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)},
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)},
             )
         }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep3(
+                state = state,
+                onFillingOutTheUserProfileStep4Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) },
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)})
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep4(state = state, onFinishClicked = {}, onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)} )
+            }
+        }
     }
-}
 
 enum class Destinations(val route: String) {
     LOGIN("login"),
@@ -248,4 +248,5 @@ enum class Destinations(val route: String) {
     FILLING_OUT_THE_USER_PROFILE1("fillingOutTheUserProfile1"),
     FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
     FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
+    FILLING_OUT_THE_USER_PROFILE4("fillingOutTheUserProfile4"),
 }

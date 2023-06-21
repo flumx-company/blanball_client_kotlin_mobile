@@ -14,7 +14,23 @@ class OnboardingScreensStatesMainContract {
         val monthDropDownState: MutableState<String> = mutableStateOf(""),
         val yearDropDownState: MutableState<String> = mutableStateOf(""),
         val selectDocumentState: MutableState<String> = mutableStateOf(""),
+        val heightState: MutableState<String> = mutableStateOf(""),
+        val weightState: MutableState<String> = mutableStateOf(""),
+        val kickingLegState: MutableState<String> = mutableStateOf(""),
+        val positionState: MutableState<String> = mutableStateOf(""),
+        val cityState: MutableState<String> = mutableStateOf(""),
+        val districtState: MutableState<String> = mutableStateOf(""),
+        val addDistrictState: MutableState<String> = mutableStateOf(""),
+        val footballQualificationsState: MutableState<FootballQualificationsState> = mutableStateOf(FootballQualificationsState.NO_SELECT),
     ) : UiState
+
+    enum class FootballQualificationsState() {
+        NO_SELECT,
+        INDEPENDENTLY,
+        PROFESSIONALLY,
+        AMATEURISH,
+        DID_N0T_PRACTICE,
+}
 
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
