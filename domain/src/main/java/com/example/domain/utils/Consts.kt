@@ -21,6 +21,8 @@ object Code {
 object Integers {
      const val ONE = 1
      const val DURATION_MILLIS_ON_CARD = 1000
+     const val YEAR_1994 = 1944
+     const val YEARS_COUNT_IN_DROPDOWN_MENU = 80
 }
 
 object Formats {

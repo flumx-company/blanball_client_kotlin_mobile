@@ -1,11 +1,11 @@
-    package com.example.blanball.presentation.views.components.textinputs
+package com.example.blanball.presentation.views.components.textinputs
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,20 +23,20 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
-fun DefaultTextInput(
+fun BottomLineDefaultTextInput(
     modifier: Modifier = Modifier,
     labelResId: Int,
-        state: UiState,
-        value: String,
-        isError: Boolean = false,
-        onValueChange: (String) -> Unit,
-        transformation: VisualTransformation,
-        keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        keyboardActions: KeyboardActions = KeyboardActions.Default,
-        errorMessage: String = "",
-    ) {
+    state: UiState,
+    value: String,
+    isError: Boolean = false,
+    onValueChange: (String) -> Unit,
+    transformation: VisualTransformation,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    errorMessage: String = "",
+) {
     Box(modifier = modifier,) {
-        OutlinedTextField(
+        TextField(
             value = value,
             onValueChange = onValueChange,
             visualTransformation = transformation,
