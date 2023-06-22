@@ -13,6 +13,7 @@ object Endpoints {
      const val USER_PROFILE_ENDPOINT = BuildConfig.USER_PROFILE_ENDPOINT
      const val REVIEWS_ENDPOINT = BuildConfig.REVIEWS_ENDPOINT
      const val PLANNED_EVENTS = BuildConfig.PLANNED_EVENTS
+     const val UPDATE_PROFILE_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
      }
 object Code {
      const val CODE_401 = BuildConfig.CODE_401

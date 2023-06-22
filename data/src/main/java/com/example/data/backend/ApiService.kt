@@ -15,10 +15,12 @@ import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
 import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.responses.UpdateUserProfileResponse
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -48,4 +50,7 @@ interface ApiService  {
 
     @GET (Endpoints.PLANNED_EVENTS)
     suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+
+    @PUT (Endpoints.USER_PROFILE_ENDPOINT)
+    suspend fun  updateUserProfile (): UpdateUserProfileResponse
 }

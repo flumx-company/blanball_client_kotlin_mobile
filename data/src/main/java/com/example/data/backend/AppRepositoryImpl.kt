@@ -14,6 +14,7 @@
     import com.example.data.backend.models.responses.RegistrationError
     import com.example.data.backend.models.responses.ResetCompleteError
     import com.example.data.backend.models.responses.SendCodeError
+    import com.example.data.backend.models.responses.UpdateUserProfileResponseError
     import com.example.data.tokenmanager.TokenManager
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
@@ -31,6 +32,8 @@
     import com.example.data.utils.ext.toResetCompleteResponseEntity
     import com.example.data.utils.ext.toSendCodeErrorEntity
     import com.example.data.utils.ext.toSendCodeResponseEntity
+    import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
+    import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.data.verifycodemanager.VerifyCodeManager
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
@@ -40,6 +43,7 @@
     import com.example.domain.entity.responses.RegistrationErrorEntity
     import com.example.domain.entity.responses.ResetCompleteErrorEntity
     import com.example.domain.entity.responses.SendCodeErrorEntity
+    import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
     import com.example.domain.entity.results.GetUserProfileByIdResultEntity
@@ -48,6 +52,7 @@
     import com.example.domain.entity.results.RegistrationResultEntity
     import com.example.domain.entity.results.ResetCompleteResultEntity
     import com.example.domain.entity.results.SendCodeResultEntity
+    import com.example.domain.entity.results.UpdateUserProfileResultEntity
     import com.example.domain.repository.AppRepository
     import com.squareup.moshi.Moshi
     import kotlinx.coroutines.flow.firstOrNull
@@ -59,8 +64,25 @@
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
     ) : AppRepository {
-    
-        override suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity {
+        override suspend fun updateUserProfile(): UpdateUserProfileResultEntity {
+            return try {
+                val updateUserProfileResponse = service.updateUserProfile()
+                val updateUserProfileDomainResponse =
+                    updateUserProfileResponse.toUpdateUserProfileResponseEntity()
+                UpdateUserProfileResultEntity.Success(updateUserProfileDomainResponse)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<UpdateUserProfileResponseError, UpdateUserProfileResponseEntityError>(
+                        ex
+                    ) { it.toUpdateUserProfileResponseEntityError() }
+                UpdateUserProfileResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
+
+        override suspend fun getUserPlannedEventsById(
+            id: Int,
+            page: Int
+        ): GetUserPlannedEventsByIdResultEntity {
             return try {
                 val getUserPlannedByIdResponse = service.getListOfUsersPlannedEvents(id, page)
                 val getUserPlannedByIdDomainResponse =
