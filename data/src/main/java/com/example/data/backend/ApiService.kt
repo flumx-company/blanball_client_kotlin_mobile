@@ -7,6 +7,7 @@ import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
+import com.example.data.backend.models.requests.UpdateUserProfileRequest
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
@@ -52,5 +53,5 @@ interface ApiService  {
     suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
     @PUT (Endpoints.USER_PROFILE_ENDPOINT)
-    suspend fun  updateUserProfile (): UpdateUserProfileResponse
+    suspend fun  updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
 }

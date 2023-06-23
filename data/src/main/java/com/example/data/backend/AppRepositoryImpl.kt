@@ -6,6 +6,8 @@
     import com.example.data.backend.models.requests.ResetCompleteRequest
     import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
     import com.example.data.backend.models.requests.SendResetCodeRequest
+    import com.example.data.backend.models.requests.UpdateUserProfileRequest
+    import com.example.data.backend.models.requests.UpdateUserProfileRequestConfiguration
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
@@ -64,9 +66,18 @@
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
     ) : AppRepository {
-        override suspend fun updateUserProfile(): UpdateUserProfileResultEntity {
+        override suspend fun updateUserProfile(birthday: String,
+                                               height: Int,
+                                               weight: Int,
+                                               position: String,
+                                               working_leg: String,
+                                               place_name: String): UpdateUserProfileResultEntity {
             return try {
-                val updateUserProfileResponse = service.updateUserProfile()
+                val updateUserProfileResponse = service.updateUserProfile(UpdateUserProfileRequest(
+                    UpdateUserProfileRequestConfiguration(email = false, phone = false, show_reviews = false),
+                    get_planned_events =
+
+                ))
                 val updateUserProfileDomainResponse =
                     updateUserProfileResponse.toUpdateUserProfileResponseEntity()
                 UpdateUserProfileResultEntity.Success(updateUserProfileDomainResponse)

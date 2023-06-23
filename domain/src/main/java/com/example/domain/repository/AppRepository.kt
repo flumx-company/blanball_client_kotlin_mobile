@@ -24,8 +24,16 @@ interface AppRepository {
         lastName: String,
         gender: String
     ): RegistrationResultEntity
-    suspend fun getUserProfileById(id: Int,): GetUserProfileByIdResultEntity
+
+    suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
     suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity
     suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity
-    suspend fun updateUserProfile(): UpdateUserProfileResultEntity
+    suspend fun updateUserProfile(
+        birthday: String,
+        height: Int,
+        weight: Int,
+        position: String,
+        working_leg: String,
+        place_name: String
+    ): UpdateUserProfileResultEntity
 }
