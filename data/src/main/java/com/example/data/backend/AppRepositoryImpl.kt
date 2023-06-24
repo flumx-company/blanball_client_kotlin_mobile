@@ -75,7 +75,7 @@
             return try {
                 val updateUserProfileResponse = service.updateUserProfile(UpdateUserProfileRequest(
                     UpdateUserProfileRequestConfiguration(email = false, phone = false, show_reviews = false),
-                    get_planned_events =
+                    phone =
 
                 ))
                 val updateUserProfileDomainResponse =

@@ -2,7 +2,6 @@ package com.example.data.backend.models.requests
 
 data class UpdateUserProfileRequest(
     val configuration: UpdateUserProfileRequestConfiguration,
-    val get_planned_events: String,
     val phone: String,
     val profile: UpdateUserProfileRequestProfile
 )
@@ -14,16 +13,16 @@ data class UpdateUserProfileRequestConfiguration(
 )
 
 data class UpdateUserProfileRequestProfile(
-    val about_me: String,
-    val birthday: String,
-    val gender: String,
-    val height: Int,
+    val about_me: String? = null,
+    val birthday: String? = null,
+    val gender: String? = null,
+    val height: Int? = null,
     val last_name: String,
     val name: String,
-    val place: UpdateUserProfileRequestPlace,
-    val position: String,
-    val weight: Int,
-    val working_leg: String
+    val place: UpdateUserProfileRequestPlace? = null,
+    val position: String? = null,
+    val weight: Int? = null,
+    val working_leg: String? = null
 )
 
 data class UpdateUserProfileRequestPlace(
