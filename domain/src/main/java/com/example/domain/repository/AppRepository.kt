@@ -8,7 +8,7 @@ import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
-import com.example.domain.entity.results.UpdateUserProfileResultEntity
+import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 
 interface AppRepository {
     suspend fun login(email: String, password: String): LoginResultEntity
@@ -28,12 +28,12 @@ interface AppRepository {
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
     suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity
     suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity
-    suspend fun updateUserProfile(
+    suspend fun fillingTheUserProfile(
         birthday: String,
         height: Int,
         weight: Int,
         position: String,
         working_leg: String,
-        place_name: String
-    ): UpdateUserProfileResultEntity
+        place_name: String,
+    ): FillingTheUserProfileResultEntity
 }

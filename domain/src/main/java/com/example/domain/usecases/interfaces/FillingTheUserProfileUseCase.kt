@@ -1,8 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import java.text.FieldPosition
-
-interface UpdateUserProfileUseCase {
+interface FillingTheUserProfileUseCase {
     suspend fun executeUpdateUserProfile(
         birthday: String,
         height: Int,
