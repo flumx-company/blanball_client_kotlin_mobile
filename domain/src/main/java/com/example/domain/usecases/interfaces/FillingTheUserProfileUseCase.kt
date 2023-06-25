@@ -1,5 +1,7 @@
 package com.example.domain.usecases.interfaces
 
+import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+
 interface FillingTheUserProfileUseCase {
     suspend fun executeUpdateUserProfile(
         birthday: String,
@@ -8,5 +10,5 @@ interface FillingTheUserProfileUseCase {
         position: String,
         working_leg: String,
         place_name: String,
-    )
+    ) : FillingTheUserProfileResultEntity
 }

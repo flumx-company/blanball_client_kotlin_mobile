@@ -20,6 +20,7 @@
     import com.example.data.backend.models.responses.SendCodeError
     import com.example.data.backend.models.responses.UpdateUserProfileResponseError
     import com.example.data.tokenmanager.TokenManager
+    import com.example.data.usernamemanager.UserNameManager
     import com.example.data.userphonemanager.UserPhoneManager
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
@@ -69,6 +70,7 @@
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
         internal val userPhoneManager: UserPhoneManager,
+        internal val userNameManager: UserNameManager,
     ) : AppRepository {
         override suspend fun fillingTheUserProfile(
             birthday: String,
@@ -80,6 +82,8 @@
         ): FillingTheUserProfileResultEntity {
             return try {
                 val savedUserPhone = userPhoneManager.getUserPhone()
+                val savedFullName = userNameManager.getUserName().firstOrNull().toString()
+                val nameAndLastName = savedFullName.split("")
                 val updateUserProfileResponse = service.updateUserProfile(
                     UpdateUserProfileRequest(
                         UpdateUserProfileRequestConfiguration(
@@ -95,7 +99,8 @@
                             position = position,
                             working_leg = working_leg,
                             place = UpdateUserProfileRequestPlace(place_name = place_name, lat = 90, lon = 90),
-                            name = RegistrationRequest
+                            name = nameAndLastName[0] ,
+                            last_name = nameAndLastName[1],
                         )
                     )
                 )
@@ -231,7 +236,8 @@
                         re_password = re_password,
                     )
                     val registrationSuccess = service.userRegistration(request)
-                    userPhoneManager.safeUserPhone(request.phone)
+                    userPhoneManager.safeUserPhone("$name $lastName")
+                    userNameManager.safeUserPhone(request.profile.name)
                     val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
                     RegistrationResultEntity.Success(registrationResponse.data)
                 } catch (ex: HttpException) {
