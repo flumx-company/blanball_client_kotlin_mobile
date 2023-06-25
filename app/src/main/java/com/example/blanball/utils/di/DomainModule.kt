@@ -41,5 +41,5 @@ interface DomainModule {
     fun bindGetUserPlannedEventsByIdUseCase(getUserPlannedEventsByIdUseCase: GetUserPlannedEventsByIdUseCaseImpl): GetUserPlannedEventsByIdUseCase
 
     @Binds
-    fun bindFillingTheUserProfileUseCase(fillingTheUserProfileUseCaseImpl: FillingTheUserProfileUseCase): FillingTheUserProfileUseCaseImpl
+    fun bindFillingTheUserProfileUseCase(fillingTheUserProfileUseCaseImpl: FillingTheUserProfileUseCaseImpl): FillingTheUserProfileUseCase
 }

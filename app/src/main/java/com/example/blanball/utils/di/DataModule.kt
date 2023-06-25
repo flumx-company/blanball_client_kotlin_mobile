@@ -3,6 +3,10 @@ package com.example.blanball.utils.di
 import com.example.data.backend.*
 import com.example.data.tokenmanager.TokenManager
 import com.example.data.tokenmanager.TokenManagerImpl
+import com.example.data.usernamemanager.UserNameManager
+import com.example.data.usernamemanager.UserNameManagerImpl
+import com.example.data.userphonemanager.UserPhoneManager
+import com.example.data.userphonemanager.UserPhoneManagerImpl
 import com.example.data.verifycodemanager.VerifyCodeManager
 import com.example.data.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
@@ -67,6 +71,12 @@ interface RepositoryModule {
     fun bindTokenManager(tokenManager: TokenManagerImpl): TokenManager
 
     @Binds
-     fun bindVerifyCodeManager (verifyCodeManager: VerifyCodeManagerImpl): VerifyCodeManager
+    fun bindVerifyCodeManager(verifyCodeManager: VerifyCodeManagerImpl): VerifyCodeManager
+
+    @Binds
+    fun bindUserPhoneManager(userPhoneManager: UserPhoneManagerImpl): UserPhoneManager
+
+    @Binds
+    fun bindUserNameManager(userNameManager: UserNameManagerImpl): UserNameManager
 
 }
