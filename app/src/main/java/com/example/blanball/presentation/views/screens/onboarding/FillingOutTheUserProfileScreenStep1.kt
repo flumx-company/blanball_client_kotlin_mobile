@@ -19,7 +19,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,23 +44,6 @@ fun FillingOutTheUserProfileScreenStep1(
     onFillingOutTheUserProfileStep2Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-    val dayNumbers = remember { (1..30).toList() }
-    val months = listOf(
-        stringResource(R.string.january),
-        stringResource(R.string.february),
-        stringResource(R.string.march),
-        stringResource(R.string.april),
-        stringResource(R.string.may),
-        stringResource(R.string.june),
-        stringResource(R.string.july),
-        stringResource(R.string.august),
-        stringResource(R.string.september),
-        stringResource(R.string.october),
-        stringResource(R.string.november),
-        stringResource(R.string.december)
-    )
-    val rememberMonth = remember { months}
-
     val currentState: OnboardingScreensStatesMainContract.State =
         (state as? OnboardingScreensStatesMainContract.State)
             ?: OnboardingScreensStatesMainContract.State(
@@ -126,26 +108,26 @@ fun FillingOutTheUserProfileScreenStep1(
                         BottomLineDefaultTextInput(
                             labelResId = R.string.day,
                             modifier = Modifier.weight(1f),
-                            value = it.dayDropDownState.value,
-                            onValueChange = { state.dayDropDownState.value = it },
+                            value = it.dayBirthdayState.value,
+                            onValueChange = { state.dayBirthdayState.value = it },
                             state = it,
                             transformation = VisualTransformation.None,
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.month,
-                            value = it.monthDropDownState.value,
+                            value = it.monthBirthdayState.value,
                             modifier = Modifier.weight(1f),
                             state = it,
                             transformation = VisualTransformation.None,
-                            onValueChange = { state.monthDropDownState.value = it },
+                            onValueChange = { state.monthBirthdayState.value = it },
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.year,
                             state = it,
                             modifier = Modifier.weight(1f),
                             transformation = VisualTransformation.None,
-                            value = it.yearDropDownState.value,
-                            onValueChange = { state.yearDropDownState.value = it },
+                            value = it.yearBirthdayState.value,
+                            onValueChange = { state.yearBirthdayState.value = it },
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))

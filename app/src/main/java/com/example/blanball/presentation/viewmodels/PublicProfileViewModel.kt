@@ -39,10 +39,10 @@ class PublicProfileViewModel @Inject constructor(
 
     private val defaultState
         get() = PublicProfileMainContract.State(
-            state = PublicProfileMainContract.ScreenViewState.Loading
+            state = PublicProfileMainContract.ScreenViewState.Idle
         )
 
-    private val currentState: PublicProfileMainContract.State
+    val currentState: PublicProfileMainContract.State
         get() = uiState.value as PublicProfileMainContract.State
 
     private val _uiState: MutableStateFlow<UiState> =
@@ -199,7 +199,7 @@ class PublicProfileViewModel @Inject constructor(
         }
     }
 
-    private fun setState(reduce: PublicProfileMainContract.State.() -> PublicProfileMainContract.State) {
+    fun setState(reduce: PublicProfileMainContract.State.() -> PublicProfileMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

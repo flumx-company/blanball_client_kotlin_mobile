@@ -74,7 +74,7 @@ fun PublicProfileScreen(
 ) {
     val currentState: PublicProfileMainContract.State =
         (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
-            PublicProfileMainContract.ScreenViewState.Loading
+            PublicProfileMainContract.ScreenViewState.Idle
         )
     val context = LocalContext.current
     Box(

@@ -6,17 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 class OnboardingScreensStatesMainContract {
 
     sealed class Event : UiEvent {
+       object FinishFillingOutTheProfileClicked : Event()
     }
 
     data class State(
         val state: ScreenViewState,
-        val dayDropDownState: MutableState<String> = mutableStateOf(""),
-        val monthDropDownState: MutableState<String> = mutableStateOf(""),
-        val yearDropDownState: MutableState<String> = mutableStateOf(""),
+        val dayBirthdayState: MutableState<String> = mutableStateOf(""),
+        val monthBirthdayState: MutableState<String> = mutableStateOf(""),
+        val yearBirthdayState: MutableState<String> = mutableStateOf(""),
         val selectDocumentState: MutableState<String> = mutableStateOf(""),
         val heightState: MutableState<String> = mutableStateOf(""),
         val weightState: MutableState<String> = mutableStateOf(""),
-        val kickingLegState: MutableState<String> = mutableStateOf(""),
+        val workingLegState: MutableState<String> = mutableStateOf(""),
         val positionState: MutableState<String> = mutableStateOf(""),
         val cityState: MutableState<String> = mutableStateOf(""),
         val districtState: MutableState<String> = mutableStateOf(""),

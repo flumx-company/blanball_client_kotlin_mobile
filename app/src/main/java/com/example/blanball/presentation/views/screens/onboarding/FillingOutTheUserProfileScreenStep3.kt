@@ -126,8 +126,8 @@ fun FillingOutTheUserProfileScreenStep3(
                                 stringResource(id = R.string.right_leg),
                                 stringResource(id = R.string.left_leg)
                             ),
-                            value = it.kickingLegState.value,
-                            onValueChange = { state.kickingLegState.value = it },
+                            value = it.workingLegState.value,
+                            onValueChange = { state.workingLegState.value = it },
                             modifier = Modifier.weight(1f).fillMaxWidth()
                         )
                     }

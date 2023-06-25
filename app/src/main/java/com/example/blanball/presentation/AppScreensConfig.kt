@@ -41,7 +41,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.FILLING_OUT_THE_USER_PROFILE_START.route
+        startDestination = Destinations.PUBLIC_PROFILE.route
     )
     {
         composable(Destinations.LOGIN.route) {
@@ -160,15 +160,14 @@ fun AppScreensConfig(
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            LaunchedEffect(key1 = true) {
-                publicProfileViewModel.sideEffect.collect {
-                    when (it) {
-                        is PublicProfileMainContract.Effect.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
+            val currentState = publicProfileViewModel.currentState
+
+            LaunchedEffect(key1 = Unit) {
+               publicProfileViewModel.setState { copy(
+                   state = PublicProfileMainContract.ScreenViewState.Loading
+               ) }
+           }
+
             PublicProfileScreen(
                 state = state,
                 onInviteToAnEventClicked = {}, // TODO("Invite to event action")
