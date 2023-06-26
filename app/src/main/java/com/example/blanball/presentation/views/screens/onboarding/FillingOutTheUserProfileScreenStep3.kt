@@ -38,6 +38,8 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isValidHeight
+import com.example.blanball.utils.ext.isValidWeight
 
 @Composable
 fun FillingOutTheUserProfileScreenStep3(
@@ -81,7 +83,9 @@ fun FillingOutTheUserProfileScreenStep3(
                         textAlign = TextAlign.Center,
                     )
                     Row(
-                        Modifier.padding(top = 20.dp).align(Alignment.CenterHorizontally)
+                        Modifier
+                            .padding(top = 20.dp)
+                            .align(Alignment.CenterHorizontally)
                     ) {
                         repeat(3) {
                             Image(
@@ -105,7 +109,9 @@ fun FillingOutTheUserProfileScreenStep3(
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         DefaultTextInput(
-                            modifier = Modifier.weight(0.5f).fillMaxWidth(),
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxWidth(),
                             state = it,
                             labelResId = R.string.height,
                             value = it.heightState.value,
@@ -118,7 +124,9 @@ fun FillingOutTheUserProfileScreenStep3(
                             value = it.weightState.value,
                             onValueChange = { state.weightState.value = it },
                             transformation = VisualTransformation.None,
-                            modifier = Modifier.weight(0.5f).fillMaxWidth()
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxWidth()
                         )
                         CustomDropDownMenu(
                             labelResId = R.string.kicking_leg,
@@ -128,7 +136,9 @@ fun FillingOutTheUserProfileScreenStep3(
                             ),
                             value = it.workingLegState.value,
                             onValueChange = { state.workingLegState.value = it },
-                            modifier = Modifier.weight(1f).fillMaxWidth()
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth()
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
@@ -166,6 +176,8 @@ fun FillingOutTheUserProfileScreenStep3(
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.heightState.value.isValidHeight()
+                                && it.weightState.value.isValidWeight(),
                         onClick = onFillingOutTheUserProfileStep4Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

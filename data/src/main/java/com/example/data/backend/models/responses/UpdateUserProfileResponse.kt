@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 data class UpdateUserProfileResponse(
     @Json (name = "configuration") val configuration: UpdateUserProfileResponseConfiguration,
-    @Json (name = "get_planned_events") val get_planned_events: String,
+    @Json (name = "get_planned_events") val get_planned_events: String? = null,
     @Json (name = "phone") val phone: String,
     @Json (name = "profile") val profile: UpdateUserProfileResponseProfile
 )

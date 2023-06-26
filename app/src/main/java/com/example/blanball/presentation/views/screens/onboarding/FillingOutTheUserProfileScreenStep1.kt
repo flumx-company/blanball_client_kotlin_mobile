@@ -37,6 +37,9 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
+import com.example.blanball.utils.ext.isValidBirthDay
+import com.example.blanball.utils.ext.isValidBirthMonth
+import com.example.blanball.utils.ext.isValidBirthYear
 
 @Composable
 fun FillingOutTheUserProfileScreenStep1(
@@ -133,6 +136,9 @@ fun FillingOutTheUserProfileScreenStep1(
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.dayBirthdayState.value.isValidBirthDay()
+                                && it.monthBirthdayState.value.isValidBirthMonth()
+                                && it.yearBirthdayState.value.isValidBirthYear(),
                         onClick = onFillingOutTheUserProfileStep2Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

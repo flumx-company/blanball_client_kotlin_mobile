@@ -2,7 +2,7 @@ package com.example.domain.entity.responses
 
 data class UpdateUserProfileResponseEntity(
     val configuration: UpdateUserProfileResponseConfigurationEntity,
-    val get_planned_events: String,
+    val get_planned_events: String? = null,
     val phone: String,
     val profile: UpdateUserProfileResponseProfileEntity
 )
