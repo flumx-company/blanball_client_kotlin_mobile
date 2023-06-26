@@ -19,13 +19,13 @@ class UserNameManagerImpl @Inject constructor(private val dataStore: DataStore<P
         }
     }
 
-    override suspend fun safeUserPhone(userName: String) {
+    override suspend fun safeUserName(userName: String) {
         dataStore.edit { preferences ->
             preferences[USER_NAME] = userName
         }
     }
 
-    override suspend fun deleteUserPhone() {
+    override suspend fun deleteUserName() {
         dataStore.edit { preferences ->
             preferences.remove(USER_NAME)
         }

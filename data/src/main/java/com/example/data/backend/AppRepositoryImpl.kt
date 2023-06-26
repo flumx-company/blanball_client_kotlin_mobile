@@ -83,7 +83,7 @@
             return try {
                 val savedUserPhone = userPhoneManager.getUserPhone()
                 val savedFullName = userNameManager.getUserName().firstOrNull().toString()
-                val nameAndLastName = savedFullName.split("")
+                val nameAndLastName = savedFullName.split(" ")
                 val updateUserProfileResponse = service.updateUserProfile(
                     UpdateUserProfileRequest(
                         UpdateUserProfileRequestConfiguration(
@@ -99,7 +99,7 @@
                             position = position,
                             working_leg = working_leg,
                             place = UpdateUserProfileRequestPlace(place_name = place_name, lat = 90, lon = 90),
-                            name = nameAndLastName[0] ,
+                            name = nameAndLastName[0],
                             last_name = nameAndLastName[1],
                         )
                     )
@@ -236,8 +236,8 @@
                         re_password = re_password,
                     )
                     val registrationSuccess = service.userRegistration(request)
-                    userPhoneManager.safeUserPhone("$name $lastName")
-                    userNameManager.safeUserPhone(request.profile.name)
+                    userNameManager.safeUserName("$name $lastName")
+                    userPhoneManager.safeUserPhone(request.phone)
                     val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
                     RegistrationResultEntity.Success(registrationResponse.data)
                 } catch (ex: HttpException) {

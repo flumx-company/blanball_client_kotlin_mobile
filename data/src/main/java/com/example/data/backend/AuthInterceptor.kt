@@ -15,7 +15,7 @@ class AuthInterceptor (
         }
         val request = chain.request().newBuilder()
         request.addHeader("Accept", "application/json")
-        request.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2Nzg1MjA4LCJpYXQiOjE2ODc3ODUyMDgsImp0aSI6IjlkZTQ3ZTJmZWExNzQ4Yjc4NTA2NjFiZDdlNGI5NDUxIiwidXNlcl9pZCI6MTR9.-f9yA-eoLLEKmO4s8dppVx-iKj9tVgQVlQY651cCP2w")
+        request.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2Nzg5NDA1LCJpYXQiOjE2ODc3ODk0MDUsImp0aSI6ImMwZDU0ZTEwMmEwNDRhNmVhOGRhZjhiYWI4YTRjYTRiIiwidXNlcl9pZCI6MTZ9.kV6Pz3TjP9iS4Iq5ZKjVSiDlAh9Hb2sJFTQn8OLxyUw")
          return chain.proceed(request.build())
     }
 }

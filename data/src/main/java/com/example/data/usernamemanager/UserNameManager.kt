@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserNameManager {
     fun getUserName(): Flow<String?>
 
-    suspend fun safeUserPhone(userName: String)
+    suspend fun safeUserName(userName: String)
 
-    suspend fun deleteUserPhone()
+    suspend fun deleteUserName()
 }
