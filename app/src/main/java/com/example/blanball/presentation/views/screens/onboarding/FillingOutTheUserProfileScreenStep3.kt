@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -22,8 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +43,8 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidHeight
+import com.example.blanball.utils.ext.isNotValidWeight
 import com.example.blanball.utils.ext.isValidHeight
 import com.example.blanball.utils.ext.isValidWeight
 
@@ -47,6 +54,7 @@ fun FillingOutTheUserProfileScreenStep3(
     onFillingOutTheUserProfileStep4Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
     val currentState: OnboardingScreensStatesMainContract.State =
         (state as? OnboardingScreensStatesMainContract.State)
             ?: OnboardingScreensStatesMainContract.State(
@@ -117,16 +125,39 @@ fun FillingOutTheUserProfileScreenStep3(
                             value = it.heightState.value,
                             onValueChange = { state.heightState.value = it },
                             transformation = VisualTransformation.None,
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.heightState.value.isNotValidHeight() ->  true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.heightState.value.isNotValidHeight() ->  stringResource(id = R.string.height_valid_error)
+                                else -> {("")}
+                            }
                         )
                         DefaultTextInput(
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxWidth(),
                             state = it,
                             labelResId = R.string.weight,
                             value = it.weightState.value,
                             onValueChange = { state.weightState.value = it },
                             transformation = VisualTransformation.None,
-                            modifier = Modifier
-                                .weight(0.5f)
-                                .fillMaxWidth()
+                            keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
+                            keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.weightState.value.isNotValidWeight() ->  true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.weightState.value.isNotValidWeight() ->  stringResource(id = R.string.weight_valid_error)
+                                else -> {("")}
+                            }
                         )
                         CustomDropDownMenu(
                             labelResId = R.string.kicking_leg,

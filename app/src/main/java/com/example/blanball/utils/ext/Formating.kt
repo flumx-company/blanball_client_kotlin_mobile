@@ -59,7 +59,23 @@ internal fun String.formatWorkingLegToEnglishWord(context: Context): String {
 
 internal fun String.formatPositionToEnglish(context: Context): String {
   return   when (this) {
-        context.resources.getString(R.string.goalkeeper) ->  context.resources.getString(R.string.gk)
-      else -> {""}
+      context.resources.getString(R.string.goalkeeper) -> context.resources.getString(R.string.gk)
+      context.resources.getString(R.string.left_defender) -> context.resources.getString(R.string.lb)
+      context.resources.getString(R.string.right_defender) -> context.resources.getString(R.string.rb)
+      context.resources.getString(R.string.central_defender) -> context.resources.getString(R.string.cb)
+      context.resources.getString(R.string.left_flank_defender) -> context.resources.getString(R.string.lwb)
+      context.resources.getString(R.string.right_flank_defender) -> context.resources.getString(R.string.rwb)
+      context.resources.getString(R.string.supporting_mid_defender) -> context.resources.getString(R.string.cdm)
+      context.resources.getString(R.string.left_mid_defender) -> context.resources.getString(R.string.lm)
+      context.resources.getString(R.string.attacking_mid_defender) -> context.resources.getString(R.string.cam)
+      context.resources.getString(R.string.right_winger) -> context.resources.getString(R.string.rm)
+      context.resources.getString(R.string.left_winger) -> context.resources.getString(R.string.lw)
+      context.resources.getString(R.string.right_flank_attacker) -> context.resources.getString(R.string.rw)
+      context.resources.getString(R.string.left_flank_attacker) -> context.resources.getString(R.string.lw)
+      context.resources.getString(R.string.right_forward) -> context.resources.getString(R.string.rf)
+      context.resources.getString(R.string.central_forward) -> context.resources.getString(R.string.cf)
+      context.resources.getString(R.string.left_forward) -> context.resources.getString(R.string.lf)
+      context.resources.getString(R.string.forward_striker) -> context.resources.getString(R.string.st)
+      else -> ""
   }
 }

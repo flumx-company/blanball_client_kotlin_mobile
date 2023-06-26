@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
@@ -67,20 +68,24 @@ class OnboardingProfileViewModel @Inject constructor(
                 weight = currentState.weightState.value.toInt(),
                 position = currentState.positionState.value.formatPositionToEnglish(application.applicationContext),
                 working_leg = currentState.workingLegState.value.formatWorkingLegToEnglishWord(application.applicationContext),
-                place_name = "string",
+                place_name = currentState.cityVillageTownState.value,
             ).let{
                 when (it) {
                     is FillingTheUserProfileResultEntity.Success -> {
                         setState {
                             copy(
-                                state = OnboardingScreensStatesMainContract.ScreenViewState.SuccessFinishFillingOutTheProfile
+                                state = OnboardingScreensStatesMainContract.ScreenViewState.SuccessFinishFillingOutTheProfile,
+                                isErrorRequestToFinishOutTheProfile = mutableStateOf(false),
+                                isSuccessRequestToFinishOutTheProfile = mutableStateOf(true)
+
                             )
                         }
                     }
                     is FillingTheUserProfileResultEntity.Error -> {
                         setState {
                             copy(
-                                state = OnboardingScreensStatesMainContract.ScreenViewState.ErrorFinishFillingOutTheProfile
+                                state = OnboardingScreensStatesMainContract.ScreenViewState.ErrorFinishFillingOutTheProfile,
+                                isErrorRequestToFinishOutTheProfile = mutableStateOf(false)
                             )
                         }
                     }

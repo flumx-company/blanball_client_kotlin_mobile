@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -22,8 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,6 +42,9 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
+import com.example.blanball.utils.ext.isNotValidBirthDay
+import com.example.blanball.utils.ext.isNotValidBirthMonth
+import com.example.blanball.utils.ext.isNotValidBirthYear
 import com.example.blanball.utils.ext.isValidBirthDay
 import com.example.blanball.utils.ext.isValidBirthMonth
 import com.example.blanball.utils.ext.isValidBirthYear
@@ -47,6 +55,7 @@ fun FillingOutTheUserProfileScreenStep1(
     onFillingOutTheUserProfileStep2Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
     val currentState: OnboardingScreensStatesMainContract.State =
         (state as? OnboardingScreensStatesMainContract.State)
             ?: OnboardingScreensStatesMainContract.State(
@@ -115,6 +124,17 @@ fun FillingOutTheUserProfileScreenStep1(
                             onValueChange = { state.dayBirthdayState.value = it },
                             state = it,
                             transformation = VisualTransformation.None,
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.dayBirthdayState.value.isNotValidBirthDay() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.dayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
+                                else -> {("")}
+                            }
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.month,
@@ -123,6 +143,17 @@ fun FillingOutTheUserProfileScreenStep1(
                             state = it,
                             transformation = VisualTransformation.None,
                             onValueChange = { state.monthBirthdayState.value = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.monthBirthdayState.value.isNotValidBirthMonth() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.monthBirthdayState.value.isNotValidBirthMonth() -> stringResource(id = R.string.birth_month_valid_error)
+                                else -> {("")}
+                            }
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.year,
@@ -131,6 +162,18 @@ fun FillingOutTheUserProfileScreenStep1(
                             transformation = VisualTransformation.None,
                             value = it.yearBirthdayState.value,
                             onValueChange = { state.yearBirthdayState.value = it },
+                            keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
+                            keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.yearBirthdayState.value.isNotValidBirthYear() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.yearBirthdayState.value.isNotValidBirthYear() -> stringResource(id = R.string.birth_year_valid_error)
+                                else -> {("")}
+                            }
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))

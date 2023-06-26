@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -21,8 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
@@ -39,6 +44,7 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
 @Composable
 fun FillingOutTheUserProfileScreenStep4(
@@ -51,6 +57,33 @@ fun FillingOutTheUserProfileScreenStep4(
             ?: OnboardingScreensStatesMainContract.State(
                 OnboardingScreensStatesMainContract.ScreenViewState.Idle
             )
+    val localFocusManager = LocalFocusManager.current
+    val cities = mutableListOf<String>(
+        stringResource(id = R.string.vinnytska_region),
+        stringResource(id = R.string.volynska_region),
+        stringResource(id = R.string.dnipropetrovska_region),
+        stringResource(id = R.string.donetska_region),
+        stringResource(id = R.string.zhytomyrska_region),
+        stringResource(id = R.string.zakarpatska_region),
+        stringResource(id = R.string.zaporizka_region),
+        stringResource(id = R.string.ivano_frankivska_region),
+        stringResource(id = R.string.kievska_region),
+        stringResource(id = R.string.kirovogradska_region),
+        stringResource(id = R.string.luhanska_region),
+        stringResource(id = R.string.lvivska_region),
+        stringResource(id = R.string.mykolaivska_region),
+        stringResource(id = R.string.odeska_region),
+        stringResource(id = R.string.poltavska_region),
+        stringResource(id = R.string.rivnenska_region),
+        stringResource(id = R.string.sumska_region),
+        stringResource(id = R.string.ternopilska_region),
+        stringResource(id = R.string.kharkivska_region),
+        stringResource(id = R.string.khersonska_region),
+        stringResource(id = R.string.khmelnytska_region),
+        stringResource(id = R.string.cherkaska_region),
+        stringResource(id = R.string.chernivetska_region),
+        stringResource(id = R.string.chernihivska_region)
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,29 +140,33 @@ fun FillingOutTheUserProfileScreenStep4(
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     CustomDropDownMenu(
-                        labelResId = R.string.city,
-                        listItems = listOf(),
+                        labelResId = R.string.region,
+                        listItems = cities,
                         value = it.cityState.value,
-                        onValueChange = { state.cityState.value = it }
+                        onValueChange = { state.cityState.value = it },
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    CustomDropDownMenu(
-                        labelResId = R.string.area,
-                        listItems = listOf(),
-                        value = it.districtState.value,
-                        onValueChange = { state.districtState.value = it }
+                    DefaultTextInput(
+                        labelResId = R.string.city_village_town,
+                        value = it.cityVillageTownState.value,
+                        onValueChange = { state.cityVillageTownState.value = it },
+                        state = it,
+                        transformation = VisualTransformation.None,
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     Box(
                         modifier = Modifier,
                         contentAlignment = Alignment.TopEnd
                     ) {
-                        CustomDropDownMenu(
-                            labelResId = R.string.add_district,
-                            listItems = listOf(),
+                        DefaultTextInput(
+                            labelResId = R.string.address,
                             value = it.addDistrictState.value,
                             onValueChange = { state.addDistrictState.value = it },
-                            modifier = Modifier.fillMaxWidth()
+                            transformation = VisualTransformation.None,
+                            keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                            state = it
                         )
                         Text(
                             text = stringResource(id = R.string.optional),
