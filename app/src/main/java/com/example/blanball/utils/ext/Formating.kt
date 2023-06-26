@@ -1,5 +1,7 @@
 package com.example.blanball.utils.ext
 
+import android.content.Context
+import com.example.blanball.R
 import com.example.domain.utils.Formats
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -48,4 +50,16 @@ internal fun String.formatDatePlannedEventsToTime(duration: Int = 0): String {
 
 internal fun Boolean.formatBooleanToString(trueToString: String, falseToString: String): String {
     return if (this) trueToString else falseToString
+}
+
+internal fun String.formatWorkingLegToEnglishWord(context: Context): String {
+    return if (this == context.resources.getString(R.string.right_leg)) (context.resources.getString(R.string.right))
+    else (context.resources.getString(R.string.left))
+}
+
+internal fun String.formatPositionToEnglish(context: Context): String {
+  return   when (this) {
+        context.resources.getString(R.string.goalkeeper) ->  context.resources.getString(R.string.gk)
+      else -> {""}
+  }
 }

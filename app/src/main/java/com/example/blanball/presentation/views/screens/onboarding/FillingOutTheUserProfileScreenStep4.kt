@@ -157,7 +157,7 @@ fun FillingOutTheUserProfileScreenStep4(
                         ),
                     ) {
                         Text(
-                            text = stringResource(id = R.string.next),
+                            text = stringResource(id = R.string.finish),
                             style = typography.h4,
                         )
                     }

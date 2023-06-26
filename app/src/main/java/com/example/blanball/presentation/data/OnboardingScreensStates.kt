@@ -36,6 +36,8 @@ class OnboardingScreensStatesMainContract {
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
         object Idle : ScreenViewState()
+        object SuccessFinishFillingOutTheProfile : ScreenViewState()
+        object ErrorFinishFillingOutTheProfile : ScreenViewState()
     }
 
     sealed class Effect : UiEffect {

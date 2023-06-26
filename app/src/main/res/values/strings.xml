@@ -125,7 +125,9 @@
     <string name="physical_parameters">Фізичні параметри</string>
     <string name="sports_characteristics">Спортивні характеристики</string>
     <string name="right_leg">Права</string>
+    <string name="right">Right</string>
     <string name="left_leg">Ліва</string>
+    <string name="left">Left</string>
     <string name="goalkeeper">Вратарь</string>
     <string name="left_defender">Лівий захисник</string>
     <string name="right_defender">Правий захисник</string>
@@ -170,4 +172,5 @@
     <string name="your_place_of_residence">Ваш населений пункт</string>
     <string name="help_us_figure_out">Допоможіть нам з’ясувати які райони будуть зручними для вас для участі в оффлайн заходах. Надалі ці локації будуть пріорітетними у пропозиціях.</string>
     <string name="locations">Локації</string>
+    <string name="finish">Завершити</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -41,7 +42,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.PUBLIC_PROFILE.route
+        startDestination = Destinations.LOGIN.route
     )
     {
         composable(Destinations.LOGIN.route) {
@@ -142,7 +143,10 @@ fun AppScreensConfig(
 
             RegistrationScreenStep2(
                 state = state,
-                onRegistrationClicked = { registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked) },
+                onRegistrationClicked = {
+                    registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked)
+                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)
+                },
                 onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
 
             LaunchedEffect(key1 = currentState.isSuccessRegistrationNewPass.value) {
@@ -228,7 +232,12 @@ fun AppScreensConfig(
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
             val state = onboardingProfileViewModel.uiState.collectAsState().value
-            FillingOutTheUserProfileScreenStep4(state = state, onFinishClicked = {}, onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)} )
+            FillingOutTheUserProfileScreenStep4(
+                state = state,
+                onFinishClicked = {
+                    onboardingProfileViewModel.handleEvent(OnboardingScreensStatesMainContract.Event.FinishFillingOutTheProfileClicked)
+                },
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) })
             }
         }
     }

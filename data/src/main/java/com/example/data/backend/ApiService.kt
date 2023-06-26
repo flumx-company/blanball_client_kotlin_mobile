@@ -52,6 +52,6 @@ interface ApiService  {
     @GET (Endpoints.PLANNED_EVENTS)
     suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
-    @PUT (Endpoints.USER_PROFILE_ENDPOINT)
+    @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
     suspend fun  updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
 }

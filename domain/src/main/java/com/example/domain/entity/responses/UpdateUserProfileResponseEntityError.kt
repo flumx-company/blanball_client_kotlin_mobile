@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class UpdateUserProfileResponseEntityError(
     val code: Int,
     val `data`: UpdateUserProfileResponseEntityErrorData,
-    val message: Any,
+    val message: String? = null,
     val status: String
 )
 

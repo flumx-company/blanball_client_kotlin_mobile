@@ -1,7 +1,7 @@
     package com.example.blanball.presentation.views.components.textinputs
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
@@ -22,10 +22,10 @@ import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
-@Composable
-fun DefaultTextInput(
-    modifier: Modifier = Modifier,
-    labelResId: Int,
+    @Composable
+    fun DefaultTextInput(
+        modifier: Modifier = Modifier,
+        labelResId: Int,
         state: UiState,
         value: String,
         isError: Boolean = false,
@@ -35,36 +35,35 @@ fun DefaultTextInput(
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         errorMessage: String = "",
     ) {
-    Box(modifier = modifier,) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            visualTransformation = transformation,
-            singleLine = true,
-            label = {
-                Text(
-                    stringResource(
-                        id = labelResId
-                    ),
-                )
-            },
-            shape = shapes.small,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = defaultLightGray,
-                focusedBorderColor = selectedDarkGray,
-                textColor = Color.Black,
-                errorBorderColor = errorRed,
-                focusedLabelColor = primaryDark,
-                cursorColor = mainGreen,
+        Column(modifier = modifier) {
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = value,
+                onValueChange = onValueChange,
+                visualTransformation = transformation,
+                singleLine = true,
+                label = {
+                    Text(
+                        stringResource(
+                            id = labelResId
+                        ),
+                    )
+                },
+                shape = shapes.small,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    unfocusedBorderColor = defaultLightGray,
+                    focusedBorderColor = selectedDarkGray,
+                    textColor = Color.Black,
+                    errorBorderColor = errorRed,
+                    focusedLabelColor = primaryDark,
+                    cursorColor = mainGreen,
             ),
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             isError = isError,
         )
-        Column(modifier = modifier) {
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)
             }
         }
     }
-}

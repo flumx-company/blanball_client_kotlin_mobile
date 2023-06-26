@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,7 +44,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
@@ -110,6 +109,7 @@ fun RegistrationScreenStep1(
                     }
                     Spacer(modifier = Modifier.size(20.dp))
                     DefaultTextInput(
+                        modifier = Modifier.fillMaxWidth(),
                         labelResId = (R.string.your_firstname),
                         state = it,
                         value = state.firstNameText.value,
@@ -126,11 +126,10 @@ fun RegistrationScreenStep1(
                             it.firstNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
                             else -> {("")} },
                         transformation = VisualTransformation.None,
-                        modifier = Modifier
-                            .fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     DefaultTextInput(
+                        modifier = Modifier.fillMaxWidth(),
                         labelResId = (R.string.your_lastname),
                         state = it,
                         value = state.lastNameText.value,
@@ -147,8 +146,6 @@ fun RegistrationScreenStep1(
                             it.lastNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
                             else -> {("")} },
                         transformation = VisualTransformation.None,
-                        modifier = Modifier
-                            .fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     PhoneNumberInput(
@@ -190,7 +187,9 @@ fun RegistrationScreenStep1(
                                 .padding(start = 2.dp, end = 2.dp))
                     }
                     Row(Modifier.padding(top = 20.dp)) {
-                        OutlineRadioButton(state = it,
+                        OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
+                            state = it,
                             text = stringResource(R.string.male),
                             selected = it.genderIsMale.value,
                             icon = painterResource(id = R.drawable.male_ic),
@@ -200,6 +199,7 @@ fun RegistrationScreenStep1(
                             })
                         Spacer(modifier = Modifier.size(8.dp))
                         OutlineRadioButton(
+                            modifier = Modifier.weight(1f),
                             state = it,
                             text = stringResource(R.string.female),
                             selected = it.genderIsFemale.value,

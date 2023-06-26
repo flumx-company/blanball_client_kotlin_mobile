@@ -105,12 +105,12 @@ fun FillingOutTheUserProfileScreenStep3(
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         DefaultTextInput(
+                            modifier = Modifier.weight(0.5f).fillMaxWidth(),
                             state = it,
                             labelResId = R.string.height,
                             value = it.heightState.value,
                             onValueChange = { state.heightState.value = it },
                             transformation = VisualTransformation.None,
-                            modifier = Modifier.weight(0.5f).fillMaxWidth()
                         )
                         DefaultTextInput(
                             state = it,
