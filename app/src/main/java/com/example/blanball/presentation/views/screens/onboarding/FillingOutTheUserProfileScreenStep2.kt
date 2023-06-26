@@ -180,6 +180,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.footballQualificationsState.value != OnboardingScreensStatesMainContract.FootballQualificationsState.NO_SELECT,
                         onClick = onFillingOutTheUserProfileStep3Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

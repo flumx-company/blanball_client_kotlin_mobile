@@ -203,4 +203,8 @@
     <string name="birth_year_valid_error">* Введіть значення від 1943 до 2016</string>
     <string name="weight_valid_error">* Введіть значення ваги від 30 до 210 кг</string>
     <string name="height_valid_error">* Введіть значення зрісту від 145 до 210 см</string>
+    <string name="work_leg_valid_error">* Будь ласка, оберіть ударну ногу</string>
+    <string name="position_valid_error">* Будь ласка, оберіть свою ігрову позицію</string>
+    <string name="region_valid_error">* Будь ласка, оберіть свою область</string>
+    <string name="city_village_town_valid_error">* Будь ласка, введіть назву свого населеного пункту</string>
 </resources>

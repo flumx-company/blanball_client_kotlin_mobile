@@ -142,8 +142,18 @@ fun FillingOutTheUserProfileScreenStep4(
                     CustomDropDownMenu(
                         labelResId = R.string.region,
                         listItems = cities,
-                        value = it.cityState.value,
-                        onValueChange = { state.cityState.value = it },
+                        value = it.regionState.value,
+                        onValueChange = { state.regionState.value = it },
+                        isError = when {
+                            state.regionState.value.isEmpty() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.regionState.value.isEmpty() -> stringResource(id = R.string.region_valid_error)
+                            else -> {
+                                ("")
+                            }
+                        }
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     DefaultTextInput(
@@ -153,6 +163,16 @@ fun FillingOutTheUserProfileScreenStep4(
                         state = it,
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        isError = when {
+                            state.cityVillageTownState.value.isEmpty() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.cityVillageTownState.value.isEmpty() -> stringResource(id = R.string.city_village_town_valid_error)
+                            else -> {
+                                ("")
+                            }
+                        }
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     Box(
@@ -183,6 +203,8 @@ fun FillingOutTheUserProfileScreenStep4(
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.cityVillageTownState.value.isNotEmpty()
+                                && it.regionState.value.isNotEmpty(),
                         onClick = onFinishClicked,
                         modifier = Modifier
                             .fillMaxWidth()

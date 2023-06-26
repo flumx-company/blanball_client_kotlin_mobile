@@ -160,6 +160,9 @@ fun FillingOutTheUserProfileScreenStep3(
                             }
                         )
                         CustomDropDownMenu(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
                             labelResId = R.string.kicking_leg,
                             listItems = listOf(
                                 stringResource(id = R.string.right_leg),
@@ -167,9 +170,14 @@ fun FillingOutTheUserProfileScreenStep3(
                             ),
                             value = it.workingLegState.value,
                             onValueChange = { state.workingLegState.value = it },
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
+                            isError = when {
+                                it.workingLegState.value.isEmpty() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.workingLegState.value.isEmpty() -> stringResource(id = R.string.work_leg_valid_error)
+                                else -> {("")}
+                            }
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
@@ -202,13 +210,23 @@ fun FillingOutTheUserProfileScreenStep3(
                             stringResource(id = R.string.forward_striker),
                         ),
                         value = it.positionState.value ,
-                        onValueChange = {state.positionState.value = it}
+                        onValueChange = {state.positionState.value = it},
+                        isError = when {
+                            it.positionState.value.isEmpty() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.positionState.value.isEmpty() -> stringResource(id = R.string.position_valid_error)
+                            else -> {("")}
+                        }
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
                         enabled = it.heightState.value.isValidHeight()
-                                && it.weightState.value.isValidWeight(),
+                                && it.weightState.value.isValidWeight()
+                                && it.positionState.value.isNotEmpty()
+                                && it.workingLegState.value.isNotEmpty(),
                         onClick = onFillingOutTheUserProfileStep4Clicked,
                         modifier = Modifier
                             .fillMaxWidth()
