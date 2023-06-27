@@ -1,9 +1,7 @@
 package com.example.blanball.presentation.views.screens.resset
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +38,8 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
@@ -78,11 +78,13 @@ fun ResetPasswordScreenStep3(
                         end = 16.dp,
                     ).verticalScroll(rememberScrollState()),
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.resumption_acces),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
+                        textAlign = TextAlign.Center,
                     )
                     Row(
                         Modifier.padding(top = 20.dp)
@@ -127,7 +129,9 @@ fun ResetPasswordScreenStep3(
                             it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                             it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
                             it.isErrorCompleteResetState.value -> stringResource(id = R.string.invalid_credential_error)
-                            else -> {""}
+                            else -> {
+                                ""
+                            }
                         },
                     )
                     Spacer(modifier = Modifier.size(12.dp))
@@ -152,47 +156,43 @@ fun ResetPasswordScreenStep3(
                             it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                             it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
                             it.isErrorCompleteResetState.value -> stringResource(id = R.string.invalid_credential_error)
-                            else -> {""}
+                            else -> {
+                                ""
+                            }
                         },
                     )
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.Bottom,
-                )
-                {
-                    Button(
-                        enabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
-                        onClick = onFinishResetClicked,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(40.dp),
-                        shape = shapes.medium,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = mainGreen,
-                            contentColor = Color.White,
-                        ),
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.save_new_pass),
-                            style = typography.h4,
-                        )
-                    }
-                    TextButton(
-                        onClick = onCancelClicked,
-                        Modifier
-                            .padding(top = 14.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.cancel),
-                            style = typography.h4,
-                        )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.size(24.dp))
+                        Button(
+                            enabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
+                            onClick = onFinishResetClicked,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            shape = shapes.medium,
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = mainGreen,
+                                contentColor = Color.White,
+                            ),
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.send_code),
+                                style = typography.h4,
+                            )
+                        }
+                        TextButton(
+                            onClick = onCancelClicked,
+                            Modifier
+                                .padding(top = 14.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.cancel),
+                                style = typography.h4,
+                            )
+                        }
                     }
                 }
-            }
         }
         if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
             Loader()

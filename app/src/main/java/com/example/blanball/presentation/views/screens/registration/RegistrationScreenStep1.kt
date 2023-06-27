@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.registration
 
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,6 +45,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -82,9 +84,9 @@ fun RegistrationScreenStep1(
                             start = 16.dp,
                             bottom = 30.dp,
                             end = 16.dp,
-                        )
-                        .verticalScroll(rememberScrollState()),
+                        ).verticalScroll(rememberScrollState()),
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.creation_new_acc),
                         modifier = Modifier.fillMaxWidth(),
@@ -109,7 +111,6 @@ fun RegistrationScreenStep1(
                     }
                     Spacer(modifier = Modifier.size(20.dp))
                     DefaultTextInput(
-                        modifier = Modifier.fillMaxWidth(),
                         labelResId = (R.string.your_firstname),
                         state = it,
                         value = state.firstNameText.value,
@@ -126,10 +127,11 @@ fun RegistrationScreenStep1(
                             it.firstNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
                             else -> {("")} },
                         transformation = VisualTransformation.None,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     DefaultTextInput(
-                        modifier = Modifier.fillMaxWidth(),
                         labelResId = (R.string.your_lastname),
                         state = it,
                         value = state.lastNameText.value,
@@ -146,6 +148,8 @@ fun RegistrationScreenStep1(
                             it.lastNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
                             else -> {("")} },
                         transformation = VisualTransformation.None,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     PhoneNumberInput(

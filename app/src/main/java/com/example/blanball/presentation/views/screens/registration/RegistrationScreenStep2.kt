@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.registration
 
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -47,6 +48,7 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
@@ -96,6 +98,7 @@ fun RegistrationScreenStep2(
                             end = 16.dp,
                         )
                 ) {
+                    AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.creation_new_acc),
                         modifier = Modifier.fillMaxWidth(),
@@ -120,8 +123,6 @@ fun RegistrationScreenStep2(
                     }
                     Spacer(modifier = Modifier.size(20.dp))
                         DefaultTextInput(
-                            modifier = Modifier
-                                .fillMaxWidth(),
                             labelResId = (R.string.email),
                             state = state,
                             keyboardOptions = KeyboardOptions.Default.copy(
@@ -145,6 +146,8 @@ fun RegistrationScreenStep2(
                                     ""
                                 }
                             },
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
                     Spacer(modifier = Modifier.size(12.dp))
                     PassTextInput(

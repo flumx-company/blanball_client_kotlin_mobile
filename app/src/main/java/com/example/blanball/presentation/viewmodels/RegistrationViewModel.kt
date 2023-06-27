@@ -79,7 +79,17 @@ class   RegistrationViewModel @Inject constructor(
                             copy(
                                 state = StartScreensMainContract.ScreenViewState.SuccessRegistration,
                                 isErrorRegistrationNewPass = mutableStateOf(false),
-                                isSuccessRegistrationNewPass = mutableStateOf(true)
+                                isSuccessRegistrationNewPass = mutableStateOf(true),
+                                firstNameText = mutableStateOf(""),
+                                lastNameText = mutableStateOf(""),
+                                phoneNumberText = mutableStateOf(""),
+                                genderIsFemale = mutableStateOf(false),
+                                genderIsMale = mutableStateOf(false),
+                                registrationEmailText = mutableStateOf(""),
+                                registrationPassText = mutableStateOf(""),
+                                registrationPassTextRemember = mutableStateOf(""),
+                                lostInSystemSwitchButton = mutableStateOf(false),
+                                privacyPolicyCheckbox = mutableStateOf(false),
                             )
                         }
                     }
