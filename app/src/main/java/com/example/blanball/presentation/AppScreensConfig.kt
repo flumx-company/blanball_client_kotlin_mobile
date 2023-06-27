@@ -11,10 +11,16 @@ import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
+import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep1
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep2
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep3
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep4
+import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileStartScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
@@ -31,10 +37,12 @@ fun AppScreensConfig(
     registrationViewModel: RegistrationViewModel,
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
+    onboardingProfileViewModel: OnboardingProfileViewModel,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.LOGIN.route)
+        startDestination = Destinations.FILLING_OUT_THE_USER_PROFILE_START.route
+    )
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
@@ -182,10 +190,51 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadMoreEvents()
             })
         }
-    }
-}
 
-enum class  Destinations(val route: String) {
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileStartScreen(
+                state = state,
+                onFillingOutTheUserProfileStep1Clicked = {
+                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
+                },
+                onRemindMeLater = { /*TODO*/ })
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep1(
+                state = state,
+                onFillingOutTheUserProfileStep2Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)},
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)},
+            )
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE2.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep2(
+                state = state,
+                onFillingOutTheUserProfileStep3Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)},
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)},
+            )
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep3(
+                state = state,
+                onFillingOutTheUserProfileStep4Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) },
+                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)})
+        }
+
+        composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
+            val state = onboardingProfileViewModel.uiState.collectAsState().value
+            FillingOutTheUserProfileScreenStep4(state = state, onFinishClicked = {}, onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)} )
+            }
+        }
+    }
+
+enum class Destinations(val route: String) {
     LOGIN("login"),
     RESET1("reset1"),
     RESET2("reset2"),
@@ -195,4 +244,9 @@ enum class  Destinations(val route: String) {
     PUBLIC_PROFILE("publicProfile"),
     ALL_REVIEWS("allReviews"),
     ALL_PLANNED_EVENTS("allPlannedEvents"),
+    FILLING_OUT_THE_USER_PROFILE_START("fillingOutTheUserProfileStart"),
+    FILLING_OUT_THE_USER_PROFILE1("fillingOutTheUserProfile1"),
+    FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
+    FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
+    FILLING_OUT_THE_USER_PROFILE4("fillingOutTheUserProfile4"),
 }

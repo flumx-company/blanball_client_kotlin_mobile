@@ -89,12 +89,13 @@ fun RegistrationScreenStep2(
             AnimatedPaddingCard() {
                 Column(
                     modifier = Modifier
+                        .verticalScroll(rememberScrollState())
                         .padding(
                             top = 28.dp,
                             start = 16.dp,
                             bottom = 30.dp,
                             end = 16.dp,
-                        ).verticalScroll(rememberScrollState())
+                        )
                 ) {
                     AnimationRotatingBalls()
                     Text(

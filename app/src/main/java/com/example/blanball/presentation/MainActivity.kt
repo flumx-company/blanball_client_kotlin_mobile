@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
             MyAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.background,
                 ) {
                     AppScreensConfig(
                         navController = rememberNavController(),
@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
                         registrationViewModel = viewModel(),
                         publicProfileViewModel = viewModel(),
                         loginViewModel = viewModel(),
+                        onboardingProfileViewModel = viewModel(),
                     )
                 }
             }
