@@ -20,10 +20,14 @@ object Code {
 }
 
 object Integers {
+     const val ZERO = 0
      const val ONE = 1
+     const val FIVE = 5
+     const val SIX = 6
+     const val EIGHTY = 80
+     const val THIRTY = 30
+     const val TWO_HUNDRED_AND_TEN = 210
      const val DURATION_MILLIS_ON_CARD = 1000
-     const val YEAR_1994 = 1944
-     const val YEARS_COUNT_IN_DROPDOWN_MENU = 80
 }
 
 object Formats {

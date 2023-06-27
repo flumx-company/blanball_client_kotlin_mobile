@@ -3,6 +3,7 @@ package com.example.blanball.utils.ext
 import android.content.Context
 import com.example.blanball.R
 import com.example.domain.utils.Formats
+import com.example.domain.utils.Integers
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -37,7 +38,7 @@ internal fun Any.formatRatingToFloat(): Float? {
     }
 }
 
-internal fun String.formatDatePlannedEventsToTime(duration: Int = 0): String {
+internal fun String.formatDatePlannedEventsToTime(duration: Int = Integers.ZERO): String {
     val inputFormat = SimpleDateFormat(Formats.EVENTS_DATE_FORMAT_INPUT, Locale.getDefault())
     val outputFormat =
         SimpleDateFormat(Formats.EVENTS_DATE_FORMAT_TO_TIME_OUTPUT, Locale("uk", "UA"))

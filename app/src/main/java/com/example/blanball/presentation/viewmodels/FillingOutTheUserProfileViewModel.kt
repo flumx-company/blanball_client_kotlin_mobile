@@ -76,8 +76,18 @@ class OnboardingProfileViewModel @Inject constructor(
                             copy(
                                 state = OnboardingScreensStatesMainContract.ScreenViewState.SuccessFinishFillingOutTheProfile,
                                 isErrorRequestToFinishOutTheProfile = mutableStateOf(false),
-                                isSuccessRequestToFinishOutTheProfile = mutableStateOf(true)
-
+                                isSuccessRequestToFinishOutTheProfile = mutableStateOf(true),
+                                dayBirthdayState = mutableStateOf(""),
+                                monthBirthdayState = mutableStateOf(""),
+                                yearBirthdayState = mutableStateOf(""),
+                                selectDocumentState = mutableStateOf(""),
+                                heightState = mutableStateOf(""),
+                                weightState = mutableStateOf(""),
+                                workingLegState = mutableStateOf(""),
+                                positionState = mutableStateOf(""),
+                                regionState = mutableStateOf(""),
+                                cityVillageTownState = mutableStateOf(""),
+                                addDistrictState = mutableStateOf(""),
                             )
                         }
                     }
@@ -85,7 +95,7 @@ class OnboardingProfileViewModel @Inject constructor(
                         setState {
                             copy(
                                 state = OnboardingScreensStatesMainContract.ScreenViewState.ErrorFinishFillingOutTheProfile,
-                                isErrorRequestToFinishOutTheProfile = mutableStateOf(false)
+                                isErrorRequestToFinishOutTheProfile = mutableStateOf(true)
                             )
                         }
                     }

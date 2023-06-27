@@ -1,8 +1,15 @@
 package com.example.domain.entity.responses
 
+
 data class UpdateUserProfileResponseEntity(
+    val code: Int,
+    val `data`: UpdateUserProfileResponseDataEntity,
+    val message: String? = null,
+    val status: String
+)
+
+data class UpdateUserProfileResponseDataEntity(
     val configuration: UpdateUserProfileResponseConfigurationEntity,
-    val get_planned_events: String? = null,
     val phone: String,
     val profile: UpdateUserProfileResponseProfileEntity
 )
@@ -14,11 +21,8 @@ data class UpdateUserProfileResponseConfigurationEntity(
 )
 
 data class UpdateUserProfileResponseProfileEntity(
-    val about_me: String,
     val birthday: String,
-    val gender: String,
     val height: Int,
-    val id: Int,
     val last_name: String,
     val name: String,
     val place: UpdateUserProfileResponsePlaceEntity,

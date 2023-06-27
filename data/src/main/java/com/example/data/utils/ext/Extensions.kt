@@ -53,6 +53,7 @@ import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
 import com.example.data.backend.models.responses.Tokens
 import com.example.data.backend.models.responses.UpdateUserProfileResponse
 import com.example.data.backend.models.responses.UpdateUserProfileResponseConfiguration
+import com.example.data.backend.models.responses.UpdateUserProfileResponseData
 import com.example.data.backend.models.responses.UpdateUserProfileResponseError
 import com.example.data.backend.models.responses.UpdateUserProfileResponseErrorData
 import com.example.data.backend.models.responses.UpdateUserProfileResponseErrorDetail
@@ -110,6 +111,7 @@ import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorsEntity
 import com.example.domain.entity.responses.SendCodeResponseEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseConfigurationEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseDataEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
 import com.example.domain.entity.responses.UpdateUserProfileResponseEntityErrorData
@@ -494,10 +496,18 @@ internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetail
 
 internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): UpdateUserProfileResponseEntity {
     return UpdateUserProfileResponseEntity(
+        this.code,
+        this.data.toUpdateUserProfileResponseDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun UpdateUserProfileResponseData.toUpdateUserProfileResponseDataEntity(): UpdateUserProfileResponseDataEntity {
+    return UpdateUserProfileResponseDataEntity(
         this.configuration.toUpdateUserProfileResponseConfigurationEntity(),
-        this.get_planned_events,
         this.phone,
-        this.profile.toUpdateUserProfileResponseProfileEntity()
+        this.profile.toUpdateUserProfileResponseProfileEntity(),
     )
 }
 
@@ -511,11 +521,8 @@ internal fun UpdateUserProfileResponseConfiguration.toUpdateUserProfileResponseC
 
 internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfileEntity(): UpdateUserProfileResponseProfileEntity {
     return UpdateUserProfileResponseProfileEntity(
-        this.about_me,
         this.birthday,
-        this.gender,
         this.height,
-        this.id,
         this.last_name,
         this.name,
         this.place.toUpdateUserProfileResponsePlaceEntity(),

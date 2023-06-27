@@ -1,6 +1,7 @@
 package com.example.blanball.utils.ext
 
 import com.example.domain.utils.Formats
+import com.example.domain.utils.Integers
 import java.util.Calendar
 
 internal fun String.isValidPhoneNumber() =
@@ -23,7 +24,7 @@ internal fun String.isNotValidEmail(): Boolean {
 }
 
 internal fun String.isValidCode(): Boolean {
-    return all { it.isLetter() } && length == 5
+    return all { it.isLetter() } && length == Integers.FIVE
 }
 
 internal fun String.isNotValidCode(): Boolean {
@@ -57,7 +58,7 @@ internal fun String.isNotValidBirthMonth(): Boolean {
 internal fun String.isValidBirthYear(): Boolean {
     val year = this.toIntOrNull()
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    return year != null && year in currentYear - 80 until currentYear - 6
+    return year != null && year in currentYear - Integers.EIGHTY until currentYear - Integers.SIX
 }
 
 internal fun String.isNotValidBirthYear(): Boolean {
@@ -66,7 +67,7 @@ internal fun String.isNotValidBirthYear(): Boolean {
 
 internal fun String.isValidHeight(): Boolean {
     val height = this.toIntOrNull()
-    return height != null && height in 30..210
+    return height != null && height in Integers.THIRTY..Integers.TWO_HUNDRED_AND_TEN
 }
 
 internal fun String.isNotValidHeight(): Boolean {
@@ -75,7 +76,7 @@ internal fun String.isNotValidHeight(): Boolean {
 
 internal fun String.isValidWeight(): Boolean {
     val weight = this.toIntOrNull()
-    return weight != null && weight in 30..210
+    return weight != null && weight in Integers.THIRTY..Integers.TWO_HUNDRED_AND_TEN
 }
 
 internal fun String.isNotValidWeight(): Boolean {

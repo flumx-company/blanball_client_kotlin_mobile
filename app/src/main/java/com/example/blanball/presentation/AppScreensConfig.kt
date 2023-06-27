@@ -231,6 +231,7 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
+            val currentState = onboardingProfileViewModel.currentState
             val state = onboardingProfileViewModel.uiState.collectAsState().value
             FillingOutTheUserProfileScreenStep4(
                 state = state,
@@ -238,7 +239,13 @@ fun AppScreensConfig(
                     onboardingProfileViewModel.handleEvent(OnboardingScreensStatesMainContract.Event.FinishFillingOutTheProfileClicked)
                 },
                 onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) })
+            LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
+                if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
+                    currentState.isSuccessRequestToFinishOutTheProfile.value = false
+                    navController.navigate(Destinations.LOGIN.route)
+                }
             }
+        }
         }
     }
 

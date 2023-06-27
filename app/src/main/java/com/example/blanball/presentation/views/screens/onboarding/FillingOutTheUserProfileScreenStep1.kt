@@ -56,11 +56,6 @@ fun FillingOutTheUserProfileScreenStep1(
     onTurnBackClicked: () -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
-    val currentState: OnboardingScreensStatesMainContract.State =
-        (state as? OnboardingScreensStatesMainContract.State)
-            ?: OnboardingScreensStatesMainContract.State(
-                OnboardingScreensStatesMainContract.ScreenViewState.Idle
-            )
     Box(
         modifier = Modifier
             .fillMaxSize()

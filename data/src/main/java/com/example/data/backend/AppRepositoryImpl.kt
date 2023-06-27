@@ -106,7 +106,7 @@
                 )
                 val updateUserProfileDomainResponse =
                     updateUserProfileResponse.toUpdateUserProfileResponseEntity()
-                FillingTheUserProfileResultEntity.Success(updateUserProfileDomainResponse)
+                FillingTheUserProfileResultEntity.Success(updateUserProfileDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
                     handleHttpError<UpdateUserProfileResponseError, UpdateUserProfileResponseEntityError>(

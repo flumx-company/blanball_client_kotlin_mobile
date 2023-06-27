@@ -3,8 +3,14 @@ package com.example.data.backend.models.responses
 import com.squareup.moshi.Json
 
 data class UpdateUserProfileResponse(
+    @Json (name = "code") val code: Int,
+    @Json (name = "`data`") val `data`: UpdateUserProfileResponseData,
+    @Json (name = "message") val message: String? = null,
+    @Json (name = "status") val status: String
+)
+
+data class UpdateUserProfileResponseData(
     @Json (name = "configuration") val configuration: UpdateUserProfileResponseConfiguration,
-    @Json (name = "get_planned_events") val get_planned_events: String? = null,
     @Json (name = "phone") val phone: String,
     @Json (name = "profile") val profile: UpdateUserProfileResponseProfile
 )
@@ -16,11 +22,8 @@ data class UpdateUserProfileResponseConfiguration(
 )
 
 data class UpdateUserProfileResponseProfile(
-    @Json (name = "about_me") val about_me: String,
     @Json (name = "birthday") val birthday: String,
-    @Json (name = "gender") val gender: String,
     @Json (name = "height") val height: Int,
-    @Json (name = "id") val id: Int,
     @Json (name = "last_name") val last_name: String,
     @Json (name = "name") val name: String,
     @Json (name = "place") val place: UpdateUserProfileResponsePlace,
