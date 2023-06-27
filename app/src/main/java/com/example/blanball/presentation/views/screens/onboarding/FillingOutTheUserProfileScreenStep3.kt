@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -22,8 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +43,10 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidHeight
+import com.example.blanball.utils.ext.isNotValidWeight
+import com.example.blanball.utils.ext.isValidHeight
+import com.example.blanball.utils.ext.isValidWeight
 
 @Composable
 fun FillingOutTheUserProfileScreenStep3(
@@ -45,11 +54,7 @@ fun FillingOutTheUserProfileScreenStep3(
     onFillingOutTheUserProfileStep4Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-    val currentState: OnboardingScreensStatesMainContract.State =
-        (state as? OnboardingScreensStatesMainContract.State)
-            ?: OnboardingScreensStatesMainContract.State(
-                OnboardingScreensStatesMainContract.ScreenViewState.Idle
-            )
+    val localFocusManager = LocalFocusManager.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -81,7 +86,9 @@ fun FillingOutTheUserProfileScreenStep3(
                         textAlign = TextAlign.Center,
                     )
                     Row(
-                        Modifier.padding(top = 20.dp).align(Alignment.CenterHorizontally)
+                        Modifier
+                            .padding(top = 20.dp)
+                            .align(Alignment.CenterHorizontally)
                     ) {
                         repeat(3) {
                             Image(
@@ -105,30 +112,67 @@ fun FillingOutTheUserProfileScreenStep3(
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         DefaultTextInput(
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxWidth(),
                             state = it,
                             labelResId = R.string.height,
                             value = it.heightState.value,
                             onValueChange = { state.heightState.value = it },
                             transformation = VisualTransformation.None,
-                            modifier = Modifier.weight(0.5f).fillMaxWidth()
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.heightState.value.isNotValidHeight() ->  true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.heightState.value.isNotValidHeight() ->  stringResource(id = R.string.height_valid_error)
+                                else -> {("")}
+                            }
                         )
                         DefaultTextInput(
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .fillMaxWidth(),
                             state = it,
                             labelResId = R.string.weight,
                             value = it.weightState.value,
                             onValueChange = { state.weightState.value = it },
                             transformation = VisualTransformation.None,
-                            modifier = Modifier.weight(0.5f).fillMaxWidth()
+                            keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
+                            keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.weightState.value.isNotValidWeight() ->  true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.weightState.value.isNotValidWeight() ->  stringResource(id = R.string.weight_valid_error)
+                                else -> {("")}
+                            }
                         )
                         CustomDropDownMenu(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
                             labelResId = R.string.kicking_leg,
                             listItems = listOf(
                                 stringResource(id = R.string.right_leg),
                                 stringResource(id = R.string.left_leg)
                             ),
-                            value = it.kickingLegState.value,
-                            onValueChange = { state.kickingLegState.value = it },
-                            modifier = Modifier.weight(1f).fillMaxWidth()
+                            value = it.workingLegState.value,
+                            onValueChange = { state.workingLegState.value = it },
+                            isError = when {
+                                it.workingLegState.value.isEmpty() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.workingLegState.value.isEmpty() -> stringResource(id = R.string.work_leg_valid_error)
+                                else -> {("")}
+                            }
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
@@ -161,11 +205,23 @@ fun FillingOutTheUserProfileScreenStep3(
                             stringResource(id = R.string.forward_striker),
                         ),
                         value = it.positionState.value ,
-                        onValueChange = {state.positionState.value = it}
+                        onValueChange = {state.positionState.value = it},
+                        isError = when {
+                            it.positionState.value.isEmpty() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.positionState.value.isEmpty() -> stringResource(id = R.string.position_valid_error)
+                            else -> {("")}
+                        }
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.heightState.value.isValidHeight()
+                                && it.weightState.value.isValidWeight()
+                                && it.positionState.value.isNotEmpty()
+                                && it.workingLegState.value.isNotEmpty(),
                         onClick = onFillingOutTheUserProfileStep4Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

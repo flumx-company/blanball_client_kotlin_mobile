@@ -142,13 +142,13 @@ fun ResetPasswordScreenStep2(
                     )
                     Spacer(modifier = Modifier.size(20.dp))
                     DefaultTextInput(
+                        modifier = Modifier.fillMaxWidth(),
                         labelResId = R.string.email,
                         state = it,
                         value = state.resetEmailText.value,
                         onValueChange = { state.resetEmailText.value = it },
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                         transformation = VisualTransformation.None,
-                        modifier = Modifier.fillMaxWidth(),
                         isError = when {
                             it.resetEmailText.value.isNotValidEmail() -> true
                             it.isErrorResetEmailState.value -> true

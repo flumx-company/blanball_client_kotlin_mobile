@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,12 +44,6 @@ fun FillingOutTheUserProfileScreenStep2 (
     onFillingOutTheUserProfileStep3Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-    val localFocusManager = LocalFocusManager.current
-    val currentState: OnboardingScreensStatesMainContract.State =
-        (state as? OnboardingScreensStatesMainContract.State)
-            ?: OnboardingScreensStatesMainContract.State(
-                OnboardingScreensStatesMainContract.ScreenViewState.Idle
-            )
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -180,6 +173,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.footballQualificationsState.value != OnboardingScreensStatesMainContract.FootballQualificationsState.NO_SELECT,
                         onClick = onFillingOutTheUserProfileStep3Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

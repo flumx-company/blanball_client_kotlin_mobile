@@ -13,18 +13,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +42,12 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
+import com.example.blanball.utils.ext.isNotValidBirthDay
+import com.example.blanball.utils.ext.isNotValidBirthMonth
+import com.example.blanball.utils.ext.isNotValidBirthYear
+import com.example.blanball.utils.ext.isValidBirthDay
+import com.example.blanball.utils.ext.isValidBirthMonth
+import com.example.blanball.utils.ext.isValidBirthYear
 
 @Composable
 fun FillingOutTheUserProfileScreenStep1(
@@ -45,28 +55,7 @@ fun FillingOutTheUserProfileScreenStep1(
     onFillingOutTheUserProfileStep2Clicked: () -> Unit,
     onTurnBackClicked: () -> Unit,
 ) {
-    val dayNumbers = remember { (1..30).toList() }
-    val months = listOf(
-        stringResource(R.string.january),
-        stringResource(R.string.february),
-        stringResource(R.string.march),
-        stringResource(R.string.april),
-        stringResource(R.string.may),
-        stringResource(R.string.june),
-        stringResource(R.string.july),
-        stringResource(R.string.august),
-        stringResource(R.string.september),
-        stringResource(R.string.october),
-        stringResource(R.string.november),
-        stringResource(R.string.december)
-    )
-    val rememberMonth = remember { months}
-
-    val currentState: OnboardingScreensStatesMainContract.State =
-        (state as? OnboardingScreensStatesMainContract.State)
-            ?: OnboardingScreensStatesMainContract.State(
-                OnboardingScreensStatesMainContract.ScreenViewState.Idle
-            )
+    val localFocusManager = LocalFocusManager.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -126,31 +115,68 @@ fun FillingOutTheUserProfileScreenStep1(
                         BottomLineDefaultTextInput(
                             labelResId = R.string.day,
                             modifier = Modifier.weight(1f),
-                            value = it.dayDropDownState.value,
-                            onValueChange = { state.dayDropDownState.value = it },
+                            value = it.dayBirthdayState.value,
+                            onValueChange = { state.dayBirthdayState.value = it },
                             state = it,
                             transformation = VisualTransformation.None,
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.dayBirthdayState.value.isNotValidBirthDay() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.dayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
+                                else -> {("")}
+                            }
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.month,
-                            value = it.monthDropDownState.value,
+                            value = it.monthBirthdayState.value,
                             modifier = Modifier.weight(1f),
                             state = it,
                             transformation = VisualTransformation.None,
-                            onValueChange = { state.monthDropDownState.value = it },
+                            onValueChange = { state.monthBirthdayState.value = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.monthBirthdayState.value.isNotValidBirthMonth() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.monthBirthdayState.value.isNotValidBirthMonth() -> stringResource(id = R.string.birth_month_valid_error)
+                                else -> {("")}
+                            }
                         )
                         BottomLineDefaultTextInput(
                             labelResId = R.string.year,
                             state = it,
                             modifier = Modifier.weight(1f),
                             transformation = VisualTransformation.None,
-                            value = it.yearDropDownState.value,
-                            onValueChange = { state.yearDropDownState.value = it },
+                            value = it.yearBirthdayState.value,
+                            onValueChange = { state.yearBirthdayState.value = it },
+                            keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
+                            keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                            isError = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> true
+                                it.yearBirthdayState.value.isNotValidBirthYear() -> true
+                                else -> false
+                            },
+                            errorMessage = when {
+                                it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                                it.yearBirthdayState.value.isNotValidBirthYear() -> stringResource(id = R.string.birth_year_valid_error)
+                                else -> {("")}
+                            }
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
+                        enabled = it.dayBirthdayState.value.isValidBirthDay()
+                                && it.monthBirthdayState.value.isValidBirthMonth()
+                                && it.yearBirthdayState.value.isValidBirthYear(),
                         onClick = onFillingOutTheUserProfileStep2Clicked,
                         modifier = Modifier
                             .fillMaxWidth()

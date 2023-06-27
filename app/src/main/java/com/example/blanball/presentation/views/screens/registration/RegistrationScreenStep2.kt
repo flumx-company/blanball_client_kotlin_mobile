@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.registration
 
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image

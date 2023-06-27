@@ -41,6 +41,7 @@ class PublicProfileMainContract {
     ) : UiState
 
     sealed class ScreenViewState {
+        object Idle: ScreenViewState()
         object Loading : ScreenViewState()
         object LoadingSuccess: ScreenViewState()
         object LoadingError : ScreenViewState()

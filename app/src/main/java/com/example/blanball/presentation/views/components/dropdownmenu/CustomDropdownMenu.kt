@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.DropdownMenuItem
@@ -30,11 +31,13 @@ import com.example.blanball.presentation.theme.typography
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomDropDownMenu(
+    modifier: Modifier = Modifier,
     labelResId: Int,
     listItems: List<String>,
     value: String,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    errorMessage: String = "",
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -50,54 +53,60 @@ fun CustomDropDownMenu(
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedTextField(
-                value = value,
-                onValueChange = onValueChange,
-                readOnly = true,
-                textStyle = typography.h6,
-                modifier = Modifier.fillMaxWidth(1f),
-                label = {
-                    Text(
-                        text = stringResource(id = labelResId),
-                        style = typography.h6,
-                        color = primaryDark,
-                        maxLines = 1,
-                    )
-                },
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(
-                            id = if (expanded) R.drawable.ic_top else R.drawable.ic_down
-                        ),
-                        contentDescription = null,
-                        tint = secondaryNavy,
-                    )
-                },
-                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = defaultLightGray,
-                    focusedBorderColor = mainGreen,
-                    textColor = Color.Black,
-                    errorBorderColor = errorRed,
-                    focusedLabelColor = primaryDark,
-                    cursorColor = mainGreen,
+            Column() {
+                OutlinedTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    readOnly = true,
+                    textStyle = typography.h6,
+                    modifier = Modifier.fillMaxWidth(1f),
+                    label = {
+                        Text(
+                            text = stringResource(id = labelResId),
+                            style = typography.h6,
+                            color = primaryDark,
+                            maxLines = 1,
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(
+                                id = if (expanded) R.drawable.ic_top else R.drawable.ic_down
+                            ),
+                            contentDescription = null,
+                            tint = secondaryNavy,
+                        )
+                    },
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = defaultLightGray,
+                        focusedBorderColor = mainGreen,
+                        textColor = Color.Black,
+                        errorBorderColor = errorRed,
+                        focusedLabelColor = primaryDark,
+                        cursorColor = mainGreen,
+                    ),
+                    isError = isError,
                 )
-            )
-        }
-
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            listItems.forEach { selectedOption ->
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    onValueChange(selectedOption)
-                }) {
-                    Text(
-                        text = selectedOption, style = typography.h6, color = primaryDark
-                    )
+                if (isError) {
+                    Text(text = errorMessage, style = typography.h6, color = errorRed)
                 }
             }
-        }
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
+                listItems.forEach { selectedOption ->
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        onValueChange(selectedOption)
+                    }) {
+                        Text(
+                            text = selectedOption, style = typography.h6, color = primaryDark
+                        )
+                    }
+                }
+            }
     }
+}
 }

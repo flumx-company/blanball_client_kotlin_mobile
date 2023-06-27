@@ -43,5 +43,5 @@ data class PublicProfileResponseEntity(
 )
 
 data class PlayingPlaceEntity(
-    val place_name: String
+    val place_name: String? = null,
 )

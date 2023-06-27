@@ -80,6 +80,8 @@ fun LoginScreen(
             Text(text = stringResource(id = R.string.auth_in_system), style = typography.h2, modifier = Modifier.align(CenterHorizontally))
             Spacer(modifier = Modifier.size(32.dp))
             DefaultTextInput(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 labelResId = (R.string.login),
                 state = it,
                 value = state.loginEmailText.value,
@@ -96,8 +98,6 @@ fun LoginScreen(
                     else -> {""}
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                modifier = Modifier
-                    .fillMaxWidth(),
             )
             Spacer(modifier = Modifier.size(12.dp))
             PassTextInput(
