@@ -38,12 +38,12 @@ data class PublicProfileResponse(
      @Json (name = "id") val id: Int,
      @Json (name = "last_name") val last_name: String,
      @Json (name = "name") val name: String,
-     @Json (name = "place") val place: PlayingPlace,
+     @Json (name = "place") val place: PlayingPlace ,
      @Json (name = "position") val position: String? = null,
      @Json (name = "weight") val weight: Int? = null,
      @Json (name = "working_leg") val working_leg: String? = null,
 )
 
 data class PlayingPlace(
-     @Json (name = "place_name") val place_name: String
+     @Json (name = "place_name") val place_name: String? = null,
 )

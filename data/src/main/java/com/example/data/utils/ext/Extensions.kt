@@ -51,6 +51,14 @@ import com.example.data.backend.models.responses.SendCodeErrors
 import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
 import com.example.data.backend.models.responses.Tokens
+import com.example.data.backend.models.responses.UpdateUserProfileResponse
+import com.example.data.backend.models.responses.UpdateUserProfileResponseConfiguration
+import com.example.data.backend.models.responses.UpdateUserProfileResponseData
+import com.example.data.backend.models.responses.UpdateUserProfileResponseError
+import com.example.data.backend.models.responses.UpdateUserProfileResponseErrorData
+import com.example.data.backend.models.responses.UpdateUserProfileResponseErrorDetail
+import com.example.data.backend.models.responses.UpdateUserProfileResponsePlace
+import com.example.data.backend.models.responses.UpdateUserProfileResponseProfile
 import com.example.domain.entity.responses.ConfigurationEntity
 import com.example.domain.entity.responses.DataCompleteResponseEntity
 import com.example.domain.entity.responses.DataEmailResetEntity
@@ -102,6 +110,14 @@ import com.example.domain.entity.responses.SendCodeDataErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorsEntity
 import com.example.domain.entity.responses.SendCodeResponseEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseConfigurationEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseDataEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.UpdateUserProfileResponseEntityErrorData
+import com.example.domain.entity.responses.UpdateUserProfileResponseEntityErrorDetail
+import com.example.domain.entity.responses.UpdateUserProfileResponsePlaceEntity
+import com.example.domain.entity.responses.UpdateUserProfileResponseProfileEntity
 
 internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity {
     return RegistrationErrorEntity(
@@ -478,3 +494,70 @@ internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetail
     return GetUserPlannedEventsByIdDetailDataEntity(this.detail)
 }
 
+internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): UpdateUserProfileResponseEntity {
+    return UpdateUserProfileResponseEntity(
+        this.code,
+        this.data.toUpdateUserProfileResponseDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun UpdateUserProfileResponseData.toUpdateUserProfileResponseDataEntity(): UpdateUserProfileResponseDataEntity {
+    return UpdateUserProfileResponseDataEntity(
+        this.configuration.toUpdateUserProfileResponseConfigurationEntity(),
+        this.phone,
+        this.profile.toUpdateUserProfileResponseProfileEntity(),
+    )
+}
+
+internal fun UpdateUserProfileResponseConfiguration.toUpdateUserProfileResponseConfigurationEntity(): UpdateUserProfileResponseConfigurationEntity {
+    return UpdateUserProfileResponseConfigurationEntity(
+        this.email,
+        this.phone,
+        this.show_reviews
+    )
+}
+
+internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfileEntity(): UpdateUserProfileResponseProfileEntity {
+    return UpdateUserProfileResponseProfileEntity(
+        this.birthday,
+        this.height,
+        this.last_name,
+        this.name,
+        this.place.toUpdateUserProfileResponsePlaceEntity(),
+        this.position,
+        this.weight,
+        this.working_leg,
+    )
+}
+
+internal fun UpdateUserProfileResponsePlace.toUpdateUserProfileResponsePlaceEntity(): UpdateUserProfileResponsePlaceEntity {
+    return UpdateUserProfileResponsePlaceEntity(
+        this.lat,
+        this.lon,
+        this.place_name
+    )
+}
+
+internal fun UpdateUserProfileResponseError.toUpdateUserProfileResponseEntityError(): UpdateUserProfileResponseEntityError {
+    return UpdateUserProfileResponseEntityError(
+        this.code,
+        this.data.toUpdateUserProfileResponseEntityErrorData(),
+        this.message,
+        this.status,
+    )
+}
+
+internal fun UpdateUserProfileResponseErrorData.toUpdateUserProfileResponseEntityErrorData(): UpdateUserProfileResponseEntityErrorData {
+    return UpdateUserProfileResponseEntityErrorData(
+        listOf(this.errors[0].toUpdateUserProfileResponseEntityErrorDetail()),
+        this.type,
+    )
+}
+
+internal fun UpdateUserProfileResponseErrorDetail.toUpdateUserProfileResponseEntityErrorDetail(): UpdateUserProfileResponseEntityErrorDetail {
+    return UpdateUserProfileResponseEntityErrorDetail(
+        this.detail
+    )
+}

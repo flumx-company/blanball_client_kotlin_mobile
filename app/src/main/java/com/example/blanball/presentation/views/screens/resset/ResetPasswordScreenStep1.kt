@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.resset
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +40,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -112,6 +112,7 @@ fun ResetPasswordScreenStep1(
                         textAlign = TextAlign.Start,
                     )
                     DefaultTextInput(
+                        modifier = Modifier.fillMaxWidth(),
                         labelResId = R.string.email,
                         state = it,
                         value = state.resetEmailText.value,
@@ -119,7 +120,6 @@ fun ResetPasswordScreenStep1(
                         keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
                         transformation = VisualTransformation.None,
-                        modifier = Modifier.fillMaxWidth(),
                         isError = when {
                             it.resetEmailText.value.isNotValidEmail() -> true
                             it.isErrorResetEmailState.value -> true

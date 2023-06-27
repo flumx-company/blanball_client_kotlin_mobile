@@ -6,6 +6,10 @@
     import com.example.data.backend.models.requests.ResetCompleteRequest
     import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
     import com.example.data.backend.models.requests.SendResetCodeRequest
+    import com.example.data.backend.models.requests.UpdateUserProfileRequest
+    import com.example.data.backend.models.requests.UpdateUserProfileRequestConfiguration
+    import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
+    import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
@@ -14,7 +18,10 @@
     import com.example.data.backend.models.responses.RegistrationError
     import com.example.data.backend.models.responses.ResetCompleteError
     import com.example.data.backend.models.responses.SendCodeError
+    import com.example.data.backend.models.responses.UpdateUserProfileResponseError
     import com.example.data.tokenmanager.TokenManager
+    import com.example.data.usernamemanager.UserNameManager
+    import com.example.data.userphonemanager.UserPhoneManager
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
@@ -31,6 +38,8 @@
     import com.example.data.utils.ext.toResetCompleteResponseEntity
     import com.example.data.utils.ext.toSendCodeErrorEntity
     import com.example.data.utils.ext.toSendCodeResponseEntity
+    import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
+    import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.data.verifycodemanager.VerifyCodeManager
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
@@ -40,7 +49,9 @@
     import com.example.domain.entity.responses.RegistrationErrorEntity
     import com.example.domain.entity.responses.ResetCompleteErrorEntity
     import com.example.domain.entity.responses.SendCodeErrorEntity
+    import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
     import com.example.domain.entity.results.EmailResetResultEntity
+    import com.example.domain.entity.results.FillingTheUserProfileResultEntity
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
     import com.example.domain.entity.results.GetUserProfileByIdResultEntity
     import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
@@ -53,14 +64,62 @@
     import kotlinx.coroutines.flow.firstOrNull
     import retrofit2.HttpException
     import javax.inject.Inject
-    
+
     class AppRepositoryImpl @Inject constructor(
         internal val service: ApiService,
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
+        internal val userPhoneManager: UserPhoneManager,
+        internal val userNameManager: UserNameManager,
     ) : AppRepository {
-    
-        override suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity {
+        override suspend fun fillingTheUserProfile(
+            birthday: String,
+            height: Int,
+            weight: Int,
+            position: String,
+            working_leg: String,
+            place_name: String
+        ): FillingTheUserProfileResultEntity {
+            return try {
+                val savedUserPhone = userPhoneManager.getUserPhone()
+                val savedFullName = userNameManager.getUserName().firstOrNull().toString()
+                val nameAndLastName = savedFullName.split(" ")
+                val updateUserProfileResponse = service.updateUserProfile(
+                    UpdateUserProfileRequest(
+                        UpdateUserProfileRequestConfiguration(
+                            email = false,
+                            phone = false,
+                            show_reviews = false
+                        ),
+                        phone = savedUserPhone.firstOrNull().toString(),
+                        profile = UpdateUserProfileRequestProfile(
+                            birthday = birthday,
+                            height = height,
+                            weight = weight,
+                            position = position,
+                            working_leg = working_leg,
+                            place = UpdateUserProfileRequestPlace(place_name = place_name, lat = 90, lon = 90),
+                            name = nameAndLastName[0],
+                            last_name = nameAndLastName[1],
+                        )
+                    )
+                )
+                val updateUserProfileDomainResponse =
+                    updateUserProfileResponse.toUpdateUserProfileResponseEntity()
+                FillingTheUserProfileResultEntity.Success(updateUserProfileDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<UpdateUserProfileResponseError, UpdateUserProfileResponseEntityError>(
+                        ex
+                    ) { it.toUpdateUserProfileResponseEntityError() }
+                FillingTheUserProfileResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
+
+        override suspend fun getUserPlannedEventsById(
+            id: Int,
+            page: Int
+        ): GetUserPlannedEventsByIdResultEntity {
             return try {
                 val getUserPlannedByIdResponse = service.getListOfUsersPlannedEvents(id, page)
                 val getUserPlannedByIdDomainResponse =
@@ -177,6 +236,8 @@
                         re_password = re_password,
                     )
                     val registrationSuccess = service.userRegistration(request)
+                    userNameManager.safeUserName("$name $lastName")
+                    userPhoneManager.safeUserPhone(request.phone)
                     val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
                     RegistrationResultEntity.Success(registrationResponse.data)
                 } catch (ex: HttpException) {

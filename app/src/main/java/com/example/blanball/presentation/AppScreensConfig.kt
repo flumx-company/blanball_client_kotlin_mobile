@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -142,7 +143,10 @@ fun AppScreensConfig(
 
             RegistrationScreenStep2(
                 state = state,
-                onRegistrationClicked = { registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked) },
+                onRegistrationClicked = {
+                    registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked)
+                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)
+                },
                 onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
 
             LaunchedEffect(key1 = currentState.isSuccessRegistrationNewPass.value) {
@@ -160,15 +164,14 @@ fun AppScreensConfig(
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            LaunchedEffect(key1 = true) {
-                publicProfileViewModel.sideEffect.collect {
-                    when (it) {
-                        is PublicProfileMainContract.Effect.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
+            val currentState = publicProfileViewModel.currentState
+
+            LaunchedEffect(key1 = Unit) {
+               publicProfileViewModel.setState { copy(
+                   state = PublicProfileMainContract.ScreenViewState.Loading
+               ) }
+           }
+
             PublicProfileScreen(
                 state = state,
                 onInviteToAnEventClicked = {}, // TODO("Invite to event action")
@@ -228,9 +231,21 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
+            val currentState = onboardingProfileViewModel.currentState
             val state = onboardingProfileViewModel.uiState.collectAsState().value
-            FillingOutTheUserProfileScreenStep4(state = state, onFinishClicked = {}, onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)} )
+            FillingOutTheUserProfileScreenStep4(
+                state = state,
+                onFinishClicked = {
+                    onboardingProfileViewModel.handleEvent(OnboardingScreensStatesMainContract.Event.FinishFillingOutTheProfileClicked)
+                },
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) })
+            LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
+                if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
+                    currentState.isSuccessRequestToFinishOutTheProfile.value = false
+                    navController.navigate(Destinations.LOGIN.route)
+                }
             }
+        }
         }
     }
 

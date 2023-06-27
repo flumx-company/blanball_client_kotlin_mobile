@@ -24,12 +24,12 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun OutlineRadioButton(
+    modifier: Modifier = Modifier,
     state: UiState,
     text: String,
     selected: Boolean,
     icon: Painter?,
-    onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onClick: () -> Unit = {}
 ) {
     Box(modifier = modifier) {
         Row(

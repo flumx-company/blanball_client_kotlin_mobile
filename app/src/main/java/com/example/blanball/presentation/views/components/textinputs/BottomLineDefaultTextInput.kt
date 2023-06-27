@@ -36,6 +36,7 @@ fun BottomLineDefaultTextInput(
     errorMessage: String = "",
 ) {
     Box(modifier = modifier,) {
+        Column() {
         TextField(
             value = value,
             onValueChange = onValueChange,
@@ -61,7 +62,6 @@ fun BottomLineDefaultTextInput(
             keyboardActions = keyboardActions,
             isError = isError,
         )
-        Column(modifier = modifier) {
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)
             }
