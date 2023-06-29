@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.domain.utils.Integers
 
@@ -38,9 +39,9 @@ fun AnimatedPaddingCard(
 
     Card(
         modifier = Modifier
-            .padding(top = padding)
-            .fillMaxSize(),
+            .padding(top = 190.dp)
+            .fillMaxSize().shadow(elevation = 12.dp),
         content = content,
-        shape = RoundedCornerShape(topStart = shape, topEnd = shape, bottomStart = 0.dp, bottomEnd = 0.dp,),
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomStart = 0.dp, bottomEnd = 0.dp,),
     )
 }

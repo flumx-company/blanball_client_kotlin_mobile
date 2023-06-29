@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
@@ -46,10 +47,10 @@ fun UserTrainingStep2(
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource(id = R.drawable.bg_training_user_step_1),
-            contentDescription = null,
+            painter = painterResource(id = R.drawable.bg_training_user_step_2),
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth()
         )
         AnimatedPaddingCard {
             Column(
@@ -73,6 +74,7 @@ fun UserTrainingStep2(
                 Text(
                     text = stringResource(id = R.string.tournaments_friendly_matches),
                     style = typography.h3,
+                    lineHeight = 20.sp,
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.weight(1f))

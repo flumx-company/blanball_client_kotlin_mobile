@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +35,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 
 @Composable
 fun FillingOutTheUserProfileStartScreen(
@@ -52,6 +53,7 @@ fun FillingOutTheUserProfileStartScreen(
             Image(
                 painter = painterResource(id = R.drawable.onboard_start_bg),
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxWidth()
             )
             AnimatedPaddingCard {

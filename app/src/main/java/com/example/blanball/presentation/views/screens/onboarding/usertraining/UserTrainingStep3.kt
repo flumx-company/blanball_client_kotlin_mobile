@@ -51,10 +51,10 @@ fun UserTrainingStep3(
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource(id = R.drawable.bg_training_user_step_1),
+            painter = painterResource(id = R.drawable.bg_training_user_step_3),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
         AnimatedPaddingCard {
             Column(
@@ -78,6 +78,7 @@ fun UserTrainingStep3(
                 Text(
                     text = stringResource(id = R.string.after_each_event),
                     style = typography.h3,
+                    lineHeight = 20.sp,
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
@@ -89,7 +90,12 @@ fun UserTrainingStep3(
                             tint = secondaryNavy,
                         )
                         Spacer(modifier = Modifier.size(8.dp))
-                        Text(text = stringResource(id = R.string.users_with_good_rating), style = typography.h6, fontSize = 14.sp )
+                        Text(
+                            text = stringResource(id = R.string.users_with_good_rating),
+                            style = typography.h6,
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
