@@ -207,4 +207,14 @@
     <string name="position_valid_error">* Будь ласка, оберіть свою ігрову позицію</string>
     <string name="region_valid_error">* Будь ласка, оберіть свою область</string>
     <string name="city_village_town_valid_error">* Будь ласка, введіть назву свого населеного пункту</string>
+    <string name="skip">Пропустити</string>
+    <string name="blanball_is">Blanball — це застосунок, покликаний спростити пошук команд для гри у футбол і так далі тому подібне. Тут треба буде написати нашо взагалі воно є та чим може бути корисне.</string>
+    <string name="welcome_to_blanball">Вітаємо у BLANBALL !</string>
+    <string name="tournaments_friendly_matches">Турніри, дружні матчі або ж колективні тренування — усе це тепер можна організувати через online-застосунок.</string>
+    <string name="choose_the_most">Обирайте для себе найцікавіші активності</string>
+    <string name="users_with_good_rating">Гравці з хорошим рейтингом, репутацією легше знаходять команди, тож закликаємо вас вести чесну гру!</string>
+    <string name="after_each_event">Після кожної події, у якій ви приймали участь як гравець або глядач, ви матимете змогу залишити відгук про ваші враження. Водночас, оцінюючи гравців, ви формуєте рейтинг кожного з них.</string>
+    <string name="influence_the_quality_of_events">Впливайте на якість подій за допомогою оцінок</string>
+    <string name="to_filling_out_the_profile">До заповнення профілю</string>
+    <string name="fill_out_your_profile_and_start_looking_for_a_team">Заповніть профіль та розпочніть пошук команди</string>
 </resources>

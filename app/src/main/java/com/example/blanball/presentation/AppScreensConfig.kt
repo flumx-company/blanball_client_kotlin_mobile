@@ -17,11 +17,15 @@ import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.screens.login.LoginScreen
-import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep1
-import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep2
-import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep3
-import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileScreenStep4
-import com.example.blanball.presentation.views.screens.onboarding.FillingOutTheUserProfileStartScreen
+import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
+import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep2
+import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep3
+import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep4
+import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileStartScreen
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep1
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep2
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep3
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep4
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
@@ -42,7 +46,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.FILLING_OUT_THE_USER_PROFILE_START.route
+        startDestination = Destinations.USER_TRAINING_4.route
     )
     {
         composable(Destinations.LOGIN.route) {
@@ -246,7 +250,31 @@ fun AppScreensConfig(
                 }
             }
         }
+
+        composable(Destinations.USER_TRAINING_1.route) {
+            UserTrainingStep1(onTrainingUserStep2Clicked = {}) {
+
+            }
         }
+
+        composable(Destinations.USER_TRAINING_2.route) {
+            UserTrainingStep2(onTrainingUserStep3Clicked = {}) {
+
+            }
+        }
+
+
+        composable(Destinations.USER_TRAINING_3.route) {
+            UserTrainingStep3(onTrainingUserStep4Clicked = {}) {
+            }
+        }
+
+
+        composable(Destinations.USER_TRAINING_4.route) {
+            UserTrainingStep4(onFillingOutTheUserProfileStartScreenClicked = {}) {
+            }
+        }
+    }
     }
 
 enum class Destinations(val route: String) {
@@ -264,4 +292,8 @@ enum class Destinations(val route: String) {
     FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
     FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
     FILLING_OUT_THE_USER_PROFILE4("fillingOutTheUserProfile4"),
+    USER_TRAINING_1("userTraining1"),
+    USER_TRAINING_2("userTraining2"),
+    USER_TRAINING_3("userTraining3"),
+    USER_TRAINING_4("userTraining4"),
 }

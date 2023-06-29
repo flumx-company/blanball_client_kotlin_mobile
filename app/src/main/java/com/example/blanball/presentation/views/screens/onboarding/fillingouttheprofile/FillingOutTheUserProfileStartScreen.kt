@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.onboarding
+package com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile
 
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.onboarding
+package com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile
 
 import OutlineRadioButton
 import androidx.compose.foundation.Image
