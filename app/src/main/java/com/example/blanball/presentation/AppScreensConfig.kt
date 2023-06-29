@@ -42,7 +42,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.FILLING_OUT_THE_USER_PROFILE_START.route
+        startDestination = Destinations.USER_TRAINING_1.route
     )
     {
         composable(Destinations.LOGIN.route) {
@@ -246,6 +246,36 @@ fun AppScreensConfig(
                 }
             }
         }
+
+        composable(Destinations.USER_TRAINING_1.route) {
+            UserTrainingStep1(
+                onTrainingUserStep2Clicked = { navController.navigate(Destinations.USER_TRAINING_2.route) },
+                onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
+            )
+        }
+
+        composable(Destinations.USER_TRAINING_2.route) {
+            UserTrainingStep2(
+                onTrainingUserStep3Clicked = { navController.navigate(Destinations.USER_TRAINING_3.route) },
+                onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
+
+            )
+        }
+
+
+        composable(Destinations.USER_TRAINING_3.route) {
+            UserTrainingStep3(
+                onTrainingUserStep4Clicked = { navController.navigate(Destinations.USER_TRAINING_4.route) },
+                onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
+            )
+        }
+
+        composable(Destinations.USER_TRAINING_4.route) {
+            UserTrainingStep4(
+                onFillingOutTheUserProfileStartScreenClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) },
+                onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
+            )
+        }
     }
 }
 
@@ -264,4 +294,8 @@ enum class Destinations(val route: String) {
     FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
     FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
     FILLING_OUT_THE_USER_PROFILE4("fillingOutTheUserProfile4"),
+    USER_TRAINING_1("userTraining1"),
+    USER_TRAINING_2("userTraining2"),
+    USER_TRAINING_3("userTraining3"),
+    USER_TRAINING_4("userTraining4"),
 }
