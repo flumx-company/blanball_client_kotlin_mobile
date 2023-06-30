@@ -1,14 +1,14 @@
 package com.example.blanball.utils.di
 
 import com.example.data.backend.*
-import com.example.data.tokenmanager.TokenManager
-import com.example.data.tokenmanager.TokenManagerImpl
-import com.example.data.usernamemanager.UserNameManager
-import com.example.data.usernamemanager.UserNameManagerImpl
-import com.example.data.userphonemanager.UserPhoneManager
-import com.example.data.userphonemanager.UserPhoneManagerImpl
-import com.example.data.verifycodemanager.VerifyCodeManager
-import com.example.data.verifycodemanager.VerifyCodeManagerImpl
+import com.example.data.datastore.tokenmanager.TokenManager
+import com.example.data.datastore.tokenmanager.TokenManagerImpl
+import com.example.data.datastore.usernamemanager.UserNameManager
+import com.example.data.datastore.usernamemanager.UserNameManagerImpl
+import com.example.data.datastore.userphonemanager.UserPhoneManager
+import com.example.data.datastore.userphonemanager.UserPhoneManagerImpl
+import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
 import dagger.Binds
@@ -20,6 +20,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
 @Module(includes = [DataStoreModule::class])
 @InstallIn(SingletonComponent::class)
@@ -30,20 +31,30 @@ class DataModule {
         return retrofit.create(ApiService::class.java)
     }
 
+    @Singleton
     @Provides
-    fun provideOkHttpClient(tokenManager: TokenManager, authenticator: TokenAuthenticator? = null): OkHttpClient {
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
+        authAuthenticator: AuthAuthenticator
+    ): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
         return OkHttpClient.Builder()
-            .also { client ->
-                val logging = HttpLoggingInterceptor()
-                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-                client.addInterceptor(logging)
-                client.addInterceptor(AuthInterceptor(tokenManager))
-            }.build()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .authenticator(authAuthenticator)
+            .build()
     }
 
     @Provides
-    fun provideTokenAuthenticator(tokenManager: TokenManager): TokenAuthenticator{
-        return TokenAuthenticator(tokenManager)
+    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager)
+    }
+
+    @Provides
+    fun provideAuthInterceptor(tokenManager: TokenManagerImpl): AuthInterceptor {
+        return AuthInterceptor(tokenManager)
     }
 
     @Provides
@@ -53,11 +64,6 @@ class DataModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
-    }
-
-    @Provides
-    fun provideAuthInterceptor(tokenManager: TokenManagerImpl): AuthInterceptor {
-        return AuthInterceptor(tokenManager)
     }
 }
 

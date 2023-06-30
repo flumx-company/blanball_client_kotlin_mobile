@@ -1,4 +1,4 @@
-package com.example.data.tokenmanager
+package com.example.data.datastore.tokenmanager
 
 import kotlinx.coroutines.flow.Flow
 

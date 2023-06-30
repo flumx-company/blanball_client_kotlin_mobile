@@ -1,4 +1,4 @@
-package com.example.data.tokenmanager
+package com.example.data.datastore.tokenmanager
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -11,7 +11,8 @@ import javax.inject.Inject
 
 private val TOKEN_KEY = stringPreferencesKey("jwt_token")
 
-class TokenManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : TokenManager {
+class TokenManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
+    TokenManager {
 
     override fun getToken(): Flow<String?> {
         return dataStore.data.map { preferences ->

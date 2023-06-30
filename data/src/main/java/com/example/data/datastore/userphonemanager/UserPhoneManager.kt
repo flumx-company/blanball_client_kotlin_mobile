@@ -1,4 +1,4 @@
-package com.example.data.userphonemanager
+package com.example.data.datastore.userphonemanager
 
 import kotlinx.coroutines.flow.Flow
 

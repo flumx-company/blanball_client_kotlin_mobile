@@ -1,4 +1,4 @@
-package com.example.data.usernamemanager
+package com.example.data.datastore.usernamemanager
 
 import kotlinx.coroutines.flow.Flow
 

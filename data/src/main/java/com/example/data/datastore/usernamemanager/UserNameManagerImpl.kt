@@ -1,4 +1,4 @@
-package com.example.data.usernamemanager
+package com.example.data.datastore.usernamemanager
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
