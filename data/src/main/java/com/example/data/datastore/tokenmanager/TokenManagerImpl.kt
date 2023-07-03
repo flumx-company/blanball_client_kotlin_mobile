@@ -9,26 +9,45 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
-private val TOKEN_KEY = stringPreferencesKey("jwt_token")
+private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_jwt_token")
+private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_jwt_token")
 
 class TokenManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
     TokenManager {
 
-    override fun getToken(): Flow<String?> {
+    override fun getAccessToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY]
+            preferences[ACCESS_TOKEN_KEY]
         }
     }
 
-     override suspend fun saveToken(token: String) {
+     override suspend fun saveAccessToken(token: String) {
         dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = token
+            preferences[ACCESS_TOKEN_KEY] = token
         }
     }
 
-    override suspend fun deleteToken() {
+    override suspend fun deleteAccessToken() {
         dataStore.edit { preferences ->
-            preferences.remove(TOKEN_KEY)
+            preferences.remove(ACCESS_TOKEN_KEY)
+        }
+    }
+
+    override fun getRefreshToken(): Flow<String?> {
+       return dataStore.data.map { preferences ->
+            preferences[REFRESH_TOKEN_KEY]
+        }
+    }
+
+    override suspend fun saveRefreshToken(token: String) {
+        dataStore.edit { preferences ->
+            preferences[REFRESH_TOKEN_KEY] = token
+        }
+    }
+
+    override suspend fun deleteRefreshToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(REFRESH_TOKEN_KEY)
         }
     }
 }

@@ -66,7 +66,7 @@
     import javax.inject.Inject
 
     class AppRepositoryImpl @Inject constructor(
-        internal val service: ApiService,
+        internal val service: MainApiService,
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
         internal val userPhoneManager: UserPhoneManager,
@@ -208,7 +208,8 @@
                 val authRequest = AuthRequest(email, password)
                 val loginSuccess = service.loginAuthorization(authRequest)
                 val loginResponse = loginSuccess.toLoginResponse()
-                tokenManager.saveToken(loginResponse.data.tokens.access)
+                tokenManager.saveAccessToken(loginResponse.data.tokens.access)
+                tokenManager.saveRefreshToken(loginResponse.data.tokens.refresh)
                 LoginResultEntity.Success(loginResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =

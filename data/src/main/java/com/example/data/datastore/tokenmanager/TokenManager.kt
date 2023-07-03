@@ -4,9 +4,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface TokenManager {
 
-  fun getToken(): Flow<String?>
+  fun getAccessToken(): Flow<String?>
 
-  suspend fun saveToken(token: String)
+  suspend fun saveAccessToken(token: String)
 
-  suspend fun deleteToken()
+  suspend fun deleteAccessToken()
+
+  fun getRefreshToken(): Flow<String?>
+
+  suspend fun saveRefreshToken(token: String)
+
+  suspend fun deleteRefreshToken()
 }

@@ -46,7 +46,7 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.USER_TRAINING_1.route
+        startDestination = Destinations.LOGIN.route
     )
     {
         composable(Destinations.LOGIN.route) {

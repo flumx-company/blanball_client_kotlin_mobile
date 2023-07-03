@@ -1,15 +1,19 @@
 package com.example.data.backend
 
+import com.example.data.backend.models.AuthApiService
+import com.example.data.backend.models.responses.Tokens
 import com.example.data.datastore.tokenmanager.TokenManager
-import com.example.domain.events.AuthEvent
-import com.example.domain.utils.Code
+import com.example.domain.utils.Endpoints
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import org.greenrobot.eventbus.EventBus
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Inject
 
 class AuthAuthenticator @Inject constructor(
@@ -17,16 +21,35 @@ class AuthAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        val token = runBlocking {
-            tokenManager.getToken().first()
+         val token = runBlocking {
+            tokenManager.getRefreshToken().first()
         }
-        if (response.code == Code.CODE_401){
-            val authEvent = AuthEvent(false)
-            EventBus.getDefault().post(authEvent)
-            return null
-        }
-        return response.request.newBuilder()
-            .addHeader("Authorization", "")
-            .build()
+        return runBlocking {
+            val newToken = getNewToken(token)
+            if (!newToken.isSuccessful || newToken.body() == null) {
+                tokenManager.deleteRefreshToken()
+                tokenManager.deleteAccessToken()
+            }
+            newToken.body()?.let {
+                tokenManager.saveAccessToken(it.access)
+                response.request.newBuilder()
+                    .header("Authorization", "Bearer ${it.access}")
+                    .build()
+            }
         }
     }
+
+    private suspend fun getNewToken(refreshToken: String?): retrofit2.Response<Tokens> {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val okHttpClient = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Endpoints.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+        val service = retrofit.create(AuthApiService::class.java)
+        return service.refreshToken("Bearer $refreshToken")
+    }
+}

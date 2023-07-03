@@ -1,6 +1,7 @@
 package com.example.blanball.utils.di
 
 import com.example.data.backend.*
+import com.example.data.backend.models.AuthApiService
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.tokenmanager.TokenManagerImpl
 import com.example.data.datastore.usernamemanager.UserNameManager
@@ -26,11 +27,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DataModule {
 
-    @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
-    }
-
     @Singleton
     @Provides
     fun provideOkHttpClient(
@@ -47,24 +43,40 @@ class DataModule {
             .build()
     }
 
-    @Provides
-    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
-        return AuthAuthenticator(tokenManager)
-    }
-
+    @Singleton
     @Provides
     fun provideAuthInterceptor(tokenManager: TokenManagerImpl): AuthInterceptor {
         return AuthInterceptor(tokenManager)
     }
 
+    @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager)
+    }
+    
+    @Singleton
+    @Provides
+    fun provideRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
             .baseUrl(Endpoints.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
-            .client(okHttpClient)
+
+    @Singleton
+    @Provides
+    fun provideAuthAPIService(retrofit: Retrofit.Builder): AuthApiService =
+        retrofit
             .build()
-    }
+            .create(AuthApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideApiService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): MainApiService = retrofit
+        .client(okHttpClient)
+        .build()
+        .create(MainApiService::class.java)
 }
 
 @Module
