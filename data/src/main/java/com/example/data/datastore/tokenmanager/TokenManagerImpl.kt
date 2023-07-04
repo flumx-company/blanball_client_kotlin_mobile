@@ -12,8 +12,7 @@ import javax.inject.Inject
 private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_jwt_token")
 private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_jwt_token")
 
-class TokenManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
-    TokenManager {
+class TokenManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : TokenManager {
 
     override fun getAccessToken(): Flow<String?> {
         return dataStore.data.map { preferences ->

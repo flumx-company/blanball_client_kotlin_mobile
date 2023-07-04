@@ -19,7 +19,6 @@ import javax.inject.Inject
 class AuthAuthenticator @Inject constructor(
     private val tokenManager: TokenManager,
 ) : Authenticator {
-
     override fun authenticate(route: Route?, response: Response): Request? {
          val token = runBlocking {
             tokenManager.getRefreshToken().first()

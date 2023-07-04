@@ -39,7 +39,6 @@ class DataModule {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
-            .authenticator(authAuthenticator)
             .build()
     }
 
@@ -54,7 +53,7 @@ class DataModule {
     fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
         return AuthAuthenticator(tokenManager)
     }
-    
+
     @Singleton
     @Provides
     fun provideRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
