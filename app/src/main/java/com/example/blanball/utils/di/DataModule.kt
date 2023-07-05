@@ -37,6 +37,7 @@ class DataModule {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         return OkHttpClient.Builder()
+            .authenticator(authAuthenticator)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
