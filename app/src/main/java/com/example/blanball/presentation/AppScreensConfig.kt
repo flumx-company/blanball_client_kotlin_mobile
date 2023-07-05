@@ -1,6 +1,5 @@
 package com.example.blanball.presentation
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -9,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
-import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
@@ -51,17 +49,8 @@ fun AppScreensConfig(
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
-            val context = LocalContext.current
+            val currentState = loginViewModel.currentState
 
-            LaunchedEffect(key1 = true) {
-                loginViewModel.sideEffect.collect {
-                    when (it) {
-                        is StartScreensMainContract.Effect.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
             LoginScreen(
                 state = state,
                 onLoginClicked = {
@@ -69,6 +58,14 @@ fun AppScreensConfig(
                 },
                 dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
                 registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
+
+
+            LaunchedEffect(currentState.isSuccessLoginRequest.value) {
+                if (currentState.isSuccessLoginRequest.value) {
+                    currentState.isSuccessResetRequest.value = false
+                    navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                }
+            }
         }
 
         composable(Destinations.RESET1.route) {
@@ -171,9 +168,7 @@ fun AppScreensConfig(
             val currentState = publicProfileViewModel.currentState
 
             LaunchedEffect(key1 = Unit) {
-                publicProfileViewModel.setState { copy(
-                    state = PublicProfileMainContract.ScreenViewState.Loading
-                ) }
+                publicProfileViewModel.loadUserProfileData()
             }
 
             PublicProfileScreen(

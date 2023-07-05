@@ -89,12 +89,12 @@ fun LoginScreen(
                 transformation = VisualTransformation.None,
                 isError = when {
                     it.loginEmailText.value.isNotValidEmail() -> true
-                    it.isErrorLoginEmailState.value -> true
+                    it.isErrorLoginRequest.value -> true
                     else -> false
                 },
                 errorMessage = when {
                     it.loginEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
-                    it.isErrorLoginEmailState.value -> stringResource(id = R.string.invalid_credential_error)
+                    it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
                     else -> {""}
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -105,12 +105,12 @@ fun LoginScreen(
                 state = it,
                 isError = when {
                     it.loginPasswordText.value.isNotInReqRange(8) -> true
-                    it.isErrorLoginEmailState.value -> true
+                    it.isErrorLoginRequest.value -> true
                     else -> false
                 },
                 errorMessage = when {
                     it.loginPasswordText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
-                    it.isErrorLoginEmailState.value -> stringResource(id = R.string.invalid_credential_error)
+                    it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
                     else -> {""}
                 },
                 value = state.loginPasswordText.value,

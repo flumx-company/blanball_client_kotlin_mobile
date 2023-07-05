@@ -63,13 +63,14 @@ class LoginViewModel
                    is LoginResultEntity.Success -> {
                        _sideEffect.emit(StartScreensMainContract.Effect.ShowToast("Success"))
                        setState { copy(
-                           isErrorLoginEmailState = mutableStateOf(false),
+                           isErrorLoginRequest = mutableStateOf(false),
+                           isSuccessLoginRequest = mutableStateOf(true),
                            state = StartScreensMainContract.ScreenViewState.SuccessLogin,
                            loginEmailText = mutableStateOf(""),
                            loginPasswordText = mutableStateOf(""),
                        ) }
                    }
-                   is LoginResultEntity.Error -> setState { copy(isErrorLoginEmailState =  mutableStateOf(true), state = StartScreensMainContract.ScreenViewState.LoginError) }
+                   is LoginResultEntity.Error -> setState { copy(isErrorLoginRequest =  mutableStateOf(true), state = StartScreensMainContract.ScreenViewState.LoginError) }
                }
            }
         }

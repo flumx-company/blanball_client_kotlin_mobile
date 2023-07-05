@@ -9,11 +9,11 @@ data class GetUserProfileByIdResponseEntity(
 
 data class PublicProfileDataResponseEntity(
     val configuration: ConfigurationEntity,
-    val email: String,
+    val email: String? = null,
     val id: Int,
     val is_online: Boolean,
     val is_verified: Boolean,
-    val phone: String,
+    val phone: String? = null,
     val profile: PublicProfileResponseEntity,
     val raiting: Any? = null,
     val role: String? = null,
@@ -36,7 +36,7 @@ data class PublicProfileResponseEntity(
     val id: Int,
     val last_name: String,
     val name: String,
-    val place: PlayingPlaceEntity,
+    val place: PlayingPlaceEntity? = null,
     val position: String? = null,
     val weight: Int? = null,
     val working_leg: String? = null,

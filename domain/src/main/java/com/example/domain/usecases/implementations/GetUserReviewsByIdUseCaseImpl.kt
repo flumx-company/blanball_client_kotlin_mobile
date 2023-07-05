@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetUserReviewsByIdUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetUserReviewsByIdUseCase {
     override suspend fun executeGetUserReviewsById(page: Int): GetUserReviewsByIdResultEntity {
-        return appRepository.getUserReviewsById(id = 2, page = page)
+        return appRepository.getUserReviewsById(id = 34, page = page)
     }
 }
 
