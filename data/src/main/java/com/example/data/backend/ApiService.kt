@@ -3,6 +3,7 @@ package com.example.data.backend
 
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.requests.InviteUserToEventRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
@@ -11,6 +12,7 @@ import com.example.data.backend.models.requests.UpdateUserProfileRequest
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
+import com.example.data.backend.models.responses.InviteUserToEventResponse
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
@@ -54,4 +56,7 @@ interface ApiService  {
 
     @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
     suspend fun  updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
+
+    @POST (Endpoints.INVITE_USER_TO_EVENT_ENDPOINT)
+    suspend fun inviteUserToEvent (@Body inviteUserToEventRequest: InviteUserToEventRequest): InviteUserToEventResponse
 }

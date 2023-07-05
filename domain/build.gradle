@@ -27,6 +27,7 @@ android {
         buildConfigField "String", "REVIEWS_ENDPOINT", "\"reviews/client/user/reviews/list/{id}\""
         buildConfigField "String", "PLANNED_EVENTS", "\"events/client/user/planned/events/list/{id}\""
         buildConfigField "String", "UPDATE_PROFILE_ENDPOINT", "\"authentication/client/me/update\""
+        buildConfigField "String", "INVITE_USER_TO_EVENT_ENDPOINT", "\"events/client/invite/users/to/event\""
     }
 
     buildTypes {

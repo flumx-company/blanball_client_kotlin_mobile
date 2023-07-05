@@ -22,6 +22,10 @@ import com.example.blanball.presentation.views.screens.onboarding.fillingoutthep
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep3
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep4
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileStartScreen
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep1
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep2
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep3
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep4
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
