@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 private val REMEMBER_ME_FLAG = booleanPreferencesKey("remember_me_boolean_flag")
 
-class RememberMeMangerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : RememberMeManager {
+class RememberMeManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : RememberMeManager {
 
     override fun getRememberMeFlag(): Flow<Boolean?> {
         return dataStore.data.map { preferences ->

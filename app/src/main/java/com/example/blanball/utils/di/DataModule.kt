@@ -2,6 +2,8 @@ package com.example.blanball.utils.di
 
 import com.example.data.backend.*
 import com.example.data.backend.models.AuthApiService
+import com.example.data.datastore.remembermemanager.RememberMeManager
+import com.example.data.datastore.remembermemanager.RememberMeManagerImpl
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.tokenmanager.TokenManagerImpl
 import com.example.data.datastore.usernamemanager.UserNameManager
@@ -26,7 +28,6 @@ import javax.inject.Singleton
 @Module(includes = [DataStoreModule::class])
 @InstallIn(SingletonComponent::class)
 class DataModule {
-
     @Singleton
     @Provides
     fun provideOkHttpClient(
@@ -97,4 +98,6 @@ interface RepositoryModule {
     @Binds
     fun bindUserNameManager(userNameManager: UserNameManagerImpl): UserNameManager
 
+    @Binds
+    fun bindRememberMeManager (rememberMeManager: RememberMeManagerImpl): RememberMeManager
 }
