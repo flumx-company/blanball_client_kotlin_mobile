@@ -317,7 +317,7 @@ internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfil
         this.id,
         this.last_name,
         this.name,
-        this.place.toPlayingPlaceEntity(),
+        this.place?.toPlayingPlaceEntity(),
         this.position,
         this.weight,
         this.working_leg

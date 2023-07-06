@@ -53,24 +53,12 @@ class PublicProfileViewModel @Inject constructor(
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<PublicProfileMainContract.Effect> = _sideEffect.asSharedFlow()
 
-    init {
-        handleScreenState(currentState.state)
-    }
-
-    private fun handleScreenState(screenViewState: PublicProfileMainContract.ScreenViewState) {
-        when (screenViewState) {
-            is PublicProfileMainContract.ScreenViewState.Loading -> {
-                getUserPublicProfileById()
-                getUserReviewsById(Integers.ONE)
-                getUserPlannedEventsById(Integers.ONE)
-            }
-
-            is PublicProfileMainContract.ScreenViewState.LoadingError -> {
-                job = viewModelScope.launch(Dispatchers.IO) {
-                    _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
-                }
-            }
-            else -> {}
+    fun loadUserProfileData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            setState { copy(state = PublicProfileMainContract.ScreenViewState.Loading) }
+            getUserPublicProfileById()
+            getUserReviewsById(Integers.ONE)
+            getUserPlannedEventsById(Integers.ONE)
         }
     }
 
@@ -86,8 +74,8 @@ class PublicProfileViewModel @Inject constructor(
                                 userAvatar = mutableStateOf(it.data.profile.avatar_url),
                                 userRoleText = mutableStateOf(it.data.role),
                                 userIsVerified = mutableStateOf(it.data.is_verified),
-                                userEmail = mutableStateOf(it.data.email),
-                                userPhoneNumberText = mutableStateOf(it.data.phone),
+                                userEmail = mutableStateOf(it.data.email?:""),
+                                userPhoneNumberText = mutableStateOf(it.data.phone?:""),
                                 userHeightText = mutableStateOf(it.data.profile.height),
                                 userWeightText = mutableStateOf(it.data.profile.weight),
                                 aboutUserText = mutableStateOf(it.data.profile.about_me),

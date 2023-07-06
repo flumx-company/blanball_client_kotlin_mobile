@@ -11,11 +11,11 @@ data class GetUserProfileByIdResponse(
 
 data class PublicProfileDataResponse(
      @Json (name = "configuration") val configuration: Configuration,
-     @Json (name = "email") val email: String,
+     @Json (name = "email") val email: String? = null,
      @Json (name = "id") val id: Int,
      @Json (name = "is_online") val is_online: Boolean,
      @Json (name = "is_verified") val is_verified: Boolean,
-     @Json (name = "phone") val phone: String,
+     @Json (name = "phone") val phone: String? = null,
      @Json (name = "profile") val profile: PublicProfileResponse,
      @Json (name = "raiting") val raiting: Any? = null,
      @Json (name = "role") val role: String? = null
@@ -38,7 +38,7 @@ data class PublicProfileResponse(
      @Json (name = "id") val id: Int,
      @Json (name = "last_name") val last_name: String,
      @Json (name = "name") val name: String,
-     @Json (name = "place") val place: PlayingPlace ,
+     @Json (name = "place") val place: PlayingPlace? = null,
      @Json (name = "position") val position: String? = null,
      @Json (name = "weight") val weight: Int? = null,
      @Json (name = "working_leg") val working_leg: String? = null,

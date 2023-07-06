@@ -26,7 +26,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 
-interface ApiService  {
+interface MainApiService  {
 
     @POST(Endpoints.LOGIN_ENDPOINT)
     suspend fun loginAuthorization(@Body authRequest: AuthRequest): LoginSuccess
@@ -50,8 +50,8 @@ interface ApiService  {
     suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun  getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+    suspend fun getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
     @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
-    suspend fun  updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
+    suspend fun updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
 }

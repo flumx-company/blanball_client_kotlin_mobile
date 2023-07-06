@@ -1,4 +1,4 @@
-package com.example.data.userphonemanager
+package com.example.data.datastore.userphonemanager
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 private val USER_PHONE_NUMBER = stringPreferencesKey("user_phone_number")
 
-class UserPhoneManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : UserPhoneManager {
+class UserPhoneManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
+    UserPhoneManager {
 
     override fun getUserPhone(): Flow<String?> {
         return dataStore.data.map { preferences ->

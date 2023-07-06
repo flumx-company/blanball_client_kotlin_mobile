@@ -19,9 +19,10 @@
     import com.example.data.backend.models.responses.ResetCompleteError
     import com.example.data.backend.models.responses.SendCodeError
     import com.example.data.backend.models.responses.UpdateUserProfileResponseError
-    import com.example.data.tokenmanager.TokenManager
-    import com.example.data.usernamemanager.UserNameManager
-    import com.example.data.userphonemanager.UserPhoneManager
+    import com.example.data.datastore.tokenmanager.TokenManager
+    import com.example.data.datastore.usernamemanager.UserNameManager
+    import com.example.data.datastore.userphonemanager.UserPhoneManager
+    import com.example.data.datastore.verifycodemanager.VerifyCodeManager
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
@@ -40,7 +41,6 @@
     import com.example.data.utils.ext.toSendCodeResponseEntity
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-    import com.example.data.verifycodemanager.VerifyCodeManager
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
@@ -66,7 +66,7 @@
     import javax.inject.Inject
 
     class AppRepositoryImpl @Inject constructor(
-        internal val service: ApiService,
+        internal val service: MainApiService,
         internal val tokenManager: TokenManager,
         internal val verifyCodeManager: VerifyCodeManager,
         internal val userPhoneManager: UserPhoneManager,
@@ -208,7 +208,8 @@
                 val authRequest = AuthRequest(email, password)
                 val loginSuccess = service.loginAuthorization(authRequest)
                 val loginResponse = loginSuccess.toLoginResponse()
-                tokenManager.saveToken(loginResponse.data.tokens.access)
+                tokenManager.saveAccessToken(loginResponse.data.tokens.access)
+                tokenManager.saveRefreshToken(loginResponse.data.tokens.refresh)
                 LoginResultEntity.Success(loginResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =

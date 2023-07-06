@@ -1,4 +1,4 @@
-package com.example.data.verifycodemanager
+package com.example.data.datastore.verifycodemanager
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 private val VERIFY_CODE = stringPreferencesKey("verify_code")
 
-class VerifyCodeManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : VerifyCodeManager {
+class VerifyCodeManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
+    VerifyCodeManager {
 
     override fun getVerifyCode(): Flow<String?> {
         return dataStore.data.map { preferences ->

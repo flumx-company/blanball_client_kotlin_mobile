@@ -1,4 +1,4 @@
-package com.example.data.verifycodemanager
+package com.example.data.datastore.verifycodemanager
 
 import kotlinx.coroutines.flow.Flow
 

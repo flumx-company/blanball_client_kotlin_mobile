@@ -7,8 +7,6 @@ import javax.inject.Inject
 
 class GetUserProfileByIdUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetUserProfileByIdUseCase {
     override suspend fun executeGetUserProfileById(): GetUserProfileByIdResultEntity {
-        return appRepository.getUserProfileById(2)
+        return appRepository.getUserProfileById(34)
     }
 }
-
-// TODO: id will match the selected user when going to their public profile

@@ -216,7 +216,7 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(8.dp))
-                    if (state.userEmail.value.isNotEmpty() || state.userPhoneNumberText.value.isNotEmpty()) {
+                    if ( state.userEmail.value.isNotEmpty() && state.userEmail.value.isNullOrEmpty() || state.userPhoneNumberText.value.isNotEmpty() && state.userPhoneNumberText.value != null) {
                         Row(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp)

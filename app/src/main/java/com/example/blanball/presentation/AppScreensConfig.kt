@@ -1,6 +1,5 @@
 package com.example.blanball.presentation
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -9,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
-import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
@@ -22,6 +20,10 @@ import com.example.blanball.presentation.views.screens.onboarding.fillingoutthep
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep3
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep4
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileStartScreen
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep1
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep2
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep3
+import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep4
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
@@ -42,22 +44,13 @@ fun AppScreensConfig(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.USER_TRAINING_1.route
+        startDestination = Destinations.LOGIN.route
     )
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
-            val context = LocalContext.current
+            val currentState = loginViewModel.currentState
 
-            LaunchedEffect(key1 = true) {
-                loginViewModel.sideEffect.collect {
-                    when (it) {
-                        is StartScreensMainContract.Effect.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
             LoginScreen(
                 state = state,
                 onLoginClicked = {
@@ -65,6 +58,14 @@ fun AppScreensConfig(
                 },
                 dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
                 registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
+
+
+            LaunchedEffect(currentState.isSuccessLoginRequest.value) {
+                if (currentState.isSuccessLoginRequest.value) {
+                    currentState.isSuccessResetRequest.value = false
+                    navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                }
+            }
         }
 
         composable(Destinations.RESET1.route) {
@@ -167,9 +168,7 @@ fun AppScreensConfig(
             val currentState = publicProfileViewModel.currentState
 
             LaunchedEffect(key1 = Unit) {
-                publicProfileViewModel.setState { copy(
-                    state = PublicProfileMainContract.ScreenViewState.Loading
-                ) }
+                publicProfileViewModel.loadUserProfileData()
             }
 
             PublicProfileScreen(
