@@ -42,14 +42,21 @@ fun AppScreensConfig(
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
 ) {
-    NavHost(
+    var startDestination = Destinations.LOGIN.route
+        NavHost(
         navController = navController,
-        startDestination = Destinations.LOGIN.route
+        startDestination = startDestination
     )
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
+
+            startDestination = if (currentState.rememberMeCheckbox.value) {
+                Destinations.PUBLIC_PROFILE.route
+            } else {
+                Destinations.LOGIN.route
+            }
 
             LoginScreen(
                 state = state,
