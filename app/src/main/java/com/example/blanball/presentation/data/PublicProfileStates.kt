@@ -37,7 +37,13 @@ class PublicProfileMainContract {
         val isLoadingMoreReviews: Boolean = false,
         val allReviewsLoaded: Boolean = false,
         val isLoadingMoreEvents: Boolean = false,
-        val allEventsLoaded: Boolean = false
+        val allEventsLoaded: Boolean = false,
+        val openInviteUserToInventModal: MutableState<Boolean> = mutableStateOf(false),
+        val invitesList: MutableState<List<String>> = mutableStateOf(
+            emptyList()
+        ),
+        val selectedInviteState: MutableState<String> = mutableStateOf(""),
+        val addMessageState:  MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {

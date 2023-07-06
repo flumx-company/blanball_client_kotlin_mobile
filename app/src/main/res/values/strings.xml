@@ -217,4 +217,9 @@
     <string name="influence_the_quality_of_events">Впливайте на якість подій за допомогою оцінок</string>
     <string name="to_filling_out_the_profile">До заповнення профілю</string>
     <string name="fill_out_your_profile_and_start_looking_for_a_team">Заповніть профіль та розпочніть пошук команди</string>
+    <string name="invitation_to_participate_in_the_event">Запрошення до участі у події</string>
+    <string name="you_are_going_to_invite">Ви збираєтеся запросити</string>
+    <string name="invite">Запросити</string>
+    <string name="choose_the_ivent">Оберіть подію</string>
+    <string name="message">Повідомлення</string>
 </resources>

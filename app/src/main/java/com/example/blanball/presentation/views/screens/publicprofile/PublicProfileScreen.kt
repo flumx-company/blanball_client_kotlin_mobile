@@ -15,15 +15,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -32,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,7 +64,9 @@ import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserPlannedEventsColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserReviewsColumn
+import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
 import com.example.blanball.presentation.views.components.texts.AttentionText
 import com.example.blanball.utils.ext.formatRating
 import com.example.blanball.utils.makeCall
@@ -76,6 +83,7 @@ fun PublicProfileScreen(
         (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
             PublicProfileMainContract.ScreenViewState.Idle
         )
+    val configuration = LocalConfiguration.current
     val context = LocalContext.current
     Box(
         modifier = Modifier
@@ -199,7 +207,7 @@ fun PublicProfileScreen(
                     }
                     Spacer(modifier = Modifier.size(16.dp))
                     Button(
-                        onClick = { onInviteToAnEventClicked },
+                        onClick = { it.openInviteUserToInventModal.value = true },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp)
@@ -216,7 +224,7 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(8.dp))
-                    if ( state.userEmail.value.isNotEmpty() && state.userEmail.value.isNullOrEmpty() || state.userPhoneNumberText.value.isNotEmpty() && state.userPhoneNumberText.value != null) {
+                    if (state.userEmail.value.isNotEmpty() || state.userPhoneNumberText.value.isNotEmpty()) {
                         Row(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -491,9 +499,84 @@ fun PublicProfileScreen(
                     }
                 }
             }
+            if (it.openInviteUserToInventModal.value) {
+                AlertDialog(
+                    modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 30.dp),
+                    shape = RoundedCornerShape(6.dp),
+                    backgroundColor = Color.White,
+                    title = {
+                        Column {
+                            Text(
+                                text = stringResource(id = R.string.invite_to_an_event),
+                                style = typography.h5,
+                                lineHeight = 24.sp,
+                                fontSize = 14.sp,
+                                color = primaryDark,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.you_are_going_to_invite),
+                                style = typography.h6,
+                                fontSize = 12.sp,
+                                lineHeight = 20.sp,
+                                color = secondaryNavy,
+                            )
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { /*TODO*/ },
+                            shape = shapes.medium,
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = mainGreen,
+                                contentColor = Color.White,
+                            ),
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.invite),
+                                style = typography.h5
+                            )
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = { it.openInviteUserToInventModal.value = false },
+                            modifier = Modifier.align(alignment = Alignment.CenterStart)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.cancel),
+                                style = typography.h4,
+                                fontSize = 14.sp,
+                                color = secondaryNavy,
+                            )
+                        }
+                    },
+                    onDismissRequest = {
+                    },
+                    text = {
+                        Column {
+                            Spacer(modifier = Modifier.size(16.dp))
+                            CustomDropDownMenu(
+                                labelResId = R.string.choose_the_ivent ,
+                                listItems = it.invitesList.value,
+                                value = it.selectedInviteState.value,
+                                onValueChange = {state.selectedInviteState.value = it},
+                            )
+                            Spacer(modifier = Modifier.size(16.dp))
+                            ReadOnlyOutlinePlaceholder(
+                                modifier = Modifier.fillMaxWidth(1f),
+                                value = it.addMessageState.value,
+                                onValueChange = { state.addMessageState.value = it },
+                                labelResId = R.string.message,
+                                trailingIconRedId = R.drawable.ic_clip
+                            )
+                            Spacer(modifier = Modifier.size(16.dp))
+                        }
+                    }
+            )
+            }
         }
-    }
-    if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
-        Loader(backgroundColor = Color.White, textColor = primaryDark)
-    }
+        if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
+            Loader(backgroundColor = Color.White, textColor = primaryDark)
+        }
+}
 }
