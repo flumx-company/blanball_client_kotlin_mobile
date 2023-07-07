@@ -41,22 +41,16 @@ fun AppScreensConfig(
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
+    startDestinations: String,
 ) {
-    var startDestination = Destinations.LOGIN.route
-        NavHost(
+    NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestinations
     )
     {
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
-
-            startDestination = if (currentState.rememberMeCheckbox.value) {
-                Destinations.PUBLIC_PROFILE.route
-            } else {
-                Destinations.LOGIN.route
-            }
 
             LoginScreen(
                 state = state,
@@ -65,7 +59,6 @@ fun AppScreensConfig(
                 },
                 dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
                 registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
-
 
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
