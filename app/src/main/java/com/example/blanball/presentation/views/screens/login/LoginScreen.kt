@@ -123,8 +123,8 @@ fun LoginScreen(
             Spacer(modifier = Modifier.size(12.dp))
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Checkbox(
-                    checked = it.privacyPolicyCheckbox.value,
-                    onCheckedChange = { state.privacyPolicyCheckbox.value = it },
+                    checked = it.rememberMeCheckbox.value,
+                    onCheckedChange = { state.rememberMeCheckbox.value = it },
                     colors = CheckboxDefaults.colors(
                         checkedColor = mainGreen,
                         uncheckedColor = defaultLightGray,

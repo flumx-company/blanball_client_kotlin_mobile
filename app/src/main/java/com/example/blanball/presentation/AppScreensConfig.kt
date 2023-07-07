@@ -41,10 +41,11 @@ fun AppScreensConfig(
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
+    startDestinations: String,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.LOGIN.route
+        startDestination = startDestinations
     )
     {
         composable(Destinations.LOGIN.route) {
@@ -58,7 +59,6 @@ fun AppScreensConfig(
                 },
                 dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
                 registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
-
 
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
