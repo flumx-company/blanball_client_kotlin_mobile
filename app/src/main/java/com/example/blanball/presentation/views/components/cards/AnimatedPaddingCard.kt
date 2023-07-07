@@ -39,9 +39,9 @@ fun AnimatedPaddingCard(
 
     Card(
         modifier = Modifier
-            .padding(top = 190.dp)
+            .padding(top = padding)
             .fillMaxSize().shadow(elevation = 12.dp),
         content = content,
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomStart = 0.dp, bottomEnd = 0.dp,),
+        shape = RoundedCornerShape(topStart = shape, topEnd = 28.dp, bottomStart = shape, bottomEnd = 0.dp,),
     )
 }

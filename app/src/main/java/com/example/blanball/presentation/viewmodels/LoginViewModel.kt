@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,7 +65,6 @@ class LoginViewModel
                when(it) {
                    is LoginResultEntity.Success -> {
                        rememberMeManager.saveRememberMeFlag(currentState.rememberMeCheckbox.value)
-                       Log.d("FLAG", rememberMeManager.getRememberMeFlag().first().toString())
                        setState { copy(
                            isErrorLoginRequest = mutableStateOf(false),
                            isSuccessLoginRequest = mutableStateOf(true),
