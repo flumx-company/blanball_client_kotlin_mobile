@@ -9,6 +9,8 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatBooleanToString
+import com.example.data.datastore.remembermemanager.RememberMeManager
+import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,9 @@ import javax.inject.Inject
 @HiltViewModel
 class   RegistrationViewModel @Inject constructor(
     internal val registrationUseCase: RegistrationUseCase,
-    private val application: Application
+    private val application: Application,
+    private val tokenManager: TokenManager,
+    val rememberMeManager: RememberMeManager,
     ) :
     ViewModel() {
 
@@ -75,6 +79,7 @@ class   RegistrationViewModel @Inject constructor(
             ).let {
                 when (it) {
                     is RegistrationResultEntity.Success -> {
+                        rememberMeManager.saveRememberMeFlag(currentState.lostInSystemSwitchButton.value)
                         setState {
                             copy(
                                 state = StartScreensMainContract.ScreenViewState.SuccessRegistration,
@@ -92,6 +97,8 @@ class   RegistrationViewModel @Inject constructor(
                                 privacyPolicyCheckbox = mutableStateOf(false),
                             )
                         }
+                        tokenManager.saveAccessToken(it.data.access)
+                        tokenManager.saveRefreshToken(it.data.refresh)
                     }
                     is RegistrationResultEntity.Error -> {
                         setState {

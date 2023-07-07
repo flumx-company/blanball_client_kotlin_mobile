@@ -146,7 +146,7 @@ fun AppScreensConfig(
                 state = state,
                 onRegistrationClicked = {
                     registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked)
-                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)
+                    navController.navigate(Destinations.USER_TRAINING_1.route)
                 },
                 onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
 
@@ -241,7 +241,7 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
-                    navController.navigate(Destinations.LOGIN.route)
+                    navController.navigate(Destinations.PUBLIC_PROFILE.route)
                 }
             }
         }
