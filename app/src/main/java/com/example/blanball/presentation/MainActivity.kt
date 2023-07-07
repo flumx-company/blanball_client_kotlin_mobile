@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
             }
             LaunchedEffect(key1 = Unit) {
                 rememberMeFlag = rememberMeManager.getRememberMeFlag().first() == true
-              if (!rememberMeFlag) {
+              if (!rememberMeFlag && (tokenManager.getAccessToken().first() != null) && (tokenManager.getAccessToken().first() != null )) {
                   tokenManager.deleteAccessToken()
                   tokenManager.deleteRefreshToken()
               }
