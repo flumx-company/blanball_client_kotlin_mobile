@@ -1,9 +1,9 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -192,7 +192,8 @@ fun RegistrationScreenStep1(
                     }
                     Row(Modifier.padding(top = 20.dp)) {
                         OutlineRadioButton(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.weight(1f).clickable { it.genderIsMale.value = true
+                                it.genderIsFemale.value = false },
                             state = it,
                             text = stringResource(R.string.male),
                             selected = it.genderIsMale.value,
@@ -203,7 +204,8 @@ fun RegistrationScreenStep1(
                             })
                         Spacer(modifier = Modifier.size(8.dp))
                         OutlineRadioButton(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.weight(1f).clickable { it.genderIsFemale.value = true
+                                it.genderIsMale.value = false },
                             state = it,
                             text = stringResource(R.string.female),
                             selected = it.genderIsFemale.value,
