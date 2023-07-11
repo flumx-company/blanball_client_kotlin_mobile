@@ -178,7 +178,7 @@ fun ResetPasswordScreenStep3(
                             ),
                         ) {
                             Text(
-                                text = stringResource(id = R.string.send_code),
+                                text = stringResource(id = R.string.save_new_pass),
                                 style = typography.h4,
                             )
                         }
