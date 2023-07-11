@@ -96,7 +96,7 @@ fun ResetPasswordScreenStep2(
                 painter = painterResource(id = R.drawable.ukraine), contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard()
+            AnimatedPaddingCard(
             {
                 Column(
                     modifier = Modifier.padding(
@@ -250,7 +250,8 @@ fun ResetPasswordScreenStep2(
                         )
                     }
                 }
-            }
+            },
+                enableAnimation = true )
         }
         if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
             Loader()

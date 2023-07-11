@@ -1,9 +1,7 @@
 package com.example.blanball.presentation.views.screens.resset
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,7 +69,7 @@ fun ResetPasswordScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard() {
+            AnimatedPaddingCard( {
                 Column(
                     modifier = Modifier.padding(
                         top = 28.dp,
@@ -177,7 +175,9 @@ fun ResetPasswordScreenStep1(
                             )
                         }
                     }
-                }
+                },
+                enableAnimation = true
+            )
             }
         }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {

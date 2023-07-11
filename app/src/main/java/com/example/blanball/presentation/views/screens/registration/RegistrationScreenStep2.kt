@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -87,7 +86,7 @@ fun RegistrationScreenStep2(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard() {
+            AnimatedPaddingCard( {
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
@@ -290,7 +289,9 @@ fun RegistrationScreenStep2(
                         )
                     }
                 }
-            }
+            },
+            enableAnimation = false
+                )
             if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
                 Loader()
             }

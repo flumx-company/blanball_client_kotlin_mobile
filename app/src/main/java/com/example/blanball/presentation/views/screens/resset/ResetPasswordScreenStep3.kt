@@ -68,7 +68,7 @@ fun ResetPasswordScreenStep3(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard()
+            AnimatedPaddingCard(
             {
                 Column(
                     modifier = Modifier.padding(
@@ -192,7 +192,8 @@ fun ResetPasswordScreenStep3(
                             )
                         }
                     }
-                }
+                },
+                enableAnimation = true)
         }
         if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
             Loader()
