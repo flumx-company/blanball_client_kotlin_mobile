@@ -125,6 +125,7 @@ fun ResetPasswordScreenStep3(
                             it.isErrorCompleteResetState.value -> true
                             else -> false
                         },
+                        visibilityIconState = it.passwordResetVisibility,
                         errorMessage = when {
                             it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                             it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
@@ -140,6 +141,7 @@ fun ResetPasswordScreenStep3(
                         value = state.repeatNewPassText.value,
                         onValueChange = { state.repeatNewPassText.value = it },
                         state = it,
+                        visibilityIconState = it.repeatPasswordResetVisibility,
                         modifier = Modifier
                             .fillMaxWidth(),
                         keyboardOptions = KeyboardOptions.Default.copy(

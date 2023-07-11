@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -181,6 +180,7 @@ fun RegistrationScreenStep2(
                             imeAction = ImeAction.Next
                         ),
                         keyboardActions = KeyboardActions.Default,
+                        visibilityIconState = it.passwordRegistrationVisibility,
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     PassTextInput(
@@ -213,7 +213,8 @@ fun RegistrationScreenStep2(
                         ),
                         keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        visibilityIconState = it.repeatPasswordRegistrationVisibility,
                     )
                     Row(modifier = Modifier.padding(top = 32.dp)) {
                         SwitchButton(

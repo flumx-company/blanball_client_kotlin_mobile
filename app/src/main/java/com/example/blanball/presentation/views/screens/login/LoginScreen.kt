@@ -118,7 +118,8 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()})
+                keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
