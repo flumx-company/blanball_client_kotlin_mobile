@@ -222,4 +222,5 @@
     <string name="invite">Запросити</string>
     <string name="choose_the_ivent">Оберіть подію</string>
     <string name="message">Повідомлення</string>
+    <string name="this_field_is_required">* Це поле є обов\'язковим для заповнення</string>
 </resources>
