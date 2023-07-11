@@ -149,7 +149,7 @@ fun FillingOutTheUserProfileScreenStep4(
                             else -> false
                         },
                         errorMessage = when {
-                            it.regionState.value.isEmpty() -> stringResource(id = R.string.region_valid_error)
+                            it.regionState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
                             else -> {
                                 ("")
                             }
@@ -168,7 +168,7 @@ fun FillingOutTheUserProfileScreenStep4(
                             else -> false
                         },
                         errorMessage = when {
-                            it.cityVillageTownState.value.isEmpty() -> stringResource(id = R.string.city_village_town_valid_error)
+                            it.cityVillageTownState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
                             else -> {
                                 ("")
                             }
