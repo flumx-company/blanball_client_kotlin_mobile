@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -239,6 +238,7 @@ fun RegistrationScreenStep2(
                         )
                         Spacer(modifier = Modifier.size(10.5.dp))
                         Text(
+                            modifier = Modifier.clickable { state.privacyPolicyCheckbox.value = !(state.privacyPolicyCheckbox.value) },
                             text = stringResource(id = R.string.accept_terms).plus(" "),
                             style = typography.h6,
                             color = primaryDark,
