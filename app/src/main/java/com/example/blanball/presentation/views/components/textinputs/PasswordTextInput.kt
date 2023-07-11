@@ -8,6 +8,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -35,12 +36,13 @@ fun PassTextInput(
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     errorMessage: String = "",
+    visibilityIconState: MutableState<Boolean>
 ) {
     OutlinedTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        visualTransformation = if (state.passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (visibilityIconState.value) VisualTransformation.None else PasswordVisualTransformation(),
         singleLine = true,
         label = {
             Text(
@@ -61,8 +63,8 @@ fun PassTextInput(
             cursorColor = mainGreen,
         ),
         trailingIcon = {
-            IconButton(onClick = { state.passwordVisibility.value = !state.passwordVisibility.value}) {
-                Icon(painter = painterResource(id = if (state.passwordVisibility.value) R.drawable.ic_eye_on else R.drawable.ic_eye_off), contentDescription = "Visibility Icon")
+            IconButton(onClick = { visibilityIconState.value = !visibilityIconState.value}) {
+                Icon(painter = painterResource(id = if (visibilityIconState.value) R.drawable.ic_eye_on else R.drawable.ic_eye_off), contentDescription = "Visibility Icon")
             }
         },
         isError = isError
