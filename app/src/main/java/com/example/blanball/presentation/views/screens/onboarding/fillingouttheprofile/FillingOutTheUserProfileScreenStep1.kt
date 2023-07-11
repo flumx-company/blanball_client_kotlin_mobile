@@ -68,7 +68,7 @@ fun FillingOutTheUserProfileScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard {
+            AnimatedPaddingCard ({
                 Column(
                     modifier = Modifier
                         .padding(
@@ -204,7 +204,9 @@ fun FillingOutTheUserProfileScreenStep1(
                         )
                     }
                 }
-            }
+            },
+                enableAnimation = true
+            )
         }
     }
 }

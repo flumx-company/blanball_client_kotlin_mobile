@@ -56,7 +56,7 @@ fun UserTrainingStep3(
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth()
         )
-        AnimatedPaddingCard {
+        AnimatedPaddingCard ({
             Column(
                 modifier = Modifier
                     .padding(
@@ -128,6 +128,8 @@ fun UserTrainingStep3(
                     )
                 }
             }
-        }
+        },
+            enableAnimation = true,
+        )
     }
 }

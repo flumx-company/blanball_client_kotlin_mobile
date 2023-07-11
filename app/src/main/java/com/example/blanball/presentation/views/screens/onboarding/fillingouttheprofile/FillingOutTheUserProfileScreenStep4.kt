@@ -96,7 +96,7 @@ fun FillingOutTheUserProfileScreenStep4(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard {
+            AnimatedPaddingCard ({
                 Column(
                     modifier = Modifier
                         .padding(
@@ -232,7 +232,9 @@ fun FillingOutTheUserProfileScreenStep4(
                         )
                     }
                 }
-            }
+            },
+                enableAnimation = true
+            )
         }
     }
     if (currentState.state is OnboardingScreensStatesMainContract.ScreenViewState.Loading) {

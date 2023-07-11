@@ -18,6 +18,7 @@ import com.example.domain.utils.Integers
 @Composable
 fun AnimatedPaddingCard(
     content: @Composable () -> Unit,
+    enableAnimation: Boolean,
 ) {
     val keyboardVisible = remember { mutableStateOf(false) }
 
@@ -28,20 +29,20 @@ fun AnimatedPaddingCard(
     }
 
     val padding by animateDpAsState(
-        targetValue = if (keyboardVisible.value) 0.dp else 190.dp,
+        targetValue = if (!keyboardVisible.value && enableAnimation) 190.dp else 0.dp,
         tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
     val shape by animateDpAsState(
-        targetValue = if (keyboardVisible.value) 0.dp else 28.dp,
+        targetValue = if (!keyboardVisible.value && enableAnimation) 28.dp else 0.dp,
         tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
     Card(
         modifier = Modifier
             .padding(top = padding)
-            .fillMaxSize().shadow(elevation = 12.dp),
+            .fillMaxSize().shadow(elevation = 12.dp, shape = RoundedCornerShape(size = shape)),
         content = content,
-        shape = RoundedCornerShape(topStart = shape, topEnd = 28.dp, bottomStart = shape, bottomEnd = 0.dp,),
+        shape = RoundedCornerShape(topStart = shape, topEnd = shape, bottomStart = 0.dp, bottomEnd = 0.dp,),
     )
 }

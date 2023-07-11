@@ -86,7 +86,7 @@ fun RegistrationScreenStep2(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard() {
+            AnimatedPaddingCard( {
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
@@ -291,7 +291,9 @@ fun RegistrationScreenStep2(
                         )
                     }
                 }
-            }
+            },
+            enableAnimation = false
+                )
             if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
                 Loader()
             }

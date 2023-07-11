@@ -52,7 +52,7 @@ fun UserTrainingStep4(
             contentDescription = null,
             modifier = Modifier.fillMaxWidth()
         )
-        AnimatedPaddingCard {
+        AnimatedPaddingCard ({
             Column(
                 modifier = Modifier
                     .padding(
@@ -107,6 +107,8 @@ fun UserTrainingStep4(
                     )
                 }
             }
-        }
+        },
+            enableAnimation = true,
+        )
     }
 }

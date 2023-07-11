@@ -76,17 +76,19 @@ fun RegistrationScreenStep1(
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
-            AnimatedPaddingCard {
-                Column(
-                    modifier = Modifier
-                        .padding(
-                            top = 28.dp,
-                            start = 16.dp,
-                            bottom = 30.dp,
-                            end = 16.dp,
-                        ).verticalScroll(rememberScrollState()),
-                ) {
-                    AnimationRotatingBalls()
+            AnimatedPaddingCard(
+                {
+                    Column(
+                        modifier = Modifier
+                            .padding(
+                                top = 28.dp,
+                                start = 16.dp,
+                                bottom = 30.dp,
+                                end = 16.dp,
+                            )
+                            .verticalScroll(rememberScrollState()),
+                    ) {
+                        AnimationRotatingBalls()
                     Text(
                         text = stringResource(R.string.creation_new_acc),
                         modifier = Modifier.fillMaxWidth(),
@@ -249,8 +251,10 @@ fun RegistrationScreenStep1(
                             style = typography.h4,
                         )
                     }
-                }
-            }
+                    }
+                },
+                enableAnimation = false
+            )
             if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
                 Loader()
             }
