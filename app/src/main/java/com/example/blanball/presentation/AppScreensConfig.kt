@@ -241,7 +241,11 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
-                    navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                    navController.navigate(Destinations.PUBLIC_PROFILE.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }

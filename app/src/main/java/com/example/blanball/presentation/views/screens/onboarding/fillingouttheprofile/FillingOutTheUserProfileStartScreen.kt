@@ -78,6 +78,7 @@ fun FillingOutTheUserProfileStartScreen(
                     Text(
                         text = stringResource(id = R.string.tell_us_about_yourself),
                         style = typography.h3,
+                        lineHeight = 20.sp,
                         fontSize = 16.sp,
                         color = secondaryNavy
                     )
