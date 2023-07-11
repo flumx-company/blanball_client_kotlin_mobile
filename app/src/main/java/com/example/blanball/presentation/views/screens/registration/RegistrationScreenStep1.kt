@@ -54,6 +54,7 @@ import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
 import com.example.blanball.utils.ext.isNotValidUserName
 import com.example.blanball.utils.ext.isValidPhoneNumber
 import com.example.blanball.utils.ext.isValidUserName
+import com.example.domain.utils.Integers
 
 @Composable
 fun RegistrationScreenStep1(
@@ -156,7 +157,10 @@ fun RegistrationScreenStep1(
                     Spacer(modifier = Modifier.size(12.dp))
                     PhoneNumberInput(
                         value = state.phoneNumberText.value,
-                        onValueChange =  { state.phoneNumberText.value = it },
+                        onValueChange =  { it ->
+                            if (it.length <= Integers.NINE ) {
+                                state.phoneNumberText.value = it.filter { it.isDigit() }
+                            } },
                         modifier = Modifier
                             .fillMaxWidth(),
                         isError = when {

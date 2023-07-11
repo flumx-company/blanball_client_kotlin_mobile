@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -20,6 +21,8 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.MaskVisualTransformation
+import com.example.domain.utils.Formats
 
 @Composable
 fun PhoneNumberInput(
@@ -46,7 +49,7 @@ fun PhoneNumberInput(
         shape = shapes.small,
         leadingIcon = {
             Text(
-                text = "+380",//TODO Make some resource
+                text = stringResource(id = R.string.head_of_number),
                 modifier = Modifier.padding(start = 14.dp),
                 color = Color.Black
             )
@@ -59,7 +62,8 @@ fun PhoneNumberInput(
             focusedLabelColor = primaryDark,
             cursorColor = mainGreen,
         ),
-        keyboardOptions = keyboardOptions,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            visualTransformation = MaskVisualTransformation(Formats.PHONE_MASK) ,
         isError = isError,
     )
     Column(modifier = modifier) {

@@ -5,10 +5,10 @@ import com.example.domain.utils.Integers
 import java.util.Calendar
 
 internal fun String.isValidPhoneNumber() =
-    length == 9 && none { !it.isDigit() }
+    length == Integers.NINE && none { !it.isDigit() }
 
 internal fun String.isInvalidValidPhoneNumber() =
-    (length !in 9..9 && isNotEmpty()) || any { !it.isDigit() }
+    (length !in Integers.NINE..Integers.NINE && isNotEmpty()) || any { !it.isDigit() }
 
 internal fun String.isInReqRange(min: Int, max: Int = Int.MAX_VALUE) = this.length in min..max
 
