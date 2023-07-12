@@ -144,16 +144,6 @@ fun FillingOutTheUserProfileScreenStep4(
                         listItems = cities,
                         value = it.regionState.value,
                         onValueChange = { state.regionState.value = it },
-                        isError = when {
-                            state.regionState.value.isEmpty() -> true
-                            else -> false
-                        },
-                        errorMessage = when {
-                            it.regionState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
-                            else -> {
-                                ("")
-                            }
-                        }
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     DefaultTextInput(
@@ -163,16 +153,6 @@ fun FillingOutTheUserProfileScreenStep4(
                         state = it,
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                        isError = when {
-                            state.cityVillageTownState.value.isEmpty() -> true
-                            else -> false
-                        },
-                        errorMessage = when {
-                            it.cityVillageTownState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
-                            else -> {
-                                ("")
-                            }
-                        }
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     Box(

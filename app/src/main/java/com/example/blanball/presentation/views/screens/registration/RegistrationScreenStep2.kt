@@ -155,20 +155,14 @@ fun RegistrationScreenStep2(
                         onValueChange = { state.registrationPassText.value = it },
                         state = it,
                         isError = when {
-                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> true
-                            it.registrationPassText.value != it.registrationPassTextRemember.value -> true
+                            it.registrationPassText.value.isNotInReqRange(8) -> true
                             it.isErrorRegistrationNewPass.value -> true
                             else -> false
                         },
                         errorMessage = when {
-                            it.registrationPassTextRemember.value.isNotInReqRange(8) -> stringResource(
+                            it.registrationPassText.value.isNotInReqRange(8) -> stringResource(
                                 id = R.string.min_chars_error_pass
                             )
-
-                            it.registrationPassText.value != it.registrationPassTextRemember.value -> stringResource(
-                                id = R.string.doesnt_math_pass
-                            )
-
                             it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
                             else -> {
                                 ""

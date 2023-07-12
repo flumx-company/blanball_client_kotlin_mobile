@@ -165,14 +165,6 @@ fun FillingOutTheUserProfileScreenStep3(
                             ),
                             value = it.workingLegState.value,
                             onValueChange = { state.workingLegState.value = it },
-                            isError = when {
-                                it.workingLegState.value.isEmpty() -> true
-                                else -> false
-                            },
-                            errorMessage = when {
-                                it.workingLegState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
-                                else -> {("")}
-                            }
                         )
                     }
                     Spacer(modifier = Modifier.size(20.dp))
@@ -206,14 +198,6 @@ fun FillingOutTheUserProfileScreenStep3(
                         ),
                         value = it.positionState.value ,
                         onValueChange = {state.positionState.value = it},
-                        isError = when {
-                            it.positionState.value.isEmpty() -> true
-                            else -> false
-                        },
-                        errorMessage = when {
-                            it.positionState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
-                            else -> {("")}
-                        }
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
