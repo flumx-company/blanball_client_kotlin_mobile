@@ -240,6 +240,7 @@ fun RegistrationScreenStep2(
                         )
                         Spacer(modifier = Modifier.size(10.5.dp))
                         Text(
+                            modifier = Modifier.clickable { state.privacyPolicyCheckbox.value = !(state.privacyPolicyCheckbox.value) },
                             text = stringResource(id = R.string.accept_terms).plus(" "),
                             style = typography.h6,
                             color = primaryDark,

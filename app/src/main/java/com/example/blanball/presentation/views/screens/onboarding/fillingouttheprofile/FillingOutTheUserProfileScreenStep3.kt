@@ -170,7 +170,7 @@ fun FillingOutTheUserProfileScreenStep3(
                                 else -> false
                             },
                             errorMessage = when {
-                                it.workingLegState.value.isEmpty() -> stringResource(id = R.string.work_leg_valid_error)
+                                it.workingLegState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
                                 else -> {("")}
                             }
                         )
@@ -211,7 +211,7 @@ fun FillingOutTheUserProfileScreenStep3(
                             else -> false
                         },
                         errorMessage = when {
-                            it.positionState.value.isEmpty() -> stringResource(id = R.string.position_valid_error)
+                            it.positionState.value.isEmpty() -> stringResource(id = R.string.this_field_is_required)
                             else -> {("")}
                         }
                     )
