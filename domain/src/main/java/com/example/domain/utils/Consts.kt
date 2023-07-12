@@ -25,6 +25,7 @@ object Integers {
      const val ONE = 1
      const val FIVE = 5
      const val SIX = 6
+     const val NINE = 9
      const val EIGHTY = 80
      const val THIRTY = 30
      const val TWO_HUNDRED_AND_TEN = 210
@@ -39,4 +40,5 @@ object Formats {
      const val EVENTS_DATE_FORMAT_TO_TIME_OUTPUT = "HH:mm"
      const val DECIMAL_FORMAT = "0.0"
      const val EMAIl_FORMAT = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+     const val PHONE_MASK = "##-###-##-##"
 }
