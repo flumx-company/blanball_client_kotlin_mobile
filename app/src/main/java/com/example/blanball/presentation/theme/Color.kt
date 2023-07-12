@@ -3,6 +3,7 @@ package com.example.blanball.presentation.theme
 import androidx.compose.ui.graphics.Color
 
 val mainGreen = Color(0xFF148783)
+val mainGreenRippleEffect = Color(0x2DC6EBE9)
 val primaryDark = Color(0xFF262541)
 val secondaryNavy = Color(0xFF575775)
 val successGreen = Color(0xFF1CCD62)
