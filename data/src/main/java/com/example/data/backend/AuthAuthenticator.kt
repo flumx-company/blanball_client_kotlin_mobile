@@ -1,6 +1,5 @@
 package com.example.data.backend
 
-import android.util.Log
 import com.example.data.backend.models.AuthApiService
 import com.example.data.backend.models.responses.Tokens
 import com.example.data.datastore.tokenmanager.TokenManager
@@ -59,7 +58,6 @@ class AuthAuthenticator @Inject constructor(
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
-        Log.d("Refresh token", refreshToken.toString())
         val service = retrofit.create(AuthApiService::class.java)
         return service.refreshToken(refreshToken.toString())
     }

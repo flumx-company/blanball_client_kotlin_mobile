@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.utils.navigateToLogin
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,13 +38,27 @@ class MainActivity : ComponentActivity() {
             var launchedEffectComplete by remember {
                 mutableStateOf(false)
             }
+            val navController = rememberNavController()
             LaunchedEffect(key1 = Unit) {
                 rememberMeFlag = rememberMeManager.getRememberMeFlag().first() == true
-              if (!rememberMeFlag && (tokenManager.getAccessToken().first() != null) && (tokenManager.getAccessToken().first() != null )) {
-                  tokenManager.deleteAccessToken()
-                  tokenManager.deleteRefreshToken()
-              }
+                if (!rememberMeFlag && (tokenManager.getAccessToken()
+                        .first() != null) && (tokenManager.getAccessToken().first() != null)
+                ) {
+                    tokenManager.deleteAccessToken()
+                    tokenManager.deleteRefreshToken()
+                }
                 launchedEffectComplete = true
+            }
+            
+            LaunchedEffect(key1 = navigateToLogin.value) {
+                if (navigateToLogin.value) {
+                    navController.navigate(Destinations.LOGIN.route){
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                    navigateToLogin.value = false
+                }
             }
 
             val startDestinations = if (rememberMeFlag) {
@@ -59,7 +74,7 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colors.background,
                     ) {
                         AppScreensConfig(
-                            navController = rememberNavController(),
+                            navController = navController,
                             resetPassViewModel = viewModel(),
                             registrationViewModel = viewModel(),
                             publicProfileViewModel = viewModel(),
