@@ -1,10 +1,10 @@
 package com.example.data.backend
 
-import android.util.Log
 import com.example.data.backend.models.AuthApiService
 import com.example.data.backend.models.responses.Tokens
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.domain.utils.Endpoints
+import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -19,19 +19,27 @@ import javax.inject.Inject
 
 class AuthAuthenticator @Inject constructor(
     private val tokenManager: TokenManager,
+    private val navigationManager: NavigationManager,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-         val token = runBlocking {
+        val token = runBlocking {
             tokenManager.getRefreshToken().first()
         }
-        return runBlocking {
-            val newToken = getNewToken(token)
-            if (!newToken.isSuccessful || newToken.body() == null) {
+        val newToken = runBlocking {
+            getNewToken(token)
+        }
+        return if (!newToken.isSuccessful || newToken.body() == null) {
+            runBlocking {
                 tokenManager.deleteRefreshToken()
                 tokenManager.deleteAccessToken()
+                navigationManager.navigateToLogin()
             }
+            null
+        } else {
             newToken.body()?.let {
-                tokenManager.saveAccessToken(it.access)
+                runBlocking {
+                    tokenManager.saveAccessToken(it.access)
+                }
                 response.request.newBuilder()
                     .header("Accept", "application/json")
                     .header("Authorization", "Bearer ${it.access}")
@@ -50,7 +58,6 @@ class AuthAuthenticator @Inject constructor(
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
-        Log.d("Refresh token", refreshToken.toString())
         val service = retrofit.create(AuthApiService::class.java)
         return service.refreshToken(refreshToken.toString())
     }

@@ -3,6 +3,8 @@ package com.example.blanball.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
@@ -61,3 +63,5 @@ internal class MaskVisualTransformation(private val mask: String) : VisualTransf
         }
     }
 }
+
+internal val navigateToLogin: MutableState<Boolean> = mutableStateOf(false)

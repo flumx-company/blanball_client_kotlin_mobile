@@ -1,5 +1,6 @@
 package com.example.blanball.utils.di
 
+import com.example.blanball.utils.NavigationManagerImpl
 import com.example.data.backend.*
 import com.example.data.backend.models.AuthApiService
 import com.example.data.datastore.remembermemanager.RememberMeManager
@@ -14,6 +15,7 @@ import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
+import com.example.domain.utils.NavigationManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -52,15 +54,18 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
-        return AuthAuthenticator(tokenManager)
+    fun provideAuthAuthenticator(
+        tokenManager: TokenManager,
+        navigationManager: NavigationManager
+    ): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager, navigationManager)
     }
 
     @Singleton
     @Provides
     fun provideRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
-            .baseUrl(Endpoints.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(Endpoints.BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create())
 
     @Singleton
     @Provides
@@ -100,4 +105,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindRememberMeManager (rememberMeManager: RememberMeManagerImpl): RememberMeManager
+
+    @Binds
+    fun bindNavigationManager(navigationManager: NavigationManagerImpl): NavigationManager
 }
