@@ -32,6 +32,7 @@ import com.example.blanball.presentation.views.screens.registration.Registration
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.blanball.utils.navigateToLogin
 
 @Composable
 fun AppScreensConfig(
@@ -49,6 +50,9 @@ fun AppScreensConfig(
     )
     {
         composable(Destinations.LOGIN.route) {
+            LaunchedEffect(navigateToLogin.value) {
+                navController.navigate(Destinations.PUBLIC_PROFILE.route)
+            }
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
 
