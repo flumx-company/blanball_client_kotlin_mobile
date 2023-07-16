@@ -39,10 +39,10 @@ class PublicProfileViewModel @Inject constructor(
 
     private val defaultState
         get() = PublicProfileMainContract.State(
-            state = PublicProfileMainContract.ScreenViewState.Loading
+            state = PublicProfileMainContract.ScreenViewState.Idle
         )
 
-    private val currentState: PublicProfileMainContract.State
+    val currentState: PublicProfileMainContract.State
         get() = uiState.value as PublicProfileMainContract.State
 
     private val _uiState: MutableStateFlow<UiState> =
@@ -53,23 +53,12 @@ class PublicProfileViewModel @Inject constructor(
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<PublicProfileMainContract.Effect> = _sideEffect.asSharedFlow()
 
-    init {
-        handleScreenState(currentState.state)
-    }
-
-    private fun handleScreenState(screenViewState: PublicProfileMainContract.ScreenViewState) {
-        when (screenViewState) {
-            is PublicProfileMainContract.ScreenViewState.Loading -> {
-                getUserPublicProfileById()
-                getUserReviewsById(Integers.ONE)
-                getUserPlannedEventsById(Integers.ONE)
-            }
-
-            is PublicProfileMainContract.ScreenViewState.LoadingError -> {
-                job = viewModelScope.launch(Dispatchers.IO) {
-                    _sideEffect.emit(PublicProfileMainContract.Effect.ShowToast("Error"))
-                }
-            }
+    fun loadUserProfileData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            setState { copy(state = PublicProfileMainContract.ScreenViewState.Loading) }
+            getUserPublicProfileById()
+            getUserReviewsById(Integers.ONE)
+            getUserPlannedEventsById(Integers.ONE)
         }
     }
 
@@ -80,18 +69,18 @@ class PublicProfileViewModel @Inject constructor(
                     is GetUserProfileByIdResultEntity.Success ->
                         setState {
                             copy(
-                                userFirstNameText = mutableStateOf(it.data.profile.name),
-                                userLastNameText = mutableStateOf(it.data.profile.last_name),
-                                userAvatar = mutableStateOf(it.data.profile.avatar_url),
+                                userFirstNameText = mutableStateOf(it.data.profile?.name?: ""),
+                                userLastNameText = mutableStateOf(it.data.profile?.last_name?: ""),
+                                userAvatar = mutableStateOf(it.data.profile?.avatar_url?: ""),
                                 userRoleText = mutableStateOf(it.data.role),
                                 userIsVerified = mutableStateOf(it.data.is_verified),
-                                userEmail = mutableStateOf(it.data.email),
-                                userPhoneNumberText = mutableStateOf(it.data.phone),
-                                userHeightText = mutableStateOf(it.data.profile.height),
-                                userWeightText = mutableStateOf(it.data.profile.weight),
-                                aboutUserText = mutableStateOf(it.data.profile.about_me),
-                                userPositionText = mutableStateOf(it.data.profile.position),
-                                userWorkingLegText = mutableStateOf(it.data.profile.working_leg),
+                                userEmail = mutableStateOf(it.data.email?:""),
+                                userPhoneNumberText = mutableStateOf(it.data.phone?:""),
+                                userHeightText = mutableStateOf(it.data.profile?.height?: 0),
+                                userWeightText = mutableStateOf(it.data.profile?.weight),
+                                aboutUserText = mutableStateOf(it.data.profile?.about_me),
+                                userPositionText = mutableStateOf(it.data.profile?.position),
+                                userWorkingLegText = mutableStateOf(it.data.profile?.working_leg),
                                 rating = mutableStateOf(it.data.raiting),
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )
@@ -198,7 +187,7 @@ class PublicProfileViewModel @Inject constructor(
         }
     }
 
-    private fun setState(reduce: PublicProfileMainContract.State.() -> PublicProfileMainContract.State) {
+    fun setState(reduce: PublicProfileMainContract.State.() -> PublicProfileMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

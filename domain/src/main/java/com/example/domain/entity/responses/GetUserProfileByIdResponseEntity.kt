@@ -14,7 +14,7 @@ data class PublicProfileDataResponseEntity(
     val is_online: Boolean,
     val is_verified: Boolean,
     val phone: String,
-    val profile: PublicProfileResponseEntity,
+    val profile: PublicProfileResponseEntity? = null,
     val raiting: Any? = null,
     val role: String? = null,
 )

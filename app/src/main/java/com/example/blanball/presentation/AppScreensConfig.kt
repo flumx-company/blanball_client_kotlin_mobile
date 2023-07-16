@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -157,15 +156,12 @@ fun AppScreensConfig(
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            LaunchedEffect(key1 = true) {
-                publicProfileViewModel.sideEffect.collect {
-                    when (it) {
-                        is PublicProfileMainContract.Effect.ShowToast -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
+            val currentState = publicProfileViewModel.currentState
+
+            LaunchedEffect(key1 = Unit) {
+                publicProfileViewModel.loadUserProfileData()
             }
+
             PublicProfileScreen(
                 state = state,
                 onInviteToAnEventClicked = {}, // TODO("Invite to event action")
@@ -192,11 +188,13 @@ fun AppScreensConfig(
             val currentState = usersRatingViewModel.currentState
 
 
-            LaunchedEffect(currentState) {
-                if (currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
-                    usersRatingViewModel.handleScreenState(currentState.state)
-                }
+            LaunchedEffect(currentState.state) {
+
+                    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading ||  currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
+                        usersRatingViewModel.handleScreenState(currentState.state)
+                    }
             }
+
             UsersRatingScreen(
                 state = state,
                 onLoadMoreUsers = {

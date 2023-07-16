@@ -16,7 +16,7 @@ data class PublicProfileDataResponse(
      @Json (name = "is_online") val is_online: Boolean,
      @Json (name = "is_verified") val is_verified: Boolean,
      @Json (name = "phone") val phone: String,
-     @Json (name = "profile") val profile: PublicProfileResponse,
+     @Json (name = "profile") val profile: PublicProfileResponse? = null,
      @Json (name = "raiting") val raiting: Any? = null,
      @Json (name = "role") val role: String? = null
 )

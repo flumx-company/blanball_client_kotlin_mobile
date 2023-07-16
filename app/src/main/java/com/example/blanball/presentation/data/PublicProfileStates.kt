@@ -44,6 +44,7 @@ class PublicProfileMainContract {
         object Loading : ScreenViewState()
         object LoadingSuccess: ScreenViewState()
         object LoadingError : ScreenViewState()
+        object Idle : ScreenViewState()
     }
 
     sealed class Effect : UiEffect {

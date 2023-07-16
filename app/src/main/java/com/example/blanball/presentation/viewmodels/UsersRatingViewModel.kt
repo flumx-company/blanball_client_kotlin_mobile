@@ -48,19 +48,16 @@ class UsersRatingViewModel @Inject constructor(
 
     val sideEffect: SharedFlow<RatingUsersMainContract.Effect> = _sideEffect.asSharedFlow()
 
-    init {
-        handleScreenState(currentState.state)
-    }
-
-    fun handleScreenState(screenViewState: RatingUsersMainContract.ScreenViewState) {
+       fun handleScreenState(screenViewState: RatingUsersMainContract.ScreenViewState) {
         when (screenViewState) {
             is RatingUsersMainContract.ScreenViewState.Loading -> {
                 setState {
                     copy(
+                    usersList = mutableStateOf(emptyList()),
                     dataLoadType = RatingUsersMainContract.DataLoadType.DEFAULT
                     )
                 }
-                getUsersList(Integers.ONE)
+                getUsersList(page)
             }
 
             is RatingUsersMainContract.ScreenViewState.LoadingWithFilters -> {
@@ -72,7 +69,7 @@ class UsersRatingViewModel @Inject constructor(
                 }
                 page = Integers.ONE
                 getUsersListWithFilters(
-                    page = Integers.ONE,
+                    page = page,
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
                     gender = currentState.genderSelectionState.value.stringValue,
@@ -120,7 +117,6 @@ class UsersRatingViewModel @Inject constructor(
                         }
                     }
                 }
-
                 is GetUsersListResultEntity.Error -> {
                     setState {
                         copy(
@@ -130,7 +126,6 @@ class UsersRatingViewModel @Inject constructor(
                     }
                 }
             }
-
         }
     }
 
@@ -173,7 +168,6 @@ class UsersRatingViewModel @Inject constructor(
                     }
                 }
             }
-
         }
     }
 

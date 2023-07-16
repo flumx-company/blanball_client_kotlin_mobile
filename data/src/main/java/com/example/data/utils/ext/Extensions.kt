@@ -293,7 +293,7 @@ internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): Publ
         this.is_online,
         this.is_verified,
         this.phone,
-        this.profile.toPublicProfileResponseEntity(),
+        this.profile?.toPublicProfileResponseEntity(),
         this.raiting,
         this.role
     )
