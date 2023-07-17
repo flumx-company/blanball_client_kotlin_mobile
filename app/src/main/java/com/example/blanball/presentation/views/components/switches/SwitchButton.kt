@@ -16,5 +16,5 @@ fun SwitchButton(
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    Switch(checked = selected, onCheckedChange = onCheckedChange, colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = mainGreen), modifier = Modifier.size(32.dp, 16.dp))
+    Switch(checked = selected, onCheckedChange = onCheckedChange, colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = mainGreen, checkedTrackAlpha = 1f), modifier = Modifier.size(32.dp, 16.dp))
 }
