@@ -41,7 +41,7 @@ fun AnimatedPaddingCard(
     Card(
         modifier = Modifier
             .padding(top = padding)
-            .fillMaxSize().shadow(elevation = 12.dp, shape = RoundedCornerShape(size = shape)),
+            .fillMaxSize().shadow(elevation = 12.dp, shape = RoundedCornerShape(topStart = shape, topEnd = shape, bottomStart = 0.dp, bottomEnd = 0.dp)),
         content = content,
         shape = RoundedCornerShape(topStart = shape, topEnd = shape, bottomStart = 0.dp, bottomEnd = 0.dp,),
     )
