@@ -24,21 +24,21 @@ data class State(
     ),
     val ageSliderPosition: MutableState<ClosedFloatingPointRange<Float>> = mutableStateOf(6f..80f),
     val GamePositionSelectionState: MutableState<GamePositionSelectionState> = mutableStateOf(
-        RatingUsersMainContract.GamePositionSelectionState.ALl),
-    var positionSelectedItem: MutableState<String> = mutableStateOf("--"),
+        RatingUsersMainContract.GamePositionSelectionState.ALL),
+    var positionSelectedItem: MutableState<String> = mutableStateOf(""),
     val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL),
     val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
     val dataLoadType: DataLoadType = DataLoadType.DEFAULT
 ) : UiState
 
-    enum class GenderSelectionState(val stringValue: String) {
+    enum class GenderSelectionState(val stringValue: String?) {
+        ALL(null),
         MALE(Strings.MALE),
         FEMALE(Strings.FEMALE),
-        ALL(Strings.ALL)
     }
 
-    enum class GamePositionSelectionState(val stringValue: String) {
-        ALl(Strings.ALL),
+    enum class GamePositionSelectionState(val stringValue: String?) {
+        ALL(null),
         GK(Strings.GK),
         LB(Strings.LB),
         RB(Strings.RB),
@@ -63,8 +63,8 @@ data class State(
         WITH_FILTERS
     }
 
-    enum class UserOrderingSelectionState (val stringValue: String) {
-        ALL(Strings.ALL),
+    enum class UserOrderingSelectionState (val stringValue: String?) {
+        ALL(null),
         FIRST_OLDER(Strings.FIRST_OLDER)
     }
 

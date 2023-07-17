@@ -27,7 +27,6 @@ object Integers {
 object Strings {
      const val MALE = "Man"
      const val FEMALE = "Woman"
-     const val ALL = "--"
      const val GK = "GK"
      const val LB = "LB"
      const val RB = "RB"

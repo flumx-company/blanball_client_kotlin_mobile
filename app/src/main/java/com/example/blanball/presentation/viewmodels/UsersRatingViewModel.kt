@@ -59,7 +59,6 @@ class UsersRatingViewModel @Inject constructor(
                 }
                 getUsersList(page)
             }
-
             is RatingUsersMainContract.ScreenViewState.LoadingWithFilters -> {
                 setState {
                     copy(
@@ -77,7 +76,6 @@ class UsersRatingViewModel @Inject constructor(
                     ordering = null,
                 )
             }
-
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     _sideEffect.emit(RatingUsersMainContract.Effect.ShowToast("Error"))
@@ -121,7 +119,6 @@ class UsersRatingViewModel @Inject constructor(
                     setState {
                         copy(
                             state = RatingUsersMainContract.ScreenViewState.LoadingError,
-                            isLoadingMoreUsers = false,
                         )
                     }
                 }
@@ -129,7 +126,7 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    private fun getUsersListWithFilters(page: Int, gender: String, age_min: Int, age_max: Int, ordering: String?, position: String ) {
+    private fun getUsersListWithFilters(page: Int, gender: String?, age_min: Int, age_max: Int, ordering: String?, position: String ) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (val result = getUsersListUseCase.executeGetUsersList(
                 page = page,
@@ -145,9 +142,9 @@ class UsersRatingViewModel @Inject constructor(
                         setState {
                             copy(
                                 usersList = mutableStateOf(currentState.usersList.value + it),
-                                isLoadingMoreUsers = false,
                                 userCounter = mutableStateOf(result.data.total_count),
                                 state = RatingUsersMainContract.ScreenViewState.LoadingSuccessWithFilters,
+                                isLoadingMoreUsers = false,
                             )
                         }
                     }

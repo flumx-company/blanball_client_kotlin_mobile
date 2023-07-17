@@ -4,7 +4,9 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -188,11 +190,12 @@ fun AppScreensConfig(
             val currentState = usersRatingViewModel.currentState
 
 
-            LaunchedEffect(currentState.state) {
+            val previousState by remember { mutableStateOf(currentState.state) }
 
-                    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading ||  currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
-                        usersRatingViewModel.handleScreenState(currentState.state)
-                    }
+            LaunchedEffect(currentState.state) {
+                if (currentState.state != previousState) {
+                    usersRatingViewModel.handleScreenState(currentState.state)
+                }
             }
 
             UsersRatingScreen(
