@@ -20,7 +20,7 @@ class OnboardingScreensStatesMainContract {
         val workingLegState: MutableState<String> = mutableStateOf(""),
         val positionState: MutableState<String> = mutableStateOf(""),
         val regionState: MutableState<String> = mutableStateOf(""),
-        val cityVillageTownState: MutableState<String> = mutableStateOf(""),
+        val cityState: MutableState<String> = mutableStateOf(""),
         val addDistrictState: MutableState<String> = mutableStateOf(""),
         val footballQualificationsState: MutableState<FootballQualificationsState> = mutableStateOf(FootballQualificationsState.NO_SELECT),
         val isErrorRequestToFinishOutTheProfile: MutableState<Boolean> = mutableStateOf(false),

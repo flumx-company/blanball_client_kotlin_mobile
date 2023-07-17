@@ -58,7 +58,7 @@ fun FillingOutTheUserProfileScreenStep4(
                 OnboardingScreensStatesMainContract.ScreenViewState.Idle
             )
     val localFocusManager = LocalFocusManager.current
-    val cities = mutableListOf<String>(
+    val regions = mutableListOf(
         stringResource(id = R.string.vinnytska_region),
         stringResource(id = R.string.volynska_region),
         stringResource(id = R.string.dnipropetrovska_region),
@@ -83,6 +83,32 @@ fun FillingOutTheUserProfileScreenStep4(
         stringResource(id = R.string.cherkaska_region),
         stringResource(id = R.string.chernivetska_region),
         stringResource(id = R.string.chernihivska_region)
+    )
+    val cities = mutableListOf(
+        stringResource(id = R.string.vinnytska_city),
+        stringResource(id = R.string.volynska_city),
+        stringResource(id = R.string.dnipropetrovska_city),
+        stringResource(id = R.string.donetska_city),
+        stringResource(id = R.string.zhytomyrska_city),
+        stringResource(id = R.string.zakarpatska_city),
+        stringResource(id = R.string.zaporizka_city),
+        stringResource(id = R.string.ivano_frankivska_city),
+        stringResource(id = R.string.kievska_city),
+        stringResource(id = R.string.kirovogradska_city),
+        stringResource(id = R.string.luhanska_city),
+        stringResource(id = R.string.lvivska_city),
+        stringResource(id = R.string.mykolaivska_city),
+        stringResource(id = R.string.odeska_city),
+        stringResource(id = R.string.poltavska_city),
+        stringResource(id = R.string.rivnenska_city),
+        stringResource(id = R.string.sumska_city),
+        stringResource(id = R.string.ternopilska_city),
+        stringResource(id = R.string.kharkivska_city),
+        stringResource(id = R.string.khersonska_city),
+        stringResource(id = R.string.khmelnytska_city),
+        stringResource(id = R.string.cherkaska_city),
+        stringResource(id = R.string.chernivetska_city),
+        stringResource(id = R.string.chernihivska_city)
     )
     Box(
         modifier = Modifier
@@ -141,18 +167,16 @@ fun FillingOutTheUserProfileScreenStep4(
                     Spacer(modifier = Modifier.size(12.dp))
                     CustomDropDownMenu(
                         labelResId = R.string.region,
-                        listItems = cities,
+                        listItems = regions,
                         value = it.regionState.value,
                         onValueChange = { state.regionState.value = it },
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    DefaultTextInput(
-                        labelResId = R.string.city_village_town,
-                        value = it.cityVillageTownState.value,
-                        onValueChange = { state.cityVillageTownState.value = it },
-                        state = it,
-                        transformation = VisualTransformation.None,
-                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                    CustomDropDownMenu(
+                        labelResId = R.string.city,
+                        listItems = cities,
+                        value = it.cityState.value,
+                        onValueChange = { state.cityState.value = it },
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     Box(
@@ -183,7 +207,7 @@ fun FillingOutTheUserProfileScreenStep4(
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
                     Button(
-                        enabled = it.cityVillageTownState.value.isNotEmpty()
+                        enabled = it.cityState.value.isNotEmpty()
                                 && it.regionState.value.isNotEmpty(),
                         onClick = onFinishClicked,
                         modifier = Modifier
