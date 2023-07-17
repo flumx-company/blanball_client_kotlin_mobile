@@ -134,6 +134,7 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.size(10.5.dp))
                 Text(
+                    modifier = Modifier.clickable { it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value) } ,
                     text = stringResource(id = R.string.remember_me),
                     style = typography.h6,
                     color = secondaryNavy,
