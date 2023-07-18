@@ -28,7 +28,6 @@ data class State(
     var positionSelectedItem: MutableState<String> = mutableStateOf(""),
     val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL),
     val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
-    val dataLoadType: DataLoadType = DataLoadType.DEFAULT
 ) : UiState
 
     enum class GenderSelectionState(val stringValue: String?) {
@@ -58,11 +57,6 @@ data class State(
         ST(Strings.ST),
     }
 
-    enum class DataLoadType {
-        DEFAULT,
-        WITH_FILTERS
-    }
-
     enum class UserOrderingSelectionState (val stringValue: String?) {
         ALL(null),
         FIRST_OLDER(Strings.FIRST_OLDER)
@@ -72,11 +66,6 @@ data class State(
         object Loading : ScreenViewState()
         object LoadingSuccess : ScreenViewState()
         object LoadingError : ScreenViewState()
-        object LoadingWithFilters : ScreenViewState()
-        object LoadingErrorWithFilters : ScreenViewState()
-        object LoadingSuccessWithFilters : ScreenViewState()
-        object LoadingWithNewOrdering: ScreenViewState()
-        object LoadingSuccessWithNewOrdering: ScreenViewState()
     }
 
     sealed class Effect : UiEffect {

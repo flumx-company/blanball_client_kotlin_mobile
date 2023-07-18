@@ -192,10 +192,8 @@ fun AppScreensConfig(
 
             val previousState by remember { mutableStateOf(currentState.state) }
 
-            LaunchedEffect(currentState.state) {
-                if (currentState.state != previousState) {
+            LaunchedEffect(currentState.state != previousState) {
                     usersRatingViewModel.handleScreenState(currentState.state)
-                }
             }
 
             UsersRatingScreen(
@@ -207,7 +205,7 @@ fun AppScreensConfig(
                     usersRatingViewModel.setState {
                         copy(
                             openFiltersDialog = mutableStateOf(false),
-                            state = RatingUsersMainContract.ScreenViewState.LoadingWithFilters,
+                            state = RatingUsersMainContract.ScreenViewState.Loading,
                         )
                     }
                 },
@@ -215,14 +213,14 @@ fun AppScreensConfig(
                     copy(
                         orderingIconState = mutableStateOf(!orderingIconState.value),
                         usersOrderingSelectionState = mutableStateOf(RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER),
-                        state = RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering
+                        state = RatingUsersMainContract.ScreenViewState.Loading
                     )
                 }
                 }
             )
         }
     }
-    }
+}
 
 enum class Destinations(val route: String) {
     LOGIN("login"),

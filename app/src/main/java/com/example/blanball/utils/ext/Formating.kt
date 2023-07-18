@@ -55,7 +55,7 @@ internal fun Boolean.formatBooleanToString(trueToString: String, falseToString: 
 internal fun ClosedFloatingPointRange<Float>.toIntRange(): IntRange {
     return this.start.toInt()..this.endInclusive.toInt()}
 
-internal fun String.convertToPositionCode(context: Context): String {
+internal fun String.convertToPositionCode(context: Context): String? {
     return when (this) {
         context.getString(R.string.any_position) -> context.getString(R.string.empty)
         context.getString(R.string.goalkeeper) -> context.getString(R.string.gk)
@@ -75,6 +75,6 @@ internal fun String.convertToPositionCode(context: Context): String {
         context.getString(R.string.central_forward) -> context.getString(R.string.cf)
         context.getString(R.string.left_forward) -> context.getString(R.string.lf)
         context.getString(R.string.forward_striker) -> context.getString(R.string.st)
-        else -> "--"
+        else -> null
     }
 }

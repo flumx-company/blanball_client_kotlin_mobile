@@ -467,7 +467,7 @@ fun UsersRatingScreen(
             }
         }
     }
-    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithFilters || currentState.state is RatingUsersMainContract.ScreenViewState.LoadingWithNewOrdering) {
+    if (currentState.state is RatingUsersMainContract.ScreenViewState.Loading) {
         Loader(backgroundColor = Color.White, textColor = primaryDark)
     }
 }

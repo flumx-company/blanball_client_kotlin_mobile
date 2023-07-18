@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -54,26 +55,16 @@ class UsersRatingViewModel @Inject constructor(
                 setState {
                     copy(
                     usersList = mutableStateOf(emptyList()),
-                    dataLoadType = RatingUsersMainContract.DataLoadType.DEFAULT
-                    )
-                }
-                getUsersList(page)
-            }
-            is RatingUsersMainContract.ScreenViewState.LoadingWithFilters -> {
-                setState {
-                    copy(
-                        usersList = mutableStateOf(emptyList()),
-                        dataLoadType = RatingUsersMainContract.DataLoadType.WITH_FILTERS,
                     )
                 }
                 page = Integers.ONE
-                getUsersListWithFilters(
+                getUsersList(
                     page = page,
+                    gender = currentState.genderSelectionState.value.stringValue,
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
-                    gender = currentState.genderSelectionState.value.stringValue,
-                    position = currentState.positionSelectedItem.value.convertToPositionCode(context = application.applicationContext),
-                    ordering = null,
+                    ordering = currentState.usersOrderingSelectionState.value.stringValue,
+                    position = currentState.positionSelectedItem.value,
                 )
             }
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
@@ -86,15 +77,20 @@ class UsersRatingViewModel @Inject constructor(
 
     private fun getUsersList(
         page: Int,
+        gender: String?,
+        age_min: Int?,
+        age_max: Int?,
+        ordering: String?,
+        position: String?,
     ) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (val result = getUsersListUseCase.executeGetUsersList(
                 page = page,
-                gender = null,
-                age_min = null,
-                age_max = null,
-                ordering = null,
-                position = null,
+                gender = gender,
+                age_min = age_min,
+                age_max = age_max,
+                ordering = ordering,
+                position = position,
             )) {
                 is GetUsersListResultEntity.Success -> {
                     val users = result.data.results
@@ -126,62 +122,25 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    private fun getUsersListWithFilters(page: Int, gender: String?, age_min: Int, age_max: Int, ordering: String?, position: String ) {
-        job = viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getUsersListUseCase.executeGetUsersList(
-                page = page,
-                gender = gender,
-                age_min = age_min,
-                age_max = age_max,
-                ordering = ordering,
-                position = position,
-            )) {
-                is GetUsersListResultEntity.Success -> {
-                    val users = result.data.results
-                    users?.let {
-                        setState {
-                            copy(
-                                usersList = mutableStateOf(currentState.usersList.value + it),
-                                userCounter = mutableStateOf(result.data.total_count),
-                                state = RatingUsersMainContract.ScreenViewState.LoadingSuccessWithFilters,
-                                isLoadingMoreUsers = false,
-                            )
-                        }
-                    }
-                    val nextPage = result.data.next
-                    if (nextPage.isNullOrEmpty()) {
-                        setState {
-                            copy(allUsersLoaded = true)
-                        }
-                    }
-                }
-
-                is GetUsersListResultEntity.Error -> {
-                    setState {
-                        copy(
-                            state = RatingUsersMainContract.ScreenViewState.LoadingErrorWithFilters,
-                            isLoadingMoreUsers = false,
-                        )
-                    }
-                }
-            }
-        }
-    }
-
    fun loadMoreUsers() {
-        job = viewModelScope.launch(Dispatchers.IO) {
-            if (!(currentState.isLoadingMoreUsers || currentState.allUsersLoaded))
-                setState {
-                    copy(isLoadingMoreUsers = true)
-                }
-            page++
-            if (currentState.dataLoadType == RatingUsersMainContract.DataLoadType.WITH_FILTERS) {
-                getUsersListWithFilters(page = page, gender = currentState.genderSelectionState.value.stringValue, age_min = currentState.ageSliderPosition.value.start.toInt(), age_max =  currentState.ageSliderPosition.value.endInclusive.toInt(), ordering = null, position = currentState.positionSelectedItem.value.convertToPositionCode(context = application.applicationContext) )
-            } else {
-                getUsersList(page)
-            }
-        }
-    }
+       job = viewModelScope.launch(Dispatchers.IO) {
+           if (!(currentState.isLoadingMoreUsers || currentState.allUsersLoaded)) {
+               setState {
+                   copy(isLoadingMoreUsers = true)
+               }
+               page++
+               Log.d( "MyLog",currentState.positionSelectedItem.value)
+               getUsersList(
+                   page = page,
+                   gender = currentState.genderSelectionState.value.stringValue,
+                   age_min = currentState.ageSliderPosition.value.start.toInt(),
+                   age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
+                   ordering = currentState.usersOrderingSelectionState.value.stringValue,
+                   position = currentState.GamePositionSelectionState.value.stringValue?.convertToPositionCode(application.applicationContext),
+               )
+           }
+       }
+   }
 
     fun setState(reduce: RatingUsersMainContract.State.() -> RatingUsersMainContract.State) {
         val newState = currentState.reduce()
