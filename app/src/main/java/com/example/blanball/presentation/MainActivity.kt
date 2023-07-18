@@ -25,7 +25,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @Inject
     lateinit var rememberMeManager: RememberMeManager
 
@@ -34,6 +33,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        actionBar?.hide()
 
         setContent {
             var rememberMeFlag by remember { mutableStateOf(false) }
