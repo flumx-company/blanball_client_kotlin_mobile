@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -46,7 +45,6 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
-import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
@@ -67,201 +65,215 @@ fun RegistrationScreenStep1(
         (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundGradient),
+            .fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
         (state as? StartScreensMainContract.State)?.let {
-            Image(
-                painter = painterResource(id = R.drawable.ukraine),
-                contentDescription = null,
-                modifier = Modifier.fillMaxWidth()
-            )
-            AnimatedPaddingCard(
-                {
-                    Column(
-                        modifier = Modifier
-                            .padding(
-                                top = 28.dp,
-                                start = 16.dp,
-                                bottom = 30.dp,
-                                end = 16.dp,
-                            )
-                            .verticalScroll(rememberScrollState()),
-                    ) {
-                        AnimationRotatingBalls()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = 0.dp,
+                        start = 16.dp,
+                        bottom = 30.dp,
+                        end = 16.dp,
+                    )
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                AnimationRotatingBalls()
+                Text(
+                    text = stringResource(R.string.creation_new_acc),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = typography.h2,
+                    color = primaryDark,
+                    textAlign = TextAlign.Center,
+                )
+                Row(
+                    Modifier
+                        .padding(top = 20.dp)
+                        .align(CenterHorizontally)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.stepline_1),
+                        contentDescription = null,
+                    )
+                    Spacer(modifier = Modifier.size(2.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.empty_stepline),
+                        contentDescription = null,
+                    )
+                }
+                Spacer(modifier = Modifier.size(20.dp))
+                DefaultTextInput(
+                    labelResId = (R.string.your_firstname),
+                    state = it,
+                    value = state.firstNameText.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { state.firstNameText.value = it },
+                    isError = when {
+                        it.isErrorRegistrationNewPass.value -> true
+                        it.firstNameText.value.isNotValidUserName() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                        it.firstNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
+                        else -> {
+                            ("")
+                        }
+                    },
+                    transformation = VisualTransformation.None,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                DefaultTextInput(
+                    labelResId = (R.string.your_lastname),
+                    state = it,
+                    value = state.lastNameText.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    ),
+                    onValueChange = { state.lastNameText.value = it },
+                    isError = when {
+                        it.isErrorRegistrationNewPass.value -> true
+                        it.lastNameText.value.isNotValidUserName() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                        it.lastNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
+                        else -> {
+                            ("")
+                        }
+                    },
+                    transformation = VisualTransformation.None,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                PhoneNumberInput(
+                    value = state.phoneNumberText.value,
+                    onValueChange = { it ->
+                        if (it.length <= Integers.NINE) {
+                            state.phoneNumberText.value = it.filter { it.isDigit() }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    isError = when {
+                        it.phoneNumberText.value.isInvalidValidPhoneNumber() -> true
+                        it.isErrorRegistrationNewPass.value -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.phoneNumberText.value.isInvalidValidPhoneNumber() -> stringResource(
+                            id = R.string.phone_format_error
+                        )
+
+                        it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
+                        else -> {
+                            ("")
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() })
+                )
+                Spacer(Modifier.size(12.dp))
+                Row(verticalAlignment = CenterVertically) {
                     Text(
-                        text = stringResource(R.string.creation_new_acc),
-                        modifier = Modifier.fillMaxWidth(),
-                        style = typography.h2,
-                        color = primaryDark,
-                        textAlign = TextAlign.Center,
+                        text = stringResource(id = R.string.your_gender),
+                        style = typography.h5,
+                        color = primaryDark
                     )
-                    Row(
-                        Modifier
-                            .padding(top = 20.dp)
-                            .align(CenterHorizontally)
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.stepline_1),
-                            contentDescription = null,
-                        )
-                        Spacer(modifier = Modifier.size(2.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.empty_stepline),
-                            contentDescription = null,
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(20.dp))
-                    DefaultTextInput(
-                        labelResId = (R.string.your_firstname),
-                        state = it,
-                        value = state.firstNameText.value,
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
-                        onValueChange = { state.firstNameText.value = it },
-                        isError = when {
-                            it.isErrorRegistrationNewPass.value -> true
-                            it.firstNameText.value.isNotValidUserName() -> true
-                            else -> false },
-                        errorMessage = when {
-                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.firstNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
-                            else -> {("")} },
-                        transformation = VisualTransformation.None,
+                    Spacer(modifier = Modifier.size(10.dp))
+                    Text(
+                        text = stringResource(id = R.string.can_pick_once),
+                        style = typography.h6,
+                        color = secondaryNavy,
                         modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    DefaultTextInput(
-                        labelResId = (R.string.your_lastname),
-                        state = it,
-                        value = state.lastNameText.value,
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
-                        onValueChange = { state.lastNameText.value = it },
-                        isError = when {
-                            it.isErrorRegistrationNewPass.value -> true
-                            it.lastNameText.value.isNotValidUserName() -> true
-                            else -> false },
-                        errorMessage = when {
-                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.lastNameText.value.isNotValidUserName() -> stringResource(id = R.string.letter_only_error)
-                            else -> {("")} },
-                        transformation = VisualTransformation.None,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    PhoneNumberInput(
-                        value = state.phoneNumberText.value,
-                        onValueChange =  { it ->
-                            if (it.length <= Integers.NINE ) {
-                                state.phoneNumberText.value = it.filter { it.isDigit() }
-                            } },
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        isError = when {
-                            it.phoneNumberText.value.isInvalidValidPhoneNumber() -> true
-                            it.isErrorRegistrationNewPass.value -> true
-                            else -> false
-                        },
-                        errorMessage = when {
-                            it.phoneNumberText.value.isInvalidValidPhoneNumber() -> stringResource(
-                                id = R.string.phone_format_error
+                            .background(
+                                color = backgroundItems, shape = shapes.small
                             )
-                            it.isErrorRegistrationNewPass.value -> stringResource(id = R.string.invalid_credential_error)
-                            else -> {("")}
-                        },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()})
+                            .padding(start = 2.dp, end = 2.dp)
                     )
-                    Spacer(Modifier.size(12.dp))
-                    Row (verticalAlignment = CenterVertically) {
-                        Text(
-                            text = stringResource(id = R.string.your_gender),
-                            style = typography.h5,
-                            color = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(10.dp))
-                        Text(
-                            text = stringResource(id = R.string.can_pick_once),
-                            style = typography.h6,
-                            color = secondaryNavy,
-                            modifier = Modifier
-                                .background(
-                                    color = backgroundItems, shape = shapes.small
-                                )
-                                .padding(start = 2.dp, end = 2.dp))
-                    }
-                    Row(Modifier.padding(top = 20.dp)) {
-                        OutlineRadioButton(
-                            modifier = Modifier.weight(1f).clickable { it.genderIsMale.value = true
-                                it.genderIsFemale.value = false },
-                            state = it,
-                            text = stringResource(R.string.male),
-                            selected = it.genderIsMale.value,
-                            icon = painterResource(id = R.drawable.male_ic),
-                            onClick = {
+                }
+                Row(Modifier.padding(top = 20.dp)) {
+                    OutlineRadioButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
                                 it.genderIsMale.value = true
                                 it.genderIsFemale.value = false
-                            })
-                        Spacer(modifier = Modifier.size(8.dp))
-                        OutlineRadioButton(
-                            modifier = Modifier.weight(1f).clickable { it.genderIsFemale.value = true
-                                it.genderIsMale.value = false },
-                            state = it,
-                            text = stringResource(R.string.female),
-                            selected = it.genderIsFemale.value,
-                            icon = painterResource(id = R.drawable.female_ic),
-                            onClick = {
+                            },
+                        state = it,
+                        text = stringResource(R.string.male),
+                        selected = it.genderIsMale.value,
+                        icon = painterResource(id = R.drawable.male_ic),
+                        onClick = {
+                            it.genderIsMale.value = true
+                            it.genderIsFemale.value = false
+                        })
+                    Spacer(modifier = Modifier.size(8.dp))
+                    OutlineRadioButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
                                 it.genderIsFemale.value = true
                                 it.genderIsMale.value = false
                             },
-                        )
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.size(24.dp))
-                    Button(
-                        enabled = it.phoneNumberText.value.isValidPhoneNumber()
-                                && state.firstNameText.value.isValidUserName()
-                                && state.lastNameText.value.isValidUserName()
-                                && (state.genderIsMale.value || state.genderIsFemale.value),
-                        onClick = onRegistrationStep2Clicked,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(40.dp),
-                        shape = shapes.medium,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = mainGreen,
-                            contentColor = Color.White,
-                        ),
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.next),
-                            style = typography.h4,
-                        )
-                    }
-                    TextButton(
-                        onClick = onCancelClicked,
-                        Modifier
-                            .padding(top = 14.dp)
-                            .align(CenterHorizontally)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.cancel),
-                            style = typography.h4,
-                        )
-                    }
-                    }
-                },
-                enableAnimation = false
-            )
-            if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
-                Loader()
+                        state = it,
+                        text = stringResource(R.string.female),
+                        selected = it.genderIsFemale.value,
+                        icon = painterResource(id = R.drawable.female_ic),
+                        onClick = {
+                            it.genderIsFemale.value = true
+                            it.genderIsMale.value = false
+                        },
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.size(24.dp))
+                Button(
+                    enabled = it.phoneNumberText.value.isValidPhoneNumber()
+                            && state.firstNameText.value.isValidUserName()
+                            && state.lastNameText.value.isValidUserName()
+                            && (state.genderIsMale.value || state.genderIsFemale.value),
+                    onClick = onRegistrationStep2Clicked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp),
+                    shape = shapes.medium,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = mainGreen,
+                        contentColor = Color.White,
+                    ),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.next),
+                        style = typography.h4,
+                    )
+                }
+                TextButton(
+                    onClick = onCancelClicked,
+                    Modifier
+                        .padding(top = 14.dp)
+                        .align(CenterHorizontally)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.cancel),
+                        style = typography.h4,
+                    )
+                }
             }
         }
     }
+            if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
+                Loader()
+            }
 }

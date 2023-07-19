@@ -173,7 +173,7 @@ fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.register),
                 style = typography.h6,
-                color = primaryDark,
+                color = mainGreen,
                 modifier = Modifier.clickable(onClick = registrationButtonClicked)
             )
         }
