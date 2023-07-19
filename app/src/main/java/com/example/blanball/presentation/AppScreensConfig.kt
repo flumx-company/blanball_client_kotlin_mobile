@@ -29,6 +29,7 @@ import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsS
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
+import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccessfullySavedScreen
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
@@ -121,13 +122,22 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessCompleteResetState.value) {
                 if (currentState.isSuccessCompleteResetState.value) {
                     currentState.isSuccessCompleteResetState.value = false
+                    navController.navigate(Destinations.RESET_COMPLETE.route)
+                }
+            }
+        }
+
+        composable(Destinations.RESET_COMPLETE.route){
+
+            NewPasswordSuccessfullySavedScreen(
+                authToSystemClicked = {
                     navController.navigate(Destinations.LOGIN.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
                         }
                     }
                 }
-            }
+            )
         }
 
         composable(Destinations.REGISTRATION1.route) {
@@ -287,6 +297,7 @@ enum class Destinations(val route: String) {
     RESET1("reset1"),
     RESET2("reset2"),
     RESET3("reset3"),
+    RESET_COMPLETE("reset_complete"),
     REGISTRATION1("registration1"),
     REGISTRATION2("registration2"),
     PUBLIC_PROFILE("publicProfile"),
