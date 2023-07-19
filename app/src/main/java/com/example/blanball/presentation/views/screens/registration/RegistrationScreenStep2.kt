@@ -79,14 +79,13 @@ fun RegistrationScreenStep2(
         (state as? StartScreensMainContract.State)?.let {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
                     .fillMaxSize()
                     .padding(
                         top = 0.dp,
                         start = 16.dp,
                         bottom = 30.dp,
                         end = 16.dp,
-                    )
+                    ).verticalScroll(rememberScrollState())
             ) {
                 AnimationRotatingBalls()
                 Text(
