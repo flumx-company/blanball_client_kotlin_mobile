@@ -92,12 +92,13 @@ fun ResetPasswordScreenStep2(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        top = 28.dp,
+                        top = 0.dp,
                         start = 16.dp,
                         bottom = 30.dp,
                         end = 16.dp,
                     )
                     .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AnimationRotatingBalls()
                 Text(

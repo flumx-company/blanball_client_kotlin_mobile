@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.views.screens.resset
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -59,8 +57,7 @@ fun ResetPasswordScreenStep3(
         )
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundGradient),
+            .fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
         (state as? StartScreensMainContract.State)?.let {
@@ -68,11 +65,12 @@ fun ResetPasswordScreenStep3(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                    top = 28.dp,
+                    top = 0.dp,
                     start = 16.dp,
                     bottom = 30.dp,
                     end = 16.dp,
                 ).verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AnimationRotatingBalls()
                 Text(
@@ -161,7 +159,7 @@ fun ResetPasswordScreenStep3(
                         else -> false
                     },
                     errorMessage = when {
-                        it.newPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
+                        it.repeatNewPassText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                         it.newPassText.value != it.repeatNewPassText.value -> stringResource(id = R.string.doesnt_math_pass)
                         it.isErrorCompleteResetState.value -> stringResource(id = R.string.invalid_credential_error)
                         else -> {
