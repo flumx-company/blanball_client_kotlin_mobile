@@ -44,7 +44,8 @@ fun AnimationRotatingBalls() {
             painter = painterResource(id = R.drawable.ball_1),
             contentDescription = null,
             modifier = Modifier
-                .size(68.dp)
+                .size(100.dp)
+                .offset(x = (-40).dp, y = (-30).dp)
                 .rotate(rotationAnim.value)
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -53,7 +54,7 @@ fun AnimationRotatingBalls() {
             contentDescription = null,
             modifier = Modifier
                 .size(48.dp)
-                .offset(y = 40.dp)
+                .offset(y = 10.dp)
                 .rotate(rotationAnim.value)
         )
     }
