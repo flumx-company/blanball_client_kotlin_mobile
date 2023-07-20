@@ -8,7 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,7 +19,6 @@ import com.example.blanball.utils.navigateToLogin
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -37,25 +36,24 @@ class MainActivity : ComponentActivity() {
         actionBar?.hide()
 
         setContent {
-            var rememberMeFlag by remember { mutableStateOf(false) }
-            var launchedEffectComplete by remember {
-                mutableStateOf(false)
-            }
+            var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
+            var isLaunchedEffectComplete by rememberSaveable {mutableStateOf(false)}
+
             val navController = rememberNavController()
             LaunchedEffect(key1 = Unit) {
-                delay(1000)
-                rememberMeFlag = rememberMeManager.getRememberMeFlag().first() == true
-                if (!rememberMeFlag && (tokenManager.getAccessToken()
+                isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
+                if (!isRememberMeFlagActive && (tokenManager.getAccessToken()
                         .first() != null) && (tokenManager.getAccessToken().first() != null)
                 ) {
                     tokenManager.deleteAccessToken()
                     tokenManager.deleteRefreshToken()
                 }
-                launchedEffectComplete = true
+                isLaunchedEffectComplete = true
             }
 
             LaunchedEffect(key1 = navigateToLogin.value) {
                 if (navigateToLogin.value) {
+                    rememberMeManager.deleteRememberMeFlag()
                     navController.navigate(Destinations.LOGIN.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -65,10 +63,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            if (!launchedEffectComplete) {
+            if (!isLaunchedEffectComplete) {
               SplashScreen()
             } else {
-            val startDestinations = if (rememberMeFlag) {
+            val startDestinations = if (isRememberMeFlagActive) {
                 Destinations.PUBLIC_PROFILE.route
             } else {
                 Destinations.LOGIN.route
