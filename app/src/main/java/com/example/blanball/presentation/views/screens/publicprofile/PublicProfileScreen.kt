@@ -556,10 +556,10 @@ fun PublicProfileScreen(
                         Column {
                             Spacer(modifier = Modifier.size(16.dp))
                             CustomDropDownMenu(
-                                labelResId = R.string.choose_the_ivent ,
+                                labelResId = R.string.choose_the_ivent,
                                 listItems = it.invitesList.value,
                                 value = it.selectedInviteState.value,
-                                onValueChange = {state.selectedInviteState.value = it},
+                                onValueChange = { state.selectedInviteState.value = it },
                             )
                             Spacer(modifier = Modifier.size(16.dp))
                             ReadOnlyOutlinePlaceholder(
@@ -572,11 +572,11 @@ fun PublicProfileScreen(
                             Spacer(modifier = Modifier.size(16.dp))
                         }
                     }
-            )
+                )
             }
         }
+    }
         if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)
         }
-}
 }
