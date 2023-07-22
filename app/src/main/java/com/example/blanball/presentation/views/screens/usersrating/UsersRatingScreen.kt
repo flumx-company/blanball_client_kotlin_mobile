@@ -56,7 +56,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.boxes.IcBox
-import com.example.blanball.presentation.views.components.dropdownmenu.OutlineDropDownMenu
+import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.loaders.MainGreenCircularProgressIndicator
@@ -85,6 +85,26 @@ fun UsersRatingScreen(
         stringResource(id = R.string.trainers),
         stringResource(id = R.string.referee),
         stringResource(id = R.string.teams)
+    )
+    val positions = listOf(
+        stringResource(id = R.string.any_position),
+        stringResource(id = R.string.goalkeeper),
+        stringResource(id = R.string.right_defender),
+        stringResource(id = R.string.left_defender),
+        stringResource(id = R.string.central_defender),
+        stringResource(id = R.string.left_flank_defender),
+        stringResource(id = R.string.right_flank_defender),
+        stringResource(id = R.string.supporting_mid_defender),
+        stringResource(id = R.string.left_mid_defender),
+        stringResource(id = R.string.attacking_mid_defender),
+        stringResource(id = R.string.right_winger),
+        stringResource(id = R.string.left_winger),
+        stringResource(id = R.string.right_flank_attacker),
+        stringResource(id = R.string.left_flank_attacker),
+        stringResource(id = R.string.central_forward),
+        stringResource(id = R.string.left_forward),
+        stringResource(id = R.string.right_forward),
+        stringResource(id = R.string.forward_striker),
     )
 
     val expandedStateMap = remember { mutableStateMapOf<Int, Boolean>() }
@@ -137,7 +157,7 @@ fun UsersRatingScreen(
                     }
                     Spacer(modifier = Modifier.weight(0.5f))
                     Box(modifier = Modifier.weight(1f)) {
-                        Row() {
+                        Row {
                             IcBox(
                                 icon = R.drawable.ic_filters,
                                 modifier = Modifier
@@ -202,7 +222,7 @@ fun UsersRatingScreen(
                                 )
                             }
                             Spacer(modifier = Modifier.size(12.dp))
-                            Column() {
+                            Column {
                                 Text(
                                     text = "${user.profile.last_name} ${user.profile.name}",
                                     style = typography.h6,
@@ -302,7 +322,7 @@ fun UsersRatingScreen(
                     shape = RoundedCornerShape(6.dp),
                     backgroundColor = Color.White,
                     title = {
-                        Column() {
+                        Column {
                             Text(
                                 text = stringResource(id = R.string.filters),
                                 style = typography.h5,
@@ -360,10 +380,12 @@ fun UsersRatingScreen(
                     text = {
                         Column {
                             Spacer(modifier = Modifier.size(8.dp))
-                            OutlineDropDownMenu(
-                                state = it,
+                            CustomDropDownMenu(
                                 value = it.positionSelectedItem.value,
-                                onValueChange = { state.positionSelectedItem.value = it })
+                                onValueChange = { state.positionSelectedItem.value = it },
+                                labelResId = R.string.game_position,
+                                listItems = positions,
+                                )
                             Spacer(modifier = Modifier.size(16.dp))
                             Text(
                                 text = stringResource(id = R.string.gender),
@@ -431,7 +453,7 @@ fun UsersRatingScreen(
                                         mainGreen
                                     ) else BorderStroke(2.dp, defaultLightGray)
                                 ) {
-                                    Row() {
+                                    Row {
                                         Text(
                                             text = stringResource(id = R.string.all),
                                             style = typography.h6,

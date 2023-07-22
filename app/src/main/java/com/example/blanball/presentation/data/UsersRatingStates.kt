@@ -11,7 +11,7 @@ sealed class Event : UiEvent {
 }
 
 data class State(
-    val state:ScreenViewState,
+    val state: ScreenViewState,
     val usersList: MutableState<List<GetUsersListResponseResultEntity>> = mutableStateOf(
         emptyList()
     ),

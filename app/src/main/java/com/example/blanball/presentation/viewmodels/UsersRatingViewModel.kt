@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,14 +56,13 @@ class UsersRatingViewModel @Inject constructor(
                     usersList = mutableStateOf(emptyList()),
                     )
                 }
-                page = Integers.ONE
                 getUsersList(
                     page = page,
                     gender = currentState.genderSelectionState.value.stringValue,
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
                     ordering = currentState.usersOrderingSelectionState.value.stringValue,
-                    position = currentState.positionSelectedItem.value,
+                    position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext),
                 )
             }
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
@@ -129,7 +127,6 @@ class UsersRatingViewModel @Inject constructor(
                    copy(isLoadingMoreUsers = true)
                }
                page++
-               Log.d( "MyLog",currentState.positionSelectedItem.value)
                getUsersList(
                    page = page,
                    gender = currentState.genderSelectionState.value.stringValue,

@@ -189,7 +189,6 @@ fun AppScreensConfig(
             val state = usersRatingViewModel.uiState.collectAsState().value
             val currentState = usersRatingViewModel.currentState
 
-
             val previousState by remember { mutableStateOf(currentState.state) }
 
             LaunchedEffect(currentState.state != previousState) {
