@@ -208,6 +208,7 @@ fun RegistrationScreenStep2(
                         onCheckedChange = { state.lostInSystemSwitchButton.value = it })
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
+                        modifier = Modifier.clickable { state.lostInSystemSwitchButton.value = !(state.lostInSystemSwitchButton.value) },
                         text = stringResource(id = R.string.lost_in_system),
                         style = typography.h6,
                         color = primaryDark
