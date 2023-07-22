@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
+import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -30,7 +31,7 @@ fun DisplayUserReviewsColumn(state: PublicProfileMainContract.State) {
         val reviews = state.reviewsList.value.take(3)
         for (review in reviews) {
             Column {
-                DottedLine()
+                DottedLine(color = annotationGray)
                 Spacer(Modifier.size(16.dp))
                 Row {
                     Text(

@@ -20,6 +20,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,9 +76,19 @@ fun LoginScreen(
                     .align(CenterHorizontally)
             )
             Spacer(modifier = Modifier.padding(6.dp))
-            Text(text = stringResource(id = R.string.blanball), style = typography.h1, modifier = Modifier.align(CenterHorizontally))
+            Text(
+                text = stringResource(id = R.string.blanball),
+                style = typography.h1,
+                color = primaryDark,
+                modifier = Modifier.align(CenterHorizontally)
+            )
             Spacer(modifier = Modifier.padding(6.dp))
-            Text(text = stringResource(id = R.string.auth_in_system), style = typography.h2, modifier = Modifier.align(CenterHorizontally))
+            Text(
+                text = stringResource(id = R.string.auth_in_system),
+                style = typography.h2,
+                color = primaryDark,
+                modifier = Modifier.align(CenterHorizontally)
+            )
             Spacer(modifier = Modifier.size(32.dp))
             DefaultTextInput(
                 modifier = Modifier
@@ -122,7 +133,10 @@ fun LoginScreen(
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
                     onCheckedChange = { state.rememberMeCheckbox.value = it },
@@ -134,7 +148,9 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.size(10.5.dp))
                 Text(
-                    modifier = Modifier.clickable { it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value) } ,
+                    modifier = Modifier.clickable {
+                        it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
+                    },
                     text = stringResource(id = R.string.remember_me),
                     style = typography.h6,
                     color = secondaryNavy,
@@ -143,7 +159,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.i_dont_remember),
                     style = typography.h6,
-                    color = primaryDark,
+                    color = secondaryNavy,
                     modifier = Modifier.clickable(onClick = dontRememberButtonClicked)
                 )
             }
@@ -168,7 +184,11 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.size(12.dp))
         Row() {
-            Text(text = stringResource(id = R.string.dont_have_acc), style = typography.h6, color = selectedDarkGray)
+            Text(
+                text = stringResource(id = R.string.dont_have_acc),
+                style = typography.h6,
+                color = selectedDarkGray
+            )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = stringResource(id = R.string.register),

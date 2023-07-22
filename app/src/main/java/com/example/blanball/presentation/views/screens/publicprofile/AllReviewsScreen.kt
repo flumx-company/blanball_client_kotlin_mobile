@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.orangeStarColor
 import com.example.blanball.presentation.theme.primaryDark
@@ -50,7 +51,7 @@ fun AllReviewsScreen(
         ) {
             items(state.reviewsList.value) { review ->
                 Column {
-                    DottedLine()
+                    DottedLine(color = annotationGray)
                     Spacer(Modifier.size(12.dp))
                     Row {
                         Text(
