@@ -24,6 +24,7 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
@@ -74,7 +75,7 @@ fun CodeTextInput(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = defaultLightGray,
                     focusedBorderColor = selectedDarkGray,
-                    textColor = Color.Black,
+                    textColor = primaryDark,
                     errorBorderColor = errorRed,
                     cursorColor = mainGreen,
                 ),

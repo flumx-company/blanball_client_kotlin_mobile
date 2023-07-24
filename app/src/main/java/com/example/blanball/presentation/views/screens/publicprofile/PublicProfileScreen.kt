@@ -348,7 +348,7 @@ fun PublicProfileScreen(
                         color = primaryDark
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    DottedLine()
+                    DottedLine(color = annotationGray)
                     Spacer(modifier = Modifier.size(16.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -481,7 +481,7 @@ fun PublicProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.size(12.dp))
-                    DottedLine()
+                    DottedLine(color = annotationGray)
                     Spacer(modifier = Modifier.size(12.dp))
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(

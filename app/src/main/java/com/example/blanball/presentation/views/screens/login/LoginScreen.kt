@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,6 +36,7 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
@@ -60,9 +60,8 @@ fun LoginScreen(
         (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
+            .padding(start = 24.dp, end = 24.dp)
     ) {
         (state as? StartScreensMainContract.State)?.let {
             Modifier
@@ -80,12 +79,14 @@ fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.blanball),
                 style = typography.h1,
+                color = primaryDark,
                 modifier = Modifier.align(CenterHorizontally)
             )
             Spacer(modifier = Modifier.padding(6.dp))
             Text(
                 text = stringResource(id = R.string.auth_in_system),
                 style = typography.h2,
+                color = primaryDark,
                 modifier = Modifier.align(CenterHorizontally)
             )
             Spacer(modifier = Modifier.size(32.dp))
@@ -105,9 +106,7 @@ fun LoginScreen(
                 errorMessage = when {
                     it.loginEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
                     it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
-                    else -> {
-                        ""
-                    }
+                    else -> {""}
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
             )
@@ -123,16 +122,14 @@ fun LoginScreen(
                 errorMessage = when {
                     it.loginPasswordText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                     it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
-                    else -> {
-                        ""
-                    }
+                    else -> {""}
                 },
                 value = state.loginPasswordText.value,
                 onValueChange = { state.loginPasswordText.value = it },
                 modifier = Modifier
                     .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
+                keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
@@ -148,9 +145,7 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.size(10.5.dp))
                 Text(
-                    modifier = Modifier.clickable {
-                        it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
-                    },
+                    modifier = Modifier.clickable { it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value) } ,
                     text = stringResource(id = R.string.remember_me),
                     style = typography.h6,
                     color = secondaryNavy,
@@ -163,44 +158,42 @@ fun LoginScreen(
                     modifier = Modifier.clickable(onClick = dontRememberButtonClicked)
                 )
             }
-            Spacer(modifier = Modifier.size(25.dp))
-            Button(
-                enabled = currentState.loginEmailText.value.isValidEmail() && currentState.loginPasswordText.value.isInReqRange(
-                    min = 8
-                ),
-                onClick = onLoginClicked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-                shape = shapes.medium,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = mainGreen,
-                    contentColor = Color.White,
-                ),
-            ) {
-                Text(
-                    text = stringResource(id = R.string.sign_in),
-                    style = typography.h4,
-                )
-            }
-            Spacer(modifier = Modifier.size(12.dp))
-            Row() {
-                Text(
-                    text = stringResource(id = R.string.dont_have_acc),
-                    style = typography.h6,
-                    color = secondaryNavy
-                )
-                Spacer(modifier = Modifier.size(4.dp))
-                Text(
-                    text = stringResource(id = R.string.register),
-                    style = typography.h6,
-                    color = mainGreen,
-                    modifier = Modifier.clickable(onClick = registrationButtonClicked)
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            PrivacyPolicyBanner()
         }
+        Spacer(modifier = Modifier.size(25.dp))
+        Button(
+            enabled = currentState.loginEmailText.value.isValidEmail() && currentState.loginPasswordText.value.isInReqRange(min = 8),
+            onClick = onLoginClicked,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            shape = shapes.medium,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = mainGreen,
+                contentColor = Color.White,
+            ),
+        ) {
+            Text(
+                text = stringResource(id = R.string.sign_in),
+                style = typography.h4,
+            )
+        }
+        Spacer(modifier = Modifier.size(12.dp))
+        Row() {
+            Text(
+                text = stringResource(id = R.string.dont_have_acc),
+                style = typography.h6,
+                color = selectedDarkGray
+            )
+            Spacer(modifier = Modifier.size(4.dp))
+            Text(
+                text = stringResource(id = R.string.register),
+                style = typography.h6,
+                color = mainGreen,
+                modifier = Modifier.clickable(onClick = registrationButtonClicked)
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        PrivacyPolicyBanner()
     }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
         Loader()

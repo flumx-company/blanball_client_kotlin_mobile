@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.bgLight2
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
@@ -53,7 +54,7 @@ fun AllPlannedEventsScreen(
         ) {
             items(state.plannedEventsList.value) { plannedEvent ->
                 Column {
-                    DottedLine()
+                    DottedLine(color = annotationGray)
                     Spacer(modifier = Modifier.size(16.dp))
                     Row {
                         Text(
