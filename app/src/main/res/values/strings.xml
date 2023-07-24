@@ -252,4 +252,6 @@
     <string name="new_password_successfully_saved">Новий пароль успішно збережено!</string>
     <string name="please_log_in_again_using_a_new_password">Будь ласка, увійдіть у систему ще раз, використовуючи новий пароль</string>
     <string name="sign_in_to_the_system">Увійти до системи</string>
+    <string name="c_blanball">©BlanBall 2023</string>
+    <string name="policy_privacy">Політика конфіденційності</string>
 </resources>

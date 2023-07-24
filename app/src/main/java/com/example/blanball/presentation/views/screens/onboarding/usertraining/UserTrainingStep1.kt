@@ -108,7 +108,7 @@ fun UserTrainingStep1(
                 }
             }
         },
-            enableAnimation = true
+            enableAnimation = false
         )
     }
 }

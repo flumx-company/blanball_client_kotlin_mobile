@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.secondaryNavy
 
 @Composable
 fun SwitchButton(
@@ -16,5 +17,5 @@ fun SwitchButton(
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    Switch(checked = selected, onCheckedChange = onCheckedChange, colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = mainGreen, checkedTrackAlpha = 1f), modifier = Modifier.size(32.dp, 16.dp))
+    Switch(checked = selected, onCheckedChange = onCheckedChange, colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = mainGreen, checkedTrackAlpha = 1f, uncheckedTrackColor = secondaryNavy, uncheckedTrackAlpha = 1f), modifier = Modifier.size(32.dp, 16.dp))
 }

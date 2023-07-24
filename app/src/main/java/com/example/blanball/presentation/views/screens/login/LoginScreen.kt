@@ -20,7 +20,6 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +39,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
@@ -133,10 +133,7 @@ fun LoginScreen(
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
                     onCheckedChange = { state.rememberMeCheckbox.value = it },
@@ -148,9 +145,7 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.size(10.5.dp))
                 Text(
-                    modifier = Modifier.clickable {
-                        it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
-                    },
+                    modifier = Modifier.clickable { it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value) } ,
                     text = stringResource(id = R.string.remember_me),
                     style = typography.h6,
                     color = secondaryNavy,
@@ -159,7 +154,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.i_dont_remember),
                     style = typography.h6,
-                    color = secondaryNavy,
+                    color = primaryDark,
                     modifier = Modifier.clickable(onClick = dontRememberButtonClicked)
                 )
             }
@@ -197,6 +192,8 @@ fun LoginScreen(
                 modifier = Modifier.clickable(onClick = registrationButtonClicked)
             )
         }
+        Spacer(modifier = Modifier.weight(1f))
+        PrivacyPolicyBanner()
     }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
         Loader()
