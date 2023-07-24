@@ -223,7 +223,7 @@ fun ResetPasswordScreenStep2(
                         .isValidCode(),
                     nextBtnOnClick = onStep3Clicked,
                     prevBtnOnClick = onCancelClicked,
-                    nextBtnOnTextId = R.string.send_code,
+                    nextBtnOnTextId = R.string.reset_pass_button,
                     prevBtnOnTextId = R.string.cancel,
                 )
             }
