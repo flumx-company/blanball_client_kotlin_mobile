@@ -9,6 +9,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import com.example.domain.utils.Endpoints
 import kotlin.math.absoluteValue
 
 internal fun makeCall(number: String, context: Context) {
@@ -65,3 +66,5 @@ internal class MaskVisualTransformation(private val mask: String) : VisualTransf
 }
 
 internal val navigateToLogin: MutableState<Boolean> = mutableStateOf(false)
+
+internal val toPrivacyPolicyUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
