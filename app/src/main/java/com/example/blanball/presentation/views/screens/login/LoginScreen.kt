@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,7 +37,6 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
@@ -60,8 +60,13 @@ fun LoginScreen(
         (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 24.dp, end = 24.dp)
+            .padding(
+                start = 24.dp,
+                end = 24.dp,
+                bottom = 24.dp
+            )
     ) {
         (state as? StartScreensMainContract.State)?.let {
             Modifier
@@ -154,7 +159,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.i_dont_remember),
                     style = typography.h6,
-                    color = primaryDark,
+                    color = secondaryNavy,
                     modifier = Modifier.clickable(onClick = dontRememberButtonClicked)
                 )
             }
@@ -182,7 +187,7 @@ fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.dont_have_acc),
                 style = typography.h6,
-                color = selectedDarkGray
+                color = secondaryNavy
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
