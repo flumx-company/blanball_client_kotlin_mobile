@@ -7,21 +7,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,12 +28,11 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
@@ -65,11 +59,11 @@ fun ResetPasswordScreenStep3(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                    top = 0.dp,
-                    start = 16.dp,
-                    bottom = 30.dp,
-                    end = 16.dp,
-                ).verticalScroll(rememberScrollState()),
+                        start = 24.dp,
+                        end = 24.dp,
+                        bottom = 24.dp
+                    )
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AnimationRotatingBalls()
@@ -169,34 +163,13 @@ fun ResetPasswordScreenStep3(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                Button(
-                    enabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
-                    onClick = onFinishResetClicked,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp),
-                    shape = shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = mainGreen,
-                        contentColor = Color.White,
-                    ),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.save_new_pass),
-                        style = typography.h4,
-                    )
-                }
-                TextButton(
-                    onClick = onCancelClicked,
-                    Modifier
-                        .padding(top = 14.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.cancel),
-                        style = typography.h4,
-                    )
-                }
+                NextAndPreviousButtons(
+                    isEnabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
+                    nextBtnOnClick = onFinishResetClicked,
+                    prevBtnOnClick = onCancelClicked,
+                    nextBtnOnTextId = R.string.save_new_pass,
+                    prevBtnOnTextId = R.string.cancel,
+                )
             }
         }
     }

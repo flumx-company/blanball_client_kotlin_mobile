@@ -1,7 +1,5 @@
 package com.example.blanball.presentation.views.screens.registration
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,23 +8,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -43,9 +36,9 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -54,7 +47,7 @@ import com.example.blanball.utils.ext.isInReqRange
 import com.example.blanball.utils.ext.isNotInReqRange
 import com.example.blanball.utils.ext.isNotValidEmail
 import com.example.blanball.utils.ext.isValidEmail
-import com.example.domain.utils.Endpoints
+import com.example.blanball.utils.toPrivacyPolicyUrlIntent
 
 
 @Composable
@@ -63,8 +56,6 @@ fun RegistrationScreenStep2(
     onRegistrationClicked: () -> Unit,
     onBackClicked: () -> Unit,
 ) {
-    val intent =
-        Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
     val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
     val currentState: StartScreensMainContract.State =
@@ -81,11 +72,11 @@ fun RegistrationScreenStep2(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        top = 0.dp,
-                        start = 16.dp,
-                        bottom = 30.dp,
-                        end = 16.dp,
-                    ).verticalScroll(rememberScrollState())
+                        start = 24.dp,
+                        end = 24.dp,
+                        bottom = 24.dp
+                    )
+                    .verticalScroll(rememberScrollState())
             ) {
                 AnimationRotatingBalls()
                 Text(
@@ -241,44 +232,23 @@ fun RegistrationScreenStep2(
                         color = primaryDark,
                         textAlign = TextAlign.Start,
                         modifier = Modifier.clickable {
-                            startActivity(context, intent, null)
+                            startActivity(context, toPrivacyPolicyUrlIntent, null)
                         }
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                Button(
-                    enabled = it.registrationPassText.value.isInReqRange(8)
+                NextAndPreviousButtons(
+                    isEnabled = it.registrationPassText.value.isInReqRange(8)
                             && it.registrationPassTextRemember.value.isInReqRange(8)
                             && it.registrationPassText.value == it.registrationPassTextRemember.value
                             && it.registrationEmailText.value.isValidEmail()
                             && state.privacyPolicyCheckbox.value,
-                    onClick = onRegistrationClicked,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp),
-                    shape = shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = mainGreen,
-                        contentColor = Color.White,
-                    ),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.register),
-                        style = typography.h4,
-                    )
-                }
-                TextButton(
-                    onClick = onBackClicked,
-                    Modifier
-                        .padding(top = 14.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.back),
-                        style = typography.h4,
-                    )
-                }
+                    nextBtnOnClick = onRegistrationClicked,
+                    prevBtnOnClick = onBackClicked,
+                    nextBtnOnTextId = R.string.register,
+                    prevBtnOnTextId = R.string.back,
+                )
             }
         }
     }

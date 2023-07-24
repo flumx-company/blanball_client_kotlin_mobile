@@ -129,7 +129,7 @@ fun UserTrainingStep3(
                 }
             }
         },
-            enableAnimation = true,
+            enableAnimation = false,
         )
     }
 }
