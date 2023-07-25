@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
@@ -47,6 +49,11 @@ fun BottomLineDefaultTextInput(
                     stringResource(
                         id = labelResId
                     ),
+                    color = primaryDark,
+                    style = typography.h6,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight(400),
+                    lineHeight = 16.sp,
                 )
             },
             shape = shapes.small,

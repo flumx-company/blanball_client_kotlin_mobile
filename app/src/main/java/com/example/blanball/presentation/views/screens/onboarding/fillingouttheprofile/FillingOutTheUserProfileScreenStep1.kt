@@ -178,7 +178,7 @@ fun FillingOutTheUserProfileScreenStep1(
                     )
                 }
             },
-                enableAnimation = true
+                enableAnimation = false
             )
         }
     }
