@@ -87,7 +87,7 @@ fun FillingOutTheUserProfileStartScreen(
                     )
                 }
             },
-                enableAnimation = true
+                enableAnimation = false
             )
         }
     }
