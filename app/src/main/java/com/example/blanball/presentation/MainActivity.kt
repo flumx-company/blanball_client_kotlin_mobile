@@ -1,10 +1,11 @@
 package com.example.blanball.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.utils.navigateToLogin
 import com.example.data.datastore.remembermemanager.RememberMeManager
@@ -30,6 +32,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var tokenManager: TokenManager
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -72,7 +75,8 @@ class MainActivity : ComponentActivity() {
                 Destinations.LOGIN.route
             }
                 MyAppTheme {
-                    Surface(
+                    Scaffold(
+                        bottomBar = { BottomNavBar(navController = navController)} ,
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         AppScreensConfig(
