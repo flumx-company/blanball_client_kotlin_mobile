@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -14,6 +15,10 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.views.screens.chats.ChatsScreen
+import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
+import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
+import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep2
@@ -27,6 +32,7 @@ import com.example.blanball.presentation.views.screens.onboarding.usertraining.U
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
+import com.example.blanball.presentation.views.screens.rating.RatingScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
 import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccessfullySavedScreen
@@ -292,6 +298,24 @@ fun AppScreensConfig(
                 onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
             )
         }
+
+        composable(BottomNavItem.Home.screen_route) {
+            HomeScreen()
+        }
+
+        composable(BottomNavItem.FutureEvents.screen_route) {
+            FutureEventsScreen()
+        }
+        composable(BottomNavItem.CreateNewEvent.screen_route) {
+             CreateNewEventScreen()
+        }
+
+        composable(BottomNavItem.Rating.screen_route) {
+            RatingScreen()
+        }
+        composable(BottomNavItem.Chat.screen_route){
+            ChatsScreen()
+        }
     }
 }
 
@@ -315,4 +339,17 @@ enum class Destinations(val route: String) {
     USER_TRAINING_2("userTraining2"),
     USER_TRAINING_3("userTraining3"),
     USER_TRAINING_4("userTraining4"),
+    HOME("home"),
+    FUTURE_EVENTS("future_events"),
+    CREATE_NEW_EVENT("create_new_event"),
+    RATING("rating"),
+    CHATS("chats"),
+}
+
+sealed class BottomNavItem(var icon: Int, var screen_route: String) {
+    object Home : BottomNavItem(icon = R.drawable.ic_home, Destinations.HOME.route)
+    object FutureEvents : BottomNavItem(icon = R.drawable.ic_future_events,  Destinations.FUTURE_EVENTS.route)
+    object CreateNewEvent : BottomNavItem(icon = R.drawable.ic_create_new_event, Destinations.CREATE_NEW_EVENT.route )
+    object Rating : BottomNavItem(icon = R.drawable.ic_rating, Destinations.RATING.route )
+    object Chat : BottomNavItem (icon = R.drawable.ic_chats, Destinations.CHATS.route)
 }
