@@ -89,7 +89,7 @@ fun ResetPasswordScreenStep2(
                     .padding(
                         start = 24.dp,
                         end = 24.dp,
-                        bottom = 24.dp
+                        bottom = 14.dp
                     )
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally

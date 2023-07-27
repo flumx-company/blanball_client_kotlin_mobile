@@ -71,7 +71,7 @@ fun RegistrationScreenStep1(
                     .padding(
                         start = 24.dp,
                         end = 24.dp,
-                        bottom = 24.dp
+                        bottom = 14.dp
                     )
                     .verticalScroll(rememberScrollState()),
             ) {
@@ -241,9 +241,10 @@ fun RegistrationScreenStep1(
                             && (state.genderIsMale.value || state.genderIsFemale.value),
                     nextBtnOnClick = onRegistrationStep2Clicked,
                     prevBtnOnClick = onCancelClicked,
-                    nextBtnOnTextId = R.string.send_code,
+                    nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.cancel
                 )
+                Spacer(modifier = Modifier.size(20.dp))
                 PrivacyPolicyBanner()
             }
         }

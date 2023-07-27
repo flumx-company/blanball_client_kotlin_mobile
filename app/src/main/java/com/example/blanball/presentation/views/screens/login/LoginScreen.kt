@@ -65,7 +65,7 @@ fun LoginScreen(
             .padding(
                 start = 24.dp,
                 end = 24.dp,
-                bottom = 24.dp
+                bottom = 14.dp
             )
     ) {
         (state as? StartScreensMainContract.State)?.let {
@@ -198,6 +198,7 @@ fun LoginScreen(
             )
         }
         Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.size(20.dp))
         PrivacyPolicyBanner()
     }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {

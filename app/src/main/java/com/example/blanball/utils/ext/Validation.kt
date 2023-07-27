@@ -67,7 +67,7 @@ internal fun String.isNotValidBirthYear(): Boolean {
 
 internal fun String.isValidHeight(): Boolean {
     val height = this.toIntOrNull()
-    return height != null && height in Integers.THIRTY..Integers.TWO_HUNDRED_AND_TEN
+    return height != null && height in Integers.ONE_HUNDRED_AND_FORTY_FIVE..Integers.TWO_HUNDRED_AND_TEN
 }
 
 internal fun String.isNotValidHeight(): Boolean {

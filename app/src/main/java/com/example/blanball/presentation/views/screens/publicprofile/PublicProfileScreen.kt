@@ -102,6 +102,7 @@ fun PublicProfileScreen(
         )
         (state as? PublicProfileMainContract.State)?.let {
             Column {
+                Spacer(modifier = Modifier.size(60.dp))
                 DefaultCardWithColumn(padStart = 0.dp, padTop = 0.dp, padEnd = 0.dp) {
                     Box(
                         Modifier
@@ -501,6 +502,7 @@ fun PublicProfileScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(32.dp))
             }
             if (it.openInviteUserToInventModal.value) {
                 AlertDialog(

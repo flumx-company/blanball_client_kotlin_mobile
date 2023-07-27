@@ -64,7 +64,7 @@ fun ResetPasswordScreenStep1(
                     .padding(
                         start = 24.dp,
                         end = 24.dp,
-                        bottom = 24.dp
+                        bottom = 14.dp
                     )
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -145,6 +145,7 @@ fun ResetPasswordScreenStep1(
                     nextBtnOnTextId = R.string.send_code,
                     prevBtnOnTextId = R.string.cancel,
                 )
+                Spacer(modifier = Modifier.size(20.dp))
                 PrivacyPolicyBanner()
             }
         }
