@@ -4,7 +4,9 @@ import DottedLine
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,122 +43,126 @@ import com.example.blanball.utils.ext.formatDatePlannedEventsToTime
 fun AllPlannedEventsScreen(
     state: UiState,
     onLoadMoreEvents: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     (state as? PublicProfileMainContract.State)?.let {
         val lazyListState = rememberLazyListState()
-        LazyColumn(
-            Modifier.padding(
-                top = 16.dp,
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 20.dp
-            )
-        ) {
-            items(state.plannedEventsList.value) { plannedEvent ->
-                Column {
-                    DottedLine(color = annotationGray)
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Row {
-                        Text(
-                            text = stringResource(id = R.string.tournament),
-                            style = typography.h3,
-                            color = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(6.dp))
-                        Text(
-                            text = plannedEvent.pk_user_role,
-                            style = typography.h6,
-                            color = primaryDark,
-                            modifier = Modifier
-                                .background(
-                                    bgLight2,
-                                    shapes.small
-                                )
-                                .padding(start = 4.dp, end = 4.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(6.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(
-                            text = plannedEvent.type,
-                            style = typography.h6,
-                            color = primaryDark,
-                            modifier = Modifier
-                                .border(
-                                    1.dp,
-                                    color = defaultLightGray,
-                                    shape = RoundedCornerShape(100.dp)
-                                )
-                                .padding(start = 8.dp, end = 8.dp)
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = plannedEvent.gender, style = typography.h6,
-                            color = primaryDark,
-                            modifier = Modifier
-                                .border(
-                                    1.dp,
-                                    color = defaultLightGray,
-                                    shape = RoundedCornerShape(100.dp)
-                                )
-                                .padding(start = 8.dp, end = 8.dp)
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = stringResource(id = R.string.three_dots), style = typography.h6,
-                            color = primaryDark,
-                            modifier = Modifier
-                                .border(
-                                    1.dp,
-                                    color = defaultLightGray,
-                                    shape = RoundedCornerShape(100.dp)
-                                )
-                                .padding(start = 8.dp, end = 8.dp)
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_1),
-                            contentDescription = null,
-                            tint = secondaryNavy,
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(6.dp))
-                    Row {
-                        Text(
-                            text = plannedEvent.date_and_time.formatDatePlannedEvents(),
-                            style = typography.h5,
-                            color = secondaryNavy
-                        )
-                        Spacer(modifier = Modifier.size(16.dp))
-                        Text(
-                            text = "${plannedEvent.date_and_time.formatDatePlannedEventsToTime()} - ${
-                                plannedEvent.date_and_time.formatDatePlannedEventsToTime(
-                                    plannedEvent.duration
-                                )
-                            }", style = typography.h5,
-                            color = secondaryNavy
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(12.dp))
-                }
-            }
-            if (state.isLoadingMoreEvents) {
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(color = mainGreen)
-                    }
-                }
-            }
-            item {
-                InfiniteListHandler(
-                    lazyListState = lazyListState,
-                    onLoadMore = onLoadMoreEvents,
+        Box(modifier = Modifier.padding(paddingValues)) {
+            LazyColumn(
+                Modifier.padding(
+                    top = 16.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 20.dp
                 )
+            ) {
+                items(state.plannedEventsList.value) { plannedEvent ->
+                    Column {
+                        DottedLine(color = annotationGray)
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Row {
+                            Text(
+                                text = stringResource(id = R.string.tournament),
+                                style = typography.h3,
+                                color = primaryDark
+                            )
+                            Spacer(modifier = Modifier.size(6.dp))
+                            Text(
+                                text = plannedEvent.pk_user_role,
+                                style = typography.h6,
+                                color = primaryDark,
+                                modifier = Modifier
+                                    .background(
+                                        bgLight2,
+                                        shapes.small
+                                    )
+                                    .padding(start = 4.dp, end = 4.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(6.dp))
+                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(
+                                text = plannedEvent.type,
+                                style = typography.h6,
+                                color = primaryDark,
+                                modifier = Modifier
+                                    .border(
+                                        1.dp,
+                                        color = defaultLightGray,
+                                        shape = RoundedCornerShape(100.dp)
+                                    )
+                                    .padding(start = 8.dp, end = 8.dp)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(
+                                text = plannedEvent.gender, style = typography.h6,
+                                color = primaryDark,
+                                modifier = Modifier
+                                    .border(
+                                        1.dp,
+                                        color = defaultLightGray,
+                                        shape = RoundedCornerShape(100.dp)
+                                    )
+                                    .padding(start = 8.dp, end = 8.dp)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(
+                                text = stringResource(id = R.string.three_dots),
+                                style = typography.h6,
+                                color = primaryDark,
+                                modifier = Modifier
+                                    .border(
+                                        1.dp,
+                                        color = defaultLightGray,
+                                        shape = RoundedCornerShape(100.dp)
+                                    )
+                                    .padding(start = 8.dp, end = 8.dp)
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_1),
+                                contentDescription = null,
+                                tint = secondaryNavy,
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(6.dp))
+                        Row {
+                            Text(
+                                text = plannedEvent.date_and_time.formatDatePlannedEvents(),
+                                style = typography.h5,
+                                color = secondaryNavy
+                            )
+                            Spacer(modifier = Modifier.size(16.dp))
+                            Text(
+                                text = "${plannedEvent.date_and_time.formatDatePlannedEventsToTime()} - ${
+                                    plannedEvent.date_and_time.formatDatePlannedEventsToTime(
+                                        plannedEvent.duration
+                                    )
+                                }", style = typography.h5,
+                                color = secondaryNavy
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(12.dp))
+                    }
+                }
+                if (state.isLoadingMoreEvents) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(color = mainGreen)
+                        }
+                    }
+                }
+                item {
+                    InfiniteListHandler(
+                        lazyListState = lazyListState,
+                        onLoadMore = onLoadMoreEvents,
+                    )
+                }
             }
         }
     }

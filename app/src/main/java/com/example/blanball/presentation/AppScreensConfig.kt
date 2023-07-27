@@ -1,5 +1,6 @@
 package com.example.blanball.presentation
 
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,6 +16,7 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
@@ -189,27 +191,62 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = Unit) {
                 publicProfileViewModel.loadUserProfileData()
             }
-
-            PublicProfileScreen(
-                state = state,
-                onInviteToAnEventClicked = {}, // TODO("Invite to event action")
-                onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route)},
-                onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route)}
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    PublicProfileScreen(
+                        state = state,
+                        onInviteToAnEventClicked = {}, // TODO("Invite to event action")
+                        onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route) },
+                        onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route) },
+                        paddingValues = it,
+                    )
+                }
             )
         }
 
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            AllReviewsScreen(
-                state = state,
-                onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() })
+
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    AllReviewsScreen(
+                        state = state,
+                        onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() },
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
         composable(Destinations.ALL_PLANNED_EVENTS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
-            AllPlannedEventsScreen(state = state, onLoadMoreEvents = {
-                publicProfileViewModel.loadMoreEvents()
-            })
+
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    AllPlannedEventsScreen(
+                        state = state,
+                        onLoadMoreEvents = {
+                        publicProfileViewModel.loadMoreEvents()
+                    },
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) {
@@ -300,21 +337,77 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            HomeScreen()
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    HomeScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {
-            FutureEventsScreen()
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    FutureEventsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
-             CreateNewEventScreen()
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    CreateNewEventScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
         composable(BottomNavItem.Rating.screen_route) {
-            RatingScreen()
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    RatingScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
-        composable(BottomNavItem.Chat.screen_route){
-            ChatsScreen()
+
+        composable(BottomNavItem.Chat.screen_route) {
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    ChatsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
     }
 }

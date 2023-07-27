@@ -2,7 +2,9 @@ package com.example.blanball.presentation.views.screens.publicprofile
 
 import DottedLine
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,82 +40,85 @@ import com.example.blanball.utils.ext.formatDateReview
 fun AllReviewsScreen(
     state: UiState,
     onLoadMoreReviews: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     (state as? PublicProfileMainContract.State)?.let {
         val lazyListState = rememberLazyListState()
-        LazyColumn(
-            Modifier.padding(
-                top = 16.dp,
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 20.dp
-            )
-        ) {
-            items(state.reviewsList.value) { review ->
-                Column {
-                    DottedLine(color = annotationGray)
-                    Spacer(Modifier.size(12.dp))
-                    Row {
+        Box( Modifier.padding(paddingValues)) {
+            LazyColumn(
+                Modifier.padding(
+                    top = 16.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 20.dp
+                )
+            ) {
+                items(state.reviewsList.value) { review ->
+                    Column {
+                        DottedLine(color = annotationGray)
+                        Spacer(Modifier.size(12.dp))
+                        Row {
+                            Text(
+                                text = review.stars.toString(),
+                                style = typography.h5,
+                                fontSize = 16.sp,
+                                color = orangeStarColor
+                            )
+                            Spacer(modifier = Modifier.size(2.dp))
+                            Icon(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .align(Alignment.CenterVertically),
+                                painter = painterResource(id = R.drawable.full_star),
+                                tint = orangeStarColor,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.size(8.dp))
+                            Text(
+                                text = "${review.author.profile.name} ${review.author.profile.name}",
+                                style = typography.h5,
+                                fontSize = 13.sp,
+                                color = secondaryNavy
+                            )
+                            Text(
+                                text = review.time_created.formatDateReview(),
+                                textAlign = TextAlign.End,
+                                style = typography.h5,
+                                color = secondaryNavy,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(),
+                            )
+                        }
                         Text(
-                            text = review.stars.toString(),
+                            text = review.text,
                             style = typography.h5,
-                            fontSize = 16.sp,
-                            color = orangeStarColor
-                        )
-                        Spacer(modifier = Modifier.size(2.dp))
-                        Icon(
-                            modifier = Modifier
-                                .size(20.dp)
-                                .align(Alignment.CenterVertically),
-                            painter = painterResource(id = R.drawable.full_star),
-                            tint = orangeStarColor,
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(
-                            text = "${review.author.profile.name} ${review.author.profile.name}",
-                            style = typography.h5,
-                            fontSize = 13.sp,
-                            color = secondaryNavy
-                        )
-                        Text(
-                            text = review.time_created.formatDateReview(),
-                            textAlign = TextAlign.End,
-                            style = typography.h5,
-                            color = secondaryNavy,
+                            color = primaryDark,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight(),
                         )
+                        Spacer(Modifier.size(12.dp))
                     }
-                    Text(
-                        text = review.text,
-                        style = typography.h5,
-                        color = primaryDark,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    )
-                    Spacer(Modifier.size(12.dp))
                 }
-            }
-            if (state.isLoadingMoreReviews) {
+                if (state.isLoadingMoreReviews) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(color = mainGreen)
+                        }
+                    }
+                }
                 item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(color = mainGreen)
-                    }
+                    InfiniteListHandler(
+                        lazyListState = lazyListState,
+                        onLoadMore = onLoadMoreReviews
+                    )
                 }
-            }
-            item {
-                InfiniteListHandler(
-                    lazyListState = lazyListState,
-                    onLoadMore = onLoadMoreReviews
-                )
             }
         }
     }
