@@ -25,7 +25,7 @@ private val DarkColorPalette = darkColors(
 )
 
 
-private object JetNewsRippleTheme : RippleTheme {
+private object MainGreenRippleTheme : RippleTheme {
     @Composable
     override fun defaultColor(): Color = mainGreenRippleEffect
 
@@ -49,7 +49,7 @@ fun MyAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
         shapes = shapes,
     ) {
         CompositionLocalProvider(
-            LocalRippleTheme provides JetNewsRippleTheme,
+            LocalRippleTheme provides MainGreenRippleTheme,
             content = content
         )
     }
