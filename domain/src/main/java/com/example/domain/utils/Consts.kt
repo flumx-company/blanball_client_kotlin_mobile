@@ -12,12 +12,36 @@ object Endpoints {
      const val PRIVACY_POLICY_URL = BuildConfig.PRIVACY_POLICY_URL
      const val USER_PROFILE_ENDPOINT = BuildConfig.USER_PROFILE_ENDPOINT
      const val REVIEWS_ENDPOINT = BuildConfig.REVIEWS_ENDPOINT
-     const val PLANNED_EVENTS = BuildConfig.PLANNED_EVENTS
+     const val PLANNED_EVENTS_ENDPOINT = BuildConfig.PLANNED_EVENTS
      const val UPDATE_PROFILE_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
      const val REFRESH_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
+     const val USERS_LIST = BuildConfig.USERS_LIST
      }
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
+}
+
+object Strings {
+     const val MALE = "Man"
+     const val FEMALE = "Woman"
+     const val GK = "GK"
+     const val LB = "LB"
+     const val RB = "RB"
+     const val CB = "CB"
+     const val LWB = "LWB"
+     const val RWB = "RWB"
+     const val CDM = "CDM"
+     const val CM = "CM"
+     const val CAM = "CAM"
+     const val RM = "RM"
+     const val LM = "LM"
+     const val RW = "RW"
+     const val LW = "LW"
+     const val RF = "RF"
+     const val CF = "CF"
+     const val LF = "LF"
+     const val ST = "ST"
+     const val FIRST_OLDER = "-id"
 }
 
 object Integers {

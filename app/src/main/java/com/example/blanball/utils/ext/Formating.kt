@@ -80,3 +80,27 @@ internal fun String.formatPositionToEnglish(context: Context): String {
       else -> ""
   }
 }
+
+internal fun String.convertToPositionCode(context: Context): String? {
+    return when (this) {
+        context.getString(R.string.any_position) -> context.getString(R.string.empty)
+        context.getString(R.string.goalkeeper) -> context.getString(R.string.gk)
+        context.getString(R.string.left_defender) -> context.getString(R.string.lb)
+        context.getString(R.string.right_defender) -> context.getString(R.string.rb)
+        context.getString(R.string.central_defender) -> context.getString(R.string.cb)
+        context.getString(R.string.left_flank_defender) -> context.getString(R.string.lwb)
+        context.getString(R.string.right_flank_defender) -> context.getString(R.string.rwb)
+        context.getString(R.string.supporting_mid_defender) -> context.getString(R.string.cdm)
+        context.getString(R.string.left_mid_defender) -> context.getString(R.string.cm)
+        context.getString(R.string.attacking_mid_defender) -> context.getString(R.string.cam)
+        context.getString(R.string.right_winger) -> context.getString(R.string.rm)
+        context.getString(R.string.left_winger) -> context.getString(R.string.lm)
+        context.getString(R.string.right_flank_attacker) -> context.getString(R.string.rw)
+        context.getString(R.string.left_flank_attacker) -> context.getString(R.string.lw)
+        context.getString(R.string.right_forward) -> context.getString(R.string.rf)
+        context.getString(R.string.central_forward) -> context.getString(R.string.cf)
+        context.getString(R.string.left_forward) -> context.getString(R.string.lf)
+        context.getString(R.string.forward_striker) -> context.getString(R.string.st)
+        else -> null
+    }
+}

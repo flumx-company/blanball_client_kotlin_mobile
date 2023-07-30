@@ -31,6 +31,13 @@ import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponseErrorData
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponseProfile
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponseResult
+import com.example.data.backend.models.responses.GetUsersListResponse
+import com.example.data.backend.models.responses.GetUsersListResponseData
+import com.example.data.backend.models.responses.GetUsersListResponseError
+import com.example.data.backend.models.responses.GetUsersListResponseErrorData
+import com.example.data.backend.models.responses.GetUsersListResponseErrorDetailData
+import com.example.data.backend.models.responses.GetUsersListResponseProfile
+import com.example.data.backend.models.responses.GetUsersListResponseResult
 import com.example.data.backend.models.responses.LoginError
 import com.example.data.backend.models.responses.LoginErrors
 import com.example.data.backend.models.responses.LoginSuccess
@@ -89,6 +96,13 @@ import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorDataEn
 import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
 import com.example.domain.entity.responses.GetUserReviewsByIdResponseProfileEntity
 import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
+import com.example.domain.entity.responses.GetUsersListResponseDataEntity
+import com.example.domain.entity.responses.GetUsersListResponseEntity
+import com.example.domain.entity.responses.GetUsersListResponseErrorDataEntity
+import com.example.domain.entity.responses.GetUsersListResponseErrorDetailDataEntity
+import com.example.domain.entity.responses.GetUsersListResponseErrorEntity
+import com.example.domain.entity.responses.GetUsersListResponseProfileEntity
+import com.example.domain.entity.responses.GetUsersListResponseResultEntity
 import com.example.domain.entity.responses.LoginData
 import com.example.domain.entity.responses.LoginDataError
 import com.example.domain.entity.responses.LoginErrorsDomain
@@ -560,4 +574,68 @@ internal fun UpdateUserProfileResponseErrorDetail.toUpdateUserProfileResponseEnt
     return UpdateUserProfileResponseEntityErrorDetail(
         this.detail
     )
+}
+
+internal fun GetUsersListResponse.toGetUsersListResponseEntity(): GetUsersListResponseEntity {
+    return GetUsersListResponseEntity(
+        this.code,
+        this.data.toGetUsersListResponseDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun GetUsersListResponseData.toGetUsersListResponseDataEntity(): GetUsersListResponseDataEntity {
+    return GetUsersListResponseDataEntity(
+        this.current_page,
+        this.next,
+        this.page_size,
+        this.previous,
+        this.results?.map { it.toGetUsersListResponseResultEntity() },
+        this.success,
+        this.total_count,
+    )
+}
+
+internal fun GetUsersListResponseResult.toGetUsersListResponseResultEntity(): GetUsersListResponseResultEntity {
+    return GetUsersListResponseResultEntity(
+        this.id,
+        this.is_online,
+        this.profile.toGetUsersListResponseProfileEntity(),
+        this.raiting,
+        this.role
+    )
+}
+
+internal fun GetUsersListResponseProfile.toGetUsersListResponseProfileEntity(): GetUsersListResponseProfileEntity {
+    return GetUsersListResponseProfileEntity(
+        this.age,
+        this.avatar_url,
+        this.gender,
+        this.id,
+        this.last_name,
+        this.name,
+        this.position
+    )
+}
+
+internal fun GetUsersListResponseError.toGetUsersListResponseErrorEntity(): GetUsersListResponseErrorEntity {
+    return GetUsersListResponseErrorEntity(
+        this.code,
+        this.data.toGetUsersListResponseErrorDataEntity(),
+        this.message,
+        this.status
+    )
+}
+
+internal fun GetUsersListResponseErrorData.toGetUsersListResponseErrorDataEntity(): GetUsersListResponseErrorDataEntity {
+    return GetUsersListResponseErrorDataEntity(
+        listOf(this.errors[0].toGetUsersListResponseErrorDetailDataEntity()),
+        this.type,
+    )
+}
+
+internal fun GetUsersListResponseErrorDetailData.toGetUsersListResponseErrorDetailDataEntity(): GetUsersListResponseErrorDetailDataEntity {
+    return  GetUsersListResponseErrorDetailDataEntity(
+        this.detail)
 }

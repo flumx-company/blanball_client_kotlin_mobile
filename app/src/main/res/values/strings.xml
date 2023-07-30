@@ -254,4 +254,23 @@
     <string name="sign_in_to_the_system">Увійти до системи</string>
     <string name="c_blanball">©BlanBall 2023</string>
     <string name="policy_privacy">Політика конфіденційності</string>
+    <string name="empty">--</string>
+    <string name="users_rating">Рейтинг користувачів</string>
+    <string name="general">Загальний</string>
+    <string name="players">Гравці</string>
+    <string name="trainers">Тренери</string>
+    <string name="referee">Рефері</string>
+    <string name="teams">Команди</string>
+    <string name="sorting">Сортування</string>
+    <string name="new_ones_first">спочатку нові</string>
+    <string name="filters">Фільтри</string>
+    <string name="found">знайдено</string>
+    <string name="ads">оголошень</string>
+    <string name="users">користувачів</string>
+    <string name="blanball_team">BlannBall Team</string>
+    <string name="apply">Застосувати</string>
+    <string name="clean">Очистити</string>
+    <string name="from">Від</string>
+    <string name="to">до</string>
+    <string name="years">років</string>
 </resources>

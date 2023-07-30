@@ -4,6 +4,7 @@ import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseI
 import com.example.domain.usecases.implementations.GetUserPlannedEventsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserProfileByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
+import com.example.domain.usecases.implementations.GetUsersListUseCaseImpl
 import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
 import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
@@ -11,6 +12,7 @@ import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
+import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
@@ -42,4 +44,7 @@ interface DomainModule {
 
     @Binds
     fun bindFillingTheUserProfileUseCase(fillingTheUserProfileUseCaseImpl: FillingTheUserProfileUseCaseImpl): FillingTheUserProfileUseCase
+
+    @Binds
+    fun bindGetUsersListUseCase(getUsersListUseCase: GetUsersListUseCaseImpl): GetUsersListUseCase
 }

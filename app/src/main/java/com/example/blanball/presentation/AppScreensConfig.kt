@@ -4,18 +4,23 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
+import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
@@ -50,6 +55,7 @@ fun AppScreensConfig(
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
+    usersRatingViewModel: UsersRatingViewModel,
     startDestinations: String,
 ) {
     NavHost(
@@ -381,6 +387,16 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Rating.screen_route) {
+
+            val state = usersRatingViewModel.uiState.collectAsState().value
+            val currentState = usersRatingViewModel.currentState
+
+            val previousState by remember { mutableStateOf(currentState.state) }
+
+            LaunchedEffect(currentState.state != previousState) {
+                usersRatingViewModel.handleScreenState(currentState.state)
+            }
+
             Scaffold(
                 bottomBar = {
                     BottomNavBar(
@@ -389,6 +405,26 @@ fun AppScreensConfig(
                 },
                 content = { it ->
                     RatingScreen(
+                        state = state,
+                        onLoadMoreUsers = {
+                            usersRatingViewModel.loadMoreUsers()
+                        },
+                        onClickedToLoadWithNewFilters = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    openFiltersDialog = mutableStateOf(false),
+                                    state = RatingUsersMainContract.ScreenViewState.Loading,
+                                )
+                            }
+                        },
+                        onClickedToChangeOrdering = {usersRatingViewModel.setState {
+                            copy(
+                                orderingIconState = mutableStateOf(!orderingIconState.value),
+                                usersOrderingSelectionState = mutableStateOf(RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER),
+                                state = RatingUsersMainContract.ScreenViewState.Loading
+                            )
+                        }
+                        },
                         paddingValues = it
                     )
                 }

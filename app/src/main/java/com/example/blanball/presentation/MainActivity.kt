@@ -77,12 +77,13 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppScreensConfig(
                             navController = navController,
+                            startDestinations = startDestinations,
                             resetPassViewModel = viewModel(),
                             registrationViewModel = viewModel(),
                             publicProfileViewModel = viewModel(),
                             loginViewModel = viewModel(),
                             onboardingProfileViewModel = viewModel(),
-                            startDestinations = startDestinations,
+                            usersRatingViewModel = viewModel()
                         )
                     }
                 }
