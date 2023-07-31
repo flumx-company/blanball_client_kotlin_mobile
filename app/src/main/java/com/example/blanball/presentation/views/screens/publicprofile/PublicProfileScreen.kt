@@ -68,7 +68,7 @@ import com.example.blanball.presentation.views.components.colums.DisplayUserRevi
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
-import com.example.blanball.presentation.views.components.texts.AttentionText
+import com.example.blanball.presentation.views.components.banners.AttentionText
 import com.example.blanball.utils.ext.formatRating
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail

@@ -274,4 +274,6 @@
     <string name="from">Від</string>
     <string name="to">до</string>
     <string name="years">років</string>
+    <string name="not_found_users_for_this_filter">Для такого фільтру користувачів не знайдено</string>
+    <string name="change_search_params">Змініть параметри пошуку</string>
 </resources>

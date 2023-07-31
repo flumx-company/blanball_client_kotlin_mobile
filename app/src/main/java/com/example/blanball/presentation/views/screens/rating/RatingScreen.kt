@@ -59,6 +59,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
 import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
@@ -189,136 +190,148 @@ fun RatingScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(6.dp))
-                LazyColumn {
-                    itemsIndexed(state.usersList.value) { index, user ->
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.clickable {
-                                expandedStateMap[index] = !(expandedStateMap[index] ?: false)
-                            },
-                        ) {
-                            if (user.profile.avatar_url.isNullOrEmpty()) {
-                                Box(
-                                    modifier = Modifier.size(36.dp)
-                                ) {
+                if (state.usersList.value.isEmpty()) {
+                    NoHaveContentBanner(headerTextId = R.string.not_found_users_for_this_filter, secTextId = R.string.change_search_params)
+                }
+                else {
+                    LazyColumn {
+                        itemsIndexed(state.usersList.value) { index, user ->
+                            Spacer(modifier = Modifier.size(12.dp))
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                modifier = Modifier.clickable {
+                                    expandedStateMap[index] = !(expandedStateMap[index] ?: false)
+                                },
+                            ) {
+                                if (user.profile.avatar_url.isNullOrEmpty()) {
+                                    Box(
+                                        modifier = Modifier.size(36.dp)
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.circle_avatar),
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(6.dp))
+                                                .size(36.dp)
+                                        )
+                                        Text(
+                                            text = "${user.profile.last_name.firstOrNull() ?: ""}${user.profile.name.firstOrNull() ?: ""}",
+                                            modifier = Modifier.align(
+                                                Alignment.Center
+                                            ),
+                                            style = typography.h2,
+                                            fontSize = 16.sp,
+                                            color = mainGreen
+                                        )
+                                    }
+                                } else {
                                     Image(
-                                        painter = painterResource(id = R.drawable.circle_avatar),
+                                        painter = rememberAsyncImagePainter(user.profile.avatar_url),
                                         contentDescription = null,
                                         modifier = Modifier
-                                            .clip(RoundedCornerShape(6.dp))
-                                            .size(36.dp)
-                                    )
-                                    Text(
-                                        text = "${user.profile.last_name.firstOrNull() ?: ""}${user.profile.name.firstOrNull() ?: ""}",
-                                        modifier = Modifier.align(
-                                            Alignment.Center
-                                        ),
-                                        style = typography.h2, fontSize = 16.sp, color = mainGreen
+                                            .clip(CircleShape)
+                                            .size(36.dp),
+                                        contentScale = ContentScale.Crop
                                     )
                                 }
-                            } else {
-                                Image(
-                                    painter = rememberAsyncImagePainter(user.profile.avatar_url),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .size(36.dp),
-                                    contentScale = ContentScale.Crop
+                                Spacer(modifier = Modifier.size(12.dp))
+                                Column {
+                                    Text(
+                                        text = "${user.profile.last_name} ${user.profile.name}",
+                                        style = typography.h6,
+                                        fontSize = 13.sp,
+                                        color = primaryDark,
+                                        modifier = Modifier.width(140.dp),
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Clip,
+                                    )
+                                    Spacer(modifier = Modifier.size(4.dp))
+                                    RatingBar(
+                                        rating = user.raiting?.formatRatingToFloat() ?: 0f,
+                                        maxRating = 5
+                                    )
+                                }
+                                Spacer(modifier = Modifier.weight(1f))
+                                Column(Modifier.wrapContentWidth()) {
+                                    Text(
+                                        text = stringResource(id = R.string.blanball_team),
+                                        style = typography.h6,
+                                        color = primaryDark
+                                    )
+                                    Spacer(modifier = Modifier.size(2.dp))
+                                    Text(
+                                        text = "${user.role}",
+                                        style = typography.h6,
+                                        fontSize = 14.sp,
+                                        color = secondaryNavy
+                                    )
+                                }
+                                Spacer(modifier = Modifier.size(8.dp))
+                                Icon(
+                                    painter = if (expandedStateMap[index] == true) painterResource(
+                                        id = R.drawable.ic_arrow_up
+                                    ) else painterResource(
+                                        id = R.drawable.ic_arrow_down
+                                    ), modifier = Modifier.size(11.25.dp, 6.25.dp),
+                                    tint = primaryDark,
+                                    contentDescription = null
                                 )
+                            }
+                            if (expandedStateMap[index] == true) {
+                                Row {
+                                    Text(
+                                        text = "${user.profile.position ?: ""}",
+                                        style = typography.h5,
+                                        fontSize = 12.sp,
+                                        color = primaryDark
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    when {
+                                        user.profile.gender != null && user.profile.gender == stringResource(
+                                            id = R.string.man
+                                        ) -> IcBox(
+                                            icon = R.drawable.male_ic, modifier = Modifier
+                                                .size(20.dp)
+                                                .background(color = bgLight, shape = shapes.medium)
+                                        )
+
+                                        user.profile.gender != null && user.profile.gender == stringResource(
+                                            id = R.string.woman
+                                        ) -> IcBox(
+                                            icon = R.drawable.female_ic, modifier = Modifier
+                                                .size(20.dp)
+                                                .background(color = bgLight, shape = shapes.medium)
+                                        )
+
+                                        else -> {}
+                                    }
+                                    Spacer(modifier = Modifier.size(4.dp))
+                                    Text(
+                                        user.profile.gender ?: "",
+                                        style = typography.h5,
+                                        fontSize = 12.sp,
+                                        color = secondaryNavy
+                                    )
+                                }
                             }
                             Spacer(modifier = Modifier.size(12.dp))
-                            Column {
-                                Text(
-                                    text = "${user.profile.last_name} ${user.profile.name}",
-                                    style = typography.h6,
-                                    fontSize = 13.sp,
-                                    color = primaryDark,
-                                    modifier = Modifier.width(140.dp),
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Clip,
-                                )
-                                Spacer(modifier = Modifier.size(4.dp))
-                                RatingBar(
-                                    rating = user.raiting?.formatRatingToFloat() ?: 0f,
-                                    maxRating = 5
+                            Divider(color = bgLight2, thickness = 1.dp)
+                        }
+                        if (state.isLoadingMoreUsers) {
+                            item {
+                                CircularProgressIndicator(
+                                    color = mainGreen,
+                                    modifier = Modifier.align(CenterHorizontally)
                                 )
                             }
-                            Spacer(modifier = Modifier.weight(1f))
-                            Column(Modifier.wrapContentWidth()) {
-                                Text(
-                                    text = stringResource(id = R.string.blanball_team),
-                                    style = typography.h6,
-                                    color = primaryDark
-                                )
-                                Spacer(modifier = Modifier.size(2.dp))
-                                Text(
-                                    text = "${user.role}",
-                                    style = typography.h6,
-                                    fontSize = 14.sp,
-                                    color = secondaryNavy
-                                )
-                            }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            Icon(
-                                painter = if (expandedStateMap[index] == true) painterResource(id = R.drawable.ic_arrow_up) else painterResource(
-                                    id = R.drawable.ic_arrow_down
-                                ), modifier = Modifier.size(11.25.dp, 6.25.dp),
-                                tint = primaryDark,
-                                contentDescription = null
+                        }
+                        item {
+                            InfiniteListHandler(
+                                lazyListState = lazyListState,
+                                onLoadMore = onLoadMoreUsers,
+                                buffer = 1
                             )
                         }
-                        if (expandedStateMap[index] == true) {
-                            Row {
-                                Text(
-                                    text = "${user.profile.position ?: ""}",
-                                    style = typography.h5,
-                                    fontSize = 12.sp,
-                                    color = primaryDark
-                                )
-                                Spacer(modifier = Modifier.weight(1f))
-                                when {
-                                    user.profile.gender != null && user.profile.gender == stringResource(
-                                        id = R.string.man
-                                    ) -> IcBox(
-                                        icon = R.drawable.male_ic, modifier = Modifier
-                                            .size(20.dp)
-                                            .background(color = bgLight, shape = shapes.medium)
-                                    )
-
-                                    user.profile.gender != null && user.profile.gender == stringResource(
-                                        id = R.string.woman
-                                    ) -> IcBox(
-                                        icon = R.drawable.female_ic, modifier = Modifier
-                                            .size(20.dp)
-                                            .background(color = bgLight, shape = shapes.medium)
-                                    )
-
-                                    else -> {}
-                                }
-                                Spacer(modifier = Modifier.size(4.dp))
-                                Text(
-                                    user.profile.gender ?: "",
-                                    style = typography.h5,
-                                    fontSize = 12.sp,
-                                    color = secondaryNavy
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Divider(color = bgLight2, thickness = 1.dp)
-                    }
-                    if (state.isLoadingMoreUsers) {
-                        item {
-                            CircularProgressIndicator(color = mainGreen, modifier = Modifier.align(CenterHorizontally))
-                        }
-                    }
-                    item {
-                        InfiniteListHandler(
-                            lazyListState = lazyListState,
-                            onLoadMore = onLoadMoreUsers,
-                            buffer = 1
-                        )
                     }
                 }
             }
