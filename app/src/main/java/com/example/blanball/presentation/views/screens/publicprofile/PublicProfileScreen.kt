@@ -97,12 +97,13 @@ fun PublicProfileScreen(
         Image(
             painter = painterResource(id = R.drawable.public_profile_cover_blue),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(130.dp)
         )
         (state as? PublicProfileMainContract.State)?.let {
             Column {
-                Spacer(modifier = Modifier.size(60.dp))
                 DefaultCardWithColumn(padStart = 0.dp, padTop = 0.dp, padEnd = 0.dp) {
                     Box(
                         Modifier

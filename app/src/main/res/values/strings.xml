@@ -263,6 +263,7 @@
     <string name="teams">Команди</string>
     <string name="sorting">Сортування</string>
     <string name="new_ones_first">спочатку нові</string>
+    <string name="old_ones_first">спочатку старі</string>
     <string name="filters">Фільтри</string>
     <string name="found">знайдено</string>
     <string name="ads">оголошень</string>

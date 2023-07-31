@@ -23,7 +23,7 @@ class RatingUsersMainContract {
             GenderSelectionState.ALL
         ),
         val ageSliderPosition: MutableState<ClosedFloatingPointRange<Float>> = mutableStateOf(6f..80f),
-        val GamePositionSelectionState: MutableState<GamePositionSelectionState> = mutableStateOf(
+        val gamePositionSelectionState: MutableState<GamePositionSelectionState> = mutableStateOf(
             RatingUsersMainContract.GamePositionSelectionState.ALL),
         var positionSelectedItem: MutableState<String> = mutableStateOf(""),
         val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL),

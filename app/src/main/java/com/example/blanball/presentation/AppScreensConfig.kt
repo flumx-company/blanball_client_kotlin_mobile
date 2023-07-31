@@ -417,13 +417,31 @@ fun AppScreensConfig(
                                 )
                             }
                         },
-                        onClickedToChangeOrdering = {usersRatingViewModel.setState {
-                            copy(
-                                orderingIconState = mutableStateOf(!orderingIconState.value),
-                                usersOrderingSelectionState = mutableStateOf(RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER),
-                                state = RatingUsersMainContract.ScreenViewState.Loading
-                            )
-                        }
+                        onClickedToChangeOrdering = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    orderingIconState = mutableStateOf(!orderingIconState.value),
+                                    usersOrderingSelectionState = mutableStateOf(
+                                        RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER
+                                    ),
+                                    state = RatingUsersMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        },
+                        onClickedToCleanFiters = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    openFiltersDialog = mutableStateOf(false),
+                                    genderSelectionState = mutableStateOf(
+                                        RatingUsersMainContract.GenderSelectionState.ALL
+                                    ),
+                                    ageSliderPosition =mutableStateOf(6f..80f),
+                                    gamePositionSelectionState = mutableStateOf(
+                                        RatingUsersMainContract.GamePositionSelectionState.ALL),
+                                    positionSelectedItem = mutableStateOf(""),
+                                    state = RatingUsersMainContract.ScreenViewState.Loading
+                                )
+                            }
                         },
                         paddingValues = it
                     )

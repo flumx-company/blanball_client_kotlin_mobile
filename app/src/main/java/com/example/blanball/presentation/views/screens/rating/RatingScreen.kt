@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -34,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -72,6 +74,7 @@ fun RatingScreen(
     onLoadMoreUsers: () -> Unit,
     onClickedToLoadWithNewFilters: () -> Unit,
     onClickedToChangeOrdering: () -> Unit,
+    onClickedToCleanFiters: () -> Unit,
     paddingValues: PaddingValues
 ) {
     val icons: List<Painter> = listOf(
@@ -119,15 +122,16 @@ fun RatingScreen(
         val lazyListState = rememberLazyListState()
         Box(
             modifier = Modifier
-                .fillMaxSize().padding(paddingValues)
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            Column(Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)) {
+            Column(Modifier.padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 0.dp)) {
                 Text(
                     text = stringResource(id = R.string.users_rating),
                     style = typography.h2,
                     fontSize = 20.sp
                 )
-                Spacer(modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.size(10.dp))
                 TabRow(tabs = tabs, icons = icons)
                 Spacer(modifier = Modifier.size(20.dp))
                 Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -142,7 +146,7 @@ fun RatingScreen(
                                     .background(color = bgLight, shape = shapes.medium)
                             )
                             Spacer(modifier = Modifier.size(4.dp))
-                            Column(Modifier.wrapContentWidth()) {
+                            Column(Modifier.fillMaxWidth()) {
                                 Text(
                                     text = stringResource(id = R.string.sorting),
                                     style = typography.h5,
@@ -150,7 +154,7 @@ fun RatingScreen(
                                     fontSize = 14.sp,
                                 )
                                 Text(
-                                    text = stringResource(id = R.string.new_ones_first),
+                                    text =  if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(id = R.string.new_ones_first),
                                     style = typography.h6,
                                     color = secondaryNavy
                                 )
@@ -306,7 +310,7 @@ fun RatingScreen(
                     }
                     if (state.isLoadingMoreUsers) {
                         item {
-                            CircularProgressIndicator(color = mainGreen)
+                            CircularProgressIndicator(color = mainGreen, modifier = Modifier.align(CenterHorizontally))
                         }
                     }
                     item {
@@ -366,7 +370,7 @@ fun RatingScreen(
                     },
                     dismissButton = {
                         TextButton(
-                            onClick = { it.openFiltersDialog.value = false },
+                            onClick = onClickedToCleanFiters ,
                             modifier = Modifier.align(alignment = Alignment.CenterStart)
                         ) {
                             Text(

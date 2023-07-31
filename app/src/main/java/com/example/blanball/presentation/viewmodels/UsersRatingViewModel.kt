@@ -56,6 +56,7 @@ class UsersRatingViewModel @Inject constructor(
                         usersList = mutableStateOf(emptyList()),
                     )
                 }
+                page = Integers.ONE
                 getUsersList(
                     page = page,
                     gender = currentState.genderSelectionState.value.stringValue,
@@ -134,7 +135,7 @@ class UsersRatingViewModel @Inject constructor(
                     age_min = currentState.ageSliderPosition.value.start.toInt(),
                     age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
                     ordering = currentState.usersOrderingSelectionState.value.stringValue,
-                    position = currentState.GamePositionSelectionState.value.stringValue?.convertToPositionCode(application.applicationContext),
+                    position = currentState.gamePositionSelectionState.value.stringValue?.convertToPositionCode(application.applicationContext),
                 )
             }
         }

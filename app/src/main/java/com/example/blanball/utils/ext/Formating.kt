@@ -83,7 +83,7 @@ internal fun String.formatPositionToEnglish(context: Context): String {
 
 internal fun String.convertToPositionCode(context: Context): String? {
     return when (this) {
-        context.getString(R.string.any_position) -> context.getString(R.string.empty)
+        context.getString(R.string.any_position) -> null
         context.getString(R.string.goalkeeper) -> context.getString(R.string.gk)
         context.getString(R.string.left_defender) -> context.getString(R.string.lb)
         context.getString(R.string.right_defender) -> context.getString(R.string.rb)
