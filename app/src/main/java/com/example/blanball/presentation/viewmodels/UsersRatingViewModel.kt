@@ -54,6 +54,7 @@ class UsersRatingViewModel @Inject constructor(
                 setState {
                     copy(
                         usersList = mutableStateOf(emptyList()),
+                        allUsersLoaded = false,
                     )
                 }
                 page = Integers.ONE

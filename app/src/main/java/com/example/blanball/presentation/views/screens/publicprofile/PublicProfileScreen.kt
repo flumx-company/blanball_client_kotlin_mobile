@@ -52,6 +52,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.DarkOverlay
 import com.example.blanball.presentation.theme.accentLightGreen
 import com.example.blanball.presentation.theme.annotationGray
+import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -360,7 +361,7 @@ fun PublicProfileScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.wrapContentWidth()
                     ) {
-                        IcBox(icon = R.drawable.ic_flag)
+                        IcBox(icon = R.drawable.ic_flag, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.game_position),
@@ -374,7 +375,7 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_dumbbell)
+                        IcBox(icon = R.drawable.ic_dumbbell, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.weight),
@@ -393,7 +394,7 @@ fun PublicProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IcBox(icon = R.drawable.ic_leg,)
+                        IcBox(icon = R.drawable.ic_leg, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.kicking_leg),
@@ -407,7 +408,7 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_ruler)
+                        IcBox(icon = R.drawable.ic_ruler, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.height),
