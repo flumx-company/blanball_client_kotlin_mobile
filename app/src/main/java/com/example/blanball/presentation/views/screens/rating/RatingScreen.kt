@@ -231,7 +231,8 @@ fun RatingScreen(
                                         contentDescription = null,
                                         modifier = Modifier
                                             .clip(CircleShape)
-                                            .size(36.dp),
+                                            .size(36.dp)
+                                            .clickable(onClick = { onClickedToPublicProfile(user.id) }),
                                         contentScale = ContentScale.Crop
                                     )
                                 }
