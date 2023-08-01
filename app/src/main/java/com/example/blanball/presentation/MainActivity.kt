@@ -19,6 +19,7 @@ import com.example.blanball.utils.navigateToLogin
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -48,6 +49,7 @@ class MainActivity : ComponentActivity() {
                     tokenManager.deleteAccessToken()
                     tokenManager.deleteRefreshToken()
                 }
+                delay(1000)
                 isLaunchedEffectComplete = true
             }
 

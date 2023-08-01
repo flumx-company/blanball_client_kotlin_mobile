@@ -76,6 +76,7 @@ fun RatingScreen(
     onClickedToLoadWithNewFilters: () -> Unit,
     onClickedToChangeOrdering: () -> Unit,
     onClickedToCleanFiters: () -> Unit,
+    onClickedToPublicProfile: (userId: Int) -> Unit,
     paddingValues: PaddingValues
 ) {
     val icons: List<Painter> = listOf(
@@ -213,6 +214,7 @@ fun RatingScreen(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(6.dp))
                                                 .size(36.dp)
+                                                .clickable(onClick = { onClickedToPublicProfile(user.id) })
                                         )
                                         Text(
                                             text = "${user.profile.last_name.firstOrNull() ?: ""}${user.profile.name.firstOrNull() ?: ""}",

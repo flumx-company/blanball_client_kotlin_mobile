@@ -44,6 +44,7 @@ class PublicProfileMainContract {
         ),
         val selectedInviteState: MutableState<String> = mutableStateOf(""),
         val addMessageState:  MutableState<String> = mutableStateOf(""),
+        val userId: MutableState<Int> = mutableStateOf(123)
     ) : UiState
 
     sealed class ScreenViewState {

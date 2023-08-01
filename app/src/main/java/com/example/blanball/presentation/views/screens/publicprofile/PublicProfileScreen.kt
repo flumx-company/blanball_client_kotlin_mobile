@@ -61,6 +61,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.successValidationGreen
 import com.example.blanball.presentation.theme.successValidationGreenBG
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.AttentionText
 import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserPlannedEventsColumn
@@ -68,7 +69,6 @@ import com.example.blanball.presentation.views.components.colums.DisplayUserRevi
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
-import com.example.blanball.presentation.views.components.banners.AttentionText
 import com.example.blanball.utils.ext.formatRating
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail
@@ -393,7 +393,7 @@ fun PublicProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IcBox(icon = R.drawable.ic_leg)
+                        IcBox(icon = R.drawable.ic_leg,)
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.kicking_leg),

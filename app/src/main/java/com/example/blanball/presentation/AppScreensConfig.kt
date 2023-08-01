@@ -63,6 +63,7 @@ fun AppScreensConfig(
         startDestination = startDestinations
     )
     {
+        val publicProfileCurrentState = publicProfileViewModel.currentState
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
@@ -192,7 +193,6 @@ fun AppScreensConfig(
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            val currentState = publicProfileViewModel.currentState
 
             LaunchedEffect(key1 = Unit) {
                 publicProfileViewModel.loadUserProfileData()
@@ -247,8 +247,8 @@ fun AppScreensConfig(
                     AllPlannedEventsScreen(
                         state = state,
                         onLoadMoreEvents = {
-                        publicProfileViewModel.loadMoreEvents()
-                    },
+                            publicProfileViewModel.loadMoreEvents()
+                        },
                         paddingValues = it
                     )
                 }
@@ -389,12 +389,12 @@ fun AppScreensConfig(
         composable(BottomNavItem.Rating.screen_route) {
 
             val state = usersRatingViewModel.uiState.collectAsState().value
-            val currentState = usersRatingViewModel.currentState
+            val ratingCurrentState = usersRatingViewModel.currentState
 
-            val previousState by remember { mutableStateOf(currentState.state) }
+            val previousState by remember { mutableStateOf(ratingCurrentState.state) }
 
-            LaunchedEffect(currentState.state != previousState) {
-                usersRatingViewModel.handleScreenState(currentState.state)
+            LaunchedEffect(ratingCurrentState.state != previousState) {
+                usersRatingViewModel.handleScreenState(ratingCurrentState.state)
             }
 
             Scaffold(
@@ -403,7 +403,7 @@ fun AppScreensConfig(
                         navController = navController
                     )
                 },
-                content = { it ->
+                content = { paddingValues ->
                     RatingScreen(
                         state = state,
                         onLoadMoreUsers = {
@@ -435,15 +435,20 @@ fun AppScreensConfig(
                                     genderSelectionState = mutableStateOf(
                                         RatingUsersMainContract.GenderSelectionState.ALL
                                     ),
-                                    ageSliderPosition =mutableStateOf(6f..80f),
+                                    ageSliderPosition = mutableStateOf(6f..80f),
                                     gamePositionSelectionState = mutableStateOf(
-                                        RatingUsersMainContract.GamePositionSelectionState.ALL),
+                                        RatingUsersMainContract.GamePositionSelectionState.ALL
+                                    ),
                                     positionSelectedItem = mutableStateOf(""),
                                     state = RatingUsersMainContract.ScreenViewState.Loading
                                 )
                             }
                         },
-                        paddingValues = it
+                        onClickedToPublicProfile = { userId ->
+                            publicProfileCurrentState.userId.value = userId
+                            navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                        },
+                        paddingValues = paddingValues
                     )
                 }
             )
