@@ -1,22 +1,29 @@
 package com.example.blanball.presentation
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
+import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
+import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
@@ -41,6 +48,7 @@ import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccess
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import kotlinx.coroutines.launch
 
 @Composable
 fun AppScreensConfig(
@@ -337,7 +345,22 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
+            val scaffoldState = rememberScaffoldState()
+            val scope = rememberCoroutineScope()
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = { NavigationDrawer()} ,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                         TopBar(
+                             navController = navController,
+                             onNavIconClicked = {
+                                 scope.launch {
+                                 scaffoldState.drawerState.open()
+                                 }}
+                         )
+                },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -353,6 +376,12 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.FutureEvents.screen_route) {
             Scaffold(
+                topBar = {
+                         TopBar(
+                             navController = navController,
+                             onNavIconClicked = {}
+                         )
+                         },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -367,6 +396,12 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             Scaffold(
+                topBar = {
+                         TopBar(
+                             navController = navController,
+                             onNavIconClicked = { }
+                         )
+                         },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -382,6 +417,12 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.Rating.screen_route) {
             Scaffold(
+                topBar = {
+                         TopBar(
+                             navController = navController,
+                             onNavIconClicked = {}
+                         )
+                         },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -397,6 +438,12 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.Chat.screen_route) {
             Scaffold(
+                topBar = {
+                         TopBar(
+                             navController = navController,
+                             onNavIconClicked = {}
+                         )
+                         },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
