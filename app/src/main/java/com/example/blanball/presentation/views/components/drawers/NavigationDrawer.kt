@@ -83,7 +83,7 @@ fun NavigationDrawer() {
                 contentAlignment = Alignment.Center
 
             ) {
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.circle_avatar),
                         contentDescription = null,
