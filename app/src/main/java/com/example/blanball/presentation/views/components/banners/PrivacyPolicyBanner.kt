@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.toFLumXUrlIntent
 import com.example.blanball.utils.toPrivacyPolicyUrlIntent
 
 @Composable
@@ -45,6 +46,9 @@ fun PrivacyPolicyBanner(){
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
+            modifier = Modifier.clickable {
+                ContextCompat.startActivity(context, toFLumXUrlIntent, null  )
+            },
             painter = painterResource(id = R.drawable.logo_flumx),
             tint = secondaryNavy,
             contentDescription = null

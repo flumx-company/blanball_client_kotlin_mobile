@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.components.drawers
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,15 @@ import com.example.blanball.presentation.views.components.banners.NavigationDraw
 import com.example.blanball.presentation.views.components.buttons.FoundAnErrorButton
 
 @Composable
-fun NavigationDrawer() {
+fun NavigationDrawer(
+    onFriendsScreenClicked: () -> Unit,
+    onPlannedEventsScreenClicked: () -> Unit,
+    onNotificationsScreenClicked: () -> Unit,
+    onSettingsScreenClicked: () -> Unit,
+    onMyProfileScreenClicked: () -> Unit,
+    onVersionsScreenClicked: () -> Unit,
+    onLogOutClicked: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,6 +67,7 @@ fun NavigationDrawer() {
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
+                    modifier = Modifier.clickable(onClick = onVersionsScreenClicked),
                     text = stringResource(id = R.string.blanball_version) + " ${BuildConfig.VERSION_NAME}",
                     style = typography.h4,
                     fontSize = 10.sp,
@@ -68,6 +78,7 @@ fun NavigationDrawer() {
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
+                    modifier = Modifier.clickable(onClick = onLogOutClicked),
                     painter = painterResource(id = R.drawable.ic_log_out),
                     tint = primaryDark,
                     contentDescription = null,
@@ -79,7 +90,8 @@ fun NavigationDrawer() {
                     .background(color = Color.White, shape = RoundedCornerShape(8.dp))
                     .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
                     .height(64.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable (onClick = onMyProfileScreenClicked),
                 contentAlignment = Alignment.Center
 
             ) {
@@ -115,7 +127,7 @@ fun NavigationDrawer() {
             Spacer(modifier = Modifier.size(12.dp))
             Row {
                 Button(
-                    onClick = {},
+                    onClick = onFriendsScreenClicked,
                     modifier = Modifier
                         .height(56.dp)
                         .weight(1f),
@@ -143,7 +155,7 @@ fun NavigationDrawer() {
                     )
                 }
                 Button(
-                    onClick = {},
+                    onClick = onPlannedEventsScreenClicked,
                     modifier = Modifier
                         .height(56.dp)
                         .weight(1f),
@@ -173,7 +185,7 @@ fun NavigationDrawer() {
             }
             Row {
                 Button(
-                    onClick = {},
+                    onClick = onNotificationsScreenClicked,
                     modifier = Modifier
                         .height(56.dp)
                         .weight(1f),
@@ -201,7 +213,7 @@ fun NavigationDrawer() {
                     )
                 }
                 Button(
-                    onClick = {},
+                    onClick = onSettingsScreenClicked,
                     modifier = Modifier
                         .height(56.dp)
                         .weight(1f),
@@ -221,7 +233,7 @@ fun NavigationDrawer() {
                     Spacer(modifier = Modifier.size(12.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.settings),
+                        text = stringResource(id = R.string.params),
                         fontSize = 11.sp,
                         lineHeight = 16.sp,
                         fontWeight = FontWeight(500),

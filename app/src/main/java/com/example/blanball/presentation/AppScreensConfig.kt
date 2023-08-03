@@ -27,9 +27,12 @@ import com.example.blanball.presentation.views.components.drawers.NavigationDraw
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
+import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
+import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep2
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep3
@@ -39,6 +42,7 @@ import com.example.blanball.presentation.views.screens.onboarding.usertraining.U
 import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep2
 import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep3
 import com.example.blanball.presentation.views.screens.onboarding.usertraining.UserTrainingStep4
+import com.example.blanball.presentation.views.screens.plannedevents.PlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
@@ -49,6 +53,8 @@ import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccess
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.settings.SettingsScreen
+import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -413,7 +419,15 @@ fun AppScreensConfig(
             val scope = rememberCoroutineScope()
             Scaffold(
                 scaffoldState = scaffoldState,
-                drawerContent = { NavigationDrawer()} ,
+                drawerContent = { NavigationDrawer(
+                    onFriendsScreenClicked = {navController.navigate(Destinations.FRIENDS.route)},
+                    onPlannedEventsScreenClicked = {navController.navigate(Destinations.PLANNED_EVENTS.route)},
+                    onNotificationsScreenClicked = {navController.navigate(Destinations.NOTIFICATIONS.route)},
+                    onSettingsScreenClicked = {navController.navigate(Destinations.SETTINGS.route)},
+                    onMyProfileScreenClicked = {navController.navigate(Destinations.MY_PROFILE.route)},
+                    onVersionsScreenClicked = {navController.navigate(Destinations.VERSIONS.route)},
+                    onLogOutClicked = {navController.navigate(Destinations.LOGIN.route)},
+                )} ,
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
@@ -520,6 +534,30 @@ fun AppScreensConfig(
                 }
             )
         }
+
+        composable(Destinations.FRIENDS.route){
+            FriendsScreen()
+        }
+        
+        composable(Destinations.PLANNED_EVENTS.route){
+            PlannedEventsScreen()
+        }
+        
+        composable(Destinations.NOTIFICATIONS.route){
+            NotificationsScreen()
+        }
+        
+        composable(Destinations.SETTINGS.route){
+            SettingsScreen()
+        }
+
+        composable(Destinations.MY_PROFILE.route){
+            MyProfileScreen()
+        }
+
+        composable(Destinations.VERSIONS.route){
+            VersionsScreen()
+        }
     }
 }
 
@@ -548,6 +586,12 @@ enum class Destinations(val route: String) {
     CREATE_NEW_EVENT("create_new_event"),
     RATING("rating"),
     CHATS("chats"),
+    FRIENDS("friends"),
+    PLANNED_EVENTS("planned_events"),
+    NOTIFICATIONS("notifications"),
+    SETTINGS("settings"),
+    MY_PROFILE("my_profile"),
+    VERSIONS("versions")
 }
 
 sealed class BottomNavItem(var icon: Int, var screen_route: String) {

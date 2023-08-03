@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.banners
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,10 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.toFLumXUrlIntent
+import com.example.blanball.utils.toPrivacyPolicyUrlIntent
 
 @Composable
 fun NavigationDrawerFooterBanner(){
@@ -42,6 +46,9 @@ fun NavigationDrawerFooterBanner(){
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
+            modifier = Modifier.clickable {
+                ContextCompat.startActivity(context, toPrivacyPolicyUrlIntent, null  )
+            },
             text = stringResource(id = R.string.data_proto),
             lineHeight = 20.sp,
             fontSize = 12.sp,
@@ -51,11 +58,17 @@ fun NavigationDrawerFooterBanner(){
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
+            modifier = Modifier.clickable {
+                ContextCompat.startActivity(context, toFLumXUrlIntent, null  )
+            },
             painter = painterResource(id = R.drawable.logo_flumx),
             tint = secondaryNavy,
             contentDescription = null
         )
         Text(
+            modifier = Modifier.clickable {
+                ContextCompat.startActivity(context, toFLumXUrlIntent, null  )
+            },
             text = stringResource(id = R.string.flumx),
             lineHeight = 20.sp,
             fontSize = 12.sp,

@@ -15,6 +15,7 @@ object Endpoints {
      const val PLANNED_EVENTS = BuildConfig.PLANNED_EVENTS
      const val UPDATE_PROFILE_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
      const val REFRESH_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
+     const val FLUM_X_URL = BuildConfig.FLUM_X_URL
      }
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
