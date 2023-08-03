@@ -6,6 +6,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -94,7 +95,17 @@ fun AppScreensConfig(
                 onStep2Clicked = {
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked)
                 },
-                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) }
+                onCancelClicked = {
+                    navController.navigate(Destinations.LOGIN.route)
+                     resetPassViewModel.setState  {
+                         copy(
+                             resetEmailText = mutableStateOf(""),
+                             codeText = List(5){ mutableStateOf("") },
+                             newPassText = mutableStateOf(""),
+                             repeatNewPassText = mutableStateOf(""),
+                         )
+                     }
+                }
             )
 
             LaunchedEffect(currentState.isSuccessResetRequest.value) {
@@ -115,7 +126,17 @@ fun AppScreensConfig(
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendCodeClicked)
                 },
                 resendCodeToEmailClicked = { resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked) },
-                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
+                onCancelClicked = {
+                    navController.navigate(Destinations.LOGIN.route)
+                    resetPassViewModel.setState  {
+                        copy(
+                            resetEmailText = mutableStateOf(""),
+                            codeText = List(5){ mutableStateOf("") },
+                            newPassText = mutableStateOf(""),
+                            repeatNewPassText = mutableStateOf(""),
+                        )
+                    }
+                })
 
             LaunchedEffect(key1 = currentState.isSuccessSendCodeState.value) {
                 if (currentState.isSuccessSendCodeState.value) {
@@ -133,7 +154,17 @@ fun AppScreensConfig(
                 onFinishResetClicked = {
                     resetPassViewModel.handleEvent(StartScreensMainContract.Event.CompleteResetClicked)
                 },
-                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
+                onCancelClicked = {
+                    navController.navigate(Destinations.LOGIN.route)
+                    resetPassViewModel.setState  {
+                        copy(
+                            resetEmailText = mutableStateOf(""),
+                            codeText = List(5){ mutableStateOf("") },
+                            newPassText = mutableStateOf(""),
+                            repeatNewPassText = mutableStateOf(""),
+                        )
+                    }
+                })
 
             LaunchedEffect(key1 = currentState.isSuccessCompleteResetState.value) {
                 if (currentState.isSuccessCompleteResetState.value) {
@@ -165,7 +196,24 @@ fun AppScreensConfig(
             RegistrationScreenStep1(
                 state = state,
                 onRegistrationStep2Clicked = { navController.navigate(Destinations.REGISTRATION2.route) },
-                onCancelClicked = { navController.navigate(Destinations.LOGIN.route) })
+
+                onCancelClicked = {
+                    navController.navigate(Destinations.LOGIN.route)
+                registrationViewModel.setState {
+                    copy(
+                        firstNameText = mutableStateOf(""),
+                        lastNameText = mutableStateOf(""),
+                        phoneNumberText = mutableStateOf(""),
+                        genderIsFemale = mutableStateOf(false),
+                        genderIsMale = mutableStateOf(false),
+                        registrationEmailText = mutableStateOf(""),
+                        registrationPassText = mutableStateOf(""),
+                        registrationPassTextRemember = mutableStateOf(""),
+                        lostInSystemSwitchButton = mutableStateOf(false),
+                        privacyPolicyCheckbox = mutableStateOf(false),
+                    )
+                }
+                })
         }
 
         composable(Destinations.REGISTRATION2.route) {
@@ -177,7 +225,23 @@ fun AppScreensConfig(
                 onRegistrationClicked = {
                     registrationViewModel.handleEvent(StartScreensMainContract.Event.RegistrationClicked)
                 },
-                onBackClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
+                onCancelClicked = {
+                    navController.navigate(Destinations.LOGIN.route)
+                    registrationViewModel.setState {
+                        copy(
+                            firstNameText = mutableStateOf(""),
+                            lastNameText = mutableStateOf(""),
+                            phoneNumberText = mutableStateOf(""),
+                            genderIsFemale = mutableStateOf(false),
+                            genderIsMale = mutableStateOf(false),
+                            registrationEmailText = mutableStateOf(""),
+                            registrationPassText = mutableStateOf(""),
+                            registrationPassTextRemember = mutableStateOf(""),
+                            lostInSystemSwitchButton = mutableStateOf(false),
+                            privacyPolicyCheckbox = mutableStateOf(false),
+                        )
+                    }
+                })
 
             LaunchedEffect(key1 = currentState.isSuccessRegistrationNewPass.value) {
                 if (currentState.isSuccessRegistrationNewPass.value) {
