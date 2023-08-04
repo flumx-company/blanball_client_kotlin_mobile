@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.blanball.presentation.BottomNavItem
+import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.surfaceBrandSecondary
 

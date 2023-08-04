@@ -5,14 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.blanball.presentation.navigation.AppScreensConfig
+import com.example.blanball.presentation.navigation.Destinations
 import com.example.blanball.presentation.theme.MyAppTheme
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.utils.navigateToLogin
@@ -38,6 +42,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
             var isLaunchedEffectComplete by rememberSaveable {mutableStateOf(false)}
+
+            val scaffoldState = rememberScaffoldState()
+            val coroutineScope = rememberCoroutineScope()
 
             val navController = rememberNavController()
             LaunchedEffect(key1 = Unit) {
@@ -83,6 +90,8 @@ class MainActivity : ComponentActivity() {
                             loginViewModel = viewModel(),
                             onboardingProfileViewModel = viewModel(),
                             startDestinations = startDestinations,
+                            scaffoldState = scaffoldState,
+                            coroutineScope = coroutineScope
                         )
                     }
                 }

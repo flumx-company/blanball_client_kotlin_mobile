@@ -2,7 +2,9 @@ package com.example.blanball.presentation.views.screens.friends
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,12 +18,12 @@ import com.example.blanball.presentation.theme.successValidationGreenBG
 
 @Composable
 fun FriendsScreen(
-//    paddingValues: PaddingValues
+    paddingValues: PaddingValues
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-//            .padding(paddingValues)
+            .padding(paddingValues)
             .background(successValidationGreenBG)
             .wrapContentSize(Alignment.Center)
     ) {

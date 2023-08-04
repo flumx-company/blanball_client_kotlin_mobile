@@ -1,19 +1,18 @@
-package com.example.blanball.presentation
+package com.example.blanball.presentation.navigation
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
@@ -55,6 +54,8 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,7 +67,53 @@ fun AppScreensConfig(
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
     startDestinations: String,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope
 ) {
+    val openDrawer: () -> Unit = {
+        coroutineScope.launch {
+            scaffoldState.drawerState.open()
+        }
+    }
+    val closeDrawer: () -> Unit = {
+        coroutineScope.launch {
+            delay(200)
+            scaffoldState.drawerState.close()
+        }
+    }
+    val navDrawerContent: @Composable ColumnScope.() -> Unit = {
+        NavigationDrawer(
+            onFriendsScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.FRIENDS.route)
+            },
+            onPlannedEventsScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.PLANNED_EVENTS.route)
+            },
+            onNotificationsScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.NOTIFICATIONS.route)
+            },
+            onSettingsScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.SETTINGS.route)
+            },
+            onMyProfileScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.MY_PROFILE.route)
+            },
+            onVersionsScreenClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.VERSIONS.route)
+            },
+            onLogOutClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.LOGIN.route)
+            },
+        )
+    }
+
     NavHost(
         navController = navController,
         startDestination = startDestinations
@@ -415,29 +462,16 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            val scaffoldState = rememberScaffoldState()
-            val scope = rememberCoroutineScope()
             Scaffold(
                 scaffoldState = scaffoldState,
-                drawerContent = { NavigationDrawer(
-                    onFriendsScreenClicked = {navController.navigate(Destinations.FRIENDS.route)},
-                    onPlannedEventsScreenClicked = {navController.navigate(Destinations.PLANNED_EVENTS.route)},
-                    onNotificationsScreenClicked = {navController.navigate(Destinations.NOTIFICATIONS.route)},
-                    onSettingsScreenClicked = {navController.navigate(Destinations.SETTINGS.route)},
-                    onMyProfileScreenClicked = {navController.navigate(Destinations.MY_PROFILE.route)},
-                    onVersionsScreenClicked = {navController.navigate(Destinations.VERSIONS.route)},
-                    onLogOutClicked = {navController.navigate(Destinations.LOGIN.route)},
-                )} ,
+                drawerContent = navDrawerContent,
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                         TopBar(
-                             navController = navController,
-                             onNavIconClicked = {
-                                 scope.launch {
-                                 scaffoldState.drawerState.open()
-                                 }}
-                         )
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
                 },
                 bottomBar = {
                     BottomNavBar(
@@ -454,12 +488,16 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.FutureEvents.screen_route) {
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 topBar = {
-                         TopBar(
-                             navController = navController,
-                             onNavIconClicked = {}
-                         )
-                         },
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -474,12 +512,16 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 topBar = {
-                         TopBar(
-                             navController = navController,
-                             onNavIconClicked = { }
-                         )
-                         },
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -495,12 +537,16 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.Rating.screen_route) {
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 topBar = {
-                         TopBar(
-                             navController = navController,
-                             onNavIconClicked = {}
-                         )
-                         },
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -516,12 +562,16 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.Chat.screen_route) {
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 topBar = {
-                         TopBar(
-                             navController = navController,
-                             onNavIconClicked = {}
-                         )
-                         },
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController
@@ -535,69 +585,154 @@ fun AppScreensConfig(
             )
         }
 
-        composable(Destinations.FRIENDS.route){
-            FriendsScreen()
-        }
-        
-        composable(Destinations.PLANNED_EVENTS.route){
-            PlannedEventsScreen()
-        }
-        
-        composable(Destinations.NOTIFICATIONS.route){
-            NotificationsScreen()
-        }
-        
-        composable(Destinations.SETTINGS.route){
-            SettingsScreen()
+        composable(Destinations.FRIENDS.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    FriendsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
-        composable(Destinations.MY_PROFILE.route){
-            MyProfileScreen()
+        composable(Destinations.PLANNED_EVENTS.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    PlannedEventsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
 
-        composable(Destinations.VERSIONS.route){
-            VersionsScreen()
+        composable(Destinations.NOTIFICATIONS.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    NotificationsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.SETTINGS.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    SettingsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.MY_PROFILE.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    MyProfileScreen(
+                        paddingValues = it
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.VERSIONS.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    VersionsScreen(
+                        paddingValues = it
+                    )
+                }
+            )
         }
     }
-}
-
-enum class Destinations(val route: String) {
-    LOGIN("login"),
-    RESET1("reset1"),
-    RESET2("reset2"),
-    RESET3("reset3"),
-    RESET_COMPLETE("reset_complete"),
-    REGISTRATION1("registration1"),
-    REGISTRATION2("registration2"),
-    PUBLIC_PROFILE("publicProfile"),
-    ALL_REVIEWS("allReviews"),
-    ALL_PLANNED_EVENTS("allPlannedEvents"),
-    FILLING_OUT_THE_USER_PROFILE_START("fillingOutTheUserProfileStart"),
-    FILLING_OUT_THE_USER_PROFILE1("fillingOutTheUserProfile1"),
-    FILLING_OUT_THE_USER_PROFILE2("fillingOutTheUserProfile2"),
-    FILLING_OUT_THE_USER_PROFILE3("fillingOutTheUserProfile3"),
-    FILLING_OUT_THE_USER_PROFILE4("fillingOutTheUserProfile4"),
-    USER_TRAINING_1("userTraining1"),
-    USER_TRAINING_2("userTraining2"),
-    USER_TRAINING_3("userTraining3"),
-    USER_TRAINING_4("userTraining4"),
-    HOME("home"),
-    FUTURE_EVENTS("future_events"),
-    CREATE_NEW_EVENT("create_new_event"),
-    RATING("rating"),
-    CHATS("chats"),
-    FRIENDS("friends"),
-    PLANNED_EVENTS("planned_events"),
-    NOTIFICATIONS("notifications"),
-    SETTINGS("settings"),
-    MY_PROFILE("my_profile"),
-    VERSIONS("versions")
-}
-
-sealed class BottomNavItem(var icon: Int, var screen_route: String) {
-    object Home : BottomNavItem(icon = R.drawable.ic_home, Destinations.HOME.route)
-    object FutureEvents : BottomNavItem(icon = R.drawable.ic_future_events,  Destinations.FUTURE_EVENTS.route)
-    object CreateNewEvent : BottomNavItem(icon = R.drawable.ic_create_new_event, Destinations.CREATE_NEW_EVENT.route )
-    object Rating : BottomNavItem(icon = R.drawable.ic_rating, Destinations.RATING.route )
-    object Chat : BottomNavItem (icon = R.drawable.ic_chats, Destinations.CHATS.route)
 }
