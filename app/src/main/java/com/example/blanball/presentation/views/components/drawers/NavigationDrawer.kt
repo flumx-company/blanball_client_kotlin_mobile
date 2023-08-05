@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.BuildConfig
 import com.example.blanball.R
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
@@ -96,10 +97,10 @@ fun NavigationDrawer(
                         .height(64.dp)
                         .fillMaxWidth()
                         .clickable(onClick = onMyProfileScreenClicked),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.CenterStart,
 
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
                         if (state.userAvatar.value.isNullOrEmpty()) {
                             Box(
                                 modifier = Modifier.size(48.dp)
@@ -120,7 +121,7 @@ fun NavigationDrawer(
                             }
                         } else {
                             Image(
-                                painter = painterResource(id = R.drawable.circle_avatar),
+                                painter = rememberAsyncImagePainter(state.userAvatar.value),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(48.dp)
