@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.BuildConfig
 import com.example.blanball.R
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -42,6 +43,7 @@ import com.example.blanball.presentation.views.components.buttons.FoundAnErrorBu
 
 @Composable
 fun NavigationDrawer(
+//    state: UiState,
     onFriendsScreenClicked: () -> Unit,
     onPlannedEventsScreenClicked: () -> Unit,
     onNotificationsScreenClicked: () -> Unit,
@@ -96,6 +98,7 @@ fun NavigationDrawer(
 
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+//                    if (state)
                     Image(
                         painter = painterResource(id = R.drawable.circle_avatar),
                         contentDescription = null,

@@ -10,6 +10,14 @@ import com.example.data.backend.models.responses.DataSendCode
 import com.example.data.backend.models.responses.EmailPassDataError
 import com.example.data.backend.models.responses.EmailPassResetError
 import com.example.data.backend.models.responses.EmailPassResetErrors
+import com.example.data.backend.models.responses.GetMyProfileError
+import com.example.data.backend.models.responses.GetMyProfileErrorData
+import com.example.data.backend.models.responses.GetMyProfileErrorDetail
+import com.example.data.backend.models.responses.GetMyProfileResponse
+import com.example.data.backend.models.responses.GetMyProfileResponseConfiguration
+import com.example.data.backend.models.responses.GetMyProfileResponseData
+import com.example.data.backend.models.responses.GetMyProfileResponsePlace
+import com.example.data.backend.models.responses.GetMyProfileResponseProfile
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdAuthorResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdDataResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdDetailData
@@ -68,6 +76,14 @@ import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorsEntity
 import com.example.domain.entity.responses.EmailResetResponseEntity
 import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.GetMyProfileErrorDataEntity
+import com.example.domain.entity.responses.GetMyProfileErrorDetailEntity
+import com.example.domain.entity.responses.GetMyProfileErrorEntity
+import com.example.domain.entity.responses.GetMyProfileResponseConfigurationEntity
+import com.example.domain.entity.responses.GetMyProfileResponseDataEntity
+import com.example.domain.entity.responses.GetMyProfileResponseEntity
+import com.example.domain.entity.responses.GetMyProfileResponsePlaceEntity
+import com.example.domain.entity.responses.GetMyProfileResponseProfileEntity
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdAuthorResponseEntity
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdDataResponseEntity
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdDetailDataEntity
@@ -119,176 +135,176 @@ import com.example.domain.entity.responses.UpdateUserProfileResponseEntityErrorD
 import com.example.domain.entity.responses.UpdateUserProfileResponsePlaceEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseProfileEntity
 
-internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity {
-    return RegistrationErrorEntity(
+internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity =
+     RegistrationErrorEntity(
         this.code,
         this.data.toRegistrationErrorsDataEntity(),
         this.message,
         this.status,
     )
-}
 
-internal fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity {
-    return RegistrationErrorsDataEntity(
+
+internal fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity =
+     RegistrationErrorsDataEntity(
         listOf(this.errors[0].toRegistrationErrorDetailEntity()),
         this.type
     )
-}
 
-internal fun RegistrationErrorDetail.toRegistrationErrorDetailEntity(): RegistrationErrorDetailEntity {
-    return RegistrationErrorDetailEntity(this.detail)
-}
 
-internal fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity {
-    return RegistrationResponseEntity(
+internal fun RegistrationErrorDetail.toRegistrationErrorDetailEntity(): RegistrationErrorDetailEntity =
+     RegistrationErrorDetailEntity(this.detail)
+
+
+internal fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity =
+     RegistrationResponseEntity(
         this.code,
         this.data.toRegistrationDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity {
-    return RegistrationDataEntity(this.access, this.refresh)
-}
 
-internal fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteErrorEntity {
-    return ResetCompleteErrorEntity(
+internal fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity =
+     RegistrationDataEntity(this.access, this.refresh)
+
+
+internal fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteErrorEntity =
+     ResetCompleteErrorEntity(
         this.code,
         this.data.toResetCompleteDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun DataResetCompleteError.toResetCompleteDataEntity(): ResetCompleteDataEntity {
-    return ResetCompleteDataEntity(
+
+internal fun DataResetCompleteError.toResetCompleteDataEntity(): ResetCompleteDataEntity =
+     ResetCompleteDataEntity(
         listOf(this.errors[0].toResetCompleteErrorsEntity()),
         this.type
     )
-}
 
 
-internal fun ResetCompleteErrors.toResetCompleteErrorsEntity(): ResetCompleteErrorsEntity {
-    return ResetCompleteErrorsEntity(this.detail)
-}
+
+internal fun ResetCompleteErrors.toResetCompleteErrorsEntity(): ResetCompleteErrorsEntity =
+     ResetCompleteErrorsEntity(this.detail)
 
 
-internal fun DataResetCompleteResponse.toResetCompleteResponseEntity(): DataCompleteResponseEntity {
-    return DataCompleteResponseEntity(this.success)
-}
 
-internal fun ResetCompleteResponse.toResetCompleteResponseEntity(): ResetCompleteResponseEntity {
-    return ResetCompleteResponseEntity(
+internal fun DataResetCompleteResponse.toResetCompleteResponseEntity(): DataCompleteResponseEntity =
+     DataCompleteResponseEntity(this.success)
+
+
+internal fun ResetCompleteResponse.toResetCompleteResponseEntity(): ResetCompleteResponseEntity =
+     ResetCompleteResponseEntity(
         this.code,
         this.data.toResetCompleteResponseEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun SendCodeError.toSendCodeErrorEntity(): SendCodeErrorEntity {
-    return SendCodeErrorEntity(
+
+internal fun SendCodeError.toSendCodeErrorEntity(): SendCodeErrorEntity =
+     SendCodeErrorEntity(
         this.code,
         this.data.toSendCodeDataErrorEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun SendCodeDataError.toSendCodeDataErrorEntity(): SendCodeDataErrorEntity {
-    return SendCodeDataErrorEntity(
+
+internal fun SendCodeDataError.toSendCodeDataErrorEntity(): SendCodeDataErrorEntity =
+     SendCodeDataErrorEntity(
         listOf(this.errors[0].toSendCodeErrorsEntity()),
         this.type
     )
-}
 
-internal fun SendCodeErrors.toSendCodeErrorsEntity(): SendCodeErrorsEntity {
-    return SendCodeErrorsEntity(this.detail)
-}
 
-internal fun SendCodeResponse.toSendCodeResponseEntity(): SendCodeResponseEntity {
-    return SendCodeResponseEntity(
+internal fun SendCodeErrors.toSendCodeErrorsEntity(): SendCodeErrorsEntity =
+     SendCodeErrorsEntity(this.detail)
+
+
+internal fun SendCodeResponse.toSendCodeResponseEntity(): SendCodeResponseEntity =
+     SendCodeResponseEntity(
         this.code,
         this.data.toDataSendDomain(),
         this.message,
         this.status
     )
-}
 
-internal fun DataSendCode.toDataSendDomain(): DataSendCodeDomain {
-    return DataSendCodeDomain(this.success)
-}
 
-internal fun EmailPassResetError.toEmailPassResetErrorEntity(): EmailPassResetErrorEntity {
-    return EmailPassResetErrorEntity(
+internal fun DataSendCode.toDataSendDomain(): DataSendCodeDomain =
+     DataSendCodeDomain(this.success)
+
+
+internal fun EmailPassResetError.toEmailPassResetErrorEntity(): EmailPassResetErrorEntity =
+     EmailPassResetErrorEntity(
         this.code,
         this.data.toEmailPassDataErrorEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun EmailPassDataError.toEmailPassDataErrorEntity(): EmailPassDataErrorEntity {
-    return EmailPassDataErrorEntity(
+
+internal fun EmailPassDataError.toEmailPassDataErrorEntity(): EmailPassDataErrorEntity =
+     EmailPassDataErrorEntity(
         listOf(this.errors[0].toEmailPassDataErrorEntity()),
         this.type
     )
-}
 
-internal fun EmailPassResetErrors.toEmailPassDataErrorEntity(): EmailPassResetErrorsEntity {
-    return EmailPassResetErrorsEntity(this.detail)
-}
 
-internal fun SendEmailPasswordResetSuccess.toEmailResetResponse(): EmailResetResponseEntity {
-    return EmailResetResponseEntity(
+internal fun EmailPassResetErrors.toEmailPassDataErrorEntity(): EmailPassResetErrorsEntity =
+     EmailPassResetErrorsEntity(this.detail)
+
+
+internal fun SendEmailPasswordResetSuccess.toEmailResetResponse(): EmailResetResponseEntity =
+     EmailResetResponseEntity(
         this.code,
         this.data.toDataEmailReset(),
         this.message,
         this.status
     )
-}
 
-internal fun DataEmailReset.toDataEmailReset(): DataEmailResetEntity {
-    return DataEmailResetEntity(this.success)
-}
 
-internal fun LoginSuccess.toLoginResponse(): LoginResponse {
+internal fun DataEmailReset.toDataEmailReset(): DataEmailResetEntity =
+     DataEmailResetEntity(this.success)
 
-    return LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
-}
 
-internal fun Data.toLoginData(): LoginData {
-    return LoginData(this.email, this.tokens.toLoginTokens())
-}
+internal fun LoginSuccess.toLoginResponse(): LoginResponse =
 
-internal fun Tokens.toLoginTokens(): LoginTokens {
-    return LoginTokens(this.access, this.refresh)
-}
+     LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
 
-internal fun LoginError.toErrorResponse(): ErrorResponse {
-    return ErrorResponse(this.code, this.data.toDataError(), this.message, this.status)
-}
 
-internal fun DataError.toDataError(): LoginDataError {
-    return LoginDataError(listOf(this.errors[0].toLoginErrors()), this.type)
-}
+internal fun Data.toLoginData(): LoginData =
+     LoginData(this.email, this.tokens.toLoginTokens())
 
-internal fun LoginErrors.toLoginErrors(): LoginErrorsDomain {
-    return LoginErrorsDomain(this.detail)
-}
 
-internal fun GetUserProfileByIdResponse.toGetUserProfileByIdResponseEntity(): GetUserProfileByIdResponseEntity {
-    return GetUserProfileByIdResponseEntity(
+internal fun Tokens.toLoginTokens(): LoginTokens =
+     LoginTokens(this.access, this.refresh)
+
+
+internal fun LoginError.toErrorResponse(): ErrorResponse =
+     ErrorResponse(this.code, this.data.toDataError(), this.message, this.status)
+
+
+internal fun DataError.toDataError(): LoginDataError =
+     LoginDataError(listOf(this.errors[0].toLoginErrors()), this.type)
+
+
+internal fun LoginErrors.toLoginErrors(): LoginErrorsDomain =
+     LoginErrorsDomain(this.detail)
+
+
+internal fun GetUserProfileByIdResponse.toGetUserProfileByIdResponseEntity(): GetUserProfileByIdResponseEntity =
+     GetUserProfileByIdResponseEntity(
         this.code,
         this.data.toPublicProfileDataResponseEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): PublicProfileDataResponseEntity {
-    return PublicProfileDataResponseEntity(
+
+internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): PublicProfileDataResponseEntity =
+     PublicProfileDataResponseEntity(
         this.configuration.toConfigurationEntity(),
         this.email,
         this.id,
@@ -299,14 +315,14 @@ internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): Publ
         this.raiting,
         this.role
     )
-}
 
-internal fun Configuration.toConfigurationEntity(): ConfigurationEntity {
-    return ConfigurationEntity(this.email, this.phone, this.show_reviews)
-}
 
-internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfileResponseEntity {
-    return PublicProfileResponseEntity(
+internal fun Configuration.toConfigurationEntity(): ConfigurationEntity =
+     ConfigurationEntity(this.email, this.phone, this.show_reviews)
+
+
+internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfileResponseEntity =
+     PublicProfileResponseEntity(
         this.about_me,
         this.age,
         this.avatar_url,
@@ -322,44 +338,44 @@ internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfil
         this.weight,
         this.working_leg
     )
-}
 
-internal fun PlayingPlace.toPlayingPlaceEntity(): PlayingPlaceEntity {
-    return PlayingPlaceEntity(this.place_name)
-}
 
-internal fun GetUserProfileByIdError.toGetUserProfileByIdErrorEntity(): GetUserProfileByIdErrorEntity {
-    return GetUserProfileByIdErrorEntity(
+internal fun PlayingPlace.toPlayingPlaceEntity(): PlayingPlaceEntity =
+     PlayingPlaceEntity(this.place_name)
+
+
+internal fun GetUserProfileByIdError.toGetUserProfileByIdErrorEntity(): GetUserProfileByIdErrorEntity =
+     GetUserProfileByIdErrorEntity(
         this.code,
         this.data.toGetUserProfileByIdErrorDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun GetUserProfileByIdErrorData.toGetUserProfileByIdErrorDataEntity(): GetUserProfileByIdErrorDataEntity {
-    return GetUserProfileByIdErrorDataEntity(
+
+internal fun GetUserProfileByIdErrorData.toGetUserProfileByIdErrorDataEntity(): GetUserProfileByIdErrorDataEntity =
+     GetUserProfileByIdErrorDataEntity(
         listOf(
             this.errors[0].toGetUserProfileByIdDetailDataEntity()
         ), this.type
     )
-}
 
-internal fun GetUserProfileByIdDetailData.toGetUserProfileByIdDetailDataEntity(): GetUserProfileByIdDetailDataEntity {
-    return GetUserProfileByIdDetailDataEntity(this.detail)
-}
 
-internal fun GetUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity(): GetUserReviewsByIdResponseEntity {
-    return GetUserReviewsByIdResponseEntity(
+internal fun GetUserProfileByIdDetailData.toGetUserProfileByIdDetailDataEntity(): GetUserProfileByIdDetailDataEntity =
+     GetUserProfileByIdDetailDataEntity(this.detail)
+
+
+internal fun GetUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity(): GetUserReviewsByIdResponseEntity =
+     GetUserReviewsByIdResponseEntity(
         this.code,
         this.data.toGetUserReviewsByIdDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserReviewsByIdDataEntity {
-    return GetUserReviewsByIdDataEntity(
+
+internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserReviewsByIdDataEntity =
+     GetUserReviewsByIdDataEntity(
         this.current_page,
         this.next,
         this.page_size,
@@ -368,74 +384,74 @@ internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserRev
         this.success,
         this.total_count,
     )
-}
 
-internal fun GetUserReviewsByIdResponseResult.toGetUserReviewsByIdResponseResultEntity(): GetUserReviewsByIdResponseResultEntity {
-    return GetUserReviewsByIdResponseResultEntity(
+
+internal fun GetUserReviewsByIdResponseResult.toGetUserReviewsByIdResponseResultEntity(): GetUserReviewsByIdResponseResultEntity =
+     GetUserReviewsByIdResponseResultEntity(
         this.author.toGetUserReviewsByIdResponseAuthorEntity(),
         this.id,
         this.stars,
         this.text,
         this.time_created
     )
-}
 
-internal fun GetUserReviewsByIdResponseAuthor.toGetUserReviewsByIdResponseAuthorEntity(): GetUserReviewsByIdResponseAuthorEntity {
-    return GetUserReviewsByIdResponseAuthorEntity(
+
+internal fun GetUserReviewsByIdResponseAuthor.toGetUserReviewsByIdResponseAuthorEntity(): GetUserReviewsByIdResponseAuthorEntity =
+     GetUserReviewsByIdResponseAuthorEntity(
         this.id,
         this.profile.toGetUserReviewsByIdResponseProfile(),
     )
-}
 
-internal fun GetUserReviewsByIdResponseProfile.toGetUserReviewsByIdResponseProfile(): GetUserReviewsByIdResponseProfileEntity {
-    return GetUserReviewsByIdResponseProfileEntity(
+
+internal fun GetUserReviewsByIdResponseProfile.toGetUserReviewsByIdResponseProfile(): GetUserReviewsByIdResponseProfileEntity =
+     GetUserReviewsByIdResponseProfileEntity(
         this.last_name,
         this.name,
     )
-}
 
-internal fun GetUserReviewsByIdResponseError.toGetUserReviewsByIdResponseErrorEntity(): GetUserReviewsByIdResponseErrorEntity {
-    return GetUserReviewsByIdResponseErrorEntity(
+
+internal fun GetUserReviewsByIdResponseError.toGetUserReviewsByIdResponseErrorEntity(): GetUserReviewsByIdResponseErrorEntity =
+     GetUserReviewsByIdResponseErrorEntity(
         this.code,
         this.data.toGetUserReviewsByIdResponseErrorDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErrorDataEntity(): GetUserReviewsByIdResponseErrorDataEntity {
-    return GetUserReviewsByIdResponseErrorDataEntity(
+
+internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErrorDataEntity(): GetUserReviewsByIdResponseErrorDataEntity =
+     GetUserReviewsByIdResponseErrorDataEntity(
         listOf(
             this.errors[0].toGetUserReviewsByIdResponseDetailDataEntity()
         ),
         this.type,
     )
-}
 
-internal fun GetUserReviewsByIdResponseDetailData.toGetUserReviewsByIdResponseDetailDataEntity(): GetUserReviewsByIdResponseDetailDataEntity {
-    return GetUserReviewsByIdResponseDetailDataEntity(this.detail)
-}
 
-internal fun GetUserPlannedEventsByIdResponse.toGetUserPlannedEventsByIdResponseEntity(): GetUserPlannedEventsByIdResponseEntity {
-    return GetUserPlannedEventsByIdResponseEntity(
+internal fun GetUserReviewsByIdResponseDetailData.toGetUserReviewsByIdResponseDetailDataEntity(): GetUserReviewsByIdResponseDetailDataEntity =
+     GetUserReviewsByIdResponseDetailDataEntity(this.detail)
+
+
+internal fun GetUserPlannedEventsByIdResponse.toGetUserPlannedEventsByIdResponseEntity(): GetUserPlannedEventsByIdResponseEntity =
+     GetUserPlannedEventsByIdResponseEntity(
         this.code, this.data.toGetUserPlannedEventsByIdDataResponseEntity(), this.message, this.status
     )
-}
 
-internal fun GetUserPlannedEventsByIdDataResponse.toGetUserPlannedEventsByIdDataResponseEntity(): GetUserPlannedEventsByIdDataResponseEntity {
-    return GetUserPlannedEventsByIdDataResponseEntity(
+
+internal fun GetUserPlannedEventsByIdDataResponse.toGetUserPlannedEventsByIdDataResponseEntity(): GetUserPlannedEventsByIdDataResponseEntity =
+     GetUserPlannedEventsByIdDataResponseEntity(
         this.current_page,
         this.next,
         this.page_size,
         this.previous,
-        this.results?.map { it.toGetUserPlannedEventsByIdResultResponseEntity() },
+        this.results?.map { it.toGetUserPlannedEventsByIdResultResponseEntity() } ,
         this.success,
         this.total_count
     )
-}
 
-internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdResultResponseEntity(): GetUserPlannedEventsByIdResultResponseEntity {
-    return GetUserPlannedEventsByIdResultResponseEntity(
+
+internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdResultResponseEntity(): GetUserPlannedEventsByIdResultResponseEntity =
+     GetUserPlannedEventsByIdResultResponseEntity(
         this.amount_members,
         this.author.toGetUserPlannedEventsByIdAuthorResponseEntity(),
         this.count_current_fans,
@@ -456,71 +472,71 @@ internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdRe
         this.status,
         this.type,
     )
-}
 
-internal fun GetUserPlannedEventsByIdAuthorResponse.toGetUserPlannedEventsByIdAuthorResponseEntity(): GetUserPlannedEventsByIdAuthorResponseEntity {
-    return GetUserPlannedEventsByIdAuthorResponseEntity(
+
+internal fun GetUserPlannedEventsByIdAuthorResponse.toGetUserPlannedEventsByIdAuthorResponseEntity(): GetUserPlannedEventsByIdAuthorResponseEntity =
+     GetUserPlannedEventsByIdAuthorResponseEntity(
         this.id,
         this.phone,
         this.profile.toGetUserPlannedEventsByIdProfileResponseEntity(),
     )
-}
 
-internal fun GetUserPlannedEventsByIdProfileResponse.toGetUserPlannedEventsByIdProfileResponseEntity(): GetUserPlannedEventsByIdProfileResponseEntity {
-    return GetUserPlannedEventsByIdProfileResponseEntity(
+
+internal fun GetUserPlannedEventsByIdProfileResponse.toGetUserPlannedEventsByIdProfileResponseEntity(): GetUserPlannedEventsByIdProfileResponseEntity =
+     GetUserPlannedEventsByIdProfileResponseEntity(
         this.avatar_url, this.id, this.last_name, this.name
     )
-}
 
-internal fun GetUserPlannedEventsByIdPlaceResponse.toGetUserPlannedEventsByIdPlaceResponseEntity(): GetUserPlannedEventsByIdPlaceResponseEntity {
-    return GetUserPlannedEventsByIdPlaceResponseEntity(this.lat, this.lon, this.place_name)
-}
 
-internal fun GetUserPlannedEventsByIdError.toGetUserPlannedEventsByIdErrorEntity(): GetUserPlannedEventsByIdErrorEntity {
-    return GetUserPlannedEventsByIdErrorEntity(
+internal fun GetUserPlannedEventsByIdPlaceResponse.toGetUserPlannedEventsByIdPlaceResponseEntity(): GetUserPlannedEventsByIdPlaceResponseEntity =
+     GetUserPlannedEventsByIdPlaceResponseEntity(this.lat, this.lon, this.place_name)
+
+
+internal fun GetUserPlannedEventsByIdError.toGetUserPlannedEventsByIdErrorEntity(): GetUserPlannedEventsByIdErrorEntity =
+     GetUserPlannedEventsByIdErrorEntity(
         this.code, this.data.toGetUserPlannedByIdErrorData(), this.message, this.status
     )
-}
 
-internal fun GetUserPlannedEventsByIdErrorData.toGetUserPlannedByIdErrorData(): GetUserPlannedEventsByIdErrorDataEntity {
-    return GetUserPlannedEventsByIdErrorDataEntity(
+
+internal fun GetUserPlannedEventsByIdErrorData.toGetUserPlannedByIdErrorData(): GetUserPlannedEventsByIdErrorDataEntity =
+     GetUserPlannedEventsByIdErrorDataEntity(
         listOf(
             this.errors[0].toGetUserPlannedEventsByIdDetailDataEntity()
         ), this.type
     )
-}
 
-internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetailDataEntity(): GetUserPlannedEventsByIdDetailDataEntity {
-    return GetUserPlannedEventsByIdDetailDataEntity(this.detail)
-}
 
-internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): UpdateUserProfileResponseEntity {
-    return UpdateUserProfileResponseEntity(
+internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetailDataEntity(): GetUserPlannedEventsByIdDetailDataEntity =
+     GetUserPlannedEventsByIdDetailDataEntity(this.detail)
+
+
+internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): UpdateUserProfileResponseEntity =
+     UpdateUserProfileResponseEntity(
         this.code,
         this.data.toUpdateUserProfileResponseDataEntity(),
         this.message,
         this.status
     )
-}
 
-internal fun UpdateUserProfileResponseData.toUpdateUserProfileResponseDataEntity(): UpdateUserProfileResponseDataEntity {
-    return UpdateUserProfileResponseDataEntity(
+
+internal fun UpdateUserProfileResponseData.toUpdateUserProfileResponseDataEntity(): UpdateUserProfileResponseDataEntity =
+     UpdateUserProfileResponseDataEntity(
         this.configuration.toUpdateUserProfileResponseConfigurationEntity(),
         this.phone,
         this.profile.toUpdateUserProfileResponseProfileEntity(),
     )
-}
 
-internal fun UpdateUserProfileResponseConfiguration.toUpdateUserProfileResponseConfigurationEntity(): UpdateUserProfileResponseConfigurationEntity {
-    return UpdateUserProfileResponseConfigurationEntity(
+
+internal fun UpdateUserProfileResponseConfiguration.toUpdateUserProfileResponseConfigurationEntity(): UpdateUserProfileResponseConfigurationEntity =
+     UpdateUserProfileResponseConfigurationEntity(
         this.email,
         this.phone,
         this.show_reviews
     )
-}
 
-internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfileEntity(): UpdateUserProfileResponseProfileEntity {
-    return UpdateUserProfileResponseProfileEntity(
+
+internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfileEntity(): UpdateUserProfileResponseProfileEntity =
+     UpdateUserProfileResponseProfileEntity(
         this.birthday,
         this.height,
         this.last_name,
@@ -530,34 +546,103 @@ internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfile
         this.weight,
         this.working_leg,
     )
-}
 
-internal fun UpdateUserProfileResponsePlace.toUpdateUserProfileResponsePlaceEntity(): UpdateUserProfileResponsePlaceEntity {
-    return UpdateUserProfileResponsePlaceEntity(
+
+internal fun UpdateUserProfileResponsePlace.toUpdateUserProfileResponsePlaceEntity(): UpdateUserProfileResponsePlaceEntity =
+     UpdateUserProfileResponsePlaceEntity(
         this.lat,
         this.lon,
         this.place_name
     )
-}
 
-internal fun UpdateUserProfileResponseError.toUpdateUserProfileResponseEntityError(): UpdateUserProfileResponseEntityError {
-    return UpdateUserProfileResponseEntityError(
+
+internal fun UpdateUserProfileResponseError.toUpdateUserProfileResponseEntityError(): UpdateUserProfileResponseEntityError =
+     UpdateUserProfileResponseEntityError(
         this.code,
         this.data.toUpdateUserProfileResponseEntityErrorData(),
         this.message,
         this.status,
     )
-}
 
-internal fun UpdateUserProfileResponseErrorData.toUpdateUserProfileResponseEntityErrorData(): UpdateUserProfileResponseEntityErrorData {
-    return UpdateUserProfileResponseEntityErrorData(
+
+internal fun UpdateUserProfileResponseErrorData.toUpdateUserProfileResponseEntityErrorData(): UpdateUserProfileResponseEntityErrorData =
+     UpdateUserProfileResponseEntityErrorData(
         listOf(this.errors[0].toUpdateUserProfileResponseEntityErrorDetail()),
         this.type,
     )
-}
 
-internal fun UpdateUserProfileResponseErrorDetail.toUpdateUserProfileResponseEntityErrorDetail(): UpdateUserProfileResponseEntityErrorDetail {
-    return UpdateUserProfileResponseEntityErrorDetail(
+
+internal fun UpdateUserProfileResponseErrorDetail.toUpdateUserProfileResponseEntityErrorDetail(): UpdateUserProfileResponseEntityErrorDetail =
+     UpdateUserProfileResponseEntityErrorDetail(
         this.detail
     )
-}
+
+internal fun GetMyProfileResponse.toGetMyProfileResponseEntity (): GetMyProfileResponseEntity =
+    GetMyProfileResponseEntity(
+        this.code,
+        this.data.toGetMyProfileResponseDataEntity(),
+        this.message,
+        this.status,
+    )
+
+internal fun GetMyProfileResponseData.toGetMyProfileResponseDataEntity (): GetMyProfileResponseDataEntity =
+    GetMyProfileResponseDataEntity(
+        this.configuration.toGetMyProfileResponseConfigurationEntity(),
+        this.email,
+        this.id,
+        this.is_online,
+        this.is_verified,
+        this.phone,
+        this.profile.toGetMyProfileResponseProfileEntity(),
+        this.raiting,
+        this.role,
+    )
+
+internal fun GetMyProfileResponseConfiguration.toGetMyProfileResponseConfigurationEntity (): GetMyProfileResponseConfigurationEntity =
+    GetMyProfileResponseConfigurationEntity(
+        this.email,
+        this.phone,
+        this.show_reviews
+    )
+
+internal fun GetMyProfileResponseProfile.toGetMyProfileResponseProfileEntity (): GetMyProfileResponseProfileEntity =
+    GetMyProfileResponseProfileEntity(
+        this.about_me,
+        this.age,
+        this.avatar_url,
+        this.birthday,
+        this.created_at,
+        this.gender,
+        this.height,
+        this.id,
+        this.last_name,
+        this.name,
+        this.place.toGetMyProfileResponsePlaceEntity(),
+        this.position,
+        this.weight,
+        this.working_leg
+    )
+
+internal fun GetMyProfileResponsePlace.toGetMyProfileResponsePlaceEntity (): GetMyProfileResponsePlaceEntity =
+    GetMyProfileResponsePlaceEntity(
+       this.place_name
+    )
+
+internal fun GetMyProfileError.toGetMyProfileErrorEntity (): GetMyProfileErrorEntity =
+    GetMyProfileErrorEntity(
+        this.code,
+        this.data.toGetMyProfileErrorDataEntity(),
+        this.message,
+        this.status
+    )
+
+internal fun GetMyProfileErrorData.toGetMyProfileErrorDataEntity (): GetMyProfileErrorDataEntity =
+    GetMyProfileErrorDataEntity(
+        listOf(this.errors[0].toGetMyProfileErrorDetailEntity()),
+        this.type
+    )
+
+internal fun GetMyProfileErrorDetail.toGetMyProfileErrorDetailEntity (): GetMyProfileErrorDetailEntity =
+    GetMyProfileErrorDetailEntity(
+        this.detail
+    )

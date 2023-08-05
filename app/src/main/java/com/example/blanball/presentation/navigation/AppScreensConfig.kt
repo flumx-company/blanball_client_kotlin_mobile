@@ -83,6 +83,7 @@ fun AppScreensConfig(
     }
     val navDrawerContent: @Composable ColumnScope.() -> Unit = {
         NavigationDrawer(
+//            state = ,
             onFriendsScreenClicked = {
                 closeDrawer()
                 navController.navigate(Destinations.FRIENDS.route)

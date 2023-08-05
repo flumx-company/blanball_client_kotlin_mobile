@@ -11,6 +11,7 @@
     import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
     import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
     import com.example.data.backend.models.responses.EmailPassResetError
+    import com.example.data.backend.models.responses.GetMyProfileError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
     import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
@@ -26,6 +27,8 @@
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
+    import com.example.data.utils.ext.toGetMyProfileErrorEntity
+    import com.example.data.utils.ext.toGetMyProfileResponseEntity
     import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
     import com.example.data.utils.ext.toGetUserPlannedEventsByIdResponseEntity
     import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
@@ -43,6 +46,7 @@
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
+    import com.example.domain.entity.responses.GetMyProfileErrorEntity
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
     import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
     import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
@@ -52,6 +56,7 @@
     import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+    import com.example.domain.entity.results.GetMyProfileResultEntity
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
     import com.example.domain.entity.results.GetUserProfileByIdResultEntity
     import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
@@ -72,6 +77,19 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun getMyProfile(page: Int): GetMyProfileResultEntity {
+            return try {
+                val getMyProfileResponse = service.getMyProfile(page)
+                val getMyProfileDomainResponse = getMyProfileResponse.toGetMyProfileResponseEntity()
+                GetMyProfileResultEntity.Success(getMyProfileDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                handleHttpError<GetMyProfileError, GetMyProfileErrorEntity >(ex) { it.toGetMyProfileErrorEntity()}
+                GetMyProfileResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
+
         override suspend fun fillingTheUserProfile(
             birthday: String,
             height: Int,
