@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
+import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class NavigationDrawerViewModel
 @Inject constructor(
-    internal val getMyProfileUseCase: GetMyProfileUseCase
+    internal val getMyProfileUseCase: GetMyProfileUseCase,
+    internal val userNameManager: UserNameManager,
+    internal val userAvatarUrlManager: UserAvatarUrlManager,
 ) : ViewModel()
 {
     private var job: Job? = null
@@ -43,12 +48,18 @@ class NavigationDrawerViewModel
                 when( val result =
                     getMyProfileUseCase.executeGetMyProfile(1 )) {
                     is GetMyProfileResultEntity.Success -> {
+
                         val myProfile = result.success.profile
+                        userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
+                        userAvatarUrlManager.safeAvatarUrl(myProfile.avatar_url.toString())
+                        val userFullName = userNameManager.getUserName().firstOrNull().toString()
+                        val splittedFullName = userFullName.split(" ")
+                        val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                          setState {
                              copy(
-                                 userFirstNameText = mutableStateOf(myProfile.name),
-                                 userLastNameText = mutableStateOf(myProfile.last_name),
-                                 userAvatar = mutableStateOf(myProfile.avatar_url)
+                                 userFirstNameText = mutableStateOf(splittedFullName[0]),
+                                 userLastNameText = mutableStateOf(splittedFullName[1]),
+                                 userAvatar = mutableStateOf(userAvatarUrl)
                              )
                          }
                     }

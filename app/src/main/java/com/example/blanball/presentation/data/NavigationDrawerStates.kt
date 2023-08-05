@@ -3,7 +3,8 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
-class NavigationDrawerMainContract {
+class NavigationDrawerMainContract
+{
 
     sealed class Event : UiEvent {
     }
