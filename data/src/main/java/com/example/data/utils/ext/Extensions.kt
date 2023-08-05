@@ -617,7 +617,7 @@ internal fun GetMyProfileResponseProfile.toGetMyProfileResponseProfileEntity ():
         this.id,
         this.last_name,
         this.name,
-        this.place.toGetMyProfileResponsePlaceEntity(),
+        this.place?.toGetMyProfileResponsePlaceEntity(),
         this.position,
         this.weight,
         this.working_leg

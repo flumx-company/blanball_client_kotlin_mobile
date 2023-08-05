@@ -89,6 +89,7 @@ class MainActivity : ComponentActivity() {
                             publicProfileViewModel = viewModel(),
                             loginViewModel = viewModel(),
                             onboardingProfileViewModel = viewModel(),
+                            navigationDrawerViewModel = viewModel(),
                             startDestinations = startDestinations,
                             scaffoldState = scaffoldState,
                             coroutineScope = coroutineScope

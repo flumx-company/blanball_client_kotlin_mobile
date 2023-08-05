@@ -3,20 +3,20 @@ package com.example.domain.entity.responses
 data class GetMyProfileResponseEntity(
      val code: Int,
      val `data`: GetMyProfileResponseDataEntity,
-     val message: Any,
+     val message: String? = null,
      val status: String
 )
 
 data class GetMyProfileResponseDataEntity(
      val configuration: GetMyProfileResponseConfigurationEntity,
-     val email: String,
+     val email: String? = null,
      val id: Int,
      val is_online: Boolean,
      val is_verified: Boolean,
-     val phone: String,
+     val phone: String? = null,
      val profile: GetMyProfileResponseProfileEntity,
-     val raiting: Any,
-     val role: String
+     val raiting: Any? = null,
+     val role: String? = null
 )
 
 data class GetMyProfileResponseConfigurationEntity(
@@ -26,22 +26,22 @@ data class GetMyProfileResponseConfigurationEntity(
 )
 
 data class GetMyProfileResponseProfileEntity(
-     val about_me: String,
-     val age: Int,
-     val avatar_url: Any,
-     val birthday: Any,
-     val created_at: String,
-     val gender: String,
-     val height: Int,
-     val id: Int,
+     val about_me: String? = null,
+     val age: Int? = null,
+     val avatar_url: String? = null ,
+     val birthday: Any? = null ,
+     val created_at: String? = null ,
+     val gender: String? = null ,
+     val height: Int? = null ,
+     val id: Int ,
      val last_name: String,
      val name: String,
-     val place: GetMyProfileResponsePlaceEntity,
-     val position: String,
-     val weight: Int,
-     val working_leg: String
+     val place: GetMyProfileResponsePlaceEntity? = null,
+     val position: String? = null,
+     val weight: Int? = null,
+     val working_leg: String? = null,
 )
 
 data class GetMyProfileResponsePlaceEntity(
-     val place_name: String
+     val place_name: String? = null
 )

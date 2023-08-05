@@ -17,6 +17,7 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.LoginViewModel
+import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
@@ -66,6 +67,7 @@ fun AppScreensConfig(
     publicProfileViewModel: PublicProfileViewModel,
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
+    navigationDrawerViewModel: NavigationDrawerViewModel,
     startDestinations: String,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope
@@ -82,8 +84,9 @@ fun AppScreensConfig(
         }
     }
     val navDrawerContent: @Composable ColumnScope.() -> Unit = {
+        val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
         NavigationDrawer(
-//            state = ,
+            state = navigationDrawerState,
             onFriendsScreenClicked = {
                 closeDrawer()
                 navController.navigate(Destinations.FRIENDS.route)
@@ -134,7 +137,8 @@ fun AppScreensConfig(
 
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
-                    currentState.isSuccessResetRequest.value = false
+                    currentState.isSuccessLoginRequest.value = false
+                    navigationDrawerViewModel.getMyProfile()
                     navController.navigate(Destinations.PUBLIC_PROFILE.route)
                 }
             }
