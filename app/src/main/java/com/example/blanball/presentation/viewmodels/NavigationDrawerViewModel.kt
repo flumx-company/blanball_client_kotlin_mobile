@@ -52,13 +52,13 @@ class NavigationDrawerViewModel
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
                         myProfile.avatar_url?.let { avatarUrl -> userAvatarUrlManager.safeAvatarUrl(avatarUrl) }
-                        val userFullName = userNameManager.getUserName().firstOrNull().toString()
-                        val splittedFullName = userFullName.split(" ")
+                        val userFullName = userNameManager.getUserName().firstOrNull()
+                        val splittedFullName = userFullName?.split(" ")
                         val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                          setState {
                              copy(
-                                 userFirstNameText = mutableStateOf(splittedFullName[0]),
-                                 userLastNameText = mutableStateOf(splittedFullName[1]),
+                                 userFirstNameText = mutableStateOf(splittedFullName?.get(0) ?: "--"),
+                                 userLastNameText = mutableStateOf(splittedFullName?.get(1) ?: "--"),
                                  userAvatar = mutableStateOf(userAvatarUrl)
                              )
                          }
