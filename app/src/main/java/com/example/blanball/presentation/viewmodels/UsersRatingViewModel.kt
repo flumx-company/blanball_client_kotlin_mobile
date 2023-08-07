@@ -58,14 +58,7 @@ class UsersRatingViewModel @Inject constructor(
                     )
                 }
                 page = Integers.ONE
-                getUsersList(
-                    page = page,
-                    gender = currentState.genderSelectionState.value.stringValue,
-                    age_min = currentState.ageSliderPosition.value.start.toInt(),
-                    age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
-                    ordering = currentState.usersOrderingSelectionState.value.stringValue,
-                    position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext),
-                )
+                loadUsersList()
             }
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
@@ -76,20 +69,20 @@ class UsersRatingViewModel @Inject constructor(
         }
     }
 
-    private fun getUsersList(
-        page: Int,
-        gender: String?,
-        age_min: Int?,
-        age_max: Int?,
-        ordering: String?,
-        position: String?,
-    ) {
+    private fun loadUsersList() {
         job = viewModelScope.launch(Dispatchers.IO) {
+            val pageToLoad = page
+            val gender = currentState.genderSelectionState.value.stringValue
+            val ageMin = currentState.ageSliderPosition.value.start.toInt()
+            val ageMax = currentState.ageSliderPosition.value.endInclusive.toInt()
+            val ordering = currentState.usersOrderingSelectionState.value.stringValue
+            val position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext)
+
             when (val result = getUsersListUseCase.executeGetUsersList(
-                page = page,
+                page = pageToLoad,
                 gender = gender,
-                age_min = age_min,
-                age_max = age_max,
+                age_min = ageMin,
+                age_max = ageMax,
                 ordering = ordering,
                 position = position,
             )) {
@@ -130,14 +123,7 @@ class UsersRatingViewModel @Inject constructor(
                     copy(isLoadingMoreUsers = true)
                 }
                 page++
-                getUsersList(
-                    page = page,
-                    gender = currentState.genderSelectionState.value.stringValue,
-                    age_min = currentState.ageSliderPosition.value.start.toInt(),
-                    age_max = currentState.ageSliderPosition.value.endInclusive.toInt(),
-                    ordering = currentState.usersOrderingSelectionState.value.stringValue,
-                    position = currentState.gamePositionSelectionState.value.stringValue?.convertToPositionCode(application.applicationContext),
-                )
+                loadUsersList()
             }
         }
     }
