@@ -55,7 +55,12 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
+import com.example.data.datastore.remembermemanager.RememberMeManager
+import com.example.data.datastore.tokenmanager.TokenManager
+import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
+import com.example.data.datastore.userphonemanager.UserPhoneManager
+import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,6 +77,12 @@ fun AppScreensConfig(
     startDestinations: String,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope,
+    rememberMeManager: RememberMeManager,
+    tokenManager: TokenManager,
+    userNameManager:  UserNameManager,
+    userAvatarUrlManager: UserAvatarUrlManager,
+    userPhoneManager: UserPhoneManager,
+    verifyCodeManager: VerifyCodeManager,
 ) {
     val openDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -115,6 +126,15 @@ fun AppScreensConfig(
             onLogOutClicked = {
                 closeDrawer()
                 navController.navigate(Destinations.LOGIN.route)
+                coroutineScope.launch {
+                    rememberMeManager.deleteRememberMeFlag()
+                    tokenManager.deleteRefreshToken()
+                    tokenManager.deleteAccessToken()
+                    userAvatarUrlManager.deleteAvatarUrl()
+                    userNameManager.deleteUserName()
+                    userPhoneManager.deleteUserPhone()
+                    verifyCodeManager.deleteVerifyCode()
+                }
             },
         )
     }

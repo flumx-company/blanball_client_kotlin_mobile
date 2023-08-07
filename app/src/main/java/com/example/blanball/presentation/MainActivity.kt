@@ -25,6 +25,8 @@ import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
+import com.example.data.datastore.userphonemanager.UserPhoneManager
+import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -43,6 +45,12 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var userAvatarUrlManager: UserAvatarUrlManager
+
+    @Inject
+    lateinit var userPhoneManager: UserPhoneManager
+
+    @Inject
+    lateinit var verifyCodeManager: VerifyCodeManager
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
 
@@ -105,6 +113,12 @@ class MainActivity : ComponentActivity() {
                             startDestinations = startDestinations,
                             scaffoldState = scaffoldState,
                             coroutineScope = coroutineScope,
+                            rememberMeManager = rememberMeManager,
+                            tokenManager = tokenManager,
+                            userNameManager = userNameManager ,
+                            userAvatarUrlManager = userAvatarUrlManager,
+                            userPhoneManager = userPhoneManager,
+                            verifyCodeManager = verifyCodeManager,
                         )
                     }
                 }
