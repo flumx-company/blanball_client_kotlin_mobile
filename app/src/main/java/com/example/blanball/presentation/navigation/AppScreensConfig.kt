@@ -126,6 +126,11 @@ fun AppScreensConfig(
             onLogOutClicked = {
                 closeDrawer()
                 navController.navigate(Destinations.LOGIN.route)
+                {
+                    popUpTo(navController.graph.id) {
+                        inclusive = true
+                    }
+                }
                 coroutineScope.launch {
                     rememberMeManager.deleteRememberMeFlag()
                     tokenManager.deleteRefreshToken()
