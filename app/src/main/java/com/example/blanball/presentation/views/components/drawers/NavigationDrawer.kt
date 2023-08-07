@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.components.drawers
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.BuildConfig
 import com.example.blanball.R
+import com.example.blanball.presentation.data.NavigationDrawerMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -40,202 +44,240 @@ import com.example.blanball.presentation.views.components.banners.NavigationDraw
 import com.example.blanball.presentation.views.components.buttons.FoundAnErrorButton
 
 @Composable
-fun NavigationDrawer() {
+fun NavigationDrawer(
+    state: UiState,
+    onFriendsScreenClicked: () -> Unit,
+    onPlannedEventsScreenClicked: () -> Unit,
+    onNotificationsScreenClicked: () -> Unit,
+    onSettingsScreenClicked: () -> Unit,
+    onMyProfileScreenClicked: () -> Unit,
+    onVersionsScreenClicked: () -> Unit,
+    onLogOutClicked: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(id = R.string.blanball),
-                    style = typography.h3,
-                    lineHeight = 32.sp,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight(800),
-                    color = primaryDark
-                )
-                Spacer(modifier = Modifier.size(20.dp))
-                Text(
-                    text = stringResource(id = R.string.blanball_version) + " ${BuildConfig.VERSION_NAME}",
-                    style = typography.h4,
-                    fontSize = 10.sp,
-                    lineHeight = 16.sp,
-                    color = secondaryNavy,
-                    fontWeight = FontWeight(400),
-                    textDecoration = TextDecoration.Underline,
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_log_out),
-                    tint = primaryDark,
-                    contentDescription = null,
-                )
-            }
-            Spacer(modifier = Modifier.size(20.dp))
-            Box(
-                modifier = Modifier
-                    .background(color = Color.White, shape = RoundedCornerShape(8.dp))
-                    .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
-                    .height(64.dp)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-
-            ) {
+        (state as? NavigationDrawerMainContract.State)?.let {
+            Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.circle_avatar),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center
+                    Text(
+                        text = stringResource(id = R.string.blanball),
+                        style = typography.h3,
+                        lineHeight = 32.sp,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight(800),
+                        color = primaryDark
                     )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Column() {
-                        Text(
-                            text = "Cтефанія Калиновська",
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            fontWeight = FontWeight(800),
-                            color = primaryDark,
+                    Spacer(modifier = Modifier.size(20.dp))
+                    Text(
+                        modifier = Modifier.clickable(onClick = onVersionsScreenClicked),
+                        text = stringResource(id = R.string.blanball_version) + " ${BuildConfig.VERSION_NAME}",
+                        style = typography.h4,
+                        fontSize = 10.sp,
+                        lineHeight = 16.sp,
+                        color = secondaryNavy,
+                        fontWeight = FontWeight(400),
+                        textDecoration = TextDecoration.Underline,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        modifier = Modifier.clickable(onClick = onLogOutClicked),
+                        painter = painterResource(id = R.drawable.ic_log_out),
+                        tint = primaryDark,
+                        contentDescription = null,
+                    )
+                }
+                Spacer(modifier = Modifier.size(20.dp))
+                Box(
+                    modifier = Modifier
+                        .background(color = Color.White, shape = RoundedCornerShape(8.dp))
+                        .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
+                        .height(64.dp)
+                        .fillMaxWidth()
+                        .clickable(onClick = onMyProfileScreenClicked),
+                    contentAlignment = Alignment.CenterStart,
+
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
+                            if (state.userAvatar.value.isNullOrEmpty()) {
+                                Box(
+                                    modifier = Modifier.size(48.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.circle_avatar),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(48.dp)
+                                            .clip(CircleShape),
+                                        contentScale = ContentScale.Crop,
+                                        alignment = Alignment.Center
+                                    )
+                                    Text(
+                                        text = "${state.userLastNameText.value.firstOrNull()} ${state.userFirstNameText.value.firstOrNull()}",
+                                        style = typography.h2, fontSize = 22.sp, color = mainGreen
+                                    )
+                                }
+                            } else {
+                                Image(
+                                    painter = rememberAsyncImagePainter(state.userAvatar.value),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clip(CircleShape),
+                                    contentScale = ContentScale.Crop,
+                                    alignment = Alignment.Center
+                                )
+                            }
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Column() {
+                            Text(
+                                text = "${state.userFirstNameText.value} ${state.userLastNameText.value}",
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                                fontWeight = FontWeight(800),
+                                color = primaryDark,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.my_profile),
+                                fontSize = 12.sp,
+                                lineHeight = 20.sp,
+                                fontWeight = FontWeight(500),
+                                color = mainGreen
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.size(12.dp))
+                Row {
+                    Button(
+                        onClick = onFriendsScreenClicked,
+                        modifier = Modifier
+                            .height(56.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(topStart = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                            contentColor = mainGreen,
+                        ),
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_peoples),
+                            contentDescription = null,
+                            tint = primaryDark
                         )
+                        Spacer(modifier = Modifier.size(12.dp))
                         Text(
-                            text = stringResource(id = R.string.my_profile),
-                            fontSize = 12.sp,
-                            lineHeight = 20.sp,
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.friends),
+                            fontSize = 11.sp,
+                            lineHeight = 16.sp,
                             fontWeight = FontWeight(500),
-                            color = mainGreen
+                            color = primaryDark,
+                            style = typography.h4
+                        )
+                    }
+                    Button(
+                        onClick = onPlannedEventsScreenClicked,
+                        modifier = Modifier
+                            .height(56.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(topEnd = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                            contentColor = mainGreen,
+                        ),
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_calendar),
+                            contentDescription = null,
+                            tint = primaryDark
+                        )
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.planned_events_side_bar),
+                            fontSize = 11.sp,
+                            lineHeight = 16.sp,
+                            fontWeight = FontWeight(500),
+                            color = primaryDark,
+                            style = typography.h4
                         )
                     }
                 }
-            }
-            Spacer(modifier = Modifier.size(12.dp))
-            Row {
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .height(56.dp)
-                        .weight(1f),
-                    shape = RoundedCornerShape(topStart = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White,
-                        contentColor = mainGreen,
-                    ),
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_peoples),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.friends),
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = primaryDark,
-                        style = typography.h4
-                    )
-                }
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .height(56.dp)
-                        .weight(1f),
-                    shape = RoundedCornerShape(topEnd = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White,
-                        contentColor = mainGreen,
-                    ),
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.planned_events_side_bar),
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = primaryDark,
-                        style = typography.h4
-                    )
-                }
-            }
-            Row {
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .height(56.dp)
-                        .weight(1f),
-                    shape = RoundedCornerShape(bottomStart = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White,
-                        contentColor = mainGreen,
-                    ),
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_bell),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.notifications),
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = primaryDark,
-                        style = typography.h4
-                    )
-                }
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .height(56.dp)
-                        .weight(1f),
+                Row {
+                    Button(
+                        onClick = onNotificationsScreenClicked,
+                        modifier = Modifier
+                            .height(56.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(bottomStart = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                            contentColor = mainGreen,
+                        ),
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_bell),
+                            contentDescription = null,
+                            tint = primaryDark
+                        )
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.notifications),
+                            fontSize = 11.sp,
+                            lineHeight = 16.sp,
+                            fontWeight = FontWeight(500),
+                            color = primaryDark,
+                            style = typography.h4
+                        )
+                    }
+                    Button(
+                        onClick = onSettingsScreenClicked,
+                        modifier = Modifier
+                            .height(56.dp)
+                            .weight(1f),
 
-                    shape = RoundedCornerShape(bottomEnd = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White,
-                        contentColor = mainGreen,
-                    ),
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_settings),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.settings),
-                        fontSize = 11.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight(500),
-                        color = primaryDark,
-                        style = typography.h4
-                    )
+                        shape = RoundedCornerShape(bottomEnd = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.White,
+                            contentColor = mainGreen,
+                        ),
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            painter = painterResource(id = R.drawable.ic_settings),
+                            contentDescription = null,
+                            tint = primaryDark
+                        )
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.params),
+                            fontSize = 11.sp,
+                            lineHeight = 16.sp,
+                            fontWeight = FontWeight(500),
+                            color = primaryDark,
+                            style = typography.h4
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    FoundAnErrorButton()
+                }
+                Spacer(modifier = Modifier.size(20.dp))
+                NavigationDrawerFooterBanner()
             }
-           Spacer(modifier = Modifier.weight(1f))
-            Row (horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                FoundAnErrorButton()
-            }
-            Spacer(modifier = Modifier.size(20.dp))
-            NavigationDrawerFooterBanner()
-        }
         }
     }
+}

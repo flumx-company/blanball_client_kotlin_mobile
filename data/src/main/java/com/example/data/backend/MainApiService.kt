@@ -8,6 +8,7 @@ import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
+import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
@@ -50,8 +51,11 @@ interface MainApiService  {
     suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
 
     @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+    suspend fun getListOfUsersPlannedEvents(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
     @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
-    suspend fun updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
+    suspend fun updateUserProfile(@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
+
+    @GET (Endpoints.ME_PROFILE_ENDPOINT)
+    suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
 }
