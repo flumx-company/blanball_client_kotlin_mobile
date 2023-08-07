@@ -51,7 +51,7 @@ class NavigationDrawerViewModel
 
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
-                        userAvatarUrlManager.safeAvatarUrl(myProfile.avatar_url.toString())
+                        myProfile.avatar_url?.let { avatarUrl -> userAvatarUrlManager.safeAvatarUrl(avatarUrl) }
                         val userFullName = userNameManager.getUserName().firstOrNull().toString()
                         val splittedFullName = userFullName.split(" ")
                         val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()

@@ -68,14 +68,14 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(key1 = Unit) {
                 val userFullName: String? = userNameManager.getUserName().firstOrNull()
-                val userAvatarUr: String? = userAvatarUrlManager.getAvatarUrl().firstOrNull()
+                val userAvatarUrl: String? = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                 userFullName?.let { fullName ->
                     val (firstName, lastName) = fullName.split(" ")
                     navigationDrawerViewModel.setState {
                         copy(
                             userFirstNameText = mutableStateOf(firstName),
                             userLastNameText = mutableStateOf(lastName),
-                            userAvatar =  mutableStateOf(userAvatarUr)
+                            userAvatar =  mutableStateOf(userAvatarUrl)
                         )
                     }
                 }

@@ -13,7 +13,7 @@ class NavigationDrawerMainContract
         val state: ScreenViewState,
         var userFirstNameText: MutableState<String> = mutableStateOf(""),
         var userLastNameText: MutableState<String> = mutableStateOf(""),
-        val userAvatar: MutableState<String?> = mutableStateOf(null),
+        var userAvatar: MutableState<String?> = mutableStateOf(""),
     ) : UiState
 
 
