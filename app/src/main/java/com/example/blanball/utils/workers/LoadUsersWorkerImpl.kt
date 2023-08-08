@@ -11,7 +11,6 @@ import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.utils.Integers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +31,6 @@ class LoadUsersWorkerImpl @Inject constructor (
         currentState: RatingUsersMainContract.State
         ) {
        job = viewModel.viewModelScope.launch(Dispatchers.IO) {
-           delay(1000)
             val gender = currentState.genderSelectionState.value.stringValue
             val ageMin = currentState.ageSliderPosition.value.start.toInt()
             val ageMax = currentState.ageSliderPosition.value.endInclusive.toInt()
