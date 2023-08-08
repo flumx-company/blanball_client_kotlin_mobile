@@ -420,10 +420,6 @@ fun AppScreensConfig(
                         onClickedToChangeOrdering = {
                             usersRatingViewModel.setState {
                                 copy(
-                                    orderingIconState = mutableStateOf(!orderingIconState.value),
-                                    usersOrderingSelectionState = mutableStateOf(
-                                        RatingUsersMainContract.UserOrderingSelectionState.FIRST_OLDER
-                                    ),
                                     state = RatingUsersMainContract.ScreenViewState.Loading
                                 )
                             }

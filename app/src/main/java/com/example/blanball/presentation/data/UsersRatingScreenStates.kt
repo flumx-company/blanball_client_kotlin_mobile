@@ -26,7 +26,7 @@ class RatingUsersMainContract {
         val gamePositionSelectionState: MutableState<GamePositionSelectionState> = mutableStateOf(
             RatingUsersMainContract.GamePositionSelectionState.ALL),
         var positionSelectedItem: MutableState<String> = mutableStateOf(""),
-        val usersOrderingSelectionState: MutableState<UserOrderingSelectionState> = mutableStateOf(UserOrderingSelectionState.ALL),
+        val usersOrderingSelectionState: MutableState<UsersOrderingSelectionState> = mutableStateOf(UsersOrderingSelectionState.FIRST_NEW),
         val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
@@ -57,8 +57,8 @@ class RatingUsersMainContract {
         ST(Strings.ST),
     }
 
-    enum class UserOrderingSelectionState (val stringValue: String?) {
-        ALL(null),
+    enum class UsersOrderingSelectionState (val stringValue: String?) {
+        FIRST_NEW(Strings.FIRST_NEW),
         FIRST_OLDER(Strings.FIRST_OLDER)
     }
 

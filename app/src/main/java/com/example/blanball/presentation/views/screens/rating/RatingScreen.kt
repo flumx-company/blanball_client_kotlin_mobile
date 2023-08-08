@@ -139,10 +139,18 @@ fun RatingScreen(
                     Box(modifier = Modifier.weight(1f)) {
                         Row {
                             IcBox(
-                                icon = if (it.orderingIconState.value) R.drawable.ic_sorting_old else
-                                    R.drawable.ic_sorting_new,
+                                icon = if (it.orderingIconState.value) {
+                                    it.usersOrderingSelectionState.value = RatingUsersMainContract.UsersOrderingSelectionState.FIRST_OLDER
+                                    R.drawable.ic_sorting_old
+                                } else {
+                                    it.usersOrderingSelectionState.value = RatingUsersMainContract.UsersOrderingSelectionState.FIRST_NEW
+                                    R.drawable.ic_sorting_new
+                                },
                                 modifier = Modifier
-                                    .clickable(onClick = onClickedToChangeOrdering)
+                                    .clickable{
+                                        it.orderingIconState.value = !it.orderingIconState.value
+                                        onClickedToChangeOrdering()
+                                    }
                                     .size(40.dp)
                                     .background(color = bgLight, shape = shapes.medium)
                             )
@@ -335,7 +343,6 @@ fun RatingScreen(
                             InfiniteListHandler(
                                 lazyListState = lazyListState,
                                 onLoadMore = onLoadMoreUsers,
-                                buffer = 1
                             )
                         }
                     }
