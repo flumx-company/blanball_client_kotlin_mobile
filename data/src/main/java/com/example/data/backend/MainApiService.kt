@@ -51,9 +51,6 @@ interface MainApiService  {
     @GET (Endpoints.REVIEWS_ENDPOINT)
     suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
 
-    @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun getListOfUsersPlannedEvents(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
-
     @GET (Endpoints.PLANNED_EVENTS_ENDPOINT)
     suspend fun getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
@@ -62,7 +59,6 @@ interface MainApiService  {
 
     @GET (Endpoints.ME_PROFILE_ENDPOINT)
     suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
-    suspend fun updateUserProfile (@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
 
     @GET (Endpoints.USERS_LIST)
     suspend fun getUsersList (

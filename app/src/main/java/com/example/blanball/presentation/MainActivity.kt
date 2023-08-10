@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.navigation.AppScreensConfig
+import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.navigation.Destinations
 import com.example.blanball.presentation.theme.MyAppTheme
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
@@ -28,6 +29,7 @@ import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
@@ -112,7 +114,6 @@ class MainActivity : ComponentActivity() {
                             loginViewModel = viewModel(),
                             onboardingProfileViewModel = viewModel(),
                             navigationDrawerViewModel = navigationDrawerViewModel,
-                            startDestinations = startDestinations,
                             scaffoldState = scaffoldState,
                             coroutineScope = coroutineScope,
                             rememberMeManager = rememberMeManager,
