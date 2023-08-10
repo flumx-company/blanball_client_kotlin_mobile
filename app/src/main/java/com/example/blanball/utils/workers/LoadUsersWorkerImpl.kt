@@ -1,11 +1,9 @@
 package com.example.blanball.utils.workers
 
-import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
-import com.example.blanball.utils.ext.convertToPositionCode
 import com.example.domain.entity.results.GetUsersListResultEntity
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.utils.Integers
@@ -15,7 +13,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoadUsersWorkerImpl @Inject constructor (
-   private val application: Application,
 ) : LoadUsersWorker {
 
     private var job: Job? = null
@@ -28,15 +25,14 @@ class LoadUsersWorkerImpl @Inject constructor (
   override fun loadUsersList(
         viewModel: UsersRatingViewModel,
         getUsersListUseCase: GetUsersListUseCase,
-        currentState: RatingUsersMainContract.State
+        currentState: RatingUsersMainContract.State,
+        gender: String?,
+        ageMin: Int,
+        ageMax: Int,
+        ordering: String?,
+        position: String?,
         ) {
        job = viewModel.viewModelScope.launch(Dispatchers.IO) {
-            val gender = currentState.genderSelectionState.value.stringValue
-            val ageMin = currentState.ageSliderPosition.value.start.toInt()
-            val ageMax = currentState.ageSliderPosition.value.endInclusive.toInt()
-            val ordering = currentState.usersOrderingSelectionState.value.stringValue
-            val position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext)
-
             when (val result = getUsersListUseCase.executeGetUsersList(
                 page = page,
                 gender = gender,
@@ -78,7 +74,12 @@ class LoadUsersWorkerImpl @Inject constructor (
    override fun loadMoreUsers(
         viewModel: UsersRatingViewModel,
         getUsersListUseCase: GetUsersListUseCase,
-        currentState: RatingUsersMainContract.State
+        currentState: RatingUsersMainContract.State,
+        gender: String?,
+        ageMin: Int,
+        ageMax: Int,
+        ordering: String?,
+        position: String?,
         ) {
         if (!(currentState.isLoadingMoreUsers || currentState.allUsersLoaded)) {
             viewModel.setState {
@@ -88,7 +89,12 @@ class LoadUsersWorkerImpl @Inject constructor (
             loadUsersList(
                 viewModel = viewModel,
                 getUsersListUseCase = getUsersListUseCase,
-                currentState = viewModel.currentState
+                currentState = viewModel.currentState,
+                gender = gender,
+                ageMin = ageMin,
+                ageMax = ageMax,
+                ordering = ordering,
+                position = position
                 )
         }
     }

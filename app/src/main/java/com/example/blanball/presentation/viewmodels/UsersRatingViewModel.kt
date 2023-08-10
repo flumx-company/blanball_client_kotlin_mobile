@@ -1,10 +1,12 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.convertToPositionCode
 import com.example.blanball.utils.workers.LoadUsersWorker
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +24,7 @@ import javax.inject.Inject
 class UsersRatingViewModel @Inject constructor(
     internal val getUsersListUseCase: GetUsersListUseCase,
     internal val loadUsersWorker: LoadUsersWorker,
+    private val application: Application,
 ) : ViewModel() {
     private val defaultState
         get() = RatingUsersMainContract.State(
@@ -54,6 +57,11 @@ class UsersRatingViewModel @Inject constructor(
                     viewModel = this@UsersRatingViewModel,
                     getUsersListUseCase = getUsersListUseCase,
                     currentState = currentState,
+                    gender = currentState.genderSelectionState.value.stringValue ,
+                    ageMin = currentState.ageSliderPosition.value.start.toInt(),
+                    ageMax = currentState.ageSliderPosition.value.endInclusive.toInt(),
+                    ordering = currentState.usersOrderingSelectionState.value.stringValue,
+                    position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext)
                 )
             }
             is RatingUsersMainContract.ScreenViewState.LoadingError -> {
@@ -68,6 +76,11 @@ class UsersRatingViewModel @Inject constructor(
               viewModel = this@UsersRatingViewModel,
               getUsersListUseCase = getUsersListUseCase,
               currentState = currentState,
+              gender = currentState.genderSelectionState.value.stringValue ,
+              ageMin = currentState.ageSliderPosition.value.start.toInt(),
+              ageMax = currentState.ageSliderPosition.value.endInclusive.toInt(),
+              ordering = currentState.usersOrderingSelectionState.value.stringValue,
+              position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext)
           )
       }
   }

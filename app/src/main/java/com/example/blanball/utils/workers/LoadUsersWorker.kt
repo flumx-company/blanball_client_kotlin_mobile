@@ -9,12 +9,22 @@ interface LoadUsersWorker {
     fun loadUsersList(
         viewModel: UsersRatingViewModel,
         getUsersListUseCase: GetUsersListUseCase,
-        currentState: RatingUsersMainContract.State
+        currentState: RatingUsersMainContract.State,
+        gender: String?,
+        ageMin: Int,
+        ageMax: Int,
+        ordering: String?,
+        position: String?,
     )
     fun loadMoreUsers(
         viewModel: UsersRatingViewModel,
         getUsersListUseCase: GetUsersListUseCase,
-        currentState: RatingUsersMainContract.State
+        currentState: RatingUsersMainContract.State,
+        gender: String?,
+        ageMin: Int,
+        ageMax: Int,
+        ordering: String?,
+        position: String?
     )
     fun cancelJob()
 }
