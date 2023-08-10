@@ -10,10 +10,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +32,7 @@ import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CodeTextInput(
     state: StartScreensMainContract.State,
@@ -53,6 +57,12 @@ fun CodeTextInput(
                 modifier = modifier
                     .weight(1f)
                     .fillMaxWidth()
+                    .onKeyEvent {
+                        if (it.key == Key.Backspace && i > 0) {
+                            focusRequesters[i - 1].requestFocus()
+                        }
+                        true
+                    }
                     .focusRequester(focusRequesters[i])
                     .padding(
                         end = when (i) {
@@ -64,7 +74,6 @@ fun CodeTextInput(
                 onValueChange = { newValue ->
                     state.codeText[i].value = newValue.take(1).uppercase()
                     when {
-                        newValue.isEmpty() && i > 0 -> focusRequesters[i - 1].requestFocus()
                         newValue.length == 1 && i < 4 -> focusRequesters[i + 1].requestFocus()
                     }
                 },

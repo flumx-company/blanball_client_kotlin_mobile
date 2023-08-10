@@ -159,7 +159,7 @@
             }
         }
 
-        private fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
+        fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
             val newState = currentState.reduce()
             _uiState.value = newState
         }

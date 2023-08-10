@@ -54,7 +54,7 @@ import com.example.blanball.utils.toPrivacyPolicyUrlIntent
 fun RegistrationScreenStep2(
     state: UiState,
     onRegistrationClicked: () -> Unit,
-    onBackClicked: () -> Unit,
+    onCancelClicked: () -> Unit,
 ) {
     val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
@@ -245,9 +245,9 @@ fun RegistrationScreenStep2(
                             && it.registrationEmailText.value.isValidEmail()
                             && state.privacyPolicyCheckbox.value,
                     nextBtnOnClick = onRegistrationClicked,
-                    prevBtnOnClick = onBackClicked,
+                    prevBtnOnClick = onCancelClicked,
                     nextBtnOnTextId = R.string.register,
-                    prevBtnOnTextId = R.string.back,
+                    prevBtnOnTextId = R.string.cancel,
                 )
             }
         }

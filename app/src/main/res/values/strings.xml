@@ -276,4 +276,13 @@
     <string name="years">років</string>
     <string name="not_found_users_for_this_filter">Для такого фільтру користувачів не знайдено</string>
     <string name="change_search_params">Змініть параметри пошуку</string>
+    <string name="blanball_version">Blanball.version</string>
+    <string name="my_profile">Мій профіль</string>
+    <string name="friends">Друзі</string>
+    <string name="planned_events_side_bar">Заплановані події</string>
+    <string name="notifications">Сповіщення</string>
+    <string name="params">Параметри</string>
+    <string name="found_an_error">Знайшли помилку?</string>
+    <string name="data_proto">Захист даних</string>
+    <string name="flumx">FlumX</string>
 </resources>
