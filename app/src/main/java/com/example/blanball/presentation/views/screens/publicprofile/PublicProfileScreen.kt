@@ -103,7 +103,7 @@ fun PublicProfileScreen(
         (state as? PublicProfileMainContract.State)?.let {
             Column {
                 Spacer(modifier = Modifier.size(60.dp))
-                DefaultCardWithColumn(padStart = 0.dp, padTop = 0.dp, padEnd = 0.dp) {
+                DefaultCardWithColumn() {
                     Box(
                         Modifier
                             .background(color = accentLightGreen)
