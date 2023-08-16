@@ -263,4 +263,14 @@
     <string name="found_an_error">Знайшли помилку?</string>
     <string name="data_proto">Захист даних</string>
     <string name="flumx">FlumX</string>
+    <string name="future_events">Майбутні події</string>
+    <string name="my_events">Мої події</string>
+    <string name="friendly_match">Дружній матч</string>
+    <string name="i_am_with_you">Я з вами!</string>
+    <string name="football">Футбол</string>
+    <string name="mans">Чоловіки</string>
+    <string name="withour_divison">Без розряду</string>
+    <string name="free">Безкоштовно</string>
+    <string name="players">Гравці:</string>
+    <string name="fans">Вболівальники:</string>
 </resources>

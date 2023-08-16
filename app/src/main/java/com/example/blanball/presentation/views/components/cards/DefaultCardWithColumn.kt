@@ -14,24 +14,28 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DefaultCardWithColumn(
-    padStart: Dp = 16.dp,
-    padTop: Dp = 16.dp,
-    padEnd: Dp = 16.dp,
-    padBottom: Dp = 16.dp,
+    padStart : Dp = 0.dp,
+    padTop : Dp = 0.dp,
+    padEnd : Dp = 0.dp,
+    padBottom : Dp = 0.dp,
+    columnPadStart: Dp = 16.dp,
+    columnPadTop: Dp = 16.dp,
+    columnPadEnd: Dp = 16.dp,
+    columnPadBottom: Dp = 16.dp,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Card(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 20.dp, start = 16.dp, end = 16.dp, bottom = 0.dp), shape = RoundedCornerShape(12.dp),
+            .padding(top = padTop, start = padStart, end = padEnd, bottom = padBottom), shape = RoundedCornerShape(12.dp),
     ) {
         Column(
             Modifier.padding(
-                top = padTop,
-                start = padStart,
-                end = padEnd,
-                bottom = padBottom
+                top = columnPadTop,
+                start = columnPadStart,
+                end = columnPadEnd,
+                bottom = columnPadBottom
             ),
             content = content,
         )
