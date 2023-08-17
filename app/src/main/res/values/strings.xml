@@ -273,4 +273,6 @@
     <string name="free">Безкоштовно</string>
     <string name="players">Гравці:</string>
     <string name="fans">Вболівальники:</string>
+    <string name="no_such_page_exists">Шкода, але такої сторінки не існує</string>
+    <string name="to_the_home_screen">На домашній экран</string>
 </resources>
