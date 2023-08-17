@@ -273,4 +273,10 @@
     <string name="free">Безкоштовно</string>
     <string name="players">Гравці:</string>
     <string name="fans">Вболівальники:</string>
+    <string name="major">Major</string>
+    <string name="minor">Minor</string>
+    <string name="patch">Patch</string>
+    <string name="history_of_updates">Історія оновлень Blanball</string>
+    <string name="about_new_on_version">Що нового у версіі</string>
+    <string name="new_version">Нове</string>
 </resources>
