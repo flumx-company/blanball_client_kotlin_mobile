@@ -26,6 +26,7 @@ import com.example.blanball.presentation.theme.typography
     @Composable
     fun DefaultTextInput(
         modifier: Modifier = Modifier,
+        textFieldModifier: Modifier = Modifier.fillMaxWidth(),
         labelResId: Int,
         state: UiState,
         value: String,
@@ -35,14 +36,16 @@ import com.example.blanball.presentation.theme.typography
         keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         errorMessage: String = "",
+        trailingIcon: @Composable (() -> Unit)? = null,
+        isSingleLine: Boolean = true,
     ) {
         Column(modifier = modifier) {
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = textFieldModifier,
                 value = value,
                 onValueChange = onValueChange,
                 visualTransformation = transformation,
-                singleLine = true,
+                singleLine = isSingleLine,
                 label = {
                     Text(
                         stringResource(
@@ -63,11 +66,12 @@ import com.example.blanball.presentation.theme.typography
                     errorBorderColor = errorRed,
                     focusedLabelColor = primaryDark,
                     cursorColor = mainGreen,
-            ),
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            isError = isError,
-        )
+                ),
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                isError = isError,
+                trailingIcon = trailingIcon,
+            )
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)
             }

@@ -53,6 +53,7 @@ fun NavigationDrawer(
     onMyProfileScreenClicked: () -> Unit,
     onVersionsScreenClicked: () -> Unit,
     onLogOutClicked: () -> Unit,
+    onFoundAnErrorClicked: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -273,7 +274,9 @@ fun NavigationDrawer(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    FoundAnErrorButton()
+                    FoundAnErrorButton(
+                        buttonClickCallback = { onFoundAnErrorClicked() }
+                    )
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 NavigationDrawerFooterBanner()

@@ -119,6 +119,7 @@ class MainActivity : ComponentActivity() {
                             userAvatarUrlManager = userAvatarUrlManager,
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
+                            foundAnErrorViewModel = viewModel(),
                         )
                     }
                 }
