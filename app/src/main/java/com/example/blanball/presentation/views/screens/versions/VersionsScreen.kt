@@ -262,7 +262,7 @@ fun VersionsScreen(
             ) {
                     Row (verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Version 0.0.1", //TODO()
+                            text = "Version 0.1.0", //TODO()
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
