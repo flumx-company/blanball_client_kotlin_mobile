@@ -279,4 +279,7 @@
     <string name="history_of_updates">Історія оновлень Blanball</string>
     <string name="about_new_on_version">Що нового у версіі</string>
     <string name="new_version">Нове</string>
+    <string name="technical_works">На сервері BlanBall тривають технічні роботи</string>
+    <string name="our_team_works">Наша команда працює над тим, щоб ви могли користувалися додатком із задоволенням, вибачте за тимчасові незручності</string>
+    <string name="register_and_stay_up">Зареєструйтеся та будьте в курсі всіх оновлень</string>
 </resources>
