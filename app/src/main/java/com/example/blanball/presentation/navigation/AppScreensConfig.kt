@@ -54,6 +54,7 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
+import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
@@ -493,7 +494,7 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            FourHundredAndFourthScreen() // TODO() for QA test
+            TechnicalWorksScreen() //TODO() for QA test
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {

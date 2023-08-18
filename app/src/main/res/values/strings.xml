@@ -275,4 +275,7 @@
     <string name="fans">Вболівальники:</string>
     <string name="no_such_page_exists">Шкода, але такої сторінки не існує</string>
     <string name="to_the_home_screen">На домашній экран</string>
+    <string name="technical_works">На сервері BlanBall тривають технічні роботи</string>
+    <string name="our_team_works">Наша команда працює над тим, щоб ви могли користувалися додатком із задоволенням, вибачте за тимчасові незручності</string>
+    <string name="register_and_stay_up">Зареєструйтеся та будьте в курсі всіх оновлень</string>
 </resources>
