@@ -29,7 +29,6 @@ import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
-import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
@@ -54,6 +53,7 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
+import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
@@ -493,28 +493,7 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            Scaffold(
-                scaffoldState = scaffoldState,
-                drawerContent = navDrawerContent,
-                drawerShape = RoundedCornerShape(0.dp),
-                drawerBackgroundColor = backgroundItems,
-                topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = openDrawer,
-                    )
-                },
-                bottomBar = {
-                    BottomNavBar(
-                        navController = navController
-                    )
-                },
-                content = { it ->
-                    HomeScreen(
-                        paddingValues = it
-                    )
-                }
-            )
+            TechnicalWorksScreen() //TODO() for QA test
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {
