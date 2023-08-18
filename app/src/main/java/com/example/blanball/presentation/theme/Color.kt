@@ -18,6 +18,7 @@ val annotationGray = Color(0xFF6F6F77)
 val orangeStarColor = Color(0xFFF57125)
 val accentLightGreen = Color(0xFFECFCFB)
 val surfaceBrandSecondary = Color(0xFFE3FBFA)
+val waterLightBlue = Color(0xFFD3F8F7)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)
