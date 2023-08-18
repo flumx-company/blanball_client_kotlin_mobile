@@ -289,4 +289,5 @@
     <string name="when_and_where_did_you_encounter_the_error">Коли та де ви зіштовхнулися із помилкою?</string>
     <string name="close">Закрити</string>
     <string name="send_feedback">Надіслати відгук</string>
+    <string name="validation_text_error_topic">Максимальне значення - 255 символів</string>
 </resources>
