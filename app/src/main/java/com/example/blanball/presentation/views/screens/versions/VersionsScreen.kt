@@ -207,6 +207,7 @@ fun VersionsScreen(
                     color = secondaryNavy,
                 )
             }
+            Spacer(modifier = Modifier.size(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(R.string.patch),
