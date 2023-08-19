@@ -794,7 +794,8 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     FoundAnErrorScreen(
                         state = state,
-                        paddingValues = paddingValues
+                        paddingValues = paddingValues,
+                        closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
                     )
                 }
             )

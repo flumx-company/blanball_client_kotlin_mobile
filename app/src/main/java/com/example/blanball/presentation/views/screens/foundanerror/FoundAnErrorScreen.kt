@@ -47,9 +47,9 @@ import com.example.blanball.utils.ext.isValidErrorTopicField
 @Composable
 fun FoundAnErrorScreen(
     state: UiState,
-    paddingValues: PaddingValues
-//    sendFeedbackButtonClicked: () -> Unit,
-//    closeButtonClicked: () -> Unit, TODO()
+    paddingValues: PaddingValues,
+    closeButtonClicked: () -> Unit,
+    //sendFeedbackButtonClicked: () -> Unit, TODO()
 ) {
     Box (
         modifier = Modifier.padding(paddingValues)
@@ -161,7 +161,7 @@ fun FoundAnErrorScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 Row (verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        modifier = Modifier.clickable { }, //TODO()
+                        modifier = Modifier.clickable { closeButtonClicked() },
                         text = stringResource(R.string.close),
                         fontSize = 14.sp,
                         lineHeight = 24.sp,
