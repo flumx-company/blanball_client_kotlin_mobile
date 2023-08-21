@@ -82,3 +82,11 @@ internal fun String.isValidWeight(): Boolean {
 internal fun String.isNotValidWeight(): Boolean {
     return !isValidWeight() && isNotEmpty()
 }
+
+internal fun String.isValidErrorTopicField(): Boolean {
+    return length <= Integers.TWO_HUNDRED_AND_FIFTY_FIVE
+}
+
+internal fun String.isNotValidErrorTopicField(): Boolean {
+    return !isValidErrorTopicField()
+}

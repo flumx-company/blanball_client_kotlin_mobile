@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
@@ -27,9 +28,10 @@ import com.example.blanball.presentation.views.components.drawers.NavigationDraw
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
-import com.example.blanball.presentation.views.screens.fourhundredandfourth.FourHundredAndFourthScreen
+import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
+import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
@@ -79,10 +81,11 @@ fun AppScreensConfig(
     coroutineScope: CoroutineScope,
     rememberMeManager: RememberMeManager,
     tokenManager: TokenManager,
-    userNameManager:  UserNameManager,
+    userNameManager: UserNameManager,
     userAvatarUrlManager: UserAvatarUrlManager,
     userPhoneManager: UserPhoneManager,
     verifyCodeManager: VerifyCodeManager,
+    foundAnErrorViewModel: FoundAnErrorViewModel,
 ) {
     val openDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -122,6 +125,10 @@ fun AppScreensConfig(
             onVersionsScreenClicked = {
                 closeDrawer()
                 navController.navigate(Destinations.VERSIONS.route)
+            },
+            onFoundAnErrorClicked = {
+                closeDrawer()
+                navController.navigate(Destinations.FOUND_AN_ERROR.route)
             },
             onLogOutClicked = {
                 closeDrawer()
@@ -761,6 +768,34 @@ fun AppScreensConfig(
                 content = { it ->
                     VersionsScreen(
                         paddingValues = it
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.FOUND_AN_ERROR.route) {
+            val state = foundAnErrorViewModel.uiState.collectAsState().value
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    FoundAnErrorScreen(
+                        state = state,
+                        paddingValues = paddingValues,
+                        closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
                     )
                 }
             )

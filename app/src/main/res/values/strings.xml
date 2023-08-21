@@ -284,4 +284,10 @@
     <string name="technical_works">На сервері BlanBall тривають технічні роботи</string>
     <string name="our_team_works">Наша команда працює над тим, щоб ви могли користувалися додатком із задоволенням, вибачте за тимчасові незручності</string>
     <string name="register_and_stay_up">Зареєструйтеся та будьте в курсі всіх оновлень</string>
+    <string name="report_an_error_in_the_app">Повідомити про помилку в додатку</string>
+    <string name="what_is_the_error_related_to">Із чим пов\'язана помилка?</string>
+    <string name="when_and_where_did_you_encounter_the_error">Коли та де ви зіштовхнулися із помилкою?</string>
+    <string name="close">Закрити</string>
+    <string name="send_feedback">Надіслати відгук</string>
+    <string name="validation_text_error_topic">Максимальне значення - 255 символів</string>
 </resources>
