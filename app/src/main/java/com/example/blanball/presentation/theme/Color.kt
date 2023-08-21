@@ -19,6 +19,10 @@ val orangeStarColor = Color(0xFFF57125)
 val accentLightGreen = Color(0xFFECFCFB)
 val surfaceBrandSecondary = Color(0xFFE3FBFA)
 val waterLightBlue = Color(0xFFD3F8F7)
+val classicBlue = Color(0xFF2946E1)
+val classicRed = Color(0xFFD62953)
+val classicYellow = Color(0xFFFEC90F)
+val itemsGrayBlue = Color(0xFF7F7DB5)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)

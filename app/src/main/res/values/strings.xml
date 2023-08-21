@@ -284,4 +284,18 @@
     <string name="technical_works">На сервері BlanBall тривають технічні роботи</string>
     <string name="our_team_works">Наша команда працює над тим, щоб ви могли користувалися додатком із задоволенням, вибачте за тимчасові незручності</string>
     <string name="register_and_stay_up">Зареєструйтеся та будьте в курсі всіх оновлень</string>
+    <string name="description_of_the_event">Опис події</string>
+    <string name="сost_of_participation">Вартість участі:</string>
+    <string name="first_team">Команда №1</string>
+    <string name="second_team">Команда №2</string>
+    <string name="t_shirts">Футболки</string>
+    <string name="shorts">Шорти</string>
+    <string name="yellow">Жовті</string>
+    <string name="red">Червоні</string>
+    <string name="blue">Сині</string>
+    <string name="white">Білі</string>
+    <string name="already_confirme_participation">Вже підтвердили участь</string>
+    <string name="users_list">Список гравців</string>
+    <string name="coaching_staff">Тренерський склад</string>
+    <string name="registered_viewers">Зареєстровані глядачі</string>
 </resources>

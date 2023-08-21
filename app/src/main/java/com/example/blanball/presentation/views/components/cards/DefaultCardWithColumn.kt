@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DefaultCardWithColumn(
+    clickCallback: (() -> Unit)? = null,
     padStart : Dp = 0.dp,
     padTop : Dp = 0.dp,
     padEnd : Dp = 0.dp,
@@ -26,6 +28,7 @@ fun DefaultCardWithColumn(
 ) {
     Card(
         Modifier
+            .clickable { clickCallback?.let { it() } }
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(top = padTop, start = padStart, end = padEnd, bottom = padBottom), shape = RoundedCornerShape(12.dp),
