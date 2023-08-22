@@ -32,6 +32,7 @@ object Integers {
      const val THIRTY = 30
      const val ONE_HUNDRED_AND_FORTY_FIVE = 145
      const val TWO_HUNDRED_AND_TEN = 210
+     const val TWO_HUNDRED_AND_FIFTY_FIVE = 255
      const val DURATION_MILLIS_ON_CARD = 1000
 }
 
