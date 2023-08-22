@@ -23,6 +23,8 @@ val classicBlue = Color(0xFF2946E1)
 val classicRed = Color(0xFFD62953)
 val classicYellow = Color(0xFFFEC90F)
 val itemsGrayBlue = Color(0xFF7F7DB5)
+val backgroundClassicRed = Color(0xFFFFEEF2)
+val avatarGrey = Color(0xFFD9D9D9)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)

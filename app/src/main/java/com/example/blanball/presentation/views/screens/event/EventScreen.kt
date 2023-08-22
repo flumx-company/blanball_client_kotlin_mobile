@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.backgroundClassicRed
 import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.classicBlue
@@ -43,7 +44,11 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
+import com.example.blanball.presentation.views.components.cards.AddUserToTeam
+import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
+import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge
 
@@ -55,22 +60,24 @@ fun EventScreen(
         painterResource(id = R.drawable.ic_ball),
         painterResource(id = R.drawable.ic_peoples),
         painterResource(id = R.drawable.ic_field),
+        painterResource(id = R.drawable.ic_add_user)
     )
     val tabs: List<String> = listOf(
         stringResource(R.string.users_list),
         stringResource(R.string.coaching_staff),
         stringResource(R.string.registered_viewers),
+        stringResource(R.string.requests_for_participation),
     )
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp)
-                .verticalScroll(rememberScrollState())
+                .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
         ) {
             Text(
                 text = "Змагання на голозабивання",  //TODO()
@@ -91,7 +98,11 @@ fun EventScreen(
             )
             Spacer(modifier = Modifier.size(22.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(painter = painterResource(id = R.drawable.ic_clock), contentDescription = null)
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_clock),
+                    contentDescription = null,
+                    tint = primaryDark,
+                )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = "16 червня", //TODO()
@@ -118,14 +129,14 @@ fun EventScreen(
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO()
-                    fontSize = 14.sp,
-                    lineHeight = 16.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
-                )
+                    Text(
+                        text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO()
+                        fontSize = 14.sp,
+                        lineHeight = 16.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = primaryDark,
+                    )
             }
             Spacer(modifier = Modifier.size(10.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -480,13 +491,45 @@ fun EventScreen(
             Spacer(modifier = Modifier.size(36.dp))
             Text(
                 text = stringResource(R.string.already_confirme_participation),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    style = typography.h3,
-                    fontWeight = FontWeight(700),
-                    color = Color(0xFF262541),
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                style = typography.h3,
+                fontWeight = FontWeight(700),
+                color = Color(0xFF262541),
             )
             TabRow(tabs = tabs, icons = icons)
+            Spacer(modifier = Modifier.size(20.dp))
+            TeamSwitcher(
+                "Команда 1",
+                "Команда 2" //TODO()
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = backgroundClassicRed, shape = shapes.medium)
+                    .border(width = 1.dp, color = classicRed, shape = shapes.medium)
+                    .padding(vertical = 24.dp, horizontal = 12.dp)
+            ) {
+                Column {
+                    repeat(times = 8) {
+                        PlayerOnEventCard(
+                            userAvatarUrl = "http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg",
+                            userFirstName = "Женя",
+                            userLastName = "Жучара",
+                            userPosition = "ВРТ",
+                            emojiResId = R.drawable.emoji_stars_eyes,
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                    }
+                    repeat(3) {//TODO()
+                        AddUserToTeam()
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.size(58.dp))
         }
+        EventBottomButtons(toJoinBtnClick = { /*TODO*/ }) {}
     }
 }

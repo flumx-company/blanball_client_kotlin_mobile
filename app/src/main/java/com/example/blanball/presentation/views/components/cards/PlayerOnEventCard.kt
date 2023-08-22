@@ -1,20 +1,25 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,30 +27,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
-import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.classicRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
-fun UserCardWithPhone(
+fun PlayerOnEventCard(
     userAvatarUrl: String,
     userFirstName: String,
     userLastName: String,
-    userPhone: String,
-    userRole: String,
+    userPosition: String,
+    emojiResId: Int,
     clickCallback: (() -> Unit)? = null
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .clickable { clickCallback?.let { it() } }) {
-        Divider(color = defaultLightGray, thickness = 1.dp)
+    Box(modifier = Modifier
+        .width(288.dp)
+        .height(56.dp)
+        .background(Color.White, shape = shapes.medium)
+        .border(width = 1.dp, color = classicRed, shape = shapes.medium )
+        .padding(horizontal = 12.dp, vertical = 6.dp)
+        .clickable { clickCallback?.let { it() } },
+        contentAlignment = Alignment.Center) {
         Spacer(modifier = Modifier.size(12.dp))
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             if (userAvatarUrl.isNullOrEmpty()) {
                 Box(
-                    modifier = Modifier.size(44.dp)
+                    modifier = Modifier.size(36.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.circle_avatar),
@@ -67,12 +77,12 @@ fun UserCardWithPhone(
                     painter = rememberAsyncImagePainter(userAvatarUrl),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(36.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
             }
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(10.dp))
             Column {
                 Text(
                     text = "$userFirstName $userLastName",
@@ -83,7 +93,7 @@ fun UserCardWithPhone(
                     color = primaryDark,
                 )
                 Text(
-                    text = userPhone,
+                    text = userPosition,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -92,13 +102,10 @@ fun UserCardWithPhone(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = userRole,
-                fontSize = 12.sp,
-                lineHeight = 20.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(400),
-                color = secondaryNavy,
+            Image(
+                modifier = Modifier.size(28.dp),
+                painter = painterResource(id = emojiResId),
+                contentDescription = null,
             )
         }
     }

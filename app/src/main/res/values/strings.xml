@@ -298,4 +298,8 @@
     <string name="users_list">Список гравців</string>
     <string name="coaching_staff">Тренерський склад</string>
     <string name="registered_viewers">Зареєстровані глядачі</string>
+    <string name="requests_for_participation">Заявки на участь</string>
+    <string name="add_to_team">Приєднатися до команди</string>
+    <string name="to_join">Долучитися</string>
+    <string name="share">Поділитися</string>
 </resources>
