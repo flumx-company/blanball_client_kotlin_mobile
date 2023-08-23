@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.screens.event
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,13 +16,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,6 +72,7 @@ fun EventScreen(
         stringResource(R.string.registered_viewers),
         stringResource(R.string.requests_for_participation),
     )
+    var descriptionTextExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -171,13 +176,16 @@ fun EventScreen(
             )
             Spacer(modifier = Modifier.size(10.dp))
             Text(
+                modifier = Modifier
+                    .animateContentSize()
+                    .clickable { descriptionTextExpanded = !descriptionTextExpanded  },
                 text = "Запрошуємо вас на захоплюючий футбольний матч на Лінкольна 17, Львів! Змагатимуться сильні команди, атмосфера буде неймовірною, а ви зможете насолоджуватися якісною грою та спілкуванням з однодумцями. Участь у події коштує 150 грн, оскільки ми надаємо гравцям та глядачам все необхідне: оренду поля, розважальні активності, екіпірування, організацію та проведення змагання. Реєструйтеся зараз та готуйтеся до спортивного драйву та моря позитиву!",
                 fontSize = 14.sp,
                 lineHeight = 24.sp,
                 style = typography.h4,
                 fontWeight = FontWeight(400),
                 color = primaryDark,
-                maxLines = 4,
+                maxLines = if (descriptionTextExpanded) Int.MAX_VALUE else 4,
                 overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.size(10.dp))
@@ -482,7 +490,7 @@ fun EventScreen(
             Image(
                 modifier = Modifier
                     .border(width = 1.dp, color = defaultLightGray, shape = shapes.medium)
-                    .width(328.dp)
+                    .fillMaxWidth()
                     .height(160.dp)
                     .clickable { },
                 painter = painterResource(id = R.drawable.temp_map_image), //TODO()
@@ -518,7 +526,7 @@ fun EventScreen(
                             userFirstName = "Женя",
                             userLastName = "Жучара",
                             userPosition = "ВРТ",
-                            emojiResId = R.drawable.emoji_stars_eyes,
+                            userRating = 4.0f,
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                     }

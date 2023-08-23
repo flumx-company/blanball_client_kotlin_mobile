@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +33,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.ratingbars.RatingBar
 
 @Composable
 fun PlayerOnEventCard(
@@ -40,14 +41,14 @@ fun PlayerOnEventCard(
     userFirstName: String,
     userLastName: String,
     userPosition: String,
-    emojiResId: Int,
+    userRating: Float,
     clickCallback: (() -> Unit)? = null
 ) {
     Box(modifier = Modifier
-        .width(288.dp)
+        .fillMaxWidth()
         .height(56.dp)
         .background(Color.White, shape = shapes.medium)
-        .border(width = 1.dp, color = classicRed, shape = shapes.medium )
+        .border(width = 1.dp, color = classicRed, shape = shapes.medium)
         .padding(horizontal = 12.dp, vertical = 6.dp)
         .clickable { clickCallback?.let { it() } },
         contentAlignment = Alignment.Center) {
@@ -102,11 +103,7 @@ fun PlayerOnEventCard(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Image(
-                modifier = Modifier.size(28.dp),
-                painter = painterResource(id = emojiResId),
-                contentDescription = null,
-            )
+            RatingBar(rating = userRating, maxRating = 5)
         }
     }
 }
