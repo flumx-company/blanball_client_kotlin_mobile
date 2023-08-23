@@ -33,7 +33,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.ratingbars.RatingBar
+import com.example.blanball.presentation.views.components.ratingbars.RatingBarWithNum
 
 @Composable
 fun PlayerOnEventCard(
@@ -103,7 +103,7 @@ fun PlayerOnEventCard(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            RatingBar(rating = userRating, maxRating = 5)
+            RatingBarWithNum(ratingValue = 5)
         }
     }
 }
