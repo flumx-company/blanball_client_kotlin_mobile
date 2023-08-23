@@ -50,6 +50,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.AddUserToTeam
+import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
@@ -84,6 +85,8 @@ fun EventScreen(
                 .fillMaxSize()
                 .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
         ) {
+            ConfirmEmailReminder()
+            Spacer(modifier = Modifier.size(12.dp))
             Text(
                 text = "Змагання на голозабивання",  //TODO()
                 fontSize = 20.sp,
@@ -178,7 +181,7 @@ fun EventScreen(
             Text(
                 modifier = Modifier
                     .animateContentSize()
-                    .clickable { descriptionTextExpanded = !descriptionTextExpanded  },
+                    .clickable { descriptionTextExpanded = !descriptionTextExpanded },
                 text = "Запрошуємо вас на захоплюючий футбольний матч на Лінкольна 17, Львів! Змагатимуться сильні команди, атмосфера буде неймовірною, а ви зможете насолоджуватися якісною грою та спілкуванням з однодумцями. Участь у події коштує 150 грн, оскільки ми надаємо гравцям та глядачам все необхідне: оренду поля, розважальні активності, екіпірування, організацію та проведення змагання. Реєструйтеся зараз та готуйтеся до спортивного драйву та моря позитиву!",
                 fontSize = 14.sp,
                 lineHeight = 24.sp,

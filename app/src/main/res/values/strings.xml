@@ -308,4 +308,6 @@
     <string name="close">Закрити</string>
     <string name="send_feedback">Надіслати відгук</string>
     <string name="validation_text_error_topic">Максимальне значення - 255 символів</string>
+    <string name="confirm_your_email">Підтвердіть ваш e-mail:</string>
+    <string name="confirm">Підтвердити</string>
 </resources>
