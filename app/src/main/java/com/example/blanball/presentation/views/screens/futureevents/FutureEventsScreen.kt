@@ -48,7 +48,8 @@ import com.example.blanball.presentation.views.components.texts.TextBadge
 
 @Composable
 fun FutureEventsScreen(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navigateToEventScreen: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -128,7 +129,7 @@ fun FutureEventsScreen(
                 }
             }
             Spacer(modifier = Modifier.size(12.dp))
-            DefaultCardWithColumn {
+            DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
                 Row {
                     Box(
                         Modifier

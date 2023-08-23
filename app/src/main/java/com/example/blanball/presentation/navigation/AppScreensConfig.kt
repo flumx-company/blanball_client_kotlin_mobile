@@ -28,6 +28,7 @@ import com.example.blanball.presentation.views.components.drawers.NavigationDraw
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
+import com.example.blanball.presentation.views.screens.event.EventScreen
 import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
@@ -542,9 +543,8 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    FutureEventsScreen(
-                        paddingValues = it
-                    )
+                    FutureEventsScreen(paddingValues = it,
+                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) })
                 }
             )
         }
@@ -764,13 +764,32 @@ fun AppScreensConfig(
                     BottomNavBar(
                         navController = navController
                     )
-                },
-                content = { it ->
+                }, content = { it ->
                     VersionsScreen(
                         paddingValues = it
                     )
-                }
-            )
+                })
+        }
+
+        composable(Destinations.EVENT.route) {
+            Scaffold(scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    EventScreen(paddingValues = it)
+                })
         }
 
         composable(Destinations.FOUND_AN_ERROR.route) {

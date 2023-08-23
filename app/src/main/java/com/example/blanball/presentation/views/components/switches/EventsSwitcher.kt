@@ -28,7 +28,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
-enum class EventTab {
+private enum class EventTab {
     ALL_EVENTS,
     MY_EVENTS
 }
