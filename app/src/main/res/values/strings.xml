@@ -310,4 +310,5 @@
     <string name="validation_text_error_topic">Максимальне значення - 255 символів</string>
     <string name="confirm_your_email">Підтвердіть ваш e-mail:</string>
     <string name="confirm">Підтвердити</string>
+    <string name="confiming_email_adress">Підтвердження електронної адреси</string>
 </resources>

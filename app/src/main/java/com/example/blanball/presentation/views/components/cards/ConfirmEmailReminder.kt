@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +27,9 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
-fun ConfirmEmailReminder() {
+fun ConfirmEmailReminder(
+    clickCallback: () -> Unit
+) {
     Box (
         modifier = Modifier
             .width(328.dp)
@@ -48,6 +51,7 @@ fun ConfirmEmailReminder() {
             Box (  modifier = Modifier
                 .height(28.dp)
                 .background(color = secondaryNavy, shape = shapes.small)
+                .clickable{ clickCallback() }
                 .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
                 contentAlignment = Alignment.Center
             ) {

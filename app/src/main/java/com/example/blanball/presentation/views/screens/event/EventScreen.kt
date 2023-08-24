@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,7 +61,9 @@ import com.example.blanball.presentation.views.components.texts.TextBadge
 @Composable
 fun EventScreen(
     paddingValues: PaddingValues,
-) {
+    modalScreenContent: @Composable () -> Unit,
+    isModalVisible: MutableState<Boolean>
+        ) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_ball),
         painterResource(id = R.drawable.ic_peoples),
@@ -80,12 +83,23 @@ fun EventScreen(
             .padding(paddingValues)
             .verticalScroll(rememberScrollState())
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+        ) {
+            if (isModalVisible.value) {
+                modalScreenContent()
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
         ) {
-            ConfirmEmailReminder()
+            ConfirmEmailReminder(
+                clickCallback = { isModalVisible.value = true }
+            )
             Spacer(modifier = Modifier.size(12.dp))
             Text(
                 text = "Змагання на голозабивання",  //TODO()
