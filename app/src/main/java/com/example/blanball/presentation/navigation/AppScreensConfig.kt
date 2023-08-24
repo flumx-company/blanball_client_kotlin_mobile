@@ -798,7 +798,7 @@ fun AppScreensConfig(
                     EventScreen(paddingValues = it,
                         isModalVisible = isModalVisible,
                         modalScreenContent = {
-                            EmailVerificationModal(
+                            EmailVerificationModal( //TODO()
                                 state = resetState,
                                 turnBackBtnClicked = { isModalVisible.value = false },
                                 confirmBtnClicked = {},
