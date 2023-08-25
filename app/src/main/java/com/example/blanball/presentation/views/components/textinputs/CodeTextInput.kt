@@ -1,5 +1,7 @@
 package com.example.blanball.presentation.views.components.textinputs
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,60 +50,61 @@ fun CodeTextInput(
     val focusRequesters = remember {
         List(5) { FocusRequester() }
     }
-    Row {
-        repeat(5) { i ->
-            OutlinedTextField(
-                isError = isError ?: false,
-                textStyle = centerAlignedTextStyle,
-
-                modifier = modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .onKeyEvent {
-                        if (it.key == Key.Backspace && i > 0) {
-                            focusRequesters[i - 1].requestFocus()
+    Column(modifier = Modifier.animateContentSize()) {
+        Row() {
+            repeat(5) { i ->
+                OutlinedTextField(
+                    isError = isError ?: false,
+                    textStyle = centerAlignedTextStyle,
+                    modifier = modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .onKeyEvent {
+                            if (it.key == Key.Backspace && i > 0) {
+                                focusRequesters[i - 1].requestFocus()
+                            }
+                            true
                         }
-                        true
-                    }
-                    .focusRequester(focusRequesters[i])
-                    .padding(
-                        end = when (i) {
-                            in 0..3 -> 6.dp
-                            else -> 0.dp
+                        .focusRequester(focusRequesters[i])
+                        .padding(
+                            end = when (i) {
+                                in 0..3 -> 6.dp
+                                else -> 0.dp
+                            }
+                        ),
+                    value = state.codeText[i].value,
+                    onValueChange = { newValue ->
+                        state.codeText[i].value = newValue.take(1).uppercase()
+                        when {
+                            newValue.length == 1 && i < 4 -> focusRequesters[i + 1].requestFocus()
+                        }
+                    },
+                    label = { Text("") },
+                    enabled = enabled,
+                    visualTransformation = VisualTransformation.None,
+                    shape = shapes.small,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = defaultLightGray,
+                        focusedBorderColor = selectedDarkGray,
+                        textColor = primaryDark,
+                        errorBorderColor = errorRed,
+                        cursorColor = mainGreen,
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = when (i) {
+                            4 -> ImeAction.Done
+                            else -> ImeAction.Next
                         }
                     ),
-                value = state.codeText[i].value,
-                onValueChange = { newValue ->
-                    state.codeText[i].value = newValue.take(1).uppercase()
-                    when {
-                        newValue.length == 1 && i < 4 -> focusRequesters[i + 1].requestFocus()
-                    }
-                },
-                label = {Text("")},
-                enabled = enabled,
-                visualTransformation = VisualTransformation.None,
-                shape = shapes.small,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = defaultLightGray,
-                    focusedBorderColor = selectedDarkGray,
-                    textColor = primaryDark,
-                    errorBorderColor = errorRed,
-                    cursorColor = mainGreen,
-                ),
-                keyboardOptions = KeyboardOptions(
-                    imeAction = when (i) {
-                        4 -> ImeAction.Done
-                        else -> ImeAction.Next
-                    }
-                ),
-                keyboardActions = when (i) {
-                    4 -> KeyboardActions(onDone = { localFocusManager.clearFocus()})
-                    else -> KeyboardActions.Default
-                },
-            )
+                    keyboardActions = when (i) {
+                        4 -> KeyboardActions(onDone = { localFocusManager.clearFocus() })
+                        else -> KeyboardActions.Default
+                    },
+                )
+            }
         }
-    }
-    if (isError == true) {
-        Text(text = errorMessage, style = typography.h6, color = errorRed)
+        if (isError == true) {
+            Text(text = errorMessage, style = typography.h6, color = errorRed)
+        }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.AddUserToTeam
+import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
@@ -59,7 +61,9 @@ import com.example.blanball.presentation.views.components.texts.TextBadge
 @Composable
 fun EventScreen(
     paddingValues: PaddingValues,
-) {
+    modalScreenContent: @Composable () -> Unit,
+    isModalVisible: MutableState<Boolean>
+        ) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_ball),
         painterResource(id = R.drawable.ic_peoples),
@@ -79,11 +83,24 @@ fun EventScreen(
             .padding(paddingValues)
             .verticalScroll(rememberScrollState())
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+        ) {
+            if (isModalVisible.value) {
+                modalScreenContent()
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
         ) {
+            ConfirmEmailReminder(
+                clickCallback = { isModalVisible.value = true }
+            )
+            Spacer(modifier = Modifier.size(12.dp))
             Text(
                 text = "Змагання на голозабивання",  //TODO()
                 fontSize = 20.sp,
@@ -178,7 +195,7 @@ fun EventScreen(
             Text(
                 modifier = Modifier
                     .animateContentSize()
-                    .clickable { descriptionTextExpanded = !descriptionTextExpanded  },
+                    .clickable { descriptionTextExpanded = !descriptionTextExpanded },
                 text = "Запрошуємо вас на захоплюючий футбольний матч на Лінкольна 17, Львів! Змагатимуться сильні команди, атмосфера буде неймовірною, а ви зможете насолоджуватися якісною грою та спілкуванням з однодумцями. Участь у події коштує 150 грн, оскільки ми надаємо гравцям та глядачам все необхідне: оренду поля, розважальні активності, екіпірування, організацію та проведення змагання. Реєструйтеся зараз та готуйтеся до спортивного драйву та моря позитиву!",
                 fontSize = 14.sp,
                 lineHeight = 24.sp,
