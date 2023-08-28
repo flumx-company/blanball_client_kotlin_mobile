@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -28,6 +27,7 @@ import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
+import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
@@ -776,8 +776,9 @@ fun AppScreensConfig(
 
         composable(Destinations.EVENT.route) {
             val resetState = resetPassViewModel.uiState.collectAsState().value
-            var isModalVisible = remember { mutableStateOf(false) }
-            Log.d("amfkplsmgkdlml",isModalVisible.value.toString() )
+            var isVerificationModalVisible = remember { mutableStateOf(false) }
+            var isShareLinkModalVisible = remember { mutableStateOf(false) }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -796,15 +797,23 @@ fun AppScreensConfig(
                 },
                 content = { it ->
                     EventScreen(paddingValues = it,
-                        isModalVisible = isModalVisible,
-                        modalScreenContent = {
+                        isVerificationModalVisible = isVerificationModalVisible,
+                        verificationModalScreenContent = {
                             EmailVerificationModal( //TODO()
                                 state = resetState,
-                                turnBackBtnClicked = { isModalVisible.value = false },
+                                turnBackBtnClicked = { isVerificationModalVisible.value = false },
                                 confirmBtnClicked = {},
                                 resendCodeToEmailClicked = {}
                             )
-                        })
+                        },
+                        isShareLinkModalVisible = isShareLinkModalVisible,
+                        shareLinkModalScreenContent = {
+                            ShareAnEventModal(
+                                copyLinkBtnClicked = { },
+                                backBtnClicked = { isShareLinkModalVisible.value = false }
+                            )
+                        }
+                    )
                 })
         }
 
