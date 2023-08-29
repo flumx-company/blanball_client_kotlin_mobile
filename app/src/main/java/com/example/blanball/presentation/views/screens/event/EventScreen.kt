@@ -61,9 +61,11 @@ import com.example.blanball.presentation.views.components.texts.TextBadge
 @Composable
 fun EventScreen(
     paddingValues: PaddingValues,
-    modalScreenContent: @Composable () -> Unit,
-    isModalVisible: MutableState<Boolean>
-        ) {
+    verificationModalScreenContent: @Composable () -> Unit,
+    shareLinkModalScreenContent: @Composable () -> Unit,
+    isVerificationModalVisible: MutableState<Boolean>,
+    isShareLinkModalVisible: MutableState<Boolean>,
+) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_ball),
         painterResource(id = R.drawable.ic_peoples),
@@ -88,8 +90,9 @@ fun EventScreen(
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
         ) {
-            if (isModalVisible.value) {
-                modalScreenContent()
+            when {
+                isVerificationModalVisible.value -> verificationModalScreenContent()
+                isShareLinkModalVisible.value -> shareLinkModalScreenContent()
             }
         }
         Column(
@@ -98,7 +101,7 @@ fun EventScreen(
                 .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
         ) {
             ConfirmEmailReminder(
-                clickCallback = { isModalVisible.value = true }
+                clickCallback = { isVerificationModalVisible.value = true }
             )
             Spacer(modifier = Modifier.size(12.dp))
             Text(
@@ -555,6 +558,9 @@ fun EventScreen(
             }
             Spacer(modifier = Modifier.size(58.dp))
         }
-        EventBottomButtons(toJoinBtnClick = { /*TODO*/ }) {}
+        EventBottomButtons(
+            toJoinBtnClick = { /*TODO*/ },
+            shareBtnClick = { isShareLinkModalVisible.value = true }
+        )
     }
 }

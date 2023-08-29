@@ -47,6 +47,7 @@ fun ReadOnlyOutlinePlaceholder(
             )
         },
         readOnly = true,
+        maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = defaultLightGray,
             focusedBorderColor = mainGreen,

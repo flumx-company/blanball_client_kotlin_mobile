@@ -311,4 +311,7 @@
     <string name="confirm_your_email">Підтвердіть ваш e-mail:</string>
     <string name="confirm">Підтвердити</string>
     <string name="confiming_email_adress">Підтвердження електронної адреси</string>
+    <string name="share_an_event">Поділитися подією</string>
+    <string name="copy_link">Скопіювати посилання</string>
+    <string name="link_on_event">Посилання на подію</string>
 </resources>
