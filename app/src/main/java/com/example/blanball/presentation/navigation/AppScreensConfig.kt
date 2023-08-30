@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
@@ -30,8 +31,8 @@ import com.example.blanball.presentation.views.components.modals.EmailVerificati
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
-import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep1
 import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
@@ -90,6 +91,7 @@ fun AppScreensConfig(
     userPhoneManager: UserPhoneManager,
     verifyCodeManager: VerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
+    eventCreationScreenViewModel: EventCreationScreensViewModel,
 ) {
     val openDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -552,6 +554,7 @@ fun AppScreensConfig(
             )
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
+            val state = eventCreationScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -569,8 +572,9 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    CreateNewEventScreen(
-                        paddingValues = it
+                    EventCreationScreenStep1(
+                        paddingValues = it,
+                        state = state,
                     )
                 }
             )

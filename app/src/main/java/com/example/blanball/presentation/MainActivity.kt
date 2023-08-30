@@ -120,6 +120,7 @@ class MainActivity : ComponentActivity() {
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
                             foundAnErrorViewModel = viewModel(),
+                            eventCreationScreenViewModel = viewModel(),
                         )
                     }
                 }

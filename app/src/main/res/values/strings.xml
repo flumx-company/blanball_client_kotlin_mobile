@@ -314,4 +314,14 @@
     <string name="share_an_event">Поділитися подією</string>
     <string name="copy_link">Скопіювати посилання</string>
     <string name="link_on_event">Посилання на подію</string>
+    <string name="creation_event">Створення події</string>
+    <string name="event_type">Тип події</string>
+    <string name="gender_of_event_participants">Стать учасників події</string>
+    <string name="sport_type">Вид спорт</string>
+    <string name="womans">Жінки</string>
+    <string name="event_name">Назва події</string>
+    <string name="date_and_time_of_event">Дата, час проведення</string>
+    <string name="place_of_event">Місце проведення</string>
+    <string name="event_preview">Попередній перегляд афіші</string>
+    <string name="futsal">Фут-зал</string>
 </resources>
