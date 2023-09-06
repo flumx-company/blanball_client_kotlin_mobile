@@ -28,7 +28,7 @@ import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 
 @Composable
@@ -78,7 +78,7 @@ fun FillingOutTheUserProfileStartScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
-                    NextAndPreviousButtons(
+                    NextAndPreviousButtonsVertical(
                         isEnabled = true,
                         nextBtnOnClick = onFillingOutTheUserProfileStep1Clicked,
                         prevBtnOnClick = onRemindMeLater,

@@ -33,6 +33,8 @@ import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
 import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep1
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep2
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep3
 import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
@@ -194,14 +196,14 @@ fun AppScreensConfig(
                 },
                 onCancelClicked = {
                     navController.navigate(Destinations.LOGIN.route)
-                     resetPassViewModel.setState  {
-                         copy(
-                             resetEmailText = mutableStateOf(""),
-                             codeText = List(5){ mutableStateOf("") },
-                             newPassText = mutableStateOf(""),
-                             repeatNewPassText = mutableStateOf(""),
-                         )
-                     }
+                    resetPassViewModel.setState {
+                        copy(
+                            resetEmailText = mutableStateOf(""),
+                            codeText = List(5) { mutableStateOf("") },
+                            newPassText = mutableStateOf(""),
+                            repeatNewPassText = mutableStateOf(""),
+                        )
+                    }
                 }
             )
 
@@ -225,10 +227,10 @@ fun AppScreensConfig(
                 resendCodeToEmailClicked = { resetPassViewModel.handleEvent(StartScreensMainContract.Event.SendEmailResetRequestClicked) },
                 onCancelClicked = {
                     navController.navigate(Destinations.LOGIN.route)
-                    resetPassViewModel.setState  {
+                    resetPassViewModel.setState {
                         copy(
                             resetEmailText = mutableStateOf(""),
-                            codeText = List(5){ mutableStateOf("") },
+                            codeText = List(5) { mutableStateOf("") },
                             newPassText = mutableStateOf(""),
                             repeatNewPassText = mutableStateOf(""),
                         )
@@ -253,10 +255,10 @@ fun AppScreensConfig(
                 },
                 onCancelClicked = {
                     navController.navigate(Destinations.LOGIN.route)
-                    resetPassViewModel.setState  {
+                    resetPassViewModel.setState {
                         copy(
                             resetEmailText = mutableStateOf(""),
-                            codeText = List(5){ mutableStateOf("") },
+                            codeText = List(5) { mutableStateOf("") },
                             newPassText = mutableStateOf(""),
                             repeatNewPassText = mutableStateOf(""),
                         )
@@ -275,7 +277,7 @@ fun AppScreensConfig(
             }
         }
 
-        composable(Destinations.RESET_COMPLETE.route){
+        composable(Destinations.RESET_COMPLETE.route) {
 
             NewPasswordSuccessfullySavedScreen(
                 authToSystemClicked = {
@@ -296,20 +298,20 @@ fun AppScreensConfig(
 
                 onCancelClicked = {
                     navController.navigate(Destinations.LOGIN.route)
-                registrationViewModel.setState {
-                    copy(
-                        firstNameText = mutableStateOf(""),
-                        lastNameText = mutableStateOf(""),
-                        phoneNumberText = mutableStateOf(""),
-                        genderIsFemale = mutableStateOf(false),
-                        genderIsMale = mutableStateOf(false),
-                        registrationEmailText = mutableStateOf(""),
-                        registrationPassText = mutableStateOf(""),
-                        registrationPassTextRemember = mutableStateOf(""),
-                        lostInSystemSwitchButton = mutableStateOf(false),
-                        privacyPolicyCheckbox = mutableStateOf(false),
-                    )
-                }
+                    registrationViewModel.setState {
+                        copy(
+                            firstNameText = mutableStateOf(""),
+                            lastNameText = mutableStateOf(""),
+                            phoneNumberText = mutableStateOf(""),
+                            genderIsFemale = mutableStateOf(false),
+                            genderIsMale = mutableStateOf(false),
+                            registrationEmailText = mutableStateOf(""),
+                            registrationPassText = mutableStateOf(""),
+                            registrationPassTextRemember = mutableStateOf(""),
+                            lostInSystemSwitchButton = mutableStateOf(false),
+                            privacyPolicyCheckbox = mutableStateOf(false),
+                        )
+                    }
                 })
         }
 
@@ -343,7 +345,7 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRegistrationNewPass.value) {
                 if (currentState.isSuccessRegistrationNewPass.value) {
                     currentState.isSuccessRegistrationNewPass.value = false
-                    navController.navigate(Destinations.USER_TRAINING_1.route){
+                    navController.navigate(Destinations.USER_TRAINING_1.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
                         }
@@ -410,8 +412,8 @@ fun AppScreensConfig(
                     AllPlannedEventsScreen(
                         state = state,
                         onLoadMoreEvents = {
-                        publicProfileViewModel.loadMoreEvents()
-                    },
+                            publicProfileViewModel.loadMoreEvents()
+                        },
                         paddingValues = it
                     )
                 }
@@ -432,8 +434,8 @@ fun AppScreensConfig(
             val state = onboardingProfileViewModel.uiState.collectAsState().value
             FillingOutTheUserProfileScreenStep1(
                 state = state,
-                onFillingOutTheUserProfileStep2Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)},
-                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)},
+                onFillingOutTheUserProfileStep2Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route) },
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) },
             )
         }
 
@@ -441,8 +443,8 @@ fun AppScreensConfig(
             val state = onboardingProfileViewModel.uiState.collectAsState().value
             FillingOutTheUserProfileScreenStep2(
                 state = state,
-                onFillingOutTheUserProfileStep3Clicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route)},
-                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)},
+                onFillingOutTheUserProfileStep3Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) },
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) },
             )
         }
 
@@ -451,7 +453,7 @@ fun AppScreensConfig(
             FillingOutTheUserProfileScreenStep3(
                 state = state,
                 onFillingOutTheUserProfileStep4Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) },
-                onTurnBackClicked = {navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route)})
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route) })
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE4.route) {
@@ -575,6 +577,7 @@ fun AppScreensConfig(
                     EventCreationScreenStep1(
                         paddingValues = it,
                         state = state,
+                        navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) }
                     )
                 }
             )
@@ -844,6 +847,62 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = paddingValues,
                         closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.CREATE_NEW_EVENT_STEP_2.route) {
+            val state = eventCreationScreenViewModel.uiState.collectAsState().value
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    EventCreationScreenStep2(
+                        paddingValues = paddingValues,
+                        state = state,
+                        navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) }
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
+            val state = eventCreationScreenViewModel.uiState.collectAsState().value
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    EventCreationScreenStep3(
+                        paddingValues = paddingValues,
+                        state = state,
+
                     )
                 }
             )

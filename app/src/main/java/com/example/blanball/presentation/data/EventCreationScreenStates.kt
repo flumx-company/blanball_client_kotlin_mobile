@@ -12,10 +12,18 @@ class EventCreationScreenMainContract {
         val state: ScreenViewState,
         val eventName: MutableState<String> = mutableStateOf(""),
         val typeOfEvent: MutableState<String> = mutableStateOf(""),
-        val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT),
+        val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(PlayersGenderStates.NO_SELECT),
         val timeAndDateOfEvent: MutableState<String> = mutableStateOf(""),
         val placeOfEvent: MutableState<String> = mutableStateOf(""),
-        val sportType: MutableState<String> = mutableStateOf("")
+        val sportType: MutableState<String> = mutableStateOf(""),
+        val entryStates: MutableState<EntryStates> = mutableStateOf(EntryStates.NO_SELECT),
+        val contributinsStates: MutableState<СontributionsStates> = mutableStateOf(СontributionsStates.NO_SELECT),
+        val needFormStates: MutableState<NeedFormStates> = mutableStateOf(NeedFormStates.NO_SELECT),
+        val phoneNumberState: MutableState<String> = mutableStateOf(""),
+        val eventDescriptionState: MutableState<String> = mutableStateOf(""),
+        val eventDateState: MutableState<String> = mutableStateOf(""),
+        val startEventTimeState: MutableState<String> = mutableStateOf(""),
+        val endEventTimeState: MutableState<String> = mutableStateOf(""),
         ) : UiState
 
     sealed class ScreenViewState {
@@ -31,8 +39,25 @@ class EventCreationScreenMainContract {
 
     enum class PlayersGenderStates() {
         NO_SELECT,
-        ALL,
         MANS,
         WOMANS,
+    }
+
+    enum class EntryStates {
+        NO_SELECT,
+        FREE_ENTRY,
+        CLOSE_ENTRY,
+    }
+
+    enum class СontributionsStates {
+        NO_SELECT,
+        FREE,
+        PAID,
+    }
+
+    enum class NeedFormStates {
+        NO_SELECT,
+        YES,
+        NO,
     }
 }
