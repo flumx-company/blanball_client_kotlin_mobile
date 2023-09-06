@@ -38,7 +38,7 @@ fun HomeScreen(
         ) {
             Row {
                 Text(
-                    text = "Привіт,", //TODO()
+                    text = stringResource(R.string.hi), //TODO()
                     fontSize = 20.sp,
                     lineHeight = 32.sp,
                     style = typography.h3,
