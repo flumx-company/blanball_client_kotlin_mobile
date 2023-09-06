@@ -314,4 +314,6 @@
     <string name="share_an_event">Поділитися подією</string>
     <string name="copy_link">Скопіювати посилання</string>
     <string name="link_on_event">Посилання на подію</string>
+    <string name="what_activities_are_we_planning_today">Які заходи плануємо сьогодні?</string>
+    <string name="hi">Привіт,</string>
 </resources>
