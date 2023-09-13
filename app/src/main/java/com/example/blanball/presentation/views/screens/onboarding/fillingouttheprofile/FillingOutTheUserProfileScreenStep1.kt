@@ -33,7 +33,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
 import com.example.blanball.utils.ext.isNotValidBirthDay
@@ -167,7 +167,7 @@ fun FillingOutTheUserProfileScreenStep1(
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
-                    NextAndPreviousButtons(
+                    NextAndPreviousButtonsVertical(
                         isEnabled = it.dayBirthdayState.value.isValidBirthDay()
                                 && it.monthBirthdayState.value.isValidBirthMonth()
                                 && it.yearBirthdayState.value.isValidBirthYear(),

@@ -48,7 +48,9 @@ fun ShareAnEventModal(
     AlertDialog(modifier = Modifier
         .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
         .wrapContentHeight(),
-        onDismissRequest = { /*TODO*/ }, buttons = {}, text = {
+        onDismissRequest = {},
+        buttons = {},
+        text = {
             Column {
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {

@@ -37,7 +37,9 @@ import com.example.blanball.presentation.theme.typography
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         errorMessage: String = "",
         trailingIcon: @Composable (() -> Unit)? = null,
+        leadingIcon: @Composable (() -> Unit)? = null,
         isSingleLine: Boolean = true,
+        readOnly: Boolean = false,
     ) {
         Column(modifier = modifier) {
             OutlinedTextField(
@@ -46,6 +48,7 @@ import com.example.blanball.presentation.theme.typography
                 onValueChange = onValueChange,
                 visualTransformation = transformation,
                 singleLine = isSingleLine,
+                readOnly = readOnly,
                 label = {
                     Text(
                         stringResource(
@@ -71,6 +74,7 @@ import com.example.blanball.presentation.theme.typography
                 keyboardActions = keyboardActions,
                 isError = isError,
                 trailingIcon = trailingIcon,
+                leadingIcon = leadingIcon,
             )
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)
