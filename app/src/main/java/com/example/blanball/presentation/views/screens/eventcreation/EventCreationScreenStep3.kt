@@ -16,11 +16,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -28,27 +29,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
-import com.example.blanball.presentation.views.components.cards.PreviewOfTheEventPosterCard
+import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
+import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
-import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
-import com.example.domain.utils.Integers
 
 @Composable
 fun EventCreationScreenStep3(
     paddingValues: PaddingValues,
     state: UiState,
+    isBottomDrawerOpen: MutableState<Boolean>,
+    isInvitedUsersModalOpen: MutableState<Boolean>,
+    bottomDrawerPreviewContent: @Composable () -> Unit,
+    invitedUsersModalContent: @Composable () -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     (state as? EventCreationScreenMainContract.State)?.let {
@@ -121,15 +127,39 @@ fun EventCreationScreenStep3(
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
+                  Row {
+                      Text(
+                          text = stringResource(R.string.will_there_be_a_prize_draw),
+                          fontSize = 16.sp,
+                          lineHeight = 24.sp,
+                          style = typography.h3,
+                          fontWeight = FontWeight(700),
+                          color = primaryDark,
+                      )
+                      Spacer(modifier = Modifier.weight(1f))
+                      SwitchButton(
+                          state = it,
+                          selected = it.priseSwitchButtonState.value,
+                          onCheckedChange = {state.priseSwitchButtonState.value = it}
+                      )
+                  }
+                Spacer(modifier = Modifier.size(16.dp))
+                Row {
                     Text(
-                        text = stringResource(R.string.will_there_be_a_prize_draw),
+                        text = stringResource(R.string.need_ball),
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         style = typography.h3,
                         fontWeight = FontWeight(700),
                         color = primaryDark,
                     )
-                Spacer(modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.weight(1f))
+                    SwitchButton(
+                        state = it,
+                        selected = it.needBallSwitchButtonState.value,
+                        onCheckedChange = {state.needBallSwitchButtonState.value = it}
+                    )
+                }
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.please_note_that_you),
@@ -149,21 +179,22 @@ fun EventCreationScreenStep3(
                         color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-PhoneNumberInput(
-    value = it.phoneNumberState.value,
-    onValueChange = { it ->
-                if (it.length <= Integers.NINE) {
-                    state.phoneNumberState.value = it.filter { it.isDigit() }
+                Row (verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "+38 066 825 67 98", //TODO()
+                        fontSize = 13.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(500),
+                        color = primaryDark,
+                )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_change_data) ,
+                        contentDescription = null,
+                        tint = secondaryNavy,
+                    )
                 }
-            },
-    modifier = Modifier
-        .fillMaxWidth(),
-    keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Number,
-        imeAction = ImeAction.Done
-    ),
-    keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() })
-)
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.additional_information),
@@ -201,6 +232,39 @@ PhoneNumberInput(
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.progress),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = null,
+                        tint = avatarGrey,
+                    )
+                    Text(
+                        text = "3 / 3", //TODO()
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = primaryDark,
+                    )
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = null,
+                        tint = secondaryNavy,
+                    )
+                }
                 Row(
                     Modifier.padding(top = 20.dp)
                 ) {
@@ -222,7 +286,13 @@ PhoneNumberInput(
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterCard {}
+                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+                Spacer(modifier = Modifier.size(16.dp))
+                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+                when {
+                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                }
             }
         }
     }

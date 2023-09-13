@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.components.cards
+package com.example.blanball.presentation.views.components.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +30,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
-fun PreviewOfTheEventPosterCard(
+fun PreviewOfTheEventPosterButton(
     openPreviewClicked: () -> Unit,
 ) {
     Box(

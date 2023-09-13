@@ -1,4 +1,3 @@
-package com.example.blanball.presentation.navigation
 
 enum class Destinations(val route: String) {
     LOGIN("login"),

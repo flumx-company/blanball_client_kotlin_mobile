@@ -21,8 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -41,8 +40,9 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
-import com.example.blanball.presentation.views.components.cards.PreviewOfTheEventPosterCard
+import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -52,6 +52,12 @@ fun EventCreationScreenStep1(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToSecondStep: () -> Unit,
+    isBottomDrawerOpen: MutableState<Boolean>,
+    isDatePickerModalOpen: MutableState<Boolean>,
+    isInvitedUsersModalOpen: MutableState<Boolean>,
+    bottomDrawerPreviewContent: @Composable () -> Unit,
+    datePickerModalContent: @Composable () -> Unit,
+    invitedUsersModalContent: @Composable () -> Unit,
 ) {
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
@@ -60,10 +66,6 @@ fun EventCreationScreenStep1(
         stringResource(id = R.string.football),
         stringResource(id = R.string.futsal)
     )
-
-    val datePickerDialogOpened = remember { mutableStateOf(false) }
-
-
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
             modifier = Modifier
@@ -172,12 +174,12 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(
-                    modifier = Modifier.clickable {  },
+                DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
                     labelResId = R.string.date,
+                    readOnly = true,
                     state = it,
-                    value = it.eventDateState.value ,
-                    onValueChange = {} ,
+                    value = it.eventDateState.value ?: "",
+                    onValueChange = {},
                     transformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -185,13 +187,65 @@ fun EventCreationScreenStep1(
                             contentDescription = null,
                             tint = primaryDark,
                         )
-                    }
+                    })
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = stringResource(R.string.сhose_event_time),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
                 )
+                Spacer(modifier = Modifier.size(16.dp))
+                DefaultTextInput(labelResId = R.string.event_time_start,
+                    textFieldModifier = Modifier.fillMaxWidth(),
+                    state = it,
+                    readOnly = true,
+                    value = it.startEventTimeState.value,
+                    onValueChange = {},
+                    transformation = VisualTransformation.None,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_time),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    })
+                Spacer(modifier = Modifier.size(16.dp))
+                DefaultTextInput(labelResId = R.string.event_time_end,
+                    textFieldModifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { },
+                    state = it,
+                    readOnly = true,
+                    value = it.endEventTimeState.value,
+                    onValueChange = {},
+                    transformation = VisualTransformation.None,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_time),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    })
+                Spacer(modifier = Modifier.size(20.dp))
                 NewEventTimeSwitcher()
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = stringResource(R.string.event_place),
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 Image(
                     modifier = Modifier
-                        .border(width = 1.dp, color = defaultLightGray, shape = shapes.medium)
+                        .border(
+                            width = 1.dp, color = defaultLightGray, shape = shapes.medium
+                        )
                         .fillMaxWidth()
                         .height(160.dp)
                         .clickable { },
@@ -235,7 +289,7 @@ fun EventCreationScreenStep1(
                     )
 
                 }
-                Spacer(modifier = Modifier.size(4.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -262,8 +316,15 @@ fun EventCreationScreenStep1(
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterCard {}
-            }
+                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+                Spacer(modifier = Modifier.size(16.dp))
+                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+                when {
+                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                    isDatePickerModalOpen.value -> datePickerModalContent()
+                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                }
         }
+    }
     }
 }
