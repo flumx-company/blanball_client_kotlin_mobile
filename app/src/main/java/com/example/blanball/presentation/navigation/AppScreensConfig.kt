@@ -571,7 +571,8 @@ fun AppScreensConfig(
                 },
                 content = { it ->
                     HomeScreen(
-                        paddingValues = it
+                        paddingValues = it,
+                        navigateToEvent = {}, //TODO
                     )
                 }
             )
