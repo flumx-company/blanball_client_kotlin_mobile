@@ -19,6 +19,7 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
+import com.example.blanball.presentation.viewmodels.MyProfileScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
@@ -90,6 +91,7 @@ fun AppScreensConfig(
     userPhoneManager: UserPhoneManager,
     verifyCodeManager: VerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
+    myProfileScreenViewModel: MyProfileScreenViewModel,
 ) {
     val openDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -728,6 +730,9 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.MY_PROFILE.route) {
+
+            val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -746,7 +751,9 @@ fun AppScreensConfig(
                 },
                 content = { it ->
                     MyProfileScreen(
-                        paddingValues = it
+                        state = myProfileScreenState,
+                        paddingValues = it,
+                        editProfileButtonClicked = {},
                     )
                 }
             )

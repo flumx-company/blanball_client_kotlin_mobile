@@ -7,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.secondaryNavy
 
 @Composable
 fun SwitchButton(
-    state: StartScreensMainContract.State,
+    state: UiState,
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
