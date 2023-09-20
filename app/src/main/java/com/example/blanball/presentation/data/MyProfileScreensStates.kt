@@ -3,7 +3,7 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
-class MyProfileScreenMainContract {
+class MyProfileScreensMainContract {
 
     sealed class Event : UiEvent {
 
@@ -18,7 +18,8 @@ class MyProfileScreenMainContract {
         val emailRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val myReviewsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val plannedEventsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
-    ) : UiState
+        val aboutMeText: MutableState<String> = mutableStateOf(""),
+        ) : UiState
 
     sealed class Effect: UiEffect {
         class ShowToast(val message: String): Effect()

@@ -38,6 +38,7 @@ import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
@@ -753,7 +754,7 @@ fun AppScreensConfig(
                     MyProfileScreen(
                         state = myProfileScreenState,
                         paddingValues = it,
-                        editProfileButtonClicked = {},
+                        editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
                     )
                 }
             )
@@ -848,6 +849,35 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = paddingValues,
                         closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.EDIT_PROFILE.route) {
+            val state = myProfileScreenViewModel.uiState.collectAsState().value
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    EditMyProfileScreen(
+                        state = state,
+                        paddingValues = paddingValues,
+                        cancelBtnClicked = { /*TODO*/ },
+                        saveBtnClicked = {},
                     )
                 }
             )

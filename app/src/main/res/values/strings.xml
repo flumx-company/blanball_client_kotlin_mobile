@@ -327,4 +327,5 @@
     <string name="date_of_birthday">Дата народження</string>
     <string name="phone_num">Номер телефону</string>
     <string name="edit_profile">Редагувати профіль</string>
+    <string name="a_few_words_about_me">Декілька слів про мене</string>
 </resources>

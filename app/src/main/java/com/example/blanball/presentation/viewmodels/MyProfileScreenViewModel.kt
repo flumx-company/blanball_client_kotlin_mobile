@@ -1,7 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.blanball.presentation.data.MyProfileScreenMainContract
+import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -20,22 +20,22 @@ class MyProfileScreenViewModel
     private var job: Job? = null
 
     val defaultState
-        get() = MyProfileScreenMainContract.State(
-            state = MyProfileScreenMainContract.ScreenViewState.Idle,
+        get() = MyProfileScreensMainContract.State(
+            state = MyProfileScreensMainContract.ScreenViewState.Idle,
         )
 
-    val currentState: MyProfileScreenMainContract.State
-        get() = uiState.value as MyProfileScreenMainContract.State
+    val currentState: MyProfileScreensMainContract.State
+        get() = uiState.value as MyProfileScreensMainContract.State
 
     private val _uiState : MutableStateFlow<UiState> =
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _sideEffect : MutableSharedFlow<MyProfileScreenMainContract.Effect> =
+    private val _sideEffect : MutableSharedFlow<MyProfileScreensMainContract.Effect> =
         MutableSharedFlow(replay = 0)
-    val sideEffect: SharedFlow<MyProfileScreenMainContract.Effect> = _sideEffect.asSharedFlow()
+    val sideEffect: SharedFlow<MyProfileScreensMainContract.Effect> = _sideEffect.asSharedFlow()
 
-    private fun setState(reduce: MyProfileScreenMainContract.State.() -> MyProfileScreenMainContract.State) {
+    private fun setState(reduce: MyProfileScreensMainContract.State.() -> MyProfileScreensMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

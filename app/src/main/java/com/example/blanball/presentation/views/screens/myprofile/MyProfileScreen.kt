@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
-import com.example.blanball.presentation.data.MyProfileScreenMainContract
+import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -48,7 +48,6 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EditProfileButton
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
-import com.example.blanball.presentation.views.components.dividers.VerticalDivider
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
@@ -74,7 +73,7 @@ fun MyProfileScreen(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        (state as? MyProfileScreenMainContract.State)?.let {
+        (state as? MyProfileScreensMainContract.State)?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -235,7 +234,6 @@ fun MyProfileScreen(
                             color = primaryDark,
                         )
                     }
-                    VerticalDivider(color = defaultLightGray)
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = stringResource(id = R.string.weight),
@@ -255,7 +253,6 @@ fun MyProfileScreen(
                             color = primaryDark,
                         )
                     }
-                    VerticalDivider(color = defaultLightGray)
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = stringResource(id = R.string.kicking_leg),
