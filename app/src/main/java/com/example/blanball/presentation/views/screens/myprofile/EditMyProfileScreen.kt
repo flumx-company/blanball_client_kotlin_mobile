@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,12 +30,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -42,6 +45,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
+import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -53,8 +57,12 @@ import com.example.blanball.presentation.views.components.cards.MyRatingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
+import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
+import com.example.blanball.utils.ext.isNotValidBirthDay
+import com.example.blanball.utils.ext.isNotValidBirthMonth
+import com.example.blanball.utils.ext.isNotValidBirthYear
 import com.example.blanball.utils.ext.isNotValidHeight
 import com.example.blanball.utils.ext.isNotValidWeight
 
@@ -65,6 +73,59 @@ fun EditMyProfileScreen(
     cancelBtnClicked: () -> Unit,
     saveBtnClicked: () -> Unit,
 ) {
+    val localFocusManager = LocalFocusManager.current
+    val regions = mutableListOf(
+        stringResource(id = R.string.vinnytska_region),
+        stringResource(id = R.string.volynska_region),
+        stringResource(id = R.string.dnipropetrovska_region),
+        stringResource(id = R.string.donetska_region),
+        stringResource(id = R.string.zhytomyrska_region),
+        stringResource(id = R.string.zakarpatska_region),
+        stringResource(id = R.string.zaporizka_region),
+        stringResource(id = R.string.ivano_frankivska_region),
+        stringResource(id = R.string.kievska_region),
+        stringResource(id = R.string.kirovogradska_region),
+        stringResource(id = R.string.luhanska_region),
+        stringResource(id = R.string.lvivska_region),
+        stringResource(id = R.string.mykolaivska_region),
+        stringResource(id = R.string.odeska_region),
+        stringResource(id = R.string.poltavska_region),
+        stringResource(id = R.string.rivnenska_region),
+        stringResource(id = R.string.sumska_region),
+        stringResource(id = R.string.ternopilska_region),
+        stringResource(id = R.string.kharkivska_region),
+        stringResource(id = R.string.khersonska_region),
+        stringResource(id = R.string.khmelnytska_region),
+        stringResource(id = R.string.cherkaska_region),
+        stringResource(id = R.string.chernivetska_region),
+        stringResource(id = R.string.chernihivska_region)
+    )
+    val cities = mutableListOf(
+        stringResource(id = R.string.vinnytska_city),
+        stringResource(id = R.string.volynska_city),
+        stringResource(id = R.string.dnipropetrovska_city),
+        stringResource(id = R.string.donetska_city),
+        stringResource(id = R.string.zhytomyrska_city),
+        stringResource(id = R.string.zakarpatska_city),
+        stringResource(id = R.string.zaporizka_city),
+        stringResource(id = R.string.ivano_frankivska_city),
+        stringResource(id = R.string.kievska_city),
+        stringResource(id = R.string.kirovogradska_city),
+        stringResource(id = R.string.luhanska_city),
+        stringResource(id = R.string.lvivska_city),
+        stringResource(id = R.string.mykolaivska_city),
+        stringResource(id = R.string.odeska_city),
+        stringResource(id = R.string.poltavska_city),
+        stringResource(id = R.string.rivnenska_city),
+        stringResource(id = R.string.sumska_city),
+        stringResource(id = R.string.ternopilska_city),
+        stringResource(id = R.string.kharkivska_city),
+        stringResource(id = R.string.khersonska_city),
+        stringResource(id = R.string.khmelnytska_city),
+        stringResource(id = R.string.cherkaska_city),
+        stringResource(id = R.string.chernivetska_city),
+        stringResource(id = R.string.chernihivska_city)
+    )
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_user),
         painterResource(id = R.drawable.ic_rate)
@@ -171,9 +232,9 @@ fun EditMyProfileScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.your_lastname,
-                    state = it ,
+                    state = it,
                     value = it.myLastNameText.value,
-                    onValueChange = { state.myLastNameText.value} ,
+                    onValueChange = { state.myLastNameText.value = it },
                     transformation = VisualTransformation.None,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
@@ -186,13 +247,89 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 DefaultTextInput(
-                    labelResId =R.string.a_few_words_about_me,
-                    state = it ,
+                    labelResId = R.string.a_few_words_about_me,
+                    state = it,
                     value = it.aboutMeText.value,
-                    onValueChange = {state.aboutMeText.value = it} ,
+                    onValueChange = { state.aboutMeText.value = it },
                     transformation = VisualTransformation.None,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BottomLineDefaultTextInput(
+                        labelResId = R.string.day,
+                        modifier = Modifier.weight(1f),
+                        value = it.dayBirthdayState.value,
+                        onValueChange = { state.dayBirthdayState.value = it },
+                        state = it,
+                        transformation = VisualTransformation.None,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        isError = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> true
+                            it.dayBirthdayState.value.isNotValidBirthDay() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                            it.dayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
+                            else -> {
+                                ("")
+                            }
+                        }
+                    )
+                    BottomLineDefaultTextInput(
+                        labelResId = R.string.month,
+                        value = it.monthBirthdayState.value,
+                        modifier = Modifier.weight(1f),
+                        state = it,
+                        transformation = VisualTransformation.None,
+                        onValueChange = { state.monthBirthdayState.value = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        isError = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> true
+                            it.monthBirthdayState.value.isNotValidBirthMonth() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                            it.monthBirthdayState.value.isNotValidBirthMonth() -> stringResource(id = R.string.birth_month_valid_error)
+                            else -> {
+                                ("")
+                            }
+                        }
+                    )
+                    BottomLineDefaultTextInput(
+                        labelResId = R.string.year,
+                        state = it,
+                        modifier = Modifier.weight(1f),
+                        transformation = VisualTransformation.None,
+                        value = it.yearBirthdayState.value,
+                        onValueChange = { state.yearBirthdayState.value = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
+                        isError = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> true
+                            it.yearBirthdayState.value.isNotValidBirthYear() -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+                            it.yearBirthdayState.value.isNotValidBirthYear() -> stringResource(id = R.string.birth_year_valid_error)
+                            else -> {
+                                ("")
+                            }
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(id = R.string.game_stats),
                     fontSize = 16.sp,
@@ -201,7 +338,7 @@ fun EditMyProfileScreen(
                     fontWeight = FontWeight(700),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(12.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     DefaultTextInput(
                         modifier = Modifier
@@ -214,12 +351,12 @@ fun EditMyProfileScreen(
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
                         isError = when {
-                            it.isErrorRequestToFinishOutTheProfile.value -> true
+//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.heightState.value.isNotValidHeight() ->  true
                             else -> false
                         },
                         errorMessage = when {
-                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.heightState.value.isNotValidHeight() ->  stringResource(id = R.string.height_valid_error)
                             else -> {("")}
                         }
@@ -236,12 +373,12 @@ fun EditMyProfileScreen(
                         keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
                         keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
                         isError = when {
-                            it.isErrorRequestToFinishOutTheProfile.value -> true
+//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.weightState.value.isNotValidWeight() ->  true
                             else -> false
                         },
                         errorMessage = when {
-                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
+//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.weightState.value.isNotValidWeight() ->  stringResource(id = R.string.weight_valid_error)
                             else -> {("")}
                         }
@@ -259,8 +396,9 @@ fun EditMyProfileScreen(
                         onValueChange = { state.workingLegState.value = it },
                     )
                 }
+                Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = "Контакти",
+                    text = stringResource(R.string.contacts),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -277,19 +415,19 @@ fun EditMyProfileScreen(
                 )
                 CustomDropDownMenu(
                     labelResId = R.string.city,
-                    listItems = ,
-                    value = ,
-                    onValueChange = )
+                    listItems = cities,
+                    value = it.cityState.value,
+                    onValueChange = { state.cityState.value = it })
                 Spacer(modifier = Modifier.size(12.dp))
                 CustomDropDownMenu(
-                    labelResId =,
-                    listItems =,
-                    value = ,
-                    onValueChange =
+                    labelResId = R.string.region,
+                    listItems = regions,
+                    value = it.regionState.value,
+                    onValueChange = { state.regionState.value = it }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Конфіденційність",
+                    text = stringResource(R.string.privacy),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -448,6 +586,18 @@ fun EditMyProfileScreen(
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
+                Divider(color = defaultLightGray)
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = stringResource(R.string.how_look_my_prof_for_others),
+                    fontSize = 13.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = secondaryNavy,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.size(4.dp))
             }
         }
     }

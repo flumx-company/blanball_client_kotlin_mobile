@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 class MyProfileScreensMainContract {
 
     sealed class Event : UiEvent {
-
     }
 
     data class State(
@@ -20,6 +19,15 @@ class MyProfileScreensMainContract {
         val plannedEventsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val aboutMeText: MutableState<String> = mutableStateOf(""),
         val phoneText: MutableState<String> = mutableStateOf("+380 (95) 390 86 50"),
+        val heightState: MutableState<String> = mutableStateOf(""),
+        val weightState: MutableState<String> = mutableStateOf(""),
+        val workingLegState: MutableState<String> = mutableStateOf(""),
+        val positionState: MutableState<String> = mutableStateOf(""),
+        val regionState: MutableState<String> = mutableStateOf(""),
+        val cityState: MutableState<String> = mutableStateOf(""),
+        val dayBirthdayState: MutableState<String> = mutableStateOf(""),
+        val monthBirthdayState: MutableState<String> = mutableStateOf(""),
+        val yearBirthdayState: MutableState<String> = mutableStateOf(""),
         ) : UiState
 
     sealed class Effect: UiEffect {

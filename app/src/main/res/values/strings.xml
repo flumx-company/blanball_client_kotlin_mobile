@@ -328,4 +328,7 @@
     <string name="phone_num">Номер телефону</string>
     <string name="edit_profile">Редагувати профіль</string>
     <string name="a_few_words_about_me">Декілька слів про мене</string>
+    <string name="contacts">Контакти</string>
+    <string name="privacy">Конфіденційність</string>
+    <string name="how_look_my_prof_for_others">Як виглядатиме мій профіль для інших?</string>
 </resources>
