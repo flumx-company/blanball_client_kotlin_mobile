@@ -274,8 +274,6 @@ fun MyProfileScreen(
 
                     }
                 }
-                Spacer(modifier = Modifier.size(12.dp))
-                Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = "Контакти",

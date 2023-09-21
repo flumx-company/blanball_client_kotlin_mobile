@@ -19,6 +19,7 @@ class MyProfileScreensMainContract {
         val myReviewsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val plannedEventsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val aboutMeText: MutableState<String> = mutableStateOf(""),
+        val phoneText: MutableState<String> = mutableStateOf("+380 (95) 390 86 50"),
         ) : UiState
 
     sealed class Effect: UiEffect {
