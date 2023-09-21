@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.navigation.AppScreensConfig
-import com.example.blanball.presentation.navigation.Destinations
 import com.example.blanball.presentation.theme.MyAppTheme
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
@@ -121,6 +120,7 @@ class MainActivity : ComponentActivity() {
                             verifyCodeManager = verifyCodeManager,
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),
+                            eventCreationScreenViewModel = viewModel(),
                         )
                     }
                 }

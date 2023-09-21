@@ -40,7 +40,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
@@ -234,7 +234,7 @@ fun RegistrationScreenStep1(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                NextAndPreviousButtons(
+                NextAndPreviousButtonsVertical(
                     isEnabled = it.phoneNumberText.value.isValidPhoneNumber()
                             && state.firstNameText.value.isValidUserName()
                             && state.lastNameText.value.isValidUserName()

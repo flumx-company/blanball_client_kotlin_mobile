@@ -35,7 +35,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
@@ -201,7 +201,7 @@ fun FillingOutTheUserProfileScreenStep4(
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
-                    NextAndPreviousButtons(
+                    NextAndPreviousButtonsVertical(
                         isEnabled = it.cityState.value.isNotEmpty()
                                 && it.regionState.value.isNotEmpty(),
                         nextBtnOnClick = onFinishClicked,

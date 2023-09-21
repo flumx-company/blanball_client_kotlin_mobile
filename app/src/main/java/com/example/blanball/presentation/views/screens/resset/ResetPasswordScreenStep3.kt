@@ -32,7 +32,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
@@ -163,7 +163,7 @@ fun ResetPasswordScreenStep3(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                NextAndPreviousButtons(
+                NextAndPreviousButtonsVertical(
                     isEnabled = currentState.newPassText.value.isInReqRange(min = 8) && currentState.repeatNewPassText.value == currentState.newPassText.value,
                     nextBtnOnClick = onFinishResetClicked,
                     prevBtnOnClick = onCancelClicked,

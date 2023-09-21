@@ -34,7 +34,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.utils.ext.isNotValidEmail
@@ -138,7 +138,7 @@ fun ResetPasswordScreenStep1(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                NextAndPreviousButtons(
+                NextAndPreviousButtonsVertical(
                     isEnabled = currentState.resetEmailText.value.isValidEmail(),
                     nextBtnOnClick = onStep2Clicked,
                     prevBtnOnClick = onCancelClicked,
