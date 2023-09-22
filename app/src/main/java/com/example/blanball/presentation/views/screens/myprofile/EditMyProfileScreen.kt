@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -52,6 +51,8 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.ChangePassButton
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
@@ -156,7 +157,7 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = "Оновіть своє фото та персональні дані",
+                    text = stringResource(id = R.string.update_your_photo_and_personal_data),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -193,7 +194,7 @@ fun EditMyProfileScreen(
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(56.dp)
-                                    .clip(CircleShape),
+                                    .clip(RoundedCornerShape(4.dp)),
                                 contentScale = ContentScale.Crop
                             )
                         }
@@ -329,7 +330,7 @@ fun EditMyProfileScreen(
                         }
                     )
                 }
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(id = R.string.game_stats),
                     fontSize = 16.sp,
@@ -396,7 +397,7 @@ fun EditMyProfileScreen(
                         onValueChange = { state.workingLegState.value = it },
                     )
                 }
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.contacts),
                     fontSize = 16.sp,
@@ -405,7 +406,7 @@ fun EditMyProfileScreen(
                     fontWeight = FontWeight(700),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.phone,
                     state = it,
@@ -413,6 +414,7 @@ fun EditMyProfileScreen(
                     onValueChange ={state.phoneText.value = it} ,
                     transformation = VisualTransformation.None,
                 )
+                Spacer(modifier = Modifier.size(12.dp))
                 CustomDropDownMenu(
                     labelResId = R.string.city,
                     listItems = cities,
@@ -425,7 +427,7 @@ fun EditMyProfileScreen(
                     value = it.regionState.value,
                     onValueChange = { state.regionState.value = it }
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.privacy),
                     fontSize = 16.sp,
@@ -480,7 +482,7 @@ fun EditMyProfileScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 Row {
                     Text(
-                        text = "Відгуки про мене",
+                        text = stringResource(R.string.reviews_about_me),
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -541,7 +543,8 @@ fun EditMyProfileScreen(
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
-                    text = "Безпека",
+                    text = stringResource(R.string.safety)
+                    ,
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,
@@ -550,7 +553,7 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = "Ви можете змінити свій логін, пароль",
+                    text = stringResource(R.string.you_can_change_your_login_and_pass),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -586,9 +589,12 @@ fun EditMyProfileScreen(
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
+                ChangePassButton {} //TODO()
+                Spacer(modifier = Modifier.size(20.dp))
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.how_look_my_prof_for_others),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
@@ -597,7 +603,16 @@ fun EditMyProfileScreen(
                     color = secondaryNavy,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.size(4.dp))
+                Spacer(modifier = Modifier.size(8.dp))
+                NextAndPreviousButtonsHorizontal(
+                    isEnabled = true, //TODO()
+                    nextBtnOnClick = { /*TODO*/ },
+                    prevBtnOnClick = { /*TODO*/ },
+                    nextBtnOnTextId = R.string.cancel,
+                    prevBtnOnTextId = R.string.save,
+                    cancelButtonColor = mainGreen,
+                    borderCancelButtonColor = mainGreen,
+                )
             }
         }
     }

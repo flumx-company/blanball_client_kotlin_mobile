@@ -3,6 +3,7 @@ package com.example.blanball.presentation.views.screens.myprofile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +12,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -39,12 +41,14 @@ import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.ChangePassButton
 import com.example.blanball.presentation.views.components.buttons.EditProfileButton
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
@@ -57,6 +61,8 @@ fun MyProfileScreen(
     state: UiState,
     paddingValues: PaddingValues,
     editProfileButtonClicked: () -> Unit,
+    exitBtnClicked: () -> Unit,
+    deleteAccBtnClicked: () -> Unit,
 ) {
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_user),
@@ -90,7 +96,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = "Оновіть своє фото та персональні дані",
+                    text = stringResource(R.string.update_your_photo_and_personal_data),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -127,7 +133,7 @@ fun MyProfileScreen(
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(56.dp)
-                                    .clip(CircleShape),
+                                    .clip(RoundedCornerShape(4.dp)),
                                 contentScale = ContentScale.Crop
                             )
                         }
@@ -165,6 +171,15 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
+                    text = "Щось там, щось тут, грала, бігала стрибала і медаль собі придбала", //TODO()
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
                     text = stringResource(R.string.about_youself2),
                     fontSize = 12.sp,
                     lineHeight = 20.sp,
@@ -173,25 +188,7 @@ fun MyProfileScreen(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    text = "Щось там, щось тут, грала, бігала стрибала і медаль собі придбала", //TODO()
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
-                )
-                Spacer(modifier = Modifier.size(12.dp))
                 Divider(color = defaultLightGray)
-                Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    text = stringResource(R.string.date_of_birthday),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = "13 травня 1997 р.", //TODO()
@@ -201,7 +198,16 @@ fun MyProfileScreen(
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(15.dp))
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = stringResource(R.string.date_of_birthday),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(id = R.string.game_stats),
                     fontSize = 16.sp,
@@ -213,18 +219,9 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.wrapContentHeight().fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(id = R.string.height),
-                            fontSize = 12.sp,
-                            lineHeight = 20.sp,
-                            style = typography.h4,
-                            fontWeight = FontWeight(400),
-                            color = primaryDark,
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
                         Text(
                             text = "168 см",
                             fontSize = 14.sp,
@@ -233,17 +230,19 @@ fun MyProfileScreen(
                             fontWeight = FontWeight(400),
                             color = primaryDark,
                         )
-                    }
-                    Column(modifier = Modifier.weight(1f)) {
+                        Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = stringResource(id = R.string.weight),
+                            text = stringResource(id = R.string.height),
                             fontSize = 12.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
                             fontWeight = FontWeight(400),
-                            color = primaryDark,
+                            color = secondaryNavy,
                         )
-                        Spacer(modifier = Modifier.size(4.dp))
+                    }
+                    Divider(color = defaultLightGray, modifier = Modifier.height(44.dp).width(1.dp))
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = "48 кг",
                             fontSize = 14.sp,
@@ -252,11 +251,22 @@ fun MyProfileScreen(
                             fontWeight = FontWeight(400),
                             color = primaryDark,
                         )
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = stringResource(id = R.string.weight),
+                            fontSize = 12.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = secondaryNavy,
+                        )
                     }
+                    Divider(color = defaultLightGray, modifier = Modifier.height(44.dp).width(1.dp))
+                    Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = stringResource(id = R.string.kicking_leg),
-                            fontSize = 12.sp,
+                            text = "Права",
+                            fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
                             fontWeight = FontWeight(400),
@@ -264,23 +274,51 @@ fun MyProfileScreen(
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = stringResource(id = R.string.right),
-                            fontSize = 14.sp,
+                            text = stringResource(id = R.string.kicking_leg),
+                            fontSize = 12.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
                             fontWeight = FontWeight(400),
-                            color = primaryDark,
+                            color = secondaryNavy,
                         )
-
                     }
                 }
+                Spacer(modifier = Modifier.size(12.dp))
+                Divider(color = defaultLightGray)
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    text = "Правий напівзахисник",
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = primaryDark,
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = stringResource(id = R.string.game_position),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = "Контакти",
+                    text = stringResource(id = R.string.contacts),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
                     fontWeight = FontWeight(700),
+                    color = primaryDark,
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    text = "+380 (95) 390 86 50",
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
@@ -293,25 +331,7 @@ fun MyProfileScreen(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    text = "+380 (95) 390 86 50",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
-                )
-                Spacer(modifier = Modifier.size(12.dp))
                 Divider(color = defaultLightGray)
-                Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    text = "Місце знаходження",
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = "Львів, Залізничний р-н.",
@@ -320,6 +340,15 @@ fun MyProfileScreen(
                     style = typography.h4,
                     fontWeight = FontWeight(400),
                     color = primaryDark,
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    text = "Місце знаходження",
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -481,7 +510,43 @@ fun MyProfileScreen(
                         tint = primaryDark
                     )
                 }
+                Spacer(modifier = Modifier.size(12.dp))
+                ChangePassButton {} //TODO()
                 Spacer(modifier = Modifier.size(16.dp))
+                Box (modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .clickable { exitBtnClicked() }
+                    .padding(top = 12.dp, bottom = 12.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.exit_from_acc),
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(500),
+                        color = secondaryNavy,
+                    )
+                }
+                Spacer(modifier = Modifier.size(12.dp))
+                Box (modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .clickable { deleteAccBtnClicked() }
+                    .padding(top = 12.dp, bottom = 12.dp),
+                    contentAlignment = Alignment.Center,
+                    ) {
+                    Text(
+                        text = stringResource(R.string.delete_acc),
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(500),
+                        color = errorRed,
+                    )
+                }
+                Spacer(modifier = Modifier.size(44.dp))
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()

@@ -79,6 +79,8 @@ fun NextAndPreviousButtonsHorizontal (
     prevBtnOnClick: () -> Unit,
     nextBtnOnTextId: Int,
     prevBtnOnTextId: Int,
+    cancelButtonColor: Color = secondaryNavy,
+    borderCancelButtonColor: Color = defaultLightGray
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Button(
@@ -89,18 +91,18 @@ fun NextAndPreviousButtonsHorizontal (
             shape = shapes.medium,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color.White,
-                contentColor = secondaryNavy,
+                contentColor = cancelButtonColor,
             ),
             border = BorderStroke(
                     width = 1.dp,
-            color = defaultLightGray,)
+            color = borderCancelButtonColor,)
         ) {
             Text(
                 text = stringResource(id = prevBtnOnTextId),
                 style = typography.h4,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
-                color = secondaryNavy,
+                color = cancelButtonColor,
                 fontWeight = FontWeight(500),
             )
         }
@@ -126,3 +128,4 @@ fun NextAndPreviousButtonsHorizontal (
         }
     }
 }
+

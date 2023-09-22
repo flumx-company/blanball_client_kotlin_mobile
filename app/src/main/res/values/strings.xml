@@ -376,9 +376,16 @@
     <string name="edit_profile">Редагувати профіль</string>
     <string name="a_few_words_about_me">Декілька слів про мене</string>
     <string name="contacts">Контакти</string>
-    <string name="privacy">Конфіденційність</string>
     <string name="how_look_my_prof_for_others">Як виглядатиме мій профіль для інших?</string>
     <string name="good">Добре</string>
     <string name="nice">Чудово!</string>
     <string name="event_created_successfully">Подію успішно створено</string>
+    <string name="save">Зберегти</string>
+    <string name="reviews_about_me">Відгуки про мене</string>
+    <string name="safety">Безпека</string>
+    <string name="you_can_change_your_login_and_pass">Ви можете змінити свій логін, пароль</string>
+    <string name="change_pass">Змінити пароль</string>
+    <string name="exit_from_acc">Вийти з акаунту</string>
+    <string name="delete_acc">Видалити акаунт</string>
+    <string name="update_your_photo_and_personal_data">Оновіть своє фото та персональні дані</string>
 </resources>

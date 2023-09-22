@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.surfaceDarkerBrand
-import com.example.blanball.presentation.theme.textDisable
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.ratingbars.RatingBarWithStarsAndNum
 
@@ -51,7 +51,7 @@ fun MyRatingCard() {
                     lineHeight = 20.sp,
                     style = typography.h4,
                     fontWeight = FontWeight(500),
-                    color = textDisable,
+                    color = secondaryNavy,
                     textAlign = TextAlign.Center,
                 )
         }

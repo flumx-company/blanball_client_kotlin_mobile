@@ -63,3 +63,8 @@ fun InvitedUsersBottomDrawer(
     }
 
 }
+
+@Composable
+fun ModalBottomSheet(onDismissRequest: () -> Unit, content: @Composable () -> Unit) {
+    TODO("Not yet implemented")
+}

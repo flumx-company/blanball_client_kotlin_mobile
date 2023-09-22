@@ -1,11 +1,15 @@
 package com.example.blanball.presentation.navigation
 
+import Destinations
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,26 +21,34 @@ import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
+import com.example.blanball.presentation.viewmodels.MyProfileScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
+import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
+import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
+import com.example.blanball.presentation.views.components.textinputs.SimpleDatePickerInDatePickerDialog
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
-import com.example.blanball.presentation.views.screens.createnewevent.CreateNewEventScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep1
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep2
+import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep3
 import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
@@ -784,6 +796,7 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.MY_PROFILE.route) {
+            val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -805,6 +818,8 @@ fun AppScreensConfig(
                         state = myProfileScreenState,
                         paddingValues = it,
                         editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
+                        exitBtnClicked = {},
+                        deleteAccBtnClicked = {}
                     )
                 }
             )
@@ -886,7 +901,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openDrawer,
+                        onNavIconClicked = openNavDrawer,
                     )
                 },
                 bottomBar = {
@@ -977,7 +992,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openDrawer,
+                        onNavIconClicked = openNavDrawer,
                     )
                 },
                 bottomBar = {
