@@ -438,7 +438,7 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Налаштуйте видимість ваших персональних даних іншим користувачам",
+                    text = stringResource(id = R.string.adjust_the_visibility),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,

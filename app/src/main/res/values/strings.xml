@@ -388,4 +388,6 @@
     <string name="exit_from_acc">Вийти з акаунту</string>
     <string name="delete_acc">Видалити акаунт</string>
     <string name="update_your_photo_and_personal_data">Оновіть своє фото та персональні дані</string>
+    <string name="adjust_the_visibility">Налаштуйте видимість ваших персональних даних іншим користувачам</string>
+    <string name="location">Місце знаходження</string>
 </resources>

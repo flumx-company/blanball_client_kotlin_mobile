@@ -219,7 +219,9 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.wrapContentHeight().fillMaxWidth()
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -240,7 +242,9 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier.height(44.dp).width(1.dp))
+                    Divider(color = defaultLightGray, modifier = Modifier
+                        .height(44.dp)
+                        .width(1.dp))
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -261,7 +265,9 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier.height(44.dp).width(1.dp))
+                    Divider(color = defaultLightGray, modifier = Modifier
+                        .height(44.dp)
+                        .width(1.dp))
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -343,7 +349,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Місце знаходження",
+                    text = stringResource(R.string.location),
                     fontSize = 12.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -352,7 +358,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = "Конфіденційність",
+                    text = stringResource(id = R.string.privacy),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -361,7 +367,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Налаштуйте видимість ваших персональних даних іншим користувачам",
+                    text = stringResource(R.string.adjust_the_visibility),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -405,7 +411,7 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 Row {
                     Text(
-                        text = "Відгуки про мене",
+                        text = stringResource(R.string.reviews_about_me),
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -466,7 +472,7 @@ fun MyProfileScreen(
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
-                    text = "Безпека",
+                    text = stringResource(id = R.string.safety),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,
@@ -475,7 +481,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = "Ви можете змінити свій логін, пароль",
+                    text = stringResource(id = R.string.you_can_change_your_login_and_pass),
                     fontSize = 13.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
