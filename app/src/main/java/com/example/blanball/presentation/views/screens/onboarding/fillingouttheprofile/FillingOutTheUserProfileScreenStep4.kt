@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.LightGray
+import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.primaryDark
@@ -190,7 +190,7 @@ fun FillingOutTheUserProfileScreenStep4(
                         Text(
                             text = stringResource(id = R.string.optional),
                             style = typography.h6,
-                            color = LightGray,
+                            color = lightGray,
                             modifier = Modifier
                                 .padding(end = 8.dp)
                                 .background(

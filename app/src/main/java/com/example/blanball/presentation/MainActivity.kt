@@ -119,6 +119,7 @@ class MainActivity : ComponentActivity() {
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
                             foundAnErrorViewModel = viewModel(),
+                            myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),
                         )
                     }
