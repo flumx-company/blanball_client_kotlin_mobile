@@ -390,4 +390,6 @@
     <string name="update_your_photo_and_personal_data">Оновіть своє фото та персональні дані</string>
     <string name="adjust_the_visibility">Налаштуйте видимість ваших персональних даних іншим користувачам</string>
     <string name="location">Місце знаходження</string>
+    <string name="for_editing">До редагування</string>
+    <string name="sav_and_exit">Зберегти та вийти</string>
 </resources>
