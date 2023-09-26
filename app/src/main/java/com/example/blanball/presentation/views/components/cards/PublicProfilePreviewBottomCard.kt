@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.backgroundDark
 import com.example.blanball.presentation.theme.backgroundLight
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shadowDark
@@ -98,7 +99,7 @@ fun PublicProfilePreviewBottomCard(
                     .weight(1f)
                     .clickable {  }
                     .background(
-                        color = primaryDark,
+                        color = backgroundDark,
                         shape = RoundedCornerShape(size = 6.dp)
                     )
                     .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),

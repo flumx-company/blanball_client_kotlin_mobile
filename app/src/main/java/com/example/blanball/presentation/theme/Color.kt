@@ -30,6 +30,7 @@ val lightGray = Color(0xFFA8A8BD)
 val surfaceDarkerBrand = Color(0xFFF0F0F5)
 val backgroundLight = Color(0xE5F9F9FC)
 val shadowDark = Color(0x1A3838FB)
+val backgroundDark = Color(0xFF424257)
 val textDisable = Color(0xFF9B9BA8)
 
 //TODO: incorrect names - will be edited during development
