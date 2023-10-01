@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 class EventCreationScreenMainContract {
 
     sealed class Event : UiEvent {
+        object CreateNewEventClicked: Event()
     }
 
     data class State(
@@ -17,7 +18,7 @@ class EventCreationScreenMainContract {
         val placeOfEvent: MutableState<String> = mutableStateOf(""),
         val sportType: MutableState<String> = mutableStateOf(""),
         val entryStates: MutableState<EntryStates> = mutableStateOf(EntryStates.NO_SELECT),
-        val contributinsStates: MutableState<СontributionsStates> = mutableStateOf(СontributionsStates.NO_SELECT),
+        val contributingStates: MutableState<СontributionsStates> = mutableStateOf(СontributionsStates.NO_SELECT),
         val needFormStates: MutableState<NeedFormStates> = mutableStateOf(NeedFormStates.NO_SELECT),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDescriptionState: MutableState<String> = mutableStateOf(""),
@@ -27,14 +28,16 @@ class EventCreationScreenMainContract {
         val maxEventPlayersState: MutableState<String> = mutableStateOf(""),
         val usersSearchState: MutableState<String> = mutableStateOf(""),
         val priseSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
-        val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false)
+        val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
+        val isErrorEventCreation:  MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         ) : UiState
 
     sealed class ScreenViewState {
         object Idle: ScreenViewState()
         object Loading : ScreenViewState()
-        object LoadingSuccess: ScreenViewState()
-        object LoadingError : ScreenViewState()
+        object SuccessRequest: ScreenViewState()
+        object ErrorRequest: ScreenViewState()
     }
 
     sealed class Effect : UiEffect {
