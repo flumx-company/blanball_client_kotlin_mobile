@@ -46,6 +46,8 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidErrorTopicField
+import com.example.blanball.utils.ext.isValidErrorTopicField
 
 @Composable
 fun EventCreationScreenStep1(
@@ -58,6 +60,7 @@ fun EventCreationScreenStep1(
     bottomDrawerPreviewContent: @Composable () -> Unit,
     datePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    backBtnCLicked: () -> Unit,
 ) {
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
@@ -108,7 +111,18 @@ fun EventCreationScreenStep1(
                     state = it,
                     value = it.eventName.value,
                     onValueChange = { state.eventName.value = it },
-                    transformation = VisualTransformation.None
+                    transformation = VisualTransformation.None,
+                    isError = when {
+                        it.eventName.value.isNotValidErrorTopicField() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.eventName.value.isNotValidErrorTopicField() ->
+                            stringResource(R.string.validation_text_error_topic)
+                        else -> {
+                            ("")
+                        }
+            }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -309,9 +323,10 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
+                    isEnabled =  it.eventName.value.isValidErrorTopicField()
+                            && it.eventName.value.isNotEmpty(),
                     nextBtnOnClick = { navigateToSecondStep() },
-                    prevBtnOnClick = { /*TODO*/ },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )

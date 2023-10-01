@@ -55,6 +55,8 @@ fun EventCreationScreenStep3(
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    publishBtnClicked: () -> Unit,
+    backBtnCLicked: () -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     (state as? EventCreationScreenMainContract.State)?.let {
@@ -280,8 +282,8 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true,
-                    nextBtnOnClick = { /*TODO*/ },
-                    prevBtnOnClick = { /*TODO*/ },
+                    nextBtnOnClick = { publishBtnClicked() },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.publish,
                     prevBtnOnTextId = R.string.back,
                 )

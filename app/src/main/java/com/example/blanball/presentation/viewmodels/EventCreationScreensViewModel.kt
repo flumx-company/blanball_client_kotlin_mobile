@@ -1,11 +1,15 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
+import com.example.blanball.utils.ext.NeedFormStatesToBoolean
+import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +28,7 @@ import javax.inject.Inject
 class EventCreationScreensViewModel
 @Inject constructor(
     internal val creationNewEventUseCase: CreationAnEventUseCase,
+    private val application: Application,
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -66,16 +71,16 @@ class EventCreationScreensViewModel
                 date_and_time = currentState.timeAndDateOfEvent.value,
                 description = currentState.eventDescriptionState.value,
                 duration = 10,
-                forms = currentState.needFormStates.value,
-                gender = currentState.playersGenderStates.value,
+                forms = currentState.needFormStates.value.NeedFormStatesToBoolean(),
+                gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
                 hidden = currentState.,
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
-                need_form = currentState.needFormStates.value,
+                need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place = null, //TODO()
                 price = currentState.priseSwitchButtonState.value,
-                price_description = null, //TODO()
-                privacy = currentState.,
+                price_description = "", //TODO()
+                privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value,
             ).let {
                 when (it) {

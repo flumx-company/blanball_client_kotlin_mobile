@@ -976,7 +976,10 @@ fun AppScreensConfig(
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        publishBtnClicked = {
+
+                        }
                     )
                 }
             )

@@ -97,34 +97,35 @@ fun EventCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                            it.isEventPrivacy.value =
+                                EventCreationScreenMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                                it.isEventPrivacy.value =
+                                    EventCreationScreenMainContract.EventPrivacyStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.WOMANS,
+                        selected = it.isEventPrivacy.value == EventCreationScreenMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.MANS
+                            it.isEventPrivacy.value =
+                                EventCreationScreenMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.MANS
+                                it.isEventPrivacy.value =
+                                    EventCreationScreenMainContract.EventPrivacyStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.MANS,
+                        selected = it.isEventPrivacy.value ==
+                            EventCreationScreenMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                 }

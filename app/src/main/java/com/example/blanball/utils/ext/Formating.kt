@@ -2,6 +2,7 @@ package com.example.blanball.utils.ext
 
 import android.content.Context
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import java.text.DecimalFormat
@@ -79,4 +80,28 @@ internal fun String.formatPositionToEnglish(context: Context): String {
       context.resources.getString(R.string.forward_striker) -> context.resources.getString(R.string.st)
       else -> ""
   }
+}
+
+internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
+    return when (this) {
+        EventCreationScreenMainContract.EventPrivacyStates.YES -> true
+        EventCreationScreenMainContract.EventPrivacyStates.NO -> false
+        else -> false
+    }
+}
+
+internal fun EventCreationScreenMainContract.NeedFormStates.NeedFormStatesToBoolean(): Boolean {
+    return when (this) {
+        EventCreationScreenMainContract.NeedFormStates.YES -> true
+        EventCreationScreenMainContract.NeedFormStates.NO -> false
+        else -> false
+    }
+}
+
+internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToString(context: Context): String {
+    return when (this) {
+        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man)
+        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman)
+        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+    }
 }

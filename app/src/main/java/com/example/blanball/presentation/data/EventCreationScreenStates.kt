@@ -31,6 +31,7 @@ class EventCreationScreenMainContract {
         val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventCreation:  MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
+        val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
         ) : UiState
 
     sealed class ScreenViewState {
@@ -63,6 +64,12 @@ class EventCreationScreenMainContract {
     }
 
     enum class NeedFormStates {
+        NO_SELECT,
+        YES,
+        NO,
+    }
+
+    enum class EventPrivacyStates {
         NO_SELECT,
         YES,
         NO,
