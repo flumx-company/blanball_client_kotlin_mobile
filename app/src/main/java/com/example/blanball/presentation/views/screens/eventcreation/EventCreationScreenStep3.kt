@@ -44,11 +44,12 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
 @Composable
-fun EventCreationScreenStep3(
+fun     EventCreationScreenStep3(
     paddingValues: PaddingValues,
     state: UiState,
     isBottomDrawerOpen: MutableState<Boolean>,
@@ -58,6 +59,10 @@ fun EventCreationScreenStep3(
     publishBtnClicked: () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
+    val currentState: EventCreationScreenMainContract.State =
+        (state as? EventCreationScreenMainContract.State) ?: EventCreationScreenMainContract.State(
+            EventCreationScreenMainContract.ScreenViewState.Idle
+        )
     val localFocusManager = LocalFocusManager.current
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -297,5 +302,8 @@ fun EventCreationScreenStep3(
                 }
             }
         }
+    }
+    if (currentState.state is EventCreationScreenMainContract.ScreenViewState.Loading) {
+        Loader()
     }
 }

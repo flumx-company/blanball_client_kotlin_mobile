@@ -50,7 +50,7 @@ interface AppRepository {
         duration: Int,
         forms: CreationAnEventResponseEntityForms? = null,
         gender: String,
-        hidden: Boolean,
+        hidden: Boolean?,
         name: String,
         need_ball: Boolean,
         need_form: Boolean,

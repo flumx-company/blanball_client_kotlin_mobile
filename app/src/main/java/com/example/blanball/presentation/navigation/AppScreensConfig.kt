@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
@@ -633,13 +634,14 @@ fun AppScreensConfig(
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         isDatePickerModalOpen = isDatePickerModalVisible,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                         datePickerModalContent = {
                             SimpleDatePickerInDatePickerDialog(
                                 selectedState = currentState.eventDateState,
-                                backBtnClicked = {isDatePickerModalVisible.value = false}
+                                backBtnClicked = { isDatePickerModalVisible.value = false }
                             )
-                        }
+                        },
+                        backBtnCLicked = {}
                     )
                 }
             )
@@ -952,6 +954,7 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
+
             val state = eventCreationScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -978,8 +981,11 @@ fun AppScreensConfig(
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                         publishBtnClicked = {
-
-                        }
+                            eventCreationScreenViewModel.handleEvent(
+                                EventCreationScreenMainContract.Event.CreateNewEventClicked
+                            )
+                        },
+                        backBtnCLicked = {},
                     )
                 }
             )

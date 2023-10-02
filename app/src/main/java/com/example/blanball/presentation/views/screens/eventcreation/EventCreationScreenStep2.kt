@@ -114,18 +114,18 @@ fun EventCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             it.isEventPrivacy.value =
-                                EventCreationScreenMainContract.EventPrivacyStates.NO
+                                EventCreationScreenMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.isEventPrivacy.value =
-                                    EventCreationScreenMainContract.EventPrivacyStates.NO
+                                    EventCreationScreenMainContract.EventPrivacyStates.YES
                             },
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
                         selected = it.isEventPrivacy.value ==
-                            EventCreationScreenMainContract.EventPrivacyStates.NO,
+                            EventCreationScreenMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
@@ -260,7 +260,7 @@ fun EventCreationScreenStep2(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "2 / 4", //TODO()
+                        text = "2 / 3", //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

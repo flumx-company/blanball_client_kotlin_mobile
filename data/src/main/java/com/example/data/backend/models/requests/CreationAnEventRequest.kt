@@ -11,7 +11,7 @@ data class CreationAnEventRequest(
     @Json (name = "duration") val duration: Int,
     @Json (name = "forms") val forms: CreationAnEventRequestForms? = null,
     @Json (name = "gender") val gender: String,
-    @Json (name = "hidden") val hidden: Boolean,
+    @Json (name = "hidden") val hidden: Boolean?,
     @Json (name = "name") val name: String,
     @Json (name = "need_ball") val need_ball: Boolean,
     @Json (name = "need_form") val need_form: Boolean,

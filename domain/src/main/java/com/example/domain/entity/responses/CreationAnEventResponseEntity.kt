@@ -15,7 +15,7 @@ data class CreationAnEventResponseEntityData(
     val duration: Int,
     val forms: CreationAnEventResponseEntityForms,
     val gender: String,
-    val hidden: Boolean,
+    val hidden: Boolean?,
     val name: String,
     val need_ball: Boolean,
     val need_form: Boolean,

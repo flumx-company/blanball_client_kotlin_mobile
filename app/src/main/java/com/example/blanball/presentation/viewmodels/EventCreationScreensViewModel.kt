@@ -57,7 +57,7 @@ class EventCreationScreensViewModel
                         state = EventCreationScreenMainContract.ScreenViewState.Loading
                     )
                 }
-
+                requestCreationNewEvent()
             }
         }
     }
@@ -71,14 +71,13 @@ class EventCreationScreensViewModel
                 date_and_time = currentState.timeAndDateOfEvent.value,
                 description = currentState.eventDescriptionState.value,
                 duration = 10,
-                forms = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
-                hidden = currentState.,
+                hidden = false,
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place = null, //TODO()
-                price = currentState.priseSwitchButtonState.value,
+                price = 10, //TODO
                 price_description = "", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value,

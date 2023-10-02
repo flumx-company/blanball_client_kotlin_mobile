@@ -287,7 +287,7 @@ fun EventCreationScreenStep1(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "1 / 4", //TODO()
+                        text = "1 / 3", //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

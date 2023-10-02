@@ -96,7 +96,7 @@
             duration: Int,
             forms: CreationAnEventResponseEntityForms?,
             gender: String,
-            hidden: Boolean,
+            hidden: Boolean?,
             name: String,
             need_ball: Boolean,
             need_form: Boolean,
