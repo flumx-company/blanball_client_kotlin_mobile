@@ -146,6 +146,7 @@
             return try {
                 val getMyProfileResponse = service.getMyProfile(page)
                 val getMyProfileDomainResponse = getMyProfileResponse.toGetMyProfileResponseEntity()
+                userPhoneManager.safeUserPhone(getMyProfileDomainResponse.data.phone.toString())
                 GetMyProfileResultEntity.Success(getMyProfileDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =

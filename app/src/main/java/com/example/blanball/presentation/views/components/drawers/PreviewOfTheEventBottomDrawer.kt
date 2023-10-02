@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +34,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.mainGreen
@@ -41,14 +44,18 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
-import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.PlayersGenderStatesToUkrainianString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreviewOfTheEventBottomDrawer(
     bottomDrawerState: SheetState,
     closeBottomDrawer: () -> Unit,
+    state: UiState,
 ) {
+    val context = LocalContext.current
+    (state as? EventCreationScreenMainContract.State)?.let {
    ModalBottomSheet(
        sheetState = bottomDrawerState,
        onDismissRequest = { closeBottomDrawer() }) {
@@ -90,7 +97,7 @@ fun PreviewOfTheEventBottomDrawer(
                        Spacer(modifier = Modifier.size(8.dp))
                        Column {
                            Text(
-                               text = stringResource(id = R.string.friendly_match),
+                               text = state.typeOfEvent.value,
                                fontSize = 16.sp,
                                lineHeight = 20.sp,
                                style = typography.h3,
@@ -139,7 +146,7 @@ fun PreviewOfTheEventBottomDrawer(
                    }
                    Spacer(modifier = Modifier.size(12.dp))
                    Text(
-                       text = "Ласкаво просимо на наш футбольний захід! Ми запрошуємо всіх шанувальників футболу приєднатися до нас на захоплюючих матчах. Незалежно від вашого досвіду гри або рівня майстерності, ми знайдемо вам місце у нашій команді. Наші матчі проходять в дружній та включаючій атмосфері, де всі гравці залучені до проявлення своїх навиків та веселого проведення часу. Не пропустіть можливість стати частиною нашої футбольної спільноти. Зареєструйтесь зараз та давайте розпочнемо грати!",
+                       text = state.eventDescriptionState.value,
                        fontSize = 12.sp,
                        lineHeight = 20.sp,
                        style = typography.h4,
@@ -150,24 +157,21 @@ fun PreviewOfTheEventBottomDrawer(
                    )
                    Spacer(modifier = Modifier.size(12.dp))
                    Row {
-                       TextBadge(textResId = R.string.football)
+                       TextBadge2(text = state.playersGenderStates.value.PlayersGenderStatesToUkrainianString(context))
                        Spacer(modifier = Modifier.size(4.dp))
-                       TextBadge(textResId = R.string.mans)
-                       Spacer(modifier = Modifier.size(4.dp))
-                       TextBadge(textResId = R.string.withour_divison)
+                       TextBadge2(text = state.sportType.value)
                    }
                    Spacer(modifier = Modifier.size(12.dp))
                    DottedLine(color = annotationGray)
                    Spacer(modifier = Modifier.size(12.dp))
                    Row {
-
                        Text(
-                           text = "В’ячеслав Залізняк",
+                           text = state.eventName.value,
                            fontSize = 13.sp,
                            lineHeight = 24.sp,
                            style = typography.h4,
                            fontWeight = FontWeight(400),
-                           color = mainGreen,
+                           color = secondaryNavy,
                        )
                        Spacer(modifier = Modifier.weight(1f))
                        Text(
@@ -192,7 +196,7 @@ fun PreviewOfTheEventBottomDrawer(
                                    color = secondaryNavy,
                                )
                                Text(
-                                   text = " 10 / 20",
+                                   text = state.countOfFans.value.toString(),
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,
@@ -210,7 +214,7 @@ fun PreviewOfTheEventBottomDrawer(
                                    color = secondaryNavy,
                                )
                                Text(
-                                   text = " 17 / 30",
+                                   text = state.countOfPlayers.value.toString(),
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,
@@ -238,6 +242,8 @@ fun PreviewOfTheEventBottomDrawer(
                            )
                        }
                    }
+                   }
+
                }
            }
    }

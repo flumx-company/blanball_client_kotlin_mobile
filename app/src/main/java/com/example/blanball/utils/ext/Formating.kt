@@ -105,3 +105,11 @@ internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderSt
         EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
     }
 }
+
+internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(context: Context): String {
+    return when (this) {
+        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
+        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
+        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+    }
+}

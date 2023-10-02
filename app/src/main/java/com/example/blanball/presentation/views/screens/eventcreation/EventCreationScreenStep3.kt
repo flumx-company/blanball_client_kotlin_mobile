@@ -49,7 +49,7 @@ import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
 @Composable
-fun     EventCreationScreenStep3(
+fun EventCreationScreenStep3(
     paddingValues: PaddingValues,
     state: UiState,
     isBottomDrawerOpen: MutableState<Boolean>,
@@ -188,7 +188,7 @@ fun     EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "+38 066 825 67 98", //TODO()
+                    text = state.phoneNumberState.value, //TODO()
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -257,14 +257,13 @@ fun     EventCreationScreenStep3(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "3 / 3", //TODO()
+                        text = stringResource(R.string._3_3), //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),

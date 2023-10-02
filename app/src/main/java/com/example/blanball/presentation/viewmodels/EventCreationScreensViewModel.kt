@@ -122,7 +122,7 @@ class EventCreationScreensViewModel
         }
     }
 
-    private fun setState(reduce: EventCreationScreenMainContract.State.() -> EventCreationScreenMainContract.State) {
+    internal fun setState(reduce: EventCreationScreenMainContract.State.() -> EventCreationScreenMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

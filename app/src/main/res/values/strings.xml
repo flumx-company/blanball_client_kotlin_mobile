@@ -269,7 +269,7 @@
     <string name="friendly_match">Дружній матч</string>
     <string name="i_am_with_you">Я з вами!</string>
     <string name="football">Футбол</string>
-    <string name="mans">Чоловіки</string>
+    <string name="man_ukr">Чоловіки</string>
     <string name="withour_divison">Без розряду</string>
     <string name="free">Безкоштовно</string>
     <string name="players">Гравці:</string>
@@ -319,7 +319,7 @@
     <string name="event_type">Тип події</string>
     <string name="gender_of_event_participants">Стать учасників події</string>
     <string name="sport_type">Вид спорт</string>
-    <string name="womans">Жінки</string>
+    <string name="woman_ukr">Жінки</string>
     <string name="event_name">Назва події</string>
     <string name="date_and_time_of_event">Дата, час проведення</string>
     <string name="place_of_event">Місце проведення</string>
@@ -392,4 +392,7 @@
     <string name="location">Місце знаходження</string>
     <string name="for_editing">До редагування</string>
     <string name="sav_and_exit">Зберегти та вийти</string>
+    <string name="_1_3">1 / 3</string>
+    <string name="_2_3">2 / 3</string>
+    <string name="_3_3">3 / 3</string>
 </resources>

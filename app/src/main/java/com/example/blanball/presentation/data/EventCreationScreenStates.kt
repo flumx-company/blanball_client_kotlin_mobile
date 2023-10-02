@@ -32,6 +32,8 @@ class EventCreationScreenMainContract {
         val isErrorEventCreation:  MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
+        val countOfPlayers: MutableState<Int> = mutableStateOf(0),
+        val countOfFans: MutableState<Int> = mutableStateOf(0),
         ) : UiState
 
     sealed class ScreenViewState {

@@ -260,14 +260,13 @@ fun EventCreationScreenStep2(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "2 / 3", //TODO()
+                        text = stringResource(R.string._2_3), //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),

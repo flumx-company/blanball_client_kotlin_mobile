@@ -150,7 +150,7 @@ fun EventCreationScreenStep1(
                                     EventCreationScreenMainContract.PlayersGenderStates.WOMANS
                             },
                         state = it,
-                        text = stringResource(id = R.string.womans),
+                        text = stringResource(id = R.string.woman_ukr),
                         selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
@@ -166,7 +166,7 @@ fun EventCreationScreenStep1(
                                     EventCreationScreenMainContract.PlayersGenderStates.MANS
                             },
                         state = it,
-                        text = stringResource(id = R.string.mans),
+                        text = stringResource(id = R.string.man_ukr),
                         selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
@@ -287,14 +287,13 @@ fun EventCreationScreenStep1(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "1 / 3", //TODO()
+                        text = stringResource(R.string._1_3), //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),

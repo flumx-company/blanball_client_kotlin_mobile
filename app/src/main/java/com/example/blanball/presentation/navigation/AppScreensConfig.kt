@@ -82,6 +82,7 @@ import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -174,8 +175,15 @@ fun AppScreensConfig(
     val bottomPreviewDrawerState = rememberModalBottomSheetState()
     val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
+    val eventCreationScreenViewModelState =
+        eventCreationScreenViewModel.uiState.collectAsState().value
+
     val bottomDrawerContent: @Composable () -> Unit = {
-        PreviewOfTheEventBottomDrawer(bottomDrawerState = bottomPreviewDrawerState, closeBottomDrawer = { isBottomPreviewDrawerOpen.value = false })
+        PreviewOfTheEventBottomDrawer(
+            bottomDrawerState = bottomPreviewDrawerState,
+            closeBottomDrawer = { isBottomPreviewDrawerOpen.value = false },
+            state = eventCreationScreenViewModelState
+        )
     }
 
     val openBottomDrawer: () -> Unit = {
@@ -607,7 +615,6 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
             val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -628,7 +635,7 @@ fun AppScreensConfig(
                 content = { it ->
                     EventCreationScreenStep1(
                         paddingValues = it,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
@@ -922,7 +929,6 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_2.route) {
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -942,20 +948,28 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventCreationScreenStep2(
                         paddingValues = paddingValues,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                     )
                 }
             )
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
-
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
+            LaunchedEffect(key1 = Unit) {
+                val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
+                eventCreationScreenViewModel.setState {
+                    copy(
+                        phoneNumberState = mutableStateOf(
+                            userPhoneString
+                        )
+                    )
+                }
+            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -975,7 +989,7 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventCreationScreenStep3(
                         paddingValues = paddingValues,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
