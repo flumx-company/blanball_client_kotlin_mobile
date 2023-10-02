@@ -37,7 +37,8 @@ import com.example.blanball.presentation.views.components.drawers.NavigationDraw
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
-import com.example.blanball.presentation.views.components.textinputs.SimpleDatePickerInDatePickerDialog
+import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
+import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
@@ -615,6 +616,7 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
+            val isTimePickerModalVisible = remember { mutableStateOf(false) }
             val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -639,15 +641,22 @@ fun AppScreensConfig(
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
+                        isTimePickerModalOpen = isTimePickerModalVisible,
                         isDatePickerModalOpen = isDatePickerModalVisible,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                         datePickerModalContent = {
-                            SimpleDatePickerInDatePickerDialog(
+                            DatePickerModal(
                                 selectedState = currentState.eventDateState,
                                 backBtnClicked = { isDatePickerModalVisible.value = false }
                             )
                         },
+ timePickerModalContent = {
+     SimpleTimePickerInAlertDialog(
+         selectedTimeState = currentState.startEventTimeState,
+         backBtnClicked = {isTimePickerModalVisible.value = false}
+     )
+ },
                         backBtnCLicked = {}
                     )
                 }

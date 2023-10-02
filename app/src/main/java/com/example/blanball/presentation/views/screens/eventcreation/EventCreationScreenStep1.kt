@@ -56,9 +56,11 @@ fun EventCreationScreenStep1(
     navigateToSecondStep: () -> Unit,
     isBottomDrawerOpen: MutableState<Boolean>,
     isDatePickerModalOpen: MutableState<Boolean>,
+    isTimePickerModalOpen: MutableState<Boolean>,
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     datePickerModalContent: @Composable () -> Unit,
+    timePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
@@ -188,44 +190,57 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
-                    labelResId = R.string.date,
-                    readOnly = true,
-                    state = it,
-                    value = it.eventDateState.value ?: "",
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_date),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
-                Spacer(modifier = Modifier.size(16.dp))
-                Text(
-                    text = stringResource(R.string.сhose_event_time),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
+                Box (
+                    modifier = Modifier
+                        .clickable { isDatePickerModalOpen.value = true }
                 )
+                {
+                    DefaultTextInput(
+                        textFieldModifier = Modifier
+                            .fillMaxWidth(),
+                        labelResId = R.string.date,
+                        readOnly = true,
+                        state = it,
+                        value = it.eventDateState.value ?: "",
+                        onValueChange = {},
+                        transformation = VisualTransformation.None,
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_date),
+                                contentDescription = null,
+                                tint = primaryDark,
+                            )
+                        })
+                }
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(labelResId = R.string.event_time_start,
-                    textFieldModifier = Modifier.fillMaxWidth(),
-                    state = it,
-                    readOnly = true,
-                    value = it.startEventTimeState.value,
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_time),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
+                    Text(
+                        text = stringResource(R.string.сhose_event_time),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                    )
+                Spacer(modifier = Modifier.size(16.dp))
+                Box (
+                    modifier = Modifier
+                        .clickable { isTimePickerModalOpen.value = true }
+                ) {
+                    DefaultTextInput(labelResId = R.string.event_time_start,
+                        textFieldModifier = Modifier.fillMaxWidth(),
+                        state = it,
+                        readOnly = true,
+                        value = it.startEventTimeState.value ?: "",
+                        onValueChange = {},
+                        transformation = VisualTransformation.None,
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_time),
+                                contentDescription = null,
+                                tint = primaryDark,
+                            )
+                        })
+                }
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(labelResId = R.string.event_time_end,
                     textFieldModifier = Modifier
@@ -337,6 +352,7 @@ fun EventCreationScreenStep1(
                     isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
                     isDatePickerModalOpen.value -> datePickerModalContent()
                     isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                    isTimePickerModalOpen.value -> timePickerModalContent()
                 }
         }
     }

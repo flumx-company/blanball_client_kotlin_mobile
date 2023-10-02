@@ -361,6 +361,7 @@
     <string name="need_ball">Потрібен м\'яч?</string>
     <string name="vip">VIP</string>
     <string name="chose_the_event_date">Виберіть дату події</string>
+    <string name="choose_the_event_time">Виберіть час події</string>
     <string name="invited_users">Запрошенні участники</string>
     <string name="what_activities_are_we_planning_today">Які заходи плануємо сьогодні?</string>
     <string name="hi">Привіт,</string>
