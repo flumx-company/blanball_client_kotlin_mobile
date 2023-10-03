@@ -616,7 +616,8 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
-            val isTimePickerModalVisible = remember { mutableStateOf(false) }
+            val isStartTimePickerModalVisible = remember { mutableStateOf(false) }
+            val isEndTimePickerModalVisible = remember { mutableStateOf(false) }
             val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -641,7 +642,8 @@ fun AppScreensConfig(
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
-                        isTimePickerModalOpen = isTimePickerModalVisible,
+                        isStartTimePickerModalOpen = isStartTimePickerModalVisible,
+                        isEndTimePickerModalOpen = isEndTimePickerModalVisible,
                         isDatePickerModalOpen = isDatePickerModalVisible,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
@@ -651,12 +653,18 @@ fun AppScreensConfig(
                                 backBtnClicked = { isDatePickerModalVisible.value = false }
                             )
                         },
- timePickerModalContent = {
-     SimpleTimePickerInAlertDialog(
-         selectedTimeState = currentState.startEventTimeState,
-         backBtnClicked = {isTimePickerModalVisible.value = false}
-     )
- },
+                        startTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                                selectedTimeState = currentState.startEventTimeState,
+                                backBtnClicked = { isStartTimePickerModalVisible.value = false }
+                            )
+                        },
+                        endTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                            selectedTimeState = currentState.endEventTimeState,
+                            backBtnClicked = { isEndTimePickerModalVisible.value = false },
+                        )
+                                                    },
                         backBtnCLicked = {}
                     )
                 }

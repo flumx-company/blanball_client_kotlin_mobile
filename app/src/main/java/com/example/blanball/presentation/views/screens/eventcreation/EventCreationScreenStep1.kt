@@ -56,11 +56,13 @@ fun EventCreationScreenStep1(
     navigateToSecondStep: () -> Unit,
     isBottomDrawerOpen: MutableState<Boolean>,
     isDatePickerModalOpen: MutableState<Boolean>,
-    isTimePickerModalOpen: MutableState<Boolean>,
+    isStartTimePickerModalOpen: MutableState<Boolean>,
+    isEndTimePickerModalOpen: MutableState<Boolean>,
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     datePickerModalContent: @Composable () -> Unit,
-    timePickerModalContent: @Composable () -> Unit,
+    startTimePickerModalContent: @Composable () -> Unit,
+    endTimePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
@@ -218,7 +220,7 @@ fun EventCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 Box (
                     modifier = Modifier
-                        .clickable { isTimePickerModalOpen.value = true }
+                        .clickable { isStartTimePickerModalOpen.value = true }
                 ) {
                     DefaultTextInput(labelResId = R.string.event_time_start,
                         textFieldModifier = Modifier.fillMaxWidth(),
@@ -239,10 +241,10 @@ fun EventCreationScreenStep1(
                 DefaultTextInput(labelResId = R.string.event_time_end,
                     textFieldModifier = Modifier
                         .fillMaxWidth()
-                        .clickable { isTimePickerModalOpen.value = true },
+                        .clickable { isEndTimePickerModalOpen.value = true },
                     state = it,
                     readOnly = true,
-                    value = it.endEventTimeState.value,
+                    value = it.endEventTimeState.value ?: "",
                     onValueChange = {},
                     transformation = VisualTransformation.None,
                     trailingIcon = {
@@ -346,7 +348,8 @@ fun EventCreationScreenStep1(
                     isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
                     isDatePickerModalOpen.value -> datePickerModalContent()
                     isInvitedUsersModalOpen.value -> invitedUsersModalContent()
-                    isTimePickerModalOpen.value -> timePickerModalContent()
+                    isStartTimePickerModalOpen.value -> startTimePickerModalContent()
+                    isEndTimePickerModalOpen.value -> endTimePickerModalContent()
                 }
         }
     }
