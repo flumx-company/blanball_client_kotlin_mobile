@@ -21,7 +21,9 @@ class CreationAnEventUseCaseImpl @Inject constructor( internal val appRepository
         name: String,
         need_ball: Boolean,
         need_form: Boolean,
-        place: CreationAnEventResponseEntityPlace?,
+        place: String,
+        lon: Int,
+        lat: Int,
         price: Int,
         price_description: String,
         privacy: Boolean,
@@ -45,6 +47,9 @@ class CreationAnEventUseCaseImpl @Inject constructor( internal val appRepository
             price_description = price_description,
             privacy = privacy,
             type = type,
+            lat = lat,
+            lon = lon,
+
         )
     }
 }

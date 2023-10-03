@@ -51,7 +51,6 @@
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.domain.entity.responses.CreationAnEventErrorEntity
     import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-    import com.example.domain.entity.responses.CreationAnEventResponseEntityPlace
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
     import com.example.domain.entity.responses.GetMyProfileErrorEntity
@@ -100,7 +99,9 @@
             name: String,
             need_ball: Boolean,
             need_form: Boolean,
-            place: CreationAnEventResponseEntityPlace?,
+            place: String,
+            lon: Int,
+            lat: Int,
             price: Int,
             price_description: String,
             privacy: Boolean,
@@ -120,13 +121,11 @@
                     name = name,
                     need_ball = need_ball,
                     need_form = need_form,
-                    place = place?.let {
-                        CreationAnEventRequestPlace(
-                            lat = it.lat,
-                            lon = it.lon,
-                            place_name = place.place_name,
-                        )
-                    },
+                    place = CreationAnEventRequestPlace(
+                            lat = lat,
+                            lon = lon,
+                            place_name = place)
+                    ,
                     price = price,
                     price_description = price_description,
                     privacy = privacy,

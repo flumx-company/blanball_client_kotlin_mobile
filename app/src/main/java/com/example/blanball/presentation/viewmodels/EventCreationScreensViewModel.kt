@@ -69,16 +69,18 @@ class EventCreationScreensViewModel
             creationNewEventUseCase.executeCreationAnEvent(
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
                 contact_number = currentState.phoneNumberState.value,
-                current_users = null,
+                current_users = emptyList(), //TODO()
                 date_and_time = formatToIso8601DateTime(date = currentState.eventDateState.value, time = currentState.startEventTimeState.value.toString()),
                 description = currentState.eventDescriptionState.value,
-                duration = 10,
+                duration = 10, //TODO()
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
                 hidden = false,
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
-                place = null, //TODO()
+                place = "Todo", //TODO()
+                lat = 90, //TODO()
+                lon = 180, //TODO()
                 price = 10, //TODO
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),

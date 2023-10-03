@@ -1,7 +1,6 @@
 package com.example.domain.usecases.interfaces
 
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.CreationAnEventResponseEntityPlace
 import com.example.domain.entity.results.CreationAnEventResultEntity
 
 interface CreationAnEventUseCase {
@@ -18,7 +17,9 @@ interface CreationAnEventUseCase {
         name: String,
         need_ball: Boolean,
         need_form: Boolean,
-        place: CreationAnEventResponseEntityPlace? = null,
+        place: String,
+        lon: Int,
+        lat: Int,
         price: Int,
         price_description: String,
         privacy: Boolean,
