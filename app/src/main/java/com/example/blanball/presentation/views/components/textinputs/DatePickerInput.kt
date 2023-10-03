@@ -32,7 +32,7 @@ import java.time.ZoneId
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun DatePickerModal(
-    selectedState: MutableState<String?>,
+    selectedState: MutableState<String>,
     backBtnClicked: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current

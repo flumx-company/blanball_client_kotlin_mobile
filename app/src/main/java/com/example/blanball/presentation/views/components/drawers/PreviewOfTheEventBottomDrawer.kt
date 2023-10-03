@@ -46,6 +46,7 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.PlayersGenderStatesToUkrainianString
+import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,7 +108,7 @@ fun PreviewOfTheEventBottomDrawer(
                            Spacer(modifier = Modifier.size(6.dp))
                            Row {
                                Text(
-                                   text = "16 червня",
+                                   text = state.eventDateState.value.formatToUkrainianDate(),
                                    fontSize = 13.sp,
                                    lineHeight = 20.sp,
                                    style = typography.h4,

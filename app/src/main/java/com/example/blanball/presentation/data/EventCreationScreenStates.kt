@@ -22,7 +22,7 @@ class EventCreationScreenMainContract {
         val needFormStates: MutableState<NeedFormStates> = mutableStateOf(NeedFormStates.NO_SELECT),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDescriptionState: MutableState<String> = mutableStateOf(""),
-        val eventDateState: MutableState<String?> = mutableStateOf(""),
+        val eventDateState: MutableState<String> = mutableStateOf(""),
         val startEventTimeState: MutableState<String?> = mutableStateOf(""),
         val endEventTimeState: MutableState<String?> = mutableStateOf(""),
         val maxEventPlayersState: MutableState<String> = mutableStateOf(""),

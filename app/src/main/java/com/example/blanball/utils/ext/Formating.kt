@@ -113,3 +113,12 @@ internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderSt
         EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
     }
 }
+
+internal fun String.formatToUkrainianDate(): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale("uk", "UA"))
+
+    val outputFormat = SimpleDateFormat("d MMMM", Locale("uk", "UA"))
+
+        val date = inputFormat.parse(this)
+        return date?.let { outputFormat.format(it) } ?: ""
+}

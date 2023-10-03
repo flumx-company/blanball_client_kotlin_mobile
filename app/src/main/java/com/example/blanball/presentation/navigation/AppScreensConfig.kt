@@ -661,10 +661,10 @@ fun AppScreensConfig(
                         },
                         endTimePickerModalContent = {
                             SimpleTimePickerInAlertDialog(
-                            selectedTimeState = currentState.endEventTimeState,
-                            backBtnClicked = { isEndTimePickerModalVisible.value = false },
-                        )
-                                                    },
+                                selectedTimeState = currentState.endEventTimeState,
+                                backBtnClicked = { isEndTimePickerModalVisible.value = false },
+                            )
+                        },
                         backBtnCLicked = {}
                     )
                 }
