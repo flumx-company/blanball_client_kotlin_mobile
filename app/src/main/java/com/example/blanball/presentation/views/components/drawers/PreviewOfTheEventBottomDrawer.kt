@@ -116,7 +116,7 @@ fun PreviewOfTheEventBottomDrawer(
                                )
                                Spacer(modifier = Modifier.size(12.dp))
                                Text(
-                                   text = "12:00 - 14:00",
+                                   text = state.startEventTimeState.value.toString() + "-" + state.endEventTimeState.value,
                                    fontSize = 13.sp,
                                    lineHeight = 20.sp,
                                    style = typography.h4,

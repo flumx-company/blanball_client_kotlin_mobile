@@ -190,14 +190,9 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                Box (
-                    modifier = Modifier
-                        .clickable { isDatePickerModalOpen.value = true }
-                )
-                {
                     DefaultTextInput(
                         textFieldModifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth().clickable { isDatePickerModalOpen.value = true },
                         labelResId = R.string.date,
                         readOnly = true,
                         state = it,
@@ -211,7 +206,6 @@ fun EventCreationScreenStep1(
                                 tint = primaryDark,
                             )
                         })
-                }
                 Spacer(modifier = Modifier.size(16.dp))
                     Text(
                         text = stringResource(R.string.сhose_event_time),
@@ -245,7 +239,7 @@ fun EventCreationScreenStep1(
                 DefaultTextInput(labelResId = R.string.event_time_end,
                     textFieldModifier = Modifier
                         .fillMaxWidth()
-                        .clickable { },
+                        .clickable { isTimePickerModalOpen.value = true },
                     state = it,
                     readOnly = true,
                     value = it.endEventTimeState.value,
@@ -302,7 +296,7 @@ fun EventCreationScreenStep1(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = stringResource(R.string._1_3), //TODO()
+                        text = stringResource(R.string._1_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

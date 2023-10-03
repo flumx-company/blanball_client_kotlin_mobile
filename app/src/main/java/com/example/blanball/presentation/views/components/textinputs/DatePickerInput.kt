@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -42,9 +42,10 @@ fun DatePickerModal(
     val selectedDateMillis = datePickerState.selectedDateMillis
     val formatedDateInstant = selectedDateMillis?.let { Instant.ofEpochMilli(it) }
     val localDate = formatedDateInstant?.atZone(ZoneId.systemDefault())?.toLocalDate()
-    selectedState.value = localDate.toString()
-    AlertDialog(modifier = Modifier
-        .fillMaxSize(),
+
+    AlertDialog(
+        modifier = Modifier
+            .fillMaxWidth(),
         onDismissRequest = {},
         buttons = {},
         text = {
@@ -72,6 +73,7 @@ fun DatePickerModal(
                     Icon(
                         modifier = Modifier.clickable {
                             backBtnClicked()
+                            selectedState.value = ""
                         },
                         painter = painterResource(id = R.drawable.ic_cancel),
                         contentDescription = null,
@@ -81,6 +83,7 @@ fun DatePickerModal(
                     Icon(
                         modifier = Modifier.clickable {
                             backBtnClicked()
+                            selectedState.value = localDate.toString()
                         },
                         painter = painterResource(id = R.drawable.ic_check),
                         contentDescription = null,

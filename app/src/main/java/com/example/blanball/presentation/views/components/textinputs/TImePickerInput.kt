@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -24,9 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import java.time.Instant
-import java.time.ZoneId
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,18 +37,11 @@ fun SimpleTimePickerInAlertDialog(
     backBtnClicked: () -> Unit,
 ) {
     val timePickerState = rememberTimePickerState()
-    val selectedTimeMillis = timePickerState.hour.toLong()
-
-    val formattedTime = selectedTimeMillis?.let {
-        val instant = Instant.ofEpochMilli(it)
-        val time = instant.atZone(ZoneId.systemDefault()).toLocalTime()
-        time.toString()
-    }
-
-    selectedTimeState.value = formattedTime
+    val selectedTime = LocalTime.of(timePickerState.hour, timePickerState.minute)
+    val formattedTime = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 
     AlertDialog(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         onDismissRequest = {},
         buttons = {},
         text = {
@@ -66,7 +61,10 @@ fun SimpleTimePickerInAlertDialog(
                 }
                 TimePicker(
                     modifier = Modifier.scale(0.8f),
-                    state = timePickerState
+                    state = timePickerState,
+                    colors = TimePickerDefaults.colors(
+                        selectorColor = mainGreen,
+                    )
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -75,6 +73,7 @@ fun SimpleTimePickerInAlertDialog(
                     Icon(
                         modifier = Modifier.clickable {
                             backBtnClicked()
+                            selectedTimeState.value = ""
                         },
                         painter = painterResource(id = R.drawable.ic_cancel),
                         contentDescription = null,
@@ -84,6 +83,7 @@ fun SimpleTimePickerInAlertDialog(
                     Icon(
                         modifier = Modifier.clickable {
                             backBtnClicked()
+                            selectedTimeState.value = formattedTime
                         },
                         painter = painterResource(id = R.drawable.ic_check),
                         contentDescription = null,
