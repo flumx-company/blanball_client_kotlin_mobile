@@ -10,6 +10,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
+import com.example.blanball.utils.ext.SportTypesStringsToEnglish
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
@@ -79,9 +80,9 @@ class EventCreationScreensViewModel
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place = null, //TODO()
                 price = 10, //TODO
-                price_description = "", //TODO()
+                price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
-                type = currentState.sportType.value,
+                type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
             ).let {
                 when (it) {
                     is CreationAnEventResultEntity.Success -> {

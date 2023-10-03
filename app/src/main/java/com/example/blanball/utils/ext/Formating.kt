@@ -106,6 +106,14 @@ internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderSt
     }
 }
 
+internal fun String.SportTypesStringsToEnglish(context: Context): String {
+    return when (this) {
+        context.resources.getString(R.string.football) ->  context.resources.getString(R.string.football_us)
+        context.resources.getString(R.string.futsal) ->  context.resources.getString(R.string.futsal_us)
+        else -> ""
+    }
+}
+
 internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(context: Context): String {
     return when (this) {
         EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
