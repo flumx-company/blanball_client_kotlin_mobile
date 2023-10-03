@@ -122,3 +122,13 @@ internal fun String.formatToUkrainianDate(): String {
         val date = inputFormat.parse(this)
         return date?.let { outputFormat.format(it) } ?: ""
 }
+
+fun formatToIso8601DateTime(date: String, time: String): String {
+    val inputDateTime = "$date $time"
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+
+
+        val dateTime = inputFormat.parse(inputDateTime)
+        return dateTime?.let { outputFormat.format(it) } ?: ""
+}

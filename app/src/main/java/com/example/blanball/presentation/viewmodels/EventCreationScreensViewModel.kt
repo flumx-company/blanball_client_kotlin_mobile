@@ -10,6 +10,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
+import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,7 +69,7 @@ class EventCreationScreensViewModel
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
                 contact_number = currentState.phoneNumberState.value,
                 current_users = null,
-                date_and_time = currentState.timeAndDateOfEvent.value,
+                date_and_time = formatToIso8601DateTime(date = currentState.eventDateState.value, time = currentState.startEventTimeState.value.toString()),
                 description = currentState.eventDescriptionState.value,
                 duration = 10,
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
