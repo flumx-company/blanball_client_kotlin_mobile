@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class CreationAnEventResponse(
     @Json (name = "code") val code: Int,
     @Json (name = "`data`") val `data`: CreationAnEventResponseData,
-    @Json (name = "message") val message: String,
+    @Json (name = "message") val message: String?,
     @Json (name = "status") val status: String
 )
 
@@ -15,7 +15,7 @@ data class CreationAnEventResponseData(
     @Json (name = "date_and_time") val date_and_time: String,
     @Json (name = "description") val description: String,
     @Json (name = "duration") val duration: Int,
-    @Json (name = "forms") val forms: CreationAnEventResponseForms,
+    @Json (name = "forms") val forms: CreationAnEventResponseForms?,
     @Json (name = "gender") val gender: String,
     @Json (name = "hidden") val hidden: Boolean?,
     @Json (name = "name") val name: String,

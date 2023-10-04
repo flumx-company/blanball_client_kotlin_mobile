@@ -676,7 +676,7 @@ internal fun CreationAnEventResponseData.toCreationAnEventResponseEntityData(): 
         this.date_and_time,
         this.description,
         this.duration,
-        this.forms.toCreationAnEventResponseEntityForms(),
+         this.forms?.toCreationAnEventResponseEntityForms(),
         this.gender,
         this.hidden,
         this.name,

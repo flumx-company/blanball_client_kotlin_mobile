@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class CreationAnEventResponseEntity(
     val code: Int,
     val `data`: CreationAnEventResponseEntityData,
-    val message: String,
+    val message: String?,
     val status: String
 )
 
@@ -13,7 +13,7 @@ data class CreationAnEventResponseEntityData(
     val date_and_time: String,
     val description: String,
     val duration: Int,
-    val forms: CreationAnEventResponseEntityForms,
+    val forms: CreationAnEventResponseEntityForms?,
     val gender: String,
     val hidden: Boolean?,
     val name: String,
