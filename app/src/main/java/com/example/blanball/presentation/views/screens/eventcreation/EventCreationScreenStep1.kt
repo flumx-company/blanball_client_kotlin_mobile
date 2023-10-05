@@ -5,6 +5,8 @@ import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +23,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -181,6 +185,16 @@ fun EventCreationScreenStep1(
                     listItems = typesOfSports,
                     value = it.sportType.value,
                     onValueChange = { state.sportType.value = it },
+                    isError = when {
+                        it.typeOfEvent.value.isNotEmpty() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.typeOfEvent.value.isNotEmpty() -> stringResource(id = R.string.chose_event_type)
+                        else -> {
+                            ("")
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -194,12 +208,22 @@ fun EventCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                     DefaultTextInput(
                         textFieldModifier = Modifier
-                            .fillMaxWidth().clickable { isDatePickerModalOpen.value = true },
+                            .fillMaxWidth(),
                         labelResId = R.string.date,
                         readOnly = true,
                         state = it,
-                        value = it.eventDateState.value ?: "",
                         onValueChange = {},
+                        value = it.eventDateState.value,
+                        interactionSource = remember { MutableInteractionSource() }
+                            .also { interactionSource ->
+                                LaunchedEffect(interactionSource) {
+                                    interactionSource.interactions.collect {
+                                        if (it is PressInteraction.Release) {
+                                            isDatePickerModalOpen.value = true
+                                        }
+                                    }
+                                }
+                            },
                         transformation = VisualTransformation.None,
                         trailingIcon = {
                             Icon(
@@ -218,35 +242,50 @@ fun EventCreationScreenStep1(
                         color = secondaryNavy,
                     )
                 Spacer(modifier = Modifier.size(16.dp))
-                Box (
-                    modifier = Modifier
-                        .clickable { isStartTimePickerModalOpen.value = true }
-                ) {
-                    DefaultTextInput(labelResId = R.string.event_time_start,
-                        textFieldModifier = Modifier.fillMaxWidth(),
+                    DefaultTextInput(
+                        labelResId = R.string.event_time_start,
+                        modifier = Modifier
+                            .clickable { isStartTimePickerModalOpen.value = true },
                         state = it,
                         readOnly = true,
                         value = it.startEventTimeState.value ?: "",
                         onValueChange = {},
-                        transformation = VisualTransformation.None,
+                        interactionSource = remember { MutableInteractionSource() }
+                            .also { interactionSource ->
+                                LaunchedEffect(interactionSource) {
+                                    interactionSource.interactions.collect {
+                                        if (it is PressInteraction.Release) {
+                                            isStartTimePickerModalOpen.value = true
+                                        }
+                                    }
+                                }
+                            },
                         trailingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_time),
                                 contentDescription = null,
                                 tint = primaryDark,
                             )
-                        })
-                }
+                        },
+                        transformation = VisualTransformation.None,
+                    )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(labelResId = R.string.event_time_end,
-                    textFieldModifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { isEndTimePickerModalOpen.value = true },
                     state = it,
                     readOnly = true,
                     value = it.endEventTimeState.value ?: "",
                     onValueChange = {},
                     transformation = VisualTransformation.None,
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if (it is PressInteraction.Release) {
+                                        isEndTimePickerModalOpen.value = true
+                                    }
+                                }
+                            }
+                        },
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_time),

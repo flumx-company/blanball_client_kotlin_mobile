@@ -51,6 +51,7 @@ fun EventCreationScreenStep2(
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    backBtnCLicked: () -> Unit
 ) {
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -295,7 +296,7 @@ fun EventCreationScreenStep2(
                 NextAndPreviousButtonsHorizontal (
                     isEnabled = true,
                     nextBtnOnClick = { navigateToThirdStep() },
-                    prevBtnOnClick = { /*TODO*/ },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )

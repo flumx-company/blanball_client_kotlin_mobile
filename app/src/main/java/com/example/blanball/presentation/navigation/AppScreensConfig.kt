@@ -665,7 +665,9 @@ fun AppScreensConfig(
                                 backBtnClicked = { isEndTimePickerModalVisible.value = false },
                             )
                         },
-                        backBtnCLicked = {}
+                        backBtnCLicked = {
+                            navController.navigate(Destinations.HOME.route)
+                        }
                     )
                 }
             )
@@ -971,12 +973,14 @@ fun AppScreensConfig(
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        backBtnCLicked = {navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)}
                     )
                 }
             )
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
+            val currentState = eventCreationScreenViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
                 eventCreationScreenViewModel.setState {
@@ -1015,11 +1019,19 @@ fun AppScreensConfig(
                             eventCreationScreenViewModel.handleEvent(
                                 EventCreationScreenMainContract.Event.CreateNewEventClicked
                             )
+
+
                         },
-                        backBtnCLicked = {},
+                        backBtnCLicked = {navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route)},
                     )
                 }
             )
+            LaunchedEffect(currentState.isSuccessEventCreation.value) {
+                if (currentState.isSuccessEventCreation.value) {
+                    currentState.isSuccessEventCreation.value = false
+                    navController.navigate(Destinations.HOME.route)
+                }
+            }
         }
 
         composable(Destinations.EDIT_PROFILE.route) {
