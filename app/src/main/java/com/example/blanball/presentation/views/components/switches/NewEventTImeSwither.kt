@@ -5,9 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,7 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.blanball.presentation.theme.bgLight2
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
@@ -38,8 +40,7 @@ fun NewEventTimeSwitcher(
         modifier = Modifier
             .fillMaxWidth()
             .border(width = 1.dp, color = defaultLightGray, shape = shapes.medium)
-            .padding(4.dp)
-            .height(32.dp)
+            .height(40.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
 
@@ -49,12 +50,11 @@ fun NewEventTimeSwitcher(
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(6.dp)
+                        .fillMaxHeight()
                         .background(
-                            color = if (isSelected) Color.Blue else Color.White,
+                            color = if (isSelected) bgLight2 else Color.White,
                             shape = shapes.small
                         )
-                        .height(32.dp)
                         .clickable {
                             selectedTime.value = timeInMinutes
                         },
@@ -66,7 +66,7 @@ fun NewEventTimeSwitcher(
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
-                        color = if (isSelected) Color.White else secondaryNavy,
+                        color = if (isSelected) primaryDark else secondaryNavy,
                         textAlign = TextAlign.Center
                     )
                 }
