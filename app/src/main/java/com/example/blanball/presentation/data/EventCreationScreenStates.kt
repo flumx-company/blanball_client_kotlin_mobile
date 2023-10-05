@@ -12,7 +12,7 @@ class EventCreationScreenMainContract {
     data class State(
         val state: ScreenViewState,
         val eventName: MutableState<String> = mutableStateOf(""),
-        val typeOfEvent: MutableState<String> = mutableStateOf(""),
+        val eventType: MutableState<String> = mutableStateOf(""),
         val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(PlayersGenderStates.NO_SELECT),
         val timeAndDateOfEvent: MutableState<String> = mutableStateOf(""),
         val placeOfEvent: MutableState<String> = mutableStateOf(""),

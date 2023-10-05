@@ -320,7 +320,7 @@
     <string name="creation_event">Створення події</string>
     <string name="event_type">Тип події</string>
     <string name="gender_of_event_participants">Стать учасників події</string>
-    <string name="sport_type">Вид спорт</string>
+    <string name="sport_type">Вид спорту</string>
     <string name="woman_ukr">Жінки</string>
     <string name="event_name">Назва події</string>
     <string name="date_and_time_of_event">Дата, час проведення</string>
@@ -399,4 +399,5 @@
     <string name="_2_3">2 / 3</string>
     <string name="_3_3">3 / 3</string>
     <string name="chose_event_type">* Виберіть тип події</string>
+    <string name="chose_sport_type">* Виберіть вид спорту</string>
 </resources>

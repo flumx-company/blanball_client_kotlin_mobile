@@ -110,8 +110,18 @@ fun EventCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
-                    value = it.typeOfEvent.value,
-                    onValueChange = { state.typeOfEvent.value = it },
+                    value = it.eventType.value,
+                    onValueChange = { state.eventType.value = it },
+                    isError = when {
+                        it.eventType.value.isEmpty() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.eventType.value.isEmpty() -> stringResource(id = R.string.chose_event_type)
+                        else -> {
+                            ("")
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
@@ -186,11 +196,11 @@ fun EventCreationScreenStep1(
                     value = it.sportType.value,
                     onValueChange = { state.sportType.value = it },
                     isError = when {
-                        it.typeOfEvent.value.isNotEmpty() -> true
+                        it.sportType.value.isEmpty() -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.typeOfEvent.value.isNotEmpty() -> stringResource(id = R.string.chose_event_type)
+                        it.sportType.value.isEmpty() -> stringResource(id = R.string.chose_sport_type)
                         else -> {
                             ("")
                         }
@@ -373,7 +383,9 @@ fun EventCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled =  it.eventName.value.isValidErrorTopicField()
-                            && it.eventName.value.isNotEmpty(),
+                            && it.eventName.value.isNotEmpty()
+                            && it.eventType.value.isNotEmpty()
+                            && it.sportType.value.isNotEmpty(),
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

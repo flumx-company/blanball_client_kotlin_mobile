@@ -94,7 +94,7 @@ class EventCreationScreensViewModel
                                 isSuccessEventCreation = mutableStateOf(true),
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
-                                typeOfEvent = mutableStateOf(""),
+                                eventType = mutableStateOf(""),
                                 playersGenderStates = mutableStateOf(EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT),
                                 timeAndDateOfEvent = mutableStateOf(""),
                                 placeOfEvent = mutableStateOf(""),

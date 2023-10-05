@@ -98,7 +98,7 @@ fun PreviewOfTheEventBottomDrawer(
                        Spacer(modifier = Modifier.size(8.dp))
                        Column {
                            Text(
-                               text = state.typeOfEvent.value,
+                               text = state.eventType.value,
                                fontSize = 16.sp,
                                lineHeight = 20.sp,
                                style = typography.h3,
