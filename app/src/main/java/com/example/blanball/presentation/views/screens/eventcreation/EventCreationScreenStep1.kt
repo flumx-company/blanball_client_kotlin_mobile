@@ -255,7 +255,7 @@ fun EventCreationScreenStep1(
                         )
                     })
                 Spacer(modifier = Modifier.size(20.dp))
-                NewEventTimeSwitcher()
+                NewEventTimeSwitcher(selectedTime = state.eventDuration)
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.event_place),
