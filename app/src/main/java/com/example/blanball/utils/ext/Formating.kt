@@ -123,20 +123,24 @@ internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderSt
 }
 
 internal fun String.formatToUkrainianDate(): String {
+    if (this.isEmpty()) {
+        return ""
+    }
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale("uk", "UA"))
-
     val outputFormat = SimpleDateFormat("d MMMM", Locale("uk", "UA"))
 
-        val date = inputFormat.parse(this)
-        return date?.let { outputFormat.format(it) } ?: ""
+    val date = inputFormat.parse(this)
+    return date?.let { outputFormat.format(it) } ?: ""
 }
 
 fun formatToIso8601DateTime(date: String, time: String): String {
+    if (date.isEmpty() || time.isEmpty()) {
+        return ""
+    }
     val inputDateTime = "$date $time"
     val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
 
-
-        val dateTime = inputFormat.parse(inputDateTime)
-        return dateTime?.let { outputFormat.format(it) } ?: ""
+    val dateTime = inputFormat.parse(inputDateTime)
+    return dateTime?.let { outputFormat.format(it) } ?: ""
 }
