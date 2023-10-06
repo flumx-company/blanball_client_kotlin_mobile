@@ -1,6 +1,7 @@
 package com.example.blanball.utils.ext
 
 import android.content.Context
+import androidx.compose.runtime.MutableState
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
@@ -8,6 +9,7 @@ import com.example.domain.utils.Integers
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 internal fun String.formatDateReview(): String {
@@ -143,4 +145,32 @@ fun formatToIso8601DateTime(date: String, time: String): String {
 
     val dateTime = inputFormat.parse(inputDateTime)
     return dateTime?.let { outputFormat.format(it) } ?: ""
+}
+
+fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
+
+    val dateFormat = SimpleDateFormat("HH:mm")
+
+    if (this.isEmpty()){
+        return 0
+    }
+        val startTime = dateFormat.parse(this)
+        val endTimeDate = dateFormat.parse(endTime)
+
+        val timeDifferenceMillis = endTimeDate.time - startTime.time
+
+        return (timeDifferenceMillis / (60 * 1000)).toInt()
+}
+
+internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration: MutableState<Int>): String {
+    if (this.value.isEmpty()){
+        return ""
+    }
+    return if (eventDuration.value != 0) {
+        val startTime = SimpleDateFormat("HH:mm").parse(this.value)
+        val endTime = Date(startTime.time + (eventDuration.value * 60 * 1000))
+        SimpleDateFormat("HH:mm").format(endTime)
+    } else {
+        this.value ?: ""
+    }
 }

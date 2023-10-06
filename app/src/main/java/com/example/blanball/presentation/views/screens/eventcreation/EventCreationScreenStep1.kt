@@ -50,6 +50,7 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.calculateValueWithEventDuration
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 
@@ -283,7 +284,11 @@ fun EventCreationScreenStep1(
                 DefaultTextInput(labelResId = R.string.event_time_end,
                     state = it,
                     readOnly = true,
-                    value = it.endEventTimeState.value ?: "",
+                    value = if (it.eventDuration.value == 0) {
+                        it.endEventTimeState.value
+                    } else {
+                        it.startEventTimeState.calculateValueWithEventDuration(eventDuration = it.eventDuration)
+                    },
                     onValueChange = {},
                     transformation = VisualTransformation.None,
                     interactionSource = remember { MutableInteractionSource() }

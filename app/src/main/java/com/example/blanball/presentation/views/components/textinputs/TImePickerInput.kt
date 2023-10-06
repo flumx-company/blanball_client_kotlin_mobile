@@ -33,7 +33,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SimpleTimePickerInAlertDialog(
-    selectedTimeState: MutableState<String?>,
+    selectedTimeState: MutableState<String>,
     backBtnClicked: () -> Unit,
 ) {
     val timePickerState = rememberTimePickerState()

@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,8 +43,7 @@ fun DatePickerModal(
     val localDate = formatedDateInstant?.atZone(ZoneId.systemDefault())?.toLocalDate()
 
     AlertDialog(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         onDismissRequest = {},
         buttons = {},
         text = {
@@ -63,7 +61,7 @@ fun DatePickerModal(
                 }
                     DatePicker(
                         showModeToggle = true,
-                        modifier = Modifier.scale(0.8f),
+                        modifier = Modifier.fillMaxWidth(),
                         state = datePickerState,
                         dateValidator = { timestamp ->
                             timestamp > Instant.now().toEpochMilli()

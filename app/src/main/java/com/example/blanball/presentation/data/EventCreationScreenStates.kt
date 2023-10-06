@@ -23,8 +23,8 @@ class EventCreationScreenMainContract {
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDescriptionState: MutableState<String> = mutableStateOf(""),
         val eventDateState: MutableState<String> = mutableStateOf(""),
-        val startEventTimeState: MutableState<String?> = mutableStateOf(""),
-        val endEventTimeState: MutableState<String?> = mutableStateOf(""),
+        val startEventTimeState: MutableState<String> = mutableStateOf(""),
+        val endEventTimeState: MutableState<String> = mutableStateOf(""),
         val maxEventPlayersState: MutableState<String> = mutableStateOf(""),
         val usersSearchState: MutableState<String> = mutableStateOf(""),
         val priseSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
@@ -34,7 +34,7 @@ class EventCreationScreenMainContract {
         val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
         val countOfPlayers: MutableState<Int> = mutableStateOf(0),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
-        val  eventDuration: MutableState<Int> = mutableStateOf(0),
+        val eventDuration: MutableState<Int> = mutableStateOf(0),
         ) : UiState
 
     sealed class ScreenViewState {

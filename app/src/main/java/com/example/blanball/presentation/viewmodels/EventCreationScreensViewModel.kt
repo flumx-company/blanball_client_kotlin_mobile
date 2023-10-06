@@ -11,6 +11,7 @@ import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
+import com.example.blanball.utils.ext.calculateTimeDifferenceInMinutes
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
@@ -72,7 +73,7 @@ class EventCreationScreensViewModel
                 current_users = emptyList(), //TODO()
                 date_and_time = formatToIso8601DateTime(date = currentState.eventDateState.value, time = currentState.startEventTimeState.value.toString()),
                 description = currentState.eventDescriptionState.value,
-                duration = 10, //TODO()
+                duration = currentState.startEventTimeState.value.calculateTimeDifferenceInMinutes(endTime = currentState.endEventTimeState.value),
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
                 hidden = false,
                 name = currentState.eventName.value,

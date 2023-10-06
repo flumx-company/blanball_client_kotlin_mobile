@@ -655,15 +655,13 @@ fun AppScreensConfig(
                         },
                         startTimePickerModalContent = {
                             SimpleTimePickerInAlertDialog(
-                                selectedTimeState = currentState.startEventTimeState,
-                                backBtnClicked = { isStartTimePickerModalVisible.value = false }
-                            )
+                                selectedTimeState = currentState.startEventTimeState
+                            ) { isStartTimePickerModalVisible.value = false }
                         },
                         endTimePickerModalContent = {
                             SimpleTimePickerInAlertDialog(
                                 selectedTimeState = currentState.endEventTimeState,
-                                backBtnClicked = { isEndTimePickerModalVisible.value = false },
-                            )
+                            ) { isEndTimePickerModalVisible.value = false }
                         },
                         backBtnCLicked = {
                             navController.navigate(Destinations.HOME.route)
