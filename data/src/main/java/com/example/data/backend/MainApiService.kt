@@ -8,6 +8,7 @@ import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
+import com.example.data.backend.models.responses.GetAllEventResponse
 import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
@@ -58,4 +59,7 @@ interface MainApiService  {
 
     @GET (Endpoints.ME_PROFILE_ENDPOINT)
     suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
+
+    @GET (Endpoints.GET_ALL_EVENTS_ENDPOINT)
+    suspend fun getAllEvents(@Query ("page") page: Int): GetAllEventResponse
 }

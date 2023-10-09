@@ -11,6 +11,8 @@
     import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
     import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
     import com.example.data.backend.models.responses.EmailPassResetError
+    import com.example.data.backend.models.responses.GetAllEventResponseError
+    import com.example.data.backend.models.responses.GetAllEventResponseResult
     import com.example.data.backend.models.responses.GetMyProfileError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
@@ -46,6 +48,8 @@
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
+    import com.example.domain.entity.responses.GetAllEventEntityError
+    import com.example.domain.entity.responses.GetAllEventEntityResponseError
     import com.example.domain.entity.responses.GetMyProfileErrorEntity
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
     import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
@@ -56,6 +60,7 @@
     import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+    import com.example.domain.entity.results.GetAllEventsResultEntity
     import com.example.domain.entity.results.GetMyProfileResultEntity
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
     import com.example.domain.entity.results.GetUserProfileByIdResultEntity
@@ -77,6 +82,18 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun getAllEvents(page: Int): GetAllEventsResultEntity {
+            return try {
+                val getAllEventResponse = service.getAllEvents(page)
+                val getAllEventsDomainResponse = getAllEventResponse.
+                GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<GetAllEventResponseError, GetAllEventEntityResponseError>(ex) { it. }
+                GetAllEventsResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
 
         override suspend fun getMyProfile(page: Int): GetMyProfileResultEntity {
             return try {
@@ -276,4 +293,3 @@
             val errorResponse = errorDto?.let { errorMapper(it) }
             return errorResponse ?: error("Unknown error")
         }
-    }

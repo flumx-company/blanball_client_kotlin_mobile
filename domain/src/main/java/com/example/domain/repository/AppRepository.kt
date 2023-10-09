@@ -2,6 +2,7 @@ package com.example.domain.repository
 
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
@@ -38,4 +39,5 @@ interface AppRepository {
         place_name: String,
     ): FillingTheUserProfileResultEntity
     suspend fun getMyProfile(page: Int): GetMyProfileResultEntity
+    suspend fun getAllEvents(page: Int): GetAllEventsResultEntity
 }
