@@ -12,7 +12,6 @@
     import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetAllEventResponseError
-    import com.example.data.backend.models.responses.GetAllEventResponseResult
     import com.example.data.backend.models.responses.GetMyProfileError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
@@ -29,6 +28,8 @@
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
+    import com.example.data.utils.ext.toGetAllEventEntityResponseError
+    import com.example.data.utils.ext.toGetAllEventResponseEntity
     import com.example.data.utils.ext.toGetMyProfileErrorEntity
     import com.example.data.utils.ext.toGetMyProfileResponseEntity
     import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
@@ -48,7 +49,6 @@
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
-    import com.example.domain.entity.responses.GetAllEventEntityError
     import com.example.domain.entity.responses.GetAllEventEntityResponseError
     import com.example.domain.entity.responses.GetMyProfileErrorEntity
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
@@ -86,11 +86,11 @@
         override suspend fun getAllEvents(page: Int): GetAllEventsResultEntity {
             return try {
                 val getAllEventResponse = service.getAllEvents(page)
-                val getAllEventsDomainResponse = getAllEventResponse.
+                val getAllEventsDomainResponse = getAllEventResponse.toGetAllEventResponseEntity()
                 GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
-                    handleHttpError<GetAllEventResponseError, GetAllEventEntityResponseError>(ex) { it. }
+                    handleHttpError<GetAllEventResponseError, GetAllEventEntityResponseError>(ex) { it.toGetAllEventEntityResponseError() }
                 GetAllEventsResultEntity.Error(errorResponse.data.errors[0])
             }
         }
@@ -293,3 +293,4 @@
             val errorResponse = errorDto?.let { errorMapper(it) }
             return errorResponse ?: error("Unknown error")
         }
+    }
