@@ -90,3 +90,4 @@ internal fun String.isValidErrorTopicField(): Boolean {
 internal fun String.isNotValidErrorTopicField(): Boolean {
     return !isValidErrorTopicField()
 }
+

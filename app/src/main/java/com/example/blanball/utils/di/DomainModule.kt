@@ -1,5 +1,6 @@
 package com.example.blanball.utils.di
 
+import com.example.domain.usecases.implementations.CreationAnEventUseCaseImpl
 import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserPlannedEventsByIdUseCaseImpl
@@ -8,6 +9,7 @@ import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
 import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
+import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
@@ -47,4 +49,7 @@ interface DomainModule {
 
     @Binds
     fun bindGetMyProfileUseCase(getMyProfileUseCaseImpl: GetMyProfileUseCaseImpl): GetMyProfileUseCase
+
+    @Binds
+    fun bindCreationAnEventUseCase(creationAnEventUseCaseImpl: CreationAnEventUseCaseImpl): CreationAnEventUseCase
 }

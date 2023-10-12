@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
@@ -36,7 +37,8 @@ import com.example.blanball.presentation.views.components.drawers.NavigationDraw
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
-import com.example.blanball.presentation.views.components.textinputs.SimpleDatePickerInDatePickerDialog
+import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
+import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
@@ -81,6 +83,7 @@ import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -173,8 +176,15 @@ fun AppScreensConfig(
     val bottomPreviewDrawerState = rememberModalBottomSheetState()
     val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
+    val eventCreationScreenViewModelState =
+        eventCreationScreenViewModel.uiState.collectAsState().value
+
     val bottomDrawerContent: @Composable () -> Unit = {
-        PreviewOfTheEventBottomDrawer(bottomDrawerState = bottomPreviewDrawerState, closeBottomDrawer = { isBottomPreviewDrawerOpen.value = false })
+        PreviewOfTheEventBottomDrawer(
+            bottomDrawerState = bottomPreviewDrawerState,
+            closeBottomDrawer = { isBottomPreviewDrawerOpen.value = false },
+            state = eventCreationScreenViewModelState
+        )
     }
 
     val openBottomDrawer: () -> Unit = {
@@ -606,7 +616,8 @@ fun AppScreensConfig(
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
+            val isStartTimePickerModalVisible = remember { mutableStateOf(false) }
+            val isEndTimePickerModalVisible = remember { mutableStateOf(false) }
             val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -627,18 +638,33 @@ fun AppScreensConfig(
                 content = { it ->
                     EventCreationScreenStep1(
                         paddingValues = it,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
+                        isStartTimePickerModalOpen = isStartTimePickerModalVisible,
+                        isEndTimePickerModalOpen = isEndTimePickerModalVisible,
                         isDatePickerModalOpen = isDatePickerModalVisible,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                         datePickerModalContent = {
-                            SimpleDatePickerInDatePickerDialog(
+                            DatePickerModal(
                                 selectedState = currentState.eventDateState,
-                                backBtnClicked = {isDatePickerModalVisible.value = false}
+                                backBtnClicked = { isDatePickerModalVisible.value = false }
                             )
+                        },
+                        startTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                                selectedTimeState = currentState.startEventTimeState
+                            ) { isStartTimePickerModalVisible.value = false }
+                        },
+                        endTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                                selectedTimeState = currentState.endEventTimeState,
+                            ) { isEndTimePickerModalVisible.value = false }
+                        },
+                        backBtnCLicked = {
+                            navController.navigate(Destinations.HOME.route)
                         }
                     )
                 }
@@ -920,7 +946,6 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_2.route) {
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -940,19 +965,30 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventCreationScreenStep2(
                         paddingValues = paddingValues,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        backBtnCLicked = {navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)}
                     )
                 }
             )
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
-            val state = eventCreationScreenViewModel.uiState.collectAsState().value
+            val currentState = eventCreationScreenViewModel.currentState
+            LaunchedEffect(key1 = Unit) {
+                val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
+                eventCreationScreenViewModel.setState {
+                    copy(
+                        phoneNumberState = mutableStateOf(
+                            userPhoneString
+                        )
+                    )
+                }
+            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -972,14 +1008,28 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventCreationScreenStep3(
                         paddingValues = paddingValues,
-                        state = state,
+                        state = eventCreationScreenViewModelState,
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen ,
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        publishBtnClicked = {
+                            eventCreationScreenViewModel.handleEvent(
+                                EventCreationScreenMainContract.Event.CreateNewEventClicked
+                            )
+
+
+                        },
+                        backBtnCLicked = {navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route)},
                     )
                 }
             )
+            LaunchedEffect(currentState.isSuccessEventCreation.value) {
+                if (currentState.isSuccessEventCreation.value) {
+                    currentState.isSuccessEventCreation.value = false
+                    navController.navigate(Destinations.HOME.route)
+                }
+            }
         }
 
         composable(Destinations.EDIT_PROFILE.route) {

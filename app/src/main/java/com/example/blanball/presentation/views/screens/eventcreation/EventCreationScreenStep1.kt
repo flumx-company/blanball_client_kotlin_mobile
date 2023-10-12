@@ -5,6 +5,8 @@ import OutlineRadioButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +23,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -46,6 +50,9 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.calculateValueWithEventDuration
+import com.example.blanball.utils.ext.isNotValidErrorTopicField
+import com.example.blanball.utils.ext.isValidErrorTopicField
 
 @Composable
 fun EventCreationScreenStep1(
@@ -54,10 +61,15 @@ fun EventCreationScreenStep1(
     navigateToSecondStep: () -> Unit,
     isBottomDrawerOpen: MutableState<Boolean>,
     isDatePickerModalOpen: MutableState<Boolean>,
+    isStartTimePickerModalOpen: MutableState<Boolean>,
+    isEndTimePickerModalOpen: MutableState<Boolean>,
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     datePickerModalContent: @Composable () -> Unit,
+    startTimePickerModalContent: @Composable () -> Unit,
+    endTimePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    backBtnCLicked: () -> Unit,
 ) {
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
@@ -99,8 +111,18 @@ fun EventCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
-                    value = it.typeOfEvent.value,
-                    onValueChange = { state.typeOfEvent.value = it },
+                    value = it.eventType.value,
+                    onValueChange = { state.eventType.value = it },
+                    isError = when {
+                        it.eventType.value.isEmpty() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.eventType.value.isEmpty() -> stringResource(id = R.string.chose_event_type)
+                        else -> {
+                            ("")
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
@@ -108,7 +130,18 @@ fun EventCreationScreenStep1(
                     state = it,
                     value = it.eventName.value,
                     onValueChange = { state.eventName.value = it },
-                    transformation = VisualTransformation.None
+                    transformation = VisualTransformation.None,
+                    isError = when {
+                        it.eventName.value.isNotValidErrorTopicField() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.eventName.value.isNotValidErrorTopicField() ->
+                            stringResource(R.string.validation_text_error_topic)
+                        else -> {
+                            ("")
+                        }
+            }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -136,7 +169,7 @@ fun EventCreationScreenStep1(
                                     EventCreationScreenMainContract.PlayersGenderStates.WOMANS
                             },
                         state = it,
-                        text = stringResource(id = R.string.womans),
+                        text = stringResource(id = R.string.woman_ukr),
                         selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
@@ -152,7 +185,7 @@ fun EventCreationScreenStep1(
                                     EventCreationScreenMainContract.PlayersGenderStates.MANS
                             },
                         state = it,
-                        text = stringResource(id = R.string.mans),
+                        text = stringResource(id = R.string.man_ukr),
                         selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
@@ -163,6 +196,16 @@ fun EventCreationScreenStep1(
                     listItems = typesOfSports,
                     value = it.sportType.value,
                     onValueChange = { state.sportType.value = it },
+                    isError = when {
+                        it.sportType.value.isEmpty() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.sportType.value.isEmpty() -> stringResource(id = R.string.chose_sport_type)
+                        else -> {
+                            ("")
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -174,54 +217,90 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
-                    labelResId = R.string.date,
-                    readOnly = true,
-                    state = it,
-                    value = it.eventDateState.value ?: "",
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_date),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
+                    DefaultTextInput(
+                        textFieldModifier = Modifier
+                            .fillMaxWidth(),
+                        labelResId = R.string.date,
+                        readOnly = true,
+                        state = it,
+                        onValueChange = {},
+                        value = it.eventDateState.value,
+                        interactionSource = remember { MutableInteractionSource() }
+                            .also { interactionSource ->
+                                LaunchedEffect(interactionSource) {
+                                    interactionSource.interactions.collect {
+                                        if (it is PressInteraction.Release) {
+                                            isDatePickerModalOpen.value = true
+                                        }
+                                    }
+                                }
+                            },
+                        transformation = VisualTransformation.None,
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_date),
+                                contentDescription = null,
+                                tint = primaryDark,
+                            )
+                        })
                 Spacer(modifier = Modifier.size(16.dp))
-                Text(
-                    text = stringResource(R.string.сhose_event_time),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                )
+                    Text(
+                        text = stringResource(R.string.сhose_event_time),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                    )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(labelResId = R.string.event_time_start,
-                    textFieldModifier = Modifier.fillMaxWidth(),
-                    state = it,
-                    readOnly = true,
-                    value = it.startEventTimeState.value,
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_time),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
+                    DefaultTextInput(
+                        labelResId = R.string.event_time_start,
+                        modifier = Modifier
+                            .clickable { isStartTimePickerModalOpen.value = true },
+                        state = it,
+                        readOnly = true,
+                        value = it.startEventTimeState.value ?: "",
+                        onValueChange = {},
+                        interactionSource = remember { MutableInteractionSource() }
+                            .also { interactionSource ->
+                                LaunchedEffect(interactionSource) {
+                                    interactionSource.interactions.collect {
+                                        if (it is PressInteraction.Release) {
+                                            isStartTimePickerModalOpen.value = true
+                                        }
+                                    }
+                                }
+                            },
+                        trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_time),
+                                contentDescription = null,
+                                tint = primaryDark,
+                            )
+                        },
+                        transformation = VisualTransformation.None,
+                    )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(labelResId = R.string.event_time_end,
-                    textFieldModifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { },
                     state = it,
                     readOnly = true,
-                    value = it.endEventTimeState.value,
+                    value = if (it.eventDuration.value == 0) {
+                        it.endEventTimeState.value
+                    } else {
+                        it.startEventTimeState.calculateValueWithEventDuration(eventDuration = it.eventDuration)
+                    },
                     onValueChange = {},
                     transformation = VisualTransformation.None,
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if (it is PressInteraction.Release) {
+                                        isEndTimePickerModalOpen.value = true
+                                    }
+                                }
+                            }
+                        },
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_time),
@@ -230,7 +309,7 @@ fun EventCreationScreenStep1(
                         )
                     })
                 Spacer(modifier = Modifier.size(20.dp))
-                NewEventTimeSwitcher()
+                NewEventTimeSwitcher(selectedTime = state.eventDuration)
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.event_place),
@@ -273,14 +352,13 @@ fun EventCreationScreenStep1(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "1 / 4", //TODO()
+                        text = stringResource(R.string._1_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -309,9 +387,12 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
+                    isEnabled =  it.eventName.value.isValidErrorTopicField()
+                            && it.eventName.value.isNotEmpty()
+                            && it.eventType.value.isNotEmpty()
+                            && it.sportType.value.isNotEmpty(),
                     nextBtnOnClick = { navigateToSecondStep() },
-                    prevBtnOnClick = { /*TODO*/ },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )
@@ -323,6 +404,8 @@ fun EventCreationScreenStep1(
                     isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
                     isDatePickerModalOpen.value -> datePickerModalContent()
                     isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                    isStartTimePickerModalOpen.value -> startTimePickerModalContent()
+                    isEndTimePickerModalOpen.value -> endTimePickerModalContent()
                 }
         }
     }

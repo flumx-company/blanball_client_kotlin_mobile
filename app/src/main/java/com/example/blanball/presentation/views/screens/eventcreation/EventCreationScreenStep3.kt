@@ -44,6 +44,7 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
@@ -55,7 +56,13 @@ fun EventCreationScreenStep3(
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    publishBtnClicked: () -> Unit,
+    backBtnCLicked: () -> Unit,
 ) {
+    val currentState: EventCreationScreenMainContract.State =
+        (state as? EventCreationScreenMainContract.State) ?: EventCreationScreenMainContract.State(
+            EventCreationScreenMainContract.ScreenViewState.Idle
+        )
     val localFocusManager = LocalFocusManager.current
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -181,7 +188,7 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row (verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "+38 066 825 67 98", //TODO()
+                    text = state.phoneNumberState.value, //TODO()
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -250,14 +257,13 @@ fun EventCreationScreenStep3(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "3 / 3", //TODO()
+                        text = stringResource(R.string._3_3), //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -280,8 +286,8 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true,
-                    nextBtnOnClick = { /*TODO*/ },
-                    prevBtnOnClick = { /*TODO*/ },
+                    nextBtnOnClick = { publishBtnClicked() },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.publish,
                     prevBtnOnTextId = R.string.back,
                 )
@@ -295,5 +301,8 @@ fun EventCreationScreenStep3(
                 }
             }
         }
+    }
+    if (currentState.state is EventCreationScreenMainContract.ScreenViewState.Loading) {
+        Loader()
     }
 }
