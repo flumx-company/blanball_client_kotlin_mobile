@@ -54,6 +54,7 @@ import com.example.blanball.presentation.views.components.banners.NoHaveContentB
 import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge
 
@@ -363,5 +364,8 @@ fun FutureEventsScreen(
                 .align(Alignment.BottomEnd)
                 .padding(24.dp)
         )
+        if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
+            Loader(backgroundColor = Color.White, textColor = primaryDark)
+        }
     }
 }
