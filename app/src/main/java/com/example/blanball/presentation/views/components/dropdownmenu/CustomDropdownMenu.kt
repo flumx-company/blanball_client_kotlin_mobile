@@ -25,7 +25,6 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -71,10 +70,10 @@ fun CustomDropDownMenu(
                     trailingIcon = {
                         Icon(
                             painter = painterResource(
-                                id = if (expanded) R.drawable.ic_top else R.drawable.ic_down
+                                id = if (expanded) R.drawable.dropdown_arrow_up else R.drawable.dropdown_arrow_down
                             ),
                             contentDescription = null,
-                            tint = secondaryNavy,
+                            tint = primaryDark,
                         )
                     },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(

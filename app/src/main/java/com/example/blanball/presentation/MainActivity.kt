@@ -1,5 +1,6 @@
 package com.example.blanball.presentation
 
+import Destinations
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -121,6 +122,7 @@ class MainActivity : ComponentActivity() {
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),
+                            futureEventsScreenViewModel = viewModel(),
                         )
                     }
                 }

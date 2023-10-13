@@ -83,9 +83,19 @@
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
 
-        override suspend fun getAllEvents(page: Int): GetAllEventsResultEntity {
+        override suspend fun getAllEvents(
+            page: Int,
+            typeOfSport: String,
+            gender: String,
+            time_and_date: String,
+        ): GetAllEventsResultEntity {
             return try {
-                val getAllEventResponse = service.getAllEvents(page)
+                val getAllEventResponse = service.getAllEvents(
+                    page = page,
+                    typeOfSport = typeOfSport,
+                    gender = gender,
+                    time_and_date = time_and_date,
+                    )
                 val getAllEventsDomainResponse = getAllEventResponse.toGetAllEventResponseEntity()
                 GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
             } catch (ex: HttpException) {

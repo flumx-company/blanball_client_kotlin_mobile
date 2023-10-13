@@ -23,6 +23,7 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
+import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.MyProfileScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
@@ -34,6 +35,7 @@ import com.example.blanball.presentation.views.components.bottomnavbars.BottomNa
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
+import com.example.blanball.presentation.views.components.modals.AllEventsFilterModal
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.textinputs.SimpleDatePickerInDatePickerDialog
@@ -105,6 +107,7 @@ fun AppScreensConfig(
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
     eventCreationScreenViewModel: EventCreationScreensViewModel,
+    futureEventsScreenViewModel: FutureEventsScreenViewModel,
 ) {
     val openNavDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -582,6 +585,9 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {
+            val state = futureEventsScreenViewModel.uiState.collectAsState().value
+            var isFilterModalVisible = remember { mutableStateOf(false) }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -599,9 +605,18 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    FutureEventsScreen(paddingValues = it,
-                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) })
-                }
+                    FutureEventsScreen(
+                        state = state,
+                        paddingValues = it,
+                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
+                        filterModalContent = { AllEventsFilterModal(
+                            state = state,
+                            turnBackBtnClicked = { /*TODO*/ }) {
+                        } },
+                        isFilterModalOpen = isFilterModalVisible,
+                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents()},
+            )
+        }
             )
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {

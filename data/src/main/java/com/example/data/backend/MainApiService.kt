@@ -60,6 +60,11 @@ interface MainApiService  {
     @GET (Endpoints.ME_PROFILE_ENDPOINT)
     suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
 
-    @GET (Endpoints.GET_ALL_EVENTS_ENDPOINT)
-    suspend fun getAllEvents(@Query ("page") page: Int): GetAllEventResponse
+    @GET(Endpoints.GET_ALL_EVENTS_ENDPOINT)
+    suspend fun getAllEvents(
+        @Query("page") page: Int,
+        @Query("typeOfSport") typeOfSport: String,
+        @Query("gender") gender: String,
+        @Query("time_and_date") time_and_date: String,
+    ): GetAllEventResponse
 }

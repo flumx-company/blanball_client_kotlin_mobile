@@ -17,13 +17,14 @@ class FutureEventsMainContract {
         val isLoadingMoreAllEvents: Boolean = false,
         val isAllEventsLoaded: Boolean = false,
         val allEventsCounter: MutableState<Int> = mutableStateOf(0),
-        val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false)
-        val gendersSelectionState: MutableState<GenderSelectionState> = mutableStateOf(
-            GenderSelectionState.ALL
-        )
-        val typeOfSportState: MutableState<> = mutableStateOf(
+        val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false),
+        val gendersSelectionState: MutableState<GendersSelectionState> = mutableStateOf(
+            GendersSelectionState.ALL
+        ),
+        val typeOfEventsStateSelected: MutableState<String> = mutableStateOf(""),
+        val typeOfSportsStateSelected: MutableState<String> = mutableStateOf(""),
+        val freeOrPaidStateSelected: MutableState<FreeOrPaidState> = mutableStateOf(FreeOrPaidState.NO_SELECTED),
 
-        )
     ) : UiState
 
     sealed class ScreenViewState {
@@ -37,10 +38,16 @@ class FutureEventsMainContract {
 
     }
 
-    enum class GenderSelectionState(val stringValue: String?) {
-        ALL(null),
-        MALE(Strings.MALE),
-        FEMALE(Strings.FEMALE),
+    enum class FreeOrPaidState() {
+        NO_SELECTED(),
+        FREE(),
+        PAID(),
+    }
+
+    enum class GendersSelectionState() {
+        ALL(),
+        MALE(),
+        FEMALE(),
     }
 
     enum class TypeOfSpo

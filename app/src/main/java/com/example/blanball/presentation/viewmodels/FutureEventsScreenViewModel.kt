@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.utils.Integers
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -59,9 +59,6 @@ class FutureEventsScreenViewModel
                 loadAllEventsList()
             }
             is FutureEventsMainContract.ScreenViewState.LoadingError -> {
-                job = viewModelScope.launch(Dispatchers.IO) {
-                    _sideEffect.emit(FutureEventsMainContract.Effect.ShowToast("Error"))
-                }
             }
             else -> {}
         }
@@ -70,43 +67,40 @@ class FutureEventsScreenViewModel
     private fun loadAllEventsList() {
         job = viewModelScope.launch(Dispatchers.IO) {
             val pageToLoad = page
-            val gender = currentState.genderSelectionState.value.stringValue
-            val ageMin = currentState.ageSliderPosition.value.start.toInt()
-            val ageMax = currentState.ageSliderPosition.value.endInclusive.toInt()
-            val ordering = currentState.usersOrderingSelectionState.value.stringValue
-            val position = currentState.positionSelectedItem.value.convertToPositionCode(application.applicationContext)
+             val typeOfSport = currentState.typeOfSportsStateSelected.value.toString()
+             val gender = currentState.gendersSelectionState.value.toString()
+             val time_and_date = ""
 
-            when (val result = getUsersListUseCase.executeGetUsersList(
+            when (val result = getAllEventsUseCase.executeGetAllEvents(
                 page = pageToLoad,
+                typeOfSport = typeOfSport,
                 gender = gender,
-                age_min = ageMin,
-                age_max = ageMax,
-                ordering = ordering,
-                position = position,
+                time_and_date = time_and_date,
+
             )) {
-                is GetUsersListResultEntity.Success -> {
-                    val users = result.data.results
+                is GetAllEventsResultEntity.Success -> {
+                    val users = result.success.results
                     users?.let {
                         setState {
                             copy(
-                                usersList = mutableStateOf(currentState.usersList.value + it),
-                                isLoadingMoreUsers = false,
-                                userCounter = mutableStateOf(result.data.total_count),
-                                state = RatingUsersMainContract.ScreenViewState.LoadingSuccess,
+                                allEventsList = mutableStateOf(currentState.allEventsList.value + it),
+                                isLoadingMoreAllEvents = false,
+                                allEventsCounter = mutableStateOf(result.success.total_count),
+                                state = FutureEventsMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
                     }
-                    val nextPage = result.data.next
+                    val nextPage = result.success.next
                     if (nextPage.isNullOrEmpty()) {
                         setState {
-                            copy(allUsersLoaded = true)
+                            copy(isAllEventsLoaded = true)
                         }
                     }
                 }
-                is GetUsersListResultEntity.Error -> {
+                is GetAllEventsResultEntity.Error -> {
                     setState {
                         copy(
-                            state = RatingUsersMainContract.ScreenViewState.LoadingError,
+                            state = FutureEventsMainContract.ScreenViewState.LoadingError,
                         )
                     }
                 }

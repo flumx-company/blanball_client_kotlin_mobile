@@ -39,5 +39,10 @@ interface AppRepository {
         place_name: String,
     ): FillingTheUserProfileResultEntity
     suspend fun getMyProfile(page: Int): GetMyProfileResultEntity
-    suspend fun getAllEvents(page: Int): GetAllEventsResultEntity
+    suspend fun getAllEvents(
+        page: Int,
+        typeOfSport: String,
+        gender: String,
+        time_and_date: String,
+                             ): GetAllEventsResultEntity
 }
