@@ -62,9 +62,9 @@ interface MainApiService  {
 
     @GET(Endpoints.GET_ALL_EVENTS_ENDPOINT)
     suspend fun getAllEvents(
-        @Query("page") page: Int,
-        @Query("typeOfSport") typeOfSport: String,
-        @Query("gender") gender: String,
-        @Query("time_and_date") time_and_date: String,
+        @Query ("page") page: Int,
+        @Query ("type") typeOfSport: String,
+        @Query ("gender") gender: String,
+        @Query ("date_and_time") date_and_time: String,
     ): GetAllEventResponse
 }

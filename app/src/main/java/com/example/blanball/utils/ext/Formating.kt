@@ -80,3 +80,11 @@ internal fun String.formatPositionToEnglish(context: Context): String {
       else -> ""
   }
 }
+
+internal fun String.formatSportTypeToEnglish(context: Context): String {
+    return when (this) {
+        context.resources.getString(R.string.football) -> context.resources.getString(R.string.football_us)
+        context.resources.getString(R.string.futsal) -> context.resources.getString(R.string.futsal)
+        else -> ""
+    }
+}

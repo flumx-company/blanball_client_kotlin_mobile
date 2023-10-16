@@ -1,11 +1,19 @@
 package com.example.blanball.presentation.views.components.modals
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -28,6 +36,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.annotationGray
+import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -66,21 +75,15 @@ fun AllEventsFilterModal(
                         color = primaryDark,
                     )
                     Text(
-                        text = "15 оголошень",
+                        text = "${state.allEventsCounter.value} оголошень",
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = secondaryNavy,
                     )
-                    Divider(color = annotationGray)
                     Spacer(modifier = Modifier.size(12.dp))
-                    CustomDropDownMenu(
-                        labelResId = R.string.event_type,
-                        listItems = typeOfEvents,
-                        value = it.typeOfEventsStateSelected.value,
-                        onValueChange = { state.typeOfEventsStateSelected.value = it }
-                    )
+                    Divider(color = annotationGray)
                     Spacer(modifier = Modifier.size(12.dp))
                     CustomDropDownMenu(
                         labelResId = R.string.sport_type,
@@ -89,16 +92,113 @@ fun AllEventsFilterModal(
                         onValueChange = { state.typeOfSportsStateSelected.value = it }
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    Row {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    state.gendersSelectionState.value =
+                                        FutureEventsMainContract.GenderSelectionState.MALE
+                                }
+                                .border(
+                                    width = 1.dp,
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
+                                    shape = RoundedCornerShape(size = 6.dp)
+                                )
+                                .width(94.dp)
+                                .height(32.dp)
+                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Row {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.male_ic),
+                                    contentDescription = null,
+                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
+                                )
+                                Spacer(modifier = Modifier.size(4.dp))
+                                Text(
+                                    text = stringResource(id = R.string.mans),
+                                    fontSize = 13.sp,
+                                    lineHeight = 24.sp,
+                                    style = typography.h4,
+                                    fontWeight = FontWeight(400),
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    state.gendersSelectionState.value =
+                                        FutureEventsMainContract.GenderSelectionState.FEMALE
+                                }
+                                .border(
+                                    width = 1.dp,
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
+                                    shape = RoundedCornerShape(size = 6.dp)
+                                )
+                                .width(94.dp)
+                                .height(32.dp)
+                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp)
+                        ) {
+                            Row {
+                                Icon(
+                                    modifier = Modifier.size(20.dp),
+                                    painter = painterResource(id = R.drawable.female_ic),
+                                    contentDescription = null,
+                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
 
+                                    )
+                                Spacer(modifier = Modifier.size(4.dp))
+                                Text(
+                                    text = stringResource(id = R.string.womans),
+                                    fontSize = 13.sp,
+                                    lineHeight = 24.sp,
+                                    style = typography.h4,
+                                    fontWeight = FontWeight(400),
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    state.gendersSelectionState.value =
+                                        FutureEventsMainContract.GenderSelectionState.ALL
+                                }
+                                .border(
+                                    width = 1.dp,
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
+                                    shape = RoundedCornerShape(size = 6.dp)
+                                )
+                                .width(94.dp)
+                                .height(32.dp)
+                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp)
+                        ) {
+                            Row {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_all),
+                                    contentDescription = null,
+                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
+                                )
+                                Spacer(modifier = Modifier.size(4.dp))
+                                Text(
+                                    text = stringResource(id = R.string.all),
+                                    fontSize = 13.sp,
+                                    lineHeight = 24.sp,
+                                    style = typography.h4,
+                                    fontWeight = FontWeight(400),
+                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
+                                )
+                            }
+                        }
                     }
                     Spacer(modifier = Modifier.size(12.dp))
-//                    CustomDropDownMenu(
-//                        labelResId = R.string.,
-//                        listItems =,
-//                        value =,
-//                        onValueChange = .
-//                    )
                     Spacer(modifier = Modifier.size(20.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         TextButton(onClick = { turnBackBtnClicked() }) {

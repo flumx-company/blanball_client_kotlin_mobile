@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.formatSportTypeToEnglish
 import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.utils.Integers
@@ -32,21 +33,20 @@ class FutureEventsScreenViewModel
 
     val defaultState
         get() = FutureEventsMainContract.State(
-            state = FutureEventsMainContract.ScreenViewState.Idle,
+            state = FutureEventsMainContract.ScreenViewState.Loading,
         )
 
     val currentState: FutureEventsMainContract.State
         get() = uiState.value as FutureEventsMainContract.State
 
-    private val _uiState : MutableStateFlow<UiState> =
-        MutableStateFlow(defaultState)
+    private val _uiState : MutableStateFlow<UiState> = MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _sideEffect : MutableSharedFlow<FutureEventsMainContract.Effect> =
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<FutureEventsMainContract.Effect> = _sideEffect.asSharedFlow()
 
-    fun handleScreenState(screenViewState: FutureEventsMainContract.ScreenViewState) {
+    internal fun handleScreenState(screenViewState: FutureEventsMainContract.ScreenViewState) {
         when (screenViewState) {
             is FutureEventsMainContract.ScreenViewState.Loading -> {
                 setState {
@@ -67,17 +67,17 @@ class FutureEventsScreenViewModel
     private fun loadAllEventsList() {
         job = viewModelScope.launch(Dispatchers.IO) {
             val pageToLoad = page
-             val typeOfSport = currentState.typeOfSportsStateSelected.value.toString()
-             val gender = currentState.gendersSelectionState.value.toString()
-             val time_and_date = ""
-
+            val typeOfSport = currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
+            val gender =
+                currentState.gendersSelectionState.value.stringValue?:""
+            val time_and_date = ""
             when (val result = getAllEventsUseCase.executeGetAllEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,
                 gender = gender,
                 time_and_date = time_and_date,
 
-            )) {
+                )) {
                 is GetAllEventsResultEntity.Success -> {
                     val users = result.success.results
                     users?.let {
@@ -108,7 +108,7 @@ class FutureEventsScreenViewModel
         }
     }
 
-    fun loadMoreAllEvents() {
+    internal fun loadMoreAllEvents() {
         job = viewModelScope.launch(Dispatchers.IO) {
             if (!(currentState.isLoadingMoreAllEvents || currentState.isAllEventsLoaded)) {
                 setState {
@@ -120,7 +120,7 @@ class FutureEventsScreenViewModel
         }
     }
 
-    private fun setState(reduce: FutureEventsMainContract.State.() -> FutureEventsMainContract.State) {
+    internal fun setState(reduce: FutureEventsMainContract.State.() -> FutureEventsMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

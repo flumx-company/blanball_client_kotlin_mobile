@@ -397,4 +397,6 @@
     <string name="clean">Очистити</string>
     <string name="not_found_events_for_this_filter">Для такого фільтру події не знайдено</string>
     <string name="change_search_params">Змініть параметри пошуку</string>
+    <string name="football_us">Football</string>
+    <string name="futsal_us">Futsal</string>
 </resources>

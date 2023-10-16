@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
@@ -586,7 +588,14 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.FutureEvents.screen_route) {
             val state = futureEventsScreenViewModel.uiState.collectAsState().value
+            val futureEventScreenCurrentState = futureEventsScreenViewModel.currentState
             var isFilterModalVisible = remember { mutableStateOf(false) }
+
+            val previousState by remember { mutableStateOf(futureEventScreenCurrentState.state) }
+
+            LaunchedEffect(futureEventScreenCurrentState.state != previousState) {
+                futureEventsScreenViewModel.handleScreenState(futureEventScreenCurrentState.state)
+            }
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -609,13 +618,34 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = it,
                         navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
-                        filterModalContent = { AllEventsFilterModal(
-                            state = state,
-                            turnBackBtnClicked = { /*TODO*/ }) {
-                        } },
+                        filterModalContent = {
+                            AllEventsFilterModal(
+                                state = state,
+                                confirmBtnClicked = {
+                                    isFilterModalVisible.value = false
+                                    futureEventsScreenViewModel.setState {
+                                        copy(
+                                            openFiltersDialog = mutableStateOf(false),
+                                            state = FutureEventsMainContract.ScreenViewState.Loading
+                                        )
+                                    }
+                                },
+                                turnBackBtnClicked = {
+                                    isFilterModalVisible.value = false
+                                    futureEventsScreenViewModel.setState {
+                                        copy(
+                                            openFiltersDialog = mutableStateOf(false),
+                                            gendersSelectionState = mutableStateOf(FutureEventsMainContract.GenderSelectionState.ALL),
+                                            typeOfSportsStateSelected = mutableStateOf(""),
+                                            time = mutableStateOf(""),
+                                            state = FutureEventsMainContract.ScreenViewState.Loading
+                                        )
+                                    }
+                                })
+                        },
                         isFilterModalOpen = isFilterModalVisible,
-                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents()},
-            )
+                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
+                    )
         }
             )
         }

@@ -48,6 +48,31 @@ object Formats {
      const val PHONE_MASK = "##-###-##-##"
 }
 
+object Strings {
+     const val MALE = "Man"
+     const val FEMALE = "Woman"
+     const val GK = "GK"
+     const val LB = "LB"
+     const val RB = "RB"
+     const val CB = "CB"
+     const val LWB = "LWB"
+     const val RWB = "RWB"
+     const val CDM = "CDM"
+     const val CM = "CM"
+     const val CAM = "CAM"
+     const val RM = "RM"
+     const val LM = "LM"
+     const val RW = "RW"
+     const val LW = "LW"
+     const val RF = "RF"
+     const val CF = "CF"
+     const val LF = "LF"
+     const val ST = "ST"
+     const val FIRST_OLDER = "-id"
+     const val FOOTBALL = "Football"
+     const val FUTSAL = "Futsal"
+}
+
 object Locations {
 
 }

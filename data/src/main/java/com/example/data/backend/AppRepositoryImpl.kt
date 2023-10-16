@@ -94,7 +94,7 @@
                     page = page,
                     typeOfSport = typeOfSport,
                     gender = gender,
-                    time_and_date = time_and_date,
+                    date_and_time = time_and_date,
                     )
                 val getAllEventsDomainResponse = getAllEventResponse.toGetAllEventResponseEntity()
                 GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
