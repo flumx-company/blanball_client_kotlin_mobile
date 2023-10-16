@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -107,12 +107,15 @@ fun AllEventsFilterModal(
                                     color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
-                                .width(94.dp)
+                                .wrapContentWidth()
                                 .height(32.dp)
                                 .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.male_ic),
                                     contentDescription = null,
@@ -141,18 +144,22 @@ fun AllEventsFilterModal(
                                     color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
-                                .width(94.dp)
+                                .wrapContentWidth()
                                 .height(32.dp)
-                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp)
+                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
-                            Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
                                 Icon(
                                     modifier = Modifier.size(20.dp),
                                     painter = painterResource(id = R.drawable.female_ic),
                                     contentDescription = null,
                                     tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
 
-                                    )
+                                )
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
                                     text = stringResource(id = R.string.womans),
@@ -176,11 +183,16 @@ fun AllEventsFilterModal(
                                     color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
-                                .width(94.dp)
+                                .wrapContentWidth()
                                 .height(32.dp)
-                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp)
+                                .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
-                            Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+
+                            ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_all),
                                     contentDescription = null,
@@ -200,7 +212,10 @@ fun AllEventsFilterModal(
                     }
                     Spacer(modifier = Modifier.size(12.dp))
                     Spacer(modifier = Modifier.size(20.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         TextButton(onClick = { turnBackBtnClicked() }) {
                             Text(
                                 text = stringResource(id = R.string.clean),
