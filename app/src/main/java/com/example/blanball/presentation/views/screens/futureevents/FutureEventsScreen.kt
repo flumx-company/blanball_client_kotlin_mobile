@@ -245,7 +245,7 @@ fun FutureEventsScreen(
                                 Row {
                                     TextBadge(textResId = R.string.football)
                                     Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.mans)
+                                    TextBadge(textResId = R.string.man_ukr)
                                     Spacer(modifier = Modifier.size(4.dp))
                                     TextBadge(textResId = R.string.withour_divison)
                                 }

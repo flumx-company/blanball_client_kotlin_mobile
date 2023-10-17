@@ -48,7 +48,7 @@ class FutureEventsScreenViewModel
 
     internal fun handleScreenState(screenViewState: FutureEventsMainContract.ScreenViewState) {
         when (screenViewState) {
-            is FutureEventsMainContract.ScreenViewState.Loading -> {
+            is FutureEventsMainContract.ScreenViewState.Idle -> {
                 setState {
                     copy(
                         allEventsList = mutableStateOf(emptyList()),
@@ -70,7 +70,7 @@ class FutureEventsScreenViewModel
             val typeOfSport = currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
             val gender =
                 currentState.gendersSelectionState.value.stringValue?:""
-            val time_and_date = ""
+            val time_and_date = currentState.eventDatesState.value
             when (val result = getAllEventsUseCase.executeGetAllEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,

@@ -25,7 +25,7 @@ class FutureEventsMainContract {
         val typeOfEventsStateSelected: MutableState<String> = mutableStateOf(""),
         val typeOfSportsStateSelected: MutableState<String> = mutableStateOf(""),
         val genderSelectionState: MutableState<String> = mutableStateOf(""),
-        val time: MutableState<String> = mutableStateOf(""),
+        val eventDatesState: MutableState<String> = mutableStateOf("")
     ) : UiState
 
     sealed class ScreenViewState {

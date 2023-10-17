@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
@@ -647,7 +647,7 @@ fun AppScreensConfig(
                                             openFiltersDialog = mutableStateOf(false),
                                             gendersSelectionState = mutableStateOf(FutureEventsMainContract.GenderSelectionState.ALL),
                                             typeOfSportsStateSelected = mutableStateOf(""),
-                                            time = mutableStateOf(""),
+                                            eventDatesState = mutableStateOf(""),
                                             state = FutureEventsMainContract.ScreenViewState.Loading
                                         )
                                     }

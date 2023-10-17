@@ -43,6 +43,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
 
 @Composable
 fun AllEventsFilterModal(
@@ -123,7 +124,7 @@ fun AllEventsFilterModal(
                                 )
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
-                                    text = stringResource(id = R.string.mans),
+                                    text = stringResource(id = R.string.man_ukr),
                                     fontSize = 13.sp,
                                     lineHeight = 24.sp,
                                     style = typography.h4,
@@ -162,7 +163,7 @@ fun AllEventsFilterModal(
                                 )
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
-                                    text = stringResource(id = R.string.womans),
+                                    text = stringResource(id = R.string.woman_ukr),
                                     fontSize = 13.sp,
                                     lineHeight = 24.sp,
                                     style = typography.h4,
@@ -211,6 +212,10 @@ fun AllEventsFilterModal(
                         }
                     }
                     Spacer(modifier = Modifier.size(12.dp))
+                    DatePickerModal(
+                        selectedState = it.eventDatesState,
+                        backBtnClicked = {},
+                    )
                     Spacer(modifier = Modifier.size(20.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
