@@ -1,6 +1,9 @@
     package com.example.blanball.presentation.views.components.textinputs
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,11 +43,14 @@ import com.example.blanball.presentation.theme.typography
         leadingIcon: @Composable (() -> Unit)? = null,
         isSingleLine: Boolean = true,
         readOnly: Boolean = false,
+        enabled: Boolean = true,
+        interactionSource: MutableInteractionSource = MutableInteractionSource(),
     ) {
-        Column(modifier = modifier) {
+        Column(modifier = modifier.animateContentSize().fillMaxSize()) {
             OutlinedTextField(
                 modifier = textFieldModifier,
                 value = value,
+                interactionSource = interactionSource,
                 onValueChange = onValueChange,
                 visualTransformation = transformation,
                 singleLine = isSingleLine,
@@ -75,6 +81,7 @@ import com.example.blanball.presentation.theme.typography
                 isError = isError,
                 trailingIcon = trailingIcon,
                 leadingIcon = leadingIcon,
+                enabled = enabled,
             )
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)

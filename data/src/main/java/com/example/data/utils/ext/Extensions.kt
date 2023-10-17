@@ -1,6 +1,13 @@
 package com.example.data.utils.ext
 
 import com.example.data.backend.models.responses.Configuration
+import com.example.data.backend.models.responses.CreationAnEventError
+import com.example.data.backend.models.responses.CreationAnEventErrorData
+import com.example.data.backend.models.responses.CreationAnEventErrorDetail
+import com.example.data.backend.models.responses.CreationAnEventResponse
+import com.example.data.backend.models.responses.CreationAnEventResponseData
+import com.example.data.backend.models.responses.CreationAnEventResponseForms
+import com.example.data.backend.models.responses.CreationAnEventResponsePlace
 import com.example.data.backend.models.responses.Data
 import com.example.data.backend.models.responses.DataEmailReset
 import com.example.data.backend.models.responses.DataError
@@ -77,6 +84,13 @@ import com.example.data.backend.models.responses.UpdateUserProfileResponseErrorD
 import com.example.data.backend.models.responses.UpdateUserProfileResponsePlace
 import com.example.data.backend.models.responses.UpdateUserProfileResponseProfile
 import com.example.domain.entity.responses.ConfigurationEntity
+import com.example.domain.entity.responses.CreationAnEventErrorDetailEntity
+import com.example.domain.entity.responses.CreationAnEventErrorEntity
+import com.example.domain.entity.responses.CreationAnEventErrorEntityData
+import com.example.domain.entity.responses.CreationAnEventResponseEntity
+import com.example.domain.entity.responses.CreationAnEventResponseEntityData
+import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.CreationAnEventResponseEntityPlace
 import com.example.domain.entity.responses.DataCompleteResponseEntity
 import com.example.domain.entity.responses.DataEmailResetEntity
 import com.example.domain.entity.responses.DataSendCodeDomain
@@ -746,5 +760,64 @@ internal fun GetAllEventResponseErrorData.toGetAllEventEntityResponseErrorData()
 
 internal fun GetAllEventResponseErrorDetail.toGetAllEventEntityResponseErrorDetail(): GetAllEventEntityResponseErrorDetail =
     GetAllEventEntityResponseErrorDetail(
+        this.detail
+    )
+
+internal fun CreationAnEventResponse.toCreationAnEventResponseEntity(): CreationAnEventResponseEntity =
+    CreationAnEventResponseEntity(
+        this.code,
+        this.data.toCreationAnEventResponseEntityData(),
+        this.message,
+        this.status
+    )
+
+internal fun CreationAnEventResponseData.toCreationAnEventResponseEntityData(): CreationAnEventResponseEntityData =
+    CreationAnEventResponseEntityData(
+        this.amount_members,
+        this.contact_number,
+        this.date_and_time,
+        this.description,
+        this.duration,
+         this.forms?.toCreationAnEventResponseEntityForms(),
+        this.gender,
+        this.hidden,
+        this.name,
+        this.need_ball,
+        this.need_form,
+        this.place.toCreationAnEventResponseEntityPlace(),
+        this.price,
+        this.price_description,
+        this.privacy,
+        this.type
+    )
+
+internal fun CreationAnEventResponseForms.toCreationAnEventResponseEntityForms(): CreationAnEventResponseEntityForms =
+    CreationAnEventResponseEntityForms(
+        //TODO
+    )
+
+internal fun CreationAnEventResponsePlace.toCreationAnEventResponseEntityPlace(): CreationAnEventResponseEntityPlace =
+    CreationAnEventResponseEntityPlace(
+        this.lat,
+        this.lon,
+        this.place_name
+    )
+
+internal fun CreationAnEventError.toCreationAnEventErrorEntity(): CreationAnEventErrorEntity =
+    CreationAnEventErrorEntity(
+        this.code,
+        this.data.toCreationAnEventErrorEntityData(),
+        this.message,
+        this.status
+    )
+
+internal fun CreationAnEventErrorData.toCreationAnEventErrorEntityData(): CreationAnEventErrorEntityData =
+    CreationAnEventErrorEntityData(
+        listOf(this.errors[0].toCreationAnEventErrorDetailEntity()),
+        this.type
+    )
+
+internal fun CreationAnEventErrorDetail.toCreationAnEventErrorDetailEntity(): CreationAnEventErrorDetailEntity =
+    CreationAnEventErrorDetailEntity(
         this.detail
     )

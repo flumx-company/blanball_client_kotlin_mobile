@@ -214,7 +214,7 @@ fun EventScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 TextBadge(textResId = R.string.football) //TODO()
-                TextBadge(textResId = R.string.mans) //TODO()
+                TextBadge(textResId = R.string.man_ukr) //TODO()
                 TextBadge(textResId = R.string.withour_divison) //TODO()
             }
             Spacer(modifier = Modifier.size(20.dp))

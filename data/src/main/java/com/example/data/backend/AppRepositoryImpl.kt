@@ -1,6 +1,8 @@
     package com.example.data.backend
     
     import com.example.data.backend.models.requests.AuthRequest
+    import com.example.data.backend.models.requests.CreationAnEventRequest
+    import com.example.data.backend.models.requests.CreationAnEventRequestPlace
     import com.example.data.backend.models.requests.ProfileRegistrationRequest
     import com.example.data.backend.models.requests.RegistrationRequest
     import com.example.data.backend.models.requests.ResetCompleteRequest
@@ -10,6 +12,7 @@
     import com.example.data.backend.models.requests.UpdateUserProfileRequestConfiguration
     import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
     import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
+    import com.example.data.backend.models.responses.CreationAnEventError
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetAllEventResponseError
     import com.example.data.backend.models.responses.GetMyProfileError
@@ -25,6 +28,8 @@
     import com.example.data.datastore.usernamemanager.UserNameManager
     import com.example.data.datastore.userphonemanager.UserPhoneManager
     import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+    import com.example.data.utils.ext.toCreationAnEventErrorEntity
+    import com.example.data.utils.ext.toCreationAnEventResponseEntity
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
@@ -47,6 +52,8 @@
     import com.example.data.utils.ext.toSendCodeResponseEntity
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
+    import com.example.domain.entity.responses.CreationAnEventErrorEntity
+    import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
     import com.example.domain.entity.responses.GetAllEventEntityResponseError
@@ -58,6 +65,7 @@
     import com.example.domain.entity.responses.ResetCompleteErrorEntity
     import com.example.domain.entity.responses.SendCodeErrorEntity
     import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
+    import com.example.domain.entity.results.CreationAnEventResultEntity
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.FillingTheUserProfileResultEntity
     import com.example.domain.entity.results.GetAllEventsResultEntity
@@ -82,6 +90,61 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun createAnNewEvent(
+            amount_members: Int,
+            contact_number: String,
+            current_users: List<Int>?,
+            date_and_time: String,
+            description: String,
+            duration: Int,
+            forms: CreationAnEventResponseEntityForms?,
+            gender: String,
+            hidden: Boolean?,
+            name: String,
+            need_ball: Boolean,
+            need_form: Boolean,
+            place: String,
+            lon: Int,
+            lat: Int,
+            price: Int,
+            price_description: String,
+            privacy: Boolean,
+            type: String
+        ): CreationAnEventResultEntity {
+            return try {
+                val request = CreationAnEventRequest(
+                    amount_members = amount_members,
+                    contact_number = contact_number,
+                    current_users = current_users,
+                    date_and_time = date_and_time,
+                    description = description,
+                    duration = duration,
+                    forms = null,
+                    gender = gender,
+                    hidden = hidden,
+                    name = name,
+                    need_ball = need_ball,
+                    need_form = need_form,
+                    place = CreationAnEventRequestPlace(
+                            lat = lat,
+                            lon = lon,
+                            place_name = place)
+                    ,
+                    price = price,
+                    price_description = price_description,
+                    privacy = privacy,
+                    type = type,
+                )
+                val createAnNewEventResponse = service.createAnEvent(request)
+                val createAnNewEventDomainResponse = createAnNewEventResponse.toCreationAnEventResponseEntity()
+                CreationAnEventResultEntity.Success(createAnNewEventDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<CreationAnEventError, CreationAnEventErrorEntity>(ex) { it.toCreationAnEventErrorEntity()}
+                CreationAnEventResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
 
         override suspend fun getAllEvents(
             page: Int,
@@ -109,10 +172,11 @@
             return try {
                 val getMyProfileResponse = service.getMyProfile(page)
                 val getMyProfileDomainResponse = getMyProfileResponse.toGetMyProfileResponseEntity()
+                userPhoneManager.safeUserPhone(getMyProfileDomainResponse.data.phone.toString())
                 GetMyProfileResultEntity.Success(getMyProfileDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
-                handleHttpError<GetMyProfileError, GetMyProfileErrorEntity >(ex) { it.toGetMyProfileErrorEntity()}
+                    handleHttpError<GetMyProfileError, GetMyProfileErrorEntity>(ex) { it.toGetMyProfileErrorEntity() }
                 GetMyProfileResultEntity.Error(errorResponse.data.errors[0])
             }
         }

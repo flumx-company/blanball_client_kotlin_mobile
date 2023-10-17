@@ -3,11 +3,13 @@ package com.example.data.backend
 
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.requests.CreationAnEventRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
+import com.example.data.backend.models.responses.CreationAnEventResponse
 import com.example.data.backend.models.responses.GetAllEventResponse
 import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
@@ -67,4 +69,7 @@ interface MainApiService  {
         @Query ("gender") gender: String,
         @Query ("date_and_time") date_and_time: String,
     ): GetAllEventResponse
+
+    @POST (Endpoints.CREATE_EVENT_ENDPOINT)
+    suspend fun createAnEvent (@Body creationAnEventRequest: CreationAnEventRequest): CreationAnEventResponse
 }

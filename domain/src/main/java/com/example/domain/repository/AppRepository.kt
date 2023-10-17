@@ -1,5 +1,7 @@
 package com.example.domain.repository
 
+import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
@@ -39,6 +41,27 @@ interface AppRepository {
         place_name: String,
     ): FillingTheUserProfileResultEntity
     suspend fun getMyProfile(page: Int): GetMyProfileResultEntity
+    suspend fun createAnNewEvent(
+        amount_members: Int,
+        contact_number: String,
+        current_users:List<Int>? = null,
+        date_and_time: String,
+        description: String,
+        duration: Int,
+        forms: CreationAnEventResponseEntityForms? = null,
+        gender: String,
+        hidden: Boolean?,
+        name: String,
+        need_ball: Boolean,
+        need_form: Boolean,
+        place: String,
+        lon: Int,
+        lat: Int,
+        price: Int,
+        price_description: String,
+        privacy: Boolean,
+        type: String,
+    ) : CreationAnEventResultEntity
     suspend fun getAllEvents(
         page: Int,
         typeOfSport: String,

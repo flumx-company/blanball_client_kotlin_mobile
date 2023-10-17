@@ -17,6 +17,7 @@ object Endpoints {
      const val REFRESH_ENDPOINT = BuildConfig.UPDATE_PROFILE_ENDPOINT
      const val FLUM_X_URL = BuildConfig.FLUM_X_URL
      const val ME_PROFILE_ENDPOINT = BuildConfig.ME_PROFILE_ENDPOINT
+     const val CREATE_EVENT_ENDPOINT = BuildConfig.CREATE_EVENT_ENDPOINT
      const val GET_ALL_EVENTS_ENDPOINT = BuildConfig.GET_ALL_EVENTS_ENDPOINT
      }
 object Code {

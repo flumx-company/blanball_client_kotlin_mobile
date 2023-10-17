@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,7 @@ import com.example.blanball.presentation.theme.typography
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomDropDownMenu(
+    columnModifier: Modifier = Modifier,
     modifier: Modifier = Modifier,
     labelResId: Int,
     listItems: List<String>,
@@ -52,7 +54,7 @@ fun CustomDropDownMenu(
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column() {
+            Column(columnModifier.animateContentSize()) {
                 OutlinedTextField(
                     value = value,
                     onValueChange = onValueChange,

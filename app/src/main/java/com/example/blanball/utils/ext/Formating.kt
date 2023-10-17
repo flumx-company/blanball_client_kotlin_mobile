@@ -1,12 +1,15 @@
 package com.example.blanball.utils.ext
 
 import android.content.Context
+import androidx.compose.runtime.MutableState
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 internal fun String.formatDateReview(): String {
@@ -86,5 +89,96 @@ internal fun String.formatSportTypeToEnglish(context: Context): String {
         context.resources.getString(R.string.football) -> context.resources.getString(R.string.football_us)
         context.resources.getString(R.string.futsal) -> context.resources.getString(R.string.futsal)
         else -> ""
+    }
+}
+
+internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
+    return when (this) {
+        EventCreationScreenMainContract.EventPrivacyStates.YES -> true
+        EventCreationScreenMainContract.EventPrivacyStates.NO -> false
+        else -> false
+    }
+}
+
+internal fun EventCreationScreenMainContract.NeedFormStates.NeedFormStatesToBoolean(): Boolean {
+    return when (this) {
+        EventCreationScreenMainContract.NeedFormStates.YES -> true
+        EventCreationScreenMainContract.NeedFormStates.NO -> false
+        else -> false
+    }
+}
+
+internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToString(context: Context): String {
+    return when (this) {
+        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man)
+        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman)
+        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+    }
+}
+
+internal fun String.SportTypesStringsToEnglish(context: Context): String {
+    return when (this) {
+        context.resources.getString(R.string.football) ->  context.resources.getString(R.string.football_us)
+        context.resources.getString(R.string.futsal) ->  context.resources.getString(R.string.futsal_us)
+        else -> ""
+    }
+}
+
+internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(context: Context): String {
+    return when (this) {
+        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
+        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
+        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+    }
+}
+
+internal fun String.formatToUkrainianDate(): String {
+    if (this.isEmpty()) {
+        return ""
+    }
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale("uk", "UA"))
+    val outputFormat = SimpleDateFormat("d MMMM", Locale("uk", "UA"))
+
+    val date = inputFormat.parse(this)
+    return date?.let { outputFormat.format(it) } ?: ""
+}
+
+fun formatToIso8601DateTime(date: String, time: String): String {
+    if (date.isEmpty() || time.isEmpty()) {
+        return ""
+    }
+    val inputDateTime = "$date $time"
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+
+    val dateTime = inputFormat.parse(inputDateTime)
+    return dateTime?.let { outputFormat.format(it) } ?: ""
+}
+
+fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
+
+    val dateFormat = SimpleDateFormat("HH:mm")
+
+    if (this.isEmpty()){
+        return 0
+    }
+        val startTime = dateFormat.parse(this)
+        val endTimeDate = dateFormat.parse(endTime)
+
+        val timeDifferenceMillis = endTimeDate.time - startTime.time
+
+        return (timeDifferenceMillis / (60 * 1000)).toInt()
+}
+
+internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration: MutableState<Int>): String {
+    if (this.value.isEmpty()){
+        return ""
+    }
+    return if (eventDuration.value != 0) {
+        val startTime = SimpleDateFormat("HH:mm").parse(this.value)
+        val endTime = Date(startTime.time + (eventDuration.value * 60 * 1000))
+        SimpleDateFormat("HH:mm").format(endTime)
+    } else {
+        this.value ?: ""
     }
 }

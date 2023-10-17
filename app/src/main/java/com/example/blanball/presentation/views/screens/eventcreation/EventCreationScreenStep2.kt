@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -24,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,6 +54,7 @@ fun EventCreationScreenStep2(
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
+    backBtnCLicked: () -> Unit
 ) {
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -97,34 +101,35 @@ fun EventCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                            it.isEventPrivacy.value =
+                                EventCreationScreenMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                                it.isEventPrivacy.value =
+                                    EventCreationScreenMainContract.EventPrivacyStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.WOMANS,
+                        selected = it.isEventPrivacy.value == EventCreationScreenMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.MANS
+                            it.isEventPrivacy.value =
+                                EventCreationScreenMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.MANS
+                                it.isEventPrivacy.value =
+                                    EventCreationScreenMainContract.EventPrivacyStates.YES
                             },
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.MANS,
+                        selected = it.isEventPrivacy.value ==
+                            EventCreationScreenMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
@@ -201,6 +206,7 @@ fun EventCreationScreenStep2(
                     value = it.maxEventPlayersState.value,
                     onValueChange = {state.maxEventPlayersState.value = it},
                     transformation = VisualTransformation.None,
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_peoples),
@@ -259,14 +265,13 @@ fun EventCreationScreenStep2(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = "2 / 4", //TODO()
+                        text = stringResource(R.string._2_3), //TODO()
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
                     Icon(
                         modifier = Modifier.size(20.dp),
                         painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -295,7 +300,7 @@ fun EventCreationScreenStep2(
                 NextAndPreviousButtonsHorizontal (
                     isEnabled = true,
                     nextBtnOnClick = { navigateToThirdStep() },
-                    prevBtnOnClick = { /*TODO*/ },
+                    prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )
