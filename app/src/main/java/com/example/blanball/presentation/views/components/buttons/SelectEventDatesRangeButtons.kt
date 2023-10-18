@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.components.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -27,9 +27,10 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 
-@Preview
 @Composable
-fun SelectEventDatesRangeButtons() {
+fun SelectEventDatesRangeButtons(
+    clickCallback: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .border(width = 1.dp, color = primaryDark, shape = RoundedCornerShape(size = 6.dp))
@@ -40,6 +41,7 @@ fun SelectEventDatesRangeButtons() {
                 shape = RoundedCornerShape(size = 6.dp)
             )
             .padding(start = 12.dp, top = 6.dp, end = 12.dp, bottom = 6.dp)
+            .clickable { clickCallback() }
     ) {
         Row (
             verticalAlignment = Alignment.CenterVertically,

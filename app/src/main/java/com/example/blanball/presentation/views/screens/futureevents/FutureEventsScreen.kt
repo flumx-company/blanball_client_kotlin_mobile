@@ -57,6 +57,7 @@ import com.example.blanball.presentation.views.components.handlers.InfiniteListH
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
 fun FutureEventsScreen(
@@ -152,15 +153,15 @@ fun FutureEventsScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
-                    if (state.allEventsList.value.isEmpty()) {
-                        NoHaveContentBanner(
-                            headerTextId = R.string.not_found_events_for_this_filter,
-                            secTextId = R.string.change_search_params
-                        )
-                    } else {
-                        LazyColumn {
-                            itemsIndexed(state.allEventsList.value) { index, event ->
+                if (state.allEventsList.value.isEmpty()) {
+                    NoHaveContentBanner(
+                        headerTextId = R.string.not_found_events_for_this_filter,
+                        secTextId = R.string.change_search_params
+                    )
+                } else {
+                    LazyColumn {
+                        itemsIndexed(state.allEventsList.value) { index, event ->
+                            DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
                                 Row {
                                     Box(
                                         Modifier
@@ -183,7 +184,7 @@ fun FutureEventsScreen(
                                     Spacer(modifier = Modifier.size(8.dp))
                                     Column {
                                         Text(
-                                            text = event.type,
+                                            text = stringResource(id = R.string.friendly_match),
                                             fontSize = 16.sp,
                                             lineHeight = 20.sp,
                                             style = typography.h3,
@@ -193,7 +194,7 @@ fun FutureEventsScreen(
                                         Spacer(modifier = Modifier.size(6.dp))
                                         Row {
                                             Text(
-                                                text = event.date_and_time,
+                                                text = event.date_and_time.formatToUkrainianDate(),
                                                 fontSize = 13.sp,
                                                 lineHeight = 20.sp,
                                                 style = typography.h4,
@@ -202,7 +203,7 @@ fun FutureEventsScreen(
                                             )
                                             Spacer(modifier = Modifier.size(12.dp))
                                             Text(
-                                                text = event.duration.toString(),
+                                                text = event.date_and_time.toString(),
                                                 fontSize = 13.sp,
                                                 lineHeight = 20.sp,
                                                 style = typography.h4,
@@ -253,7 +254,6 @@ fun FutureEventsScreen(
                                 DottedLine(color = annotationGray)
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
-
                                     Text(
                                         text = event.name,
                                         fontSize = 13.sp,
@@ -331,6 +331,7 @@ fun FutureEventsScreen(
                                         )
                                     }
                                 }
+                                }
                             }
                             if (state.isLoadingMoreAllEvents) {
                                 item {
@@ -351,9 +352,9 @@ fun FutureEventsScreen(
                                     buffer = 1
                                 )
                             }
-                        }
                     }
                 }
+
             }
         }
         when {
