@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -327,7 +328,7 @@ fun MyProfileScreen(
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(R.string.phone),
                     fontSize = 12.sp,
@@ -347,7 +348,7 @@ fun MyProfileScreen(
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(R.string.location),
                     fontSize = 12.sp,
@@ -446,7 +447,7 @@ fun MyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(40.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
                         .wrapContentHeight()
                         .background(
@@ -562,6 +563,41 @@ fun MyProfileScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun RowUI() {
+    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
+                .height(40.dp)
+                .background(
+                    color = Color.White,
+                    shape = shapes.medium,
+                )
+                .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+        ) {
+            Text(
+                text = "7 подій приховано",
+                fontSize = 13.sp,
+                lineHeight = 24.sp,
+                style = typography.h4,
+                fontWeight = FontWeight(400),
+                color = primaryDark,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_change_data),
+                contentDescription = null,
+                tint = primaryDark
+            )
         }
     }
 }
