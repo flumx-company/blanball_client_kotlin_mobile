@@ -21,7 +21,7 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.utils.ext.formatRating
+import com.example.blanball.utils.ext.formatRatingToFloat
 
 @Composable
 fun RatingBarWithStarsAndNum(
@@ -42,7 +42,7 @@ fun RatingBarWithStarsAndNum(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = ratingValue.formatRating(),
+                text = ratingValue.formatRatingToFloat(),
                 style = typography.subtitle2,
                 fontSize = 22.sp,
                 color = primaryDark,
