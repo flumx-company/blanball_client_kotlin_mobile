@@ -7,6 +7,7 @@ import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -34,11 +35,13 @@ internal fun Any?.formatRating(): String {
     return decimalFormat.format(this)
 }
 
-internal fun Any.formatRatingToFloat(): Float? {
-    return when (this) {
-        is Double -> this.toFloat()
-        else -> null
+internal fun Any?.formatRatingToFloat(): String {
+    if (this == null) {
+        return Formats.DECIMAL_FORMAT
     }
+    val decimalFormat = DecimalFormat(Formats.DECIMAL_FORMAT)
+    decimalFormat.decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US)
+    return decimalFormat.format(this)
 }
 
 internal fun String.formatDatePlannedEventsToTime(duration: Int = Integers.ZERO): String {
