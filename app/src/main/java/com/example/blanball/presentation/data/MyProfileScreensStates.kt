@@ -28,6 +28,7 @@ class MyProfileScreensMainContract {
         val dayBirthdayState: MutableState<String> = mutableStateOf(""),
         val monthBirthdayState: MutableState<String> = mutableStateOf(""),
         val yearBirthdayState: MutableState<String> = mutableStateOf(""),
+        val emailStringState: MutableState<String> = mutableStateOf(""),
         ) : UiState
 
     sealed class Effect: UiEffect {

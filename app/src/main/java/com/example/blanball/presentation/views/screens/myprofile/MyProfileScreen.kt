@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -54,6 +55,7 @@ import com.example.blanball.presentation.views.components.cards.DefaultCardWithC
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
+import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
 
 @Composable
@@ -327,7 +329,7 @@ fun MyProfileScreen(
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(R.string.phone),
                     fontSize = 12.sp,
@@ -347,7 +349,7 @@ fun MyProfileScreen(
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                 )
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(R.string.location),
                     fontSize = 12.sp,
@@ -446,7 +448,7 @@ fun MyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(40.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
                         .wrapContentHeight()
                         .background(
@@ -489,37 +491,25 @@ fun MyProfileScreen(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
-                        .background(
-                            color = Color.White,
-                            shape = shapes.medium,
+                DefaultTextInput(
+                    labelResId = R.string.email,
+                    state = it,
+                    value = it.emailStringState.value,
+                    onValueChange = { state.emailStringState.value = it },
+                    transformation = VisualTransformation.None,
+                    readOnly = true,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_change_data),
+                            contentDescription = null,
+                            tint = primaryDark
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
-                ) {
-                    Text(
-                        text = "stefa.kalyna@gmail.com",
-                        fontSize = 13.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_change_data),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                }
+                    }
+                )
                 Spacer(modifier = Modifier.size(12.dp))
                 ChangePassButton {} //TODO()
                 Spacer(modifier = Modifier.size(16.dp))
-                Box (modifier = Modifier
+                Box(modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .clickable { exitBtnClicked() }

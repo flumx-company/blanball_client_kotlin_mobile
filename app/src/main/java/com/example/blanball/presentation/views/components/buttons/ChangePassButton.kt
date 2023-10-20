@@ -1,13 +1,12 @@
 package com.example.blanball.presentation.views.components.buttons
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
@@ -18,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -33,10 +34,8 @@ fun ChangePassButton(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .background(color = waterLightBlue, shape = shapes.medium)
-            .clickable { btnClicked() }
-            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
+            .height(40.dp)
+            .background(color = waterLightBlue, shape = shapes.medium),
         contentAlignment = Alignment.Center
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
@@ -47,6 +46,7 @@ fun ChangePassButton(
                 style = typography.h4,
                 fontWeight = FontWeight(400),
                 color = mainGreen,
+                textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.size(8.dp))
             Icon(
