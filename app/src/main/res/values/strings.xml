@@ -400,4 +400,9 @@
     <string name="_3_3">3 / 3</string>
     <string name="chose_event_type">* Виберіть тип події</string>
     <string name="chose_sport_type">* Виберіть вид спорту</string>
+    <string name="filters">Фільтри</string>
+    <string name="apply">Застосувати</string>
+    <string name="clean">Очистити</string>
+    <string name="not_found_events_for_this_filter">Для такого фільтру події не знайдено</string>
+    <string name="change_search_params">Змініть параметри пошуку</string>
 </resources>

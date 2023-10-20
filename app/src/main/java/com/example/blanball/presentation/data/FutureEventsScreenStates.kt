@@ -1,5 +1,10 @@
 package com.example.blanball.presentation.data
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetAllEventResponseEntityResult
+import com.example.domain.utils.Strings
+
 class FutureEventsMainContract {
 
     sealed class Event : UiEvent {
@@ -7,8 +12,21 @@ class FutureEventsMainContract {
 
     data class State(
         val state: ScreenViewState,
-
-        ) : UiState
+        val allEventsList: MutableState<List<GetAllEventResponseEntityResult>> = mutableStateOf(
+            emptyList()
+        ),
+        val isLoadingMoreAllEvents: Boolean = false,
+        val isAllEventsLoaded: Boolean = false,
+        val allEventsCounter: MutableState<Int> = mutableStateOf(0),
+        val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false),
+        val gendersSelectionState: MutableState<GenderSelectionState> = mutableStateOf(
+            GenderSelectionState.ALL
+        ),
+        val typeOfEventsStateSelected: MutableState<String> = mutableStateOf(""),
+        val typeOfSportsStateSelected: MutableState<String> = mutableStateOf(""),
+        val genderSelectionState: MutableState<String> = mutableStateOf(""),
+        val eventDatesState: MutableState<String> = mutableStateOf("")
+    ) : UiState
 
     sealed class ScreenViewState {
         object Idle: ScreenViewState()
@@ -18,6 +36,17 @@ class FutureEventsMainContract {
     }
 
     sealed class Effect : UiEffect {
+    }
 
+    enum class GenderSelectionState(val stringValue: String?) {
+        ALL(null),
+        MALE(Strings.MALE),
+        FEMALE(Strings.FEMALE),
+    }
+
+    enum class TypeOfSportsStateSelected( val stringValue: String?) {
+        ALL(null),
+        FOOTBALL(Strings.FOOTBALL),
+        FUTSAL(Strings.FUTSAL),
     }
 }

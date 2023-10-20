@@ -18,8 +18,8 @@ object Endpoints {
      const val FLUM_X_URL = BuildConfig.FLUM_X_URL
      const val ME_PROFILE_ENDPOINT = BuildConfig.ME_PROFILE_ENDPOINT
      const val CREATE_EVENT_ENDPOINT = BuildConfig.CREATE_EVENT_ENDPOINT
-}
-
+     const val GET_ALL_EVENTS_ENDPOINT = BuildConfig.GET_ALL_EVENTS_ENDPOINT
+     }
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }
@@ -47,6 +47,31 @@ object Formats {
      const val DECIMAL_FORMAT = "0.0"
      const val EMAIl_FORMAT = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
      const val PHONE_MASK = "##-###-##-##"
+}
+
+object Strings {
+     const val MALE = "Man"
+     const val FEMALE = "Woman"
+     const val GK = "GK"
+     const val LB = "LB"
+     const val RB = "RB"
+     const val CB = "CB"
+     const val LWB = "LWB"
+     const val RWB = "RWB"
+     const val CDM = "CDM"
+     const val CM = "CM"
+     const val CAM = "CAM"
+     const val RM = "RM"
+     const val LM = "LM"
+     const val RW = "RW"
+     const val LW = "LW"
+     const val RF = "RF"
+     const val CF = "CF"
+     const val LF = "LF"
+     const val ST = "ST"
+     const val FIRST_OLDER = "-id"
+     const val FOOTBALL = "Football"
+     const val FUTSAL = "Futsal"
 }
 
 object Locations {

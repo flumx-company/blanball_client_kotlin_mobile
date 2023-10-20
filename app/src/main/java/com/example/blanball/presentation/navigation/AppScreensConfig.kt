@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -19,11 +20,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
+import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
 import com.example.blanball.presentation.viewmodels.MyProfileScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
@@ -35,6 +38,7 @@ import com.example.blanball.presentation.views.components.bottomnavbars.BottomNa
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
+import com.example.blanball.presentation.views.components.modals.AllEventsFilterModal
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
@@ -108,6 +112,7 @@ fun AppScreensConfig(
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
     eventCreationScreenViewModel: EventCreationScreensViewModel,
+    futureEventsScreenViewModel: FutureEventsScreenViewModel,
 ) {
     val openNavDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -592,6 +597,16 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {
+            val state = futureEventsScreenViewModel.uiState.collectAsState().value
+            val futureEventScreenCurrentState = futureEventsScreenViewModel.currentState
+            var isFilterModalVisible = remember { mutableStateOf(false) }
+
+            val previousState by remember { mutableStateOf(futureEventScreenCurrentState.state) }
+
+            LaunchedEffect(futureEventScreenCurrentState.state != previousState) {
+                futureEventsScreenViewModel.handleScreenState(futureEventScreenCurrentState.state)
+            }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -609,9 +624,39 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    FutureEventsScreen(paddingValues = it,
-                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) })
-                }
+                    FutureEventsScreen(
+                        state = state,
+                        paddingValues = it,
+                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
+                        filterModalContent = {
+                            AllEventsFilterModal(
+                                state = state,
+                                confirmBtnClicked = {
+                                    isFilterModalVisible.value = false
+                                    futureEventsScreenViewModel.setState {
+                                        copy(
+                                            openFiltersDialog = mutableStateOf(false),
+                                            state = FutureEventsMainContract.ScreenViewState.Loading
+                                        )
+                                    }
+                                },
+                                turnBackBtnClicked = {
+                                    isFilterModalVisible.value = false
+                                    futureEventsScreenViewModel.setState {
+                                        copy(
+                                            openFiltersDialog = mutableStateOf(false),
+                                            gendersSelectionState = mutableStateOf(FutureEventsMainContract.GenderSelectionState.ALL),
+                                            typeOfSportsStateSelected = mutableStateOf(""),
+                                            eventDatesState = mutableStateOf(""),
+                                            state = FutureEventsMainContract.ScreenViewState.Loading
+                                        )
+                                    }
+                                })
+                        },
+                        isFilterModalOpen = isFilterModalVisible,
+                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
+                    )
+        }
             )
         }
         composable(BottomNavItem.CreateNewEvent.screen_route) {
