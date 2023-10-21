@@ -69,7 +69,8 @@ object Strings {
      const val CF = "CF"
      const val LF = "LF"
      const val ST = "ST"
-     const val FIRST_OLDER = "-id"
+     const val FIRST_OLDER = "id"
+     const val FIRST_NEW = "-id"
      const val FOOTBALL = "Football"
      const val FUTSAL = "Futsal"
 }

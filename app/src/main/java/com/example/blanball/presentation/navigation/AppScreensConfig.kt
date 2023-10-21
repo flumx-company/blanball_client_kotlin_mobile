@@ -628,6 +628,13 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = it,
                         navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
+                        onClickedToChangeOrdering = {
+                            futureEventsScreenViewModel.setState {
+                                copy(
+                                    state = FutureEventsMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        },
                         filterModalContent = {
                             AllEventsFilterModal(
                                 state = state,

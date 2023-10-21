@@ -1,28 +1,28 @@
 package com.example.blanball.presentation.views.components.boxes
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.theme.bgLight
-import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.primaryDark
 
 @Composable
-fun IcBox(icon: Int) {
+fun IcBox(
+    modifier: Modifier = Modifier,
+    icon: Int,
+    tint: Color = primaryDark
+) {
     Box(
-        modifier = Modifier
-            .size(40.dp)
-            .background(color = bgLight, shape = shapes.medium)
+        modifier = modifier
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
+            tint = tint,
         )
     }
 }

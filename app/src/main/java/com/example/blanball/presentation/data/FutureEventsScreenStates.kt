@@ -25,7 +25,9 @@ class FutureEventsMainContract {
         val typeOfEventsStateSelected: MutableState<String> = mutableStateOf(""),
         val typeOfSportsStateSelected: MutableState<String> = mutableStateOf(""),
         val genderSelectionState: MutableState<String> = mutableStateOf(""),
-        val eventDatesState: MutableState<String> = mutableStateOf("")
+        val eventDatesState: MutableState<String> = mutableStateOf(""),
+        val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
+        val eventsOrderingSelectionState: MutableState<EventsOrderingSelectionState> = mutableStateOf(EventsOrderingSelectionState.FIRST_NEW)
     ) : UiState
 
     sealed class ScreenViewState {
@@ -48,5 +50,10 @@ class FutureEventsMainContract {
         ALL(null),
         FOOTBALL(Strings.FOOTBALL),
         FUTSAL(Strings.FUTSAL),
+    }
+
+    enum class EventsOrderingSelectionState (val stringValue: String?) {
+        FIRST_NEW(Strings.FIRST_NEW),
+        FIRST_OLDER(Strings.FIRST_OLDER)
     }
 }
