@@ -25,13 +25,13 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,7 +57,7 @@ import com.example.blanball.presentation.views.components.cards.DefaultCardWithC
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
-import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
@@ -65,11 +65,12 @@ fun FutureEventsScreen(
     state: UiState,
     paddingValues: PaddingValues,
     navigateToEventScreen: () -> Unit,
-    filterModalContent: @Composable () -> Unit,
-    isFilterModalOpen: MutableState<Boolean>,
     onLoadMoreUsers: () -> Unit,
     onClickedToChangeOrdering: () -> Unit,
+    navigateToCreationEventScreen: () -> Unit,
+    navigateToFilterScreen: () -> Unit,
 ) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .padding(paddingValues)
@@ -113,7 +114,7 @@ fun FutureEventsScreen(
                                 R.drawable.ic_sorting_new
                             },
                             modifier = Modifier
-                                .clickable{
+                                .clickable {
                                     it.orderingIconState.value = !it.orderingIconState.value
                                     onClickedToChangeOrdering()
                                 }
@@ -155,7 +156,7 @@ fun FutureEventsScreen(
                             modifier = Modifier
                                 .size(20.dp)
                                 .align(Alignment.Center)
-                                .clickable { isFilterModalOpen.value = true },
+                                .clickable { navigateToFilterScreen() },
                             painter = painterResource(id = R.drawable.ic_filters),
                             tint = secondaryNavy,
                             contentDescription = null
@@ -254,11 +255,9 @@ fun FutureEventsScreen(
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
-                                    TextBadge(textResId = R.string.football)
+                                    TextBadge2(text = event.gender)
                                     Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.man_ukr)
-                                    Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.withour_divison)
+                                    TextBadge2(text = event.type)
                                 }
                                 Spacer(modifier = Modifier.size(12.dp))
                                 DottedLine(color = annotationGray)
@@ -342,6 +341,7 @@ fun FutureEventsScreen(
                                     }
                                 }
                                 }
+                            Spacer(modifier = Modifier.size(12.dp))
                             }
                             if (state.isLoadingMoreAllEvents) {
                                 item {
@@ -367,13 +367,13 @@ fun FutureEventsScreen(
 
             }
         }
-        when {
-            isFilterModalOpen.value -> filterModalContent()
-        }
         Fab(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(24.dp)
+                .padding(24.dp),
+            clickCallback = {
+                navigateToCreationEventScreen()
+            }
         )
         if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)
