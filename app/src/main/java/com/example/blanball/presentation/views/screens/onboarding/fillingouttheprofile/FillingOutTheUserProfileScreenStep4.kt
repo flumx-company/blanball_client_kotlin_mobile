@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
@@ -132,7 +132,7 @@ fun FillingOutTheUserProfileScreenStep4(
                         text = stringResource(R.string.locations),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
-                        color = primaryDark,
+                        color = secondaryNavy,
                         textAlign = TextAlign.Center,
                     )
                     Row(

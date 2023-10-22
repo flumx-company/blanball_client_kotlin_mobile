@@ -33,7 +33,6 @@ import com.example.blanball.R
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.mainGreen
-import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
@@ -71,7 +70,7 @@ fun UserTrainingStep3(
                     text = stringResource(R.string.influence_the_quality_of_events),
                     modifier = Modifier.fillMaxWidth(),
                     style = typography.h2,
-                    color = primaryDark,
+                    color = secondaryNavy,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.size(12.dp))

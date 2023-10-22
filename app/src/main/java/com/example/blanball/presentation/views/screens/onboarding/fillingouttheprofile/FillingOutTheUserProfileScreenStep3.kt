@@ -32,6 +32,7 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
@@ -76,7 +77,7 @@ fun FillingOutTheUserProfileScreenStep3(
                         text = stringResource(R.string.sports_characteristics),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
-                        color = primaryDark,
+                        color = secondaryNavy,
                         textAlign = TextAlign.Center,
                     )
                     Row(

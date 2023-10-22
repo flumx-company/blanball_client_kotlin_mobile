@@ -67,7 +67,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                             text = stringResource(R.string.your_sports_skills),
                             modifier = Modifier.fillMaxWidth(),
                             style = typography.h2,
-                            color = primaryDark,
+                            color = secondaryNavy,
                             textAlign = TextAlign.Center,
                         )
                         Row(
