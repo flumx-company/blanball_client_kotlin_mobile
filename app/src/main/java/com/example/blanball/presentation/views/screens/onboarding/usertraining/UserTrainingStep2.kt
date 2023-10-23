@@ -103,6 +103,7 @@ fun UserTrainingStep2(
                     Text(
                         text = stringResource(id = R.string.skip),
                         style = typography.h4,
+                        color = secondaryNavy,
                     )
                 }
             }

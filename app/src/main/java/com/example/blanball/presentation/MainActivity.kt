@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
               SplashScreen()
             } else {
             val startDestinations = if (isRememberMeFlagActive) {
-                Destinations.PUBLIC_PROFILE.route
+                Destinations.HOME.route
             } else {
                 Destinations.LOGIN.route
             }
