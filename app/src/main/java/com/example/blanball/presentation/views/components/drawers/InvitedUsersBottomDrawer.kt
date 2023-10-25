@@ -31,7 +31,7 @@ fun InvitedUsersBottomDrawer(
     bottomDrawerState: SheetState,
     closeBottomDrawer: () -> Unit,
 ) {
-    ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }) {
+    ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }, containerColor = Color.White) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

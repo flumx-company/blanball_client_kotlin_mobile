@@ -59,6 +59,7 @@ fun PreviewOfTheEventBottomDrawer(
     (state as? EventCreationScreenMainContract.State)?.let {
    ModalBottomSheet(
        sheetState = bottomDrawerState,
+       containerColor = Color.White,
        onDismissRequest = { closeBottomDrawer() }) {
            Column(
                modifier = Modifier
