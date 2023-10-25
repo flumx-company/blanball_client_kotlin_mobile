@@ -23,12 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.mainGreen
+import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
@@ -66,8 +68,11 @@ fun UserTrainingStep2(
                     text = stringResource(R.string.choose_the_most),
                     modifier = Modifier.fillMaxWidth(),
                     style = typography.h2,
-                    color = secondaryNavy,
-                    textAlign = TextAlign.Center,
+                    color = primaryDark,
+                    textAlign = TextAlign.Left,
+                    fontSize = 23.sp,
+                    lineHeight = 28.sp,
+                    fontWeight = FontWeight(700),
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(

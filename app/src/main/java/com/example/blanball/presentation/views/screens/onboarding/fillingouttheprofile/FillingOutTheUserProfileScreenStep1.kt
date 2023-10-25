@@ -23,11 +23,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
@@ -80,8 +82,11 @@ fun FillingOutTheUserProfileScreenStep1(
                         text = stringResource(R.string.lets_meet),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Center,
+                        color = primaryDark,
+                        textAlign = TextAlign.Left,
+                        fontSize = 23.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(700),
                     )
                     Row(
                         Modifier
@@ -106,7 +111,10 @@ fun FillingOutTheUserProfileScreenStep1(
                     Text(
                         text = stringResource(id = R.string.when_were_you_born),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight(700),
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         BottomLineDefaultTextInput(

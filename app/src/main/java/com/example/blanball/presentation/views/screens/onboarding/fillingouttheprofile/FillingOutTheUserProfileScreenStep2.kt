@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
@@ -69,8 +71,11 @@ fun FillingOutTheUserProfileScreenStep2 (
                             text = stringResource(R.string.your_sports_skills),
                             modifier = Modifier.fillMaxWidth(),
                             style = typography.h2,
-                            color = secondaryNavy,
-                            textAlign = TextAlign.Center,
+                            color = primaryDark,
+                            textAlign = TextAlign.Left,
+                            fontSize = 23.sp,
+                            lineHeight = 28.sp,
+                            fontWeight = FontWeight(700),
                         )
                         Row(
                             Modifier.padding(top = 20.dp)
@@ -93,15 +98,12 @@ fun FillingOutTheUserProfileScreenStep2 (
                         }
                         Spacer(modifier = Modifier.size(24.dp))
                         Text(
-                            text = stringResource(id = R.string.what_about_your_background),
-                            style = typography.h3,
-                            color = secondaryNavy
-                        )
-                        Spacer(modifier = Modifier.size(20.dp))
-                        Text(
                             text = stringResource(id = R.string.have_you_played_football_before),
                             style = typography.h5,
-                            color = primaryDark
+                            color = primaryDark,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight(700),
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -179,7 +181,10 @@ fun FillingOutTheUserProfileScreenStep2 (
                         Text(
                             text = stringResource(id = R.string.confirm_your_qualifications_with_a_document),
                             style = typography.h5,
-                            color = primaryDark
+                            color = primaryDark,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight(700),
                         )
                         ReadOnlyOutlinePlaceholder(
                             modifier = Modifier.fillMaxWidth(1f),

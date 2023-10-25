@@ -80,7 +80,6 @@ fun NavigationDrawer(
                         lineHeight = 16.sp,
                         color = secondaryNavy,
                         fontWeight = FontWeight(400),
-                        textDecoration = TextDecoration.Underline,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(

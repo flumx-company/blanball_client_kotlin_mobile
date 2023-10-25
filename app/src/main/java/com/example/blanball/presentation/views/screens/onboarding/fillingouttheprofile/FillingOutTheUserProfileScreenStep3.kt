@@ -23,11 +23,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
@@ -79,9 +81,13 @@ fun FillingOutTheUserProfileScreenStep3(
                         text = stringResource(R.string.sports_characteristics),
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Center,
+                        color = primaryDark,
+                        textAlign = TextAlign.Left,
+                        fontSize = 23.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(700),
                     )
+
                     Row(
                         Modifier
                             .padding(top = 20.dp)
@@ -105,7 +111,10 @@ fun FillingOutTheUserProfileScreenStep3(
                     Text(
                         text = stringResource(id = R.string.physical_parameters),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight(700),
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         DefaultTextInput(
@@ -168,7 +177,10 @@ fun FillingOutTheUserProfileScreenStep3(
                     Text(
                         text = stringResource(id = R.string.choose_your_playing_position),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight(700),
                     )
                     CustomDropDownMenu(
                         labelResId = R.string.your_playing_position,
