@@ -35,7 +35,6 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
@@ -96,7 +95,6 @@ fun FillingOutTheUserProfileScreenStep1(
                         Image(
                             painter = painterResource(R.drawable.stepline_1),
                             contentDescription = null,
-                            Modifier.weight(1f)
                         )
                         repeat(3) {
                             Spacer(modifier = Modifier.size(2.dp))

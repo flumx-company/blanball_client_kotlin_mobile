@@ -7,19 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,11 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.backgroundGradient
-import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 
 @Composable
@@ -83,34 +77,13 @@ fun UserTrainingStep1(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                Button(
-                    onClick = onTrainingUserStep2Clicked,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp),
-                    shape = shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = mainGreen,
-                        contentColor = Color.White,
-                    ),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.next),
-                        style = typography.h4,
-                    )
-                }
-                TextButton(
-                    onClick = onSkipButtonClicked,
-                    Modifier
-                        .padding(top = 14.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.skip),
-                        style = typography.h4,
-                        color = secondaryNavy,
-                    )
-                }
+                NextAndPreviousButtonsVertical(
+                    isEnabled = true,
+                    nextBtnOnClick = onTrainingUserStep2Clicked,
+                    prevBtnOnClick = onSkipButtonClicked,
+                    nextBtnOnTextId = R.string.next,
+                    prevBtnOnTextId = R.string.skip,
+                )
             }
         },
             enableAnimation = false
