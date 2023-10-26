@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -151,120 +149,141 @@ fun NavigationDrawer(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 Row {
-                    Button(
-                        onClick = onFriendsScreenClicked,
+                    Box(
                         modifier = Modifier
                             .height(56.dp)
-                            .weight(1f),
-                        shape = RoundedCornerShape(topStart = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White,
-                            contentColor = mainGreen,
-                        ),
+                            .weight(1f)
+                            .clickable {
+                                onFriendsScreenClicked()
+                            }
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(topStart = 8.dp)
+                            ),
+                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_peoples),
-                            contentDescription = null,
-                            tint = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.friends),
-                            fontSize = 11.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = primaryDark,
-                            style = typography.h4
-                        )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.ic_peoples),
+                                contentDescription = null,
+                                tint = primaryDark
+                            )
+                            Spacer(modifier = Modifier.size(12.dp))
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(id = R.string.friends),
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = primaryDark,
+                                style = typography.h4
+                            )
+                        }
                     }
-                    Button(
-                        onClick = onPlannedEventsScreenClicked,
+                    Box(
                         modifier = Modifier
                             .height(56.dp)
-                            .weight(1f),
-                        shape = RoundedCornerShape(topEnd = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White,
-                            contentColor = mainGreen,
-                        ),
+                            .weight(1f)
+                            .clickable { onPlannedEventsScreenClicked() }
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(topEnd = 8.dp)
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_calendar),
-                            contentDescription = null,
-                            tint = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.planned_events_side_bar),
-                            fontSize = 11.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = primaryDark,
-                            style = typography.h4
-                        )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.ic_calendar),
+                                contentDescription = null,
+                                tint = primaryDark
+                            )
+                            Spacer(modifier = Modifier.size(12.dp))
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(id = R.string.planned_events_side_bar),
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = primaryDark,
+                                style = typography.h4
+                            )
+                        }
                     }
                 }
                 Row {
-                    Button(
-                        onClick = onNotificationsScreenClicked,
+                    Box(
                         modifier = Modifier
                             .height(56.dp)
-                            .weight(1f),
-                        shape = RoundedCornerShape(bottomStart = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White,
-                            contentColor = mainGreen,
-                        ),
+                            .weight(1f)
+                            .clickable { onNotificationsScreenClicked() }
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(bottomStart = 8.dp)
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_bell),
-                            contentDescription = null,
-                            tint = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.notifications),
-                            fontSize = 11.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = primaryDark,
-                            style = typography.h4
-                        )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.ic_bell),
+                                contentDescription = null,
+                                tint = primaryDark
+                            )
+                            Spacer(modifier = Modifier.size(12.dp))
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(id = R.string.notifications),
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = primaryDark,
+                                style = typography.h4
+                            )
+                        }
                     }
-                    Button(
-                        onClick = onSettingsScreenClicked,
+                    Box(
                         modifier = Modifier
                             .height(56.dp)
-                            .weight(1f),
-
-                        shape = RoundedCornerShape(bottomEnd = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White,
-                            contentColor = mainGreen,
-                        ),
+                            .weight(1f)
+                            .clickable { onSettingsScreenClicked() }
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(bottomEnd = 8.dp)
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_settings),
-                            contentDescription = null,
-                            tint = primaryDark
-                        )
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = R.string.params),
-                            fontSize = 11.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = primaryDark,
-                            style = typography.h4
-                        )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.ic_settings),
+                                contentDescription = null,
+                                tint = primaryDark
+                            )
+                            Spacer(modifier = Modifier.size(12.dp))
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(id = R.string.params),
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = primaryDark,
+                                style = typography.h4
+                            )
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
