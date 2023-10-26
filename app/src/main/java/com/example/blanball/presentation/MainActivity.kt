@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
     lateinit var verifyCodeManager: VerifyCodeManager
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
+    private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +80,11 @@ class MainActivity : ComponentActivity() {
                             userAvatar =  mutableStateOf(userAvatarUrl)
                         )
                     }
+                    futureEventsScreenViewModel.setState {
+                        copy(
+                            userFirstNameText = mutableStateOf(firstName)
+                        )
+                    }
                 }
 
                 isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
@@ -94,7 +101,7 @@ class MainActivity : ComponentActivity() {
               SplashScreen()
             } else {
             val startDestinations = if (isRememberMeFlagActive) {
-                Destinations.PUBLIC_PROFILE.route
+                Destinations.HOME.route
             } else {
                 Destinations.LOGIN.route
             }
@@ -122,7 +129,7 @@ class MainActivity : ComponentActivity() {
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),
-                            futureEventsScreenViewModel = viewModel(),
+                            futureEventsScreenViewModel = futureEventsScreenViewModel,
                         )
                     }
                 }

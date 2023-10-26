@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.data.FutureEventsMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
@@ -25,50 +27,55 @@ import com.example.blanball.presentation.views.components.cards.HomeScreenEventC
 fun HomeScreen(
     paddingValues: PaddingValues,
     navigateToEvent: () -> Unit,
+    state: UiState,
+    onLoadMoreUsers: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, top = 36.dp)
-        ) {
-            Row {
+        (state as? FutureEventsMainContract.State)?.let {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, top = 36.dp)
+            ) {
+                Row {
+                    Text(
+                        text = stringResource(R.string.hi),
+                        fontSize = 20.sp,
+                        lineHeight = 32.sp,
+                        style = typography.h3,
+                        fontWeight = FontWeight(700),
+                        color = secondaryNavy,
+                    )
+                    Spacer(modifier = Modifier.size(4.dp))
+                    Text(
+                        text = state.userFirstNameText.value,
+                        fontSize = 20.sp,
+                        lineHeight = 32.sp,
+                        style = typography.h3,
+                        fontWeight = FontWeight(700),
+                        color = primaryDark,
+                    )
+                }
+                Spacer(Modifier.size(10.dp))
                 Text(
-                    text = stringResource(R.string.hi), //TODO()
-                    fontSize = 20.sp,
-                    lineHeight = 32.sp,
+                    text = stringResource(R.string.what_activities_are_we_planning_today),
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
                     style = typography.h3,
                     fontWeight = FontWeight(700),
                     color = secondaryNavy,
                 )
-                Spacer(modifier = Modifier.size(4.dp))
-                Text(
-                    text = "Юлія", //TODO()
-                    fontSize = 20.sp,
-                    lineHeight = 32.sp,
-                    style = typography.h3,
-                    fontWeight = FontWeight(700),
-                    color = primaryDark,
+                Spacer(modifier = Modifier.size(16.dp))
+                HomeScreenEventCardHorizontalList(
+                    clickToEventCardCallback = { navigateToEvent() },
+                    onLoadMoreUsers = onLoadMoreUsers,
+                    state = state
                 )
             }
-            Spacer(Modifier.size(10.dp))
-            Text(
-                text = stringResource(R.string.what_activities_are_we_planning_today),
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                style = typography.h3,
-                fontWeight = FontWeight(700),
-                color = secondaryNavy,
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            HomeScreenEventCardHorizontalList(
-                count = 10,
-                clickToEventCardCallback = { navigateToEvent() },
-            )
         }
     }
 }
