@@ -48,7 +48,7 @@ class FutureEventsScreenViewModel
 
     internal fun handleScreenState(screenViewState: FutureEventsMainContract.ScreenViewState) {
         when (screenViewState) {
-            is FutureEventsMainContract.ScreenViewState.Idle -> {
+            is FutureEventsMainContract.ScreenViewState.Loading -> {
                 setState {
                     copy(
                         allEventsList = mutableStateOf(emptyList()),

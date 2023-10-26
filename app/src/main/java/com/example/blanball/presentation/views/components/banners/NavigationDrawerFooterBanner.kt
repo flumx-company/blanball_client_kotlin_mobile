@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.defaultLightGray
-import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.textTertiary
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.utils.toFLumXUrlIntent
 import com.example.blanball.utils.toPrivacyPolicyUrlIntent
@@ -42,7 +42,7 @@ fun NavigationDrawerFooterBanner(){
             style = typography.h4,
             fontSize = 12.sp,
             fontWeight = FontWeight(500),
-            color = secondaryNavy,
+            color = textTertiary,
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
@@ -54,7 +54,7 @@ fun NavigationDrawerFooterBanner(){
             fontSize = 12.sp,
             style = typography.h4,
             fontWeight = FontWeight(500),
-            color = secondaryNavy,
+            color = textTertiary,
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
@@ -62,7 +62,7 @@ fun NavigationDrawerFooterBanner(){
                 ContextCompat.startActivity(context, toFLumXUrlIntent, null  )
             },
             painter = painterResource(id = R.drawable.logo_flumx),
-            tint = secondaryNavy,
+            tint = textTertiary,
             contentDescription = null
         )
         Text(
@@ -74,7 +74,7 @@ fun NavigationDrawerFooterBanner(){
             fontSize = 12.sp,
             style = typography.h4,
             fontWeight = FontWeight(500),
-            color = secondaryNavy,
+            color = textTertiary,
         )
     }
 }

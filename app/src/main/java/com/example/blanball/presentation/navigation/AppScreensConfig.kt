@@ -243,7 +243,7 @@ fun AppScreensConfig(
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
                     navigationDrawerViewModel.getMyProfile()
-                    navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                    navController.navigate(Destinations.HOME.route)
                 }
             }
         }

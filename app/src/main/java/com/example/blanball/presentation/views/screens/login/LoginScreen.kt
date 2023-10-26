@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
@@ -160,7 +161,8 @@ fun LoginScreen(
                     text = stringResource(id = R.string.i_dont_remember),
                     style = typography.h6,
                     color = secondaryNavy,
-                    modifier = Modifier.clickable(onClick = dontRememberButtonClicked)
+                    modifier = Modifier.clickable(onClick = dontRememberButtonClicked),
+                    textDecoration = TextDecoration.Underline
                 )
             }
         }
@@ -194,7 +196,8 @@ fun LoginScreen(
                 text = stringResource(id = R.string.register),
                 style = typography.h6,
                 color = mainGreen,
-                modifier = Modifier.clickable(onClick = registrationButtonClicked)
+                modifier = Modifier.clickable(onClick = registrationButtonClicked),
+                textDecoration = TextDecoration.Underline
             )
         }
         Spacer(modifier = Modifier.weight(1f))

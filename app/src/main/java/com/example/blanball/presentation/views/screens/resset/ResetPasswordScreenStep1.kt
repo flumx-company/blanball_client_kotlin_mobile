@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -91,14 +92,16 @@ fun ResetPasswordScreenStep1(
                     Image(
                         painter = painterResource(R.drawable.stepline_1),
                         contentDescription = null,
-                        Modifier.weight(1f)
+                        Modifier.weight(1f).height(4.dp),
+
+
                     )
                     repeat(2) {
                         Spacer(modifier = Modifier.size(2.dp))
                         Image(
                             painter = painterResource(id = R.drawable.empty_stepline),
                             contentDescription = null,
-                            Modifier.weight(1f)
+                            Modifier.weight(1f).height(4.dp),
                         )
                     }
                 }
