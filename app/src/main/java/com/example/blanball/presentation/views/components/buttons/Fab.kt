@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FloatingActionButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.domain.utils.Integers
@@ -23,6 +25,7 @@ fun Fab(
     val rotationState = remember { mutableStateOf(0f) }
     Box (modifier = modifier){
         FloatingActionButton(
+            elevation = FloatingActionButtonDefaults.elevation(0.dp),
             onClick = {
                 rotationState.value += 360f
             },
@@ -39,7 +42,7 @@ fun Fab(
                     contentDescription = null,
                     tint = Color.White
                 )
-            }
+            },
         )
     }
 }
