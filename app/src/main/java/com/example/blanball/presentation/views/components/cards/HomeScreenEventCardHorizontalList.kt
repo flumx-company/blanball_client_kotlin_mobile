@@ -4,12 +4,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -66,7 +64,7 @@ fun HomeScreenEventCardHorizontalList(
         )
     var locationTextExpanded by remember { mutableStateOf(false) }
     (state as? FutureEventsMainContract.State )?.let {
-        LazyRow {
+        LazyRow(verticalAlignment = Alignment.CenterVertically) {
             itemsIndexed(state.allEventsList.value) { index, event ->
                  DefaultCardWithColumn(
                     clickCallback = clickToEventCardCallback
@@ -159,11 +157,10 @@ fun HomeScreenEventCardHorizontalList(
             }
             if (state.isLoadingMoreAllEvents) {
                 item {
-                    Row(
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center
+                        contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(color = mainGreen)
                     }
