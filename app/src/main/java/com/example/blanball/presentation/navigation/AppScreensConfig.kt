@@ -251,7 +251,7 @@ fun AppScreensConfig(
                         userFirstNameText = navigationDrawerViewModel.currentState.userFirstNameText
                         )
                     }
-                    navController.navigate(Destinations.HOME.route)
+                  navController.navigate(Destinations.HOME.route)
                 }
             }
         }

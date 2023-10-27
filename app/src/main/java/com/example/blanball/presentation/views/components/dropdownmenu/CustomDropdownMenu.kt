@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -26,6 +27,7 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -52,9 +54,9 @@ fun CustomDropDownMenu(
         },
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = CenterVertically,
         ) {
-            Column(columnModifier.animateContentSize()) {
+            Column(columnModifier.animateContentSize(), verticalArrangement = Arrangement.Center ) {
                 OutlinedTextField(
                     value = value,
                     onValueChange = onValueChange,
@@ -82,8 +84,9 @@ fun CustomDropDownMenu(
                         unfocusedBorderColor = defaultLightGray,
                         focusedBorderColor = mainGreen,
                         textColor = Color.Black,
+                        unfocusedLabelColor = secondaryNavy,
                         errorBorderColor = errorRed,
-                        focusedLabelColor = primaryDark,
+                        focusedLabelColor = secondaryNavy,
                         cursorColor = mainGreen,
                     ),
                     isError = isError,
@@ -96,6 +99,7 @@ fun CustomDropDownMenu(
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
+                modifier = Modifier.align(CenterVertically)
             ) {
                 listItems.forEach { selectedOption ->
                     DropdownMenuItem(onClick = {

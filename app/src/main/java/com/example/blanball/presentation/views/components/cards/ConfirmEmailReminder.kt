@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +31,7 @@ fun ConfirmEmailReminder(
 ) {
     Box (
         modifier = Modifier
-            .width(328.dp)
+            .fillMaxWidth()
             .height(52.dp)
             .background(color = primaryDark, shape = shapes.medium)
             .padding(vertical = 6.dp, horizontal = 8.dp)
