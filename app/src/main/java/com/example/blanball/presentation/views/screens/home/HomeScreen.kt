@@ -29,6 +29,7 @@ fun HomeScreen(
     navigateToEvent: () -> Unit,
     state: UiState,
     onLoadMoreUsers: () -> Unit,
+    userFirstName: String,
 ) {
     Box(
         modifier = Modifier
@@ -52,7 +53,7 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
-                        text = state.userFirstNameText.value,
+                        text = userFirstName,
                         fontSize = 20.sp,
                         lineHeight = 32.sp,
                         style = typography.h3,

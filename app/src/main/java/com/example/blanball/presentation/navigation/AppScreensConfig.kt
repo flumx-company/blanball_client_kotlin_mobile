@@ -115,6 +115,7 @@ fun AppScreensConfig(
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
 ) {
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
+    val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
     val bottomPreviewDrawerState = rememberModalBottomSheetState()
     val eventCreationScreenViewModelState =
         eventCreationScreenViewModel.uiState.collectAsState().value
@@ -246,11 +247,6 @@ fun AppScreensConfig(
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
                     navigationDrawerViewModel.getMyProfile()
-                    futureEventsScreenViewModel.setState {
-                        copy(
-                        userFirstNameText = navigationDrawerViewModel.currentState.userFirstNameText
-                        )
-                    }
                   navController.navigate(Destinations.HOME.route)
                 }
             }
@@ -600,7 +596,8 @@ fun AppScreensConfig(
                         paddingValues = it,
                         navigateToEvent = {}, //TODO
                         state = futureEventsScreenViewModelState,
-                        onLoadMoreUsers = {futureEventsScreenViewModel.loadMoreAllEvents()}
+                        onLoadMoreUsers = {futureEventsScreenViewModel.loadMoreAllEvents()},
+                        userFirstName = navigationDrawerCurrentState.userFirstNameText.value
                     )
                 }
             )

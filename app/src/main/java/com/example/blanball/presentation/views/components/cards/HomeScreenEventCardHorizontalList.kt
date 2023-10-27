@@ -1,7 +1,9 @@
 package com.example.blanball.presentation.views.components.cards
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +21,10 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -41,6 +48,8 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
@@ -55,6 +64,7 @@ fun HomeScreenEventCardHorizontalList(
         (state as? FutureEventsMainContract.State) ?: FutureEventsMainContract.State(
             FutureEventsMainContract.ScreenViewState.Loading
         )
+    var locationTextExpanded by remember { mutableStateOf(false) }
     (state as? FutureEventsMainContract.State )?.let {
         LazyRow {
             itemsIndexed(state.allEventsList.value) { index, event ->
@@ -102,7 +112,7 @@ fun HomeScreenEventCardHorizontalList(
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(
-                                    text = event.date_and_time.toString(),
+                                    text = event.date_and_time.formatTimeRange(event.duration),
                                     fontSize = 13.sp,
                                     lineHeight = 20.sp,
                                     style = typography.h4,
@@ -122,21 +132,27 @@ fun HomeScreenEventCardHorizontalList(
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO()
+                            modifier = Modifier
+                                .width(230.dp)
+                                .animateContentSize()
+                                .clickable { locationTextExpanded = !locationTextExpanded },
+                            text = event.place.place_name, //TODO()
                             fontSize = 12.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
                             fontWeight = FontWeight(400),
                             color = mainGreen,
+                            maxLines = if (locationTextExpanded) Int.MAX_VALUE else 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     Spacer(modifier = Modifier.size(12.dp))
                     Row {
-                        TextBadge(textResId = R.string.football)
+                        TextBadge2(text = event.type)
                         Spacer(modifier = Modifier.size(4.dp))
-                        TextBadge(textResId = R.string.man_ukr)
+                        TextBadge2(text = event.gender)
                         Spacer(modifier = Modifier.size(4.dp))
-                        TextBadge(textResId = R.string.withour_divison)
+                        TextBadge(textResId = R.string.withour_divison) //TODO No such field on the backend
                     }
                 }
                 Spacer(modifier = Modifier.size(10.dp))

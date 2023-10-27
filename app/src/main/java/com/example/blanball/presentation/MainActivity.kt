@@ -80,11 +80,6 @@ class MainActivity : ComponentActivity() {
                             userAvatar =  mutableStateOf(userAvatarUrl)
                         )
                     }
-                    futureEventsScreenViewModel.setState {
-                        copy(
-                            userFirstNameText = mutableStateOf(firstName)
-                        )
-                    }
                 }
 
                 isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true

@@ -174,7 +174,7 @@ fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
 }
 
 internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration: MutableState<Int>): String {
-    if (this.value.isEmpty()){
+    if (this.value.isEmpty()) {
         return ""
     }
     return if (eventDuration.value != 0) {
@@ -183,5 +183,20 @@ internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration:
         SimpleDateFormat("HH:mm").format(endTime)
     } else {
         this.value ?: ""
+    }
+}
+
+internal fun String.formatTimeRange(durationInMinutes: Int): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+    try {
+        val startTime = dateFormat.parse(this)
+        val endTime = Date(startTime.time + durationInMinutes * 60 * 1000)
+
+        val startTimeFormatted = SimpleDateFormat("HH:mm").format(startTime)
+        val endTimeFormatted = SimpleDateFormat("HH:mm").format(endTime)
+
+        return "$startTimeFormatted - $endTimeFormatted"
+    } catch (e: Exception) {
+        return ""
     }
 }

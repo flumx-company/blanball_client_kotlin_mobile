@@ -28,7 +28,6 @@ import javax.inject.Inject
 class FutureEventsScreenViewModel
 @Inject constructor(
     internal val getAllEventsUseCase: GetAllEventsUseCase,
-    internal val userNameManager: UserNameManager,
     private val application: Application,
 ) : ViewModel() {
     private var job: Job? = null
