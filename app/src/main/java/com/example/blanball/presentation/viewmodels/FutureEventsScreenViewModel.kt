@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatSportTypeToEnglish
+import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.utils.Integers
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,8 +60,10 @@ class FutureEventsScreenViewModel
                 page = Integers.ONE
                 loadAllEventsList()
             }
+
             is FutureEventsMainContract.ScreenViewState.LoadingError -> {
             }
+
             else -> {}
         }
     }
@@ -67,9 +71,10 @@ class FutureEventsScreenViewModel
     private fun loadAllEventsList() {
         job = viewModelScope.launch(Dispatchers.IO) {
             val pageToLoad = page
-            val typeOfSport = currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
+            val typeOfSport =
+                currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
             val gender =
-                currentState.gendersSelectionState.value.stringValue?:""
+                currentState.gendersSelectionState.value.stringValue ?: ""
             val time_and_date = currentState.eventDatesState.value
             when (val result = getAllEventsUseCase.executeGetAllEvents(
                 page = pageToLoad,
