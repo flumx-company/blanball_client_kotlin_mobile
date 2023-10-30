@@ -12,12 +12,12 @@ class MyEventsScreenMainContract {
 
     data class State(
         val state: ScreenViewState,
-        val allEventsList: MutableState<List<GetMyEventsResponseEntityResult>> = mutableStateOf(
+        val myEventsList: MutableState<List<GetMyEventsResponseEntityResult>> = mutableStateOf(
             emptyList()
         ),
-        val isLoadingMoreAllEvents: Boolean = false,
-        val isAllEventsLoaded: Boolean = false,
-        val allEventsCounter: MutableState<Int> = mutableStateOf(0),
+        val isLoadingMoreMyEvents: Boolean = false,
+        val isMyEventsLoaded: Boolean = false,
+        val myEventsCounter: MutableState<Int> = mutableStateOf(0),
         val openFiltersDialog: MutableState<Boolean> = mutableStateOf(false),
         val gendersSelectionState: MutableState<GenderSelectionState> = mutableStateOf(
             GenderSelectionState.ALL

@@ -51,12 +51,12 @@ class MyEventsScreenViewModel
             is MyEventsScreenMainContract.ScreenViewState.Loading -> {
                 setState {
                     copy(
-                        allEventsList = mutableStateOf(emptyList()),
-                        isAllEventsLoaded = false,
+                        myEventsList = mutableStateOf(emptyList()),
+                        isMyEventsLoaded = false,
                     )
                 }
                 page = Integers.ONE
-                loadAllEventsList()
+                loadMyEventsList()
             }
             is MyEventsScreenMainContract.ScreenViewState.LoadingError -> {
             }
@@ -64,7 +64,7 @@ class MyEventsScreenViewModel
         }
     }
 
-    private fun loadAllEventsList() {
+    private fun loadMyEventsList() {
         job = viewModelScope.launch(Dispatchers.IO) {
             val pageToLoad = page
             val typeOfSport = currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
@@ -83,9 +83,9 @@ class MyEventsScreenViewModel
                     users?.let {
                         setState {
                             copy(
-                                allEventsList = mutableStateOf(currentState.allEventsList.value + it),
-                                isLoadingMoreAllEvents = false,
-                                allEventsCounter = mutableStateOf(result.success.total_count),
+                                myEventsList = mutableStateOf(currentState.myEventsList.value + it),
+                                isLoadingMoreMyEvents = false,
+                                myEventsCounter = mutableStateOf(result.success.total_count),
                                 state = MyEventsScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
@@ -93,7 +93,7 @@ class MyEventsScreenViewModel
                     val nextPage = result.success.next
                     if (nextPage.isNullOrEmpty()) {
                         setState {
-                            copy(isAllEventsLoaded = true)
+                            copy(isMyEventsLoaded = true)
                         }
                     }
                 }
@@ -108,14 +108,14 @@ class MyEventsScreenViewModel
         }
     }
 
-    internal fun loadMoreAllEvents() {
+    internal fun loadMoreMyEvents() {
         job = viewModelScope.launch(Dispatchers.IO) {
-            if (!(currentState.isLoadingMoreAllEvents || currentState.isAllEventsLoaded)) {
+            if (!(currentState.isLoadingMoreMyEvents || currentState.isMyEventsLoaded)) {
                 setState {
-                    copy(isLoadingMoreAllEvents = true)
+                    copy(isLoadingMoreMyEvents = true)
                 }
                 page++
-                loadAllEventsList()
+                loadMyEventsList()
             }
         }
     }
