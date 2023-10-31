@@ -33,7 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.FutureEventsMainContract
+import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -46,7 +46,7 @@ import com.example.blanball.presentation.views.components.dropdownmenu.CustomDro
 import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
 
 @Composable
-fun AllEventsFilterModal(
+fun MyEventsFilterModal(
     state: UiState,
     turnBackBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
@@ -57,7 +57,7 @@ fun AllEventsFilterModal(
         stringResource(id = R.string.football),
         stringResource(id = R.string.futsal)
     )
-    (state as? FutureEventsMainContract.State)?.let {
+    (state as? MyEventsScreenMainContract.State)?.let {
         AlertDialog(modifier = Modifier
             .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
             .wrapContentHeight(),
@@ -73,7 +73,7 @@ fun AllEventsFilterModal(
                         color = primaryDark,
                     )
                     Text(
-                        text = "${state.allEventsCounter.value} оголошень",
+                        text = "${state.myEventsCounter.value} оголошень",
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -98,11 +98,11 @@ fun AllEventsFilterModal(
                             modifier = Modifier
                                 .clickable {
                                     state.gendersSelectionState.value =
-                                        FutureEventsMainContract.GenderSelectionState.MALE
+                                        MyEventsScreenMainContract.GenderSelectionState.MALE
                                 }
                                 .border(
                                     width = 1.dp,
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
                                 .wrapContentWidth()
@@ -117,7 +117,7 @@ fun AllEventsFilterModal(
                                 Icon(
                                     painter = painterResource(id = R.drawable.male_ic),
                                     contentDescription = null,
-                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
+                                    tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
                                 )
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
@@ -126,7 +126,7 @@ fun AllEventsFilterModal(
                                     lineHeight = 24.sp,
                                     style = typography.h4,
                                     fontWeight = FontWeight(400),
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
                                 )
                             }
                         }
@@ -135,11 +135,11 @@ fun AllEventsFilterModal(
                             modifier = Modifier
                                 .clickable {
                                     state.gendersSelectionState.value =
-                                        FutureEventsMainContract.GenderSelectionState.FEMALE
+                                        MyEventsScreenMainContract.GenderSelectionState.FEMALE
                                 }
                                 .border(
                                     width = 1.dp,
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
                                 .wrapContentWidth()
@@ -155,7 +155,7 @@ fun AllEventsFilterModal(
                                     modifier = Modifier.size(20.dp),
                                     painter = painterResource(id = R.drawable.female_ic),
                                     contentDescription = null,
-                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
+                                    tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
 
                                 )
                                 Spacer(modifier = Modifier.size(4.dp))
@@ -165,7 +165,7 @@ fun AllEventsFilterModal(
                                     lineHeight = 24.sp,
                                     style = typography.h4,
                                     fontWeight = FontWeight(400),
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
                                 )
                             }
                         }
@@ -174,11 +174,11 @@ fun AllEventsFilterModal(
                             modifier = Modifier
                                 .clickable {
                                     state.gendersSelectionState.value =
-                                        FutureEventsMainContract.GenderSelectionState.ALL
+                                        MyEventsScreenMainContract.GenderSelectionState.ALL
                                 }
                                 .border(
                                     width = 1.dp,
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
                                     shape = RoundedCornerShape(size = 6.dp)
                                 )
                                 .wrapContentWidth()
@@ -194,7 +194,7 @@ fun AllEventsFilterModal(
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_all),
                                     contentDescription = null,
-                                    tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
+                                    tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
                                 )
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
@@ -203,7 +203,7 @@ fun AllEventsFilterModal(
                                     lineHeight = 24.sp,
                                     style = typography.h4,
                                     fontWeight = FontWeight(400),
-                                    color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
+                                    color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
                                 )
                             }
                         }

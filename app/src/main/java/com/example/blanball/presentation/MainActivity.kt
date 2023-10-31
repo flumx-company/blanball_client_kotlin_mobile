@@ -123,6 +123,7 @@ class MainActivity : ComponentActivity() {
                             myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),
                             futureEventsScreenViewModel = viewModel(),
+                            myEventsViewModel = viewModel(),
                         )
                     }
                 }

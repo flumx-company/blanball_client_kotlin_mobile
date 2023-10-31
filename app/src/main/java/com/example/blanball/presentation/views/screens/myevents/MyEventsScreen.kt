@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.futureevents
+package com.example.blanball.presentation.views.screens.myevents
 
 import DottedLine
 import androidx.compose.foundation.Image
@@ -27,7 +27,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.FutureEventsMainContract
+import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.bgItemsGray
@@ -61,14 +60,14 @@ import com.example.blanball.presentation.views.components.texts.TextBadge
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
-fun FutureEventsScreen(
+fun MyEventsScreen(
     state: UiState,
     paddingValues: PaddingValues,
     navigateToEventScreen: () -> Unit,
     filterModalContent: @Composable () -> Unit,
     isFilterModalOpen: MutableState<Boolean>,
     onLoadMoreUsers: () -> Unit,
-    navigateToMyEventsScreen: () -> Unit,
+    navigateToAllEventsScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
 ) {
     Box(
@@ -77,19 +76,18 @@ fun FutureEventsScreen(
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
-
-        val currentState: FutureEventsMainContract.State =
-            (state as? FutureEventsMainContract.State) ?: FutureEventsMainContract.State(
-                FutureEventsMainContract.ScreenViewState.Loading
+        val currentState: MyEventsScreenMainContract.State =
+            (state as? MyEventsScreenMainContract.State) ?: MyEventsScreenMainContract.State(
+                MyEventsScreenMainContract.ScreenViewState.Loading
             )
-        (state as? FutureEventsMainContract.State)?.let {
+        (state as? MyEventsScreenMainContract.State)?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.future_events).uppercase(),
+                    text = stringResource(id = R.string.my_events).uppercase(),
                     style = typography.h3,
                     color = primaryDark,
                     fontWeight = FontWeight(800),
@@ -98,12 +96,12 @@ fun FutureEventsScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 EventsSwitcher(
-                    navigateToAlLEvents = {},
-                    navigateToMyEvents = { navigateToMyEventsScreen() },
+                    navigateToAlLEvents = { navigateToAllEventsScreen() },
+                    navigateToMyEvents = {},
                     selectedTab = selectedTab,
-                )
+                    )
                 Spacer(modifier = Modifier.size(12.dp))
-                Row(verticalAlignment = CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
                             .size(32.dp)
@@ -160,14 +158,14 @@ fun FutureEventsScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                if (state.allEventsList.value.isEmpty()) {
+                if (state.myEventsList.value.isEmpty()) {
                     NoHaveContentBanner(
                         headerTextId = R.string.not_found_events_for_this_filter,
                         secTextId = R.string.change_search_params
                     )
                 } else {
                     LazyColumn {
-                        itemsIndexed(state.allEventsList.value) { index, event ->
+                        itemsIndexed(state.myEventsList.value) { index, event ->
                             DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
                                 Row {
                                     Box(
@@ -223,7 +221,7 @@ fun FutureEventsScreen(
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
                                     Icon(
-                                        modifier = Modifier.align(CenterVertically),
+                                        modifier = Modifier.align(Alignment.CenterVertically),
                                         painter = painterResource(id = R.drawable.ic_location),
                                         tint = mainGreen,
                                         contentDescription = null
@@ -281,7 +279,7 @@ fun FutureEventsScreen(
                                 }
                                 Spacer(modifier = Modifier.size(16.dp))
                                 Row {
-                                    Column(modifier = Modifier.align(CenterVertically)) {
+                                    Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                                         Row {
                                             Text(
                                                 text = stringResource(R.string.players),
@@ -338,27 +336,27 @@ fun FutureEventsScreen(
                                         )
                                     }
                                 }
-                                }
                             }
-                            if (state.isLoadingMoreAllEvents) {
-                                item {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 16.dp),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        CircularProgressIndicator(color = mainGreen)
-                                    }
-                                }
-                            }
+                        }
+                        if (state.isLoadingMoreMyEvents) {
                             item {
-                                InfiniteListHandler(
-                                    lazyListState = lazyListState,
-                                    onLoadMore = onLoadMoreUsers,
-                                    buffer = 1
-                                )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 16.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    CircularProgressIndicator(color = mainGreen)
+                                }
                             }
+                        }
+                        item {
+                            InfiniteListHandler(
+                                lazyListState = lazyListState,
+                                onLoadMore = onLoadMoreUsers,
+                                buffer = 1
+                            )
+                        }
                     }
                 }
 
@@ -372,7 +370,7 @@ fun FutureEventsScreen(
                 .align(Alignment.BottomEnd)
                 .padding(24.dp)
         )
-        if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
+        if (currentState.state is MyEventsScreenMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)
         }
     }

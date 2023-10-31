@@ -34,5 +34,6 @@ enum class Destinations(val route: String) {
     VERSIONS("versions"),
     FOUND_AN_ERROR("found_an_error"),
     EVENT("event"),
-    EDIT_PROFILE("edit_profile")
+    EDIT_PROFILE("edit_profile"),
+    MY_EVENTS("my_events")
 }

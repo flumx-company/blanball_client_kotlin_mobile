@@ -32,7 +32,7 @@ android {
         buildConfigField "String", "ME_PROFILE_ENDPOINT", "\"authentication/client/me\""
         buildConfigField "String", "GET_ALL_EVENTS_ENDPOINT", "\"events/client/events/list\""
         buildConfigField "String", "CREATE_EVENT_ENDPOINT", "\"events/client/event/create\""
-        buildConfigField "String", "GET_MY_EVENTS", "\"my/events/list\""
+        buildConfigField "String", "GET_MY_EVENTS", "\"events/client/my/events/list\""
     }
 
     buildTypes {
