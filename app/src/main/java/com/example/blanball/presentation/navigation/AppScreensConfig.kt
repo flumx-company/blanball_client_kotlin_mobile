@@ -121,6 +121,14 @@ fun AppScreensConfig(
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
 ) {
+    val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
+    val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
+    val bottomPreviewDrawerState = rememberModalBottomSheetState()
+    val eventCreationScreenViewModelState =
+        eventCreationScreenViewModel.uiState.collectAsState().value
+    val futureEventsScreenViewModelState = futureEventsScreenViewModel.uiState.collectAsState().value
+
+
     val openNavDrawer: () -> Unit = {
         coroutineScope.launch {
             scaffoldState.drawerState.open()
@@ -133,7 +141,6 @@ fun AppScreensConfig(
         }
     }
     val navDrawerContent: @Composable ColumnScope.() -> Unit = {
-        val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
         NavigationDrawer(
             state = navigationDrawerState,
             onFriendsScreenClicked = {
@@ -190,8 +197,7 @@ fun AppScreensConfig(
     val bottomPreviewDrawerState = rememberModalBottomSheetState()
     val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-    val eventCreationScreenViewModelState =
-        eventCreationScreenViewModel.uiState.collectAsState().value
+    val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     val bottomDrawerContent: @Composable () -> Unit = {
         PreviewOfTheEventBottomDrawer(
@@ -252,7 +258,7 @@ fun AppScreensConfig(
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
                     navigationDrawerViewModel.getMyProfile()
-                    navController.navigate(Destinations.HOME.route)
+                  navController.navigate(Destinations.HOME.route)
                 }
             }
         }
@@ -600,13 +606,15 @@ fun AppScreensConfig(
                     HomeScreen(
                         paddingValues = it,
                         navigateToEvent = {}, //TODO
+                        state = futureEventsScreenViewModelState,
+                        onLoadMoreUsers = {futureEventsScreenViewModel.loadMoreAllEvents()},
+                        userFirstName = navigationDrawerCurrentState.userFirstNameText.value
                     )
                 }
             )
         }
 
-        composable(BottomNavItem.Events.screen_route) {
-            val state = futureEventsScreenViewModel.uiState.collectAsState().value
+        composable(BottomNavItem.FutureEvents.screen_route) {
             val futureEventScreenCurrentState = futureEventsScreenViewModel.currentState
             var isFilterModalVisible = remember { mutableStateOf(false) }
 
@@ -634,12 +642,12 @@ fun AppScreensConfig(
                 },
                 content = { it ->
                     FutureEventsScreen(
-                        state = state,
+                        state = futureEventsScreenViewModelState,
                         paddingValues = it,
                         navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
                         filterModalContent = {
                             AllEventsFilterModal(
-                                state = state,
+                                state = futureEventsScreenViewModelState,
                                 confirmBtnClicked = {
                                     isFilterModalVisible.value = false
                                     futureEventsScreenViewModel.setState {
