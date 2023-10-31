@@ -27,7 +27,7 @@ import com.example.blanball.presentation.theme.surfaceBrandSecondary
 fun BottomNavBar(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Events,
+        BottomNavItem.FutureEvents,
         BottomNavItem.CreateNewEvent,
         BottomNavItem.Rating,
         BottomNavItem.Chat,

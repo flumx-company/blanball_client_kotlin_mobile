@@ -127,7 +127,7 @@ fun AppScreensConfig(
     val eventCreationScreenViewModelState =
         eventCreationScreenViewModel.uiState.collectAsState().value
     val futureEventsScreenViewModelState = futureEventsScreenViewModel.uiState.collectAsState().value
-
+    var selectedEventTab:MutableState<EventTab> = rememberSaveable { mutableStateOf(EventTab.ALL_EVENTS) }
 
     val openNavDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -191,11 +191,6 @@ fun AppScreensConfig(
             },
         )
     }
-
-    var selectedEventTab:MutableState<EventTab> = rememberSaveable { mutableStateOf(EventTab.ALL_EVENTS) }
-
-    val bottomPreviewDrawerState = rememberModalBottomSheetState()
-    val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     val isBottomPreviewDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
