@@ -5,6 +5,7 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
+import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
@@ -28,7 +29,6 @@ interface AppRepository {
         lastName: String,
         gender: String
     ): RegistrationResultEntity
-
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
     suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity
     suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity
@@ -67,5 +67,11 @@ interface AppRepository {
         typeOfSport: String,
         gender: String,
         time_and_date: String,
-                             ): GetAllEventsResultEntity
+        ): GetAllEventsResultEntity
+    suspend fun getMyEvents(
+        page: Int,
+        typeOfSport: String,
+        gender: String,
+        time_and_date: String,
+    ): GetMyEventsResultEntity
 }

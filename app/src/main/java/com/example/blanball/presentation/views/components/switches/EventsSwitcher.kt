@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,15 +25,17 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
-private enum class EventTab {
+enum class EventTab {
     ALL_EVENTS,
     MY_EVENTS
 }
 
 @Composable
-fun EventsSwitcher() {
-    var selectedTab by remember { mutableStateOf(EventTab.ALL_EVENTS) }
-
+fun EventsSwitcher(
+    navigateToAlLEvents: () -> Unit,
+    navigateToMyEvents: () -> Unit,
+   selectedTab: MutableState<EventTab>,
+) {
     Box(
         Modifier
             .background(color = bgItemsGray, shape = RoundedCornerShape(size = 6.dp))
@@ -48,12 +47,13 @@ fun EventsSwitcher() {
             Box(
                 modifier = Modifier
                     .clickable {
-                        selectedTab = EventTab.ALL_EVENTS
+                        navigateToAlLEvents()
+                        selectedTab.value = EventTab.ALL_EVENTS
                     }
                     .weight(1f)
                     .height(32.dp)
                     .background(
-                        color = if (selectedTab == EventTab.ALL_EVENTS) Color.White else bgItemsGray,
+                        color = if (selectedTab.value == EventTab.ALL_EVENTS) Color.White else bgItemsGray,
                         shape = shapes.medium
                     ),
                 contentAlignment = Alignment.Center,
@@ -62,7 +62,7 @@ fun EventsSwitcher() {
                 Text(
                     text = stringResource(id = R.string.all),
                     style = typography.h4,
-                    color = if (selectedTab == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
+                    color = if (selectedTab.value == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
                     fontWeight = FontWeight(500),
                     fontSize = 13.sp
                 )
@@ -70,12 +70,13 @@ fun EventsSwitcher() {
             Box(
                 modifier = Modifier
                     .clickable {
-                        selectedTab = EventTab.MY_EVENTS
+                        navigateToMyEvents()
+                        selectedTab.value = EventTab.MY_EVENTS
                     }
                     .weight(1f)
                     .height(32.dp)
                     .background(
-                        color = if (selectedTab == EventTab.MY_EVENTS) Color.White else bgItemsGray,
+                        color = if (selectedTab.value == EventTab.MY_EVENTS) Color.White else bgItemsGray,
                         shape = shapes.medium
                     ),
                 contentAlignment = Alignment.Center,
@@ -84,7 +85,7 @@ fun EventsSwitcher() {
                 Text(
                     text = stringResource(id = R.string.my_events),
                     style = typography.h4,
-                    color = if (selectedTab == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
+                    color = if (selectedTab.value == EventTab.MY_EVENTS) primaryDark else secondaryNavy,
                     fontWeight = FontWeight(500),
                     fontSize = 13.sp
                 )

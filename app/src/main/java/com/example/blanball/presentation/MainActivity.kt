@@ -124,6 +124,7 @@ class MainActivity : ComponentActivity() {
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),
+                            myEventsViewModel = viewModel(),
                             futureEventsScreenViewModel = futureEventsScreenViewModel,
                         )
                     }
