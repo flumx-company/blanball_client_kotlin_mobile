@@ -25,6 +25,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -56,6 +57,7 @@ import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatToUkrainianDate
@@ -66,6 +68,8 @@ fun FutureEventsScreen(
     paddingValues: PaddingValues,
     navigateToEventScreen: () -> Unit,
     onLoadMoreUsers: () -> Unit,
+    navigateToMyEventsScreen: () -> Unit,
+    selectedTab: MutableState<EventTab>,
     onClickedToChangeOrdering: () -> Unit,
     navigateToCreationEventScreen: () -> Unit,
     navigateToFilterScreen: () -> Unit,
@@ -97,7 +101,11 @@ fun FutureEventsScreen(
                     fontSize = 20.sp
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                EventsSwitcher()
+                EventsSwitcher(
+                    navigateToAlLEvents = {},
+                    navigateToMyEvents = { navigateToMyEventsScreen() },
+                    selectedTab = selectedTab,
+                )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = CenterVertically) {
                     Box(

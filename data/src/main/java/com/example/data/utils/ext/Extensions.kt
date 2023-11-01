@@ -26,6 +26,15 @@ import com.example.data.backend.models.responses.GetAllEventResponseErrorDetail
 import com.example.data.backend.models.responses.GetAllEventResponsePlace
 import com.example.data.backend.models.responses.GetAllEventResponseProfile
 import com.example.data.backend.models.responses.GetAllEventResponseResult
+import com.example.data.backend.models.responses.GetMyEventsResponse
+import com.example.data.backend.models.responses.GetMyEventsResponseAuthor
+import com.example.data.backend.models.responses.GetMyEventsResponseData
+import com.example.data.backend.models.responses.GetMyEventsResponseError
+import com.example.data.backend.models.responses.GetMyEventsResponseErrorData
+import com.example.data.backend.models.responses.GetMyEventsResponseErrorDetail
+import com.example.data.backend.models.responses.GetMyEventsResponsePlace
+import com.example.data.backend.models.responses.GetMyEventsResponseProfile
+import com.example.data.backend.models.responses.GetMyEventsResponseResult
 import com.example.data.backend.models.responses.GetMyProfileError
 import com.example.data.backend.models.responses.GetMyProfileErrorData
 import com.example.data.backend.models.responses.GetMyProfileErrorDetail
@@ -108,6 +117,15 @@ import com.example.domain.entity.responses.GetAllEventResponseEntityData
 import com.example.domain.entity.responses.GetAllEventResponseEntityPlace
 import com.example.domain.entity.responses.GetAllEventResponseEntityProfile
 import com.example.domain.entity.responses.GetAllEventResponseEntityResult
+import com.example.domain.entity.responses.GetMyEventsEntityResponseError
+import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorData
+import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorDetail
+import com.example.domain.entity.responses.GetMyEventsResponseEntity
+import com.example.domain.entity.responses.GetMyEventsResponseEntityAuthor
+import com.example.domain.entity.responses.GetMyEventsResponseEntityData
+import com.example.domain.entity.responses.GetMyEventsResponseEntityPlace
+import com.example.domain.entity.responses.GetMyEventsResponseEntityProfile
+import com.example.domain.entity.responses.GetMyEventsResponseEntityResult
 import com.example.domain.entity.responses.GetMyProfileErrorDataEntity
 import com.example.domain.entity.responses.GetMyProfileErrorDetailEntity
 import com.example.domain.entity.responses.GetMyProfileErrorEntity
@@ -819,5 +837,89 @@ internal fun CreationAnEventErrorData.toCreationAnEventErrorEntityData(): Creati
 
 internal fun CreationAnEventErrorDetail.toCreationAnEventErrorDetailEntity(): CreationAnEventErrorDetailEntity =
     CreationAnEventErrorDetailEntity(
+        this.detail
+    )
+
+internal fun GetMyEventsResponse.toGetMyEventsResponseEntity(): GetMyEventsResponseEntity =
+    GetMyEventsResponseEntity(
+        this.code,
+        this.data.toGetMyEventsResponseEntityData(),
+        this.message,
+        this.status,
+    )
+
+internal fun GetMyEventsResponseData.toGetMyEventsResponseEntityData(): GetMyEventsResponseEntityData =
+    GetMyEventsResponseEntityData(
+        this.current_page,
+        this.next,
+        this.page_size,
+        this.previous,
+        this.results.map { it.toGetMyEventsResponseEntityResult() },
+        this.success,
+        this.total_count,
+    )
+
+internal fun GetMyEventsResponseResult.toGetMyEventsResponseEntityResult(): GetMyEventsResponseEntityResult =
+    GetMyEventsResponseEntityResult(
+        this.amount_members,
+        this.author.toGetMyEventsResponseEntityAuthor(),
+        this.count_current_fans,
+        this.count_current_users,
+        this.date_and_time,
+        this.description,
+        this.duration,
+        this.forms,
+        this.gender,
+        this.id,
+        this.name,
+        this.need_ball,
+        this.need_form,
+        this.pk_user_role,
+        this.place.toGetMyEventsResponseEntityPlace(),
+        this.price,
+        this.privacy,
+        this.request_user_role,
+        this.status,
+        this.type,
+    )
+
+internal fun GetMyEventsResponseAuthor.toGetMyEventsResponseEntityAuthor(): GetMyEventsResponseEntityAuthor =
+    GetMyEventsResponseEntityAuthor(
+        this.id,
+        this.phone,
+        this.profile.toGetMyEventsResponseEntityProfile(),
+    )
+
+internal fun GetMyEventsResponseProfile.toGetMyEventsResponseEntityProfile(): GetMyEventsResponseEntityProfile =
+    GetMyEventsResponseEntityProfile(
+        this.avatar_url,
+        this.id,
+        this.last_name,
+        this.name
+    )
+
+internal fun GetMyEventsResponsePlace.toGetMyEventsResponseEntityPlace(): GetMyEventsResponseEntityPlace =
+    GetMyEventsResponseEntityPlace(
+        this.lat,
+        this.lon,
+        this.place_name,
+    )
+
+internal fun GetMyEventsResponseError.toGetMyEventsEntityResponseError() : GetMyEventsEntityResponseError =
+    GetMyEventsEntityResponseError(
+        this.code,
+        this.data.toGetMyEventsEntityResponseErrorData(),
+        this.message,
+        this.status,
+    )
+
+internal fun GetMyEventsResponseErrorData.toGetMyEventsEntityResponseErrorData() : GetMyEventsEntityResponseErrorData =
+    GetMyEventsEntityResponseErrorData(
+        listOf(this.errors[0].toGetMyEventsEntityResponseErrorDetail()),
+        this.type,
+    )
+
+internal fun GetMyEventsResponseErrorDetail.toGetMyEventsEntityResponseErrorDetail(): GetMyEventsEntityResponseErrorDetail =
+    GetMyEventsEntityResponseErrorDetail(
         this.detail
     )

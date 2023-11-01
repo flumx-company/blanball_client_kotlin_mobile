@@ -11,6 +11,7 @@ import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
 import com.example.data.backend.models.responses.CreationAnEventResponse
 import com.example.data.backend.models.responses.GetAllEventResponse
+import com.example.data.backend.models.responses.GetMyEventsResponse
 import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
@@ -73,4 +74,12 @@ interface MainApiService  {
 
     @POST (Endpoints.CREATE_EVENT_ENDPOINT)
     suspend fun createAnEvent (@Body creationAnEventRequest: CreationAnEventRequest): CreationAnEventResponse
+
+    @GET(Endpoints.GET_MY_EVENTS_ENDPOINT)
+    suspend fun getMyEvents(
+        @Query ("page") page: Int,
+        @Query ("type") typeOfSport: String,
+        @Query ("gender") gender: String,
+        @Query ("date_and_time") date_and_time: String,
+    ): GetMyEventsResponse
 }

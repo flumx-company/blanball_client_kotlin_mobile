@@ -19,7 +19,9 @@ object Endpoints {
      const val ME_PROFILE_ENDPOINT = BuildConfig.ME_PROFILE_ENDPOINT
      const val CREATE_EVENT_ENDPOINT = BuildConfig.CREATE_EVENT_ENDPOINT
      const val GET_ALL_EVENTS_ENDPOINT = BuildConfig.GET_ALL_EVENTS_ENDPOINT
+     const val GET_MY_EVENTS_ENDPOINT = BuildConfig.GET_MY_EVENTS
      }
+
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }

@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.navigation
 
+import Destinations
 import com.example.blanball.R
 
 sealed class BottomNavItem(var icon: Int, var screen_route: String) {
