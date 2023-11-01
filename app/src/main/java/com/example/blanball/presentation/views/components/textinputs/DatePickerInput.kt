@@ -10,8 +10,10 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -59,14 +61,14 @@ fun DatePickerModal(
                         color = primaryDark,
                     )
                 }
-                    DatePicker(
-                        showModeToggle = true,
-                        modifier = Modifier.fillMaxWidth(),
-                        state = datePickerState,
-                        dateValidator = { timestamp ->
-                            timestamp > Instant.now().toEpochMilli()
-                        }
-                    )
+                DatePicker(
+                    showModeToggle = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    state = datePickerState,
+                    dateValidator = { timestamp ->
+                        timestamp > Instant.now().toEpochMilli()
+                    }
+                )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         modifier = Modifier.clickable {
@@ -82,6 +84,62 @@ fun DatePickerModal(
                         modifier = Modifier.clickable {
                             backBtnClicked()
                             selectedState.value = localDate.toString()
+                        },
+                        painter = painterResource(id = R.drawable.ic_check),
+                        contentDescription = null,
+                        tint = primaryDark
+                    )
+                }
+            }
+        }
+    )
+}
+
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun DateRangePickerModal(
+    selectedState: MutableState<String>,
+    backBtnClicked: () -> Unit,
+) {
+    val configuration = LocalConfiguration.current
+    val dateRangePickerState = rememberDateRangePickerState()
+
+    AlertDialog(
+        modifier = Modifier.fillMaxWidth(),
+        onDismissRequest = {},
+        buttons = {},
+        text = {
+            Column {
+                    Text(
+                        text = stringResource(R.string.chose_the_event_date),
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h3,
+                        fontWeight = FontWeight(700),
+                        color = primaryDark,
+                    )
+                Spacer(modifier = Modifier.size(12.dp))
+                DateRangePicker(
+                    modifier = Modifier.fillMaxWidth(),
+                    state = dateRangePickerState,
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        modifier = Modifier.clickable {
+                            backBtnClicked()
+                            selectedState.value = ""
+                        },
+                        painter = painterResource(id = R.drawable.ic_cancel),
+                        contentDescription = null,
+                        tint = primaryDark
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        modifier = Modifier.clickable {
+                            backBtnClicked()
+                            val selectedDates = dateRangePickerState.selectedStartDateMillis
+                            selectedState.value = selectedDates.toString()
                         },
                         painter = painterResource(id = R.drawable.ic_check),
                         contentDescription = null,

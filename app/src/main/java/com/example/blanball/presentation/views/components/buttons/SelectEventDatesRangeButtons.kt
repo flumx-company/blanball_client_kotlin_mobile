@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -34,7 +35,7 @@ fun SelectEventDatesRangeButtons(
     Box(
         modifier = Modifier
             .border(width = 1.dp, color = primaryDark, shape = RoundedCornerShape(size = 6.dp))
-            .width(304.dp)
+            .fillMaxWidth()
             .height(36.dp)
             .background(
                 color = Color.White,
@@ -44,6 +45,7 @@ fun SelectEventDatesRangeButtons(
             .clickable { clickCallback() }
     ) {
         Row (
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             ) {

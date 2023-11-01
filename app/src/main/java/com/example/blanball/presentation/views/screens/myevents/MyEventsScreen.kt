@@ -368,7 +368,8 @@ fun MyEventsScreen(
         Fab(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(24.dp)
+                .padding(24.dp),
+            clickCallback = {}
         )
         if (currentState.state is MyEventsScreenMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)

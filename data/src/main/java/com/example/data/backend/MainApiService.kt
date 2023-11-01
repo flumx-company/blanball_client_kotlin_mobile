@@ -69,6 +69,7 @@ interface MainApiService  {
         @Query ("type") typeOfSport: String,
         @Query ("gender") gender: String,
         @Query ("date_and_time") date_and_time: String,
+        @Query ("ordering") ordering: String,
     ): GetAllEventResponse
 
     @POST (Endpoints.CREATE_EVENT_ENDPOINT)

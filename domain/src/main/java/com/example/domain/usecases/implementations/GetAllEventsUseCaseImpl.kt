@@ -11,12 +11,14 @@ class GetAllEventsUseCaseImpl @Inject constructor(internal val appRepository: Ap
         typeOfSport: String,
         gender: String,
         time_and_date: String,
+        ordering: String,
     ): GetAllEventsResultEntity {
         return appRepository.getAllEvents(
             page,
             typeOfSport = typeOfSport,
             gender = gender,
             time_and_date = time_and_date,
+            ordering = ordering,
         )
     }
 }

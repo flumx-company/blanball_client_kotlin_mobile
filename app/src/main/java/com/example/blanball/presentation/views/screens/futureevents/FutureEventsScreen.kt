@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,13 +52,14 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
+import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
-import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
@@ -65,12 +67,14 @@ fun FutureEventsScreen(
     state: UiState,
     paddingValues: PaddingValues,
     navigateToEventScreen: () -> Unit,
-    filterModalContent: @Composable () -> Unit,
-    isFilterModalOpen: MutableState<Boolean>,
     onLoadMoreUsers: () -> Unit,
     navigateToMyEventsScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
+    onClickedToChangeOrdering: () -> Unit,
+    navigateToCreationEventScreen: () -> Unit,
+    navigateToFilterScreen: () -> Unit,
 ) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .padding(paddingValues)
@@ -109,13 +113,21 @@ fun FutureEventsScreen(
                             .size(32.dp)
                             .background(color = bgLight, shape = shapes.medium),
                     ) {
-                        Icon(
+                        IcBox(
+                            icon = if (it.orderingIconState.value) {
+                                it.eventsOrderingSelectionState.value = FutureEventsMainContract.EventsOrderingSelectionState.FIRST_OLDER
+                                R.drawable.ic_sorting_old
+                            } else {
+                                it.eventsOrderingSelectionState.value = FutureEventsMainContract.EventsOrderingSelectionState.FIRST_NEW
+                                R.drawable.ic_sorting_new
+                            },
                             modifier = Modifier
-                                .size(20.dp)
-                                .align(Alignment.Center),
-                            painter = painterResource(id = R.drawable.ic_sorting_new),
-                            tint = secondaryNavy,
-                            contentDescription = null
+                                .clickable {
+                                    it.orderingIconState.value = !it.orderingIconState.value
+                                    onClickedToChangeOrdering()
+                                }
+                                .size(40.dp)
+                                .background(color = bgLight, shape = shapes.medium)
                         )
                     }
                     Spacer(modifier = Modifier.size(4.dp))
@@ -152,7 +164,7 @@ fun FutureEventsScreen(
                             modifier = Modifier
                                 .size(20.dp)
                                 .align(Alignment.Center)
-                                .clickable { isFilterModalOpen.value = true },
+                                .clickable { navigateToFilterScreen() },
                             painter = painterResource(id = R.drawable.ic_filters),
                             tint = secondaryNavy,
                             contentDescription = null
@@ -251,11 +263,9 @@ fun FutureEventsScreen(
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
-                                    TextBadge(textResId = R.string.football)
+                                    TextBadge2(text = event.gender)
                                     Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.man_ukr)
-                                    Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.withour_divison)
+                                    TextBadge2(text = event.type)
                                 }
                                 Spacer(modifier = Modifier.size(12.dp))
                                 DottedLine(color = annotationGray)
@@ -339,6 +349,7 @@ fun FutureEventsScreen(
                                     }
                                 }
                                 }
+                            Spacer(modifier = Modifier.size(12.dp))
                             }
                             if (state.isLoadingMoreAllEvents) {
                                 item {
@@ -364,13 +375,13 @@ fun FutureEventsScreen(
 
             }
         }
-        when {
-            isFilterModalOpen.value -> filterModalContent()
-        }
         Fab(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(24.dp)
+                .padding(24.dp),
+            clickCallback = {
+                navigateToCreationEventScreen()
+            }
         )
         if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)

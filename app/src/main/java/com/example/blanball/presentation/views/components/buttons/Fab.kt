@@ -20,13 +20,15 @@ import com.example.domain.utils.Integers
 
 @Composable
 fun Fab(
-    modifier: Modifier
+    modifier: Modifier,
+    clickCallback: () -> Unit,
 ) {
     val rotationState = remember { mutableStateOf(0f) }
     Box (modifier = modifier){
         FloatingActionButton(
             elevation = FloatingActionButtonDefaults.elevation(0.dp),
             onClick = {
+                clickCallback()
                 rotationState.value += 360f
             },
             backgroundColor = mainGreen,
