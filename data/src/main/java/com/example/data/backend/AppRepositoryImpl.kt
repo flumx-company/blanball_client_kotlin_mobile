@@ -156,6 +156,7 @@
             typeOfSport: String,
             gender: String,
             time_and_date: String,
+            ordering: String
         ): GetMyEventsResultEntity {
             return try {
                 val getMyEventsResponse = service.getMyEvents(
@@ -163,6 +164,7 @@
                     typeOfSport = typeOfSport,
                     gender = gender,
                     date_and_time = time_and_date,
+                    ordering = ordering,
                 )
                 val getMyEventsDomainResponse = getMyEventsResponse.toGetMyEventsResponseEntity()
                 GetMyEventsResultEntity.Success(getMyEventsDomainResponse.data)

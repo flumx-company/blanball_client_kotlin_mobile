@@ -60,7 +60,6 @@ import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
-import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
@@ -133,6 +132,10 @@ fun FutureEventsScreen(
                     }
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
+                        modifier = Modifier.clickable {
+                            it.orderingIconState.value = !it.orderingIconState.value
+                            onClickedToChangeOrdering()
+                        },
                         text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
                             id = R.string.new_ones_first
                         ),

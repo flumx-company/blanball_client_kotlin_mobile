@@ -10,13 +10,15 @@ class GetMyEventsUseCaseImpl @Inject constructor(internal val appRepository: App
         page: Int,
         typeOfSport: String,
         gender: String,
-        time_and_date: String
+        time_and_date: String,
+        ordering: String,
     ): GetMyEventsResultEntity {
         return appRepository.getMyEvents(
             page = page,
             typeOfSport = typeOfSport,
             gender = gender,
             time_and_date = time_and_date,
+            ordering = ordering,
         )
     }
 }

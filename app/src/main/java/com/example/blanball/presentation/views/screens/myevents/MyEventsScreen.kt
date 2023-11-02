@@ -132,6 +132,13 @@ fun MyEventsScreen(
                     }
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
+                        modifier = Modifier.clickable {
+                            it.orderingIconState.value = !it.orderingIconState.value
+                            onClickedToChangeOrdering()
+                        },
+                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
+                            id = R.string.new_ones_first
+                        ),
                         text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
                             id = R.string.new_ones_first
                         ),
