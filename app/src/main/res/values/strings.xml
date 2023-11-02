@@ -406,4 +406,6 @@
     <string name="not_found_events_for_this_filter">Для такого фільтру події не знайдено</string>
     <string name="change_search_params">Змініть параметри пошуку</string>
     <string name="ads">оголошень</string>
+    <string name="new_ones_first">Спочатку нові</string>
+    <string name="old_ones_first">Спочатку cтарі</string>
 </resources>

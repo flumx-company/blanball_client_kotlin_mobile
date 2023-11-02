@@ -42,7 +42,6 @@ import com.example.blanball.presentation.views.components.drawers.InvitedUsersBo
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
-import com.example.blanball.presentation.views.components.modals.MyEventsFilterModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
@@ -60,6 +59,7 @@ import com.example.blanball.presentation.views.screens.futureevents.AllEventsFil
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
@@ -1137,37 +1137,17 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = it,
                         navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
-                        filterModalContent = {
-                            MyEventsFilterModal(
-                                state = state,
-                                confirmBtnClicked = {
-                                    isFilterModalVisible.value = false
-                                    myEventsViewModel.setState {
-                                        copy(
-                                            openFiltersDialog = mutableStateOf(false),
-                                            state = MyEventsScreenMainContract.ScreenViewState.Loading
-                                        )
-                                    }
-                                },
-                                turnBackBtnClicked = {
-                                    isFilterModalVisible.value = false
-                                    myEventsViewModel.setState {
-                                        copy(
-                                            openFiltersDialog = mutableStateOf(false),
-                                            gendersSelectionState = mutableStateOf(
-                                                MyEventsScreenMainContract.GenderSelectionState.ALL
-                                            ),
-                                            typeOfSportsStateSelected = mutableStateOf(""),
-                                            eventDatesState = mutableStateOf(""),
-                                            state = MyEventsScreenMainContract.ScreenViewState.Loading
-                                        )
-                                    }
-                                })
-                        },
-                        isFilterModalOpen = isFilterModalVisible,
                         onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },
                         navigateToAllEventsScreen = { navController.navigate(Destinations.FUTURE_EVENTS.route) },
                         selectedTab = selectedEventTab,
+                        navigateToMyEventsFilterScreen = { navController.navigate(Destinations.MY_EVENTS_FILTER_SCREEN.route) },
+                        onClickedToChangeOrdering = {
+                            myEventsViewModel.setState {
+                                copy(
+                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        }
                     )
                 }
             )
@@ -1230,5 +1210,65 @@ fun AppScreensConfig(
                 }
             )
         }
+
+        composable(Destinations.MY_EVENTS_FILTER_SCREEN.route) {
+            val isDatePickerModalVisible = remember { mutableStateOf(false) }
+            val state = myEventsViewModel.uiState.collectAsState().value
+            val currentState = myEventsViewModel.currentState
+
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    MyEventsFilterScreen(
+                        state = state,
+                        isDatePickerModalOpen = isDatePickerModalVisible,
+                        datePickerModalContent = {
+                            DateRangePickerModal(
+                                backBtnClicked = { isDatePickerModalVisible.value = false },
+                                selectedState = currentState.eventDatesState
+                            )
+                        },
+                        turnBackBtnClicked = {
+                            navController.navigate(Destinations.FUTURE_EVENTS.route)
+                            myEventsViewModel.setState {
+                                copy(
+                                    openFiltersDialog = mutableStateOf(false),
+                                    gendersSelectionState = mutableStateOf(
+                                        MyEventsScreenMainContract.GenderSelectionState.ALL
+                                    ),
+                                    typeOfSportsStateSelected = mutableStateOf(""),
+                                    eventDatesState = mutableStateOf(""),
+                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        },
+                        paddingValues = paddingValues,
+                        confirmBtnClicked = {
+                            navController.navigate(Destinations.FUTURE_EVENTS.route)
+                            myEventsViewModel.setState {
+                                copy(
+                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        }
+                    )
+                }
+            )
+        }
+
     }
 }

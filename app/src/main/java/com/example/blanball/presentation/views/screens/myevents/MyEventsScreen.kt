@@ -50,25 +50,27 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
+import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
-import com.example.blanball.presentation.views.components.texts.TextBadge
+import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
 fun MyEventsScreen(
     state: UiState,
     paddingValues: PaddingValues,
-    navigateToEventScreen: () -> Unit,
-    filterModalContent: @Composable () -> Unit,
-    isFilterModalOpen: MutableState<Boolean>,
     onLoadMoreUsers: () -> Unit,
     navigateToAllEventsScreen: () -> Unit,
+    navigateToEventScreen: () -> Unit,
+    navigateToMyEventsFilterScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
+    onClickedToChangeOrdering: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -102,23 +104,37 @@ fun MyEventsScreen(
                     )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(color = bgLight, shape = shapes.medium),
-                    ) {
-                        Icon(
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
                             modifier = Modifier
-                                .size(20.dp)
-                                .align(Alignment.Center),
-                            painter = painterResource(id = R.drawable.ic_sorting_new),
-                            tint = secondaryNavy,
-                            contentDescription = null
-                        )
+                                .size(32.dp)
+                                .background(color = bgLight, shape = shapes.medium),
+                        ) {
+                            IcBox(
+                                icon = if (it.orderingIconState.value) {
+                                    it.myEventsOrderingSelectionState.value =
+                                        MyEventsScreenMainContract.MyEventsOrderingSelectionState.FIRST_OLDER
+                                    R.drawable.ic_sorting_old
+                                } else {
+                                    it.myEventsOrderingSelectionState.value =
+                                        MyEventsScreenMainContract.MyEventsOrderingSelectionState.FIRST_NEW
+                                    R.drawable.ic_sorting_new
+                                },
+                                modifier = Modifier
+                                    .clickable {
+                                        it.orderingIconState.value = !it.orderingIconState.value
+                                        onClickedToChangeOrdering()
+                                    }
+                                    .size(40.dp)
+                                    .background(color = bgLight, shape = shapes.medium)
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
-                        text = "Спочатку нові",
+                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
+                            id = R.string.new_ones_first
+                        ),
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -150,7 +166,7 @@ fun MyEventsScreen(
                             modifier = Modifier
                                 .size(20.dp)
                                 .align(Alignment.Center)
-                                .clickable { isFilterModalOpen.value = true },
+                                .clickable { navigateToMyEventsFilterScreen() },
                             painter = painterResource(id = R.drawable.ic_filters),
                             tint = secondaryNavy,
                             contentDescription = null
@@ -208,7 +224,7 @@ fun MyEventsScreen(
                                             )
                                             Spacer(modifier = Modifier.size(12.dp))
                                             Text(
-                                                text = event.date_and_time.toString(),
+                                                text = event.date_and_time.formatTimeRange(event.duration),
                                                 fontSize = 13.sp,
                                                 lineHeight = 20.sp,
                                                 style = typography.h4,
@@ -249,11 +265,9 @@ fun MyEventsScreen(
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
-                                    TextBadge(textResId = R.string.football)
+                                    TextBadge2(text = event.gender)
                                     Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.man_ukr)
-                                    Spacer(modifier = Modifier.size(4.dp))
-                                    TextBadge(textResId = R.string.withour_divison)
+                                    TextBadge2(text = event.type)
                                 }
                                 Spacer(modifier = Modifier.size(12.dp))
                                 DottedLine(color = annotationGray)
@@ -361,9 +375,6 @@ fun MyEventsScreen(
                 }
 
             }
-        }
-        when {
-            isFilterModalOpen.value -> filterModalContent()
         }
         Fab(
             modifier = Modifier
