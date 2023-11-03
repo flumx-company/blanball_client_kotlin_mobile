@@ -71,13 +71,14 @@ class MyEventsScreenViewModel
             val gender =
                 currentState.gendersSelectionState.value.stringValue?:""
             val time_and_date = currentState.eventDatesState.value
+            val ordering = currentState.myEventsOrderingSelectionState.value.stringValue ?: ""
             when (val result = getMyEventsUseCase.executeMyEventsEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,
                 gender = gender,
                 time_and_date = time_and_date,
-
-                )) {
+                ordering = ordering,
+            )) {
                 is GetMyEventsResultEntity.Success -> {
                     val users = result.success.results
                     users?.let {

@@ -60,6 +60,7 @@ import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
@@ -132,7 +133,13 @@ fun FutureEventsScreen(
                     }
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
-                        text = "Спочатку нові",
+                        modifier = Modifier.clickable {
+                            it.orderingIconState.value = !it.orderingIconState.value
+                            onClickedToChangeOrdering()
+                        },
+                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
+                            id = R.string.new_ones_first
+                        ),
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -222,7 +229,7 @@ fun FutureEventsScreen(
                                             )
                                             Spacer(modifier = Modifier.size(12.dp))
                                             Text(
-                                                text = event.date_and_time.toString(),
+                                                text = event.date_and_time.formatTimeRange(event.duration),
                                                 fontSize = 13.sp,
                                                 lineHeight = 20.sp,
                                                 style = typography.h4,
