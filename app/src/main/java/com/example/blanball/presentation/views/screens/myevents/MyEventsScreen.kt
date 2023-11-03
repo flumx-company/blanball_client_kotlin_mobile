@@ -139,9 +139,6 @@ fun MyEventsScreen(
                         text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
                             id = R.string.new_ones_first
                         ),
-                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
-                            id = R.string.new_ones_first
-                        ),
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

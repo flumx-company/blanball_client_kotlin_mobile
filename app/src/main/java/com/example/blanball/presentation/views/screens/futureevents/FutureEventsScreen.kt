@@ -60,6 +60,7 @@ import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
