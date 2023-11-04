@@ -41,8 +41,8 @@ fun SelectEventDatesRangeButtons(
                 color = Color.White,
                 shape = RoundedCornerShape(size = 6.dp)
             )
-            .padding(start = 12.dp, top = 6.dp, end = 12.dp, bottom = 6.dp)
             .clickable { clickCallback() }
+            .padding(start = 12.dp, top = 6.dp, end = 12.dp, bottom = 6.dp)
     ) {
         Row (
             modifier = Modifier.fillMaxSize(),

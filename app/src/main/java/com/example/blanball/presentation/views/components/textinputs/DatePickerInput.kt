@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.textinputs
 
+import android.util.Range
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +11,12 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -27,7 +28,13 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.typography
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 
 @Composable
@@ -102,51 +109,19 @@ fun DateRangePickerModal(
     selectedState: MutableState<String>,
     backBtnClicked: () -> Unit,
 ) {
-    val configuration = LocalConfiguration.current
-    val dateRangePickerState = rememberDateRangePickerState()
-
-    AlertDialog(
-        modifier = Modifier.fillMaxWidth(),
-        onDismissRequest = {},
-        buttons = {},
-        text = {
-            Column {
-                    Text(
-                        text = stringResource(R.string.chose_the_event_date),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
-                    )
-                Spacer(modifier = Modifier.size(12.dp))
-                DateRangePicker(
-                    modifier = Modifier.fillMaxWidth(),
-                    state = dateRangePickerState,
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            backBtnClicked()
-                            selectedState.value = ""
-                        },
-                        painter = painterResource(id = R.drawable.ic_cancel),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        modifier = Modifier.clickable {
-                            backBtnClicked()
-                            val selectedDates = dateRangePickerState.selectedStartDateMillis
-                            selectedState.value = selectedDates.toString()
-                        },
-                        painter = painterResource(id = R.drawable.ic_check),
-                        contentDescription = null,
-                        tint = primaryDark
-                    )
-                }
-            }
-        }
+    val selectedDateRange = remember {
+        val value = Range(LocalDate.now().minusDays(2), LocalDate.now())
+        mutableStateOf(value)
+    }
+    CalendarDialog(
+        state = rememberUseCaseState(visible = true, onCloseRequest = { backBtnClicked() }),
+        config = CalendarConfig(
+            style = CalendarStyle.MONTH,
+        ),
+        selection = CalendarSelection.Period(
+            selectedRange = selectedDateRange.value
+        ) { startDate, endDate ->
+            selectedDateRange.value = Range(startDate, endDate)
+        },
     )
 }
