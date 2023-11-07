@@ -1,9 +1,11 @@
 package com.example.blanball.presentation.data
 
+import android.util.Range
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.GetMyEventsResponseEntityResult
 import com.example.domain.utils.Strings
+import java.time.LocalDate
 
 class MyEventsScreenMainContract {
 
@@ -30,6 +32,9 @@ class MyEventsScreenMainContract {
             MyEventsOrderingSelectionState.FIRST_NEW
         ),
         val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
+        val filterEventDateRange: MutableState<Range<LocalDate>>? = null,
+        val filterDateAndTimeAfter: MutableState<String> = mutableStateOf(""),
+        val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {

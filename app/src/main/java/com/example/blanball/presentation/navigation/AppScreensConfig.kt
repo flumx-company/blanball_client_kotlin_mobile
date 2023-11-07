@@ -1182,7 +1182,8 @@ fun AppScreensConfig(
                         datePickerModalContent = {
                             DateRangePickerModal(
                                 backBtnClicked = { isDatePickerModalVisible.value = false },
-                                selectedState = currentState.eventDatesState
+                                filterDateAndTimeAfter = currentState.filterDateAndTimeAfter,
+                                filterDateAndTimeBefore = currentState.filterDateAndTimeBefore,
                             )
                         },
                         turnBackBtnClicked = {
@@ -1239,7 +1240,8 @@ fun AppScreensConfig(
                         datePickerModalContent = {
                             DateRangePickerModal(
                                 backBtnClicked = { isDatePickerModalVisible.value = false },
-                                selectedState = currentState.eventDatesState
+                                filterDateAndTimeAfter = currentState.filterDateAndTimeAfter,
+                                filterDateAndTimeBefore = currentState.filterDateAndTimeBefore,
                             )
                         },
                         turnBackBtnClicked = {

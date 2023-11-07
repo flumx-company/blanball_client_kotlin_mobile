@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.components.textinputs
 
-import android.util.Range
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +14,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -36,6 +33,7 @@ import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,22 +104,20 @@ fun DatePickerModal(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun DateRangePickerModal(
-    selectedState: MutableState<String>,
     backBtnClicked: () -> Unit,
+    filterDateAndTimeAfter: MutableState<String>,
+    filterDateAndTimeBefore: MutableState<String>,
 ) {
-    val selectedDateRange = remember {
-        val value = Range(LocalDate.now().minusDays(2), LocalDate.now())
-        mutableStateOf(value)
-    }
     CalendarDialog(
         state = rememberUseCaseState(visible = true, onCloseRequest = { backBtnClicked() }),
         config = CalendarConfig(
             style = CalendarStyle.MONTH,
+            boundary = LocalDate.now()..LocalDate.MAX,
         ),
         selection = CalendarSelection.Period(
-            selectedRange = selectedDateRange.value
         ) { startDate, endDate ->
-            selectedDateRange.value = Range(startDate, endDate)
+            filterDateAndTimeAfter.value = startDate.toString()
+            filterDateAndTimeBefore.value = endDate.toString()
         },
     )
 }
