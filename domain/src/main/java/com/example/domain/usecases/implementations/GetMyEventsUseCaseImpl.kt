@@ -12,6 +12,8 @@ class GetMyEventsUseCaseImpl @Inject constructor(internal val appRepository: App
         gender: String,
         time_and_date: String,
         ordering: String,
+        filterDateAndTimeBefore: String,
+        filterDateAndTimeAfter: String,
     ): GetMyEventsResultEntity {
         return appRepository.getMyEvents(
             page = page,
@@ -19,6 +21,8 @@ class GetMyEventsUseCaseImpl @Inject constructor(internal val appRepository: App
             gender = gender,
             time_and_date = time_and_date,
             ordering = ordering,
+            filterDateAndTimeBefore = filterDateAndTimeBefore,
+            filterDateAndTimeAfter = filterDateAndTimeAfter,
         )
     }
 }

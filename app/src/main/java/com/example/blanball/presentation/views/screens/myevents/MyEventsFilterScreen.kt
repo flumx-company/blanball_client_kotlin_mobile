@@ -214,7 +214,8 @@ fun MyEventsFilterScreen(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectEventDatesRangeButtons(
-                    clickCallback = { isDatePickerModalOpen.value = true }
+                    clickCallback = { isDatePickerModalOpen.value = true },
+                    state = state,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 Row(
