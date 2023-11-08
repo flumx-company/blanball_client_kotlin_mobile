@@ -206,11 +206,11 @@ fun String.toFormattedDate(): String {
         return ""
     }
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("ua", "UA"))
+    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("uk", "UA"))
 
     return try {
         val date = inputFormat.parse(this)
-        outputFormat.format(date as Date)
+        outputFormat.format(date)
     } catch (e: Exception) {
         this
     }

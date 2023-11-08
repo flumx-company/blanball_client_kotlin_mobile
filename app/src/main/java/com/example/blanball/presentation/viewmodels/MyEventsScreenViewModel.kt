@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -75,6 +76,7 @@ class MyEventsScreenViewModel
             val ordering = currentState.myEventsOrderingSelectionState.value.stringValue ?: ""
             val filterDateAndTimeAfter = currentState.filterDateAndTimeAfter.value
             val filterDateAndTimeBefore = currentState.filterDateAndTimeBefore.value
+            Log.d("Timber", "$gender, $filterDateAndTimeAfter, $filterDateAndTimeBefore")
             when (val result = getMyEventsUseCase.executeMyEventsEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,

@@ -48,7 +48,7 @@ fun MyEventsFilterScreen(
     state: UiState,
     isDatePickerModalOpen: MutableState<Boolean>,
     datePickerModalContent: @Composable () -> Unit,
-    turnBackBtnClicked: () -> Unit,
+    clearBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
     paddingValues: PaddingValues,
 ) {
@@ -222,7 +222,7 @@ fun MyEventsFilterScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    TextButton(onClick = { turnBackBtnClicked() }) {
+                    TextButton(onClick = { clearBtnClicked() }) {
                         Text(
                             text = stringResource(id = R.string.clean),
                             fontSize = 14.sp,

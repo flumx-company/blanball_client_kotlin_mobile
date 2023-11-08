@@ -41,11 +41,11 @@ import com.example.blanball.presentation.views.components.bottomnavbars.BottomNa
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
+import com.example.blanball.presentation.views.components.modals.DatePickerModal
+import com.example.blanball.presentation.views.components.modals.DateRangePickerModal
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.switches.EventTab
-import com.example.blanball.presentation.views.components.textinputs.DatePickerModal
-import com.example.blanball.presentation.views.components.textinputs.DateRangePickerModal
 import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
@@ -1182,8 +1182,7 @@ fun AppScreensConfig(
                         datePickerModalContent = {
                             DateRangePickerModal(
                                 backBtnClicked = { isDatePickerModalVisible.value = false },
-                                filterDateAndTimeAfter = currentState.filterDateAndTimeAfter,
-                                filterDateAndTimeBefore = currentState.filterDateAndTimeBefore,
+                                state = state,
                             )
                         },
                         turnBackBtnClicked = {
@@ -1194,6 +1193,8 @@ fun AppScreensConfig(
                                     gendersSelectionState = mutableStateOf(FutureEventsMainContract.GenderSelectionState.ALL),
                                     typeOfSportsStateSelected = mutableStateOf(""),
                                     eventDatesState = mutableStateOf(""),
+                                    filterDateAndTimeAfter = mutableStateOf(""),
+                                    filterDateAndTimeBefore = mutableStateOf(""),
                                     state = FutureEventsMainContract.ScreenViewState.Loading
                                 )
                             }
@@ -1240,11 +1241,10 @@ fun AppScreensConfig(
                         datePickerModalContent = {
                             DateRangePickerModal(
                                 backBtnClicked = { isDatePickerModalVisible.value = false },
-                                filterDateAndTimeAfter = currentState.filterDateAndTimeAfter,
-                                filterDateAndTimeBefore = currentState.filterDateAndTimeBefore,
+                                state = state,
                             )
                         },
-                        turnBackBtnClicked = {
+                        clearBtnClicked = {
                             navController.navigate(Destinations.FUTURE_EVENTS.route)
                             myEventsViewModel.setState {
                                 copy(
@@ -1252,6 +1252,8 @@ fun AppScreensConfig(
                                     gendersSelectionState = mutableStateOf(
                                         MyEventsScreenMainContract.GenderSelectionState.ALL
                                     ),
+                                    filterDateAndTimeBefore = mutableStateOf(""),
+                                    filterDateAndTimeAfter = mutableStateOf(""),
                                     typeOfSportsStateSelected = mutableStateOf(""),
                                     eventDatesState = mutableStateOf(""),
                                     state = MyEventsScreenMainContract.ScreenViewState.Loading

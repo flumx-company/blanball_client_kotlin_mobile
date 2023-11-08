@@ -1,14 +1,19 @@
-package com.example.blanball.presentation.views.components.textinputs
+package com.example.blanball.presentation.views.components.modals
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import com.example.blanball.presentation.data.FutureEventsMainContract
+import com.example.blanball.presentation.data.MyEventsScreenMainContract
+import com.example.blanball.presentation.data.UiState
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.LocalDate
+
+//TODO("Need change colors inside this dialogs")
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,8 +31,7 @@ fun DatePickerModal(
             style = CalendarStyle.MONTH,
             boundary = LocalDate.now()..LocalDate.MAX,
         ),
-        selection = CalendarSelection.Date(
-        ) { newDate ->
+        selection = CalendarSelection.Date { newDate ->
             selectedState.value = newDate.toString()
         },
     )
@@ -37,8 +41,7 @@ fun DatePickerModal(
 @OptIn(ExperimentalMaterial3Api::class)
 fun DateRangePickerModal(
     backBtnClicked: () -> Unit,
-    filterDateAndTimeAfter: MutableState<String>,
-    filterDateAndTimeBefore: MutableState<String>,
+    state: UiState,
 ) {
     CalendarDialog(
         state = rememberUseCaseState(visible = true, onCloseRequest = { backBtnClicked() }),
@@ -46,10 +49,18 @@ fun DateRangePickerModal(
             style = CalendarStyle.MONTH,
             boundary = LocalDate.now()..LocalDate.MAX,
         ),
-        selection = CalendarSelection.Period(
-        ) { startDate, endDate ->
-            filterDateAndTimeAfter.value = startDate.toString()
-            filterDateAndTimeBefore.value = endDate.toString()
+        selection = CalendarSelection.Period { startDate, endDate ->
+            when (state) {
+                is FutureEventsMainContract.State -> {
+                    state.filterDateAndTimeAfter.value = startDate.toString()
+                    state.filterDateAndTimeBefore.value = endDate.toString()
+                }
+
+                is MyEventsScreenMainContract.State -> {
+                    state.filterDateAndTimeAfter.value = startDate.toString()
+                    state.filterDateAndTimeBefore.value = endDate.toString()
+                }
+            }
         },
     )
 }

@@ -355,6 +355,7 @@ fun MyEventsScreen(
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.size(12.dp))
                         }
                         if (state.isLoadingMoreMyEvents) {
                             item {
