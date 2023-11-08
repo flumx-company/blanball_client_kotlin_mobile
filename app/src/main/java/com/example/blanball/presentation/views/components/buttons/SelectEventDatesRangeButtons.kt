@@ -64,7 +64,7 @@ fun SelectEventDatesRangeButtons(
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = state.filterDateAndTimeAfter.value.toFormattedDate() + "|" + state.filterDateAndTimeBefore.value.toFormattedDate(),
+                    text = state.filterDateAndTimeAfter.value.toFormattedDate() + " | " + state.filterDateAndTimeBefore.value.toFormattedDate(),
                     fontSize = 14.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,

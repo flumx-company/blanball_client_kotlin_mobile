@@ -10,7 +10,6 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.LocalDate
 
-
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun DatePickerModal(
@@ -18,19 +17,21 @@ fun DatePickerModal(
     backBtnClicked: () -> Unit,
 ) {
     CalendarDialog(
-        state = rememberUseCaseState(visible = true, true, onCloseRequest = { backBtnClicked }),
+        state = rememberUseCaseState(
+            visible = true,
+            embedded = true,
+            onCloseRequest = { backBtnClicked() }),
         config = CalendarConfig(
             yearSelection = true,
             style = CalendarStyle.MONTH,
+            boundary = LocalDate.now()..LocalDate.MAX,
         ),
         selection = CalendarSelection.Date(
-            selectedDate = LocalDate.parse(selectedState.value)
         ) { newDate ->
             selectedState.value = newDate.toString()
         },
     )
 }
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
