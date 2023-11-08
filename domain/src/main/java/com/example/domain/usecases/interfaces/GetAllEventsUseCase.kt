@@ -9,5 +9,7 @@ interface GetAllEventsUseCase {
         gender: String,
         time_and_date: String,
         ordering: String,
-        ): GetAllEventsResultEntity
+        filterDateAndTimeBefore: String,
+        filterDateAndTimeAfter: String,
+    ): GetAllEventsResultEntity
 }

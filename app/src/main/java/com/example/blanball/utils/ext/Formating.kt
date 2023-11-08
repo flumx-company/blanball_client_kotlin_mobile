@@ -200,3 +200,18 @@ internal fun String.formatTimeRange(durationInMinutes: Int): String {
         return ""
     }
 }
+
+fun String.toFormattedDate(): String {
+    if (this.isEmpty()) {
+        return ""
+    }
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("uk", "UA"))
+
+    return try {
+        val date = inputFormat.parse(this)
+        outputFormat.format(date)
+    } catch (e: Exception) {
+        this
+    }
+}

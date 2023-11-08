@@ -379,7 +379,6 @@ fun FutureEventsScreen(
                             }
                     }
                 }
-
             }
         }
         Fab(

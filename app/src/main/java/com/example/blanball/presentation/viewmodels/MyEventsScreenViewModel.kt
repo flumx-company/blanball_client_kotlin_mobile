@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -67,17 +68,23 @@ class MyEventsScreenViewModel
     private fun loadMyEventsList() {
         job = viewModelScope.launch(Dispatchers.IO) {
             val pageToLoad = page
-            val typeOfSport = currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
+            val typeOfSport =
+                currentState.typeOfSportsStateSelected.value.formatSportTypeToEnglish(application.applicationContext)
             val gender =
-                currentState.gendersSelectionState.value.stringValue?:""
+                currentState.gendersSelectionState.value.stringValue ?: ""
             val time_and_date = currentState.eventDatesState.value
             val ordering = currentState.myEventsOrderingSelectionState.value.stringValue ?: ""
+            val filterDateAndTimeAfter = currentState.filterDateAndTimeAfter.value
+            val filterDateAndTimeBefore = currentState.filterDateAndTimeBefore.value
+            Log.d("Timber", "$gender, $filterDateAndTimeAfter, $filterDateAndTimeBefore")
             when (val result = getMyEventsUseCase.executeMyEventsEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,
                 gender = gender,
                 time_and_date = time_and_date,
                 ordering = ordering,
+                filterDateAndTimeAfter = filterDateAndTimeAfter,
+                filterDateAndTimeBefore = filterDateAndTimeBefore,
             )) {
                 is GetMyEventsResultEntity.Success -> {
                     val users = result.success.results

@@ -156,7 +156,9 @@
             typeOfSport: String,
             gender: String,
             time_and_date: String,
-            ordering: String
+            ordering: String,
+            filterDateAndTimeBefore: String,
+            filterDateAndTimeAfter: String,
         ): GetMyEventsResultEntity {
             return try {
                 val getMyEventsResponse = service.getMyEvents(
@@ -165,6 +167,8 @@
                     gender = gender,
                     date_and_time = time_and_date,
                     ordering = ordering,
+                    date_and_time_before = filterDateAndTimeBefore,
+                    date_and_time_after = filterDateAndTimeAfter,
                 )
                 val getMyEventsDomainResponse = getMyEventsResponse.toGetMyEventsResponseEntity()
                 GetMyEventsResultEntity.Success(getMyEventsDomainResponse.data)
@@ -181,6 +185,8 @@
             gender: String,
             time_and_date: String,
             ordering: String,
+            filterDateAndTimeBefore: String,
+            filterDateAndTimeAfter: String,
         ): GetAllEventsResultEntity {
             return try {
                 val getAllEventResponse = service.getAllEvents(
@@ -189,7 +195,9 @@
                     gender = gender,
                     date_and_time = time_and_date,
                     ordering = ordering,
-                    )
+                    date_and_time_before = filterDateAndTimeBefore,
+                    date_and_time_after = filterDateAndTimeAfter,
+                )
                 val getAllEventsDomainResponse = getAllEventResponse.toGetAllEventResponseEntity()
                 GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
             } catch (ex: HttpException) {

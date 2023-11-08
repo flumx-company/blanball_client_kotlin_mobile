@@ -8,6 +8,8 @@ interface GetMyEventsUseCase {
         typeOfSport: String,
         gender: String,
         time_and_date: String,
-        ordering: String
+        ordering: String,
+        filterDateAndTimeBefore: String,
+        filterDateAndTimeAfter: String,
     ): GetMyEventsResultEntity
 }

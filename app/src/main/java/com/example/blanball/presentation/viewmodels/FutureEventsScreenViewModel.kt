@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatSportTypeToEnglish
-import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.utils.Integers
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -76,6 +74,8 @@ class FutureEventsScreenViewModel
             val gender =
                 currentState.gendersSelectionState.value.stringValue ?: ""
             val time_and_date = currentState.eventDatesState.value
+            val filterDateAndTimeAfter = currentState.filterDateAndTimeAfter.value
+            val filterDateAndTimeBefore = currentState.filterDateAndTimeBefore.value
             val ordering = currentState.eventsOrderingSelectionState.value.stringValue ?: ""
             when (val result = getAllEventsUseCase.executeGetAllEvents(
                 page = pageToLoad,
@@ -83,6 +83,8 @@ class FutureEventsScreenViewModel
                 gender = gender,
                 time_and_date = time_and_date,
                 ordering = ordering,
+                filterDateAndTimeAfter = filterDateAndTimeAfter,
+                filterDateAndTimeBefore = filterDateAndTimeBefore,
             )) {
                 is GetAllEventsResultEntity.Success -> {
                     val users = result.success.results

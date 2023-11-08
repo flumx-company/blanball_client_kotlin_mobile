@@ -68,12 +68,16 @@ interface AppRepository {
         gender: String,
         time_and_date: String,
         ordering: String,
-        ): GetAllEventsResultEntity
+        filterDateAndTimeBefore: String,
+        filterDateAndTimeAfter: String,
+    ): GetAllEventsResultEntity
     suspend fun getMyEvents(
         page: Int,
         typeOfSport: String,
         gender: String,
         time_and_date: String,
         ordering: String,
+        filterDateAndTimeBefore: String,
+        filterDateAndTimeAfter: String,
     ): GetMyEventsResultEntity
 }

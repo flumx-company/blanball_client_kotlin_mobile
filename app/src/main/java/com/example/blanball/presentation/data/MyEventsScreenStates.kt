@@ -30,6 +30,8 @@ class MyEventsScreenMainContract {
             MyEventsOrderingSelectionState.FIRST_NEW
         ),
         val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
+        val filterDateAndTimeAfter: MutableState<String> = mutableStateOf(""),
+        val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
