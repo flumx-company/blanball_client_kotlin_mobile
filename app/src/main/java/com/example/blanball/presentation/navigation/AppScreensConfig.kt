@@ -961,7 +961,6 @@ fun AppScreensConfig(
                         isShareLinkModalVisible = isShareLinkModalVisible,
                         shareLinkModalScreenContent = {
                             ShareAnEventModal(
-                                copyLinkBtnClicked = { },
                                 backBtnClicked = { isShareLinkModalVisible.value = false },
                                 currentEventId = eventScreenViewModelCurrentState.currentEventId.value,
                             )
