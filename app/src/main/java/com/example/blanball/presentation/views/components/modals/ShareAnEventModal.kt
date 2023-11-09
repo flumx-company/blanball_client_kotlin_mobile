@@ -37,7 +37,6 @@ import com.example.domain.utils.Endpoints
 
 @Composable
 fun ShareAnEventModal(
-    copyLinkBtnClicked: () -> Unit,
     backBtnClicked: () -> Unit,
     currentEventId: Int,
 ) {
@@ -83,13 +82,12 @@ fun ShareAnEventModal(
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Button(
-                    onClick = copyLinkBtnClicked,
+                    onClick = {
+                        clipboardManager.setText(AnnotatedString(text = eventUrl))
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
-                        .clickable {
-                            clipboardManager.setText(AnnotatedString(text = eventUrl))
-                        },
+                        .height(40.dp),
                     shape = shapes.medium,
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = mainGreen,
