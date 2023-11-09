@@ -86,7 +86,10 @@ fun ShareAnEventModal(
                     onClick = copyLinkBtnClicked,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp),
+                        .height(40.dp)
+                        .clickable {
+                            clipboardManager.setText(AnnotatedString(text = eventUrl))
+                        },
                     shape = shapes.medium,
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = mainGreen,
@@ -94,9 +97,6 @@ fun ShareAnEventModal(
                     ),
                 ) {
                     Text(
-                        modifier = Modifier.clickable {
-                            clipboardManager.setText(AnnotatedString(text = eventUrl))
-                        },
                         text = stringResource(R.string.copy_link),
                         style = typography.h4,
                         lineHeight = 24.sp,
