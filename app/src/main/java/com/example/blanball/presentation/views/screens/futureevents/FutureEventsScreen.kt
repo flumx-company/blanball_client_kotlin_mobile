@@ -67,7 +67,7 @@ import com.example.blanball.utils.ext.formatToUkrainianDate
 fun FutureEventsScreen(
     state: UiState,
     paddingValues: PaddingValues,
-    navigateToEventScreen: () -> Unit,
+    navigateToEventScreen: (eventId: Int) -> Unit,
     onLoadMoreUsers: () -> Unit,
     navigateToMyEventsScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
@@ -187,7 +187,7 @@ fun FutureEventsScreen(
                 } else {
                     LazyColumn {
                         itemsIndexed(state.allEventsList.value) { index, event ->
-                            DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
+                            DefaultCardWithColumn(clickCallback = { navigateToEventScreen(event.id) }) {
                                 Row {
                                     Box(
                                         Modifier

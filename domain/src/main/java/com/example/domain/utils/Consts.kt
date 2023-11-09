@@ -20,7 +20,9 @@ object Endpoints {
      const val CREATE_EVENT_ENDPOINT = BuildConfig.CREATE_EVENT_ENDPOINT
      const val GET_ALL_EVENTS_ENDPOINT = BuildConfig.GET_ALL_EVENTS_ENDPOINT
      const val GET_MY_EVENTS_ENDPOINT = BuildConfig.GET_MY_EVENTS
-     }
+     const val WEB_DOMAIN = BuildConfig.WEB_DOMAIN
+     const val DOMAIN_EVENTS_PATH = BuildConfig.DOMAIN_EVENTS_PATH
+}
 
 object Code {
      const val CODE_401 = BuildConfig.CODE_401

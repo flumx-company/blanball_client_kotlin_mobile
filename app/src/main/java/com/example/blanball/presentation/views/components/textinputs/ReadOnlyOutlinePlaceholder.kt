@@ -22,12 +22,13 @@ fun ReadOnlyOutlinePlaceholder(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    trailingIconRedId: Int,
+    trailingIconResId: Int,
     labelResId: Int,
 ) {
     OutlinedTextField(
         modifier = modifier,
         value = value,
+        singleLine = true,
         onValueChange = onValueChange,
         label = {
             Text(
@@ -41,7 +42,7 @@ fun ReadOnlyOutlinePlaceholder(
         },
         trailingIcon = {
             Icon(
-                painter = painterResource(id = trailingIconRedId),
+                painter = painterResource(id = trailingIconResId),
                 contentDescription = null,
                 tint = secondaryNavy
             )

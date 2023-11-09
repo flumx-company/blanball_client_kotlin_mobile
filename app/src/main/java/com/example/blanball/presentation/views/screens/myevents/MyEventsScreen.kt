@@ -67,7 +67,7 @@ fun MyEventsScreen(
     paddingValues: PaddingValues,
     onLoadMoreUsers: () -> Unit,
     navigateToAllEventsScreen: () -> Unit,
-    navigateToEventScreen: () -> Unit,
+    navigateToEventScreen: (eventId: Int) -> Unit,
     navigateToMyEventsFilterScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
     onClickedToChangeOrdering: () -> Unit,
@@ -186,7 +186,7 @@ fun MyEventsScreen(
                 } else {
                     LazyColumn {
                         itemsIndexed(state.myEventsList.value) { index, event ->
-                            DefaultCardWithColumn(clickCallback = { navigateToEventScreen() }) {
+                            DefaultCardWithColumn(clickCallback = { navigateToEventScreen(event.id) }) {
                                 Row {
                                     Box(
                                         Modifier

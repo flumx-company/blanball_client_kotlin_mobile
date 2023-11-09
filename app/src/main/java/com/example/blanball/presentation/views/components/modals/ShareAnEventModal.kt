@@ -32,13 +32,13 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
+import com.example.domain.utils.Endpoints
 
 @Composable
 fun ShareAnEventModal(
     copyLinkBtnClicked: () -> Unit,
     backBtnClicked: () -> Unit,
-//    value: String,
-//    onValueChange: (String) -> Unit, //TODO () viewModel callbacks
+    currentEventId: Int,
 ) {
     val linkText = remember {
         mutableStateOf("https://www.figma.com/file/AvR3ys4C8IF1a3Y5kXiVnG/Blanball-(New)?node-id=5104%3A53132&t=uaL65hZdYTuvNm8t-1")
@@ -75,10 +75,10 @@ fun ShareAnEventModal(
                 Spacer(modifier = Modifier.size(12.dp))
                 ReadOnlyOutlinePlaceholder(
                     modifier = Modifier.fillMaxWidth(),
-                    value = linkText.value,
+                    value = Endpoints.WEB_DOMAIN + Endpoints.DOMAIN_EVENTS_PATH + currentEventId,
                     onValueChange = { linkText.value = it },
-                    trailingIconRedId = R.drawable.ic_copy,
-                    labelResId = R.string.link_on_event
+                    trailingIconResId = R.drawable.ic_copy,
+                    labelResId = R.string.link_on_event,
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Button(

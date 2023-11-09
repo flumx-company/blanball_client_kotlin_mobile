@@ -27,6 +27,7 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
+import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.LoginViewModel
@@ -121,6 +122,7 @@ fun AppScreensConfig(
     eventCreationScreenViewModel: EventCreationScreensViewModel,
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
+    eventScreenViewModel: EventScreenViewModel,
 ) {
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
     val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
@@ -129,8 +131,11 @@ fun AppScreensConfig(
         eventCreationScreenViewModel.uiState.collectAsState().value
     val futureEventsScreenViewModelState =
         futureEventsScreenViewModel.uiState.collectAsState().value
+    val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
+
     var selectedEventTab: MutableState<EventTab> =
         rememberSaveable { mutableStateOf(EventTab.ALL_EVENTS) }
+
 
     val openNavDrawer: () -> Unit = {
         coroutineScope.launch {
@@ -641,7 +646,10 @@ fun AppScreensConfig(
                     FutureEventsScreen(
                         state = futureEventsScreenViewModelState,
                         paddingValues = it,
-                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
+                        navigateToEventScreen = { eventId ->
+                            eventScreenViewModelCurrentState.currentEventId.value = eventId
+                            navController.navigate(Destinations.EVENT.route)
+                        },
                         onClickedToChangeOrdering = {
                             futureEventsScreenViewModel.setState {
                                 copy(
@@ -954,7 +962,8 @@ fun AppScreensConfig(
                         shareLinkModalScreenContent = {
                             ShareAnEventModal(
                                 copyLinkBtnClicked = { },
-                                backBtnClicked = { isShareLinkModalVisible.value = false }
+                                backBtnClicked = { isShareLinkModalVisible.value = false },
+                                currentEventId = eventScreenViewModelCurrentState.currentEventId.value,
                             )
                         }
                     )
@@ -1136,7 +1145,10 @@ fun AppScreensConfig(
                     MyEventsScreen(
                         state = state,
                         paddingValues = it,
-                        navigateToEventScreen = { navController.navigate(Destinations.EVENT.route) },
+                        navigateToEventScreen = { eventId ->
+                            eventScreenViewModelCurrentState.currentEventId.value = eventId
+                            navController.navigate(Destinations.EVENT.route)
+                        },
                         onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },
                         navigateToAllEventsScreen = { navController.navigate(Destinations.FUTURE_EVENTS.route) },
                         selectedTab = selectedEventTab,

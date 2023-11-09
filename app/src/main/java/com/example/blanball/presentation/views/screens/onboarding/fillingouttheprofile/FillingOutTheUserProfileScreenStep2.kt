@@ -84,7 +84,9 @@ fun FillingOutTheUserProfileScreenStep2 (
                                 Image(
                                     painter = painterResource(R.drawable.stepline_1),
                                     contentDescription = null,
-                                    Modifier.weight(1f).height(4.dp),
+                                    Modifier
+                                        .weight(1f)
+                                        .height(4.dp),
                                 )
                                 Spacer(modifier = Modifier.size(2.dp))
                             }
@@ -92,7 +94,9 @@ fun FillingOutTheUserProfileScreenStep2 (
                                 Image(
                                     painter = painterResource(id = R.drawable.empty_stepline),
                                     contentDescription = null,
-                                    Modifier.weight(1f).height(4.dp),
+                                    Modifier
+                                        .weight(1f)
+                                        .height(4.dp),
                                 )
                             }
                         }
@@ -191,7 +195,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                             value = it.selectDocumentState.value,
                             onValueChange = { state.selectDocumentState.value = it },
                             labelResId = R.string.document,
-                            trailingIconRedId = R.drawable.ic_clip
+                            trailingIconResId = R.drawable.ic_clip
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Spacer(modifier = Modifier.size(24.dp))

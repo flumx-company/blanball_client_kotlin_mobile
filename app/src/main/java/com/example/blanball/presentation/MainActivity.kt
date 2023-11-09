@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
                             coroutineScope = coroutineScope,
                             rememberMeManager = rememberMeManager,
                             tokenManager = tokenManager,
-                            userNameManager = userNameManager ,
+                            userNameManager = userNameManager,
                             userAvatarUrlManager = userAvatarUrlManager,
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
@@ -126,6 +126,7 @@ class MainActivity : ComponentActivity() {
                             eventCreationScreenViewModel = viewModel(),
                             myEventsViewModel = viewModel(),
                             futureEventsScreenViewModel = futureEventsScreenViewModel,
+                            eventScreenViewModel = viewModel(),
                         )
                     }
                 }
