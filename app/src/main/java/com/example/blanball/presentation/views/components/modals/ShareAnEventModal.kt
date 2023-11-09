@@ -15,14 +15,15 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,14 +41,14 @@ fun ShareAnEventModal(
     backBtnClicked: () -> Unit,
     currentEventId: Int,
 ) {
-    val linkText = remember {
-        mutableStateOf("https://www.figma.com/file/AvR3ys4C8IF1a3Y5kXiVnG/Blanball-(New)?node-id=5104%3A53132&t=uaL65hZdYTuvNm8t-1")
-    }  //TODO Delete this in future
-
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val eventUrl = Endpoints.WEB_DOMAIN + Endpoints.DOMAIN_EVENTS_PATH + currentEventId
     val configuration = LocalConfiguration.current
-    AlertDialog(modifier = Modifier
-        .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
-        .wrapContentHeight(),
+
+    AlertDialog(
+        modifier = Modifier
+            .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
+            .wrapContentHeight(),
         onDismissRequest = {},
         buttons = {},
         text = {
@@ -67,7 +68,7 @@ fun ShareAnEventModal(
                         modifier = Modifier.clickable {
                             backBtnClicked()
                         },
-                        painter = painterResource(id = R.drawable.ic_backarrow),
+                        painter = painterResource(id = R.drawable.ic_cancel),
                         contentDescription = null,
                         tint = primaryDark
                     )
@@ -75,8 +76,8 @@ fun ShareAnEventModal(
                 Spacer(modifier = Modifier.size(12.dp))
                 ReadOnlyOutlinePlaceholder(
                     modifier = Modifier.fillMaxWidth(),
-                    value = Endpoints.WEB_DOMAIN + Endpoints.DOMAIN_EVENTS_PATH + currentEventId,
-                    onValueChange = { linkText.value = it },
+                    value = eventUrl,
+                    onValueChange = {},
                     trailingIconResId = R.drawable.ic_copy,
                     labelResId = R.string.link_on_event,
                 )
@@ -93,6 +94,9 @@ fun ShareAnEventModal(
                     ),
                 ) {
                     Text(
+                        modifier = Modifier.clickable {
+                            clipboardManager.setText(AnnotatedString(text = eventUrl))
+                        },
                         text = stringResource(R.string.copy_link),
                         style = typography.h4,
                         lineHeight = 24.sp,
