@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -19,21 +20,24 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -59,6 +63,7 @@ fun FillingOutTheUserProfileScreenStep3(
             Image(
                 painter = painterResource(id = R.drawable.onboard_bg_3),
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxWidth()
             )
             AnimatedPaddingCard ({
@@ -77,8 +82,12 @@ fun FillingOutTheUserProfileScreenStep3(
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Left,
+                        fontSize = 23.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(700),
                     )
+
                     Row(
                         Modifier
                             .padding(top = 20.dp)
@@ -88,21 +97,28 @@ fun FillingOutTheUserProfileScreenStep3(
                             Image(
                                 painter = painterResource(R.drawable.stepline_1),
                                 contentDescription = null,
-                                Modifier.weight(1f)
+                                Modifier
+                                    .weight(1f)
+                                    .height(4.dp),
                             )
                             Spacer(modifier = Modifier.size(2.dp))
                         }
                         Image(
                             painter = painterResource(id = R.drawable.empty_stepline),
                             contentDescription = null,
-                            Modifier.weight(1f)
+                            Modifier
+                                .weight(1f)
+                                .height(4.dp),
                         )
                     }
                     Spacer(modifier = Modifier.size(24.dp))
                     Text(
                         text = stringResource(id = R.string.physical_parameters),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight(700),
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         DefaultTextInput(
@@ -165,7 +181,10 @@ fun FillingOutTheUserProfileScreenStep3(
                     Text(
                         text = stringResource(id = R.string.choose_your_playing_position),
                         style = typography.h5,
-                        color = primaryDark
+                        color = primaryDark,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight(700),
                     )
                     CustomDropDownMenu(
                         labelResId = R.string.your_playing_position,
@@ -195,7 +214,7 @@ fun FillingOutTheUserProfileScreenStep3(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
-                    NextAndPreviousButtons(
+                    NextAndPreviousButtonsVertical(
                         isEnabled = it.heightState.value.isValidHeight()
                                 && it.weightState.value.isValidWeight()
                                 && it.positionState.value.isNotEmpty()

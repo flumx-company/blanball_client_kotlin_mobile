@@ -1,4 +1,3 @@
-package com.example.blanball.presentation.navigation
 
 enum class Destinations(val route: String) {
     LOGIN("login"),
@@ -22,7 +21,9 @@ enum class Destinations(val route: String) {
     USER_TRAINING_4("userTraining4"),
     HOME("home"),
     FUTURE_EVENTS("future_events"),
-    CREATE_NEW_EVENT("create_new_event"),
+    CREATE_NEW_EVENT_STEP_1("create_new_event_step_1"),
+    CREATE_NEW_EVENT_STEP_2("create_new_event_step_2"),
+    CREATE_NEW_EVENT_STEP_3("create_new_event_step_3"),
     RATING("rating"),
     CHATS("chats"),
     FRIENDS("friends"),
@@ -30,5 +31,11 @@ enum class Destinations(val route: String) {
     NOTIFICATIONS("notifications"),
     SETTINGS("settings"),
     MY_PROFILE("my_profile"),
-    VERSIONS("versions")
+    VERSIONS("versions"),
+    FOUND_AN_ERROR("found_an_error"),
+    EVENT("event"),
+    EDIT_PROFILE("edit_profile"),
+    ALL_EVENTS_FILTER_SCREEN("all_events_filter_screen"),
+    MY_EVENTS("my_events"),
+    MY_EVENTS_FILTER_SCREEN("my_events_filter_screen")
 }

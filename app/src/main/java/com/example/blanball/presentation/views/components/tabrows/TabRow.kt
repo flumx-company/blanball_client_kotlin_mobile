@@ -43,22 +43,23 @@ fun TabRow(tabs: List<String>, icons: List<Painter>, modifier: Modifier? = null)
                 },
             ) {
                 Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
-                    Row() {
+                    Row(modifier = Modifier.wrapContentWidth()) {
                         Icon(
                             painter = icons[index],
                             contentDescription = null,
                             tint = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .size(15.dp, 12.dp)
+                                .size(16.dp)
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
                             text = text,
-                            style = typography.h5,
+                            style = typography.h4,
                             fontSize = 12.sp,
                             color = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
                         )
+                        Spacer(modifier = Modifier.size(4.dp))
                     }
                 }
             }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,7 +29,7 @@ import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 
 @Composable
@@ -66,7 +67,10 @@ fun FillingOutTheUserProfileStartScreen(
                         modifier = Modifier.fillMaxWidth(),
                         style = typography.h2,
                         color = primaryDark,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Left,
+                        fontSize = 23.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(700),
                     )
                     Spacer(modifier = Modifier.size(24.dp))
                     Text(
@@ -78,11 +82,11 @@ fun FillingOutTheUserProfileStartScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))
-                    NextAndPreviousButtons(
+                    NextAndPreviousButtonsVertical(
                         isEnabled = true,
                         nextBtnOnClick = onFillingOutTheUserProfileStep1Clicked,
                         prevBtnOnClick = onRemindMeLater,
-                        nextBtnOnTextId = R.string.set_up ,
+                        nextBtnOnTextId = R.string.set_up,
                         prevBtnOnTextId = R.string.remind_me_later,
                     )
                 }

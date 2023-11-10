@@ -18,7 +18,13 @@ object Endpoints {
      const val USERS_LIST = BuildConfig.USERS_LIST
      const val FLUM_X_URL = BuildConfig.FLUM_X_URL
      const val ME_PROFILE_ENDPOINT = BuildConfig.ME_PROFILE_ENDPOINT
-     }
+     const val CREATE_EVENT_ENDPOINT = BuildConfig.CREATE_EVENT_ENDPOINT
+     const val GET_ALL_EVENTS_ENDPOINT = BuildConfig.GET_ALL_EVENTS_ENDPOINT
+     const val GET_MY_EVENTS_ENDPOINT = BuildConfig.GET_MY_EVENTS
+     const val WEB_DOMAIN = BuildConfig.WEB_DOMAIN
+     const val DOMAIN_EVENTS_PATH = BuildConfig.DOMAIN_EVENTS_PATH
+}
+
 object Code {
      const val CODE_401 = BuildConfig.CODE_401
 }
@@ -45,7 +51,10 @@ object Strings {
      const val ST = "ST"
      const val FIRST_OLDER = "id"
      const val FIRST_NEW = "-id"
+     const val FOOTBALL = "Football"
+     const val FUTSAL = "Futsal"
 }
+
 
 object Integers {
      const val ZERO = 0
@@ -57,6 +66,7 @@ object Integers {
      const val THIRTY = 30
      const val ONE_HUNDRED_AND_FORTY_FIVE = 145
      const val TWO_HUNDRED_AND_TEN = 210
+     const val TWO_HUNDRED_AND_FIFTY_FIVE = 255
      const val DURATION_MILLIS_ON_CARD = 1000
 }
 

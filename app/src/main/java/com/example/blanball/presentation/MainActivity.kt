@@ -1,5 +1,6 @@
 package com.example.blanball.presentation
 
+import Destinations
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,9 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.navigation.AppScreensConfig
-import com.example.blanball.presentation.navigation.BottomNavItem
-import com.example.blanball.presentation.navigation.Destinations
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
     lateinit var verifyCodeManager: VerifyCodeManager
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
+    private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +90,6 @@ class MainActivity : ComponentActivity() {
                     tokenManager.deleteAccessToken()
                     tokenManager.deleteRefreshToken()
                 }
-                delay(1000)
                 isLaunchedEffectComplete = true
             }
 
@@ -97,7 +97,7 @@ class MainActivity : ComponentActivity() {
               SplashScreen()
             } else {
             val startDestinations = if (isRememberMeFlagActive) {
-                BottomNavItem.Home.screen_route
+                Destinations.HOME.route
             } else {
                 Destinations.LOGIN.route
             }
@@ -118,11 +118,17 @@ class MainActivity : ComponentActivity() {
                             coroutineScope = coroutineScope,
                             rememberMeManager = rememberMeManager,
                             tokenManager = tokenManager,
-                            userNameManager = userNameManager ,
+                            userNameManager = userNameManager,
                             userAvatarUrlManager = userAvatarUrlManager,
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
-                            usersRatingViewModel = viewModel()
+                            usersRatingViewModel = viewModel(),
+                            foundAnErrorViewModel = viewModel(),
+                            myProfileScreenViewModel = viewModel(),
+                            eventCreationScreenViewModel = viewModel(),
+                            myEventsViewModel = viewModel(),
+                            futureEventsScreenViewModel = futureEventsScreenViewModel,
+                            eventScreenViewModel = viewModel(),
                         )
                     }
                 }

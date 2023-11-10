@@ -574,7 +574,6 @@ fun PublicProfileScreen(
                                 value = it.addMessageState.value,
                                 onValueChange = { state.addMessageState.value = it },
                                 labelResId = R.string.message,
-                                trailingIconRedId = R.drawable.ic_clip
                             )
                             Spacer(modifier = Modifier.size(16.dp))
                         }

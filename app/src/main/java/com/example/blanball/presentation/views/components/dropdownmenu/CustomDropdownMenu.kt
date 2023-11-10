@@ -1,5 +1,7 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -31,6 +33,7 @@ import com.example.blanball.presentation.theme.typography
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomDropDownMenu(
+    columnModifier: Modifier = Modifier,
     modifier: Modifier = Modifier,
     labelResId: Int,
     listItems: List<String>,
@@ -51,9 +54,9 @@ fun CustomDropDownMenu(
         },
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = CenterVertically,
         ) {
-            Column() {
+            Column(columnModifier.animateContentSize(), verticalArrangement = Arrangement.Center) {
                 OutlinedTextField(
                     value = value,
                     onValueChange = onValueChange,
@@ -71,18 +74,19 @@ fun CustomDropDownMenu(
                     trailingIcon = {
                         Icon(
                             painter = painterResource(
-                                id = if (expanded) R.drawable.ic_top else R.drawable.ic_down
+                                id = if (expanded) R.drawable.dropdown_arrow_up else R.drawable.dropdown_arrow_down
                             ),
                             contentDescription = null,
-                            tint = secondaryNavy,
+                            tint = primaryDark,
                         )
                     },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                         unfocusedBorderColor = defaultLightGray,
                         focusedBorderColor = mainGreen,
                         textColor = Color.Black,
+                        unfocusedLabelColor = secondaryNavy,
                         errorBorderColor = errorRed,
-                        focusedLabelColor = primaryDark,
+                        focusedLabelColor = secondaryNavy,
                         cursorColor = mainGreen,
                     ),
                     isError = isError,
@@ -95,6 +99,7 @@ fun CustomDropDownMenu(
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
+                modifier = Modifier.align(CenterVertically)
             ) {
                 listItems.forEach { selectedOption ->
                     DropdownMenuItem(onClick = {

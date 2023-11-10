@@ -23,9 +23,10 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun FoundAnErrorButton(
+    buttonClickCallback: () -> Unit
 ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { buttonClickCallback() },
             modifier = Modifier
                 .padding(
                     start = 16.dp,

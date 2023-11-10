@@ -1,6 +1,9 @@
     package com.example.blanball.presentation.views.components.textinputs
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +29,7 @@ import com.example.blanball.presentation.theme.typography
     @Composable
     fun DefaultTextInput(
         modifier: Modifier = Modifier,
+        textFieldModifier: Modifier = Modifier.fillMaxWidth(),
         labelResId: Int,
         state: UiState,
         value: String,
@@ -35,14 +39,24 @@ import com.example.blanball.presentation.theme.typography
         keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         keyboardActions: KeyboardActions = KeyboardActions.Default,
         errorMessage: String = "",
+        trailingIcon: @Composable (() -> Unit)? = null,
+        leadingIcon: @Composable (() -> Unit)? = null,
+        isSingleLine: Boolean = true,
+        readOnly: Boolean = false,
+        enabled: Boolean = true,
+        interactionSource: MutableInteractionSource = MutableInteractionSource(),
     ) {
-        Column(modifier = modifier) {
+        Column(modifier = modifier
+            .animateContentSize()
+            .fillMaxSize()) {
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = textFieldModifier,
                 value = value,
+                interactionSource = interactionSource,
                 onValueChange = onValueChange,
                 visualTransformation = transformation,
-                singleLine = true,
+                singleLine = isSingleLine,
+                readOnly = readOnly,
                 label = {
                     Text(
                         stringResource(
@@ -63,11 +77,14 @@ import com.example.blanball.presentation.theme.typography
                     errorBorderColor = errorRed,
                     focusedLabelColor = primaryDark,
                     cursorColor = mainGreen,
-            ),
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            isError = isError,
-        )
+                ),
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                isError = isError,
+                trailingIcon = trailingIcon,
+                leadingIcon = leadingIcon,
+                enabled = enabled,
+            )
             if (isError) {
                 Text(text = errorMessage, style = typography.h6, color = errorRed)
             }

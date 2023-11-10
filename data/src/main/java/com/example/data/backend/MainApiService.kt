@@ -3,11 +3,15 @@ package com.example.data.backend
 
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.requests.CreationAnEventRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
+import com.example.data.backend.models.responses.CreationAnEventResponse
+import com.example.data.backend.models.responses.GetAllEventResponse
+import com.example.data.backend.models.responses.GetMyEventsResponse
 import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
@@ -59,6 +63,31 @@ interface MainApiService  {
 
     @GET (Endpoints.ME_PROFILE_ENDPOINT)
     suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
+
+    @GET(Endpoints.GET_ALL_EVENTS_ENDPOINT)
+    suspend fun getAllEvents(
+        @Query("page") page: Int,
+        @Query("type") typeOfSport: String,
+        @Query("gender") gender: String,
+        @Query("date_and_time") date_and_time: String,
+        @Query("ordering") ordering: String,
+        @Query("date_and_time_before") date_and_time_before: String,
+        @Query("date_and_time_after") date_and_time_after: String,
+    ): GetAllEventResponse
+
+    @POST(Endpoints.CREATE_EVENT_ENDPOINT)
+    suspend fun createAnEvent(@Body creationAnEventRequest: CreationAnEventRequest): CreationAnEventResponse
+
+    @GET(Endpoints.GET_MY_EVENTS_ENDPOINT)
+    suspend fun getMyEvents(
+        @Query("page") page: Int,
+        @Query("type") typeOfSport: String,
+        @Query("gender") gender: String,
+        @Query("date_and_time") date_and_time: String,
+        @Query("ordering") ordering: String,
+        @Query("date_and_time_before") date_and_time_before: String,
+        @Query("date_and_time_after") date_and_time_after: String,
+    ): GetMyEventsResponse
 
     @GET (Endpoints.USERS_LIST)
     suspend fun getUsersList (

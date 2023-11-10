@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -18,18 +19,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.backgroundGradient
 import com.example.blanball.presentation.theme.primaryDark
-import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.cards.AnimatedPaddingCard
 import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
 
@@ -48,6 +51,7 @@ fun FillingOutTheUserProfileScreenStep2 (
         (state as? OnboardingScreensStatesMainContract.State)?.let {
             Image(
                 painter = painterResource(id = R.drawable.onboard_2_bg),
+                contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -68,7 +72,10 @@ fun FillingOutTheUserProfileScreenStep2 (
                             modifier = Modifier.fillMaxWidth(),
                             style = typography.h2,
                             color = primaryDark,
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Left,
+                            fontSize = 23.sp,
+                            lineHeight = 28.sp,
+                            fontWeight = FontWeight(700),
                         )
                         Row(
                             Modifier.padding(top = 20.dp)
@@ -77,7 +84,9 @@ fun FillingOutTheUserProfileScreenStep2 (
                                 Image(
                                     painter = painterResource(R.drawable.stepline_1),
                                     contentDescription = null,
-                                    Modifier.weight(1f)
+                                    Modifier
+                                        .weight(1f)
+                                        .height(4.dp),
                                 )
                                 Spacer(modifier = Modifier.size(2.dp))
                             }
@@ -85,21 +94,20 @@ fun FillingOutTheUserProfileScreenStep2 (
                                 Image(
                                     painter = painterResource(id = R.drawable.empty_stepline),
                                     contentDescription = null,
-                                    Modifier.weight(1f)
+                                    Modifier
+                                        .weight(1f)
+                                        .height(4.dp),
                                 )
                             }
                         }
                         Spacer(modifier = Modifier.size(24.dp))
                         Text(
-                            text = stringResource(id = R.string.what_about_your_background),
-                            style = typography.h3,
-                            color = secondaryNavy
-                        )
-                        Spacer(modifier = Modifier.size(20.dp))
-                        Text(
                             text = stringResource(id = R.string.have_you_played_football_before),
                             style = typography.h5,
-                            color = primaryDark
+                            color = primaryDark,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight(700),
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -177,18 +185,20 @@ fun FillingOutTheUserProfileScreenStep2 (
                         Text(
                             text = stringResource(id = R.string.confirm_your_qualifications_with_a_document),
                             style = typography.h5,
-                            color = primaryDark
+                            color = primaryDark,
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight(700),
                         )
                         ReadOnlyOutlinePlaceholder(
                             modifier = Modifier.fillMaxWidth(1f),
                             value = it.selectDocumentState.value,
                             onValueChange = { state.selectDocumentState.value = it },
                             labelResId = R.string.document,
-                            trailingIconRedId = R.drawable.ic_clip
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Spacer(modifier = Modifier.size(24.dp))
-                        NextAndPreviousButtons(
+                        NextAndPreviousButtonsVertical(
                             isEnabled = it.footballQualificationsState.value != OnboardingScreensStatesMainContract.FootballQualificationsState.NO_SELECT,
                             nextBtnOnClick = onFillingOutTheUserProfileStep3Clicked,
                             prevBtnOnClick = onTurnBackClicked,

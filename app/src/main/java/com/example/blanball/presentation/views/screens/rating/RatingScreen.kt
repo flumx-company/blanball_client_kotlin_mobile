@@ -257,7 +257,7 @@ fun RatingScreen(
                                     )
                                     Spacer(modifier = Modifier.size(4.dp))
                                     RatingBar(
-                                        rating = user.raiting?.formatRatingToFloat() ?: 0f,
+                                        rating = user.raiting?,
                                         maxRating = 5
                                     )
                                 }

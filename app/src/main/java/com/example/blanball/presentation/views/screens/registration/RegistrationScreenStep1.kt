@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -40,7 +41,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
-import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtons
+import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
@@ -89,6 +90,7 @@ fun RegistrationScreenStep1(
                         .align(CenterHorizontally)
                 ) {
                     Image(
+                        modifier = Modifier.height(4.dp),
                         painter = painterResource(R.drawable.stepline_1),
                         contentDescription = null,
                     )
@@ -234,7 +236,7 @@ fun RegistrationScreenStep1(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(24.dp))
-                NextAndPreviousButtons(
+                NextAndPreviousButtonsVertical(
                     isEnabled = it.phoneNumberText.value.isValidPhoneNumber()
                             && state.firstNameText.value.isValidUserName()
                             && state.lastNameText.value.isValidUserName()
