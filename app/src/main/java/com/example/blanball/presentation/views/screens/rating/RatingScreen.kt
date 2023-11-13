@@ -147,7 +147,7 @@ fun RatingScreen(
                                     R.drawable.ic_sorting_new
                                 },
                                 modifier = Modifier
-                                    .clickable{
+                                    .clickable {
                                         it.orderingIconState.value = !it.orderingIconState.value
                                         onClickedToChangeOrdering()
                                     }
@@ -257,7 +257,7 @@ fun RatingScreen(
                                     )
                                     Spacer(modifier = Modifier.size(4.dp))
                                     RatingBar(
-                                        rating = user.raiting?,
+                                        rating = user.raiting?.formatRatingToFloat() ?: 0f,
                                         maxRating = 5
                                     )
                                 }

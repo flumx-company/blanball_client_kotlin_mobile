@@ -303,7 +303,7 @@ fun FutureEventsScreen(
                                     Column(modifier = Modifier.align(CenterVertically)) {
                                         Row {
                                             Text(
-                                                text = stringResource(R.string.players),
+                                                text = stringResource(R.string.players_),
                                                 fontSize = 13.sp,
                                                 lineHeight = 24.sp,
                                                 style = typography.h4,

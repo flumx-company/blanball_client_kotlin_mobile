@@ -300,7 +300,7 @@ fun MyEventsScreen(
                                     Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                                         Row {
                                             Text(
-                                                text = stringResource(R.string.players),
+                                                text = stringResource(R.string.players_),
                                                 fontSize = 13.sp,
                                                 lineHeight = 24.sp,
                                                 style = typography.h4,

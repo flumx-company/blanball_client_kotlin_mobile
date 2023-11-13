@@ -26,7 +26,7 @@ object Endpoints {
 }
 
 object Code {
-     const val CODE_401 = BuildConfig.CODE_401
+     const val CALL_PHONE_PERMISSION_REQUEST_CODE = 123
 }
 
 object Strings {

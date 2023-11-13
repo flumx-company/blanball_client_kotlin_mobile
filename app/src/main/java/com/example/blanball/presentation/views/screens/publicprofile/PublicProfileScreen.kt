@@ -1,6 +1,4 @@
-package com.example.blanball.presentation.views.screens.publicprofile
 
-import DottedLine
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -104,16 +102,28 @@ fun PublicProfileScreen(
                 .height(130.dp)
         )
         (state as? PublicProfileMainContract.State)?.let {
-            Column {
-                DefaultCardWithColumn(padStart = 0.dp, padTop = 0.dp, padEnd = 0.dp) {
+            Column(
+                modifier = Modifier.padding(
+                    start = 20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp,
+                )
+            ) {
+                DefaultCardWithColumn(
+                    columnPadStart = 0.dp,
+                    columnPadEnd = 0.dp,
+                    columnPadTop = 0.dp
+                ) {
                     Box(
                         Modifier
                             .background(color = accentLightGreen)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                         contentAlignment = Center,
                     ) {
                         Spacer(modifier = Modifier.size(4.dp))
-                        Row {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
                             Text(
                                 text = if (state.userIsVerified.value)
                                     stringResource(id = R.string.verified)
@@ -346,6 +356,7 @@ fun PublicProfileScreen(
                         color = primaryDark,
                     )
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.game_stats),
@@ -361,7 +372,11 @@ fun PublicProfileScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.wrapContentWidth()
                     ) {
-                        IcBox(icon = R.drawable.ic_flag, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
+                        IcBox(
+                            icon = R.drawable.ic_flag, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.game_position),
@@ -375,7 +390,11 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_dumbbell, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
+                        IcBox(
+                            icon = R.drawable.ic_dumbbell, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.weight),
@@ -394,7 +413,11 @@ fun PublicProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IcBox(icon = R.drawable.ic_leg, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
+                        IcBox(
+                            icon = R.drawable.ic_leg, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.kicking_leg),
@@ -408,7 +431,11 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_ruler, modifier = Modifier.background(bgLight, shape = shapes.medium).size(40.dp))
+                        IcBox(
+                            icon = R.drawable.ic_ruler, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.height),
@@ -423,6 +450,7 @@ fun PublicProfileScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.ratings_and_reviews),
@@ -455,6 +483,7 @@ fun PublicProfileScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.planned_submissions),
@@ -582,7 +611,7 @@ fun PublicProfileScreen(
             }
         }
     }
-        if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
-            Loader(backgroundColor = Color.White, textColor = primaryDark)
-        }
+    if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
+        Loader(backgroundColor = Color.White, textColor = primaryDark)
+    }
 }

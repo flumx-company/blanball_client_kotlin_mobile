@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.navigation
 
 import Destinations
+import PublicProfileScreen
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -11,9 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,7 +80,6 @@ import com.example.blanball.presentation.views.screens.onboarding.usertraining.U
 import com.example.blanball.presentation.views.screens.plannedevents.PlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
-import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.rating.RatingScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2

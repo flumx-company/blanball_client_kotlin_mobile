@@ -35,7 +35,14 @@ internal fun Any?.formatRating(): String {
     return decimalFormat.format(this)
 }
 
-internal fun Any?.formatRatingToFloat(): String {
+internal fun Any.formatRatingToFloat(): Float {
+    return when (this) {
+        is Double -> this.toFloat()
+        else -> 0f
+    }
+}
+
+internal fun Any?.formatRatingToString(): String {
     if (this == null) {
         return Formats.DECIMAL_FORMAT
     }
