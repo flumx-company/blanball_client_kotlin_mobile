@@ -87,11 +87,11 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.do_you_need_your_own_uniform),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(
@@ -134,22 +134,22 @@ fun EventCreationScreenStep3(
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                  Row {
-                      Text(
-                          text = stringResource(R.string.will_there_be_a_prize_draw),
-                          fontSize = 16.sp,
-                          lineHeight = 24.sp,
-                          style = typography.h3,
-                          fontWeight = FontWeight(700),
-                          color = primaryDark,
-                      )
-                      Spacer(modifier = Modifier.weight(1f))
-                      SwitchButton(
-                          state = it,
-                          selected = it.priseSwitchButtonState.value,
-                          onCheckedChange = {state.priseSwitchButtonState.value = it}
-                      )
-                  }
+                Row {
+                    Text(
+                        text = stringResource(R.string.will_there_be_a_prize_draw),
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h3,
+                        fontWeight = FontWeight(700),
+                        color = primaryDark,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    SwitchButton(
+                        state = it,
+                        selected = it.priseSwitchButtonState.value,
+                        onCheckedChange = { state.priseSwitchButtonState.value = it }
+                    )
+                }
                 Spacer(modifier = Modifier.size(16.dp))
                 Row {
                     Text(
@@ -164,40 +164,40 @@ fun EventCreationScreenStep3(
                     SwitchButton(
                         state = it,
                         selected = it.needBallSwitchButtonState.value,
-                        onCheckedChange = {state.needBallSwitchButtonState.value = it}
+                        onCheckedChange = { state.needBallSwitchButtonState.value = it }
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.please_note_that_you),
-                        fontSize = 13.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
+                    fontSize = 13.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.my_contacts),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                Row (verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = state.phoneNumberState.value, //TODO()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = state.phoneNumberState.value, //TODO()
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(500),
                         color = primaryDark,
-                )
+                    )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_change_data) ,
+                        painter = painterResource(id = R.drawable.ic_change_data),
                         contentDescription = null,
                         tint = secondaryNavy,
                     )
@@ -205,20 +205,20 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.additional_information),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.add_your_comment),
-                        fontSize = 13.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = secondaryNavy,
+                    fontSize = 13.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(

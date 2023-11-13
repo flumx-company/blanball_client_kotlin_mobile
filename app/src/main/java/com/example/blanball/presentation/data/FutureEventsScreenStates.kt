@@ -36,9 +36,9 @@ class FutureEventsMainContract {
     ) : UiState
 
     sealed class ScreenViewState {
-        object Idle: ScreenViewState()
+        object Idle : ScreenViewState()
         object Loading : ScreenViewState()
-        object LoadingSuccess: ScreenViewState()
+        object LoadingSuccess : ScreenViewState()
         object LoadingError : ScreenViewState()
     }
 
@@ -51,13 +51,13 @@ class FutureEventsMainContract {
         FEMALE(Strings.FEMALE),
     }
 
-    enum class TypeOfSportsStateSelected( val stringValue: String?) {
+    enum class TypeOfSportsStateSelected(val stringValue: String?) {
         ALL(null),
         FOOTBALL(Strings.FOOTBALL),
         FUTSAL(Strings.FUTSAL),
     }
 
-    enum class EventsOrderingSelectionState (val stringValue: String?) {
+    enum class EventsOrderingSelectionState(val stringValue: String?) {
         FIRST_NEW(Strings.FIRST_NEW),
         FIRST_OLDER(Strings.FIRST_OLDER)
     }

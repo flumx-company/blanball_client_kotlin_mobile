@@ -142,10 +142,12 @@ fun EditMyProfileScreen(
             .padding(paddingValues)
     ) {
         (state as? MyProfileScreensMainContract.State)?.let {
-            Column (modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 16.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 16.dp)
+            )
             {
                 Text(
                     text = stringResource(R.string.my_cabinet).uppercase(),
@@ -240,10 +242,10 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 DefaultTextInput(
-                    labelResId = R.string.your_firstname ,
+                    labelResId = R.string.your_firstname,
                     state = it,
                     value = it.myFirstNameText.value,
-                    onValueChange = { state.myFirstNameText.value = it } ,
+                    onValueChange = { state.myFirstNameText.value = it },
                     transformation = VisualTransformation.None,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
@@ -350,16 +352,21 @@ fun EditMyProfileScreen(
                         value = it.heightState.value,
                         onValueChange = { state.heightState.value = it },
                         transformation = VisualTransformation.None,
-                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
                         isError = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> true
-                            it.heightState.value.isNotValidHeight() ->  true
+                            it.heightState.value.isNotValidHeight() -> true
                             else -> false
                         },
                         errorMessage = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.heightState.value.isNotValidHeight() ->  stringResource(id = R.string.height_valid_error)
-                            else -> {("")}
+                            it.heightState.value.isNotValidHeight() -> stringResource(id = R.string.height_valid_error)
+                            else -> {
+                                ("")
+                            }
                         }
                     )
                     DefaultTextInput(
@@ -371,17 +378,22 @@ fun EditMyProfileScreen(
                         value = it.weightState.value,
                         onValueChange = { state.weightState.value = it },
                         transformation = VisualTransformation.None,
-                        keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done, keyboardType = KeyboardType.Number),
-                        keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         isError = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> true
-                            it.weightState.value.isNotValidWeight() ->  true
+                            it.weightState.value.isNotValidWeight() -> true
                             else -> false
                         },
                         errorMessage = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.weightState.value.isNotValidWeight() ->  stringResource(id = R.string.weight_valid_error)
-                            else -> {("")}
+                            it.weightState.value.isNotValidWeight() -> stringResource(id = R.string.weight_valid_error)
+                            else -> {
+                                ("")
+                            }
                         }
                     )
                     CustomDropDownMenu(
@@ -411,7 +423,7 @@ fun EditMyProfileScreen(
                     labelResId = R.string.phone,
                     state = it,
                     value = state.phoneText.value,
-                    onValueChange ={state.phoneText.value = it} ,
+                    onValueChange = { state.phoneText.value = it },
                     transformation = VisualTransformation.None,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
@@ -543,8 +555,7 @@ fun EditMyProfileScreen(
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
-                    text = stringResource(R.string.safety)
-                    ,
+                    text = stringResource(R.string.safety),
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,

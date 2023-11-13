@@ -32,42 +32,47 @@ import com.example.blanball.presentation.theme.typography
 fun AddUserToTeam(
     clickCallback: (() -> Unit)? = null
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .background(Color.White, shape = shapes.medium)
-        .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-        .padding(horizontal = 12.dp, vertical = 6.dp)
-        .clickable { clickCallback?.let { it() } },
-        contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = shapes.medium)
+            .border(width = 1.dp, color = classicRed, shape = shapes.medium)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .clickable { clickCallback?.let { it() } },
+        contentAlignment = Alignment.Center
+    ) {
         Spacer(modifier = Modifier.size(12.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .background(color = avatarGrey, shape = RoundedCornerShape(size = 100.dp))
-                )
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .background(color = avatarGrey, shape = RoundedCornerShape(size = 100.dp))
+            )
             Spacer(modifier = Modifier.size(10.dp))
             Text(
                 text = stringResource(R.string.add_to_team),
-                    fontSize = 13.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF575775),
-                )
+                fontSize = 13.sp,
+                lineHeight = 20.sp,
+                style = typography.h4,
+                fontWeight = FontWeight(400),
+                color = Color(0xFF575775),
+            )
             Spacer(modifier = Modifier.weight(1f))
-        Box(
-            modifier = Modifier
-                .size(28.dp)
-                .background(color = backgroundClassicRed, shape = RoundedCornerShape(size = 100.dp))
-                .padding(start = 4.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
-        ) {
-           Icon(
-               painter = painterResource(id = R.drawable.ic_add),
-               contentDescription = null,
-               tint = classicRed,
-           )
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .background(
+                        color = backgroundClassicRed,
+                        shape = RoundedCornerShape(size = 100.dp)
+                    )
+                    .padding(start = 4.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_add),
+                    contentDescription = null,
+                    tint = classicRed,
+                )
+            }
         }
     }
-        }
-    }
+}

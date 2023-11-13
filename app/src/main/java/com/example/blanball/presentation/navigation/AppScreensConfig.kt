@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.navigation
 
 import Destinations
+import PublicProfileScreen
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -24,6 +25,7 @@ import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
+import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
@@ -38,6 +40,7 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
@@ -77,7 +80,6 @@ import com.example.blanball.presentation.views.screens.onboarding.usertraining.U
 import com.example.blanball.presentation.views.screens.plannedevents.PlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllPlannedEventsScreen
 import com.example.blanball.presentation.views.screens.publicprofile.AllReviewsScreen
-import com.example.blanball.presentation.views.screens.publicprofile.PublicProfileScreen
 import com.example.blanball.presentation.views.screens.rating.RatingScreen
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep1
 import com.example.blanball.presentation.views.screens.registration.RegistrationScreenStep2
@@ -108,6 +110,7 @@ fun AppScreensConfig(
     loginViewModel: LoginViewModel,
     onboardingProfileViewModel: OnboardingProfileViewModel,
     navigationDrawerViewModel: NavigationDrawerViewModel,
+    usersRatingViewModel: UsersRatingViewModel,
     startDestinations: String,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope,
@@ -247,6 +250,7 @@ fun AppScreensConfig(
         startDestination = startDestinations
     )
     {
+        val publicProfileCurrentState = publicProfileViewModel.currentState
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
@@ -439,7 +443,6 @@ fun AppScreensConfig(
         composable(Destinations.PUBLIC_PROFILE.route) {
             val context = LocalContext.current
             val state = publicProfileViewModel.uiState.collectAsState().value
-            val currentState = publicProfileViewModel.currentState
 
             LaunchedEffect(key1 = Unit) {
                 publicProfileViewModel.loadUserProfileData()
@@ -724,6 +727,16 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Rating.screen_route) {
+
+            val state = usersRatingViewModel.uiState.collectAsState().value
+            val ratingCurrentState = usersRatingViewModel.currentState
+
+            val previousState by remember { mutableStateOf(ratingCurrentState.state) }
+
+            LaunchedEffect(ratingCurrentState.state != previousState) {
+                usersRatingViewModel.handleScreenState(ratingCurrentState.state)
+            }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -740,9 +753,48 @@ fun AppScreensConfig(
                         navController = navController
                     )
                 },
-                content = { it ->
+                content = { paddingValues ->
                     RatingScreen(
-                        paddingValues = it
+                        state = state,
+                        onLoadMoreUsers = {
+                            usersRatingViewModel.loadMoreUsers()
+                        },
+                        onClickedToLoadWithNewFilters = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    openFiltersDialog = mutableStateOf(false),
+                                    state = RatingUsersMainContract.ScreenViewState.Loading,
+                                )
+                            }
+                        },
+                        onClickedToChangeOrdering = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    state = RatingUsersMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        },
+                        onClickedToCleanFiters = {
+                            usersRatingViewModel.setState {
+                                copy(
+                                    openFiltersDialog = mutableStateOf(false),
+                                    genderSelectionState = mutableStateOf(
+                                        RatingUsersMainContract.GenderSelectionState.ALL
+                                    ),
+                                    ageSliderPosition = mutableStateOf(6f..80f),
+                                    gamePositionSelectionState = mutableStateOf(
+                                        RatingUsersMainContract.GamePositionSelectionState.ALL
+                                    ),
+                                    positionSelectedItem = mutableStateOf(""),
+                                    state = RatingUsersMainContract.ScreenViewState.Loading
+                                )
+                            }
+                        },
+                        onClickedToPublicProfile = { userId ->
+                            publicProfileCurrentState.userId.value = userId
+                            navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                        },
+                        paddingValues = paddingValues
                     )
                 }
             )
@@ -1284,6 +1336,5 @@ fun AppScreensConfig(
                 }
             )
         }
-
     }
 }

@@ -34,7 +34,7 @@ enum class EventTab {
 fun EventsSwitcher(
     navigateToAlLEvents: () -> Unit,
     navigateToMyEvents: () -> Unit,
-   selectedTab: MutableState<EventTab>,
+    selectedTab: MutableState<EventTab>,
 ) {
     Box(
         Modifier

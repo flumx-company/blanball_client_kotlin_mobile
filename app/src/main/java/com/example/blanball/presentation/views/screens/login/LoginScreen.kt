@@ -201,7 +201,7 @@ fun LoginScreen(
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(34.dp))
         PrivacyPolicyBanner()
     }
     if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {

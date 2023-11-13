@@ -1,6 +1,4 @@
-package com.example.blanball.presentation.views.screens.publicprofile
 
-import DottedLine
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -52,6 +50,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.DarkOverlay
 import com.example.blanball.presentation.theme.accentLightGreen
 import com.example.blanball.presentation.theme.annotationGray
+import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -61,6 +60,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.successValidationGreen
 import com.example.blanball.presentation.theme.successValidationGreenBG
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.AttentionText
 import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserPlannedEventsColumn
@@ -68,7 +68,6 @@ import com.example.blanball.presentation.views.components.colums.DisplayUserRevi
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
-import com.example.blanball.presentation.views.components.texts.AttentionText
 import com.example.blanball.utils.ext.formatRating
 import com.example.blanball.utils.makeCall
 import com.example.blanball.utils.writeEmail
@@ -97,21 +96,34 @@ fun PublicProfileScreen(
         Image(
             painter = painterResource(id = R.drawable.public_profile_cover_blue),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(130.dp)
         )
         (state as? PublicProfileMainContract.State)?.let {
-            Column {
-                Spacer(modifier = Modifier.size(60.dp))
-                DefaultCardWithColumn() {
+            Column(
+                modifier = Modifier.padding(
+                    start = 20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp,
+                )
+            ) {
+                DefaultCardWithColumn(
+                    columnPadStart = 0.dp,
+                    columnPadEnd = 0.dp,
+                    columnPadTop = 0.dp
+                ) {
                     Box(
                         Modifier
                             .background(color = accentLightGreen)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                         contentAlignment = Center,
                     ) {
                         Spacer(modifier = Modifier.size(4.dp))
-                        Row {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
                             Text(
                                 text = if (state.userIsVerified.value)
                                     stringResource(id = R.string.verified)
@@ -344,6 +356,7 @@ fun PublicProfileScreen(
                         color = primaryDark,
                     )
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.game_stats),
@@ -359,7 +372,11 @@ fun PublicProfileScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.wrapContentWidth()
                     ) {
-                        IcBox(icon = R.drawable.ic_flag)
+                        IcBox(
+                            icon = R.drawable.ic_flag, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.game_position),
@@ -373,7 +390,11 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_dumbbell)
+                        IcBox(
+                            icon = R.drawable.ic_dumbbell, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.weight),
@@ -392,7 +413,11 @@ fun PublicProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IcBox(icon = R.drawable.ic_leg)
+                        IcBox(
+                            icon = R.drawable.ic_leg, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.kicking_leg),
@@ -406,7 +431,11 @@ fun PublicProfileScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        IcBox(icon = R.drawable.ic_ruler)
+                        IcBox(
+                            icon = R.drawable.ic_ruler, modifier = Modifier
+                                .background(bgLight, shape = shapes.medium)
+                                .size(40.dp)
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(id = R.string.height),
@@ -421,6 +450,7 @@ fun PublicProfileScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.ratings_and_reviews),
@@ -453,6 +483,7 @@ fun PublicProfileScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 DefaultCardWithColumn {
                     Text(
                         text = stringResource(id = R.string.planned_submissions),
@@ -572,7 +603,6 @@ fun PublicProfileScreen(
                                 value = it.addMessageState.value,
                                 onValueChange = { state.addMessageState.value = it },
                                 labelResId = R.string.message,
-                                trailingIconResId = R.drawable.ic_clip
                             )
                             Spacer(modifier = Modifier.size(16.dp))
                         }
@@ -581,7 +611,7 @@ fun PublicProfileScreen(
             }
         }
     }
-        if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
-            Loader(backgroundColor = Color.White, textColor = primaryDark)
-        }
+    if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
+        Loader(backgroundColor = Color.White, textColor = primaryDark)
+    }
 }

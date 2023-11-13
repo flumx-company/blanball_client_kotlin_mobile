@@ -195,7 +195,6 @@ fun FillingOutTheUserProfileScreenStep2 (
                             value = it.selectDocumentState.value,
                             onValueChange = { state.selectDocumentState.value = it },
                             labelResId = R.string.document,
-                            trailingIconResId = R.drawable.ic_clip
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Spacer(modifier = Modifier.size(24.dp))

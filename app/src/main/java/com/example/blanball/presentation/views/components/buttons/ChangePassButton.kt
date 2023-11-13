@@ -38,7 +38,10 @@ fun ChangePassButton(
             .background(color = waterLightBlue, shape = shapes.medium),
         contentAlignment = Alignment.Center
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = stringResource(R.string.change_pass),
                 fontSize = 15.sp,

@@ -129,18 +129,18 @@ fun EventCreationScreenStep2(
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
                         selected = it.isEventPrivacy.value ==
-                            EventCreationScreenMainContract.EventPrivacyStates.YES,
+                                EventCreationScreenMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.does_participation_in_the_event),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(
@@ -177,36 +177,39 @@ fun EventCreationScreenStep2(
                         state = it,
                         text = stringResource(R.string.paid),
                         selected = it.entryStates.value ==
-                            EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY,
+                                EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY,
                         icon = null,
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.invitation_of_participants),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = stringResource(R.string.specify_the_number),
-                        fontSize = 13.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = secondaryNavy,
+                    fontSize = 13.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 DefaultTextInput(
                     labelResId = R.string.max_50,
                     state = it,
                     value = it.maxEventPlayersState.value,
-                    onValueChange = {state.maxEventPlayersState.value = it},
+                    onValueChange = { state.maxEventPlayersState.value = it },
                     transformation = VisualTransformation.None,
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next, keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Number
+                    ),
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_peoples),
@@ -220,7 +223,7 @@ fun EventCreationScreenStep2(
                     labelResId = R.string.users_search,
                     state = it,
                     value = it.usersSearchState.value,
-                    onValueChange = {state.usersSearchState.value = it},
+                    onValueChange = { state.usersSearchState.value = it },
                     transformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -231,19 +234,19 @@ fun EventCreationScreenStep2(
                     },
                     leadingIcon = {
                         Icon(
-                        painter = painterResource(id = R.drawable.ic_add_user),
-                        contentDescription = null,
-                        tint = primaryDark,
-                    )
+                            painter = painterResource(id = R.drawable.ic_add_user),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
                     }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 repeat(5) {
-                UserCardOnEventCreation(
+                    UserCardOnEventCreation(
                         userAvatarUrl = "http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg",
                         userFirstName = "Жук",
                         userLastName = "Женя",
-                        )
+                    )
                 }
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))
@@ -297,7 +300,7 @@ fun EventCreationScreenStep2(
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                NextAndPreviousButtonsHorizontal (
+                NextAndPreviousButtonsHorizontal(
                     isEnabled = true,
                     nextBtnOnClick = { navigateToThirdStep() },
                     prevBtnOnClick = { backBtnCLicked() },

@@ -44,7 +44,9 @@ fun DottedLineUnderText(
 
         // Устанавливаем ширину Canvas равной ширине textContent
         Canvas(
-            modifier = Modifier.width(textContentWidth.dp).height(1.dp)
+            modifier = Modifier
+                .width(textContentWidth.dp)
+                .height(1.dp)
         ) {
             drawLine(
                 color = color,

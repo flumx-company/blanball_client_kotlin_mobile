@@ -71,9 +71,14 @@ class EventCreationScreensViewModel
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
                 contact_number = currentState.phoneNumberState.value,
                 current_users = emptyList(), //TODO()
-                date_and_time = formatToIso8601DateTime(date = currentState.eventDateState.value, time = currentState.startEventTimeState.value.toString()),
+                date_and_time = formatToIso8601DateTime(
+                    date = currentState.eventDateState.value,
+                    time = currentState.startEventTimeState.value.toString()
+                ),
                 description = currentState.eventDescriptionState.value,
-                duration = currentState.startEventTimeState.value.calculateTimeDifferenceInMinutes(endTime = currentState.endEventTimeState.value),
+                duration = currentState.startEventTimeState.value.calculateTimeDifferenceInMinutes(
+                    endTime = currentState.endEventTimeState.value
+                ),
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
                 hidden = false,
                 name = currentState.eventName.value,
@@ -114,6 +119,7 @@ class EventCreationScreensViewModel
                             )
                         }
                     }
+
                     is CreationAnEventResultEntity.Error -> {
                         setState {
                             copy(

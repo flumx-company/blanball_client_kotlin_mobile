@@ -51,7 +51,7 @@ fun FoundAnErrorScreen(
     closeButtonClicked: () -> Unit,
     //sendFeedbackButtonClicked: () -> Unit, TODO()
 ) {
-    Box (
+    Box(
         modifier = Modifier.padding(paddingValues)
     ) {
         (state as? FoundAnErrorScreenMainContract.State)?.let {
@@ -108,12 +108,13 @@ fun FoundAnErrorScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     modifier = Modifier.fillMaxWidth(),
-                    trailingIcon = { Icon(
-                        modifier = Modifier.clickable { }, //TODO()
-                        painter = painterResource(R.drawable.ic_clip),
-                        contentDescription = null,
-                        tint = secondaryNavy
-                    )
+                    trailingIcon = {
+                        Icon(
+                            modifier = Modifier.clickable { }, //TODO()
+                            painter = painterResource(R.drawable.ic_clip),
+                            contentDescription = null,
+                            tint = secondaryNavy
+                        )
                     },
                     textFieldModifier = Modifier
                         .fillMaxWidth()
@@ -129,7 +130,7 @@ fun FoundAnErrorScreen(
                     ),
                 )
                 Spacer(modifier = Modifier.size(18.dp))
-                Row (verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_document_sending),
                         contentDescription = null,
@@ -146,7 +147,7 @@ fun FoundAnErrorScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
-                        modifier = Modifier.clickable {  }, // TODO()
+                        modifier = Modifier.clickable { }, // TODO()
                         painter = painterResource(id = R.drawable.ic_cancel),
                         contentDescription = null,
                         tint = secondaryNavy,
@@ -159,7 +160,7 @@ fun FoundAnErrorScreen(
                     thickness = 2.dp,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                Row (verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         modifier = Modifier.clickable { closeButtonClicked() },
                         text = stringResource(R.string.close),

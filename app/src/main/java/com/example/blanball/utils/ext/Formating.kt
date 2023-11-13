@@ -35,7 +35,14 @@ internal fun Any?.formatRating(): String {
     return decimalFormat.format(this)
 }
 
-internal fun Any?.formatRatingToFloat(): String {
+internal fun Any.formatRatingToFloat(): Float {
+    return when (this) {
+        is Double -> this.toFloat()
+        else -> 0f
+    }
+}
+
+internal fun Any?.formatRatingToString(): String {
     if (this == null) {
         return Formats.DECIMAL_FORMAT
     }
@@ -121,13 +128,15 @@ internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderSt
 
 internal fun String.SportTypesStringsToEnglish(context: Context): String {
     return when (this) {
-        context.resources.getString(R.string.football) ->  context.resources.getString(R.string.football_us)
-        context.resources.getString(R.string.futsal) ->  context.resources.getString(R.string.futsal_us)
+        context.resources.getString(R.string.football) -> context.resources.getString(R.string.football_us)
+        context.resources.getString(R.string.futsal) -> context.resources.getString(R.string.futsal_us)
         else -> ""
     }
 }
 
-internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(context: Context): String {
+internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(
+    context: Context
+): String {
     return when (this) {
         EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
         EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
@@ -162,15 +171,15 @@ fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
 
     val dateFormat = SimpleDateFormat("HH:mm")
 
-    if (this.isEmpty()){
+    if (this.isEmpty()) {
         return 0
     }
-        val startTime = dateFormat.parse(this)
-        val endTimeDate = dateFormat.parse(endTime)
+    val startTime = dateFormat.parse(this)
+    val endTimeDate = dateFormat.parse(endTime)
 
-        val timeDifferenceMillis = endTimeDate.time - startTime.time
+    val timeDifferenceMillis = endTimeDate.time - startTime.time
 
-        return (timeDifferenceMillis / (60 * 1000)).toInt()
+    return (timeDifferenceMillis / (60 * 1000)).toInt()
 }
 
 internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration: MutableState<Int>): String {
@@ -213,5 +222,29 @@ fun String.toFormattedDate(): String {
         outputFormat.format(date)
     } catch (e: Exception) {
         this
+    }
+}
+
+internal fun String.convertToPositionCode(context: Context): String? {
+    return when (this) {
+        context.getString(R.string.any_position) -> null
+        context.getString(R.string.goalkeeper) -> context.getString(R.string.gk)
+        context.getString(R.string.left_defender) -> context.getString(R.string.lb)
+        context.getString(R.string.right_defender) -> context.getString(R.string.rb)
+        context.getString(R.string.central_defender) -> context.getString(R.string.cb)
+        context.getString(R.string.left_flank_defender) -> context.getString(R.string.lwb)
+        context.getString(R.string.right_flank_defender) -> context.getString(R.string.rwb)
+        context.getString(R.string.supporting_mid_defender) -> context.getString(R.string.cdm)
+        context.getString(R.string.left_mid_defender) -> context.getString(R.string.cm)
+        context.getString(R.string.attacking_mid_defender) -> context.getString(R.string.cam)
+        context.getString(R.string.right_winger) -> context.getString(R.string.rm)
+        context.getString(R.string.left_winger) -> context.getString(R.string.lm)
+        context.getString(R.string.right_flank_attacker) -> context.getString(R.string.rw)
+        context.getString(R.string.left_flank_attacker) -> context.getString(R.string.lw)
+        context.getString(R.string.right_forward) -> context.getString(R.string.rf)
+        context.getString(R.string.central_forward) -> context.getString(R.string.cf)
+        context.getString(R.string.left_forward) -> context.getString(R.string.lf)
+        context.getString(R.string.forward_striker) -> context.getString(R.string.st)
+        else -> null
     }
 }

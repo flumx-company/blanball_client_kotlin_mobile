@@ -77,7 +77,6 @@ fun ShareAnEventModal(
                     modifier = Modifier.fillMaxWidth(),
                     value = eventUrl,
                     onValueChange = {},
-                    trailingIconResId = R.drawable.ic_copy,
                     labelResId = R.string.link_on_event,
                 )
                 Spacer(modifier = Modifier.size(10.dp))

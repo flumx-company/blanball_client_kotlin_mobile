@@ -170,7 +170,6 @@ fun HomeScreenEventCardHorizontalList(
                 InfiniteListHandler(
                     lazyListState = lazyListState,
                     onLoadMore = onLoadMoreUsers,
-                    buffer = 1
                 )
             }
         }

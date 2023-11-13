@@ -1,7 +1,10 @@
 package com.example.blanball.utils
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -9,14 +12,35 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.domain.utils.Code.CALL_PHONE_PERMISSION_REQUEST_CODE
 import com.example.domain.utils.Endpoints
 import kotlin.math.absoluteValue
 
 internal fun makeCall(number: String, context: Context) {
-    val intent = Intent(Intent.ACTION_CALL)
-    intent.data = Uri.parse("tel:$number")
-    context.startActivity(intent)
+    try {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                CALL_PHONE_PERMISSION_REQUEST_CODE
+
+            )
+        } else {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel:$number")
+            context.startActivity(intent)
+        }
+    } catch (e: SecurityException) {
+        e.printStackTrace()
+    }
 }
+
 
 internal fun writeEmail(
     addresses: Array<String>,

@@ -19,7 +19,6 @@ fun ReadOnlyOutlinePlaceholder(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    trailingIconResId: Int,
     labelResId: Int,
 ) {
     OutlinedTextField(

@@ -28,11 +28,11 @@ class FoundAnErrorViewModel
     val currentState: FoundAnErrorScreenMainContract.State
         get() = uiState.value as FoundAnErrorScreenMainContract.State
 
-    private val _uiState : MutableStateFlow<UiState> =
+    private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _sideEffect : MutableSharedFlow<FoundAnErrorScreenMainContract.Effect> =
+    private val _sideEffect: MutableSharedFlow<FoundAnErrorScreenMainContract.Effect> =
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<FoundAnErrorScreenMainContract.Effect> = _sideEffect.asSharedFlow()
 
