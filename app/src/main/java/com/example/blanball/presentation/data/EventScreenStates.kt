@@ -10,7 +10,7 @@ class EventScreenMainContract {
 
     data class State(
         val state: ScreenViewState,
-        val currentEventId: MutableState<Int> = mutableStateOf(0),
+        val currentEventId: MutableState<Int> = mutableStateOf(-1),
     ) : UiState
 
     sealed class ScreenViewState {
