@@ -5,6 +5,7 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
+import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
@@ -93,4 +94,8 @@ interface AppRepository {
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
     ): GetMyEventsResultEntity
+
+    suspend fun getEventById(
+        id: Int
+    ): GetEventByIdResultEntity
 }

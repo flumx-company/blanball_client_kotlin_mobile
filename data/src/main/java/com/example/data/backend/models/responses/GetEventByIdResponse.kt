@@ -43,7 +43,7 @@ data class GetEventByIdResponseCoordinates(
     val type: String
 )
 
-class GetEventByIdResponseForms
+class GetEventByIdResponseForms  // TODO("Not implemented on the backend")
 
 data class GetEventByIdResponsePlace(
     val lat: Int,

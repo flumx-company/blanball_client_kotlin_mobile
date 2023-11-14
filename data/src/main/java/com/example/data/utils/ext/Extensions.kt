@@ -26,6 +26,13 @@ import com.example.data.backend.models.responses.GetAllEventResponseErrorDetail
 import com.example.data.backend.models.responses.GetAllEventResponsePlace
 import com.example.data.backend.models.responses.GetAllEventResponseProfile
 import com.example.data.backend.models.responses.GetAllEventResponseResult
+import com.example.data.backend.models.responses.GetEventByIdResponse
+import com.example.data.backend.models.responses.GetEventByIdResponseAuthor
+import com.example.data.backend.models.responses.GetEventByIdResponseCoordinates
+import com.example.data.backend.models.responses.GetEventByIdResponseData
+import com.example.data.backend.models.responses.GetEventByIdResponseForms
+import com.example.data.backend.models.responses.GetEventByIdResponsePlace
+import com.example.data.backend.models.responses.GetEventByIdResponseProfile
 import com.example.data.backend.models.responses.GetMyEventsResponse
 import com.example.data.backend.models.responses.GetMyEventsResponseAuthor
 import com.example.data.backend.models.responses.GetMyEventsResponseData
@@ -124,6 +131,13 @@ import com.example.domain.entity.responses.GetAllEventResponseEntityData
 import com.example.domain.entity.responses.GetAllEventResponseEntityPlace
 import com.example.domain.entity.responses.GetAllEventResponseEntityProfile
 import com.example.domain.entity.responses.GetAllEventResponseEntityResult
+import com.example.domain.entity.responses.GetEventByIdResponseAuthorEntity
+import com.example.domain.entity.responses.GetEventByIdResponseCoordinatesEntity
+import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
+import com.example.domain.entity.responses.GetEventByIdResponseEntity
+import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
+import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
+import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
 import com.example.domain.entity.responses.GetMyEventsEntityResponseError
 import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorData
 import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorDetail
@@ -768,7 +782,7 @@ internal fun CreationAnEventResponseData.toCreationAnEventResponseEntityData(): 
 
 internal fun CreationAnEventResponseForms.toCreationAnEventResponseEntityForms(): CreationAnEventResponseEntityForms =
     CreationAnEventResponseEntityForms(
-        //TODO
+        // TODO("Not implemented on the backend")
     )
 
 internal fun CreationAnEventResponsePlace.toCreationAnEventResponseEntityPlace(): CreationAnEventResponseEntityPlace =
@@ -938,4 +952,71 @@ internal fun GetUsersListResponseErrorData.toGetUsersListResponseErrorDataEntity
 internal fun GetUsersListResponseErrorDetailData.toGetUsersListResponseErrorDetailDataEntity(): GetUsersListResponseErrorDetailDataEntity =
     GetUsersListResponseErrorDetailDataEntity(
         this.detail
+    )
+
+internal fun GetEventByIdResponse.toGetEventByIdResponse(): GetEventByIdResponseEntity =
+    GetEventByIdResponseEntity(
+        this.code,
+        this.data.toGetEventByIdResponseDataEntity(),
+        this.message,
+        this.status
+    )
+
+internal fun GetEventByIdResponseData.toGetEventByIdResponseDataEntity(): GetEventByIdResponseDataEntity =
+    GetEventByIdResponseDataEntity(
+        this.amount_members,
+        this.author.toGetEventByIdResponseAuthor(),
+        this.contact_number,
+        this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
+        this.current_fans,
+        this.current_users,
+        this.date_and_time,
+        this.description,
+        this.duration,
+        this.forms.toGetEventByIdResponseFormsEntity(),
+        this.gender,
+        this.id,
+        this.name,
+        this.need_ball,
+        this.need_form,
+        this.place.toGetEventByIdResponsePlaceEntity(),
+        this.price,
+        this.price_description,
+        this.privacy,
+        this.request_user_role,
+        this.status,
+        this.type
+    )
+
+internal fun GetEventByIdResponseAuthor.toGetEventByIdResponseAuthor(): GetEventByIdResponseAuthorEntity =
+    GetEventByIdResponseAuthorEntity(
+        this.id,
+        this.phone,
+        this.profile.toGetEventByIdResponseProfileEntity(),
+    )
+
+internal fun GetEventByIdResponseCoordinates.toGetEventByIdResponseCoordinatesEntity(): GetEventByIdResponseCoordinatesEntity =
+    GetEventByIdResponseCoordinatesEntity(
+        this.coordinates,
+        this.type
+    )
+
+internal fun GetEventByIdResponseForms.toGetEventByIdResponseFormsEntity(): GetEventByIdResponseFormsEntity =
+    GetEventByIdResponseFormsEntity(
+        // TODO("Not implemented on the backend")
+    )
+
+internal fun GetEventByIdResponsePlace.toGetEventByIdResponsePlaceEntity(): GetEventByIdResponsePlaceEntity =
+    GetEventByIdResponsePlaceEntity(
+        this.lat,
+        this.lon,
+        this.place_name,
+    )
+
+internal fun GetEventByIdResponseProfile.toGetEventByIdResponseProfileEntity(): GetEventByIdResponseProfileEntity =
+    GetEventByIdResponseProfileEntity(
+        this.avatar_url,
+        this.id,
+        this.last_name,
+        this.name
     )

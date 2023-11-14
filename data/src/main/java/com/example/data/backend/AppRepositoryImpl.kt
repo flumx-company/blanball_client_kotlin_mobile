@@ -37,6 +37,7 @@
     import com.example.data.utils.ext.toErrorResponse
     import com.example.data.utils.ext.toGetAllEventEntityResponseError
     import com.example.data.utils.ext.toGetAllEventResponseEntity
+    import com.example.data.utils.ext.toGetEventByIdResponse
     import com.example.data.utils.ext.toGetMyEventsEntityResponseError
     import com.example.data.utils.ext.toGetMyEventsResponseEntity
     import com.example.data.utils.ext.toGetMyProfileErrorEntity
@@ -77,6 +78,7 @@
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.FillingTheUserProfileResultEntity
     import com.example.domain.entity.results.GetAllEventsResultEntity
+    import com.example.domain.entity.results.GetEventByIdResultEntity
     import com.example.domain.entity.results.GetMyEventsResultEntity
     import com.example.domain.entity.results.GetMyProfileResultEntity
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
@@ -100,6 +102,21 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun getEventById(id: Int): GetEventByIdResultEntity {
+            return try {
+                val getEventByIdResponse = service.getEventById(id = id)
+                val getEventByIdResponseDomainResponse =
+                    getEventByIdResponse.toGetEventByIdResponse()
+                GetEventByIdResultEntity.Success(getEventByIdResponseDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<GetUserByIdResponseError, GetUserByIdResponseErrorEntity>(ex) {
+                        it
+                    }
+                GetEventByIdResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
 
         override suspend fun getUsersList(
             page: Int,
