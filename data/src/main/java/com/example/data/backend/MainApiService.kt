@@ -11,6 +11,7 @@ import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
 import com.example.data.backend.models.responses.CreationAnEventResponse
 import com.example.data.backend.models.responses.GetAllEventResponse
+import com.example.data.backend.models.responses.GetEventByIdResponse
 import com.example.data.backend.models.responses.GetMyEventsResponse
 import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
@@ -89,13 +90,18 @@ interface MainApiService  {
         @Query("date_and_time_after") date_and_time_after: String,
     ): GetMyEventsResponse
 
-    @GET (Endpoints.USERS_LIST)
-    suspend fun getUsersList (
-        @Query ("page") page: Int,
-        @Query ("profile__gender") profile__gender: String?,
-        @Query ("profile__age_min") profile__age_min: Int?,
-        @Query ("profile__age_max") profile__age_max: Int?,
-        @Query ("profile__position") profile__position: String?,
-        @Query ("ordering") ordering: String?,
-    ) : GetUsersListResponse
+    @GET(Endpoints.USERS_LIST)
+    suspend fun getUsersList(
+        @Query("page") page: Int,
+        @Query("profile__gender") profile__gender: String?,
+        @Query("profile__age_min") profile__age_min: Int?,
+        @Query("profile__age_max") profile__age_max: Int?,
+        @Query("profile__position") profile__position: String?,
+        @Query("ordering") ordering: String?,
+    ): GetUsersListResponse
+
+    @GET(Endpoints.GET_EVENT_ENDPOINT)
+    suspend fun getEventById(
+        @Query("id") id: Int,
+    ): GetEventByIdResponse
 }
