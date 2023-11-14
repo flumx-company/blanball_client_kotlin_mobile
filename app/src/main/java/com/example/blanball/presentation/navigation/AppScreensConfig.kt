@@ -2,7 +2,6 @@ package com.example.blanball.presentation.navigation
 
 import Destinations
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -947,7 +946,6 @@ fun AppScreensConfig(
                 }
             )
         ) { entry ->
-            Log.d("Timber", "id: ${entry.arguments?.getInt("id")}")
             eventScreenViewModelCurrentState.currentEventId.value = entry.arguments!!.getInt("id")
             val resetState = resetPassViewModel.uiState.collectAsState().value
             var isVerificationModalVisible = remember { mutableStateOf(false) }
