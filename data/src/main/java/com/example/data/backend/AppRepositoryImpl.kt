@@ -20,6 +20,7 @@
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
     import com.example.data.backend.models.responses.GetUserProfileByIdError
     import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
+    import com.example.data.backend.models.responses.GetUsersListResponseError
     import com.example.data.backend.models.responses.LoginError
     import com.example.data.backend.models.responses.RegistrationError
     import com.example.data.backend.models.responses.ResetCompleteError
@@ -46,6 +47,8 @@
     import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
     import com.example.data.utils.ext.toGetUserReviewsByIdResponseEntity
     import com.example.data.utils.ext.toGetUserReviewsByIdResponseErrorEntity
+    import com.example.data.utils.ext.toGetUsersListResponseEntity
+    import com.example.data.utils.ext.toGetUsersListResponseErrorEntity
     import com.example.data.utils.ext.toLoginResponse
     import com.example.data.utils.ext.toRegistrationErrorEntity
     import com.example.data.utils.ext.toRegistrationResponseEntity
@@ -65,6 +68,7 @@
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
     import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
     import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
+    import com.example.domain.entity.responses.GetUsersListResponseErrorEntity
     import com.example.domain.entity.responses.RegistrationErrorEntity
     import com.example.domain.entity.responses.ResetCompleteErrorEntity
     import com.example.domain.entity.responses.SendCodeErrorEntity
@@ -78,6 +82,7 @@
     import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
     import com.example.domain.entity.results.GetUserProfileByIdResultEntity
     import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
+    import com.example.domain.entity.results.GetUsersListResultEntity
     import com.example.domain.entity.results.LoginResultEntity
     import com.example.domain.entity.results.RegistrationResultEntity
     import com.example.domain.entity.results.ResetCompleteResultEntity
@@ -95,6 +100,27 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun getUsersList(
+            page: Int,
+            gender: String?,
+            age_min: Int?,
+            age_max: Int?,
+            ordering: String?,
+            position: String?,
+        ): GetUsersListResultEntity {
+            return try {
+                val getUsersListResponse = service.getUsersList(page = page, profile__gender = gender, profile__age_min = age_min, profile__age_max = age_max, ordering = ordering, profile__position = position)
+                val getUsersListResponseDomainResponse =
+                    getUsersListResponse.toGetUsersListResponseEntity()
+                GetUsersListResultEntity.Success(getUsersListResponseDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<GetUsersListResponseError, GetUsersListResponseErrorEntity>(ex) { it.toGetUsersListResponseErrorEntity() }
+                GetUsersListResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
+
 
         override suspend fun createAnNewEvent(
             amount_members: Int,
@@ -132,21 +158,22 @@
                     need_ball = need_ball,
                     need_form = need_form,
                     place = CreationAnEventRequestPlace(
-                            lat = lat,
-                            lon = lon,
-                            place_name = place)
-                    ,
+                        lat = lat,
+                        lon = lon,
+                        place_name = place
+                    ),
                     price = price,
                     price_description = price_description,
                     privacy = privacy,
                     type = type,
                 )
                 val createAnNewEventResponse = service.createAnEvent(request)
-                val createAnNewEventDomainResponse = createAnNewEventResponse.toCreationAnEventResponseEntity()
+                val createAnNewEventDomainResponse =
+                    createAnNewEventResponse.toCreationAnEventResponseEntity()
                 CreationAnEventResultEntity.Success(createAnNewEventDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
-                    handleHttpError<CreationAnEventError, CreationAnEventErrorEntity>(ex) { it.toCreationAnEventErrorEntity()}
+                    handleHttpError<CreationAnEventError, CreationAnEventErrorEntity>(ex) { it.toCreationAnEventErrorEntity() }
                 CreationAnEventResultEntity.Error(errorResponse.data.errors[0])
             }
         }

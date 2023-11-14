@@ -150,7 +150,9 @@ fun FillingOutTheUserProfileScreenStep4(
                             Image(
                                 painter = painterResource(R.drawable.stepline_1),
                                 contentDescription = null,
-                                Modifier.weight(1f).height(4.dp),
+                                Modifier
+                                    .weight(1f)
+                                    .height(4.dp),
                             )
                             Spacer(modifier = Modifier.size(2.dp))
                         }

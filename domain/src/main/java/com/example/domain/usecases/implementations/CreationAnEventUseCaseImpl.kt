@@ -7,7 +7,8 @@ import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import javax.inject.Inject
 
-class CreationAnEventUseCaseImpl @Inject constructor( internal val appRepository: AppRepository) : CreationAnEventUseCase {
+class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) :
+    CreationAnEventUseCase {
     override suspend fun executeCreationAnEvent(
         amount_members: Int,
         contact_number: String,
@@ -50,6 +51,6 @@ class CreationAnEventUseCaseImpl @Inject constructor( internal val appRepository
             lat = lat,
             lon = lon,
 
-        )
+            )
     }
 }

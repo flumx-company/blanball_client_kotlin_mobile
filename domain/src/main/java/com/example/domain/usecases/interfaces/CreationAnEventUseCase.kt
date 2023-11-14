@@ -7,7 +7,7 @@ interface CreationAnEventUseCase {
     suspend fun executeCreationAnEvent(
         amount_members: Int,
         contact_number: String,
-        current_users:List<Int>? = null,
+        current_users: List<Int>? = null,
         date_and_time: String,
         description: String,
         duration: Int,
@@ -24,5 +24,5 @@ interface CreationAnEventUseCase {
         price_description: String,
         privacy: Boolean,
         type: String,
-    ) : CreationAnEventResultEntity
+    ): CreationAnEventResultEntity
 }

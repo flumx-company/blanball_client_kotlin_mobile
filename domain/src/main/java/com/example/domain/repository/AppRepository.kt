@@ -10,6 +10,7 @@ import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
+import com.example.domain.entity.results.GetUsersListResultEntity
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
@@ -40,11 +41,21 @@ interface AppRepository {
         working_leg: String,
         place_name: String,
     ): FillingTheUserProfileResultEntity
+
+    suspend fun getUsersList(
+        page: Int,
+        gender: String?,
+        age_min: Int?,
+        age_max: Int?,
+        ordering: String?,
+        position: String?
+    ): GetUsersListResultEntity
+
     suspend fun getMyProfile(page: Int): GetMyProfileResultEntity
     suspend fun createAnNewEvent(
         amount_members: Int,
         contact_number: String,
-        current_users:List<Int>? = null,
+        current_users: List<Int>? = null,
         date_and_time: String,
         description: String,
         duration: Int,
@@ -61,7 +72,8 @@ interface AppRepository {
         price_description: String,
         privacy: Boolean,
         type: String,
-    ) : CreationAnEventResultEntity
+    ): CreationAnEventResultEntity
+
     suspend fun getAllEvents(
         page: Int,
         typeOfSport: String,
@@ -71,6 +83,7 @@ interface AppRepository {
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
     ): GetAllEventsResultEntity
+
     suspend fun getMyEvents(
         page: Int,
         typeOfSport: String,

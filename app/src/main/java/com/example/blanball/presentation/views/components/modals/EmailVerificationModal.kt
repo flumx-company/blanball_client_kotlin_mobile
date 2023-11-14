@@ -79,127 +79,130 @@ fun EmailVerificationModal(
             (state as? StartScreensMainContract.State)?.let {
                 Column {
                     Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                            text = stringResource(R.string.confiming_email_adress),
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            style = typography.h3,
-                            fontWeight = FontWeight(700),
-                            color = primaryDark,
-                        )
+                    Text(
+                        text = stringResource(R.string.confiming_email_adress),
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h3,
+                        fontWeight = FontWeight(700),
+                        color = primaryDark,
+                    )
                     Spacer(modifier = Modifier.size(12.dp))
-                        DefaultTextInput(
-                            modifier = Modifier.fillMaxWidth().animateContentSize(),
-                            labelResId = R.string.email,
-                            state = it,
-                            value = state.resetEmailText.value,
-                            onValueChange = { state.resetEmailText.value = it },
-                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                            transformation = VisualTransformation.None,
-                            isError = when {
-                                it.resetEmailText.value.isNotValidEmail() -> true
-                                it.isErrorResetEmailState.value -> true
-                                else -> false
-                            },
-                            errorMessage = when {
-                                it.resetEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
-                                it.isErrorResetEmailState.value -> stringResource(id = R.string.invalid_credential_error)
-                                else -> {
-                                    ""
-                                }
-                            }
-                        )
-                        if (!showButton)
-                            Text(
-                                text = "${stringResource(id = R.string.send_mail_repeat)} $timerValue ${
-                                    stringResource(
-                                        id = R.string.sec
-                                    )
-                                }",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 12.dp),
-                                textAlign = TextAlign.End,
-                                style = typography.h6,
-                                color = secondaryNavy,
-                            )
-                        if (showButton) {
-                            TextButton(
-                                modifier = Modifier
-                                    .align(Alignment.End),
-                                enabled = it.resetEmailText.value.isValidEmail(),
-                                onClick = {
-                                    resendCodeToEmailClicked()
-                                    setTimerValue(initialTimerValue)
-                                    isRunning = true
-                                },
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.resend),
-                                    style = typography.h6,
-                                    textAlign = TextAlign.Center,
-                                    color = mainGreen,
-                                )
+                    DefaultTextInput(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateContentSize(),
+                        labelResId = R.string.email,
+                        state = it,
+                        value = state.resetEmailText.value,
+                        onValueChange = { state.resetEmailText.value = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        transformation = VisualTransformation.None,
+                        isError = when {
+                            it.resetEmailText.value.isNotValidEmail() -> true
+                            it.isErrorResetEmailState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.resetEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
+                            it.isErrorResetEmailState.value -> stringResource(id = R.string.invalid_credential_error)
+                            else -> {
+                                ""
                             }
                         }
-                        CodeTextInput(
-                            state = it,
-                            modifier = Modifier.padding(top = 8.dp),
-                            enabled = true,
-                            isError = when {
-                                it.codeText.joinToString(separator = "") { it.value }
-                                    .isNotValidCode() -> true
-
-                                it.isErrorSendCodeState.value -> true
-                                else -> false
-                            },
-                            errorMessage = when {
-                                it.isErrorSendCodeState.value -> stringResource(id = R.string.check_code)
-                                it.codeText.joinToString(separator = "") { it.value }
-                                    .isNotValidCode() -> stringResource(
-                                    id = R.string.letter_only_error
+                    )
+                    if (!showButton)
+                        Text(
+                            text = "${stringResource(id = R.string.send_mail_repeat)} $timerValue ${
+                                stringResource(
+                                    id = R.string.sec
                                 )
-                                else -> {
-                                    ""
-                                }
-                            }
+                            }",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp),
+                            textAlign = TextAlign.End,
+                            style = typography.h6,
+                            color = secondaryNavy,
                         )
-                        Spacer(modifier = Modifier.size(20.dp))
-                        Row (verticalAlignment = Alignment.CenterVertically) {
-                            TextButton(onClick = {turnBackBtnClicked()} ) {
-                                Text(
-                                    text = stringResource(id = R.string.close),
-                                    fontSize = 14.sp,
-                                    lineHeight = 20.sp,
-                                    style = typography.h4,
-                                    fontWeight = FontWeight(500),
-                                    color = secondaryNavy,
-                                    textAlign = TextAlign.Center,
-                                )
+                    if (showButton) {
+                        TextButton(
+                            modifier = Modifier
+                                .align(Alignment.End),
+                            enabled = it.resetEmailText.value.isValidEmail(),
+                            onClick = {
+                                resendCodeToEmailClicked()
+                                setTimerValue(initialTimerValue)
+                                isRunning = true
+                            },
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.resend),
+                                style = typography.h6,
+                                textAlign = TextAlign.Center,
+                                color = mainGreen,
+                            )
+                        }
+                    }
+                    CodeTextInput(
+                        state = it,
+                        modifier = Modifier.padding(top = 8.dp),
+                        enabled = true,
+                        isError = when {
+                            it.codeText.joinToString(separator = "") { it.value }
+                                .isNotValidCode() -> true
+
+                            it.isErrorSendCodeState.value -> true
+                            else -> false
+                        },
+                        errorMessage = when {
+                            it.isErrorSendCodeState.value -> stringResource(id = R.string.check_code)
+                            it.codeText.joinToString(separator = "") { it.value }
+                                .isNotValidCode() -> stringResource(
+                                id = R.string.letter_only_error
+                            )
+
+                            else -> {
+                                ""
                             }
-                            Spacer(modifier = Modifier.weight(1f))
-                            Button(
-                                enabled = it.codeText.joinToString(separator = "") { it.value }
-                                    .isValidCode(),
-                                onClick = { confirmBtnClicked() },
-                                shape = shapes.medium,
-                                colors = ButtonDefaults.buttonColors(
-                                    backgroundColor = mainGreen,
-                                    contentColor = Color.White,
-                                )
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.confirm),
-                                    fontSize = 14.sp,
-                                    lineHeight = 24.sp,
-                                    style = typography.h4,
-                                    fontWeight = FontWeight(400),
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
+                        }
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        TextButton(onClick = { turnBackBtnClicked() }) {
+                            Text(
+                                text = stringResource(id = R.string.close),
+                                fontSize = 14.sp,
+                                lineHeight = 20.sp,
+                                style = typography.h4,
+                                fontWeight = FontWeight(500),
+                                color = secondaryNavy,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        Button(
+                            enabled = it.codeText.joinToString(separator = "") { it.value }
+                                .isValidCode(),
+                            onClick = { confirmBtnClicked() },
+                            shape = shapes.medium,
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = mainGreen,
+                                contentColor = Color.White,
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.confirm),
+                                fontSize = 14.sp,
+                                lineHeight = 24.sp,
+                                style = typography.h4,
+                                fontWeight = FontWeight(400),
+                                textAlign = TextAlign.Center,
+                            )
                         }
                     }
                 }
+            }
         }
     )
 }

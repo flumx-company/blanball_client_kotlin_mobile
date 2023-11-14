@@ -154,14 +154,14 @@ fun EventScreen(
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                    Text(
-                        text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO()
-                        fontSize = 14.sp,
-                        lineHeight = 16.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
-                    )
+                Text(
+                    text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO()
+                    fontSize = 14.sp,
+                    lineHeight = 16.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
+                )
             }
             Spacer(modifier = Modifier.size(10.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {

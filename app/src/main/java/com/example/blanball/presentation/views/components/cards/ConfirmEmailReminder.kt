@@ -29,17 +29,17 @@ import com.example.blanball.presentation.theme.typography
 fun ConfirmEmailReminder(
     clickCallback: () -> Unit
 ) {
-    Box (
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(52.dp)
             .background(color = primaryDark, shape = shapes.medium)
             .padding(vertical = 6.dp, horizontal = 8.dp)
-    ){
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth() ) {
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(
                 modifier = Modifier.wrapContentWidth(),
-                text = stringResource(R.string.confirm_your_email) + "\n"+ "zhenyazhuck@outlook.com", //TODO()
+                text = stringResource(R.string.confirm_your_email) + "\n" + "zhenyazhuck@outlook.com", //TODO()
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
@@ -47,22 +47,22 @@ fun ConfirmEmailReminder(
                 color = Color.White,
             )
             Spacer(modifier = Modifier.weight(1f))
-            Box (  modifier = Modifier
+            Box(modifier = Modifier
                 .height(28.dp)
                 .background(color = secondaryNavy, shape = shapes.small)
-                .clickable{ clickCallback() }
+                .clickable { clickCallback() }
                 .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = stringResource(R.string.confirm),
-                        fontSize = 13.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                    )
+                    fontSize = 13.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
     }

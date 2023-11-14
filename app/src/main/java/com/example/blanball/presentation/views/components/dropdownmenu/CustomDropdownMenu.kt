@@ -56,7 +56,7 @@ fun CustomDropDownMenu(
         Row(
             verticalAlignment = CenterVertically,
         ) {
-            Column(columnModifier.animateContentSize(), verticalArrangement = Arrangement.Center ) {
+            Column(columnModifier.animateContentSize(), verticalArrangement = Arrangement.Center) {
                 OutlinedTextField(
                     value = value,
                     onValueChange = onValueChange,

@@ -56,15 +56,19 @@ class PublicProfileViewModel @Inject constructor(
     fun loadUserProfileData() {
         viewModelScope.launch(Dispatchers.IO) {
             setState { copy(state = PublicProfileMainContract.ScreenViewState.Loading) }
-            getUserPublicProfileById()
+            currentState.userId.value?.let {
+                getUserPublicProfileById(
+                    userId = it
+                )
+            }
             getUserReviewsById(Integers.ONE)
             getUserPlannedEventsById(Integers.ONE)
         }
     }
 
-    private fun getUserPublicProfileById() {
+    private fun getUserPublicProfileById(userId: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
-            getUserProfileByIdUseCase.executeGetUserProfileById().let {
+            getUserProfileByIdUseCase.executeGetUserProfileById(userId).let {
                 when (it) {
                     is GetUserProfileByIdResultEntity.Success ->
                         setState {
@@ -72,15 +76,15 @@ class PublicProfileViewModel @Inject constructor(
                                 userFirstNameText = mutableStateOf(it.data.profile.name),
                                 userLastNameText = mutableStateOf(it.data.profile.last_name),
                                 userAvatar = mutableStateOf(it.data.profile.avatar_url),
-                                userRoleText = mutableStateOf(it.data.role),
+                                userRoleText = mutableStateOf(it.data.role?:""),
                                 userIsVerified = mutableStateOf(it.data.is_verified),
                                 userEmail = mutableStateOf(it.data.email?:""),
                                 userPhoneNumberText = mutableStateOf(it.data.phone?:""),
-                                userHeightText = mutableStateOf(it.data.profile.height),
-                                userWeightText = mutableStateOf(it.data.profile.weight),
-                                aboutUserText = mutableStateOf(it.data.profile.about_me),
-                                userPositionText = mutableStateOf(it.data.profile.position),
-                                userWorkingLegText = mutableStateOf(it.data.profile.working_leg),
+                                userHeightText = mutableStateOf(it.data.profile.height?:0),
+                                userWeightText = mutableStateOf(it.data.profile.weight?:0),
+                                aboutUserText = mutableStateOf(it.data.profile.about_me?:""),
+                                userPositionText = mutableStateOf(it.data.profile.position?:"--"),
+                                userWorkingLegText = mutableStateOf(it.data.profile.working_leg?:"--"),
                                 rating = mutableStateOf(it.data.raiting),
                                 state = PublicProfileMainContract.ScreenViewState.LoadingSuccess,
                             )

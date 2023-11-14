@@ -116,10 +116,12 @@ fun FutureEventsScreen(
                     ) {
                         IcBox(
                             icon = if (it.orderingIconState.value) {
-                                it.eventsOrderingSelectionState.value = FutureEventsMainContract.EventsOrderingSelectionState.FIRST_OLDER
+                                it.eventsOrderingSelectionState.value =
+                                    FutureEventsMainContract.EventsOrderingSelectionState.FIRST_OLDER
                                 R.drawable.ic_sorting_old
                             } else {
-                                it.eventsOrderingSelectionState.value = FutureEventsMainContract.EventsOrderingSelectionState.FIRST_NEW
+                                it.eventsOrderingSelectionState.value =
+                                    FutureEventsMainContract.EventsOrderingSelectionState.FIRST_NEW
                                 R.drawable.ic_sorting_new
                             },
                             modifier = Modifier
@@ -301,7 +303,7 @@ fun FutureEventsScreen(
                                     Column(modifier = Modifier.align(CenterVertically)) {
                                         Row {
                                             Text(
-                                                text = stringResource(R.string.players),
+                                                text = stringResource(R.string.players_),
                                                 fontSize = 13.sp,
                                                 lineHeight = 24.sp,
                                                 style = typography.h4,
@@ -355,28 +357,27 @@ fun FutureEventsScreen(
                                         )
                                     }
                                 }
-                                }
+                            }
                             Spacer(modifier = Modifier.size(12.dp))
-                            }
-                            if (state.isLoadingMoreAllEvents) {
-                                item {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 16.dp),
-                                        horizontalArrangement = Arrangement.Center
-                                    ) {
-                                        CircularProgressIndicator(color = mainGreen)
-                                    }
+                        }
+                        if (state.isLoadingMoreAllEvents) {
+                            item {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 16.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    CircularProgressIndicator(color = mainGreen)
                                 }
                             }
-                            item {
-                                InfiniteListHandler(
-                                    lazyListState = lazyListState,
-                                    onLoadMore = onLoadMoreUsers,
-                                    buffer = 1
-                                )
-                            }
+                        }
+                        item {
+                            InfiniteListHandler(
+                                lazyListState = lazyListState,
+                                onLoadMore = onLoadMoreUsers,
+                            )
+                        }
                     }
                 }
             }

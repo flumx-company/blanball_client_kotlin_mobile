@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DefaultCardWithColumn(
     clickCallback: (() -> Unit)? = null,
-    padStart : Dp = 0.dp,
-    padTop : Dp = 0.dp,
-    padEnd : Dp = 0.dp,
-    padBottom : Dp = 0.dp,
+    padStart: Dp = 0.dp,
+    padTop: Dp = 0.dp,
+    padEnd: Dp = 0.dp,
+    padBottom: Dp = 0.dp,
     columnPadStart: Dp = 16.dp,
     columnPadTop: Dp = 16.dp,
     columnPadEnd: Dp = 16.dp,
@@ -31,7 +31,8 @@ fun DefaultCardWithColumn(
             .clickable { clickCallback?.let { it() } }
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = padTop, start = padStart, end = padEnd, bottom = padBottom), shape = RoundedCornerShape(12.dp),
+            .padding(top = padTop, start = padStart, end = padEnd, bottom = padBottom),
+        shape = RoundedCornerShape(12.dp),
     ) {
         Column(
             Modifier.padding(

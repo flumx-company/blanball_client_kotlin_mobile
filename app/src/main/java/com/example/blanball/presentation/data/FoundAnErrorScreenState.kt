@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 class FoundAnErrorScreenMainContract {
 
     sealed class Event : UiEvent {
-       object SendFeedbackButtonClicked: Event()
-       object CloseButtonClicked: Event()
+        object SendFeedbackButtonClicked : Event()
+        object CloseButtonClicked : Event()
     }  //TODO()
 
     data class State(
@@ -16,14 +16,14 @@ class FoundAnErrorScreenMainContract {
         var errorDescriptionText: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
-    sealed class Effect: UiEffect {
-        class ShowToast(val message: String): Effect()
+    sealed class Effect : UiEffect {
+        class ShowToast(val message: String) : Effect()
     }
 
     sealed class ScreenViewState {
-        object Idle: ScreenViewState()
+        object Idle : ScreenViewState()
         object Loading : ScreenViewState()
-        object LoadingSuccess: ScreenViewState()
+        object LoadingSuccess : ScreenViewState()
         object LoadingError : ScreenViewState()
     }
 }

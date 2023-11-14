@@ -138,10 +138,11 @@ fun EventCreationScreenStep1(
                     errorMessage = when {
                         it.eventName.value.isNotValidErrorTopicField() ->
                             stringResource(R.string.validation_text_error_topic)
+
                         else -> {
                             ("")
                         }
-            }
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -217,69 +218,69 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                    DefaultTextInput(
-                        textFieldModifier = Modifier
-                            .fillMaxWidth(),
-                        labelResId = R.string.date,
-                        readOnly = true,
-                        state = it,
-                        onValueChange = {},
-                        value = it.eventDateState.value,
-                        interactionSource = remember { MutableInteractionSource() }
-                            .also { interactionSource ->
-                                LaunchedEffect(interactionSource) {
-                                    interactionSource.interactions.collect {
-                                        if (it is PressInteraction.Release) {
-                                            isDatePickerModalOpen.value = true
-                                        }
+                DefaultTextInput(
+                    textFieldModifier = Modifier
+                        .fillMaxWidth(),
+                    labelResId = R.string.date,
+                    readOnly = true,
+                    state = it,
+                    onValueChange = {},
+                    value = it.eventDateState.value,
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if (it is PressInteraction.Release) {
+                                        isDatePickerModalOpen.value = true
                                     }
                                 }
-                            },
-                        transformation = VisualTransformation.None,
-                        trailingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_date),
-                                contentDescription = null,
-                                tint = primaryDark,
-                            )
-                        })
-                Spacer(modifier = Modifier.size(16.dp))
-                    Text(
-                        text = stringResource(R.string.сhose_event_time),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
-                    )
-                Spacer(modifier = Modifier.size(16.dp))
-                    DefaultTextInput(
-                        labelResId = R.string.event_time_start,
-                        modifier = Modifier
-                            .clickable { isStartTimePickerModalOpen.value = true },
-                        state = it,
-                        readOnly = true,
-                        value = it.startEventTimeState.value ?: "",
-                        onValueChange = {},
-                        interactionSource = remember { MutableInteractionSource() }
-                            .also { interactionSource ->
-                                LaunchedEffect(interactionSource) {
-                                    interactionSource.interactions.collect {
-                                        if (it is PressInteraction.Release) {
-                                            isStartTimePickerModalOpen.value = true
-                                        }
-                                    }
-                                }
-                            },
-                        trailingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_time),
-                                contentDescription = null,
-                                tint = primaryDark,
-                            )
+                            }
                         },
-                        transformation = VisualTransformation.None,
-                    )
+                    transformation = VisualTransformation.None,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_date),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    })
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = stringResource(R.string.сhose_event_time),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                DefaultTextInput(
+                    labelResId = R.string.event_time_start,
+                    modifier = Modifier
+                        .clickable { isStartTimePickerModalOpen.value = true },
+                    state = it,
+                    readOnly = true,
+                    value = it.startEventTimeState.value ?: "",
+                    onValueChange = {},
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if (it is PressInteraction.Release) {
+                                        isStartTimePickerModalOpen.value = true
+                                    }
+                                }
+                            }
+                        },
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_time),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    },
+                    transformation = VisualTransformation.None,
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(labelResId = R.string.event_time_end,
                     state = it,
@@ -387,7 +388,7 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled =  it.eventName.value.isValidErrorTopicField()
+                    isEnabled = it.eventName.value.isValidErrorTopicField()
                             && it.eventName.value.isNotEmpty()
                             && it.eventType.value.isNotEmpty()
                             && it.sportType.value.isNotEmpty(),
@@ -407,7 +408,7 @@ fun EventCreationScreenStep1(
                     isStartTimePickerModalOpen.value -> startTimePickerModalContent()
                     isEndTimePickerModalOpen.value -> endTimePickerModalContent()
                 }
+            }
         }
-    }
     }
 }

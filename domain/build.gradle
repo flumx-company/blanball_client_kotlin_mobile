@@ -29,6 +29,7 @@ android {
         buildConfigField "String", "UPDATE_PROFILE_ENDPOINT", "\"authentication/client/me/update\""
         buildConfigField "String", "REFRESH_TOKEN_ENDPOINT", "\"authentication/client/refresh/tokens\""
         buildConfigField "String", "FLUM_X_URL", "\"https://it-flumx.com\""
+        buildConfigField "String", "USERS_LIST", "\"authentication/client/users/list\""
         buildConfigField "String", "ME_PROFILE_ENDPOINT", "\"authentication/client/me\""
         buildConfigField "String", "GET_ALL_EVENTS_ENDPOINT", "\"events/client/events/list\""
         buildConfigField "String", "CREATE_EVENT_ENDPOINT", "\"events/client/event/create\""

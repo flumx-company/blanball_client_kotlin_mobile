@@ -86,7 +86,7 @@ fun FillingOutTheUserProfileStartScreen(
                         isEnabled = true,
                         nextBtnOnClick = onFillingOutTheUserProfileStep1Clicked,
                         prevBtnOnClick = onRemindMeLater,
-                        nextBtnOnTextId = R.string.set_up ,
+                        nextBtnOnTextId = R.string.set_up,
                         prevBtnOnTextId = R.string.remind_me_later,
                     )
                 }

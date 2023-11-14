@@ -24,7 +24,7 @@ fun Fab(
     clickCallback: () -> Unit,
 ) {
     val rotationState = remember { mutableStateOf(0f) }
-    Box (modifier = modifier){
+    Box(modifier = modifier) {
         FloatingActionButton(
             elevation = FloatingActionButtonDefaults.elevation(0.dp),
             onClick = {

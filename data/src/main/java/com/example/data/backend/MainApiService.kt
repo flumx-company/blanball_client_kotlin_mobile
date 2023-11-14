@@ -16,6 +16,7 @@ import com.example.data.backend.models.responses.GetMyProfileResponse
 import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
+import com.example.data.backend.models.responses.GetUsersListResponse
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
@@ -54,8 +55,8 @@ interface MainApiService  {
     @GET (Endpoints.REVIEWS_ENDPOINT)
     suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
 
-    @GET (Endpoints.PLANNED_EVENTS)
-    suspend fun getListOfUsersPlannedEvents(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+    @GET (Endpoints.PLANNED_EVENTS_ENDPOINT)
+    suspend fun getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
 
     @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
     suspend fun updateUserProfile(@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
@@ -87,4 +88,14 @@ interface MainApiService  {
         @Query("date_and_time_before") date_and_time_before: String,
         @Query("date_and_time_after") date_and_time_after: String,
     ): GetMyEventsResponse
+
+    @GET (Endpoints.USERS_LIST)
+    suspend fun getUsersList (
+        @Query ("page") page: Int,
+        @Query ("profile__gender") profile__gender: String?,
+        @Query ("profile__age_min") profile__age_min: Int?,
+        @Query ("profile__age_max") profile__age_max: Int?,
+        @Query ("profile__position") profile__position: String?,
+        @Query ("ordering") ordering: String?,
+    ) : GetUsersListResponse
 }

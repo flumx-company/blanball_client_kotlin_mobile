@@ -106,13 +106,13 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppScreensConfig(
                             navController = navController,
+                            startDestinations = startDestinations,
                             resetPassViewModel = viewModel(),
                             registrationViewModel = viewModel(),
                             publicProfileViewModel = viewModel(),
                             loginViewModel = viewModel(),
                             onboardingProfileViewModel = viewModel(),
                             navigationDrawerViewModel = navigationDrawerViewModel,
-                            startDestinations = startDestinations,
                             scaffoldState = scaffoldState,
                             coroutineScope = coroutineScope,
                             rememberMeManager = rememberMeManager,
@@ -121,6 +121,7 @@ class MainActivity : ComponentActivity() {
                             userAvatarUrlManager = userAvatarUrlManager,
                             userPhoneManager = userPhoneManager,
                             verifyCodeManager = verifyCodeManager,
+                            usersRatingViewModel = viewModel(),
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),
                             eventCreationScreenViewModel = viewModel(),

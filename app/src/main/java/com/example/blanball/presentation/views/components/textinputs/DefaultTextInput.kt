@@ -46,7 +46,9 @@ import com.example.blanball.presentation.theme.typography
         enabled: Boolean = true,
         interactionSource: MutableInteractionSource = MutableInteractionSource(),
     ) {
-        Column(modifier = modifier.animateContentSize().fillMaxSize()) {
+        Column(modifier = modifier
+            .animateContentSize()
+            .fillMaxSize()) {
             OutlinedTextField(
                 modifier = textFieldModifier,
                 value = value,

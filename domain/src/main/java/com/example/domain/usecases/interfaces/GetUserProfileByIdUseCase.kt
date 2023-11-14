@@ -4,5 +4,6 @@ import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 
 interface GetUserProfileByIdUseCase {
     suspend fun executeGetUserProfileById (
+        userId: Int
     ): GetUserProfileByIdResultEntity
 }
