@@ -1,9 +1,9 @@
 package com.example.domain.entity.results
 
 import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
-import com.example.domain.entity.responses.GetUserProfileByIdDetailDataEntity
+import com.example.domain.entity.responses.GetEventByIdResponseErrorDetailEntity
 
 sealed class GetEventByIdResultEntity {
     data class Success(val data: GetEventByIdResponseDataEntity) : GetEventByIdResultEntity()
-    data class Error(val error: GetUserProfileByIdDetailDataEntity) : GetEventByIdResultEntity()
+    data class Error(val error: GetEventByIdResponseErrorDetailEntity) : GetEventByIdResultEntity()
 }

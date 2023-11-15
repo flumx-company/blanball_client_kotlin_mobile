@@ -15,6 +15,7 @@
     import com.example.data.backend.models.responses.CreationAnEventError
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetAllEventResponseError
+    import com.example.data.backend.models.responses.GetEventByIdResponseError
     import com.example.data.backend.models.responses.GetMyEventsResponseError
     import com.example.data.backend.models.responses.GetMyProfileError
     import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
@@ -38,6 +39,7 @@
     import com.example.data.utils.ext.toGetAllEventEntityResponseError
     import com.example.data.utils.ext.toGetAllEventResponseEntity
     import com.example.data.utils.ext.toGetEventByIdResponse
+    import com.example.data.utils.ext.toGetEventByIdResponseErrorEntity
     import com.example.data.utils.ext.toGetMyEventsEntityResponseError
     import com.example.data.utils.ext.toGetMyEventsResponseEntity
     import com.example.data.utils.ext.toGetMyProfileErrorEntity
@@ -64,6 +66,7 @@
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
     import com.example.domain.entity.responses.GetAllEventEntityResponseError
+    import com.example.domain.entity.responses.GetEventByIdResponseErrorEntity
     import com.example.domain.entity.responses.GetMyEventsEntityResponseError
     import com.example.domain.entity.responses.GetMyProfileErrorEntity
     import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
@@ -111,8 +114,8 @@
                 GetEventByIdResultEntity.Success(getEventByIdResponseDomainResponse.data)
             } catch (ex: HttpException) {
                 val errorResponse =
-                    handleHttpError<GetUserByIdResponseError, GetUserByIdResponseErrorEntity>(ex) {
-                        it
+                    handleHttpError<GetEventByIdResponseError, GetEventByIdResponseErrorEntity>(ex) {
+                        it.toGetEventByIdResponseErrorEntity()
                     }
                 GetEventByIdResultEntity.Error(errorResponse.data.errors[0])
             }

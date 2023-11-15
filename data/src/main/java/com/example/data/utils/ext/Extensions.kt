@@ -30,6 +30,9 @@ import com.example.data.backend.models.responses.GetEventByIdResponse
 import com.example.data.backend.models.responses.GetEventByIdResponseAuthor
 import com.example.data.backend.models.responses.GetEventByIdResponseCoordinates
 import com.example.data.backend.models.responses.GetEventByIdResponseData
+import com.example.data.backend.models.responses.GetEventByIdResponseError
+import com.example.data.backend.models.responses.GetEventByIdResponseErrorData
+import com.example.data.backend.models.responses.GetEventByIdResponseErrorDetail
 import com.example.data.backend.models.responses.GetEventByIdResponseForms
 import com.example.data.backend.models.responses.GetEventByIdResponsePlace
 import com.example.data.backend.models.responses.GetEventByIdResponseProfile
@@ -135,6 +138,9 @@ import com.example.domain.entity.responses.GetEventByIdResponseAuthorEntity
 import com.example.domain.entity.responses.GetEventByIdResponseCoordinatesEntity
 import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
 import com.example.domain.entity.responses.GetEventByIdResponseEntity
+import com.example.domain.entity.responses.GetEventByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.GetEventByIdResponseErrorDetailEntity
+import com.example.domain.entity.responses.GetEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
 import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
 import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
@@ -1019,4 +1025,23 @@ internal fun GetEventByIdResponseProfile.toGetEventByIdResponseProfileEntity(): 
         this.id,
         this.last_name,
         this.name
+    )
+
+internal fun GetEventByIdResponseError.toGetEventByIdResponseErrorEntity(): GetEventByIdResponseErrorEntity =
+    GetEventByIdResponseErrorEntity(
+        this.code,
+        this.data.toGetEventByIdResponseErrorDataEntity(),
+        this.message,
+        this.status,
+    )
+
+internal fun GetEventByIdResponseErrorData.toGetEventByIdResponseErrorDataEntity(): GetEventByIdResponseErrorDataEntity =
+    GetEventByIdResponseErrorDataEntity(
+        listOf(this.errors[0].toGetEventByIdResponseErrorDetailEntity()),
+        this.type,
+    )
+
+internal fun GetEventByIdResponseErrorDetail.toGetEventByIdResponseErrorDetailEntity(): GetEventByIdResponseErrorDetailEntity =
+    GetEventByIdResponseErrorDetailEntity(
+        this.detail
     )
