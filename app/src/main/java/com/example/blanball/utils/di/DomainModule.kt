@@ -3,6 +3,7 @@ package com.example.blanball.utils.di
 import com.example.domain.usecases.implementations.CreationAnEventUseCaseImpl
 import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetAllEventsUseCaseImpl
+import com.example.domain.usecases.implementations.GetEventByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserPlannedEventsByIdUseCaseImpl
@@ -15,6 +16,7 @@ import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
+import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetMyEventsUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
@@ -67,4 +69,7 @@ interface DomainModule {
 
     @Binds
     fun bindGetMyEventsUseCase(getMyEventsUseCaseImpl: GetMyEventsUseCaseImpl): GetMyEventsUseCase
+
+    @Binds
+    fun bindGetEventByIdUseCase(getEventByIdUseCaseImpl: GetEventByIdUseCaseImpl): GetEventByIdUseCase
 }
