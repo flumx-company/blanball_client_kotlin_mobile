@@ -11,7 +11,17 @@ class EventScreenMainContract {
     data class State(
         val state: ScreenViewState,
         val currentEventId: MutableState<Int> = mutableStateOf(0),
-    ) : UiState
+        val eventName: MutableState<String> = mutableStateOf(""),
+        val sportType: MutableState<String> = mutableStateOf(""),
+        val eventDateAndTime: MutableState<String> = mutableStateOf(""),
+        val eventPlaceName: MutableState<String> = mutableStateOf(""),
+        val eventDescription: MutableState<String> = mutableStateOf(""),
+        val eventGenders: MutableState<String> = mutableStateOf(""),
+        val eventAuthorName: MutableState<String> = mutableStateOf(""),
+        val eventAuthorPhone: MutableState<String> = mutableStateOf(""),
+        val eventAuthorAvatar: MutableState<String> = mutableStateOf(""),
+
+        ) : UiState
 
     sealed class ScreenViewState {
         object Idle : ScreenViewState()
