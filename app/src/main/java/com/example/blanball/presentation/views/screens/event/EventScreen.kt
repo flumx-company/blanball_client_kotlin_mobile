@@ -60,6 +60,8 @@ import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.ext.formatTimeRange
+import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
 fun EventScreen(
@@ -140,7 +142,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = state.eventDateAndTime.value, //TODO()
+                        text = state.eventDateAndTime.value.formatToUkrainianDate(), //TODO()
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -149,7 +151,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = state.eventDateAndTime.value, //TODO()
+                        text = state.eventDateAndTime.value.formatTimeRange(state.eventDuration.value), //TODO()
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -190,7 +192,11 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = "Безкоштовно", //TODO()
+                        text = if (state.eventPrice.value == 0) {
+                            stringResource(id = R.string.free)
+                        } else {
+                            state.eventPrice.value.toString()
+                        },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         style = typography.h3,
@@ -226,8 +232,8 @@ fun EventScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    TextBadge2(text = state.sportType.value) //TODO()
-                    TextBadge2(text = state.eventGenders.value) //TODO()
+                    TextBadge2(text = state.sportType.value)
+                    TextBadge2(text = state.eventGenders.value)
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 Box(
@@ -503,7 +509,8 @@ fun EventScreen(
                 Spacer(modifier = Modifier.size(20.dp))
                 UserCardWithPhone(
                     userAvatarUrl = state.eventAuthorAvatar.value,
-                    name = state.eventAuthorName.value,
+                    firstName = state.eventAuthorFirstName.value,
+                    lastName = state.eventAuthorLastName.value,
                     userPhone = state.eventAuthorPhone.value,
                     userRole = stringResource(R.string.organizer),
                     clickCallback = { navigateToEventAuthorPublicProfile() },
@@ -544,7 +551,7 @@ fun EventScreen(
                     Column {
                         repeat(times = 8) {
                             PlayerOnEventCard(
-                                userAvatarUrl = "http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg",
+                                userAvatarUrl = "",
                                 userFirstName = "Женя",
                                 userLastName = "Жучара",
                                 userPosition = "ВРТ",

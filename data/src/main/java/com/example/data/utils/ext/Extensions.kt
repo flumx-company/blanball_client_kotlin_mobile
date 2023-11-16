@@ -979,7 +979,7 @@ internal fun GetEventByIdResponseData.toGetEventByIdResponseDataEntity(): GetEve
         this.date_and_time,
         this.description,
         this.duration,
-        this.forms.toGetEventByIdResponseFormsEntity(),
+        this.forms?.toGetEventByIdResponseFormsEntity(),
         this.gender,
         this.id,
         this.name,

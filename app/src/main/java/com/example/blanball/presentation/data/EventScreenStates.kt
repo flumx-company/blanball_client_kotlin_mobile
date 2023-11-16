@@ -14,14 +14,16 @@ class EventScreenMainContract {
         val eventName: MutableState<String> = mutableStateOf(""),
         val sportType: MutableState<String> = mutableStateOf(""),
         val eventDateAndTime: MutableState<String> = mutableStateOf(""),
+        val eventDuration: MutableState<Int> = mutableStateOf(0),
         val eventPlaceName: MutableState<String> = mutableStateOf(""),
         val eventDescription: MutableState<String> = mutableStateOf(""),
         val eventGenders: MutableState<String> = mutableStateOf(""),
-        val eventAuthorName: MutableState<String> = mutableStateOf(""),
+        val eventAuthorFirstName: MutableState<String> = mutableStateOf(""),
+        val eventAuthorLastName: MutableState<String> = mutableStateOf(""),
         val eventAuthorPhone: MutableState<String> = mutableStateOf(""),
         val eventAuthorAvatar: MutableState<String> = mutableStateOf(""),
-
-        ) : UiState
+        val eventPrice: MutableState<Int> = mutableStateOf(0),
+    ) : UiState
 
     sealed class ScreenViewState {
         object Idle : ScreenViewState()

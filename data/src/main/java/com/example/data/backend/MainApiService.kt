@@ -102,6 +102,6 @@ interface MainApiService  {
 
     @GET(Endpoints.GET_EVENT_ENDPOINT)
     suspend fun getEventById(
-        @Query("id") id: Int,
+        @Path("id") id: Int,
     ): GetEventByIdResponse
 }

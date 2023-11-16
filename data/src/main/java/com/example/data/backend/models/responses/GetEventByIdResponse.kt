@@ -10,27 +10,27 @@ data class GetEventByIdResponse(
 )
 
 data class GetEventByIdResponseData(
-    @Json(name = "amount_members") val amount_members: Int,
+    @Json(name = "amount_members") val amount_members: Int? = null,
     @Json(name = "author") val author: GetEventByIdResponseAuthor,
-    @Json(name = "contact_number") val contact_number: String,
+    @Json(name = "contact_number") val contact_number: String? = null,
     @Json(name = "coordinates") val coordinates: GetEventByIdResponseCoordinates,
     @Json(name = "current_fans") val current_fans: List<Any>,
     @Json(name = "current_users") val current_users: List<Any>,
     @Json(name = "date_and_time") val date_and_time: String,
     @Json(name = "description") val description: String,
     @Json(name = "duration") val duration: Int,
-    @Json(name = "forms") val forms: GetEventByIdResponseForms,
+    @Json(name = "forms") val forms: GetEventByIdResponseForms? = null,
     @Json(name = "gender") val gender: String,
     @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,
     @Json(name = "need_ball") val need_ball: Boolean,
     @Json(name = "need_form") val need_form: Boolean,
     @Json(name = "place") val place: GetEventByIdResponsePlace,
-    @Json(name = "price") val price: Int,
-    @Json(name = "price_description") val price_description: String,
+    @Json(name = "price") val price: Int? = null,
+    @Json(name = "price_description") val price_description: String? = null,
     @Json(name = "privacy") val privacy: Boolean,
-    @Json(name = "request_user_role") val request_user_role: String,
-    @Json(name = "status") val status: String,
+    @Json(name = "request_user_role") val request_user_role: String? = null,
+    @Json(name = "status") val status: String? = null,
     @Json(name = "type") val type: String
 )
 
@@ -41,20 +41,20 @@ data class GetEventByIdResponseAuthor(
 )
 
 data class GetEventByIdResponseCoordinates(
-    @Json(name = "coordinates") val coordinates: List<Int>,
+    @Json(name = "coordinates") val coordinates: List<Float>? = null,
     @Json(name = "type") val type: String
 )
 
 class GetEventByIdResponseForms  // TODO("Not implemented on the backend")
 
 data class GetEventByIdResponsePlace(
-    @Json(name = "lat") val lat: Int,
-    @Json(name = "lon") val lon: Int,
+    @Json(name = "lat") val lat: Float,
+    @Json(name = "lon") val lon: Float,
     @Json(name = "place_name") val place_name: String
 )
 
 data class GetEventByIdResponseProfile(
-    @Json(name = "avatar_url") val avatar_url: Any,
+    @Json(name = "avatar_url") val avatar_url: String? = null,
     @Json(name = "id") val id: Int,
     @Json(name = "last_name") val last_name: String,
     @Json(name = "name") val name: String

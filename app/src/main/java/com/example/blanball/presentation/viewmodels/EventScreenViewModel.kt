@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.viewmodels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.EventScreenMainContract
@@ -56,9 +57,22 @@ class EventScreenViewModel
                     is GetEventByIdResultEntity.Success ->
                         setState {
                             copy(
+                                eventName = mutableStateOf(it.data.name),
+                                sportType = mutableStateOf(it.data.type),
+                                eventDateAndTime = mutableStateOf(it.data.date_and_time),
+                                eventDuration = mutableStateOf(it.data.duration),
+                                eventPlaceName = mutableStateOf(it.data.place.place_name),
+                                eventDescription = mutableStateOf(it.data.description),
+                                eventGenders = mutableStateOf(it.data.gender),
+                                eventAuthorFirstName = mutableStateOf(it.data.author.profile.name),
+                                eventAuthorLastName = mutableStateOf(it.data.author.profile.last_name),
+                                eventAuthorPhone = mutableStateOf(it.data.author.phone),
+                                eventAuthorAvatar = mutableStateOf(
+                                    it.data.author.profile.avatar_url ?: ""
+                                ),
+                                eventPrice = mutableStateOf(it.data.price ?: 0),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
-
-                                )
+                            )
                         }
 
                     is GetEventByIdResultEntity.Error -> {
