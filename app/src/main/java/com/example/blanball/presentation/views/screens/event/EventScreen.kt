@@ -537,8 +537,8 @@ fun EventScreen(
                 TabRow(tabs = tabs, icons = icons)
                 Spacer(modifier = Modifier.size(20.dp))
                 TeamSwitcher(
-                    "Команда 1",
-                    "Команда 2" //TODO()
+                    stringResource(R.string.team_first),
+                    stringResource(R.string.team_second)
                 )
                 Spacer(modifier = Modifier.size(24.dp))
                 Box(

@@ -35,7 +35,7 @@ private enum class TeamTab {
 
 @Composable
 fun TeamSwitcher(
-    fistTeamName: String,
+    firstTeamName: String,
     secondTeamName: String,
 ) {
     var selectedTab by remember { mutableStateOf(TeamTab.FIRST_TEAM) }
@@ -47,33 +47,33 @@ fun TeamSwitcher(
     ) {
         Box(
             modifier = Modifier
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    topStart = 6.dp,
-                    topEnd = 0.dp,
-                    bottomEnd = 0.dp,
-                    bottomStart = 6.dp
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(
+                        topStart = 6.dp,
+                        topEnd = 0.dp,
+                        bottomEnd = 0.dp,
+                        bottomStart = 6.dp
+                    )
                 )
-            )
-            .border(
-                width = 1.dp,
-                color = if (selectedTab == TeamTab.FIRST_TEAM) classicRed else secondaryNavy,
-                shape = RoundedCornerShape(
-                    topStart = 6.dp,
-                    topEnd = 0.dp,
-                    bottomEnd = 0.dp,
-                    bottomStart = 6.dp
+                .border(
+                    width = 1.dp,
+                    color = if (selectedTab == TeamTab.FIRST_TEAM) classicRed else secondaryNavy,
+                    shape = RoundedCornerShape(
+                        topStart = 6.dp,
+                        topEnd = 0.dp,
+                        bottomEnd = 0.dp,
+                        bottomStart = 6.dp
+                    )
                 )
-            )
-            .width(108.dp)
-            .height(32.dp)
-            .clickable { selectedTab = TeamTab.FIRST_TEAM },
+                .width(108.dp)
+                .height(32.dp)
+                .clickable { selectedTab = TeamTab.FIRST_TEAM },
             contentAlignment = Alignment.Center
         )
         {
             Text(
-                text = fistTeamName,
+                text = firstTeamName,
                 fontSize = 13.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
