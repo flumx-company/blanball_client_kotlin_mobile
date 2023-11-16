@@ -2,6 +2,7 @@ package com.example.blanball.presentation.navigation
 
 import Destinations
 import PublicProfileScreen
+import android.content.Intent
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -19,8 +20,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
@@ -95,6 +99,7 @@ import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.domain.utils.Endpoints
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
@@ -979,7 +984,22 @@ fun AppScreensConfig(
                 })
         }
 
-        composable(Destinations.EVENT.route) {
+        composable(
+            route = Destinations.EVENT.route,
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "${Endpoints.WEB_DOMAIN}${Endpoints.DOMAIN_EVENTS_PATH}/{id}"
+                    action = Intent.ACTION_VIEW
+                }
+            ),
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) { entry ->
+            eventScreenViewModelCurrentState.currentEventId.value = entry.arguments!!.getInt("id")
             val resetState = resetPassViewModel.uiState.collectAsState().value
             var isVerificationModalVisible = remember { mutableStateOf(false) }
             var isShareLinkModalVisible = remember { mutableStateOf(false) }
