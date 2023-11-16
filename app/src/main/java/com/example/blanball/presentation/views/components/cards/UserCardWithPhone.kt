@@ -31,8 +31,8 @@ import com.example.blanball.presentation.theme.typography
 @Composable
 fun UserCardWithPhone(
     userAvatarUrl: String,
-    userFirstName: String,
-    userLastName: String,
+    firstName: String,
+    lastName: String,
     userPhone: String,
     userRole: String,
     clickCallback: (() -> Unit)? = null
@@ -55,7 +55,7 @@ fun UserCardWithPhone(
                             .fillMaxSize()
                     )
                     Text(
-                        text = "${userFirstName.firstOrNull() ?: ""} ${userLastName.firstOrNull() ?: ""}",
+                        text = "${firstName.firstOrNull() ?: ""}${lastName.firstOrNull() ?: ""}",// TODO()
                         modifier = Modifier.align(
                             Alignment.Center
                         ),
@@ -75,7 +75,7 @@ fun UserCardWithPhone(
             Spacer(modifier = Modifier.size(8.dp))
             Column {
                 Text(
-                    text = "$userFirstName $userLastName",
+                    text = "$firstName $lastName",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,

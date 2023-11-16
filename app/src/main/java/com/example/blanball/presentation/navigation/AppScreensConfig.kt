@@ -1,8 +1,8 @@
 package com.example.blanball.presentation.navigation
 
 import Destinations
-import android.content.Intent
 import PublicProfileScreen
+import android.content.Intent
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -139,6 +139,7 @@ fun AppScreensConfig(
         eventCreationScreenViewModel.uiState.collectAsState().value
     val futureEventsScreenViewModelState =
         futureEventsScreenViewModel.uiState.collectAsState().value
+    val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
     val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
 
     var selectedEventTab: MutableState<EventTab> =
@@ -1003,6 +1004,10 @@ fun AppScreensConfig(
             var isVerificationModalVisible = remember { mutableStateOf(false) }
             var isShareLinkModalVisible = remember { mutableStateOf(false) }
 
+            LaunchedEffect(key1 = Unit) {
+                eventScreenViewModel.loadUEventData()
+            }
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1020,7 +1025,9 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    EventScreen(paddingValues = it,
+                    EventScreen(
+                        state = eventScreenViewModelState,
+                        paddingValues = it,
                         isVerificationModalVisible = isVerificationModalVisible,
                         verificationModalScreenContent = {
                             EmailVerificationModal( //TODO()
@@ -1036,7 +1043,8 @@ fun AppScreensConfig(
                                 backBtnClicked = { isShareLinkModalVisible.value = false },
                                 currentEventId = eventScreenViewModelCurrentState.currentEventId.value,
                             )
-                        }
+                        },
+                        navigateToEventAuthorPublicProfile = {},
                     )
                 })
         }

@@ -23,6 +23,7 @@ object Endpoints {
      const val GET_MY_EVENTS_ENDPOINT = BuildConfig.GET_MY_EVENTS
      const val WEB_DOMAIN = BuildConfig.WEB_DOMAIN
      const val DOMAIN_EVENTS_PATH = BuildConfig.DOMAIN_EVENTS_PATH
+     const val GET_EVENT_ENDPOINT = BuildConfig.GET_EVENT_ENDPOINT
 }
 
 object Code {
@@ -54,7 +55,6 @@ object Strings {
      const val FOOTBALL = "Football"
      const val FUTSAL = "Futsal"
 }
-
 
 object Integers {
      const val ZERO = 0

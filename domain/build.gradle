@@ -36,6 +36,7 @@ android {
         buildConfigField "String", "GET_MY_EVENTS", "\"events/client/my/events/list\""
         buildConfigField "String", "WEB_DOMAIN", "\"http://178.151.201.167:49201/\"" //Test domain
         buildConfigField "String", "DOMAIN_EVENTS_PATH", "\"application/events/\""
+        buildConfigField "String", "GET_EVENT_ENDPOINT", "\"events/client/event/{id}\""
     }
 
     buildTypes {

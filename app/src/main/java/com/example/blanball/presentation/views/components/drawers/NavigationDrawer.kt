@@ -113,7 +113,7 @@ fun NavigationDrawer(
                                         alignment = Alignment.Center
                                     )
                                     Text(
-                                        text = "${state.userLastNameText.value.firstOrNull()} ${state.userFirstNameText.value.firstOrNull()}",
+                                        text = "${state.userLastNameText.value.firstOrNull()}${state.userFirstNameText.value.firstOrNull()}",
                                         style = typography.h2, fontSize = 22.sp, color = mainGreen
                                     )
                                 }
