@@ -988,25 +988,28 @@ fun AppScreensConfig(
             route = Destinations.EVENT.route,
             deepLinks = listOf(
                 navDeepLink {
-                    uriPattern = "${Endpoints.WEB_DOMAIN}${Endpoints.DOMAIN_EVENTS_PATH}/{id}"
+                    uriPattern = "${Endpoints.WEB_DOMAIN}${Endpoints.DOMAIN_EVENTS_PATH}{id}"
                     action = Intent.ACTION_VIEW
                 }
             ),
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.IntType
-                    defaultValue = -1
+                    defaultValue = 0
                 }
             )
         ) { entry ->
-            eventScreenViewModelCurrentState.currentEventId.value = entry.arguments!!.getInt("id")
-            val resetState = resetPassViewModel.uiState.collectAsState().value
-            var isVerificationModalVisible = remember { mutableStateOf(false) }
-            var isShareLinkModalVisible = remember { mutableStateOf(false) }
-
+            val eventId = entry.arguments?.getInt("id")
+            if (eventId != 0) {
+                eventScreenViewModelCurrentState.currentEventId.value = eventId
+            }
             LaunchedEffect(key1 = Unit) {
                 eventScreenViewModel.loadUEventData()
             }
+
+            val resetState = resetPassViewModel.uiState.collectAsState().value
+            var isVerificationModalVisible = remember { mutableStateOf(false) }
+            var isShareLinkModalVisible = remember { mutableStateOf(false) }
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -1039,10 +1042,12 @@ fun AppScreensConfig(
                         },
                         isShareLinkModalVisible = isShareLinkModalVisible,
                         shareLinkModalScreenContent = {
-                            ShareAnEventModal(
-                                backBtnClicked = { isShareLinkModalVisible.value = false },
-                                currentEventId = eventScreenViewModelCurrentState.currentEventId.value,
-                            )
+                            eventScreenViewModelCurrentState.currentEventId.value?.let { id ->
+                                ShareAnEventModal(
+                                    backBtnClicked = { isShareLinkModalVisible.value = false },
+                                    currentEventId = id,
+                                )
+                            }
                         },
                         navigateToEventAuthorPublicProfile = {},
                     )

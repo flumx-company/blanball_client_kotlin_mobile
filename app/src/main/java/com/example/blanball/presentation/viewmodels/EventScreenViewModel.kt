@@ -42,7 +42,7 @@ class EventScreenViewModel
                     state = EventScreenMainContract.ScreenViewState.Loading
                 )
             }
-            currentState.currentEventId.value.let {
+            currentState.currentEventId.value?.let {
                 getEventById(
                     userId = it
                 )
