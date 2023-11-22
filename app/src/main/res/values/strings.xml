@@ -338,6 +338,7 @@
     <string name="copy_link">Скопіювати посилання</string>
     <string name="link_on_event">Посилання на подію</string>
     <string name="creation_event">Створення події</string>
+    <string name="edit_event">Створення події</string>
     <string name="event_type">Тип події</string>
     <string name="gender_of_event_participants">Стать учасників події</string>
     <string name="sport_type">Вид спорту</string>

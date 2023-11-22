@@ -37,9 +37,6 @@ dependencies {
     //Core
     implementation 'androidx.core:core-ktx:1.10.1'
 
-    //Room
-    api 'android.arch.persistence.room:runtime:1.1.1'
-
     //Retrofit
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
 
@@ -51,9 +48,9 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'androidx.core:core-ktx:1.10.1'
 
-    //Tests
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    //Tests
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 
     //Hilt DI
     implementation "com.google.dagger:hilt-android:2.46.1"

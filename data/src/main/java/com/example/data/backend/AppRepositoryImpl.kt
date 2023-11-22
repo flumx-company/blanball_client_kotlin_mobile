@@ -3,6 +3,8 @@
     import com.example.data.backend.models.requests.AuthRequest
     import com.example.data.backend.models.requests.CreationAnEventRequest
     import com.example.data.backend.models.requests.CreationAnEventRequestPlace
+    import com.example.data.backend.models.requests.EditEventByIdRequest
+    import com.example.data.backend.models.requests.EditEventByIdRequestPlace
     import com.example.data.backend.models.requests.ProfileRegistrationRequest
     import com.example.data.backend.models.requests.RegistrationRequest
     import com.example.data.backend.models.requests.ResetCompleteRequest
@@ -13,6 +15,7 @@
     import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
     import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
     import com.example.data.backend.models.responses.CreationAnEventError
+    import com.example.data.backend.models.responses.EditEventByIdResponseError
     import com.example.data.backend.models.responses.EmailPassResetError
     import com.example.data.backend.models.responses.GetAllEventResponseError
     import com.example.data.backend.models.responses.GetEventByIdResponseError
@@ -33,6 +36,8 @@
     import com.example.data.datastore.verifycodemanager.VerifyCodeManager
     import com.example.data.utils.ext.toCreationAnEventErrorEntity
     import com.example.data.utils.ext.toCreationAnEventResponseEntity
+    import com.example.data.utils.ext.toEditEventByIdResponseEntity
+    import com.example.data.utils.ext.toEditEventByIdResponseErrorEntity
     import com.example.data.utils.ext.toEmailPassResetErrorEntity
     import com.example.data.utils.ext.toEmailResetResponse
     import com.example.data.utils.ext.toErrorResponse
@@ -63,6 +68,7 @@
     import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
     import com.example.domain.entity.responses.CreationAnEventErrorEntity
     import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+    import com.example.domain.entity.responses.EditEventByIdResponseErrorEntity
     import com.example.domain.entity.responses.EmailPassResetErrorEntity
     import com.example.domain.entity.responses.ErrorResponse
     import com.example.domain.entity.responses.GetAllEventEntityResponseError
@@ -78,6 +84,7 @@
     import com.example.domain.entity.responses.SendCodeErrorEntity
     import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
     import com.example.domain.entity.results.CreationAnEventResultEntity
+    import com.example.domain.entity.results.EditEventByIdResultEntity
     import com.example.domain.entity.results.EmailResetResultEntity
     import com.example.domain.entity.results.FillingTheUserProfileResultEntity
     import com.example.domain.entity.results.GetAllEventsResultEntity
@@ -105,6 +112,66 @@
         internal val userPhoneManager: UserPhoneManager,
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
+
+        override suspend fun editEventById(
+            id: Int,
+            amount_members: Int?,
+            contact_number: String?,
+            date_and_time: String,
+            description: String,
+            duration: Int,
+            forms: Any?,
+            gender: String,
+            hidden: Boolean?,
+            name: String,
+            need_ball: Boolean,
+            need_form: Boolean,
+            place_name: String,
+            lat: Int,
+            lon: Int,
+            place: String,
+            price: Int?,
+            price_description: String?,
+            privacy: Boolean,
+            type: String
+        ): EditEventByIdResultEntity {
+            return try {
+                val editEventByIdResponse = service.editEventById(
+                    id = id,
+                    editEventByIdRequest = EditEventByIdRequest(
+                        amount_members = amount_members,
+                        contact_number = contact_number,
+                        date_and_time = date_and_time,
+                        description = description,
+                        duration = duration,
+                        forms = forms,
+                        gender = gender,
+                        hidden = hidden,
+                        name = name,
+                        need_ball = need_ball,
+                        need_form = need_form,
+                        place = EditEventByIdRequestPlace(
+                            lat = lat,
+                            lon = lon,
+                            place_name = place_name,
+                        ),
+                        price = price,
+                        price_description = price_description,
+                        privacy = privacy,
+                        type = type,
+                    )
+                )
+                val editEventByIdDomainResponse =
+                    editEventByIdResponse.toEditEventByIdResponseEntity()
+                EditEventByIdResultEntity.Success(editEventByIdDomainResponse.data)
+            } catch (ex: HttpException) {
+                val errorResponse =
+                    handleHttpError<EditEventByIdResponseError, EditEventByIdResponseErrorEntity>(ex) {
+                        it.toEditEventByIdResponseErrorEntity()
+                    }
+                EditEventByIdResultEntity.Error(errorResponse.data.errors[0])
+            }
+        }
 
         override suspend fun getEventById(id: Int): GetEventByIdResultEntity {
             return try {

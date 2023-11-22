@@ -4,12 +4,14 @@ package com.example.data.backend
 import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.CreationAnEventRequest
+import com.example.data.backend.models.requests.EditEventByIdRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
 import com.example.data.backend.models.responses.CreationAnEventResponse
+import com.example.data.backend.models.responses.EditEventByIdResponse
 import com.example.data.backend.models.responses.GetAllEventResponse
 import com.example.data.backend.models.responses.GetEventByIdResponse
 import com.example.data.backend.models.responses.GetMyEventsResponse
@@ -104,4 +106,10 @@ interface MainApiService  {
     suspend fun getEventById(
         @Path("id") id: Int,
     ): GetEventByIdResponse
+
+    @PUT(Endpoints.EDIT_EVENT_ENDPOINT)
+    suspend fun editEventById(
+        @Body editEventByIdRequest: EditEventByIdRequest,
+        @Path("id") id: Int
+    ): EditEventByIdResponse
 }

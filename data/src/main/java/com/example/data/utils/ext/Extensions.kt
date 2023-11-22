@@ -14,6 +14,11 @@ import com.example.data.backend.models.responses.DataError
 import com.example.data.backend.models.responses.DataResetCompleteError
 import com.example.data.backend.models.responses.DataResetCompleteResponse
 import com.example.data.backend.models.responses.DataSendCode
+import com.example.data.backend.models.responses.EditEventByIdResponse
+import com.example.data.backend.models.responses.EditEventByIdResponseData
+import com.example.data.backend.models.responses.EditEventByIdResponseError
+import com.example.data.backend.models.responses.EditEventByIdResponseErrorData
+import com.example.data.backend.models.responses.EditEventByIdResponseErrorDetail
 import com.example.data.backend.models.responses.EmailPassDataError
 import com.example.data.backend.models.responses.EmailPassResetError
 import com.example.data.backend.models.responses.EmailPassResetErrors
@@ -120,6 +125,11 @@ import com.example.domain.entity.responses.CreationAnEventResponseEntityPlace
 import com.example.domain.entity.responses.DataCompleteResponseEntity
 import com.example.domain.entity.responses.DataEmailResetEntity
 import com.example.domain.entity.responses.DataSendCodeDomain
+import com.example.domain.entity.responses.EditEventByIdResponseEntity
+import com.example.domain.entity.responses.EditEventByIdResponseEntityData
+import com.example.domain.entity.responses.EditEventByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.EditEventByIdResponseErrorDetailEntity
+import com.example.domain.entity.responses.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.EmailPassDataErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorsEntity
@@ -1043,5 +1053,37 @@ internal fun GetEventByIdResponseErrorData.toGetEventByIdResponseErrorDataEntity
 
 internal fun GetEventByIdResponseErrorDetail.toGetEventByIdResponseErrorDetailEntity(): GetEventByIdResponseErrorDetailEntity =
     GetEventByIdResponseErrorDetailEntity(
+        this.detail
+    )
+
+internal fun EditEventByIdResponse.toEditEventByIdResponseEntity(): EditEventByIdResponseEntity =
+    EditEventByIdResponseEntity(
+        this.code,
+        this.data.toEditEventByIdResponseEntityData(),
+        this.message,
+        this.status
+    )
+
+internal fun EditEventByIdResponseData.toEditEventByIdResponseEntityData(): EditEventByIdResponseEntityData =
+    EditEventByIdResponseEntityData(
+        this.success
+    )
+
+internal fun EditEventByIdResponseError.toEditEventByIdResponseErrorEntity(): EditEventByIdResponseErrorEntity =
+    EditEventByIdResponseErrorEntity(
+        this.code,
+        this.data.toEditEventByIdResponseErrorDataEntity(),
+        this.message,
+        this.status
+    )
+
+internal fun EditEventByIdResponseErrorData.toEditEventByIdResponseErrorDataEntity(): EditEventByIdResponseErrorDataEntity =
+    EditEventByIdResponseErrorDataEntity(
+        listOf(this.errors[0].toEditEventByIdResponseErrorDetailEntity()),
+        this.type
+    )
+
+internal fun EditEventByIdResponseErrorDetail.toEditEventByIdResponseErrorDetailEntity(): EditEventByIdResponseErrorDetailEntity =
+    EditEventByIdResponseErrorDetailEntity(
         this.detail
     )

@@ -24,6 +24,7 @@ object Endpoints {
      const val WEB_DOMAIN = BuildConfig.WEB_DOMAIN
      const val DOMAIN_EVENTS_PATH = BuildConfig.DOMAIN_EVENTS_PATH
      const val GET_EVENT_ENDPOINT = BuildConfig.GET_EVENT_ENDPOINT
+    const val EDIT_EVENT_ENDPOINT = BuildConfig.EDIT_EVENT_ENDPOINT
 }
 
 object Code {

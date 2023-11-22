@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EditEventScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
@@ -13,8 +13,8 @@ import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
 import com.example.blanball.utils.ext.calculateTimeDifferenceInMinutes
 import com.example.blanball.utils.ext.formatToIso8601DateTime
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.usecases.interfaces.CreationAnEventUseCase
+import com.example.domain.entity.results.EditEventByIdResultEntity
+import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,49 +28,49 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventCreationScreensViewModel
+class EditEventScreensViewModel
 @Inject constructor(
-    internal val creationNewEventUseCase: CreationAnEventUseCase,
+    internal val editEventByIdUseCase: EditEventByIdUseCase,
     private val application: Application,
 ) : ViewModel() {
 
     private var job: Job? = null
 
     val defaultState
-        get() = EventCreationScreenMainContract.State(
-            state = EventCreationScreenMainContract.ScreenViewState.Idle,
+        get() = EditEventScreenMainContract.State(
+            state = EditEventScreenMainContract.ScreenViewState.Idle,
         )
 
-    val currentState: EventCreationScreenMainContract.State
-        get() = uiState.value as EventCreationScreenMainContract.State
+    val currentState: EditEventScreenMainContract.State
+        get() = uiState.value as EditEventScreenMainContract.State
 
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _sideEffect: MutableSharedFlow<EventCreationScreenMainContract.Effect> =
+    private val _sideEffect: MutableSharedFlow<EditEventScreenMainContract.Effect> =
         MutableSharedFlow(replay = 0)
-    val sideEffect: SharedFlow<EventCreationScreenMainContract.Effect> = _sideEffect.asSharedFlow()
+    val sideEffect: SharedFlow<EditEventScreenMainContract.Effect> = _sideEffect.asSharedFlow()
 
     fun handleEvent(event: UiEvent) {
         when (event) {
-            is EventCreationScreenMainContract.Event.CreateNewEventClicked -> {
+            is EditEventScreenMainContract.Event.EditEventClicked -> {
                 setState {
                     copy(
-                        state = EventCreationScreenMainContract.ScreenViewState.Loading
+                        state = EditEventScreenMainContract.ScreenViewState.Loading
                     )
                 }
-                requestCreationNewEvent()
+                requestEditEventById()
             }
         }
     }
 
-    private fun requestCreationNewEvent() {
+    private fun requestEditEventById() {
         job = viewModelScope.launch(Dispatchers.IO) {
-            creationNewEventUseCase.executeCreationAnEvent(
+            editEventByIdUseCase.executeEditEventById(
+                id = currentState.eventId.value,
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
                 contact_number = currentState.phoneNumberState.value,
-                current_users = emptyList(), //TODO()
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
                     time = currentState.startEventTimeState.value
@@ -88,26 +88,28 @@ class EventCreationScreensViewModel
                 lat = 90, //TODO()
                 lon = 180, //TODO()
                 price = 10, //TODO
+                place_name = "Todo",
                 price_description = "Todo", //TODO()
-                privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
+                forms = null, //TODO()
+                privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
             ).let {
                 when (it) {
-                    is CreationAnEventResultEntity.Success -> {
+                    is EditEventByIdResultEntity.Success -> {
                         setState {
                             copy(
-                                state = EventCreationScreenMainContract.ScreenViewState.SuccessRequest,
+                                state = EditEventScreenMainContract.ScreenViewState.SuccessRequest,
                                 isSuccessEventCreation = mutableStateOf(true),
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
-                                playersGenderStates = mutableStateOf(EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT),
+                                playersGenderStates = mutableStateOf(EditEventScreenMainContract.PlayersGenderStates.NO_SELECT),
                                 timeAndDateOfEvent = mutableStateOf(""),
                                 placeOfEvent = mutableStateOf(""),
                                 sportType = mutableStateOf(""),
-                                entryStates = mutableStateOf(EventCreationScreenMainContract.EntryStates.NO_SELECT),
-                                contributingStates = mutableStateOf(EventCreationScreenMainContract.СontributionsStates.NO_SELECT),
-                                needFormStates = mutableStateOf(EventCreationScreenMainContract.NeedFormStates.NO_SELECT),
+                                entryStates = mutableStateOf(EditEventScreenMainContract.EntryStates.NO_SELECT),
+                                contributingStates = mutableStateOf(EditEventScreenMainContract.СontributionsStates.NO_SELECT),
+                                needFormStates = mutableStateOf(EditEventScreenMainContract.NeedFormStates.NO_SELECT),
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescriptionState = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -120,10 +122,10 @@ class EventCreationScreensViewModel
                         }
                     }
 
-                    is CreationAnEventResultEntity.Error -> {
+                    is EditEventByIdResultEntity.Error -> {
                         setState {
                             copy(
-                                state = EventCreationScreenMainContract.ScreenViewState.ErrorRequest,
+                                state = EditEventScreenMainContract.ScreenViewState.ErrorRequest,
                                 isErrorEventCreation = mutableStateOf(true),
                             )
                         }
@@ -133,7 +135,7 @@ class EventCreationScreensViewModel
         }
     }
 
-    internal fun setState(reduce: EventCreationScreenMainContract.State.() -> EventCreationScreenMainContract.State) {
+    internal fun setState(reduce: EditEventScreenMainContract.State.() -> EditEventScreenMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }

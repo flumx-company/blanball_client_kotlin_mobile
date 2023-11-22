@@ -3,6 +3,7 @@ package com.example.blanball.utils.ext
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EditEventScreenMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
@@ -102,6 +103,29 @@ internal fun String.formatSportTypeToEnglish(context: Context): String {
     }
 }
 
+
+internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
+    return when (this) {
+        is EventCreationScreenMainContract.EventPrivacyStates -> {
+            when (this) {
+                EventCreationScreenMainContract.EventPrivacyStates.YES -> true
+                EventCreationScreenMainContract.EventPrivacyStates.NO -> false
+                else -> false
+            }
+        }
+
+        is EditEventScreenMainContract.EventPrivacyStates -> {
+            when (this) {
+                EditEventScreenMainContract.EventPrivacyStates.YES -> true
+                EditEventScreenMainContract.EventPrivacyStates.NO -> false
+                else -> false
+            }
+        }
+
+        else -> false
+    }
+}
+
 internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
         EventCreationScreenMainContract.EventPrivacyStates.YES -> true
@@ -110,19 +134,59 @@ internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStat
     }
 }
 
-internal fun EventCreationScreenMainContract.NeedFormStates.NeedFormStatesToBoolean(): Boolean {
+internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
     return when (this) {
-        EventCreationScreenMainContract.NeedFormStates.YES -> true
-        EventCreationScreenMainContract.NeedFormStates.NO -> false
+        is EventCreationScreenMainContract.NeedFormStates -> {
+            when (this) {
+                EventCreationScreenMainContract.NeedFormStates.YES -> true
+                EventCreationScreenMainContract.NeedFormStates.NO -> false
+                else -> false
+            }
+        }
+
+        is EditEventScreenMainContract.NeedFormStates -> {
+            when (this) {
+                EditEventScreenMainContract.NeedFormStates.YES -> true
+                EditEventScreenMainContract.NeedFormStates.NO -> false
+                else -> false
+            }
+        }
+
         else -> false
     }
 }
 
-internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToString(context: Context): String {
+internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): String {
     return when (this) {
-        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man)
-        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman)
-        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+        is EventCreationScreenMainContract.PlayersGenderStates -> {
+            when (this) {
+                EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(
+                    R.string.man
+                )
+
+                EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
+                    R.string.woman
+                )
+
+                EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+            }
+        }
+
+        is EditEventScreenMainContract.PlayersGenderStates -> {
+            when (this) {
+                EditEventScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(
+                    R.string.man
+                )
+
+                EditEventScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
+                    R.string.woman
+                )
+
+                EditEventScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+            }
+        }
+
+        else -> ""
     }
 }
 
