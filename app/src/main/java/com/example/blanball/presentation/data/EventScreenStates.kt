@@ -10,7 +10,7 @@ class EventScreenMainContract {
 
     data class State(
         val state: ScreenViewState,
-        val currentEventId: MutableState<Int> = mutableStateOf(0),
+        val currentEventId: MutableState<Int?> = mutableStateOf(null),
         val eventName: MutableState<String> = mutableStateOf(""),
         val sportType: MutableState<String> = mutableStateOf(""),
         val eventDateAndTime: MutableState<String> = mutableStateOf(""),
