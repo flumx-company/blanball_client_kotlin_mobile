@@ -28,6 +28,7 @@ import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
+import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
@@ -933,6 +934,11 @@ fun AppScreensConfig(
 
         composable(Destinations.MY_PROFILE.route) {
             val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
+
+            LaunchedEffect(key1 = Unit, block = {
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
+            })
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
