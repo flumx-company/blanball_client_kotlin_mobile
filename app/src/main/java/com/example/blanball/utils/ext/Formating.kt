@@ -312,3 +312,18 @@ internal fun String.convertToPositionCode(context: Context): String? {
         else -> null
     }
 }
+
+internal fun String.toFormattedBirthdayDate(): String? {
+    if (this.isEmpty()) {
+        return ""
+    }
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd-MMMMM-yyyy", Locale.getDefault())
+
+    return try {
+        val date = inputFormat.parse(this)
+        outputFormat.format(date)
+    } catch (e: Exception) {
+        this
+    }
+}

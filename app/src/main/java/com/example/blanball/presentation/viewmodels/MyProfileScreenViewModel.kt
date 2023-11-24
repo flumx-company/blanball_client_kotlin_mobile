@@ -41,16 +41,13 @@ class MyProfileScreenViewModel @Inject constructor(
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-
     fun handleScreenState(screenViewState: MyProfileScreensMainContract.ScreenViewState) {
         when (screenViewState) {
             is MyProfileScreensMainContract.ScreenViewState.Loading -> {
                 getMyProfile()
             }
-
             is MyProfileScreensMainContract.ScreenViewState.LoadingError -> {
             }
-
             else -> {}
         }
     }
@@ -61,7 +58,6 @@ class MyProfileScreenViewModel @Inject constructor(
                 when (val result =
                     getMyProfileUseCase.executeGetMyProfile(1)) {
                     is GetMyProfileResultEntity.Success -> {
-
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
                         myProfile.avatar_url?.let { avatarUrl ->
@@ -100,6 +96,9 @@ class MyProfileScreenViewModel @Inject constructor(
                                 emailStringState = mutableStateOf(result.success.email ?: ""),
                                 myGenderState = mutableStateOf(result.success.profile.gender ?: ""),
                                 roleState = mutableStateOf(result.success.role ?: ""),
+                                birthdayState = mutableStateOf(
+                                    result.success.profile.birthday ?: ""
+                                ),
                                 state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess
                             )
                         }
@@ -117,5 +116,4 @@ class MyProfileScreenViewModel @Inject constructor(
         val newState = currentState.reduce()
         _uiState.value = newState
     }
-
 }

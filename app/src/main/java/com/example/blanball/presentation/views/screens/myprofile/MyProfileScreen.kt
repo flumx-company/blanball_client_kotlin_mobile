@@ -199,7 +199,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.dayBirthdayState.value, //TODO()
+                    text = state.birthdayState.value,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -394,6 +394,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.phoneNumberRadioButtonState.value = it },
                         selected = it.phoneNumberRadioButtonState.value,
@@ -411,6 +412,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.emailRadioButtonState.value = it },
                         selected = it.emailRadioButtonState.value,
@@ -428,6 +430,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.myReviewsRadioButtonState.value = it },
                         selected = it.myReviewsRadioButtonState.value,
@@ -445,6 +448,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.plannedEventsRadioButtonState.value = it },
                         selected = it.plannedEventsRadioButtonState.value,

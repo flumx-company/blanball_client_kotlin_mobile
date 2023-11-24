@@ -25,12 +25,13 @@ class MyProfileScreensMainContract {
         val positionState: MutableState<String> = mutableStateOf(""),
         val regionState: MutableState<String> = mutableStateOf(""),
         val cityState: MutableState<String> = mutableStateOf(""),
-        val dayBirthdayState: MutableState<String> = mutableStateOf(""),
-        val monthBirthdayState: MutableState<String> = mutableStateOf(""),
-        val yearBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editDayBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editMonthBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editYearBirthdayState: MutableState<String> = mutableStateOf(""),
         val emailStringState: MutableState<String> = mutableStateOf(""),
         val myGenderState: MutableState<String> = mutableStateOf(""),
         val roleState: MutableState<String> = mutableStateOf(""),
+        val birthdayState: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class Effect: UiEffect {
