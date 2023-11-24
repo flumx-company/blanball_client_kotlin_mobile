@@ -99,6 +99,9 @@ class MyProfileScreenViewModel @Inject constructor(
                                 birthdayState = mutableStateOf(
                                     result.success.profile.birthday ?: ""
                                 ),
+                                placeState = mutableStateOf(
+                                    result.success.profile.place?.place_name ?: ""
+                                ),
                                 state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess
                             )
                         }

@@ -220,17 +220,6 @@ fun AppScreensConfig(
         )
     }
 
-    val openBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.expand()
-        }
-    }
-    val closeBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.hide()
-        }
-    }
-
     val invitedUsersDrawerState = rememberModalBottomSheetState()
     val isInvitedUsersDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
@@ -238,18 +227,6 @@ fun AppScreensConfig(
         InvitedUsersBottomDrawer(
             bottomDrawerState = invitedUsersDrawerState,
             closeBottomDrawer = { isInvitedUsersDrawerOpen.value = false })
-    }
-
-    val openInvitedUsersDrawerDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.expand()
-        }
-    }
-
-    val closeInvitedUsersDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.hide()
-        }
     }
 
     NavHost(
@@ -960,7 +937,23 @@ fun AppScreensConfig(
                         state = myProfileScreenState,
                         paddingValues = it,
                         editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
-                        exitBtnClicked = {},
+                        exitBtnClicked = {
+                            navController.navigate(Destinations.LOGIN.route)
+                            {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                            coroutineScope.launch {
+                                rememberMeManager.deleteRememberMeFlag()
+                                tokenManager.deleteRefreshToken()
+                                tokenManager.deleteAccessToken()
+                                userAvatarUrlManager.deleteAvatarUrl()
+                                userNameManager.deleteUserName()
+                                userPhoneManager.deleteUserPhone()
+                                verifyCodeManager.deleteVerifyCode()
+                            }
+                        },
                         deleteAccBtnClicked = {}
                     )
                 }

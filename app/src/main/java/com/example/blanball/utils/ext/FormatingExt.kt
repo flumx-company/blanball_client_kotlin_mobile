@@ -313,17 +313,31 @@ internal fun String.convertToPositionCode(context: Context): String? {
     }
 }
 
-internal fun String.toFormattedBirthdayDate(): String? {
-    if (this.isEmpty()) {
+internal fun String?.toFormattedBirthdayDate(): String? {
+    if (this?.isEmpty() == true) {
         return ""
     }
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("dd-MMMMM-yyyy", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("d MMMM yyyy 'р.'", Locale("uk", "UA"))
 
     return try {
         val date = inputFormat.parse(this)
-        outputFormat.format(date)
+        date?.let { outputFormat.format(it) }
     } catch (e: Exception) {
-        this
+        return this
     }
+}
+
+fun String.calculateAge(): String {
+    if (this.isEmpty()) {
+        return ""
+    }
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val currentDate = Calendar.getInstance().time
+    val birthDate = dateFormat.parse(this)
+
+    val diff = currentDate.time - birthDate.time
+    val age = diff / (1000L * 60 * 60 * 24 * 365)
+
+    return age.toString()
 }

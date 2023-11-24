@@ -58,6 +58,8 @@ import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
+import com.example.blanball.utils.ext.calculateAge
+import com.example.blanball.utils.ext.toFormattedBirthdayDate
 
 @Composable
 fun MyProfileScreen(
@@ -159,9 +161,16 @@ fun MyProfileScreen(
                             Row {
                                 MyProfileMainGreenTextBadge(text = state.roleState.value)
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = "25 років") //TODO()
+                                MyProfileMainGreenTextBadge(
+                                    text = "${state.birthdayState.value.calculateAge()} ${
+                                        stringResource(id = R.string.years)
+                                    }"
+                                )
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = state.myGenderState.value)
+                                MyProfileMainGreenTextBadge(
+                                    text =
+                                    state.myGenderState.value
+                                )
                             }
                         }
                     }
@@ -199,7 +208,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.birthdayState.value,
+                    text = state.birthdayState.value.toFormattedBirthdayDate() ?: "",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -348,7 +357,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.cityState.value,
+                    text = state.placeState.value,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,

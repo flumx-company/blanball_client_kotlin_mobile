@@ -32,7 +32,9 @@ class MyProfileScreensMainContract {
         val myGenderState: MutableState<String> = mutableStateOf(""),
         val roleState: MutableState<String> = mutableStateOf(""),
         val birthdayState: MutableState<String> = mutableStateOf(""),
-    ) : UiState
+        val placeState: MutableState<String> = mutableStateOf(""),
+
+        ) : UiState
 
     sealed class Effect: UiEffect {
         class ShowToast(val message: String): Effect()
