@@ -222,7 +222,7 @@ fun EditMyProfileScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                MyRatingCard()
+                MyRatingCard(4.7f)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = stringResource(R.string.about_me),

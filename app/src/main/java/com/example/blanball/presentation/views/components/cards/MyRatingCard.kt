@@ -26,7 +26,9 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.ratingbars.RatingBarWithStarsAndNum
 
 @Composable
-fun MyRatingCard() {
+fun MyRatingCard(
+    ratingValue: Float
+) {
     Box (
         Modifier
             .fillMaxWidth()
@@ -44,10 +46,10 @@ fun MyRatingCard() {
                 color = primaryDark,
             )
             Spacer(Modifier.size(8.dp))
-            RatingBarWithStarsAndNum(ratingValue = 4.7f)
+            RatingBarWithStarsAndNum(ratingValue = ratingValue)
             Spacer(Modifier.size(8.dp))
             Text(
-                text = "Переглянути відгуки (17)",
+                text = "Переглянути відгуки (17)", //TODO
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -57,10 +59,4 @@ fun MyRatingCard() {
                 )
         }
     }
-}
-
-@Preview
-@Composable
-fun RatingBarWithNumUI() {
-    RatingBarWithStarsAndNum(ratingValue = 4.7f)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.formatRatingToFloat
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -101,6 +102,9 @@ class MyProfileScreenViewModel @Inject constructor(
                                 ),
                                 placeState = mutableStateOf(
                                     result.success.profile.place?.place_name ?: ""
+                                ),
+                                ratingState = mutableStateOf(
+                                    result.success.raiting?.formatRatingToFloat() ?: 0f
                                 ),
                                 state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess
                             )

@@ -176,7 +176,7 @@ fun MyProfileScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                MyRatingCard()
+                MyRatingCard(ratingValue = state.ratingState.value)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = stringResource(R.string.about_me),

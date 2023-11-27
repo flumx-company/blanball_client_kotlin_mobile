@@ -33,7 +33,7 @@ class MyProfileScreensMainContract {
         val roleState: MutableState<String> = mutableStateOf(""),
         val birthdayState: MutableState<String> = mutableStateOf(""),
         val placeState: MutableState<String> = mutableStateOf(""),
-
+        val ratingState: MutableState<Float> = mutableStateOf(0f),
         ) : UiState
 
     sealed class Effect: UiEffect {
