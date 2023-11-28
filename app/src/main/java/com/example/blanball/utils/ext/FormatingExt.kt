@@ -102,8 +102,6 @@ internal fun String.formatSportTypeToEnglish(context: Context): String {
         else -> ""
     }
 }
-
-
 internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
         is EventCreationScreenMainContract.EventPrivacyStates -> {
