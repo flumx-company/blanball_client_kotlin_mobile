@@ -131,7 +131,6 @@ internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStat
         else -> false
     }
 }
-
 internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
     return when (this) {
         is EventCreationScreenMainContract.NeedFormStates -> {
@@ -153,7 +152,6 @@ internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
         else -> false
     }
 }
-
 internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): String {
     return when (this) {
         is EventCreationScreenMainContract.PlayersGenderStates -> {
@@ -187,7 +185,6 @@ internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): Stri
         else -> ""
     }
 }
-
 internal fun String.SportTypesStringsToEnglish(context: Context): String {
     return when (this) {
         context.resources.getString(R.string.football) -> context.resources.getString(R.string.football_us)
