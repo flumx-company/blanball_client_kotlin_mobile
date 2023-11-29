@@ -3,6 +3,7 @@ package com.example.domain.repository
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
+import com.example.domain.entity.results.EditMyProfileResultEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
@@ -131,4 +132,24 @@ interface AppRepository {
         privacy: Boolean,
         type: String
     ): EditEventByIdResultEntity
+
+    suspend fun editMyProfile(
+        phone: String,
+        email: Boolean,
+        emailRequestConfiguration: Boolean,
+        phoneRequestConfiguration: Boolean,
+        showReviewsRequestConfiguration: Boolean,
+        about_me: String,
+        birthday: String,
+        gender: String,
+        height: Int,
+        last_name: String,
+        name: String,
+        position: String,
+        weight: Int,
+        working_leg: String,
+        lat: Int,
+        lon: Int,
+        place_name: String,
+    ): EditMyProfileResultEntity
 }
