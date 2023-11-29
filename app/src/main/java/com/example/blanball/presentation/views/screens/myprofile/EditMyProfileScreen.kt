@@ -222,7 +222,7 @@ fun EditMyProfileScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                MyRatingCard()
+                MyRatingCard(4.7f)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = stringResource(R.string.about_me),
@@ -261,8 +261,8 @@ fun EditMyProfileScreen(
                     BottomLineDefaultTextInput(
                         labelResId = R.string.day,
                         modifier = Modifier.weight(1f),
-                        value = it.dayBirthdayState.value,
-                        onValueChange = { state.dayBirthdayState.value = it },
+                        value = it.editDayBirthdayState.value,
+                        onValueChange = { state.editDayBirthdayState.value = it },
                         state = it,
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -271,12 +271,12 @@ fun EditMyProfileScreen(
                         ),
                         isError = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> true
-                            it.dayBirthdayState.value.isNotValidBirthDay() -> true
+                            it.editDayBirthdayState.value.isNotValidBirthDay() -> true
                             else -> false
                         },
                         errorMessage = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.dayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
+                            it.editDayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
                             else -> {
                                 ("")
                             }
@@ -284,23 +284,26 @@ fun EditMyProfileScreen(
                     )
                     BottomLineDefaultTextInput(
                         labelResId = R.string.month,
-                        value = it.monthBirthdayState.value,
+                        value = it.editMonthBirthdayState.value,
                         modifier = Modifier.weight(1f),
                         state = it,
                         transformation = VisualTransformation.None,
-                        onValueChange = { state.monthBirthdayState.value = it },
+                        onValueChange = { state.editMonthBirthdayState.value = it },
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Next,
                             keyboardType = KeyboardType.Number
                         ),
                         isError = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> true
-                            it.monthBirthdayState.value.isNotValidBirthMonth() -> true
+                            it.editMonthBirthdayState.value.isNotValidBirthMonth() -> true
                             else -> false
                         },
                         errorMessage = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.monthBirthdayState.value.isNotValidBirthMonth() -> stringResource(id = R.string.birth_month_valid_error)
+                            it.editMonthBirthdayState.value.isNotValidBirthMonth() -> stringResource(
+                                id = R.string.birth_month_valid_error
+                            )
+
                             else -> {
                                 ("")
                             }
@@ -311,8 +314,8 @@ fun EditMyProfileScreen(
                         state = it,
                         modifier = Modifier.weight(1f),
                         transformation = VisualTransformation.None,
-                        value = it.yearBirthdayState.value,
-                        onValueChange = { state.yearBirthdayState.value = it },
+                        value = it.editYearBirthdayState.value,
+                        onValueChange = { state.editYearBirthdayState.value = it },
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Done,
                             keyboardType = KeyboardType.Number
@@ -320,12 +323,15 @@ fun EditMyProfileScreen(
                         keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         isError = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> true
-                            it.yearBirthdayState.value.isNotValidBirthYear() -> true
+                            it.editYearBirthdayState.value.isNotValidBirthYear() -> true
                             else -> false
                         },
                         errorMessage = when {
 //                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
-                            it.yearBirthdayState.value.isNotValidBirthYear() -> stringResource(id = R.string.birth_year_valid_error)
+                            it.editYearBirthdayState.value.isNotValidBirthYear() -> stringResource(
+                                id = R.string.birth_year_valid_error
+                            )
+
                             else -> {
                                 ("")
                             }

@@ -24,31 +24,33 @@ import com.example.blanball.presentation.theme.typography
 fun MyProfileMainGreenTextBadge(
     text: String,
 ) {
-    Box(
-        modifier = Modifier
-            .background(color = mainGreen, shape = RoundedCornerShape(size = 100.dp))
-            .padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 2.dp)
-            .wrapContentSize()
-    )
-    {
-        Row {
-            Text(
-                text = stringResource(R.string.hashtag),
+    if (text.isNotEmpty()) {
+        Box(
+            modifier = Modifier
+                .background(color = mainGreen, shape = RoundedCornerShape(size = 100.dp))
+                .padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 2.dp)
+                .wrapContentSize()
+        )
+        {
+            Row {
+                Text(
+                    text = stringResource(R.string.hashtag),
                     fontSize = 12.sp,
                     lineHeight = 16.sp,
                     style = typography.h4,
                     fontWeight = FontWeight(400),
                     color = Color.White,
                 )
-            Spacer(modifier = Modifier.size(4.dp))
-            Text(
-                text = text,
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(400),
-                color = Color.White,
-            )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = text,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = Color.White,
+                )
+            }
         }
     }
 }

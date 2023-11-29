@@ -28,6 +28,7 @@ import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
+import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
@@ -219,17 +220,6 @@ fun AppScreensConfig(
         )
     }
 
-    val openBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.expand()
-        }
-    }
-    val closeBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.hide()
-        }
-    }
-
     val invitedUsersDrawerState = rememberModalBottomSheetState()
     val isInvitedUsersDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
@@ -237,18 +227,6 @@ fun AppScreensConfig(
         InvitedUsersBottomDrawer(
             bottomDrawerState = invitedUsersDrawerState,
             closeBottomDrawer = { isInvitedUsersDrawerOpen.value = false })
-    }
-
-    val openInvitedUsersDrawerDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.expand()
-        }
-    }
-
-    val closeInvitedUsersDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.hide()
-        }
     }
 
     NavHost(
@@ -933,6 +911,11 @@ fun AppScreensConfig(
 
         composable(Destinations.MY_PROFILE.route) {
             val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
+
+            LaunchedEffect(key1 = Unit, block = {
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
+            })
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -954,7 +937,23 @@ fun AppScreensConfig(
                         state = myProfileScreenState,
                         paddingValues = it,
                         editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
-                        exitBtnClicked = {},
+                        exitBtnClicked = {
+                            navController.navigate(Destinations.LOGIN.route)
+                            {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                            coroutineScope.launch {
+                                rememberMeManager.deleteRememberMeFlag()
+                                tokenManager.deleteRefreshToken()
+                                tokenManager.deleteAccessToken()
+                                userAvatarUrlManager.deleteAvatarUrl()
+                                userNameManager.deleteUserName()
+                                userPhoneManager.deleteUserPhone()
+                                verifyCodeManager.deleteVerifyCode()
+                            }
+                        },
                         deleteAccBtnClicked = {}
                     )
                 }

@@ -35,7 +35,7 @@ interface AppRepository {
         re_password: String,
         name: String,
         lastName: String,
-        gender: String
+        gender: String,
     ): RegistrationResultEntity
 
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
