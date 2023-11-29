@@ -35,37 +35,43 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 
-interface MainApiService  {
+interface MainApiService {
 
     @POST(Endpoints.LOGIN_ENDPOINT)
     suspend fun loginAuthorization(@Body authRequest: AuthRequest): LoginSuccess
 
     @POST(Endpoints.SEND_EMAIL_PASSWORD_RESET_ENDPOINT)
-    suspend fun sendEmailPasswordReset(@Body sendEmailPasswordResetRequest: SendEmailPasswordResetRequest) : SendEmailPasswordResetSuccess
+    suspend fun sendEmailPasswordReset(@Body sendEmailPasswordResetRequest: SendEmailPasswordResetRequest): SendEmailPasswordResetSuccess
 
     @POST(Endpoints.VALIDATE_RESET_CODE_ENDPOINT)
     suspend fun validateResetCode(@Body sendResetCodeRequest: SendResetCodeRequest): SendCodeResponse
 
-    @POST (Endpoints.RESET_COMPLETE_ENDPOINT)
+    @POST(Endpoints.RESET_COMPLETE_ENDPOINT)
     suspend fun resetComplete(@Body resetCompleteRequest: ResetCompleteRequest): ResetCompleteResponse
 
-    @POST (Endpoints.REGISTER_ENDPOINT)
+    @POST(Endpoints.REGISTER_ENDPOINT)
     suspend fun userRegistration(@Body registrationRequest: RegistrationRequest): RegistrationResponse
 
     @GET(Endpoints.USER_PROFILE_ENDPOINT)
-    suspend fun getUserProfileById(@Path ("id") id: Int): GetUserProfileByIdResponse
+    suspend fun getUserProfileById(@Path("id") id: Int): GetUserProfileByIdResponse
 
-    @GET (Endpoints.REVIEWS_ENDPOINT)
-    suspend fun getUserReviewsById(@Path ("id") id: Int, @Query ("page") page: Int ): GetUserReviewsByIdResponse
+    @GET(Endpoints.REVIEWS_ENDPOINT)
+    suspend fun getUserReviewsById(
+        @Path("id") id: Int,
+        @Query("page") page: Int
+    ): GetUserReviewsByIdResponse
 
-    @GET (Endpoints.PLANNED_EVENTS_ENDPOINT)
-    suspend fun getListOfUsersPlannedEvents (@Path ("id") id: Int, @Query ("page") page: Int ): GetUserPlannedEventsByIdResponse
+    @GET(Endpoints.PLANNED_EVENTS_ENDPOINT)
+    suspend fun getListOfUsersPlannedEvents(
+        @Path("id") id: Int,
+        @Query("page") page: Int
+    ): GetUserPlannedEventsByIdResponse
 
-    @PUT (Endpoints.UPDATE_PROFILE_ENDPOINT)
+    @PUT(Endpoints.UPDATE_PROFILE_ENDPOINT)
     suspend fun updateUserProfile(@Body updateUserProfileRequest: UpdateUserProfileRequest): UpdateUserProfileResponse
 
-    @GET (Endpoints.ME_PROFILE_ENDPOINT)
-    suspend fun getMyProfile(@Query ("page") page: Int): GetMyProfileResponse
+    @GET(Endpoints.ME_PROFILE_ENDPOINT)
+    suspend fun getMyProfile(@Query("page") page: Int): GetMyProfileResponse
 
     @GET(Endpoints.GET_ALL_EVENTS_ENDPOINT)
     suspend fun getAllEvents(
@@ -112,4 +118,6 @@ interface MainApiService  {
         @Body editEventByIdRequest: EditEventByIdRequest,
         @Path("id") id: Int
     ): EditEventByIdResponse
+
+//    @POST(Endpoints.EMAIL_VERIFY_REQUEST_ENDPOINT)
 }

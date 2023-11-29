@@ -38,6 +38,7 @@ android {
         buildConfigField "String", "DOMAIN_EVENTS_PATH", "\"application/events/\""
         buildConfigField "String", "GET_EVENT_ENDPOINT", "\"events/client/event/{id}\""
         buildConfigField "String", "EDIT_EVENT_ENDPOINT", "\"events/client/event/update/{id}\""
+        buildConfigField "String", "VERIFY_EMAIL_REQUEST_ENDPOINT", "\"authentication/client/request-verify/email\""
     }
 
     buildTypes {
