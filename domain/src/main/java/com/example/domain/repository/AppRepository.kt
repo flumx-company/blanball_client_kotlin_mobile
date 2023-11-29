@@ -133,23 +133,23 @@ interface AppRepository {
         type: String
     ): EditEventByIdResultEntity
 
-    suspend fun editMyProfile(
-        phone: String,
-        email: Boolean,
-        emailRequestConfiguration: Boolean,
-        phoneRequestConfiguration: Boolean,
-        showReviewsRequestConfiguration: Boolean,
-        about_me: String,
-        birthday: String,
-        gender: String,
-        height: Int,
-        last_name: String,
-        name: String,
-        position: String,
-        weight: Int,
-        working_leg: String,
-        lat: Int,
-        lon: Int,
-        place_name: String,
-    ): EditMyProfileResultEntity
+//    suspend fun editMyProfile(
+//        phone: String,
+//        email: Boolean,
+//        emailRequestConfiguration: Boolean,
+//        phoneRequestConfiguration: Boolean,
+//        showReviewsRequestConfiguration: Boolean,
+//        about_me: String,
+//        birthday: String,
+//        gender: String,
+//        height: Int,
+//        last_name: String,
+//        name: String,
+//        position: String,
+//        weight: Int,
+//        working_leg: String,
+//        lat: Int,
+//        lon: Int,
+//        place_name: String,
+//    ): EditMyProfileResultEntity
 }

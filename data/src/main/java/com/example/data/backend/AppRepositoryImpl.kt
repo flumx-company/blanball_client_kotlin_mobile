@@ -118,63 +118,63 @@
         internal val userNameManager: UserNameManager,
     ) : AppRepository {
 
-        override suspend fun editMyProfile(
-            phone: String,
-            email: Boolean,
-            emailRequestConfiguration: Boolean,
-            phoneRequestConfiguration: Boolean,
-            showReviewsRequestConfiguration: Boolean,
-            about_me: String,
-            birthday: String,
-            gender: String,
-            height: Int,
-            last_name: String,
-            name: String,
-            position: String,
-            weight: Int,
-            working_leg: String,
-            lat: Int,
-            lon: Int,
-            place_name: String
-        ): EditMyProfileResultEntity {
-            return try {
-                val editMyProfileByIdResponse = service.ediMyProfile(
-                    EditMyProfileRequest(
-                        phone = phone,
-                        configuration = EditMyProfileRequestConfiguration(
-                            email = emailRequestConfiguration,
-                            phone = phoneRequestConfiguration,
-                            show_reviews = showReviewsRequestConfiguration,
-                        ),
-                        profile = EditMyProfileRequestProfile(
-                            about_me = about_me,
-                            birthday = birthday,
-                            gender = gender,
-                            height = height,
-                            last_name = last_name,
-                            name = name,
-                            place = EditMyProfileRequestPlace(
-                                lat = lat,
-                                lon = lon,
-                                place_name = place_name,
-                            ),
-                            position = position,
-                            weight = weight,
-                            working_leg = working_leg,
-                        ),
-                    )
-                )
-                val editEventByIdDomainResponse =
-                    editEventByIdResponse.toEditEventByIdResponseEntity()
-                EditEventByIdResultEntity.Success(editEventByIdDomainResponse.data)
-            } catch (ex: HttpException) {
-                val errorResponse =
-                    handleHttpError<EditEventByIdResponseError, EditEventByIdResponseErrorEntity>(ex) {
-                        it.toEditEventByIdResponseErrorEntity()
-                    }
-                EditEventByIdResultEntity.Error(errorResponse.data.errors[0])
-            }
-        }
+//        override suspend fun editMyProfile(
+//            phone: String,
+//            email: Boolean,
+//            emailRequestConfiguration: Boolean,
+//            phoneRequestConfiguration: Boolean,
+//            showReviewsRequestConfiguration: Boolean,
+//            about_me: String,
+//            birthday: String,
+//            gender: String,
+//            height: Int,
+//            last_name: String,
+//            name: String,
+//            position: String,
+//            weight: Int,
+//            working_leg: String,
+//            lat: Int,
+//            lon: Int,
+//            place_name: String
+//        ): EditMyProfileResultEntity {
+//            return try {
+//                val editMyProfileByIdResponse = service.ediMyProfile(
+//                    EditMyProfileRequest(
+//                        phone = phone,
+//                        configuration = EditMyProfileRequestConfiguration(
+//                            email = emailRequestConfiguration,
+//                            phone = phoneRequestConfiguration,
+//                            show_reviews = showReviewsRequestConfiguration,
+//                        ),
+//                        profile = EditMyProfileRequestProfile(
+//                            about_me = about_me,
+//                            birthday = birthday,
+//                            gender = gender,
+//                            height = height,
+//                            last_name = last_name,
+//                            name = name,
+//                            place = EditMyProfileRequestPlace(
+//                                lat = lat,
+//                                lon = lon,
+//                                place_name = place_name,
+//                            ),
+//                            position = position,
+//                            weight = weight,
+//                            working_leg = working_leg,
+//                        ),
+//                    )
+//                )
+//                val editEventByIdDomainResponse =
+//                    editEventByIdResponse.toEditEventByIdResponseEntity()
+//                EditEventByIdResultEntity.Success(editEventByIdDomainResponse.data)
+//            } catch (ex: HttpException) {
+//                val errorResponse =
+//                    handleHttpError<EditEventByIdResponseError, EditEventByIdResponseErrorEntity>(ex) {
+//                        it.toEditEventByIdResponseErrorEntity()
+//                    }
+//                EditEventByIdResultEntity.Error(errorResponse.data.errors[0])
+//            }
+//        }
 
         override suspend fun editEventById(
             id: Int,
