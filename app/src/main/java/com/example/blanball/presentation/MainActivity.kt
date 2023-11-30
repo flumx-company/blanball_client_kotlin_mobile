@@ -27,7 +27,7 @@ import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
     lateinit var userPhoneManager: UserPhoneManager
 
     @Inject
-    lateinit var verifyCodeManager: VerifyCodeManager
+    lateinit var resetPassVerifyCodeManager: ResetPassVerifyCodeManager
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
@@ -120,7 +120,7 @@ class MainActivity : ComponentActivity() {
                             userNameManager = userNameManager,
                             userAvatarUrlManager = userAvatarUrlManager,
                             userPhoneManager = userPhoneManager,
-                            verifyCodeManager = verifyCodeManager,
+                            resetPassVerifyCodeManager = resetPassVerifyCodeManager,
                             usersRatingViewModel = viewModel(),
                             foundAnErrorViewModel = viewModel(),
                             myProfileScreenViewModel = viewModel(),

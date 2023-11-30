@@ -2,6 +2,7 @@ package com.example.blanball.utils.di
 
 import com.example.domain.usecases.implementations.CreationAnEventUseCaseImpl
 import com.example.domain.usecases.implementations.EditEventByIdUseCaseImpl
+import com.example.domain.usecases.implementations.EmailVerificationUseCaseImpl
 import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetAllEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetEventByIdUseCaseImpl
@@ -27,6 +28,7 @@ import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
+import com.example.domain.usecases.interfaces.EmailVerificationUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.Binds
 import dagger.Module
@@ -77,4 +79,7 @@ interface DomainModule {
 
     @Binds
     fun bindEditEventByIdUseCase(editEventByIdUseCaseImpl: EditEventByIdUseCaseImpl): EditEventByIdUseCase
+
+    @Binds
+    fun bindEmailVerificationUseCase(emailVerificationUseCaseImpl: EmailVerificationUseCaseImpl): EmailVerificationUseCase
 }

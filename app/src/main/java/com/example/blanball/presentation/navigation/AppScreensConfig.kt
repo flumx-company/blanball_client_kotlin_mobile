@@ -98,7 +98,7 @@ import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import com.example.domain.utils.Endpoints
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -124,7 +124,7 @@ fun AppScreensConfig(
     userNameManager: UserNameManager,
     userAvatarUrlManager: UserAvatarUrlManager,
     userPhoneManager: UserPhoneManager,
-    verifyCodeManager: VerifyCodeManager,
+    resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
     eventCreationScreenViewModel: EventCreationScreensViewModel,
@@ -203,7 +203,7 @@ fun AppScreensConfig(
                     userAvatarUrlManager.deleteAvatarUrl()
                     userNameManager.deleteUserName()
                     userPhoneManager.deleteUserPhone()
-                    verifyCodeManager.deleteVerifyCode()
+                    resetPassVerifyCodeManager.deleteVerifyCode()
                 }
             },
         )

@@ -14,9 +14,11 @@ import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.GetUsersListResultEntity
 import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 
 interface AppRepository {
     suspend fun login(email: String, password: String): LoginResultEntity
@@ -131,4 +133,12 @@ interface AppRepository {
         privacy: Boolean,
         type: String
     ): EditEventByIdResultEntity
+
+    suspend fun sendVerifyCodeToUserEmail(
+        page: Int
+    ) : SendVerifyCodeToUserEmailResultEntity
+
+    suspend fun postEmailVerifyCode(
+        code: String
+    ) : PostEmailVerifyCodeResultEntity
 }

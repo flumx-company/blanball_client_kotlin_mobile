@@ -13,7 +13,7 @@ import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.usernamemanager.UserNameManagerImpl
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.userphonemanager.UserPhoneManagerImpl
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import com.example.data.datastore.verifycodemanager.VerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
@@ -97,7 +97,7 @@ interface RepositoryModule {
     fun bindTokenManager(tokenManager: TokenManagerImpl): TokenManager
 
     @Binds
-    fun bindVerifyCodeManager(verifyCodeManager: VerifyCodeManagerImpl): VerifyCodeManager
+    fun bindVerifyCodeManager(verifyCodeManager: VerifyCodeManagerImpl): ResetPassVerifyCodeManager
 
     @Binds
     fun bindUserPhoneManager(userPhoneManager: UserPhoneManagerImpl): UserPhoneManager

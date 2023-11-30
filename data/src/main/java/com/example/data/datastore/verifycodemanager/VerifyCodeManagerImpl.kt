@@ -10,22 +10,22 @@ import javax.inject.Inject
 
 private val VERIFY_CODE = stringPreferencesKey("verify_code")
 
-class VerifyCodeManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
-    VerifyCodeManager {
+class ResetPassVerifyCodeManagerImpl @Inject constructor(private val dataStore: DataStore<Preferences>) :
+    ResetPassVerifyCodeManager {
 
-    override fun getVerifyCode(): Flow<String?> {
+    override fun getResetPassVerifyCode(): Flow<String?> {
         return dataStore.data.map { preferences ->
             preferences[VERIFY_CODE]
         }
     }
 
-    override suspend fun saveVerifyCode(code: String) {
+    override suspend fun saveResetPassVerifyCode(code: String) {
         dataStore.edit { preferences ->
             preferences[VERIFY_CODE] = code
         }
     }
 
-    override suspend fun deleteVerifyCode() {
+    override suspend fun deleteResetPassVerifyCode() {
        dataStore.edit { preferences -> preferences.remove(VERIFY_CODE) }
     }
 }
