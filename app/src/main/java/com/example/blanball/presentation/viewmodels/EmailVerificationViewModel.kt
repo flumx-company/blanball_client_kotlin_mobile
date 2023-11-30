@@ -49,7 +49,23 @@ class EmailVerificationViewModel
 
     fun handleEvent(event: UiEvent) {
         when (event) {
+            is EmailVerificationMainContract.Event.SendCodeToUserEmailClicked -> {
+                setState {
+                    copy(
+                        state = EmailVerificationMainContract.ScreenViewState.Loading,
+                    )
+                }
+                sendCodeToUserEmail()
+            }
 
+            is EmailVerificationMainContract.Event.VerifyEmailClicked -> {
+                setState {
+                    copy(
+                        state = EmailVerificationMainContract.ScreenViewState.Loading,
+                    )
+                }
+                postEmailVerifyCode()
+            }
         }
     }
 
@@ -60,19 +76,19 @@ class EmailVerificationViewModel
                     is SendVerifyCodeToUserEmailResultEntity.Success -> {
                         setState {
                             copy(
-                                state = EmailVerificationMainContract.ScreenViewState.SuccessResetRequest,
-                                isErrorResetEmailState = mutableStateOf(false),
-                                isSuccessResetRequest = mutableStateOf(true),
+                                state = EmailVerificationMainContract.ScreenViewState.SendCodeToUserEmailSuccess,
+                                isSendCodeToUserEmailError = mutableStateOf(false),
+                                isSendCodeToUserEmailSuccess = mutableStateOf(true),
                             )
                         }
                     }
 
                     is SendVerifyCodeToUserEmailResultEntity.Error -> setState {
                         copy(
-                            isErrorResetEmailState = mutableStateOf(
+                            isSendCodeToUserEmailError = mutableStateOf(
                                 true
                             ),
-                            state = EmailVerificationMainContract.ScreenViewState.ErrorResetRequest
+                            state = EmailVerificationMainContract.ScreenViewState.SendCodeToUserEmailError
                         )
                     }
                 }
@@ -89,19 +105,17 @@ class EmailVerificationViewModel
                     is PostEmailVerifyCodeResultEntity.Success -> {
                         setState {
                             copy(
-                                state = EmailVerificationMainContract.ScreenViewState.SuccessSendCodeRequest,
-                                isErrorSendCodeState = mutableStateOf(false),
-                                isSuccessSendCodeState = mutableStateOf(true),
+                                isEmailVerifyError = mutableStateOf(false),
+                                isEmailVerifySuccess = mutableStateOf(true),
+                                state = EmailVerificationMainContract.ScreenViewState.EmailVerifySuccess,
                             )
                         }
                     }
 
                     is PostEmailVerifyCodeResultEntity.Error -> setState {
                         copy(
-                            isErrorSendCodeState = mutableStateOf(
-                                true
-                            ),
-                            state = EmailVerificationMainContract.ScreenViewState.ErrorSendCodeRequest
+                            isEmailVerifyError = mutableStateOf(true),
+                            state = EmailVerificationMainContract.ScreenViewState.EmailVerifyError
                         )
                     }
                 }

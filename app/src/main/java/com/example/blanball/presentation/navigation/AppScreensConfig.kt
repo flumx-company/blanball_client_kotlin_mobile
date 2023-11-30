@@ -32,6 +32,7 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
@@ -131,6 +132,7 @@ fun AppScreensConfig(
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
+    emailVerificationViewModel: EmailVerificationViewModel,
 ) {
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
     val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
@@ -203,7 +205,7 @@ fun AppScreensConfig(
                     userAvatarUrlManager.deleteAvatarUrl()
                     userNameManager.deleteUserName()
                     userPhoneManager.deleteUserPhone()
-                    resetPassVerifyCodeManager.deleteVerifyCode()
+                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
                 }
             },
         )
@@ -1033,7 +1035,7 @@ fun AppScreensConfig(
                         paddingValues = it,
                         isVerificationModalVisible = isVerificationModalVisible,
                         verificationModalScreenContent = {
-                            EmailVerificationModal( //TODO()
+                            EmailVerificationModal(
                                 state = resetState,
                                 turnBackBtnClicked = { isVerificationModalVisible.value = false },
                                 confirmBtnClicked = {},

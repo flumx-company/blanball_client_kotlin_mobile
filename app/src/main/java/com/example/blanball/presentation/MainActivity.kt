@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
-            var isLaunchedEffectComplete by rememberSaveable {mutableStateOf(false)}
+            var isLaunchedEffectComplete by rememberSaveable { mutableStateOf(false) }
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         copy(
                             userFirstNameText = mutableStateOf(firstName),
                             userLastNameText = mutableStateOf(lastName),
-                            userAvatar =  mutableStateOf(userAvatarUrl)
+                            userAvatar = mutableStateOf(userAvatarUrl)
                         )
                     }
                 }
@@ -93,13 +93,13 @@ class MainActivity : ComponentActivity() {
             }
 
             if (!isLaunchedEffectComplete) {
-              SplashScreen()
+                SplashScreen()
             } else {
-            val startDestinations = if (isRememberMeFlagActive) {
-                Destinations.HOME.route
-            } else {
-                Destinations.LOGIN.route
-            }
+                val startDestinations = if (isRememberMeFlagActive) {
+                    Destinations.HOME.route
+                } else {
+                    Destinations.LOGIN.route
+                }
                 MyAppTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
@@ -128,6 +128,7 @@ class MainActivity : ComponentActivity() {
                             myEventsViewModel = viewModel(),
                             futureEventsScreenViewModel = futureEventsScreenViewModel,
                             eventScreenViewModel = viewModel(),
+                            emailVerificationViewModel = viewModel(),
                         )
                     }
                 }
