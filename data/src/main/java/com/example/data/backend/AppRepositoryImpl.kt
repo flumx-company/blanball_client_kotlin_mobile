@@ -61,6 +61,7 @@ import com.example.data.utils.ext.toGetUserReviewsByIdResponseErrorEntity
 import com.example.data.utils.ext.toGetUsersListResponseEntity
 import com.example.data.utils.ext.toGetUsersListResponseErrorEntity
 import com.example.data.utils.ext.toLoginResponse
+import com.example.data.utils.ext.toPostEmailVerifyCodeErrorEntity
 import com.example.data.utils.ext.toPostEmailVerifyCodeErrorEntityDetail
 import com.example.data.utils.ext.toPostEmailVerifyCodeResponseEntity
 import com.example.data.utils.ext.toRegistrationErrorEntity
@@ -132,7 +133,7 @@ class AppRepositoryImpl @Inject constructor(
         } catch (ex: HttpException) {
 val errorResponse =
     handleHttpError<PostEmailVerifyCodeError, PostEmailVerifyCodeErrorEntity>(ex) {
-        it.toPostEmailVerifyCodeErrorEntityDetail()
+        it.toPostEmailVerifyCodeErrorEntity()
     }
             PostEmailVerifyCodeResultEntity.Error(error = errorResponse.data.errors[0])
         }

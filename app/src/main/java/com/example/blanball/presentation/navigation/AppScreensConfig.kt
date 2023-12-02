@@ -19,12 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
@@ -143,6 +145,7 @@ fun AppScreensConfig(
         futureEventsScreenViewModel.uiState.collectAsState().value
     val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
     val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
+    val verifyEmailViewModelState = emailVerificationViewModel.uiState.collectAsState().value
 
     var selectedEventTab: MutableState<EventTab> =
         rememberSaveable { mutableStateOf(EventTab.ALL_EVENTS) }
@@ -1035,11 +1038,23 @@ fun AppScreensConfig(
                         paddingValues = it,
                         isVerificationModalVisible = isVerificationModalVisible,
                         verificationModalScreenContent = {
+                            LaunchedEffect(key1 = Unit,) {
+                                emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                            }
                             EmailVerificationModal(
-                                state = resetState,
-                                turnBackBtnClicked = { isVerificationModalVisible.value = false },
-                                confirmBtnClicked = {},
-                                resendCodeToEmailClicked = {}
+                                state = verifyEmailViewModelState,
+                                turnBackBtnClicked = {
+                                    isVerificationModalVisible.value = false
+                                    emailVerificationViewModel.setState {
+                                        copy(
+                                            codeText = List(5) { mutableStateOf("") }
+                                        )
+                                    }
+                                                     },
+                                confirmBtnClicked = {emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.VerifyEmailClicked)},
+                                resendCodeToEmailClicked = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                }
                             )
                         },
                         isShareLinkModalVisible = isShareLinkModalVisible,

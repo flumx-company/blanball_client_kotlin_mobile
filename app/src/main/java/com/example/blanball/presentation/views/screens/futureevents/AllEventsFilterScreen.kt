@@ -52,15 +52,14 @@ fun AllEventsFilterScreen(
     confirmBtnClicked: () -> Unit,
     paddingValues: PaddingValues,
 ) {
-    val typeOfSports = listOf(
-        stringResource(id = R.string.football),
-        stringResource(id = R.string.futsal),
-    )
+        val typeOfSports = listOf(
+            stringResource(id = R.string.football),
+            stringResource(id = R.string.futsal),
+        )
     (state as FutureEventsMainContract.State).let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
         ) {
             Column(
                 modifier = Modifier

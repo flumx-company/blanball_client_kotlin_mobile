@@ -7,6 +7,7 @@ import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
@@ -20,6 +21,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +30,7 @@ import javax.inject.Inject
 class EmailVerificationViewModel
 @Inject constructor(
     internal val emailVerificationUseCase: EmailVerificationUseCase,
+    internal val userEmailManager: UserEmailManager,
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -47,10 +51,23 @@ class EmailVerificationViewModel
     val sideEffect: SharedFlow<EmailVerificationMainContract.Effect> = _sideEffect.asSharedFlow()
 
 
+    fun getUserEmail() {
+        job = viewModelScope.launch {
+            val currentUserEmail = userEmailManager.getUserEmail().firstOrNull()
+            setState {
+                copy(
+                    userEmailText = mutableStateOf(currentUserEmail ?: "")
+                )
+            }
+        }
+    }
+
+
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EmailVerificationMainContract.Event.SendCodeToUserEmailClicked -> {
                 setState {
+                    getUserEmail()
                     copy(
                         state = EmailVerificationMainContract.ScreenViewState.Loading,
                     )

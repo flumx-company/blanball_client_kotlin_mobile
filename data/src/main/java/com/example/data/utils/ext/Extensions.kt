@@ -1127,12 +1127,12 @@ internal fun SendVerifyCodeToUserEmailResponseData.toSendVerifyCodeToUserEmailRe
 internal fun SendVerifyCodeToUserEmailError.toSendVerifyCodeToUserEmailErrorEntity(): SendVerifyCodeToUserEmailErrorEntity =
     SendVerifyCodeToUserEmailErrorEntity(
         this.code,
-        this.data.toSendVerifyCodeToUserEmailErrorEntityDataData(),
+        this.data.toSendVerifyCodeToUserEmailErrorEntityData(),
         this.status,
         this.message,
     )
 
-internal fun SendVerifyCodeToUserEmailErrorData.toSendVerifyCodeToUserEmailErrorEntityDataData(): SendVerifyCodeToUserEmailErrorEntityData =
+internal fun SendVerifyCodeToUserEmailErrorData.toSendVerifyCodeToUserEmailErrorEntityData(): SendVerifyCodeToUserEmailErrorEntityData =
     SendVerifyCodeToUserEmailErrorEntityData(
         listOf(this.errors[0].toSendVerifyCodeToUserEmailErrorEntityDataDetail()),
         this.type
@@ -1156,7 +1156,7 @@ internal fun PostEmailVerifyCodeResponseData.toPostEmailVerifyCodeResponseEntity
         this.success,
     )
 
-internal fun PostEmailVerifyCodeError.toPostEmailVerifyCodeErrorEntityDetail(): PostEmailVerifyCodeErrorEntity  =
+internal fun PostEmailVerifyCodeError.toPostEmailVerifyCodeErrorEntity(): PostEmailVerifyCodeErrorEntity  =
     PostEmailVerifyCodeErrorEntity(
         this.code,
         this.data.toPostEmailVerifyCodeDataErrorEntity(),

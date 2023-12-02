@@ -60,7 +60,7 @@ fun EmailVerificationModal(
     turnBackBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
 ) {
-    val initialTimerValue = 30
+    val initialTimerValue = remember { 30 }
     var (timerValue, setTimerValue) = remember { mutableStateOf(initialTimerValue) }
     var isRunning by remember { mutableStateOf(false) }
     LaunchedEffect(isRunning) {
@@ -72,7 +72,9 @@ fun EmailVerificationModal(
             isRunning = false
         }
     }
-    val showButton = timerValue == 0
+    val showButton = remember {
+        timerValue == 0
+    }
     val configuration = LocalConfiguration.current
 
     (state as? EmailVerificationMainContract.State)?.let {
@@ -144,7 +146,7 @@ fun EmailVerificationModal(
                             it.codeText.joinToString(separator = "") { it.value }
                                 .isNotValidCode() -> true
 
-                            it.isSendCodeToUserEmailError.value-> true
+                            it.isSendCodeToUserEmailError.value -> true
                             else -> false
                         },
                         errorMessage = when {

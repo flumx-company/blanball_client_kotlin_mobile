@@ -9,6 +9,8 @@ import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.tokenmanager.TokenManagerImpl
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManagerImpl
+import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.useremailmanager.UserEmailManagerImpl
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.usernamemanager.UserNameManagerImpl
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -112,5 +114,8 @@ interface RepositoryModule {
     fun bindNavigationManager(navigationManager: NavigationManagerImpl): NavigationManager
 
     @Binds
-    fun bindUserAvatarUrl(userAvatarUrlManager: UserAvatarUrlManagerImpl): UserAvatarUrlManager
+    fun bindUserAvatarUrlManager(userAvatarUrlManager: UserAvatarUrlManagerImpl): UserAvatarUrlManager
+
+    @Binds
+    fun bindUserEmailManager(userEmailManager: UserEmailManagerImpl): UserEmailManager
 }
