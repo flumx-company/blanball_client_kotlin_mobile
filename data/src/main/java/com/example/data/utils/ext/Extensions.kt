@@ -41,6 +41,11 @@ import com.example.data.backend.models.responses.GetEventByIdResponseErrorDetail
 import com.example.data.backend.models.responses.GetEventByIdResponseForms
 import com.example.data.backend.models.responses.GetEventByIdResponsePlace
 import com.example.data.backend.models.responses.GetEventByIdResponseProfile
+import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusError
+import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusErrorData
+import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusErrorDetail
+import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusResponse
+import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusResponseData
 import com.example.data.backend.models.responses.GetMyEventsResponse
 import com.example.data.backend.models.responses.GetMyEventsResponseAuthor
 import com.example.data.backend.models.responses.GetMyEventsResponseData
@@ -154,6 +159,11 @@ import com.example.domain.entity.responses.GetEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
 import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
 import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
+import com.example.domain.entity.responses.GetIsTechnicalWorkStatusErrorDataEntity
+import com.example.domain.entity.responses.GetIsTechnicalWorkStatusErrorDetailEntity
+import com.example.domain.entity.responses.GetIsTechnicalWorkStatusErrorEntity
+import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntity
+import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntityData
 import com.example.domain.entity.responses.GetMyEventsEntityResponseError
 import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorData
 import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorDetail
@@ -1085,5 +1095,37 @@ internal fun EditEventByIdResponseErrorData.toEditEventByIdResponseErrorDataEnti
 
 internal fun EditEventByIdResponseErrorDetail.toEditEventByIdResponseErrorDetailEntity(): EditEventByIdResponseErrorDetailEntity =
     EditEventByIdResponseErrorDetailEntity(
+        this.detail
+    )
+
+internal fun GetIsTechnicalWorkStatusResponse.toGetIsTechnicalWorkStatusResponseEntity(): GetIsTechnicalWorkStatusResponseEntity =
+    GetIsTechnicalWorkStatusResponseEntity(
+        this.code,
+        this.data.toGetIsTechnicalWorkStatusResponseEntityData(),
+        this.message,
+        this.status,
+    )
+
+internal fun GetIsTechnicalWorkStatusResponseData.toGetIsTechnicalWorkStatusResponseEntityData(): GetIsTechnicalWorkStatusResponseEntityData =
+    GetIsTechnicalWorkStatusResponseEntityData(
+        this.isMaintenance
+    )
+
+internal fun GetIsTechnicalWorkStatusError.toGetIsTechnicalWorkStatusErrorEntity(): GetIsTechnicalWorkStatusErrorEntity =
+    GetIsTechnicalWorkStatusErrorEntity(
+        this.code,
+        this.data.toGetIsTechnicalWorkStatusErrorDataEntity(),
+        this.message,
+        this.status
+    )
+
+internal fun GetIsTechnicalWorkStatusErrorData.toGetIsTechnicalWorkStatusErrorDataEntity(): GetIsTechnicalWorkStatusErrorDataEntity =
+    GetIsTechnicalWorkStatusErrorDataEntity(
+        listOf(this.errors[0].toGetIsTechnicalWorkStatusErrorDetailEntity()),
+        this.type
+    )
+
+internal fun GetIsTechnicalWorkStatusErrorDetail.toGetIsTechnicalWorkStatusErrorDetailEntity(): GetIsTechnicalWorkStatusErrorDetailEntity =
+    GetIsTechnicalWorkStatusErrorDetailEntity(
         this.detail
     )
