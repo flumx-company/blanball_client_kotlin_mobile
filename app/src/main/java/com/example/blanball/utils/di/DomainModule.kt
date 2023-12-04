@@ -6,6 +6,7 @@ import com.example.domain.usecases.implementations.EmailVerificationUseCaseImpl
 import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetAllEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetEventByIdUseCaseImpl
+import com.example.domain.usecases.implementations.GetIsTechWorksUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserPlannedEventsByIdUseCaseImpl
@@ -20,6 +21,7 @@ import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
+import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
 import com.example.domain.usecases.interfaces.GetMyEventsUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
@@ -82,4 +84,7 @@ interface DomainModule {
 
     @Binds
     fun bindEmailVerificationUseCase(emailVerificationUseCaseImpl: EmailVerificationUseCaseImpl): EmailVerificationUseCase
+
+    @Binds
+    fun bindGetIsTechWorksUseCase(getIsTechWorksUseCaseImpl: GetIsTechWorksUseCaseImpl): GetIsTechWorksUseCase
 }

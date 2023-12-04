@@ -53,10 +53,13 @@ import com.example.blanball.presentation.views.components.buttons.ChangePassButt
 import com.example.blanball.presentation.views.components.buttons.EditProfileButton
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
+import com.example.blanball.utils.ext.calculateAge
+import com.example.blanball.utils.ext.toFormattedBirthdayDate
 
 @Composable
 fun MyProfileScreen(
@@ -75,6 +78,11 @@ fun MyProfileScreen(
         stringResource(id = R.string.my_profile),
         stringResource(R.string.rate_plan),
     )
+
+    val currentState: MyProfileScreensMainContract.State =
+        (state as? MyProfileScreensMainContract.State) ?: MyProfileScreensMainContract.State(
+            MyProfileScreensMainContract.ScreenViewState.Idle
+        )
 
     Box(
         modifier = Modifier
@@ -122,11 +130,11 @@ fun MyProfileScreen(
                                         .fillMaxSize()
                                 )
                                 Text(
-                                    text = "${state.myLastNameText.value.firstOrNull() ?: ""} ${state.myFirstNameText.value.firstOrNull() ?: ""}",
+                                    text = "${state.myLastNameText.value.firstOrNull() ?: ""}${state.myFirstNameText.value.firstOrNull() ?: ""}",
                                     modifier = Modifier.align(
                                         Alignment.Center
                                     ),
-                                    style = typography.h2, fontSize = 56.sp, color = mainGreen
+                                    style = typography.h2, fontSize = 22.sp, color = mainGreen
                                 )
                             }
                         } else {
@@ -142,7 +150,7 @@ fun MyProfileScreen(
                         Spacer(modifier = Modifier.size(12.dp))
                         Column {
                             Text(
-                                text = "Стефанія Калиновська", //TODO()
+                                text = "${state.myFirstNameText.value} ${state.myLastNameText.value}",
                                 fontSize = 18.sp,
                                 lineHeight = 24.sp,
                                 style = typography.h4,
@@ -151,17 +159,24 @@ fun MyProfileScreen(
                             )
                             Spacer(modifier = Modifier.size(10.dp))
                             Row {
-                                MyProfileMainGreenTextBadge(text = "Гравець")
+                                MyProfileMainGreenTextBadge(text = state.roleState.value)
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = "25 років")
+                                MyProfileMainGreenTextBadge(
+                                    text = "${state.birthdayState.value.calculateAge()} ${
+                                        stringResource(id = R.string.years)
+                                    }"
+                                )
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = "Жінка")
+                                MyProfileMainGreenTextBadge(
+                                    text =
+                                    state.myGenderState.value
+                                )
                             }
                         }
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                MyRatingCard()
+                MyRatingCard(ratingValue = state.ratingState.value)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = stringResource(R.string.about_me),
@@ -173,7 +188,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Щось там, щось тут, грала, бігала стрибала і медаль собі придбала", //TODO()
+                    text = state.aboutMeText.value,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -193,7 +208,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "13 травня 1997 р.", //TODO()
+                    text = state.birthdayState.value.toFormattedBirthdayDate() ?: "",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -227,7 +242,7 @@ fun MyProfileScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "168 см",
+                            text = "${state.heightState.value} ${stringResource(id = R.string.height_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -250,7 +265,7 @@ fun MyProfileScreen(
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "48 кг",
+                            text = "${state.weightState.value} ${stringResource(id = R.string.weight_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -273,7 +288,7 @@ fun MyProfileScreen(
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Права",
+                            text = state.workingLegState.value,
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -295,12 +310,12 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Правий напівзахисник",
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
+                    text = state.positionState.value,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
@@ -322,7 +337,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "+380 (95) 390 86 50",
+                    text = state.phoneText.value,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -342,7 +357,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = "Львів, Залізничний р-н.",
+                    text = state.placeState.value,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -388,6 +403,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.phoneNumberRadioButtonState.value = it },
                         selected = it.phoneNumberRadioButtonState.value,
@@ -405,6 +421,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.emailRadioButtonState.value = it },
                         selected = it.emailRadioButtonState.value,
@@ -422,6 +439,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.myReviewsRadioButtonState.value = it },
                         selected = it.myReviewsRadioButtonState.value,
@@ -439,6 +457,7 @@ fun MyProfileScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
+                        enabled = false,
                         state = it,
                         onCheckedChange = { state.plannedEventsRadioButtonState.value = it },
                         selected = it.plannedEventsRadioButtonState.value,
@@ -448,9 +467,9 @@ fun MyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .width(40.dp)
+                        .height(40.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
+                        .fillMaxWidth()
                         .background(
                             color = Color.White,
                             shape = shapes.medium,
@@ -507,7 +526,7 @@ fun MyProfileScreen(
                     }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                ChangePassButton {} //TODO()
+                ChangePassButton {}
                 Spacer(modifier = Modifier.size(16.dp))
                 Box(modifier = Modifier
                     .fillMaxWidth()
@@ -552,6 +571,9 @@ fun MyProfileScreen(
                     }
                 }
             }
+        }
+        if (currentState.state is MyProfileScreensMainContract.ScreenViewState.Loading) {
+            Loader(backgroundColor = Color.White, textColor = primaryDark)
         }
     }
 }

@@ -13,9 +13,24 @@ import com.example.blanball.presentation.theme.secondaryNavy
 
 @Composable
 fun SwitchButton(
+    enabled: Boolean? = true,
     state: UiState,
     selected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    Switch(checked = selected, onCheckedChange = onCheckedChange, colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = mainGreen, checkedTrackAlpha = 1f, uncheckedTrackColor = secondaryNavy, uncheckedTrackAlpha = 1f), modifier = Modifier.size(32.dp, 16.dp))
+    enabled?.let {
+        Switch(
+            checked = selected,
+            enabled = it,
+            onCheckedChange = onCheckedChange,
+            colors = SwitchDefaults.colors(
+                Color.White,
+                checkedTrackColor = mainGreen,
+                checkedTrackAlpha = 1f,
+                uncheckedTrackColor = secondaryNavy,
+                uncheckedTrackAlpha = 1f
+            ),
+            modifier = Modifier.size(32.dp, 16.dp)
+        )
+    }
 }

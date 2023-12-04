@@ -10,9 +10,9 @@ class MyProfileScreensMainContract {
 
     data class State(
         val state: ScreenViewState,
-        val myAvatarUrl: MutableState<String> = mutableStateOf("http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg"), //TODO()
-        val myFirstNameText: MutableState<String> = mutableStateOf("Женя"), //TODO()
-        val myLastNameText: MutableState<String> = mutableStateOf("Жук"), //TODO()
+        val myAvatarUrl: MutableState<String> = mutableStateOf(""),
+        val myFirstNameText: MutableState<String> = mutableStateOf("Женя"),
+        val myLastNameText: MutableState<String> = mutableStateOf("Жук"),
         val phoneNumberRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val emailRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val myReviewsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
@@ -25,10 +25,15 @@ class MyProfileScreensMainContract {
         val positionState: MutableState<String> = mutableStateOf(""),
         val regionState: MutableState<String> = mutableStateOf(""),
         val cityState: MutableState<String> = mutableStateOf(""),
-        val dayBirthdayState: MutableState<String> = mutableStateOf(""),
-        val monthBirthdayState: MutableState<String> = mutableStateOf(""),
-        val yearBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editDayBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editMonthBirthdayState: MutableState<String> = mutableStateOf(""),
+        val editYearBirthdayState: MutableState<String> = mutableStateOf(""),
         val emailStringState: MutableState<String> = mutableStateOf(""),
+        val myGenderState: MutableState<String> = mutableStateOf(""),
+        val roleState: MutableState<String> = mutableStateOf(""),
+        val birthdayState: MutableState<String> = mutableStateOf(""),
+        val placeState: MutableState<String> = mutableStateOf(""),
+        val ratingState: MutableState<Float> = mutableStateOf(0f),
         ) : UiState
 
     sealed class Effect: UiEffect {

@@ -3,7 +3,6 @@ package com.example.blanball.presentation.navigation
 import Destinations
 import PublicProfileScreen
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -20,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,6 +29,7 @@ import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
+import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
@@ -48,6 +47,7 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
@@ -138,7 +138,8 @@ fun AppScreensConfig(
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
     emailVerificationViewModel: EmailVerificationViewModel,
-    userEmailManager: UserEmailManager
+    userEmailManager: UserEmailManager,
+    techWorksScreenViewModel: TechWorksScreenViewModel,
 ) {
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
     val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
@@ -230,17 +231,6 @@ fun AppScreensConfig(
         )
     }
 
-    val openBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.expand()
-        }
-    }
-    val closeBottomDrawer: () -> Unit = {
-        coroutineScope.launch {
-            bottomPreviewDrawerState.hide()
-        }
-    }
-
     val invitedUsersDrawerState = rememberModalBottomSheetState()
     val isInvitedUsersDrawerOpen: MutableState<Boolean> = remember { mutableStateOf(false) }
 
@@ -248,18 +238,6 @@ fun AppScreensConfig(
         InvitedUsersBottomDrawer(
             bottomDrawerState = invitedUsersDrawerState,
             closeBottomDrawer = { isInvitedUsersDrawerOpen.value = false })
-    }
-
-    val openInvitedUsersDrawerDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.expand()
-        }
-    }
-
-    val closeInvitedUsersDrawer: () -> Unit = {
-        coroutineScope.launch {
-            invitedUsersDrawerState.hide()
-        }
     }
 
     NavHost(
@@ -944,6 +922,11 @@ fun AppScreensConfig(
 
         composable(Destinations.MY_PROFILE.route) {
             val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
+
+            LaunchedEffect(key1 = Unit, block = {
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
+            })
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -965,7 +948,23 @@ fun AppScreensConfig(
                         state = myProfileScreenState,
                         paddingValues = it,
                         editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
-                        exitBtnClicked = {},
+                        exitBtnClicked = {
+                            navController.navigate(Destinations.LOGIN.route)
+                            {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                            coroutineScope.launch {
+                                rememberMeManager.deleteRememberMeFlag()
+                                tokenManager.deleteRefreshToken()
+                                tokenManager.deleteAccessToken()
+                                userAvatarUrlManager.deleteAvatarUrl()
+                                userNameManager.deleteUserName()
+                                userPhoneManager.deleteUserPhone()
+                                resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                            }
+                        },
                         deleteAccBtnClicked = {}
                     )
                 }

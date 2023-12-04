@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 
 class NavigationDrawerMainContract
 {
-
     sealed class Event : UiEvent {
     }
 

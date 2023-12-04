@@ -7,6 +7,7 @@ import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
 import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
@@ -36,7 +37,7 @@ interface AppRepository {
         re_password: String,
         name: String,
         lastName: String,
-        gender: String
+        gender: String,
     ): RegistrationResultEntity
 
     suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
@@ -141,4 +142,26 @@ interface AppRepository {
     suspend fun postEmailVerifyCode(
         code: String
     ) : PostEmailVerifyCodeResultEntity
+
+//    suspend fun editMyProfile(
+//        phone: String,
+//        email: Boolean,
+//        emailRequestConfiguration: Boolean,
+//        phoneRequestConfiguration: Boolean,
+//        showReviewsRequestConfiguration: Boolean,
+//        about_me: String,
+//        birthday: String,
+//        gender: String,
+//        height: Int,
+//        last_name: String,
+//        name: String,
+//        position: String,
+//        weight: Int,
+//        working_leg: String,
+//        lat: Int,
+//        lon: Int,
+//        place_name: String,
+//    ): EditMyProfileResultEntity
+
+    suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity
 }
