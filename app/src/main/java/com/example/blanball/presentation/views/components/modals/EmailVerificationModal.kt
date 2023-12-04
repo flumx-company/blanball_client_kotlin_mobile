@@ -2,14 +2,19 @@ package com.example.blanball.presentation.views.components.modals
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -49,6 +54,7 @@ import com.example.blanball.utils.ext.isNotValidCode
 import com.example.blanball.utils.ext.isNotValidEmail
 import com.example.blanball.utils.ext.isValidCode
 import com.example.blanball.utils.ext.isValidEmail
+import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -72,9 +78,7 @@ fun EmailVerificationModal(
             isRunning = false
         }
     }
-    val showButton = remember {
-        timerValue == 0
-    }
+    val showButton = timerValue == 0
     val configuration = LocalConfiguration.current
 
     (state as? EmailVerificationMainContract.State)?.let {
@@ -82,8 +86,11 @@ fun EmailVerificationModal(
             .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
             .wrapContentHeight(),
             onDismissRequest = { /*TODO*/ }, buttons = {}, text = {
-
-                Column {
+                Column(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Spacer(modifier = Modifier.size(12.dp))
                     Text(
                         text = stringResource(R.string.confiming_email_adress),
@@ -146,16 +153,15 @@ fun EmailVerificationModal(
                             it.codeText.joinToString(separator = "") { it.value }
                                 .isNotValidCode() -> true
 
-                            it.isSendCodeToUserEmailError.value -> true
+                            it.isEmailVerifyError.value -> true
                             else -> false
                         },
                         errorMessage = when {
-                            it.isSendCodeToUserEmailError.value -> stringResource(id = R.string.check_code)
+                            it.isEmailVerifyError.value -> stringResource(id = R.string.check_code)
                             it.codeText.joinToString(separator = "") { it.value }
                                 .isNotValidCode() -> stringResource(
                                 id = R.string.letter_only_error
                             )
-
                             else -> {
                                 ""
                             }

@@ -1014,17 +1014,17 @@ fun AppScreensConfig(
             if (eventId != 0) {
                 eventScreenViewModelCurrentState.currentEventId.value = eventId
             }
+            val isVerificationModalVisible = remember { mutableStateOf(false) }
+            val isShareLinkModalVisible = remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             LaunchedEffect(key1 = Unit) {
                 eventScreenViewModel.loadUEventData() //TODO() Make it encapsulated - without calling the method directly
             }
             LaunchedEffect(verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                 if (verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                     verifyEmailViewModeCurrentState.isEmailVerifySuccess.value = false
-                    navController.navigate(Destinations.HOME.route)
+                    isVerificationModalVisible.value = false
                 }
             }
-            val isVerificationModalVisible = remember { mutableStateOf(false) }
-            val isShareLinkModalVisible = remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
