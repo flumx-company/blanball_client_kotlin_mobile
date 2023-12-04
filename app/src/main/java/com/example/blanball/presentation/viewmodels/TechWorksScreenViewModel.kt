@@ -1,18 +1,12 @@
 package com.example.blanball.presentation.viewmodels
 
-import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.utils.ext.formatSportTypeToEnglish
-import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
-import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
-import com.example.domain.utils.Integers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

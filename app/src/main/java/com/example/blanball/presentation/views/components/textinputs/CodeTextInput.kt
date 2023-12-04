@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.textinputs
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +12,9 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -25,7 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
@@ -36,12 +39,15 @@ import com.example.blanball.presentation.theme.typography
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CodeTextInput(
-    state: StartScreensMainContract.State,
+fun <T : UiState> CodeTextInput(
+    state: T,
     modifier: Modifier,
     errorMessage: String = "",
     isError: Boolean? = null,
     enabled: Boolean = true,
+    codeText: (T) -> List<MutableState<String>>,
+    onCodeChange: (T, Int, String) -> Unit,
+    onDoneAction: () -> Unit = {},
 ) {
     val centerAlignedTextStyle = TextStyle(
         textAlign = TextAlign.Center
@@ -51,7 +57,7 @@ fun CodeTextInput(
         List(5) { FocusRequester() }
     }
     Column(modifier = Modifier.animateContentSize()) {
-        Row() {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             repeat(5) { i ->
                 OutlinedTextField(
                     isError = isError ?: false,
@@ -72,9 +78,9 @@ fun CodeTextInput(
                                 else -> 0.dp
                             }
                         ),
-                    value = state.codeText[i].value,
+                    value = codeText(state)[i].value,
                     onValueChange = { newValue ->
-                        state.codeText[i].value = newValue.take(1).uppercase()
+                        onCodeChange(state, i, newValue)
                         when {
                             newValue.length == 1 && i < 4 -> focusRequesters[i + 1].requestFocus()
                         }
@@ -97,7 +103,7 @@ fun CodeTextInput(
                         }
                     ),
                     keyboardActions = when (i) {
-                        4 -> KeyboardActions(onDone = { localFocusManager.clearFocus() })
+                        4 -> KeyboardActions(onDone = { localFocusManager.clearFocus(); onDoneAction() })
                         else -> KeyboardActions.Default
                     },
                 )

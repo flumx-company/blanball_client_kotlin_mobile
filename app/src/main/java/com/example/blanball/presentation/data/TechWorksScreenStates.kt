@@ -2,7 +2,6 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
 
 class TechWorksScreenMainContract {
 

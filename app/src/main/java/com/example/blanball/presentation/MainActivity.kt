@@ -28,9 +28,10 @@ import com.example.blanball.presentation.views.screens.technicalworks.TechnicalW
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
+import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -54,7 +55,10 @@ class MainActivity : ComponentActivity() {
     lateinit var userPhoneManager: UserPhoneManager
 
     @Inject
-    lateinit var verifyCodeManager: VerifyCodeManager
+    lateinit var resetPassVerifyCodeManager: ResetPassVerifyCodeManager
+
+    @Inject
+    lateinit var userEmailManager: UserEmailManager
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
@@ -74,6 +78,7 @@ class MainActivity : ComponentActivity() {
 
 
             LaunchedEffect(key1 = Unit) {
+                navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
                 val userFullName: String? = userNameManager.getUserName().firstOrNull()
                 val userAvatarUrl: String? = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                 userFullName?.let { fullName ->
@@ -136,7 +141,7 @@ class MainActivity : ComponentActivity() {
                                 userNameManager = userNameManager,
                                 userAvatarUrlManager = userAvatarUrlManager,
                                 userPhoneManager = userPhoneManager,
-                                verifyCodeManager = verifyCodeManager,
+                                resetPassVerifyCodeManager = resetPassVerifyCodeManager,
                                 usersRatingViewModel = viewModel(),
                                 foundAnErrorViewModel = viewModel(),
                                 myProfileScreenViewModel = viewModel(),
@@ -144,6 +149,8 @@ class MainActivity : ComponentActivity() {
                                 myEventsViewModel = viewModel(),
                                 futureEventsScreenViewModel = futureEventsScreenViewModel,
                                 eventScreenViewModel = viewModel(),
+                                emailVerificationViewModel = viewModel(),
+                                userEmailManager = userEmailManager,
                                 techWorksScreenViewModel = techWorksScreenViewModel,
                             )
                         }

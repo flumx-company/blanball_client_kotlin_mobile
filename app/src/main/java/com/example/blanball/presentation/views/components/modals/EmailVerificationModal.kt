@@ -2,14 +2,19 @@ package com.example.blanball.presentation.views.components.modals
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -33,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.mainGreen
@@ -40,12 +46,15 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.views.components.textinputs.CodeTextInput
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.textinputs.ReadOnlyOutlinePlaceholder
 import com.example.blanball.utils.ext.isNotValidCode
 import com.example.blanball.utils.ext.isNotValidEmail
 import com.example.blanball.utils.ext.isValidCode
 import com.example.blanball.utils.ext.isValidEmail
+import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -57,7 +66,7 @@ fun EmailVerificationModal(
     turnBackBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
 ) {
-    val initialTimerValue = 30
+    val initialTimerValue = remember { 30 }
     var (timerValue, setTimerValue) = remember { mutableStateOf(initialTimerValue) }
     var isRunning by remember { mutableStateOf(false) }
     LaunchedEffect(isRunning) {
@@ -72,12 +81,16 @@ fun EmailVerificationModal(
     val showButton = timerValue == 0
     val configuration = LocalConfiguration.current
 
-    AlertDialog(modifier = Modifier
-        .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
-        .wrapContentHeight(),
-        onDismissRequest = { /*TODO*/ }, buttons = {}, text = {
-            (state as? StartScreensMainContract.State)?.let {
-                Column {
+    (state as? EmailVerificationMainContract.State)?.let {
+        AlertDialog(modifier = Modifier
+            .widthIn(max = configuration.screenWidthDp.dp - 20.dp)
+            .wrapContentHeight(),
+            onDismissRequest = { /*TODO*/ }, buttons = {}, text = {
+                Column(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Spacer(modifier = Modifier.size(12.dp))
                     Text(
                         text = stringResource(R.string.confiming_email_adress),
@@ -88,28 +101,13 @@ fun EmailVerificationModal(
                         color = primaryDark,
                     )
                     Spacer(modifier = Modifier.size(12.dp))
-                    DefaultTextInput(
+                    ReadOnlyOutlinePlaceholder(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateContentSize(),
                         labelResId = R.string.email,
-                        state = it,
-                        value = state.resetEmailText.value,
-                        onValueChange = { state.resetEmailText.value = it },
-                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                        transformation = VisualTransformation.None,
-                        isError = when {
-                            it.resetEmailText.value.isNotValidEmail() -> true
-                            it.isErrorResetEmailState.value -> true
-                            else -> false
-                        },
-                        errorMessage = when {
-                            it.resetEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
-                            it.isErrorResetEmailState.value -> stringResource(id = R.string.invalid_credential_error)
-                            else -> {
-                                ""
-                            }
-                        }
+                        value = state.userEmailText.value,
+                        onValueChange = { state.userEmailText.value = it },
                     )
                     if (!showButton)
                         Text(
@@ -129,7 +127,6 @@ fun EmailVerificationModal(
                         TextButton(
                             modifier = Modifier
                                 .align(Alignment.End),
-                            enabled = it.resetEmailText.value.isValidEmail(),
                             onClick = {
                                 resendCodeToEmailClicked()
                                 setTimerValue(initialTimerValue)
@@ -148,20 +145,23 @@ fun EmailVerificationModal(
                         state = it,
                         modifier = Modifier.padding(top = 8.dp),
                         enabled = true,
+                        codeText = { it.codeText },
+                        onCodeChange = { state, index, newValue ->
+                            state.codeText[index].value = newValue.take(1).uppercase()
+                        },
                         isError = when {
                             it.codeText.joinToString(separator = "") { it.value }
                                 .isNotValidCode() -> true
 
-                            it.isErrorSendCodeState.value -> true
+                            it.isEmailVerifyError.value -> true
                             else -> false
                         },
                         errorMessage = when {
-                            it.isErrorSendCodeState.value -> stringResource(id = R.string.check_code)
+                            it.isEmailVerifyError.value -> stringResource(id = R.string.check_code)
                             it.codeText.joinToString(separator = "") { it.value }
                                 .isNotValidCode() -> stringResource(
                                 id = R.string.letter_only_error
                             )
-
                             else -> {
                                 ""
                             }
@@ -203,6 +203,6 @@ fun EmailVerificationModal(
                     }
                 }
             }
-        }
-    )
+        )
+    }
 }

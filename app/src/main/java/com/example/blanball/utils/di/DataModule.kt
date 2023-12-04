@@ -9,12 +9,14 @@ import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.tokenmanager.TokenManagerImpl
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManagerImpl
+import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.useremailmanager.UserEmailManagerImpl
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.usernamemanager.UserNameManagerImpl
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.userphonemanager.UserPhoneManagerImpl
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
-import com.example.data.datastore.verifycodemanager.VerifyCodeManagerImpl
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManagerImpl
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.Endpoints
 import com.example.domain.utils.NavigationManager
@@ -97,7 +99,7 @@ interface RepositoryModule {
     fun bindTokenManager(tokenManager: TokenManagerImpl): TokenManager
 
     @Binds
-    fun bindVerifyCodeManager(verifyCodeManager: VerifyCodeManagerImpl): VerifyCodeManager
+    fun bindResetPassVerifyCodeManager(resetPassVerifyCodeManager: ResetPassVerifyCodeManagerImpl): ResetPassVerifyCodeManager
 
     @Binds
     fun bindUserPhoneManager(userPhoneManager: UserPhoneManagerImpl): UserPhoneManager
@@ -112,5 +114,8 @@ interface RepositoryModule {
     fun bindNavigationManager(navigationManager: NavigationManagerImpl): NavigationManager
 
     @Binds
-    fun bindUserAvatarUrl(userAvatarUrlManager: UserAvatarUrlManagerImpl): UserAvatarUrlManager
+    fun bindUserAvatarUrlManager(userAvatarUrlManager: UserAvatarUrlManagerImpl): UserAvatarUrlManager
+
+    @Binds
+    fun bindUserEmailManager(userEmailManager: UserEmailManagerImpl): UserEmailManager
 }

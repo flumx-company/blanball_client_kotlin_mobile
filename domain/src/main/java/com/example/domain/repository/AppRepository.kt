@@ -3,7 +3,6 @@ package com.example.domain.repository
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.EditMyProfileResultEntity
 import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
@@ -16,9 +15,11 @@ import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.GetUsersListResultEntity
 import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 
 interface AppRepository {
     suspend fun login(email: String, password: String): LoginResultEntity
@@ -133,6 +134,14 @@ interface AppRepository {
         privacy: Boolean,
         type: String
     ): EditEventByIdResultEntity
+
+    suspend fun sendVerifyCodeToUserEmail(
+        page: Int
+    ) : SendVerifyCodeToUserEmailResultEntity
+
+    suspend fun postEmailVerifyCode(
+        code: String
+    ) : PostEmailVerifyCodeResultEntity
 
 //    suspend fun editMyProfile(
 //        phone: String,

@@ -52,7 +52,7 @@ fun MyEventsFilterModal(
 ) {
     val configuration = LocalConfiguration.current
 
-    val typeOfSports = listOf(
+    val typeOfSports =  listOf(
         stringResource(id = R.string.football),
         stringResource(id = R.string.futsal)
     )

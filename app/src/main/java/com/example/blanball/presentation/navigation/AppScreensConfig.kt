@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
@@ -33,6 +34,7 @@ import com.example.blanball.presentation.data.OnboardingScreensStatesMainContrac
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
@@ -48,6 +50,7 @@ import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
+import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
@@ -98,9 +101,10 @@ import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
+import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.data.datastore.verifycodemanager.VerifyCodeManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import com.example.domain.utils.Endpoints
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -126,13 +130,15 @@ fun AppScreensConfig(
     userNameManager: UserNameManager,
     userAvatarUrlManager: UserAvatarUrlManager,
     userPhoneManager: UserPhoneManager,
-    verifyCodeManager: VerifyCodeManager,
+    resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
     eventCreationScreenViewModel: EventCreationScreensViewModel,
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
+    emailVerificationViewModel: EmailVerificationViewModel,
+    userEmailManager: UserEmailManager,
     techWorksScreenViewModel: TechWorksScreenViewModel,
 ) {
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
@@ -144,6 +150,8 @@ fun AppScreensConfig(
         futureEventsScreenViewModel.uiState.collectAsState().value
     val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
     val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
+    val verifyEmailViewModelState = emailVerificationViewModel.uiState.collectAsState().value
+    val verifyEmailViewModeCurrentState = emailVerificationViewModel.currentState
 
     var selectedEventTab: MutableState<EventTab> =
         rememberSaveable { mutableStateOf(EventTab.ALL_EVENTS) }
@@ -206,7 +214,8 @@ fun AppScreensConfig(
                     userAvatarUrlManager.deleteAvatarUrl()
                     userNameManager.deleteUserName()
                     userPhoneManager.deleteUserPhone()
-                    verifyCodeManager.deleteVerifyCode()
+                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                    userEmailManager.deleteUserEmail()
                 }
             },
         )
@@ -953,7 +962,7 @@ fun AppScreensConfig(
                                 userAvatarUrlManager.deleteAvatarUrl()
                                 userNameManager.deleteUserName()
                                 userPhoneManager.deleteUserPhone()
-                                verifyCodeManager.deleteVerifyCode()
+                                resetPassVerifyCodeManager.deleteResetPassVerifyCode()
                             }
                         },
                         deleteAccBtnClicked = {}
@@ -1004,14 +1013,17 @@ fun AppScreensConfig(
             if (eventId != 0) {
                 eventScreenViewModelCurrentState.currentEventId.value = eventId
             }
+            val isVerificationModalVisible = remember { mutableStateOf(false) }
+            val isShareLinkModalVisible = remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             LaunchedEffect(key1 = Unit) {
-                eventScreenViewModel.loadUEventData()
+                eventScreenViewModel.loadUEventData() //TODO() Make it encapsulated - without calling the method directly
             }
-
-            val resetState = resetPassViewModel.uiState.collectAsState().value
-            var isVerificationModalVisible = remember { mutableStateOf(false) }
-            var isShareLinkModalVisible = remember { mutableStateOf(false) }
-
+            LaunchedEffect(verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
+                if (verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
+                    verifyEmailViewModeCurrentState.isEmailVerifySuccess.value = false
+                    isVerificationModalVisible.value = false
+                }
+            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1034,11 +1046,31 @@ fun AppScreensConfig(
                         paddingValues = it,
                         isVerificationModalVisible = isVerificationModalVisible,
                         verificationModalScreenContent = {
-                            EmailVerificationModal( //TODO()
-                                state = resetState,
-                                turnBackBtnClicked = { isVerificationModalVisible.value = false },
-                                confirmBtnClicked = {},
-                                resendCodeToEmailClicked = {}
+                            LaunchedEffect(key1 = Unit) {
+                                emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                val userEmail = userEmailManager.getUserEmail().firstOrNull()
+                                emailVerificationViewModel.setState {
+                                    copy(
+                                        userEmailText =  mutableStateOf(userEmail?: ""),
+                                    )
+                                }
+                            }
+                            EmailVerificationModal(
+                                state = verifyEmailViewModelState,
+                                turnBackBtnClicked = {
+                                    isVerificationModalVisible.value = false
+                                    emailVerificationViewModel.setState {
+                                        copy(
+                                            codeText = List(5) { mutableStateOf("") }
+                                        )
+                                    }
+                                                     },
+                                confirmBtnClicked = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.VerifyEmailClicked)
+                                                    },
+                                resendCodeToEmailClicked = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                },
                             )
                         },
                         isShareLinkModalVisible = isShareLinkModalVisible,
@@ -1051,6 +1083,12 @@ fun AppScreensConfig(
                             }
                         },
                         navigateToEventAuthorPublicProfile = {},
+                        isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
+                        isConfirmReminderContent = {
+                            ConfirmEmailReminder(
+                            clickCallback = { isVerificationModalVisible.value = true },
+                            userEmail = verifyEmailViewModeCurrentState.userEmailText.value
+                        )}
                     )
                 })
         }

@@ -95,6 +95,11 @@ import com.example.data.backend.models.responses.LoginError
 import com.example.data.backend.models.responses.LoginErrors
 import com.example.data.backend.models.responses.LoginSuccess
 import com.example.data.backend.models.responses.PlayingPlace
+import com.example.data.backend.models.responses.PostEmailVerifyCodeDataError
+import com.example.data.backend.models.responses.PostEmailVerifyCodeError
+import com.example.data.backend.models.responses.PostEmailVerifyCodeErrorDetail
+import com.example.data.backend.models.responses.PostEmailVerifyCodeResponse
+import com.example.data.backend.models.responses.PostEmailVerifyCodeResponseData
 import com.example.data.backend.models.responses.PublicProfileDataResponse
 import com.example.data.backend.models.responses.PublicProfileResponse
 import com.example.data.backend.models.responses.RegistrationData
@@ -110,6 +115,11 @@ import com.example.data.backend.models.responses.SendCodeError
 import com.example.data.backend.models.responses.SendCodeErrors
 import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailError
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailErrorData
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailErrorDataDetail
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailResponse
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailResponseData
 import com.example.data.backend.models.responses.Tokens
 import com.example.data.backend.models.responses.UpdateUserProfileResponse
 import com.example.data.backend.models.responses.UpdateUserProfileResponseConfiguration
@@ -215,6 +225,11 @@ import com.example.domain.entity.responses.LoginErrorsDomain
 import com.example.domain.entity.responses.LoginResponse
 import com.example.domain.entity.responses.LoginTokens
 import com.example.domain.entity.responses.PlayingPlaceEntity
+import com.example.domain.entity.responses.PostEmailVerifyCodeDataErrorEntity
+import com.example.domain.entity.responses.PostEmailVerifyCodeErrorEntity
+import com.example.domain.entity.responses.PostEmailVerifyCodeErrorEntityDetail
+import com.example.domain.entity.responses.PostEmailVerifyCodeResponseEntity
+import com.example.domain.entity.responses.PostEmailVerifyCodeResponseEntityData
 import com.example.domain.entity.responses.PublicProfileDataResponseEntity
 import com.example.domain.entity.responses.PublicProfileResponseEntity
 import com.example.domain.entity.responses.RegistrationDataEntity
@@ -230,6 +245,11 @@ import com.example.domain.entity.responses.SendCodeDataErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.responses.SendCodeErrorsEntity
 import com.example.domain.entity.responses.SendCodeResponseEntity
+import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntity
+import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntityData
+import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntityDataDetail
+import com.example.domain.entity.responses.SendVerifyCodeToUserEmailResponseEntity
+import com.example.domain.entity.responses.SendVerifyCodeToUserEmailResponseEntityData
 import com.example.domain.entity.responses.UpdateUserProfileResponseConfigurationEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseDataEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseEntity
@@ -240,7 +260,7 @@ import com.example.domain.entity.responses.UpdateUserProfileResponsePlaceEntity
 import com.example.domain.entity.responses.UpdateUserProfileResponseProfileEntity
 
 internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity =
-     RegistrationErrorEntity(
+    RegistrationErrorEntity(
         this.code,
         this.data.toRegistrationErrorsDataEntity(),
         this.message,
@@ -248,16 +268,16 @@ internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEnt
     )
 
 internal fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity =
-     RegistrationErrorsDataEntity(
+    RegistrationErrorsDataEntity(
         listOf(this.errors[0].toRegistrationErrorDetailEntity()),
         this.type
     )
 
 internal fun RegistrationErrorDetail.toRegistrationErrorDetailEntity(): RegistrationErrorDetailEntity =
-     RegistrationErrorDetailEntity(this.detail)
+    RegistrationErrorDetailEntity(this.detail)
 
 internal fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationResponseEntity =
-     RegistrationResponseEntity(
+    RegistrationResponseEntity(
         this.code,
         this.data.toRegistrationDataEntity(),
         this.message,
@@ -265,10 +285,10 @@ internal fun RegistrationResponse.toRegistrationResponseEntity(): RegistrationRe
     )
 
 internal fun RegistrationData.toRegistrationDataEntity(): RegistrationDataEntity =
-     RegistrationDataEntity(this.access, this.refresh)
+    RegistrationDataEntity(this.access, this.refresh)
 
 internal fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteErrorEntity =
-     ResetCompleteErrorEntity(
+    ResetCompleteErrorEntity(
         this.code,
         this.data.toResetCompleteDataEntity(),
         this.message,
@@ -276,21 +296,21 @@ internal fun ResetCompleteError.toResetCompleteErrorEntity(): ResetCompleteError
     )
 
 internal fun DataResetCompleteError.toResetCompleteDataEntity(): ResetCompleteDataEntity =
-     ResetCompleteDataEntity(
+    ResetCompleteDataEntity(
         listOf(this.errors[0].toResetCompleteErrorsEntity()),
         this.type
     )
 
 
 internal fun ResetCompleteErrors.toResetCompleteErrorsEntity(): ResetCompleteErrorsEntity =
-     ResetCompleteErrorsEntity(this.detail)
+    ResetCompleteErrorsEntity(this.detail)
 
 
 internal fun DataResetCompleteResponse.toResetCompleteResponseEntity(): DataCompleteResponseEntity =
-     DataCompleteResponseEntity(this.success)
+    DataCompleteResponseEntity(this.success)
 
 internal fun ResetCompleteResponse.toResetCompleteResponseEntity(): ResetCompleteResponseEntity =
-     ResetCompleteResponseEntity(
+    ResetCompleteResponseEntity(
         this.code,
         this.data.toResetCompleteResponseEntity(),
         this.message,
@@ -298,7 +318,7 @@ internal fun ResetCompleteResponse.toResetCompleteResponseEntity(): ResetComplet
     )
 
 internal fun SendCodeError.toSendCodeErrorEntity(): SendCodeErrorEntity =
-     SendCodeErrorEntity(
+    SendCodeErrorEntity(
         this.code,
         this.data.toSendCodeDataErrorEntity(),
         this.message,
@@ -306,16 +326,16 @@ internal fun SendCodeError.toSendCodeErrorEntity(): SendCodeErrorEntity =
     )
 
 internal fun SendCodeDataError.toSendCodeDataErrorEntity(): SendCodeDataErrorEntity =
-     SendCodeDataErrorEntity(
+    SendCodeDataErrorEntity(
         listOf(this.errors[0].toSendCodeErrorsEntity()),
         this.type
     )
 
 internal fun SendCodeErrors.toSendCodeErrorsEntity(): SendCodeErrorsEntity =
-     SendCodeErrorsEntity(this.detail)
+    SendCodeErrorsEntity(this.detail)
 
 internal fun SendCodeResponse.toSendCodeResponseEntity(): SendCodeResponseEntity =
-     SendCodeResponseEntity(
+    SendCodeResponseEntity(
         this.code,
         this.data.toDataSendDomain(),
         this.message,
@@ -323,10 +343,10 @@ internal fun SendCodeResponse.toSendCodeResponseEntity(): SendCodeResponseEntity
     )
 
 internal fun DataSendCode.toDataSendDomain(): DataSendCodeDomain =
-     DataSendCodeDomain(this.success)
+    DataSendCodeDomain(this.success)
 
 internal fun EmailPassResetError.toEmailPassResetErrorEntity(): EmailPassResetErrorEntity =
-     EmailPassResetErrorEntity(
+    EmailPassResetErrorEntity(
         this.code,
         this.data.toEmailPassDataErrorEntity(),
         this.message,
@@ -334,16 +354,16 @@ internal fun EmailPassResetError.toEmailPassResetErrorEntity(): EmailPassResetEr
     )
 
 internal fun EmailPassDataError.toEmailPassDataErrorEntity(): EmailPassDataErrorEntity =
-     EmailPassDataErrorEntity(
+    EmailPassDataErrorEntity(
         listOf(this.errors[0].toEmailPassDataErrorEntity()),
         this.type
     )
 
 internal fun EmailPassResetErrors.toEmailPassDataErrorEntity(): EmailPassResetErrorsEntity =
-     EmailPassResetErrorsEntity(this.detail)
+    EmailPassResetErrorsEntity(this.detail)
 
 internal fun SendEmailPasswordResetSuccess.toEmailResetResponse(): EmailResetResponseEntity =
-     EmailResetResponseEntity(
+    EmailResetResponseEntity(
         this.code,
         this.data.toDataEmailReset(),
         this.message,
@@ -351,29 +371,29 @@ internal fun SendEmailPasswordResetSuccess.toEmailResetResponse(): EmailResetRes
     )
 
 internal fun DataEmailReset.toDataEmailReset(): DataEmailResetEntity =
-     DataEmailResetEntity(this.success)
+    DataEmailResetEntity(this.success)
 
 internal fun LoginSuccess.toLoginResponse(): LoginResponse =
 
-     LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
+    LoginResponse(this.code, this.data.toLoginData(), this.message, this.status)
 
 internal fun Data.toLoginData(): LoginData =
-     LoginData(this.email, this.tokens.toLoginTokens())
+    LoginData(this.email, this.tokens.toLoginTokens())
 
 internal fun Tokens.toLoginTokens(): LoginTokens =
-     LoginTokens(this.access, this.refresh)
+    LoginTokens(this.access, this.refresh)
 
 internal fun LoginError.toErrorResponse(): ErrorResponse =
-     ErrorResponse(this.code, this.data.toDataError(), this.message, this.status)
+    ErrorResponse(this.code, this.data.toDataError(), this.message, this.status)
 
 internal fun DataError.toDataError(): LoginDataError =
-     LoginDataError(listOf(this.errors[0].toLoginErrors()), this.type)
+    LoginDataError(listOf(this.errors[0].toLoginErrors()), this.type)
 
 internal fun LoginErrors.toLoginErrors(): LoginErrorsDomain =
-     LoginErrorsDomain(this.detail)
+    LoginErrorsDomain(this.detail)
 
 internal fun GetUserProfileByIdResponse.toGetUserProfileByIdResponseEntity(): GetUserProfileByIdResponseEntity =
-     GetUserProfileByIdResponseEntity(
+    GetUserProfileByIdResponseEntity(
         this.code,
         this.data.toPublicProfileDataResponseEntity(),
         this.message,
@@ -381,7 +401,7 @@ internal fun GetUserProfileByIdResponse.toGetUserProfileByIdResponseEntity(): Ge
     )
 
 internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): PublicProfileDataResponseEntity =
-     PublicProfileDataResponseEntity(
+    PublicProfileDataResponseEntity(
         this.configuration.toConfigurationEntity(),
         this.email,
         this.id,
@@ -394,10 +414,10 @@ internal fun PublicProfileDataResponse.toPublicProfileDataResponseEntity(): Publ
     )
 
 internal fun Configuration.toConfigurationEntity(): ConfigurationEntity =
-     ConfigurationEntity(this.email, this.phone, this.show_reviews)
+    ConfigurationEntity(this.email, this.phone, this.show_reviews)
 
 internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfileResponseEntity =
-     PublicProfileResponseEntity(
+    PublicProfileResponseEntity(
         this.about_me,
         this.age,
         this.avatar_url,
@@ -415,10 +435,10 @@ internal fun PublicProfileResponse.toPublicProfileResponseEntity(): PublicProfil
     )
 
 internal fun PlayingPlace.toPlayingPlaceEntity(): PlayingPlaceEntity =
-     PlayingPlaceEntity(this.place_name)
+    PlayingPlaceEntity(this.place_name)
 
 internal fun GetUserProfileByIdError.toGetUserProfileByIdErrorEntity(): GetUserProfileByIdErrorEntity =
-     GetUserProfileByIdErrorEntity(
+    GetUserProfileByIdErrorEntity(
         this.code,
         this.data.toGetUserProfileByIdErrorDataEntity(),
         this.message,
@@ -426,17 +446,17 @@ internal fun GetUserProfileByIdError.toGetUserProfileByIdErrorEntity(): GetUserP
     )
 
 internal fun GetUserProfileByIdErrorData.toGetUserProfileByIdErrorDataEntity(): GetUserProfileByIdErrorDataEntity =
-     GetUserProfileByIdErrorDataEntity(
+    GetUserProfileByIdErrorDataEntity(
         listOf(
             this.errors[0].toGetUserProfileByIdDetailDataEntity()
         ), this.type
     )
 
 internal fun GetUserProfileByIdDetailData.toGetUserProfileByIdDetailDataEntity(): GetUserProfileByIdDetailDataEntity =
-     GetUserProfileByIdDetailDataEntity(this.detail)
+    GetUserProfileByIdDetailDataEntity(this.detail)
 
 internal fun GetUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity(): GetUserReviewsByIdResponseEntity =
-     GetUserReviewsByIdResponseEntity(
+    GetUserReviewsByIdResponseEntity(
         this.code,
         this.data.toGetUserReviewsByIdDataEntity(),
         this.message,
@@ -444,7 +464,7 @@ internal fun GetUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity(): Ge
     )
 
 internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserReviewsByIdDataEntity =
-     GetUserReviewsByIdDataEntity(
+    GetUserReviewsByIdDataEntity(
         this.current_page,
         this.next,
         this.page_size,
@@ -455,7 +475,7 @@ internal fun GetUserReviewsByIdData.toGetUserReviewsByIdDataEntity(): GetUserRev
     )
 
 internal fun GetUserReviewsByIdResponseResult.toGetUserReviewsByIdResponseResultEntity(): GetUserReviewsByIdResponseResultEntity =
-     GetUserReviewsByIdResponseResultEntity(
+    GetUserReviewsByIdResponseResultEntity(
         this.author.toGetUserReviewsByIdResponseAuthorEntity(),
         this.id,
         this.stars,
@@ -464,19 +484,19 @@ internal fun GetUserReviewsByIdResponseResult.toGetUserReviewsByIdResponseResult
     )
 
 internal fun GetUserReviewsByIdResponseAuthor.toGetUserReviewsByIdResponseAuthorEntity(): GetUserReviewsByIdResponseAuthorEntity =
-     GetUserReviewsByIdResponseAuthorEntity(
+    GetUserReviewsByIdResponseAuthorEntity(
         this.id,
         this.profile.toGetUserReviewsByIdResponseProfile(),
     )
 
 internal fun GetUserReviewsByIdResponseProfile.toGetUserReviewsByIdResponseProfile(): GetUserReviewsByIdResponseProfileEntity =
-     GetUserReviewsByIdResponseProfileEntity(
+    GetUserReviewsByIdResponseProfileEntity(
         this.last_name,
         this.name,
     )
 
 internal fun GetUserReviewsByIdResponseError.toGetUserReviewsByIdResponseErrorEntity(): GetUserReviewsByIdResponseErrorEntity =
-     GetUserReviewsByIdResponseErrorEntity(
+    GetUserReviewsByIdResponseErrorEntity(
         this.code,
         this.data.toGetUserReviewsByIdResponseErrorDataEntity(),
         this.message,
@@ -484,7 +504,7 @@ internal fun GetUserReviewsByIdResponseError.toGetUserReviewsByIdResponseErrorEn
     )
 
 internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErrorDataEntity(): GetUserReviewsByIdResponseErrorDataEntity =
-     GetUserReviewsByIdResponseErrorDataEntity(
+    GetUserReviewsByIdResponseErrorDataEntity(
         listOf(
             this.errors[0].toGetUserReviewsByIdResponseDetailDataEntity()
         ),
@@ -492,27 +512,30 @@ internal fun GetUserReviewsByIdResponseErrorData.toGetUserReviewsByIdResponseErr
     )
 
 internal fun GetUserReviewsByIdResponseDetailData.toGetUserReviewsByIdResponseDetailDataEntity(): GetUserReviewsByIdResponseDetailDataEntity =
-     GetUserReviewsByIdResponseDetailDataEntity(this.detail)
+    GetUserReviewsByIdResponseDetailDataEntity(this.detail)
 
 
 internal fun GetUserPlannedEventsByIdResponse.toGetUserPlannedEventsByIdResponseEntity(): GetUserPlannedEventsByIdResponseEntity =
-     GetUserPlannedEventsByIdResponseEntity(
-        this.code, this.data.toGetUserPlannedEventsByIdDataResponseEntity(), this.message, this.status
+    GetUserPlannedEventsByIdResponseEntity(
+        this.code,
+        this.data.toGetUserPlannedEventsByIdDataResponseEntity(),
+        this.message,
+        this.status
     )
 
 internal fun GetUserPlannedEventsByIdDataResponse.toGetUserPlannedEventsByIdDataResponseEntity(): GetUserPlannedEventsByIdDataResponseEntity =
-     GetUserPlannedEventsByIdDataResponseEntity(
+    GetUserPlannedEventsByIdDataResponseEntity(
         this.current_page,
         this.next,
         this.page_size,
         this.previous,
-        this.results?.map { it.toGetUserPlannedEventsByIdResultResponseEntity() } ,
+        this.results?.map { it.toGetUserPlannedEventsByIdResultResponseEntity() },
         this.success,
         this.total_count
     )
 
 internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdResultResponseEntity(): GetUserPlannedEventsByIdResultResponseEntity =
-     GetUserPlannedEventsByIdResultResponseEntity(
+    GetUserPlannedEventsByIdResultResponseEntity(
         this.amount_members,
         this.author.toGetUserPlannedEventsByIdAuthorResponseEntity(),
         this.count_current_fans,
@@ -535,37 +558,37 @@ internal fun GetUserPlannedEventsByIdResultResponse.toGetUserPlannedEventsByIdRe
     )
 
 internal fun GetUserPlannedEventsByIdAuthorResponse.toGetUserPlannedEventsByIdAuthorResponseEntity(): GetUserPlannedEventsByIdAuthorResponseEntity =
-     GetUserPlannedEventsByIdAuthorResponseEntity(
+    GetUserPlannedEventsByIdAuthorResponseEntity(
         this.id,
         this.phone,
         this.profile.toGetUserPlannedEventsByIdProfileResponseEntity(),
     )
 
 internal fun GetUserPlannedEventsByIdProfileResponse.toGetUserPlannedEventsByIdProfileResponseEntity(): GetUserPlannedEventsByIdProfileResponseEntity =
-     GetUserPlannedEventsByIdProfileResponseEntity(
+    GetUserPlannedEventsByIdProfileResponseEntity(
         this.avatar_url, this.id, this.last_name, this.name
     )
 
 internal fun GetUserPlannedEventsByIdPlaceResponse.toGetUserPlannedEventsByIdPlaceResponseEntity(): GetUserPlannedEventsByIdPlaceResponseEntity =
-     GetUserPlannedEventsByIdPlaceResponseEntity(this.lat, this.lon, this.place_name)
+    GetUserPlannedEventsByIdPlaceResponseEntity(this.lat, this.lon, this.place_name)
 
 internal fun GetUserPlannedEventsByIdError.toGetUserPlannedEventsByIdErrorEntity(): GetUserPlannedEventsByIdErrorEntity =
-     GetUserPlannedEventsByIdErrorEntity(
+    GetUserPlannedEventsByIdErrorEntity(
         this.code, this.data.toGetUserPlannedByIdErrorData(), this.message, this.status
     )
 
 internal fun GetUserPlannedEventsByIdErrorData.toGetUserPlannedByIdErrorData(): GetUserPlannedEventsByIdErrorDataEntity =
-     GetUserPlannedEventsByIdErrorDataEntity(
+    GetUserPlannedEventsByIdErrorDataEntity(
         listOf(
             this.errors[0].toGetUserPlannedEventsByIdDetailDataEntity()
         ), this.type
     )
 
 internal fun GetUserPlannedEventsByIdDetailData.toGetUserPlannedEventsByIdDetailDataEntity(): GetUserPlannedEventsByIdDetailDataEntity =
-     GetUserPlannedEventsByIdDetailDataEntity(this.detail)
+    GetUserPlannedEventsByIdDetailDataEntity(this.detail)
 
 internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): UpdateUserProfileResponseEntity =
-     UpdateUserProfileResponseEntity(
+    UpdateUserProfileResponseEntity(
         this.code,
         this.data.toUpdateUserProfileResponseDataEntity(),
         this.message,
@@ -573,21 +596,21 @@ internal fun UpdateUserProfileResponse.toUpdateUserProfileResponseEntity(): Upda
     )
 
 internal fun UpdateUserProfileResponseData.toUpdateUserProfileResponseDataEntity(): UpdateUserProfileResponseDataEntity =
-     UpdateUserProfileResponseDataEntity(
+    UpdateUserProfileResponseDataEntity(
         this.configuration.toUpdateUserProfileResponseConfigurationEntity(),
         this.phone,
         this.profile.toUpdateUserProfileResponseProfileEntity(),
     )
 
 internal fun UpdateUserProfileResponseConfiguration.toUpdateUserProfileResponseConfigurationEntity(): UpdateUserProfileResponseConfigurationEntity =
-     UpdateUserProfileResponseConfigurationEntity(
+    UpdateUserProfileResponseConfigurationEntity(
         this.email,
         this.phone,
         this.show_reviews
     )
 
 internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfileEntity(): UpdateUserProfileResponseProfileEntity =
-     UpdateUserProfileResponseProfileEntity(
+    UpdateUserProfileResponseProfileEntity(
         this.birthday,
         this.height,
         this.last_name,
@@ -599,14 +622,14 @@ internal fun UpdateUserProfileResponseProfile.toUpdateUserProfileResponseProfile
     )
 
 internal fun UpdateUserProfileResponsePlace.toUpdateUserProfileResponsePlaceEntity(): UpdateUserProfileResponsePlaceEntity =
-     UpdateUserProfileResponsePlaceEntity(
+    UpdateUserProfileResponsePlaceEntity(
         this.lat,
         this.lon,
         this.place_name
     )
 
 internal fun UpdateUserProfileResponseError.toUpdateUserProfileResponseEntityError(): UpdateUserProfileResponseEntityError =
-     UpdateUserProfileResponseEntityError(
+    UpdateUserProfileResponseEntityError(
         this.code,
         this.data.toUpdateUserProfileResponseEntityErrorData(),
         this.message,
@@ -614,17 +637,17 @@ internal fun UpdateUserProfileResponseError.toUpdateUserProfileResponseEntityErr
     )
 
 internal fun UpdateUserProfileResponseErrorData.toUpdateUserProfileResponseEntityErrorData(): UpdateUserProfileResponseEntityErrorData =
-     UpdateUserProfileResponseEntityErrorData(
+    UpdateUserProfileResponseEntityErrorData(
         listOf(this.errors[0].toUpdateUserProfileResponseEntityErrorDetail()),
         this.type,
     )
 
 internal fun UpdateUserProfileResponseErrorDetail.toUpdateUserProfileResponseEntityErrorDetail(): UpdateUserProfileResponseEntityErrorDetail =
-     UpdateUserProfileResponseEntityErrorDetail(
+    UpdateUserProfileResponseEntityErrorDetail(
         this.detail
     )
 
-internal fun GetMyProfileResponse.toGetMyProfileResponseEntity (): GetMyProfileResponseEntity =
+internal fun GetMyProfileResponse.toGetMyProfileResponseEntity(): GetMyProfileResponseEntity =
     GetMyProfileResponseEntity(
         this.code,
         this.data.toGetMyProfileResponseDataEntity(),
@@ -632,7 +655,7 @@ internal fun GetMyProfileResponse.toGetMyProfileResponseEntity (): GetMyProfileR
         this.status,
     )
 
-internal fun GetMyProfileResponseData.toGetMyProfileResponseDataEntity (): GetMyProfileResponseDataEntity =
+internal fun GetMyProfileResponseData.toGetMyProfileResponseDataEntity(): GetMyProfileResponseDataEntity =
     GetMyProfileResponseDataEntity(
         this.configuration.toGetMyProfileResponseConfigurationEntity(),
         this.email,
@@ -645,14 +668,14 @@ internal fun GetMyProfileResponseData.toGetMyProfileResponseDataEntity (): GetMy
         this.role,
     )
 
-internal fun GetMyProfileResponseConfiguration.toGetMyProfileResponseConfigurationEntity (): GetMyProfileResponseConfigurationEntity =
+internal fun GetMyProfileResponseConfiguration.toGetMyProfileResponseConfigurationEntity(): GetMyProfileResponseConfigurationEntity =
     GetMyProfileResponseConfigurationEntity(
         this.email,
         this.phone,
         this.show_reviews
     )
 
-internal fun GetMyProfileResponseProfile.toGetMyProfileResponseProfileEntity (): GetMyProfileResponseProfileEntity =
+internal fun GetMyProfileResponseProfile.toGetMyProfileResponseProfileEntity(): GetMyProfileResponseProfileEntity =
     GetMyProfileResponseProfileEntity(
         this.about_me,
         this.age,
@@ -670,12 +693,12 @@ internal fun GetMyProfileResponseProfile.toGetMyProfileResponseProfileEntity ():
         this.working_leg
     )
 
-internal fun GetMyProfileResponsePlace.toGetMyProfileResponsePlaceEntity (): GetMyProfileResponsePlaceEntity =
+internal fun GetMyProfileResponsePlace.toGetMyProfileResponsePlaceEntity(): GetMyProfileResponsePlaceEntity =
     GetMyProfileResponsePlaceEntity(
-       this.place_name
+        this.place_name
     )
 
-internal fun GetMyProfileError.toGetMyProfileErrorEntity (): GetMyProfileErrorEntity =
+internal fun GetMyProfileError.toGetMyProfileErrorEntity(): GetMyProfileErrorEntity =
     GetMyProfileErrorEntity(
         this.code,
         this.data.toGetMyProfileErrorDataEntity(),
@@ -1095,6 +1118,70 @@ internal fun EditEventByIdResponseErrorData.toEditEventByIdResponseErrorDataEnti
 
 internal fun EditEventByIdResponseErrorDetail.toEditEventByIdResponseErrorDetailEntity(): EditEventByIdResponseErrorDetailEntity =
     EditEventByIdResponseErrorDetailEntity(
+        this.detail
+    )
+
+internal fun SendVerifyCodeToUserEmailResponse.toSendVerifyCodeToUserEmailResponseEntity(): SendVerifyCodeToUserEmailResponseEntity =
+    SendVerifyCodeToUserEmailResponseEntity(
+        this.code,
+        this.data.toSendVerifyCodeToUserEmailResponseEntityData(),
+        this.message,
+        this.status,
+    )
+
+internal fun SendVerifyCodeToUserEmailResponseData.toSendVerifyCodeToUserEmailResponseEntityData(): SendVerifyCodeToUserEmailResponseEntityData =
+    SendVerifyCodeToUserEmailResponseEntityData(
+        this.success
+    )
+
+internal fun SendVerifyCodeToUserEmailError.toSendVerifyCodeToUserEmailErrorEntity(): SendVerifyCodeToUserEmailErrorEntity =
+    SendVerifyCodeToUserEmailErrorEntity(
+        this.code,
+        this.data.toSendVerifyCodeToUserEmailErrorEntityData(),
+        this.status,
+        this.message,
+    )
+
+internal fun SendVerifyCodeToUserEmailErrorData.toSendVerifyCodeToUserEmailErrorEntityData(): SendVerifyCodeToUserEmailErrorEntityData =
+    SendVerifyCodeToUserEmailErrorEntityData(
+        listOf(this.errors[0].toSendVerifyCodeToUserEmailErrorEntityDataDetail()),
+        this.type
+    )
+
+internal fun SendVerifyCodeToUserEmailErrorDataDetail.toSendVerifyCodeToUserEmailErrorEntityDataDetail(): SendVerifyCodeToUserEmailErrorEntityDataDetail =
+    SendVerifyCodeToUserEmailErrorEntityDataDetail(
+        this.detail
+    )
+
+internal fun PostEmailVerifyCodeResponse.toPostEmailVerifyCodeResponseEntity(): PostEmailVerifyCodeResponseEntity =
+    PostEmailVerifyCodeResponseEntity(
+        this.code,
+        this.data.toPostEmailVerifyCodeResponseEntityData(),
+        this.message,
+        this.status,
+    )
+
+internal fun PostEmailVerifyCodeResponseData.toPostEmailVerifyCodeResponseEntityData(): PostEmailVerifyCodeResponseEntityData =
+    PostEmailVerifyCodeResponseEntityData(
+        this.success,
+    )
+
+internal fun PostEmailVerifyCodeError.toPostEmailVerifyCodeErrorEntity(): PostEmailVerifyCodeErrorEntity  =
+    PostEmailVerifyCodeErrorEntity(
+        this.code,
+        this.data.toPostEmailVerifyCodeDataErrorEntity(),
+        this.message,
+        this.status
+    )
+
+internal fun PostEmailVerifyCodeDataError.toPostEmailVerifyCodeDataErrorEntity(): PostEmailVerifyCodeDataErrorEntity =
+    PostEmailVerifyCodeDataErrorEntity(
+        listOf(this.errors[0].toPostEmailVerifyCodeErrorEntityDetail()),
+        this.type,
+    )
+
+internal fun PostEmailVerifyCodeErrorDetail.toPostEmailVerifyCodeErrorEntityDetail(): PostEmailVerifyCodeErrorEntityDetail =
+    PostEmailVerifyCodeErrorEntityDetail(
         this.detail
     )
 

@@ -5,6 +5,7 @@ import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.CreationAnEventRequest
 import com.example.data.backend.models.requests.EditEventByIdRequest
+import com.example.data.backend.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.backend.models.requests.EditMyProfileRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
@@ -24,10 +25,12 @@ import com.example.data.backend.models.responses.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.GetUsersListResponse
 import com.example.data.backend.models.responses.LoginSuccess
+import com.example.data.backend.models.responses.PostEmailVerifyCodeResponse
 import com.example.data.backend.models.responses.RegistrationResponse
 import com.example.data.backend.models.responses.ResetCompleteResponse
 import com.example.data.backend.models.responses.SendCodeResponse
 import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailResponse
 import com.example.data.backend.models.responses.UpdateUserProfileResponse
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
@@ -121,6 +124,16 @@ interface MainApiService {
         @Body editEventByIdRequest: EditEventByIdRequest,
         @Path("id") id: Int
     ): EditEventByIdResponse
+
+    @GET(Endpoints.VERIFY_EMAIL_REQUEST_ENDPOINT)
+    suspend fun sendVerifyCodeToUserEmail(
+        @Query("page") page: Int,
+    ): SendVerifyCodeToUserEmailResponse
+
+    @POST(Endpoints.POST_EMAIL_VERIFY_CODE_ENDPOINT)
+    suspend fun postEmailVerifyCode(
+        @Body postEmailVerifyCodeRequest: PostEmailVerifyCodeRequest
+    ): PostEmailVerifyCodeResponse
 
     suspend fun ediMyProfile(
         @Body editMyProfileRequest: EditMyProfileRequest,

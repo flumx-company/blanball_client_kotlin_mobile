@@ -199,6 +199,10 @@ fun ResetPasswordScreenStep2(
                     state = it,
                     modifier = Modifier.padding(top = 8.dp),
                     enabled = true,
+                    codeText = { it.codeText },
+                    onCodeChange = { state, index, newValue ->
+                        state.codeText[index].value = newValue.take(1).uppercase()
+                    },
                     isError = when {
                         it.codeText.joinToString(separator = "") { it.value }
                             .isNotValidCode() -> true

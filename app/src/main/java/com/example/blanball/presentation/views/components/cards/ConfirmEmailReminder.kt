@@ -27,7 +27,8 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun ConfirmEmailReminder(
-    clickCallback: () -> Unit
+    clickCallback: () -> Unit,
+    userEmail: String,
 ) {
     Box(
         modifier = Modifier
@@ -39,7 +40,7 @@ fun ConfirmEmailReminder(
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(
                 modifier = Modifier.wrapContentWidth(),
-                text = stringResource(R.string.confirm_your_email) + "\n" + "zhenyazhuck@outlook.com", //TODO()
+                text = stringResource(R.string.confirm_your_email) + "\n" + userEmail,
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,

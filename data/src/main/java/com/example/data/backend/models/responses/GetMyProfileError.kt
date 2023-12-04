@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class GetMyProfileError(
    @Json (name = "code") val code: Int,
    @Json (name = "`data`") val `data`: GetMyProfileErrorData,
-   @Json (name = "message") val message: String,
+   @Json (name = "message") val message: String? = null,
    @Json (name = "status") val status: String
 )
 
