@@ -115,7 +115,7 @@ fun EventScreen(
                     .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
             ) {
                 if (!isConfirmReminderVisible){
-
+                    isConfirmReminderContent()
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(

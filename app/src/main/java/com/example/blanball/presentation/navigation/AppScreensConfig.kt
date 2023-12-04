@@ -50,6 +50,7 @@ import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
+import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.drawers.InvitedUsersBottomDrawer
 import com.example.blanball.presentation.views.components.drawers.NavigationDrawer
 import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEventBottomDrawer
@@ -1084,6 +1085,11 @@ fun AppScreensConfig(
                         },
                         navigateToEventAuthorPublicProfile = {},
                         isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
+                        isConfirmReminderContent = {
+                            ConfirmEmailReminder(
+                            clickCallback = { isVerificationModalVisible.value = true },
+                            userEmail = verifyEmailViewModeCurrentState.userEmailText.value
+                        )}
                     )
                 })
         }
