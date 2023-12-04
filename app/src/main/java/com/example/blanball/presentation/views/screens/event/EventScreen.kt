@@ -69,9 +69,11 @@ fun EventScreen(
     paddingValues: PaddingValues,
     verificationModalScreenContent: @Composable () -> Unit,
     shareLinkModalScreenContent: @Composable () -> Unit,
+    isConfirmReminderContent: @Composable () -> Unit,
     isVerificationModalVisible: MutableState<Boolean>,
     isShareLinkModalVisible: MutableState<Boolean>,
     navigateToEventAuthorPublicProfile: () -> Unit,
+    isConfirmReminderVisible: Boolean,
 ) {
     val currentState: EventScreenMainContract.State =
         (state as? EventScreenMainContract.State) ?: EventScreenMainContract.State(
@@ -112,9 +114,9 @@ fun EventScreen(
                     .fillMaxSize()
                     .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 0.dp)
             ) {
-                ConfirmEmailReminder(
-                    clickCallback = { isVerificationModalVisible.value = true }
-                )
+                if (!isConfirmReminderVisible){
+
+                }
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = state.eventName.value,

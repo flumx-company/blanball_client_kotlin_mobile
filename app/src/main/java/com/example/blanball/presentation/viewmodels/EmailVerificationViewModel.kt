@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +31,6 @@ import javax.inject.Inject
 class EmailVerificationViewModel
 @Inject constructor(
     internal val emailVerificationUseCase: EmailVerificationUseCase,
-    internal val userEmailManager: UserEmailManager,
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -50,24 +50,10 @@ class EmailVerificationViewModel
         MutableSharedFlow(replay = 0)
     val sideEffect: SharedFlow<EmailVerificationMainContract.Effect> = _sideEffect.asSharedFlow()
 
-
-    fun getUserEmail() {
-        job = viewModelScope.launch {
-            val currentUserEmail = userEmailManager.getUserEmail().firstOrNull()
-            setState {
-                copy(
-                    userEmailText = mutableStateOf(currentUserEmail ?: "")
-                )
-            }
-        }
-    }
-
-
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EmailVerificationMainContract.Event.SendCodeToUserEmailClicked -> {
                 setState {
-                    getUserEmail()
                     copy(
                         state = EmailVerificationMainContract.ScreenViewState.Loading,
                     )
@@ -124,6 +110,7 @@ class EmailVerificationViewModel
                             copy(
                                 isEmailVerifyError = mutableStateOf(false),
                                 isEmailVerifySuccess = mutableStateOf(true),
+                                isEmailVerified = mutableStateOf(true),
                                 state = EmailVerificationMainContract.ScreenViewState.EmailVerifySuccess,
                             )
                         }
