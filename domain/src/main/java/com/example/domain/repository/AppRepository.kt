@@ -8,6 +8,7 @@ import com.example.domain.entity.results.EmailResetResultEntity
 import com.example.domain.entity.results.FillingTheUserProfileResultEntity
 import com.example.domain.entity.results.GetAllEventsResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
 import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
@@ -152,4 +153,6 @@ interface AppRepository {
 //        lon: Int,
 //        place_name: String,
 //    ): EditMyProfileResultEntity
+
+    suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity
 }
