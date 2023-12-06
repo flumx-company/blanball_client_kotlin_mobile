@@ -77,7 +77,7 @@ class MyEventsScreenViewModel
             val filterDateAndTimeAfter = currentState.filterDateAndTimeAfter.value
             val filterDateAndTimeBefore = currentState.filterDateAndTimeBefore.value
             Log.d("Timber", "$gender, $filterDateAndTimeAfter, $filterDateAndTimeBefore")
-            when (val result = getMyEventsUseCase.executeMyEventsEvents(
+            when (val result = getMyEventsUseCase.executeGetMyEvents(
                 page = pageToLoad,
                 typeOfSport = typeOfSport,
                 gender = gender,

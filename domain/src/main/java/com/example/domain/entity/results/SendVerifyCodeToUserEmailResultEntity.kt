@@ -1,7 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntity
-import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntityDataDetail
+import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntityDataDetail
 import com.example.domain.entity.responses.SendVerifyCodeToUserEmailResponseEntityData
 
 sealed class SendVerifyCodeToUserEmailResultEntity {

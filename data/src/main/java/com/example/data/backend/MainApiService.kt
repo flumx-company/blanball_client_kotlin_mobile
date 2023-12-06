@@ -5,33 +5,34 @@ import com.example.data.backend.models.*
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.CreationAnEventRequest
 import com.example.data.backend.models.requests.EditEventByIdRequest
-import com.example.data.backend.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.backend.models.requests.EditMyProfileRequest
+import com.example.data.backend.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.backend.models.requests.RegistrationRequest
 import com.example.data.backend.models.requests.ResetCompleteRequest
 import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
 import com.example.data.backend.models.requests.SendResetCodeRequest
 import com.example.data.backend.models.requests.UpdateUserProfileRequest
-import com.example.data.backend.models.responses.CreationAnEventResponse
-import com.example.data.backend.models.responses.EditEventByIdResponse
-import com.example.data.backend.models.responses.EditMyProfileResponse
-import com.example.data.backend.models.responses.GetAllEventResponse
-import com.example.data.backend.models.responses.GetEventByIdResponse
-import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusResponse
-import com.example.data.backend.models.responses.GetMyEventsResponse
-import com.example.data.backend.models.responses.GetMyProfileResponse
-import com.example.data.backend.models.responses.GetUserPlannedEventsByIdResponse
-import com.example.data.backend.models.responses.GetUserProfileByIdResponse
-import com.example.data.backend.models.responses.GetUserReviewsByIdResponse
-import com.example.data.backend.models.responses.GetUsersListResponse
-import com.example.data.backend.models.responses.LoginSuccess
-import com.example.data.backend.models.responses.PostEmailVerifyCodeResponse
-import com.example.data.backend.models.responses.RegistrationResponse
-import com.example.data.backend.models.responses.ResetCompleteResponse
-import com.example.data.backend.models.responses.SendCodeResponse
-import com.example.data.backend.models.responses.SendEmailPasswordResetSuccess
-import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailResponse
-import com.example.data.backend.models.responses.UpdateUserProfileResponse
+import com.example.data.backend.models.responses.success.CreationAnEventResponse
+import com.example.data.backend.models.responses.success.EditEventByIdResponse
+import com.example.data.backend.models.responses.success.EditMyProfileResponse
+import com.example.data.backend.models.responses.success.GetAllEventResponse
+import com.example.data.backend.models.responses.success.GetEventByIdResponse
+import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatusResponse
+import com.example.data.backend.models.responses.success.GetMyEventsResponse
+import com.example.data.backend.models.responses.success.GetMyProfileResponse
+import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponse
+import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdResponse
+import com.example.data.backend.models.responses.success.GetUserProfileByIdResponse
+import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponse
+import com.example.data.backend.models.responses.success.GetUsersListResponse
+import com.example.data.backend.models.responses.success.LoginSuccess
+import com.example.data.backend.models.responses.success.PostEmailVerifyCodeResponse
+import com.example.data.backend.models.responses.success.RegistrationResponse
+import com.example.data.backend.models.responses.success.ResetCompleteResponse
+import com.example.data.backend.models.responses.success.SendCodeResponse
+import com.example.data.backend.models.responses.success.SendEmailPasswordResetSuccess
+import com.example.data.backend.models.responses.success.SendVerifyCodeToUserEmailResponse
+import com.example.data.backend.models.responses.success.UpdateUserProfileResponse
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -141,4 +142,12 @@ interface MainApiService {
 
     @GET(Endpoints.GET_IS_TECHNICAL_WORK_STATUS_ENDPOINT)
     suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResponse
+
+    @GET(Endpoints.GET_RELEVANT_USER_SEARCH_LIST)
+    suspend fun getRelevantUserSearchList(
+        @Query("search") search: String,
+        @Query("page") page: Int,
+        @Query("skipids") skipids: String,
+    ): GetRelevantUserSearchListResponse
+
 }

@@ -1,7 +1,7 @@
 package com.example.domain.entity.results
 
 import com.example.domain.entity.responses.RegistrationDataEntity
-import com.example.domain.entity.responses.RegistrationErrorDetailEntity
+import com.example.domain.entity.responses.errors.RegistrationErrorDetailEntity
 
 sealed class RegistrationResultEntity {
  data class Success(val data: RegistrationDataEntity) : RegistrationResultEntity()

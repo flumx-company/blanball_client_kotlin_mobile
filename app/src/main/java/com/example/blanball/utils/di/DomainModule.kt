@@ -9,6 +9,7 @@ import com.example.domain.usecases.implementations.GetEventByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetIsTechWorksUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyProfileUseCaseImpl
+import com.example.domain.usecases.implementations.GetRelevantUserSearchListUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserPlannedEventsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserProfileByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
@@ -18,19 +19,20 @@ import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
 import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
+import com.example.domain.usecases.interfaces.EmailVerificationUseCase
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
 import com.example.domain.usecases.interfaces.GetMyEventsUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
+import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
-import com.example.domain.usecases.interfaces.EmailVerificationUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.Binds
 import dagger.Module
@@ -87,4 +89,8 @@ interface DomainModule {
 
     @Binds
     fun bindGetIsTechWorksUseCase(getIsTechWorksUseCaseImpl: GetIsTechWorksUseCaseImpl): GetIsTechWorksUseCase
+
+    @Binds
+    fun bindGetRelevantUserSearchListUseCase(getRelevantWorkUseCaseImpl: GetRelevantUserSearchListUseCaseImpl): GetRelevantUserSearchListUseCase
+
 }
