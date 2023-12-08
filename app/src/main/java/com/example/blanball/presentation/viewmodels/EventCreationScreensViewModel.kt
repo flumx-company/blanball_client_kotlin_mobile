@@ -15,6 +15,7 @@ import com.example.blanball.utils.ext.calculateTimeDifferenceInMinutes
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
+import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class EventCreationScreensViewModel
 @Inject constructor(
     internal val creationNewEventUseCase: CreationAnEventUseCase,
+    internal val searchListUseCase: GetRelevantUserSearchListUseCase,
     private val application: Application,
 ) : ViewModel() {
 

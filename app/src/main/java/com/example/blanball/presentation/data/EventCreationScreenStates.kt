@@ -39,6 +39,7 @@ class EventCreationScreenMainContract {
         val countOfPlayers: MutableState<Int> = mutableStateOf(0),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
         val eventDuration: MutableState<Int> = mutableStateOf(0),
+        val isActiveUsersSearchState: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

@@ -13,15 +13,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,8 +39,10 @@ import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
@@ -45,6 +50,7 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.cards.UserCardOnEventCreation
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventCreationScreenStep2(
     paddingValues: PaddingValues,
@@ -60,8 +66,7 @@ fun EventCreationScreenStep2(
         Box(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .wrapContentHeight()
         ) {
             Column(
                 modifier = Modifier
@@ -76,6 +81,50 @@ fun EventCreationScreenStep2(
                     fontWeight = FontWeight(700),
                     color = primaryDark,
                 )
+                SearchBar(
+                    query = it.usersSearchState.value,
+                    onQueryChange = { searchText ->
+                        state.usersSearchState.value = searchText
+                    },
+                    onSearch = {},
+                    colors = SearchBarDefaults.colors(
+                        containerColor = Color.White,
+                        inputFieldColors = SearchBarDefaults.inputFieldColors(
+                            focusedTextColor = primaryDark,
+                            cursorColor = mainGreen,
+                        )
+                    ),
+                    shape = shapes.medium,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_add_user),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+
+                    },
+                    active = it.isActiveUsersSearchState.value,
+                    onActiveChange = { state.isActiveUsersSearchState.value = it },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.users_search),
+                            fontSize = 14.sp,
+                            lineHeight = 24.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = primaryDark,
+                        )
+                    }
+                ) {
+
+                }
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.privacy),
