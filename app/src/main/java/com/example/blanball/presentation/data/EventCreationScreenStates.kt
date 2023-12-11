@@ -2,11 +2,13 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
 
 class EventCreationScreenMainContract {
 
     sealed class Event : UiEvent {
         object CreateNewEventClicked : Event()
+        object UsersSearchClicked: Event()
     }
 
     data class State(
@@ -39,12 +41,19 @@ class EventCreationScreenMainContract {
         val countOfPlayers: MutableState<Int> = mutableStateOf(0),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
         val eventDuration: MutableState<Int> = mutableStateOf(0),
-        val isActiveUsersSearchState: MutableState<Boolean> = mutableStateOf(false),
+        val listOfFoundUsers: MutableState<List<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
+            emptyList()
+        ),
+        val isSearchColumnOpen: MutableState<Boolean> = mutableStateOf(false),
+        val userSearchQuery: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
         object Idle : ScreenViewState()
         object Loading : ScreenViewState()
+        object UserSearchRequestSuccess: ScreenViewState()
+        object UserSearchLoading: ScreenViewState()
+        object UserSearchRequestError: ScreenViewState()
         object SuccessRequest : ScreenViewState()
         object ErrorRequest : ScreenViewState()
     }

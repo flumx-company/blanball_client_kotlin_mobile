@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
 
                 else -> {
                     val startDestinations = if (isRememberMeFlagActive) {
-                        Destinations.HOME.route
+                        Destinations.CREATE_NEW_EVENT_STEP_2.route
                     } else {
                         Destinations.LOGIN.route
                     }

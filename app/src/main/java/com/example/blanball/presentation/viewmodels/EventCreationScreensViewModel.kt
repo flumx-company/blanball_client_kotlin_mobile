@@ -14,6 +14,7 @@ import com.example.blanball.utils.ext.SportTypesStringsToEnglish
 import com.example.blanball.utils.ext.calculateTimeDifferenceInMinutes
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
+import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,6 +64,49 @@ class EventCreationScreensViewModel
                     )
                 }
                 requestCreationNewEvent()
+            }
+
+            is EventCreationScreenMainContract.Event.UsersSearchClicked -> {
+                job = viewModelScope.launch(Dispatchers.Default) {
+                    setState {
+                        copy(
+                            state = EventCreationScreenMainContract.ScreenViewState.UserSearchLoading,
+                        )
+                    }
+                    userSearch()
+                }
+            }
+        }
+    }
+
+    private fun userSearch() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            searchListUseCase.executeGetRelevantUserSearchList(
+                search = currentState.userSearchQuery.value,
+                page = 1, //TODO
+                skipids = "", //TODO
+            ).let { result ->
+                when (result) {
+                    is GetRelevantUserSearchListResultEntity.Success -> {
+                        val users = result.data.results
+                        users.let {
+                            setState {
+                                copy(
+                                    listOfFoundUsers = mutableStateOf(it),
+                                    state = EventCreationScreenMainContract.ScreenViewState.UserSearchRequestSuccess,
+                                )
+                            }
+                        }
+                    }
+
+                    is GetRelevantUserSearchListResultEntity.Error -> {
+                        setState {
+                            copy(
+                                state = EventCreationScreenMainContract.ScreenViewState.UserSearchRequestError,
+                            )
+                        }
+                    }
+                }
             }
         }
     }

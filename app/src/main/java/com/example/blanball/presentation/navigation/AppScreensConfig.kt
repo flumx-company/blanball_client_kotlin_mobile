@@ -18,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -1148,7 +1147,12 @@ fun AppScreensConfig(
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
-                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) }
+                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                        usersSearchClicked = {
+                            eventCreationScreenViewModel.handleEvent(
+                                EventCreationScreenMainContract.Event.UsersSearchClicked
+                            )
+                        }
                     )
                 }
             )
@@ -1194,8 +1198,6 @@ fun AppScreensConfig(
                             eventCreationScreenViewModel.handleEvent(
                                 EventCreationScreenMainContract.Event.CreateNewEventClicked
                             )
-
-
                         },
                         backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                     )
