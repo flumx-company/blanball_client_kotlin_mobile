@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.GetMyProfileErrorDetailEntity
+import com.example.domain.entity.responses.errors.GetMyProfileErrorDetailEntity
 import com.example.domain.entity.responses.GetMyProfileResponseDataEntity
 
 sealed class GetMyProfileResultEntity {

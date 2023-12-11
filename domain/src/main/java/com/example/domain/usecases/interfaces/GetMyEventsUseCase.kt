@@ -3,7 +3,7 @@ package com.example.domain.usecases.interfaces
 import com.example.domain.entity.results.GetMyEventsResultEntity
 
 interface GetMyEventsUseCase {
-    suspend fun executeMyEventsEvents(
+    suspend fun executeGetMyEvents(
         page: Int,
         typeOfSport: String,
         gender: String,

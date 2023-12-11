@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.GetUserProfileByIdDetailDataEntity
+import com.example.domain.entity.responses.errors.GetUserProfileByIdDetailDataEntity
 import com.example.domain.entity.responses.PublicProfileDataResponseEntity
 
 

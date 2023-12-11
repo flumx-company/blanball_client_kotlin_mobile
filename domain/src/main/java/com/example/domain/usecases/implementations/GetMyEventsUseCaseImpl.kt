@@ -6,7 +6,7 @@ import com.example.domain.usecases.interfaces.GetMyEventsUseCase
 import javax.inject.Inject
 
 class GetMyEventsUseCaseImpl @Inject constructor(internal val appRepository: AppRepository) : GetMyEventsUseCase {
-    override suspend fun executeMyEventsEvents(
+    override suspend fun executeGetMyEvents(
         page: Int,
         typeOfSport: String,
         gender: String,

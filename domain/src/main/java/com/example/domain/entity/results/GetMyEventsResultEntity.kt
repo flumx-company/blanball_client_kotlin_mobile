@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.GetMyEventsEntityResponseErrorDetail
+import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseErrorDetail
 import com.example.domain.entity.responses.GetMyEventsResponseEntityData
 
 sealed class GetMyEventsResultEntity {

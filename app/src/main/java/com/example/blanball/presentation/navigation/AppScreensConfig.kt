@@ -1147,7 +1147,12 @@ fun AppScreensConfig(
                         isBottomDrawerOpen = isBottomPreviewDrawerOpen,
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
-                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) }
+                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                        usersSearchClicked = {
+                            eventCreationScreenViewModel.handleEvent(
+                                EventCreationScreenMainContract.Event.UsersSearchClicked
+                            )
+                        }
                     )
                 }
             )
@@ -1193,8 +1198,6 @@ fun AppScreensConfig(
                             eventCreationScreenViewModel.handleEvent(
                                 EventCreationScreenMainContract.Event.CreateNewEventClicked
                             )
-
-
                         },
                         backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                     )

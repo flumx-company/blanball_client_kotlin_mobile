@@ -1,126 +1,130 @@
-    package com.example.data.backend
+package com.example.data.backend
 
-    import com.example.data.backend.models.requests.AuthRequest
-    import com.example.data.backend.models.requests.CreationAnEventRequest
-    import com.example.data.backend.models.requests.CreationAnEventRequestPlace
-    import com.example.data.backend.models.requests.EditEventByIdRequest
-    import com.example.data.backend.models.requests.EditEventByIdRequestPlace
-    import com.example.data.backend.models.requests.PostEmailVerifyCodeRequest
-    import com.example.data.backend.models.requests.ProfileRegistrationRequest
-    import com.example.data.backend.models.requests.RegistrationRequest
-    import com.example.data.backend.models.requests.ResetCompleteRequest
-    import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
-    import com.example.data.backend.models.requests.SendResetCodeRequest
-    import com.example.data.backend.models.requests.UpdateUserProfileRequest
-    import com.example.data.backend.models.requests.UpdateUserProfileRequestConfiguration
-    import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
-    import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
-    import com.example.data.backend.models.responses.CreationAnEventError
-    import com.example.data.backend.models.responses.EditEventByIdResponseError
-    import com.example.data.backend.models.responses.EmailPassResetError
-    import com.example.data.backend.models.responses.GetAllEventResponseError
-    import com.example.data.backend.models.responses.GetEventByIdResponseError
-    import com.example.data.backend.models.responses.GetIsTechnicalWorkStatusError
-    import com.example.data.backend.models.responses.GetMyEventsResponseError
-    import com.example.data.backend.models.responses.GetMyProfileError
-    import com.example.data.backend.models.responses.GetUserPlannedEventsByIdError
-    import com.example.data.backend.models.responses.GetUserProfileByIdError
-    import com.example.data.backend.models.responses.GetUserReviewsByIdResponseError
-    import com.example.data.backend.models.responses.GetUsersListResponseError
-    import com.example.data.backend.models.responses.LoginError
-    import com.example.data.backend.models.responses.PostEmailVerifyCodeError
-    import com.example.data.backend.models.responses.RegistrationError
-    import com.example.data.backend.models.responses.ResetCompleteError
-    import com.example.data.backend.models.responses.SendCodeError
-    import com.example.data.backend.models.responses.SendVerifyCodeToUserEmailError
-    import com.example.data.backend.models.responses.UpdateUserProfileResponseError
-    import com.example.data.datastore.tokenmanager.TokenManager
-    import com.example.data.datastore.usernamemanager.UserNameManager
-    import com.example.data.datastore.userphonemanager.UserPhoneManager
-    import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
-    import com.example.data.utils.ext.toCreationAnEventErrorEntity
-    import com.example.data.utils.ext.toCreationAnEventResponseEntity
-    import com.example.data.utils.ext.toEditEventByIdResponseEntity
-    import com.example.data.utils.ext.toEditEventByIdResponseErrorEntity
-    import com.example.data.utils.ext.toEmailPassResetErrorEntity
-    import com.example.data.utils.ext.toEmailResetResponse
-    import com.example.data.utils.ext.toErrorResponse
-    import com.example.data.utils.ext.toGetAllEventEntityResponseError
-    import com.example.data.utils.ext.toGetAllEventResponseEntity
-    import com.example.data.utils.ext.toGetEventByIdResponse
-    import com.example.data.utils.ext.toGetEventByIdResponseErrorEntity
-    import com.example.data.utils.ext.toGetIsTechnicalWorkStatusErrorEntity
-    import com.example.data.utils.ext.toGetIsTechnicalWorkStatusResponseEntity
-    import com.example.data.utils.ext.toGetMyEventsEntityResponseError
-    import com.example.data.utils.ext.toGetMyEventsResponseEntity
-    import com.example.data.utils.ext.toGetMyProfileErrorEntity
-    import com.example.data.utils.ext.toGetMyProfileResponseEntity
-    import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
-    import com.example.data.utils.ext.toGetUserPlannedEventsByIdResponseEntity
-    import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
-    import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
-    import com.example.data.utils.ext.toGetUserReviewsByIdResponseEntity
-    import com.example.data.utils.ext.toGetUserReviewsByIdResponseErrorEntity
-    import com.example.data.utils.ext.toGetUsersListResponseEntity
-    import com.example.data.utils.ext.toGetUsersListResponseErrorEntity
-    import com.example.data.utils.ext.toLoginResponse
-    import com.example.data.utils.ext.toPostEmailVerifyCodeErrorEntity
-    import com.example.data.utils.ext.toPostEmailVerifyCodeResponseEntity
-    import com.example.data.utils.ext.toRegistrationErrorEntity
-    import com.example.data.utils.ext.toRegistrationResponseEntity
-    import com.example.data.utils.ext.toResetCompleteErrorEntity
-    import com.example.data.utils.ext.toResetCompleteResponseEntity
-    import com.example.data.utils.ext.toSendCodeErrorEntity
-    import com.example.data.utils.ext.toSendCodeResponseEntity
-    import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
-    import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
-    import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
-    import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-    import com.example.domain.entity.responses.CreationAnEventErrorEntity
-    import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-    import com.example.domain.entity.responses.EditEventByIdResponseErrorEntity
-    import com.example.domain.entity.responses.EmailPassResetErrorEntity
-    import com.example.domain.entity.responses.ErrorResponse
-    import com.example.domain.entity.responses.GetAllEventEntityResponseError
-    import com.example.domain.entity.responses.GetEventByIdResponseErrorEntity
-    import com.example.domain.entity.responses.GetIsTechnicalWorkStatusErrorEntity
-    import com.example.domain.entity.responses.GetMyEventsEntityResponseError
-    import com.example.domain.entity.responses.GetMyProfileErrorEntity
-    import com.example.domain.entity.responses.GetUserPlannedEventsByIdErrorEntity
-    import com.example.domain.entity.responses.GetUserProfileByIdErrorEntity
-    import com.example.domain.entity.responses.GetUserReviewsByIdResponseErrorEntity
-    import com.example.domain.entity.responses.GetUsersListResponseErrorEntity
-    import com.example.domain.entity.responses.PostEmailVerifyCodeErrorEntity
-    import com.example.domain.entity.responses.RegistrationErrorEntity
-    import com.example.domain.entity.responses.ResetCompleteErrorEntity
-    import com.example.domain.entity.responses.SendCodeErrorEntity
-    import com.example.domain.entity.responses.SendVerifyCodeToUserEmailErrorEntity
-    import com.example.domain.entity.responses.UpdateUserProfileResponseEntityError
-    import com.example.domain.entity.results.CreationAnEventResultEntity
-    import com.example.domain.entity.results.EditEventByIdResultEntity
-    import com.example.domain.entity.results.EditMyProfileResultEntity
-    import com.example.domain.entity.results.EmailResetResultEntity
-    import com.example.domain.entity.results.FillingTheUserProfileResultEntity
-    import com.example.domain.entity.results.GetAllEventsResultEntity
-    import com.example.domain.entity.results.GetEventByIdResultEntity
-    import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
-    import com.example.domain.entity.results.GetMyEventsResultEntity
-    import com.example.domain.entity.results.GetMyProfileResultEntity
-    import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
-    import com.example.domain.entity.results.GetUserProfileByIdResultEntity
-    import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
-    import com.example.domain.entity.results.GetUsersListResultEntity
-    import com.example.domain.entity.results.LoginResultEntity
-    import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
-    import com.example.domain.entity.results.RegistrationResultEntity
-    import com.example.domain.entity.results.ResetCompleteResultEntity
-    import com.example.domain.entity.results.SendCodeResultEntity
-    import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
-    import com.example.domain.repository.AppRepository
-    import com.squareup.moshi.Moshi
-    import kotlinx.coroutines.flow.firstOrNull
-    import retrofit2.HttpException
-    import javax.inject.Inject
+import com.example.data.backend.models.requests.AuthRequest
+import com.example.data.backend.models.requests.CreationAnEventRequest
+import com.example.data.backend.models.requests.CreationAnEventRequestPlace
+import com.example.data.backend.models.requests.EditEventByIdRequest
+import com.example.data.backend.models.requests.EditEventByIdRequestPlace
+import com.example.data.backend.models.requests.PostEmailVerifyCodeRequest
+import com.example.data.backend.models.requests.ProfileRegistrationRequest
+import com.example.data.backend.models.requests.RegistrationRequest
+import com.example.data.backend.models.requests.ResetCompleteRequest
+import com.example.data.backend.models.requests.SendEmailPasswordResetRequest
+import com.example.data.backend.models.requests.SendResetCodeRequest
+import com.example.data.backend.models.requests.UpdateUserProfileRequest
+import com.example.data.backend.models.requests.UpdateUserProfileRequestConfiguration
+import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
+import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
+import com.example.data.backend.models.responses.errors.CreationAnEventError
+import com.example.data.backend.models.responses.errors.EditEventByIdResponseError
+import com.example.data.backend.models.responses.errors.EmailPassResetError
+import com.example.data.backend.models.responses.errors.GetAllEventResponseError
+import com.example.data.backend.models.responses.errors.GetEventByIdResponseError
+import com.example.data.backend.models.responses.errors.GetIsTechnicalWorkStatusError
+import com.example.data.backend.models.responses.errors.GetMyEventsResponseError
+import com.example.data.backend.models.responses.errors.GetMyProfileError
+import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListError
+import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdError
+import com.example.data.backend.models.responses.errors.GetUserProfileByIdError
+import com.example.data.backend.models.responses.errors.GetUserReviewsByIdResponseError
+import com.example.data.backend.models.responses.errors.GetUsersListResponseError
+import com.example.data.backend.models.responses.errors.LoginError
+import com.example.data.backend.models.responses.errors.PostEmailVerifyCodeError
+import com.example.data.backend.models.responses.errors.RegistrationError
+import com.example.data.backend.models.responses.errors.ResetCompleteError
+import com.example.data.backend.models.responses.errors.SendCodeError
+import com.example.data.backend.models.responses.errors.SendVerifyCodeToUserEmailError
+import com.example.data.backend.models.responses.errors.UpdateUserProfileResponseError
+import com.example.data.datastore.tokenmanager.TokenManager
+import com.example.data.datastore.usernamemanager.UserNameManager
+import com.example.data.datastore.userphonemanager.UserPhoneManager
+import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
+import com.example.data.utils.ext.handleHttpError
+import com.example.data.utils.ext.toCreationAnEventErrorEntity
+import com.example.data.utils.ext.toCreationAnEventResponseEntity
+import com.example.data.utils.ext.toEditEventByIdResponseEntity
+import com.example.data.utils.ext.toEditEventByIdResponseErrorEntity
+import com.example.data.utils.ext.toEmailPassResetErrorEntity
+import com.example.data.utils.ext.toEmailResetResponse
+import com.example.data.utils.ext.toErrorResponse
+import com.example.data.utils.ext.toGetAllEventEntityResponseError
+import com.example.data.utils.ext.toGetAllEventResponseEntity
+import com.example.data.utils.ext.toGetEventByIdResponse
+import com.example.data.utils.ext.toGetEventByIdResponseErrorEntity
+import com.example.data.utils.ext.toGetIsTechnicalWorkStatusErrorEntity
+import com.example.data.utils.ext.toGetIsTechnicalWorkStatusResponseEntity
+import com.example.data.utils.ext.toGetMyEventsEntityResponseError
+import com.example.data.utils.ext.toGetMyEventsResponseEntity
+import com.example.data.utils.ext.toGetMyProfileErrorEntity
+import com.example.data.utils.ext.toGetMyProfileResponseEntity
+import com.example.data.utils.ext.toGetRelevantUserSearchListErrorEntity
+import com.example.data.utils.ext.toGetRelevantUserSearchListResponseEntity
+import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
+import com.example.data.utils.ext.toGetUserPlannedEventsByIdResponseEntity
+import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
+import com.example.data.utils.ext.toGetUserProfileByIdResponseEntity
+import com.example.data.utils.ext.toGetUserReviewsByIdResponseEntity
+import com.example.data.utils.ext.toGetUserReviewsByIdResponseErrorEntity
+import com.example.data.utils.ext.toGetUsersListResponseEntity
+import com.example.data.utils.ext.toGetUsersListResponseErrorEntity
+import com.example.data.utils.ext.toLoginResponse
+import com.example.data.utils.ext.toPostEmailVerifyCodeErrorEntity
+import com.example.data.utils.ext.toPostEmailVerifyCodeResponseEntity
+import com.example.data.utils.ext.toRegistrationErrorEntity
+import com.example.data.utils.ext.toRegistrationResponseEntity
+import com.example.data.utils.ext.toResetCompleteErrorEntity
+import com.example.data.utils.ext.toResetCompleteResponseEntity
+import com.example.data.utils.ext.toSendCodeErrorEntity
+import com.example.data.utils.ext.toSendCodeResponseEntity
+import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
+import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
+import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
+import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
+import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.EmailPassResetErrorEntity
+import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
+import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
+import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
+import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
+import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
+import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorEntity
+import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
+import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
+import com.example.domain.entity.responses.errors.RegistrationErrorEntity
+import com.example.domain.entity.responses.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.SendCodeErrorEntity
+import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
+import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
+import com.example.domain.entity.results.CreationAnEventResultEntity
+import com.example.domain.entity.results.EditEventByIdResultEntity
+import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+import com.example.domain.entity.results.GetAllEventsResultEntity
+import com.example.domain.entity.results.GetEventByIdResultEntity
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
+import com.example.domain.entity.results.GetMyEventsResultEntity
+import com.example.domain.entity.results.GetMyProfileResultEntity
+import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
+import com.example.domain.entity.results.GetUserProfileByIdResultEntity
+import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
+import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
+import com.example.domain.entity.results.RegistrationResultEntity
+import com.example.domain.entity.results.ResetCompleteResultEntity
+import com.example.domain.entity.results.SendCodeResultEntity
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
+import com.example.domain.repository.AppRepository
+import kotlinx.coroutines.flow.firstOrNull
+import retrofit2.HttpException
+import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
     internal val service: MainApiService,
@@ -129,22 +133,49 @@ class AppRepositoryImpl @Inject constructor(
     internal val userPhoneManager: UserPhoneManager,
     internal val userNameManager: UserNameManager,
 ) : AppRepository {
-        override suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity {
-            return try {
-                val getIsTechnicalWorkStatusResponse = service.getIsTechnicalWorkStatus()
-                val getIsTechnicalWorkStatusResponseDomain = getIsTechnicalWorkStatusResponse.toGetIsTechnicalWorkStatusResponseEntity()
-                GetIsTechnicalWorkStatusResultEntity.Success(data = getIsTechnicalWorkStatusResponseDomain.data)
-            } catch (ex: HttpException) {
-                val errorResponse = handleHttpError<GetIsTechnicalWorkStatusError, GetIsTechnicalWorkStatusErrorEntity>(ex) {
+
+
+    override suspend fun getRelevantUserSearchList(
+        search: String,
+        page: Int,
+        skipids: String
+    ): GetRelevantUserSearchListResultEntity {
+        return try {
+            val getRelevantUserSearchResponse = service.getRelevantUserSearchList(
+                search = search,
+                page = page,
+                skipids = skipids
+            )
+            val getRelevantUserSearchResponseDomain =
+                getRelevantUserSearchResponse.toGetRelevantUserSearchListResponseEntity()
+            GetRelevantUserSearchListResultEntity.Success(data = getRelevantUserSearchResponseDomain.data)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<GetRelevantUserSearchListError, GetRelevantUserSearchListErrorEntity>(ex) {
+                    it.toGetRelevantUserSearchListErrorEntity()
+                }
+            GetRelevantUserSearchListResultEntity.Error(error = errorResponse.data.errors[0])
+        }
+    }
+
+    override suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity {
+        return try {
+            val getIsTechnicalWorkStatusResponse = service.getIsTechnicalWorkStatus()
+            val getIsTechnicalWorkStatusResponseDomain =
+                getIsTechnicalWorkStatusResponse.toGetIsTechnicalWorkStatusResponseEntity()
+            GetIsTechnicalWorkStatusResultEntity.Success(data = getIsTechnicalWorkStatusResponseDomain.data)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<GetIsTechnicalWorkStatusError, GetIsTechnicalWorkStatusErrorEntity>(
+                    ex
+                ) {
                     it.toGetIsTechnicalWorkStatusErrorEntity()
                 }
-                GetIsTechnicalWorkStatusResultEntity.Error(errorResponse.data.errors[0])
-
-            }
-
+            GetIsTechnicalWorkStatusResultEntity.Error(errorResponse.data.errors[0])
         }
+    }
 
-        //        override suspend fun editMyProfile(
+    //        override suspend fun editMyProfile(
 //            phone: String,
 //            email: Boolean,
 //            emailRequestConfiguration: Boolean,
@@ -204,14 +235,17 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun postEmailVerifyCode(code: String): PostEmailVerifyCodeResultEntity {
         return try {
-            val postEmailVerifyCodeResponse = service.postEmailVerifyCode(postEmailVerifyCodeRequest = PostEmailVerifyCodeRequest(verify_code = code ))
-            val postEmailVerifyCodeResponseDomain = postEmailVerifyCodeResponse.toPostEmailVerifyCodeResponseEntity()
-            PostEmailVerifyCodeResultEntity.Success(data = postEmailVerifyCodeResponseDomain.data )
+            val postEmailVerifyCodeResponse = service.postEmailVerifyCode(
+                postEmailVerifyCodeRequest = PostEmailVerifyCodeRequest(verify_code = code)
+            )
+            val postEmailVerifyCodeResponseDomain =
+                postEmailVerifyCodeResponse.toPostEmailVerifyCodeResponseEntity()
+            PostEmailVerifyCodeResultEntity.Success(data = postEmailVerifyCodeResponseDomain.data)
         } catch (ex: HttpException) {
-val errorResponse =
-    handleHttpError<PostEmailVerifyCodeError, PostEmailVerifyCodeErrorEntity>(ex) {
-        it.toPostEmailVerifyCodeErrorEntity()
-    }
+            val errorResponse =
+                handleHttpError<PostEmailVerifyCodeError, PostEmailVerifyCodeErrorEntity>(ex) {
+                    it.toPostEmailVerifyCodeErrorEntity()
+                }
             PostEmailVerifyCodeResultEntity.Error(error = errorResponse.data.errors[0])
         }
     }
@@ -224,7 +258,9 @@ val errorResponse =
             SendVerifyCodeToUserEmailResultEntity.Success(data = sendVerifyCodeToUserEmailResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
-                handleHttpError<SendVerifyCodeToUserEmailError, SendVerifyCodeToUserEmailErrorEntity>(ex) {
+                handleHttpError<SendVerifyCodeToUserEmailError, SendVerifyCodeToUserEmailErrorEntity>(
+                    ex
+                ) {
                     it.toSendVerifyCodeToUserEmailErrorEntity()
                 }
             SendVerifyCodeToUserEmailResultEntity.Error(errorResponse.data.errors[0])
@@ -555,7 +591,8 @@ val errorResponse =
 
     override suspend fun changePassword(newPassword: String): ResetCompleteResultEntity {
         return try {
-            val savedVerifyCode = resetPassVerifyCodeManager.getResetPassVerifyCode().firstOrNull()?.toString() ?: ""
+            val savedVerifyCode =
+                resetPassVerifyCodeManager.getResetPassVerifyCode().firstOrNull()?.toString() ?: ""
             val request = ResetCompleteRequest(newPassword, savedVerifyCode)
             val resetCompleteResponse = service.resetComplete(request)
             val resetCompleteDomainResponse = resetCompleteResponse.toResetCompleteResponseEntity()
@@ -637,17 +674,5 @@ val errorResponse =
                 handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
             RegistrationResultEntity.Error(errorResponse.data.errors[0])
         }
-    }
-
-    private inline fun <reified T, R> handleHttpError(
-        ex: HttpException,
-        errorMapper: (T) -> R
-    ): R {
-        val errorBody = ex.response()?.errorBody()?.string()
-        val moshi = Moshi.Builder().build()
-        val adapter = moshi.adapter(T::class.java)
-        val errorDto = errorBody?.let { adapter.fromJson(it) }
-        val errorResponse = errorDto?.let { errorMapper(it) }
-        return errorResponse ?: error("Unknown error")
     }
 }

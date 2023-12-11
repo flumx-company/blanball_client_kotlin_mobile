@@ -2,7 +2,9 @@ package com.example.blanball.presentation.views.screens.eventcreation
 
 import DottedLine
 import OutlineRadioButton
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,17 +13,28 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,15 +49,19 @@ import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.cards.UserCardOnEventCreation
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventCreationScreenStep2(
     paddingValues: PaddingValues,
@@ -54,14 +71,15 @@ fun EventCreationScreenStep2(
     isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
-    backBtnCLicked: () -> Unit
+    backBtnCLicked: () -> Unit,
+    usersSearchClicked: () -> Unit,
 ) {
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .wrapContentHeight()
         ) {
             Column(
                 modifier = Modifier
@@ -219,15 +237,34 @@ fun EventCreationScreenStep2(
                     }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(
-                    labelResId = R.string.users_search,
-                    state = it,
-                    value = it.usersSearchState.value,
-                    onValueChange = { state.usersSearchState.value = it },
-                    transformation = VisualTransformation.None,
+                SearchBar(
+                    modifier = Modifier
+                        .heightIn(min = 1.dp, max = 260.dp)
+                        .border(
+                            shape = RoundedCornerShape(size = 4.dp),
+                            color = defaultLightGray,
+                            width = 1.dp
+                        )
+                        .animateContentSize(),
+                    query = it.usersSearchState.value,
+                    onQueryChange = { searchText ->
+                        state.usersSearchState.value = searchText
+                    },
+                    onSearch = { searchQuery ->
+                        state.userSearchQuery.value = searchQuery
+                        usersSearchClicked()
+                    },
+                    colors = SearchBarDefaults.colors(
+                        containerColor = Color.White,
+                        inputFieldColors = SearchBarDefaults.inputFieldColors(
+                            focusedTextColor = primaryDark,
+                            cursorColor = mainGreen,
+                        )
+                    ),
+                    shape = shapes.medium,
                     trailingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_search),
+                            painter = painterResource(id = R.drawable.ic_search_left),
                             contentDescription = null,
                             tint = primaryDark,
                         )
@@ -238,15 +275,45 @@ fun EventCreationScreenStep2(
                             contentDescription = null,
                             tint = primaryDark,
                         )
+
+                    },
+                    active = it.isSearchColumnOpen.value,
+                    onActiveChange = { state.isSearchColumnOpen.value = it },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.users_search),
+                            fontSize = 14.sp,
+                            lineHeight = 24.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = primaryDark,
+                        )
+                    },
+                ) {
+                    if (it.state== EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth().padding(top = 40.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(color = mainGreen,)
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier
+                                .dynamicContentWrapOrMaxHeight(scope = this)
+                                .fillMaxWidth(),
+                            content = {
+                                itemsIndexed(state.listOfFoundUsers.value) { index, user ->
+                                    UserCardOnEventCreation(
+                                        userAvatarUrl = user.profile.avatar_url ?: "",
+                                        userFirstName = user.profile.name,
+                                        userLastName = user.profile.last_name,
+                                    )
+                                }
+                            }
+                        )
                     }
-                )
-                Spacer(modifier = Modifier.size(16.dp))
-                repeat(5) {
-                    UserCardOnEventCreation(
-                        userAvatarUrl = "http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg",
-                        userFirstName = "Жук",
-                        userLastName = "Женя",
-                    )
                 }
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))

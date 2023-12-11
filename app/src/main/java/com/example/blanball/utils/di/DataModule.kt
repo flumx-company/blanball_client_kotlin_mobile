@@ -2,7 +2,9 @@ package com.example.blanball.utils.di
 
 import com.example.blanball.utils.NavigationManagerImpl
 import com.example.data.backend.*
-import com.example.data.backend.models.AuthApiService
+import com.example.data.backend.authentication.AuthApiService
+import com.example.data.backend.authentication.AuthAuthenticator
+import com.example.data.backend.authentication.AuthInterceptor
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.remembermemanager.RememberMeManagerImpl
 import com.example.data.datastore.tokenmanager.TokenManager

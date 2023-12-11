@@ -42,6 +42,7 @@ android {
         buildConfigField "String", "POST_EMAIL_VERIFY_CODE_ENDPOINT", "\"authentication/client/check/code\""
         buildConfigField "String", "EDIT_MY_PROFILE_ENDPOINT", "\"events/client/event/update/{id}\""
         buildConfigField "String", "GET_IS_TECHNICAL_WORK_STATUS_ENDPOINT", "\"notifications/admin/change/maintenance\""
+        buildConfigField "String", "GET_RELEVANT_USER_SEARCH_LIST", "\"authentication/client/users/relevant/list\""
     }
 
     buildTypes {

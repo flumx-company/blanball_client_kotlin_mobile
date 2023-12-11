@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun UserCardOnEventCreation(
     userLastName: String,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, end = 10.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
@@ -41,7 +42,8 @@ fun UserCardOnEventCreation(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (userAvatarUrl.isNullOrEmpty()) {
                     Box(
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(36.dp),
+                        contentAlignment = Alignment.CenterStart,
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.circle_avatar),
@@ -51,11 +53,11 @@ fun UserCardOnEventCreation(
                                 .clip(shape = RoundedCornerShape(4.dp))
                         )
                         Text(
-                            text = "${userFirstName.firstOrNull() ?: ""} ${userLastName.firstOrNull() ?: ""}",
+                            text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
                             modifier = Modifier.align(
                                 Alignment.Center
                             ),
-                            style = typography.h2, fontSize = 22.sp, color = mainGreen
+                            style = typography.h2, fontSize = 16.sp, color = mainGreen
                         )
                     }
                 } else {
@@ -64,7 +66,7 @@ fun UserCardOnEventCreation(
                         contentDescription = null,
                         modifier = Modifier
                             .size(32.dp)
-                            .clip(shape = RoundedCornerShape(4.dp)),
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -72,7 +74,7 @@ fun UserCardOnEventCreation(
         }
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = "Женя Жук",
+            text = "$userFirstName $userLastName",
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
