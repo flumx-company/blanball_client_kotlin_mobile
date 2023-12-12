@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,55 +32,62 @@ fun UserCardOnEventCreation(
     userAvatarUrl: String,
     userFirstName: String,
     userLastName: String,
+    userId: Int,
+    onUserSelected: (userId: Int) -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            modifier = Modifier.size(36.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp)
+                .clickable {
+                    onUserSelected(userId)
+                } ,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (userAvatarUrl.isNullOrEmpty()) {
-                    Box(
-                        modifier = Modifier.size(36.dp),
-                        contentAlignment = Alignment.CenterStart,
-                    ) {
+            Box(
+                modifier = Modifier.size(36.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (userAvatarUrl.isNullOrEmpty()) {
+                        Box(
+                            modifier = Modifier.size(36.dp),
+                            contentAlignment = Alignment.CenterStart,
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.circle_avatar),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(shape = RoundedCornerShape(4.dp))
+                            )
+                            Text(
+                                text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
+                                modifier = Modifier.align(
+                                    Alignment.Center
+                                ),
+                                style = typography.h2, fontSize = 16.sp, color = mainGreen
+                            )
+                        }
+                    } else {
                         Image(
-                            painter = painterResource(id = R.drawable.circle_avatar),
+                            painter = rememberAsyncImagePainter(userAvatarUrl),
                             contentDescription = null,
                             modifier = Modifier
-                                .fillMaxSize()
-                                .clip(shape = RoundedCornerShape(4.dp))
-                        )
-                        Text(
-                            text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
-                            modifier = Modifier.align(
-                                Alignment.Center
-                            ),
-                            style = typography.h2, fontSize = 16.sp, color = mainGreen
+                                .size(32.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
                         )
                     }
-                } else {
-                    Image(
-                        painter = rememberAsyncImagePainter(userAvatarUrl),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
                 }
             }
-        }
-        Spacer(modifier = Modifier.size(8.dp))
-        Text(
-            text = "$userFirstName $userLastName",
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(
+                text = "$userFirstName $userLastName",
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
                 fontWeight = FontWeight(400),
                 color = primaryDark,
-        )
+            )
+        }
     }
-}

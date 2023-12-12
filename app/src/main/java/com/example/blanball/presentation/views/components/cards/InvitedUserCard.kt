@@ -32,6 +32,7 @@ fun InvitedUserCard(
     userAvatarUrl: String,
     userFirstName: String,
     userLastName: String,
+    userPosition: String,
 ) {
     Row(
         modifier = Modifier
@@ -55,7 +56,7 @@ fun InvitedUserCard(
                                 .clip(shape = RoundedCornerShape(4.dp))
                         )
                         Text(
-                            text = "${userFirstName.firstOrNull() ?: ""} ${userLastName.firstOrNull() ?: ""}",
+                            text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
                             modifier = Modifier.align(
                                 Alignment.Center
                             ),
@@ -76,7 +77,7 @@ fun InvitedUserCard(
         }
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = "GK",
+            text = userPosition,
             fontSize = 14.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
@@ -85,7 +86,7 @@ fun InvitedUserCard(
             )
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = "Женя Жук",
+            text = "$userFirstName $userLastName",
             fontSize = 12.sp,
             lineHeight = 20.sp,
             style = typography.h4,

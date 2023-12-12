@@ -46,6 +46,11 @@ class EventCreationScreenMainContract {
         ),
         val isSearchColumnOpen: MutableState<Boolean> = mutableStateOf(false),
         val userSearchQuery: MutableState<String> = mutableStateOf(""),
+        val selectedUserIds: MutableState<Set<Int>> = mutableStateOf(emptySet()),
+        val isUserCardSelected: MutableState<Boolean> = mutableStateOf(false),
+        val selectedUserProfiles: MutableState<Set<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
+            emptySet()
+        ),
     ) : UiState
 
     sealed class ScreenViewState {

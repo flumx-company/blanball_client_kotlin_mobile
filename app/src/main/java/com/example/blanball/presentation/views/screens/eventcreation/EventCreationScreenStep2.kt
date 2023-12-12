@@ -290,13 +290,14 @@ fun EventCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (it.state== EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
+                    if (it.state == EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth().padding(top = 40.dp),
+                                .fillMaxWidth()
+                                .padding(top = 40.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            CircularProgressIndicator(color = mainGreen,)
+                            CircularProgressIndicator(color = mainGreen)
                         }
                     } else {
                         LazyColumn(
@@ -309,6 +310,11 @@ fun EventCreationScreenStep2(
                                         userAvatarUrl = user.profile.avatar_url ?: "",
                                         userFirstName = user.profile.name,
                                         userLastName = user.profile.last_name,
+                                        userId = user.id,
+                                        onUserSelected =  { userId ->
+                                            it.selectedUserIds.value += userId
+                                            it.selectedUserProfiles.value += user
+                                        },
                                     )
                                 }
                             }
