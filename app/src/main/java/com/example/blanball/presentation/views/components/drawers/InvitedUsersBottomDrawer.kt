@@ -35,38 +35,45 @@ fun InvitedUsersBottomDrawer(
     state: UiState,
 ) {
     (state as? EventCreationScreenMainContract.State)?.let { currentState ->
-    ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }, containerColor = Color.White) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.invited_users),
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                style = typography.h3,
-                fontWeight = FontWeight(700),
-                color = primaryDark,
-                textAlign = TextAlign.Center,
-            )
-            if (currentState.selectedUserProfiles.value.isNotEmpty()) {
-                Spacer(modifier = Modifier.size(12.dp))
-                for (user in currentState.selectedUserProfiles.value) {
-                    Box(
-                        modifier = Modifier.background(color = Color.White, shape = shapes.small)
-                    ) {
-                        InvitedUserCard(
-                            userAvatarUrl = user.profile.avatar_url ?: "",
-                            userFirstName = user.profile.name,
-                            userLastName = user.profile.last_name,
-                            userPosition = user.profile.position ?: "",
-                        )
+        ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }, containerColor = Color.White) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.invited_users),
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
+                    textAlign = TextAlign.Center,
+                )
+                if (currentState.selectedUserProfiles.value.isNotEmpty()) {
+                    Spacer(modifier = Modifier.size(12.dp))
+                    for (user in currentState.selectedUserProfiles.value) {
+                        Box(
+                            modifier = Modifier.background(
+                                color = Color.White,
+                                shape = shapes.small
+                            )
+                        ) {
+                            InvitedUserCard(
+                                userAvatarUrl = user.profile.avatar_url ?: "",
+                                userFirstName = user.profile.name,
+                                userLastName = user.profile.last_name,
+                                userPosition = user.profile.position ?: "",
+                                onRemoveUserClicked = {
+                                    currentState.selectedUserIds.value -= user.id
+                                    currentState.selectedUserProfiles.value -= user
+                                }
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(4.dp))
                     }
-                    Spacer(modifier = Modifier.size(4.dp))
                 }
             }
         }
-    }
     }
 }

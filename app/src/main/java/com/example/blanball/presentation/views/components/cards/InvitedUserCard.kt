@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ fun InvitedUserCard(
     userFirstName: String,
     userLastName: String,
     userPosition: String,
+    onRemoveUserClicked: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -95,6 +97,7 @@ fun InvitedUserCard(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
+            modifier = Modifier.clickable { onRemoveUserClicked() },
             painter = painterResource(id = R.drawable.ic_cancel),
             contentDescription = null,
             tint = secondaryNavy,
