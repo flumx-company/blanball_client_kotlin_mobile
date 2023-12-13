@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.selectedDarkGray
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
@@ -39,61 +42,70 @@ fun UserCardOnEventCreation(
     onUserSelected: (userId: Int) -> Unit
 ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp)
-                .clickable {
-                    onUserSelected(userId)
-                } ,
-            verticalAlignment = Alignment.CenterVertically,
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp)
+            .clickable {
+                onUserSelected(userId)
+            }
+            .let {
+                if (isUserSelected) {
+                    it.border(width = 1.dp, color = bgItemsGray, shape = shapes.medium)
+                } else {
+                    it
+                }
+            },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier.size(36.dp)
         ) {
-            Box(
-                modifier = Modifier.size(36.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (userAvatarUrl.isNullOrEmpty()) {
-                        Box(
-                            modifier = Modifier.size(36.dp),
-                            contentAlignment = Alignment.CenterStart,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.circle_avatar),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(shape = RoundedCornerShape(4.dp))
-                            )
-                            Text(
-                                text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
-                                modifier = Modifier.align(
-                                    Alignment.Center
-                                ),
-                                style = typography.h2, fontSize = 16.sp, color = mainGreen
-                            )
-                        }
-                    } else {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.size(6.dp))
+                if (userAvatarUrl.isNullOrEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp),
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
                         Image(
-                            painter = rememberAsyncImagePainter(userAvatarUrl),
+                            painter = painterResource(id = R.drawable.circle_avatar),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(32.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
+                                .fillMaxSize()
+                                .clip(shape = RoundedCornerShape(4.dp))
+                        )
+                        Text(
+                            text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
+                            modifier = Modifier.align(
+                                Alignment.Center
+                            ),
+                            style = typography.h2, fontSize = 16.sp, color = mainGreen
                         )
                     }
+                } else {
+                    Image(
+                        painter = rememberAsyncImagePainter(userAvatarUrl),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
                 }
             }
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = "$userFirstName $userLastName",
-                fontSize = 12.sp,
-                lineHeight = 20.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(400),
-                color = primaryDark,
-            )
-            if (isUserSelected) {
+        }
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            text = "$userFirstName $userLastName",
+            fontSize = 12.sp,
+            lineHeight = 20.sp,
+            style = typography.h4,
+            fontWeight = FontWeight(400),
+            color = if (isUserSelected) selectedDarkGray else primaryDark,
+        )
+        if (isUserSelected) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(R.string.invited),
@@ -103,6 +115,7 @@ fun UserCardOnEventCreation(
                 fontWeight = FontWeight(400),
                 color = selectedDarkGray,
             )
-        }
+            Spacer(modifier = Modifier.size(6.dp))
         }
     }
+}
