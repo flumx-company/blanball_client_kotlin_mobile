@@ -190,7 +190,7 @@ fun PreviewOfTheEventBottomDrawer(
                        Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                            Row {
                                Text(
-                                   text = stringResource(R.string.players),
+                                   text = stringResource(R.string.players_) + "",
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,
@@ -198,7 +198,7 @@ fun PreviewOfTheEventBottomDrawer(
                                    color = secondaryNavy,
                                )
                                Text(
-                                   text = state.countOfFans.value.toString(),
+                                   text = state.selectedUserProfiles.value.size.toString(),
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,
@@ -208,7 +208,7 @@ fun PreviewOfTheEventBottomDrawer(
                            }
                            Row {
                                Text(
-                                   text = stringResource(R.string.fans),
+                                   text = stringResource(R.string.fans) + "",
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,
@@ -216,7 +216,7 @@ fun PreviewOfTheEventBottomDrawer(
                                    color = secondaryNavy,
                                )
                                Text(
-                                   text = state.countOfPlayers.value.toString(),
+                                   text = state.countOfFans.value.toString(),
                                    fontSize = 13.sp,
                                    lineHeight = 24.sp,
                                    style = typography.h4,

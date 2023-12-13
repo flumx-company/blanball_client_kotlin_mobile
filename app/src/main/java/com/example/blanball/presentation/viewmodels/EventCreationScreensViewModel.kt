@@ -163,7 +163,8 @@ class EventCreationScreensViewModel
                                 priseSwitchButtonState = mutableStateOf(false),
                                 needBallSwitchButtonState = mutableStateOf(false),
                                 listOfFoundUsers = mutableStateOf(emptyList()),
-                                selectedUserIds = mutableStateOf(emptySet()) ,
+                                selectedUserIds = mutableStateOf(emptySet()),
+                                selectedUserProfiles = mutableStateOf(emptySet()),
                             )
                         }
                     }
