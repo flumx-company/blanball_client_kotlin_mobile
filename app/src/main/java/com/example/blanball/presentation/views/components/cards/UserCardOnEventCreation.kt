@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.selectedDarkGray
 import com.example.blanball.presentation.theme.typography
 
 @Composable
@@ -33,8 +35,10 @@ fun UserCardOnEventCreation(
     userFirstName: String,
     userLastName: String,
     userId: Int,
+    isUserSelected: Boolean,
     onUserSelected: (userId: Int) -> Unit
 ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,5 +93,16 @@ fun UserCardOnEventCreation(
                 fontWeight = FontWeight(400),
                 color = primaryDark,
             )
+            if (isUserSelected) {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(R.string.invited),
+                fontSize = 12.sp,
+                lineHeight = 20.sp,
+                style = typography.h4,
+                fontWeight = FontWeight(400),
+                color = selectedDarkGray,
+            )
+        }
         }
     }

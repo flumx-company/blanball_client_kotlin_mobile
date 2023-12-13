@@ -427,4 +427,6 @@
     <string name="organizer">Організатор</string>
     <string name="team_first">Команда 1</string>
     <string name="team_second">Команда 2</string>
+    <string name="no_match_for_you_query_banner">Ми не знайшли жодного співпадіння із вашим запитом</string>
+    <string name="invited">Запрошено</string>
 </resources>

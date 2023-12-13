@@ -60,7 +60,7 @@ fun InvitedUserCard(
                             modifier = Modifier.align(
                                 Alignment.Center
                             ),
-                            style = typography.h2, fontSize = 22.sp, color = mainGreen
+                            style = typography.h2, fontSize = 16.sp, color = mainGreen
                         )
                     }
                 } else {
