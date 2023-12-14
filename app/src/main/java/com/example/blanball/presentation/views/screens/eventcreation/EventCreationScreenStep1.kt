@@ -3,7 +3,6 @@ package com.example.blanball.presentation.views.screens.eventcreation
 import DottedLine
 import OutlineRadioButton
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -42,7 +40,6 @@ import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
@@ -53,6 +50,12 @@ import com.example.blanball.presentation.views.components.textinputs.DefaultText
 import com.example.blanball.utils.ext.calculateValueWithEventDuration
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun EventCreationScreenStep1(
@@ -75,8 +78,7 @@ fun EventCreationScreenStep1(
         stringResource(id = R.string.friendly_match)
     )
     val typesOfSports = mutableListOf(
-        stringResource(id = R.string.football),
-        stringResource(id = R.string.futsal)
+        stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -136,8 +138,7 @@ fun EventCreationScreenStep1(
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventName.value.isNotValidErrorTopicField() ->
-                            stringResource(R.string.validation_text_error_topic)
+                        it.eventName.value.isNotValidErrorTopicField() -> stringResource(R.string.validation_text_error_topic)
 
                         else -> {
                             ("")
@@ -218,16 +219,13 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(
-                    textFieldModifier = Modifier
-                        .fillMaxWidth(),
+                DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
                     labelResId = R.string.date,
                     readOnly = true,
                     state = it,
                     onValueChange = {},
                     value = it.eventDateState.value,
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
+                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                             LaunchedEffect(interactionSource) {
                                 interactionSource.interactions.collect {
                                     if (it is PressInteraction.Release) {
@@ -256,14 +254,12 @@ fun EventCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.event_time_start,
-                    modifier = Modifier
-                        .clickable { isStartTimePickerModalOpen.value = true },
+                    modifier = Modifier.clickable { isStartTimePickerModalOpen.value = true },
                     state = it,
                     readOnly = true,
                     value = it.startEventTimeState.value ?: "",
                     onValueChange = {},
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
+                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                             LaunchedEffect(interactionSource) {
                                 interactionSource.interactions.collect {
                                     if (it is PressInteraction.Release) {
@@ -292,8 +288,7 @@ fun EventCreationScreenStep1(
                     },
                     onValueChange = {},
                     transformation = VisualTransformation.None,
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
+                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                             LaunchedEffect(interactionSource) {
                                 interactionSource.interactions.collect {
                                     if (it is PressInteraction.Release) {
@@ -321,17 +316,20 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                Image(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp, color = defaultLightGray, shape = shapes.medium
-                        )
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .clickable { },
-                    painter = painterResource(id = R.drawable.temp_map_image), //TODO()
-                    contentDescription = null
-                )
+                val singapore = LatLng(1.35, 103.87)
+                val cameraPositionState = rememberCameraPositionState {
+                    position = CameraPosition.fromLatLngZoom(singapore, 10f)
+                }
+                GoogleMap(
+                    modifier = Modifier.fillMaxSize(),
+                    cameraPositionState = cameraPositionState
+                ) {
+                    Marker(
+                        state = MarkerState(position = singapore),
+                        title = "Singapore",
+                        snippet = "Marker in Singapore"
+                    )
+                } //TODO
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))
@@ -388,10 +386,7 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = it.eventName.value.isValidErrorTopicField()
-                            && it.eventName.value.isNotEmpty()
-                            && it.eventType.value.isNotEmpty()
-                            && it.sportType.value.isNotEmpty(),
+                    isEnabled = it.eventName.value.isValidErrorTopicField() && it.eventName.value.isNotEmpty() && it.eventType.value.isNotEmpty() && it.sportType.value.isNotEmpty(),
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

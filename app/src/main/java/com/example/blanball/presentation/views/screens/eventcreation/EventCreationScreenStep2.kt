@@ -353,7 +353,7 @@ fun EventCreationScreenStep2(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = stringResource(R.string._2_3), //TODO()
+                        text = stringResource(R.string._2_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
