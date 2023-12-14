@@ -242,7 +242,7 @@ fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
 
     val dateFormat = SimpleDateFormat("HH:mm")
 
-    if (this.isEmpty()) {
+    if (endTime.isEmpty()) {
         return 0
     }
     val startTime = dateFormat.parse(this)

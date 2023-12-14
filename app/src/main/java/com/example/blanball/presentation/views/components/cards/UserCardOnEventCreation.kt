@@ -1,6 +1,8 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,13 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
+import com.example.blanball.presentation.theme.selectedDarkGray
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 
 @Composable
@@ -31,18 +37,36 @@ fun UserCardOnEventCreation(
     userAvatarUrl: String,
     userFirstName: String,
     userLastName: String,
+    userId: Int,
+    isUserSelected: Boolean,
+    onUserSelected: (userId: Int) -> Unit
 ) {
+
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp, bottom = 4.dp, start = 12.dp, end = 12.dp)
+            .clickable {
+                onUserSelected(userId)
+            }
+            .let {
+                if (isUserSelected) {
+                    it.border(width = 1.dp, color = bgItemsGray, shape = shapes.medium)
+                } else {
+                    it
+                }
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier.size(36.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.size(6.dp))
                 if (userAvatarUrl.isNullOrEmpty()) {
                     Box(
-                        modifier = Modifier.size(36.dp),
+                        modifier = Modifier
+                            .size(36.dp),
                         contentAlignment = Alignment.CenterStart,
                     ) {
                         Image(
@@ -75,11 +99,23 @@ fun UserCardOnEventCreation(
         Spacer(modifier = Modifier.size(8.dp))
         Text(
             text = "$userFirstName $userLastName",
+            fontSize = 12.sp,
+            lineHeight = 20.sp,
+            style = typography.h4,
+            fontWeight = FontWeight(400),
+            color = if (isUserSelected) selectedDarkGray else primaryDark,
+        )
+        if (isUserSelected) {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(R.string.invited),
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
                 fontWeight = FontWeight(400),
-                color = primaryDark,
-        )
+                color = selectedDarkGray,
+            )
+            Spacer(modifier = Modifier.size(6.dp))
+        }
     }
 }

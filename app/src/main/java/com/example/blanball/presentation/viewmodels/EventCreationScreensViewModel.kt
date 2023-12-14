@@ -116,7 +116,7 @@ class EventCreationScreensViewModel
             creationNewEventUseCase.executeCreationAnEvent(
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
                 contact_number = currentState.phoneNumberState.value,
-                current_users = emptyList(), //TODO()
+                current_users = currentState.selectedUserIds.value.toList(),
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
                     time = currentState.startEventTimeState.value
@@ -162,6 +162,9 @@ class EventCreationScreensViewModel
                                 usersSearchState = mutableStateOf(""),
                                 priseSwitchButtonState = mutableStateOf(false),
                                 needBallSwitchButtonState = mutableStateOf(false),
+                                listOfFoundUsers = mutableStateOf(emptyList()),
+                                selectedUserIds = mutableStateOf(emptySet()),
+                                selectedUserProfiles = mutableStateOf(emptySet()),
                             )
                         }
                     }

@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.views.components.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,8 @@ fun InvitedUserCard(
     userAvatarUrl: String,
     userFirstName: String,
     userLastName: String,
+    userPosition: String,
+    onRemoveUserClicked: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -55,11 +58,11 @@ fun InvitedUserCard(
                                 .clip(shape = RoundedCornerShape(4.dp))
                         )
                         Text(
-                            text = "${userFirstName.firstOrNull() ?: ""} ${userLastName.firstOrNull() ?: ""}",
+                            text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
                             modifier = Modifier.align(
                                 Alignment.Center
                             ),
-                            style = typography.h2, fontSize = 22.sp, color = mainGreen
+                            style = typography.h2, fontSize = 16.sp, color = mainGreen
                         )
                     }
                 } else {
@@ -76,7 +79,7 @@ fun InvitedUserCard(
         }
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = "GK",
+            text = userPosition,
             fontSize = 14.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
@@ -85,7 +88,7 @@ fun InvitedUserCard(
             )
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = "Женя Жук",
+            text = "$userFirstName $userLastName",
             fontSize = 12.sp,
             lineHeight = 20.sp,
             style = typography.h4,
@@ -94,6 +97,7 @@ fun InvitedUserCard(
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
+            modifier = Modifier.clickable { onRemoveUserClicked() },
             painter = painterResource(id = R.drawable.ic_cancel),
             contentDescription = null,
             tint = secondaryNavy,

@@ -237,6 +237,7 @@ fun AppScreensConfig(
     val invitedUsersDrawerContent: @Composable () -> Unit = {
         InvitedUsersBottomDrawer(
             bottomDrawerState = invitedUsersDrawerState,
+            state = eventCreationScreenViewModelState,
             closeBottomDrawer = { isInvitedUsersDrawerOpen.value = false })
     }
 

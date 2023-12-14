@@ -42,7 +42,6 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
-import com.example.blanball.presentation.views.components.cards.UserCardOnEventCreation
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
 @Composable
@@ -241,13 +240,6 @@ fun EventCreationScreenStep2(
                     }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                repeat(5) {
-                    UserCardOnEventCreation(
-                        userAvatarUrl = "http://178.151.201.167:49291/blanball-media/users/MzQ_2023-06-27-10-01.jpg",
-                        userFirstName = "Жук",
-                        userLastName = "Женя",
-                    )
-                }
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {

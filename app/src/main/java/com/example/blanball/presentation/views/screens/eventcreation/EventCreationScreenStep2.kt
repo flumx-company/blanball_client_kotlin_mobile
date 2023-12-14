@@ -54,6 +54,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.NoMatchForYouQueryBanner
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
@@ -290,29 +291,46 @@ fun EventCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (it.state== EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
+                    if (it.state == EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth().padding(top = 40.dp),
+                                .fillMaxWidth()
+                                .padding(top = 40.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            CircularProgressIndicator(color = mainGreen,)
+                            CircularProgressIndicator(color = mainGreen)
                         }
                     } else {
-                        LazyColumn(
-                            modifier = Modifier
-                                .dynamicContentWrapOrMaxHeight(scope = this)
-                                .fillMaxWidth(),
-                            content = {
-                                itemsIndexed(state.listOfFoundUsers.value) { index, user ->
-                                    UserCardOnEventCreation(
-                                        userAvatarUrl = user.profile.avatar_url ?: "",
-                                        userFirstName = user.profile.name,
-                                        userLastName = user.profile.last_name,
-                                    )
+                        if (state.listOfFoundUsers.value.isNotEmpty()) {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .dynamicContentWrapOrMaxHeight(scope = this)
+                                    .fillMaxWidth(),
+                                content = {
+                                    itemsIndexed(state.listOfFoundUsers.value) { index, user ->
+                                        UserCardOnEventCreation(
+                                            userAvatarUrl = user.profile.avatar_url ?: "",
+                                            userFirstName = user.profile.name,
+                                            userLastName = user.profile.last_name,
+                                            userId = user.id,
+                                            isUserSelected = it.selectedUserIds.value.contains(user.id),
+                                            onUserSelected = { userId ->
+                                                if (!it.selectedUserIds.value.contains(userId)){
+                                                    it.selectedUserIds.value += userId
+                                                    it.selectedUserProfiles.value += user
+
+                                                } else {
+                                                    it.selectedUserIds.value -= userId
+                                                    it.selectedUserProfiles.value -= user
+                                                }
+                                            },
+                                        )
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        } else {
+                            NoMatchForYouQueryBanner()
+                        }
                     }
                 }
                 DottedLine(color = defaultLightGray)

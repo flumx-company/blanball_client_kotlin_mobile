@@ -38,7 +38,6 @@ class EventCreationScreenMainContract {
         val isErrorEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
-        val countOfPlayers: MutableState<Int> = mutableStateOf(0),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
         val eventDuration: MutableState<Int> = mutableStateOf(0),
         val listOfFoundUsers: MutableState<List<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
@@ -46,6 +45,10 @@ class EventCreationScreenMainContract {
         ),
         val isSearchColumnOpen: MutableState<Boolean> = mutableStateOf(false),
         val userSearchQuery: MutableState<String> = mutableStateOf(""),
+        val selectedUserIds: MutableState<Set<Int>> = mutableStateOf(emptySet()),
+        val selectedUserProfiles: MutableState<Set<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
+            emptySet()
+        ),
     ) : UiState
 
     sealed class ScreenViewState {

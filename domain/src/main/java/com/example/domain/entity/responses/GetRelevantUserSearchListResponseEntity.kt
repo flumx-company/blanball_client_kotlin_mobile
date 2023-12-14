@@ -18,7 +18,7 @@ data class GetRelevantUserSearchListResponseEntityData(
 )
 
 data class GetRelevantUserSearchListResponseEntityResult(
-    val id: Int? = null,
+    val id: Int,
     val is_online: Boolean? = null,
     val profile: GetRelevantUserSearchListResponseEntityProfile,
     val raiting: Any? = null,
