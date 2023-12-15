@@ -47,7 +47,6 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
-import com.example.blanball.utils.ext.calculateValueWithEventDuration
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 import com.google.android.gms.maps.model.CameraPosition
@@ -62,7 +61,7 @@ fun EventCreationScreenStep1(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToSecondStep: () -> Unit,
-    isBottomDrawerOpen: MutableState<Boolean>,
+    isBottomPreviewDrawerOpen: MutableState<Boolean>,
     isDatePickerModalOpen: MutableState<Boolean>,
     isStartTimePickerModalOpen: MutableState<Boolean>,
     isEndTimePickerModalOpen: MutableState<Boolean>,
@@ -74,6 +73,7 @@ fun EventCreationScreenStep1(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
+
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
     )
@@ -116,11 +116,14 @@ fun EventCreationScreenStep1(
                     value = it.eventType.value,
                     onValueChange = { state.eventType.value = it },
                     isError = when {
-                        it.eventType.value.isEmpty() -> true
+                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventType.value.isEmpty() -> stringResource(id = R.string.chose_event_type)
+                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                            id = R.string.chose_event_type
+                        )
+
                         else -> {
                             ("")
                         }
@@ -199,11 +202,14 @@ fun EventCreationScreenStep1(
                     value = it.sportType.value,
                     onValueChange = { state.sportType.value = it },
                     isError = when {
-                        it.sportType.value.isEmpty() -> true
+                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.sportType.value.isEmpty() -> stringResource(id = R.string.chose_sport_type)
+                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                            id = R.string.chose_sport_type
+                        )
+
                         else -> {
                             ("")
                         }
@@ -226,14 +232,14 @@ fun EventCreationScreenStep1(
                     onValueChange = {},
                     value = it.eventDateState.value,
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isDatePickerModalOpen.value = true
-                                    }
+                        LaunchedEffect(interactionSource) {
+                            interactionSource.interactions.collect {
+                                if (it is PressInteraction.Release) {
+                                    isDatePickerModalOpen.value = true
                                 }
                             }
-                        },
+                        }
+                    },
                     transformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -260,14 +266,14 @@ fun EventCreationScreenStep1(
                     value = it.startEventTimeState.value ?: "",
                     onValueChange = {},
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isStartTimePickerModalOpen.value = true
-                                    }
+                        LaunchedEffect(interactionSource) {
+                            interactionSource.interactions.collect {
+                                if (it is PressInteraction.Release) {
+                                    isStartTimePickerModalOpen.value = true
                                 }
                             }
-                        },
+                        }
+                    },
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_time),
@@ -277,33 +283,6 @@ fun EventCreationScreenStep1(
                     },
                     transformation = VisualTransformation.None,
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(labelResId = R.string.event_time_end,
-                    state = it,
-                    readOnly = true,
-                    value = if (it.eventDuration.value == 0) {
-                        it.endEventTimeState.value
-                    } else {
-                        it.startEventTimeState.calculateValueWithEventDuration(eventDuration = it.eventDuration)
-                    },
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isEndTimePickerModalOpen.value = true
-                                    }
-                                }
-                            }
-                        },
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_time),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
                 Spacer(modifier = Modifier.size(20.dp))
                 NewEventTimeSwitcher(selectedTime = state.eventDuration)
                 Spacer(modifier = Modifier.size(16.dp))
@@ -322,13 +301,17 @@ fun EventCreationScreenStep1(
                 }
                 GoogleMap(
                     modifier = Modifier.fillMaxSize(),
-                    cameraPositionState = cameraPositionState
-                ) {
+                    cameraPositionState = cameraPositionState,
+                    onMapClick = {},
+
+                    ) {
+
                     Marker(
                         state = MarkerState(position = singapore),
                         title = "Singapore",
-                        snippet = "Marker in Singapore"
-                    )
+                        snippet = "Marker in Singapore",
+
+                        )
                 } //TODO
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
@@ -386,22 +369,21 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = it.eventName.value.isValidErrorTopicField() && it.eventName.value.isNotEmpty() && it.eventType.value.isNotEmpty() && it.sportType.value.isNotEmpty(),
+                    isEnabled = it.eventName.value.isValidErrorTopicField() && it.eventName.value.isNotEmpty() && it.eventType.value.isNotEmpty() && it.sportType.value.isNotEmpty() && it.startEventTimeState.value.isNotEmpty() && it.eventDuration.value != 0,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+                PreviewOfTheEventPosterButton { isBottomPreviewDrawerOpen.value = true }
                 Spacer(modifier = Modifier.size(16.dp))
                 InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
                 when {
-                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                    isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
                     isDatePickerModalOpen.value -> datePickerModalContent()
                     isInvitedUsersModalOpen.value -> invitedUsersModalContent()
                     isStartTimePickerModalOpen.value -> startTimePickerModalContent()
-                    isEndTimePickerModalOpen.value -> endTimePickerModalContent()
                 }
             }
         }

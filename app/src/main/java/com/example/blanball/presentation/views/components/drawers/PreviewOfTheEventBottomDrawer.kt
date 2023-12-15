@@ -46,6 +46,7 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.PlayersGenderStatesToUkrainianString
+import com.example.blanball.utils.ext.addMinutes
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,7 +119,7 @@ fun PreviewOfTheEventBottomDrawer(
                                )
                                Spacer(modifier = Modifier.size(12.dp))
                                Text(
-                                   text = state.startEventTimeState.value.toString() + "-" + state.endEventTimeState.value,
+                                   text = state.startEventTimeState.value + "-" + state.startEventTimeState.value.addMinutes(state.eventDuration.value),
                                    fontSize = 13.sp,
                                    lineHeight = 20.sp,
                                    style = typography.h4,
@@ -138,7 +139,7 @@ fun PreviewOfTheEventBottomDrawer(
                        )
                        Spacer(modifier = Modifier.size(4.dp))
                        Text(
-                           text = "Запоріжжя, Центральна, стадіон «Торпеда»",
+                           text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO
                            fontSize = 12.sp,
                            lineHeight = 20.sp,
                            style = typography.h4,

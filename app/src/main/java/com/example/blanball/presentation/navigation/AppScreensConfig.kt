@@ -692,7 +692,7 @@ fun AppScreensConfig(
                         state = eventCreationScreenViewModelState,
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        isBottomDrawerOpen = isBottomPreviewDrawerOpen,
+                        isBottomPreviewDrawerOpen = isBottomPreviewDrawerOpen,
                         isStartTimePickerModalOpen = isStartTimePickerModalVisible,
                         isEndTimePickerModalOpen = isEndTimePickerModalVisible,
                         isDatePickerModalOpen = isDatePickerModalVisible,

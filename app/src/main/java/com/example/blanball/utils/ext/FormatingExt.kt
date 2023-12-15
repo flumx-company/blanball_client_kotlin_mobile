@@ -335,7 +335,7 @@ internal fun String?.toFormattedBirthdayDate(): String? {
     }
 }
 
-fun String.calculateAge(): String {
+internal fun String.calculateAge(): String {
     if (this.isEmpty()) {
         return ""
     }
@@ -347,4 +347,15 @@ fun String.calculateAge(): String {
     val age = diff / (1000L * 60 * 60 * 24 * 365)
 
     return age.toString()
+}
+
+internal fun String.addMinutes(minutes: Int): String {
+    if (minutes == 0){
+        return ""
+    }
+    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+    val calendar =  Calendar.getInstance()
+    calendar.time  = sdf.parse(this) ?: Date()
+    calendar.add(Calendar.MINUTE, minutes)
+    return sdf.format(calendar.time)
 }

@@ -148,7 +148,6 @@ class EventCreationScreensViewModel
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
                                 playersGenderStates = mutableStateOf(EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT),
-                                timeAndDateOfEvent = mutableStateOf(""),
                                 placeOfEvent = mutableStateOf(""),
                                 sportType = mutableStateOf(""),
                                 entryStates = mutableStateOf(EventCreationScreenMainContract.EntryStates.NO_SELECT),
