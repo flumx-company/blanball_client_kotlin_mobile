@@ -303,7 +303,7 @@ fun EventCreationScreenStep1(
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = stringResource(R.string.сhose_event_time),
+                    text = stringResource(R.string.сhose_event_location),
                     fontSize = 12.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
