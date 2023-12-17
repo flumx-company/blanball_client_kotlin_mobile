@@ -50,7 +50,7 @@ class EventCreationScreenMainContract {
             emptySet()
         ),
         val isValidationActivated: MutableState<Boolean> = mutableStateOf(false),
-        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(1.35, 103.87))
+        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696))
     ) : UiState
 
     sealed class ScreenViewState {

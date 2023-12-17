@@ -12,6 +12,7 @@ import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
 import com.example.blanball.utils.ext.formatToIso8601DateTime
+import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
@@ -127,9 +128,9 @@ class EventCreationScreensViewModel
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
-                place = "Todo", //TODO()
-                lat = currentState.eventLocationLatLng.value.latitude.toInt(),
-                lon = currentState.eventLocationLatLng.value.longitude.toInt(),
+                place = currentState.eventLocationLatLng.value.getAddressFromLocation(context = application.applicationContext) ?: "", //TODO()
+                lat = currentState.eventLocationLatLng.value.latitude,
+                lon = currentState.eventLocationLatLng.value.longitude,
                 price = 10, //TODO
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),

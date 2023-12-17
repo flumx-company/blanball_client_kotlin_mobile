@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +51,7 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 import com.google.android.gms.maps.model.CameraPosition
@@ -75,7 +77,7 @@ fun EventCreationScreenStep1(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
-
+    val context = LocalContext.current
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
     )
@@ -83,6 +85,9 @@ fun EventCreationScreenStep1(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
     (state as? EventCreationScreenMainContract.State)?.let {
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(it.eventLocationLatLng.value, 10f)
+        }
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -297,21 +302,37 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                val cameraPositionState = rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(it.eventLocationLatLng.value, 10f)
-                }
+                Text(
+                    text = stringResource(R.string.сhose_event_time),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
                 GoogleMap(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(124.dp)
                         .clip(shape = shapes.medium),
                     cameraPositionState = cameraPositionState,
-                    onMapClick = {latLng -> it.eventLocationLatLng.value = latLng},
-                    ) {
+                    onMapClick = { latLng -> it.eventLocationLatLng.value = latLng
+                                 },
+                ) {
                     Marker(
                         state = MarkerState(position = it.eventLocationLatLng.value),
-                        )
+                    )
                 }
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = it.eventLocationLatLng.value.getAddressFromLocation(context) ?: "",
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = primaryDark,
+                )
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))

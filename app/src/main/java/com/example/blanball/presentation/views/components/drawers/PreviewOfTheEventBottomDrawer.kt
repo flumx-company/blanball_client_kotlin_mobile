@@ -48,6 +48,7 @@ import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.PlayersGenderStatesToUkrainianString
 import com.example.blanball.utils.ext.addMinutes
 import com.example.blanball.utils.ext.formatToUkrainianDate
+import com.example.blanball.utils.ext.getAddressFromLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,7 +140,7 @@ fun PreviewOfTheEventBottomDrawer(
                        )
                        Spacer(modifier = Modifier.size(4.dp))
                        Text(
-                           text = "Запоріжжя, Центральна, стадіон «Торпеда»", //TODO
+                           text = it.eventLocationLatLng.value.getAddressFromLocation(context = context) ?: "",
                            fontSize = 12.sp,
                            lineHeight = 20.sp,
                            style = typography.h4,

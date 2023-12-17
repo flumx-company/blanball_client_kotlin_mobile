@@ -1,12 +1,14 @@
 package com.example.blanball.utils.ext
 
 import android.content.Context
+import android.location.Geocoder
 import androidx.compose.runtime.MutableState
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
 import com.example.blanball.presentation.data.EventCreationScreenMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
+import com.google.android.gms.maps.model.LatLng
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -358,4 +360,16 @@ internal fun String.addMinutes(minutes: Int): String {
     calendar.time  = sdf.parse(this) ?: Date()
     calendar.add(Calendar.MINUTE, minutes)
     return sdf.format(calendar.time)
+}
+
+internal fun LatLng.getAddressFromLocation(
+    context: Context,
+) : String? {
+    val geocoder = Geocoder(context, Locale("uk", "UA"))
+    val addresses = geocoder.getFromLocation(this.latitude, this.longitude, 1)
+    if (addresses?.isNotEmpty() == true) {
+        val address = addresses[0]
+        return address.getAddressLine(0)
+    }
+    return null
 }
