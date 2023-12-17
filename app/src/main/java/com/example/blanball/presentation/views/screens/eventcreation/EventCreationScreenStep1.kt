@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -26,6 +27,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +42,7 @@ import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
@@ -50,7 +53,6 @@ import com.example.blanball.presentation.views.components.textinputs.DefaultText
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
@@ -295,24 +297,21 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                val singapore = LatLng(1.35, 103.87)
                 val cameraPositionState = rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(singapore, 10f)
+                    position = CameraPosition.fromLatLngZoom(it.eventLocationLatLng.value, 10f)
                 }
                 GoogleMap(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(124.dp)
+                        .clip(shape = shapes.medium),
                     cameraPositionState = cameraPositionState,
-                    onMapClick = {},
-
+                    onMapClick = {latLng -> it.eventLocationLatLng.value = latLng},
                     ) {
-
                     Marker(
-                        state = MarkerState(position = singapore),
-                        title = "Singapore",
-                        snippet = "Marker in Singapore",
-
+                        state = MarkerState(position = it.eventLocationLatLng.value),
                         )
-                } //TODO
+                }
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(20.dp))

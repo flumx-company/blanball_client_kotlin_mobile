@@ -3,6 +3,7 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
+import com.google.android.gms.maps.model.LatLng
 
 class EventCreationScreenMainContract {
 
@@ -49,6 +50,7 @@ class EventCreationScreenMainContract {
             emptySet()
         ),
         val isValidationActivated: MutableState<Boolean> = mutableStateOf(false),
+        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(1.35, 103.87))
     ) : UiState
 
     sealed class ScreenViewState {

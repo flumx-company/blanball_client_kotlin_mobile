@@ -11,7 +11,6 @@ import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
-import com.example.blanball.utils.ext.calculateTimeDifferenceInMinutes
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
@@ -122,17 +121,15 @@ class EventCreationScreensViewModel
                     time = currentState.startEventTimeState.value
                 ),
                 description = currentState.eventDescriptionState.value,
-                duration = currentState.startEventTimeState.value.calculateTimeDifferenceInMinutes(
-                    endTime = currentState.endEventTimeState.value
-                ),
+                duration = currentState.eventDuration.value,
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
                 hidden = false,
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place = "Todo", //TODO()
-                lat = 90, //TODO()
-                lon = 180, //TODO()
+                lat = currentState.eventLocationLatLng.value.latitude.toInt(),
+                lon = currentState.eventLocationLatLng.value.longitude.toInt(),
                 price = 10, //TODO
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
