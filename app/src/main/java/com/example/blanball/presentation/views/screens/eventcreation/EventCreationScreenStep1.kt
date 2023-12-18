@@ -317,7 +317,7 @@ fun EventCreationScreenStep1(
                         .height(124.dp)
                         .clip(shape = shapes.medium),
                     cameraPositionState = cameraPositionState,
-                    onMapClick = { latLng -> it.eventLocationLatLng.value = latLng
+                    onMapLongClick = { latLng -> it.eventLocationLatLng.value = latLng
                                  },
                 ) {
                     Marker(
@@ -389,7 +389,13 @@ fun EventCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = it.eventName.value.isValidErrorTopicField() && it.eventName.value.isNotEmpty() && it.eventType.value.isNotEmpty() && it.sportType.value.isNotEmpty() && it.startEventTimeState.value.isNotEmpty() && it.eventDuration.value != 0,
+                    isEnabled = it.eventName.value.isValidErrorTopicField()
+                            && it.eventName.value.isNotEmpty()
+                            && it.eventType.value.isNotEmpty()
+                            && it.sportType.value.isNotEmpty()
+                            && it.startEventTimeState.value.isNotEmpty()
+                            && it.eventDuration.value != 0
+                            && it.playersGenderStates.value != EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

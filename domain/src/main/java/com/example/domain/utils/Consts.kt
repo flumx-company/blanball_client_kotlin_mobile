@@ -67,8 +67,9 @@ object Integers {
     const val FIVE = 5
     const val SIX = 6
     const val NINE = 9
-    const val EIGHTY = 80
     const val THIRTY = 30
+    const val FIFTY = 50
+    const val EIGHTY = 80
     const val ONE_HUNDRED_AND_FORTY_FIVE = 145
     const val TWO_HUNDRED_AND_TEN = 210
     const val TWO_HUNDRED_AND_FIFTY_FIVE = 255

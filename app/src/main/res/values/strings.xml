@@ -430,4 +430,5 @@
     <string name="team_second">Команда 2</string>
     <string name="no_match_for_you_query_banner">Ми не знайшли жодного співпадіння із вашим запитом</string>
     <string name="invited">Запрошено</string>
+    <string name="max_count_players_validation">* Введіть значення від 1 до 50</string>
 </resources>
