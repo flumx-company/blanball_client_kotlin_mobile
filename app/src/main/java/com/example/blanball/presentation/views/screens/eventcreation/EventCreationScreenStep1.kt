@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -27,7 +26,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,22 +41,17 @@ import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun EventCreationScreenStep1(
@@ -85,9 +78,6 @@ fun EventCreationScreenStep1(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
     (state as? EventCreationScreenMainContract.State)?.let {
-        val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(it.eventLocationLatLng.value, 10f)
-        }
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -311,19 +301,9 @@ fun EventCreationScreenStep1(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                GoogleMap(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(124.dp)
-                        .clip(shape = shapes.medium),
-                    cameraPositionState = cameraPositionState,
-                    onMapLongClick = { latLng -> it.eventLocationLatLng.value = latLng
-                                 },
-                ) {
-                    Marker(
-                        state = MarkerState(position = it.eventLocationLatLng.value),
-                    )
-                }
+                SelectLocationWithGoogleMap(
+                    eventLocationLatLng = it.eventLocationLatLng,
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
                     text = it.eventLocationLatLng.value.getAddressFromLocation(context) ?: "",
