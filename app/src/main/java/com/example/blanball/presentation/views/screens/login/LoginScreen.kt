@@ -1,4 +1,4 @@
-    package com.example.blanball.presentation.views.screens.login
+package com.example.blanball.presentation.views.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -54,11 +54,13 @@ fun LoginScreen(
     state: UiState,
     onLoginClicked: () -> Unit,
     dontRememberButtonClicked: () -> Unit,
-    registrationButtonClicked:  () -> Unit,
+    registrationButtonClicked: () -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     val currentState: StartScreensMainContract.State =
-        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(StartScreensMainContract.ScreenViewState.Idle)
+        (state as? StartScreensMainContract.State) ?: StartScreensMainContract.State(
+            StartScreensMainContract.ScreenViewState.Idle
+        )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -112,7 +114,9 @@ fun LoginScreen(
                 errorMessage = when {
                     it.loginEmailText.value.isNotValidEmail() -> stringResource(id = R.string.format_error_email)
                     it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
-                    else -> {""}
+                    else -> {
+                        ""
+                    }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
             )
@@ -128,14 +132,16 @@ fun LoginScreen(
                 errorMessage = when {
                     it.loginPasswordText.value.isNotInReqRange(8) -> stringResource(id = R.string.min_chars_error_pass)
                     it.isErrorLoginRequest.value -> stringResource(id = R.string.invalid_credential_error)
-                    else -> {""}
+                    else -> {
+                        ""
+                    }
                 },
                 value = state.loginPasswordText.value,
                 onValueChange = { state.loginPasswordText.value = it },
                 modifier = Modifier
                     .fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy( imeAction =  ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {localFocusManager.clearFocus()}),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
@@ -151,7 +157,9 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.size(10.5.dp))
                 Text(
-                    modifier = Modifier.clickable { it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value) } ,
+                    modifier = Modifier.clickable {
+                        it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
+                    },
                     text = stringResource(id = R.string.remember_me),
                     style = typography.h6,
                     color = secondaryNavy,
@@ -168,7 +176,9 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.size(25.dp))
         Button(
-            enabled = currentState.loginEmailText.value.isValidEmail() && currentState.loginPasswordText.value.isInReqRange(min = 8),
+            enabled = currentState.loginEmailText.value.isValidEmail() && currentState.loginPasswordText.value.isInReqRange(
+                min = 8
+            ),
             onClick = onLoginClicked,
             modifier = Modifier
                 .fillMaxWidth()

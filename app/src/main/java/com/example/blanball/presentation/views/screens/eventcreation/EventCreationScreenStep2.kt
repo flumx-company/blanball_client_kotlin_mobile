@@ -60,6 +60,7 @@ import com.example.blanball.presentation.views.components.buttons.NextAndPreviou
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.cards.UserCardOnEventCreation
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidMaxCountOfPlayers
 import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -235,7 +236,19 @@ fun EventCreationScreenStep2(
                             contentDescription = null,
                             tint = primaryDark,
                         )
-                    }
+                    },
+                    isError = when {
+                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
+                            id = R.string.max_count_players_validation
+                        )
+                        else -> {
+                            ""
+                        }
+                    },
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 SearchBar(
@@ -315,7 +328,7 @@ fun EventCreationScreenStep2(
                                             userId = user.id,
                                             isUserSelected = it.selectedUserIds.value.contains(user.id),
                                             onUserSelected = { userId ->
-                                                if (!it.selectedUserIds.value.contains(userId)){
+                                                if (!it.selectedUserIds.value.contains(userId)) {
                                                     it.selectedUserIds.value += userId
                                                     it.selectedUserProfiles.value += user
 
@@ -353,7 +366,7 @@ fun EventCreationScreenStep2(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = stringResource(R.string._2_3), //TODO()
+                        text = stringResource(R.string._2_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

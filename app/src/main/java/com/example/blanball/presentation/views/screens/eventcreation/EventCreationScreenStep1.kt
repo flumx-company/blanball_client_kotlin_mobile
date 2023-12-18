@@ -3,7 +3,6 @@ package com.example.blanball.presentation.views.screens.eventcreation
 import DottedLine
 import OutlineRadioButton
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -28,6 +26,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,15 +41,15 @@ import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
-import com.example.blanball.utils.ext.calculateValueWithEventDuration
+import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 
@@ -59,7 +58,7 @@ fun EventCreationScreenStep1(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToSecondStep: () -> Unit,
-    isBottomDrawerOpen: MutableState<Boolean>,
+    isBottomPreviewDrawerOpen: MutableState<Boolean>,
     isDatePickerModalOpen: MutableState<Boolean>,
     isStartTimePickerModalOpen: MutableState<Boolean>,
     isEndTimePickerModalOpen: MutableState<Boolean>,
@@ -71,12 +70,12 @@ fun EventCreationScreenStep1(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
 ) {
+    val context = LocalContext.current
     val typesOfEvent = mutableListOf(
         stringResource(id = R.string.friendly_match)
     )
     val typesOfSports = mutableListOf(
-        stringResource(id = R.string.football),
-        stringResource(id = R.string.futsal)
+        stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
     (state as? EventCreationScreenMainContract.State)?.let {
         Box(
@@ -114,11 +113,14 @@ fun EventCreationScreenStep1(
                     value = it.eventType.value,
                     onValueChange = { state.eventType.value = it },
                     isError = when {
-                        it.eventType.value.isEmpty() -> true
+                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventType.value.isEmpty() -> stringResource(id = R.string.chose_event_type)
+                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                            id = R.string.chose_event_type
+                        )
+
                         else -> {
                             ("")
                         }
@@ -136,8 +138,7 @@ fun EventCreationScreenStep1(
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventName.value.isNotValidErrorTopicField() ->
-                            stringResource(R.string.validation_text_error_topic)
+                        it.eventName.value.isNotValidErrorTopicField() -> stringResource(R.string.validation_text_error_topic)
 
                         else -> {
                             ("")
@@ -198,11 +199,14 @@ fun EventCreationScreenStep1(
                     value = it.sportType.value,
                     onValueChange = { state.sportType.value = it },
                     isError = when {
-                        it.sportType.value.isEmpty() -> true
+                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.sportType.value.isEmpty() -> stringResource(id = R.string.chose_sport_type)
+                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                            id = R.string.chose_sport_type
+                        )
+
                         else -> {
                             ("")
                         }
@@ -218,24 +222,21 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(
-                    textFieldModifier = Modifier
-                        .fillMaxWidth(),
+                DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
                     labelResId = R.string.date,
                     readOnly = true,
                     state = it,
                     onValueChange = {},
                     value = it.eventDateState.value,
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isDatePickerModalOpen.value = true
-                                    }
+                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
+                        LaunchedEffect(interactionSource) {
+                            interactionSource.interactions.collect {
+                                if (it is PressInteraction.Release) {
+                                    isDatePickerModalOpen.value = true
                                 }
                             }
-                        },
+                        }
+                    },
                     transformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
@@ -256,22 +257,20 @@ fun EventCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.event_time_start,
-                    modifier = Modifier
-                        .clickable { isStartTimePickerModalOpen.value = true },
+                    modifier = Modifier.clickable { isStartTimePickerModalOpen.value = true },
                     state = it,
                     readOnly = true,
                     value = it.startEventTimeState.value ?: "",
                     onValueChange = {},
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isStartTimePickerModalOpen.value = true
-                                    }
+                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
+                        LaunchedEffect(interactionSource) {
+                            interactionSource.interactions.collect {
+                                if (it is PressInteraction.Release) {
+                                    isStartTimePickerModalOpen.value = true
                                 }
                             }
-                        },
+                        }
+                    },
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_time),
@@ -281,34 +280,6 @@ fun EventCreationScreenStep1(
                     },
                     transformation = VisualTransformation.None,
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(labelResId = R.string.event_time_end,
-                    state = it,
-                    readOnly = true,
-                    value = if (it.eventDuration.value == 0) {
-                        it.endEventTimeState.value
-                    } else {
-                        it.startEventTimeState.calculateValueWithEventDuration(eventDuration = it.eventDuration)
-                    },
-                    onValueChange = {},
-                    transformation = VisualTransformation.None,
-                    interactionSource = remember { MutableInteractionSource() }
-                        .also { interactionSource ->
-                            LaunchedEffect(interactionSource) {
-                                interactionSource.interactions.collect {
-                                    if (it is PressInteraction.Release) {
-                                        isEndTimePickerModalOpen.value = true
-                                    }
-                                }
-                            }
-                        },
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_time),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    })
                 Spacer(modifier = Modifier.size(20.dp))
                 NewEventTimeSwitcher(selectedTime = state.eventDuration)
                 Spacer(modifier = Modifier.size(16.dp))
@@ -321,16 +292,26 @@ fun EventCreationScreenStep1(
                     color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                Image(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp, color = defaultLightGray, shape = shapes.medium
-                        )
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .clickable { },
-                    painter = painterResource(id = R.drawable.temp_map_image), //TODO()
-                    contentDescription = null
+                Text(
+                    text = stringResource(R.string.сhose_event_location),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                SelectLocationWithGoogleMap(
+                    eventLocationLatLng = it.eventLocationLatLng,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = it.eventLocationLatLng.value.getAddressFromLocation(context) ?: "",
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
@@ -391,22 +372,24 @@ fun EventCreationScreenStep1(
                     isEnabled = it.eventName.value.isValidErrorTopicField()
                             && it.eventName.value.isNotEmpty()
                             && it.eventType.value.isNotEmpty()
-                            && it.sportType.value.isNotEmpty(),
+                            && it.sportType.value.isNotEmpty()
+                            && it.startEventTimeState.value.isNotEmpty()
+                            && it.eventDuration.value != 0
+                            && it.playersGenderStates.value != EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+                PreviewOfTheEventPosterButton { isBottomPreviewDrawerOpen.value = true }
                 Spacer(modifier = Modifier.size(16.dp))
                 InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
                 when {
-                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                    isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
                     isDatePickerModalOpen.value -> datePickerModalContent()
                     isInvitedUsersModalOpen.value -> invitedUsersModalContent()
                     isStartTimePickerModalOpen.value -> startTimePickerModalContent()
-                    isEndTimePickerModalOpen.value -> endTimePickerModalContent()
                 }
             }
         }

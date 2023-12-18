@@ -25,7 +25,7 @@ data class CreationAnEventRequest(
 class CreationAnEventRequestForms
 
 data class CreationAnEventRequestPlace(
-    @Json(name = "lat") val lat: Int,
-    @Json(name = "lon") val lon: Int,
+    @Json(name = "lat") val lat: Double,
+    @Json(name = "lon") val lon: Double,
     @Json(name = "place_name") val place_name: String
 )
