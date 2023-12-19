@@ -71,6 +71,8 @@ import com.example.data.backend.models.responses.success.DataResetCompleteRespon
 import com.example.data.backend.models.responses.success.DataSendCode
 import com.example.data.backend.models.responses.success.EditEventByIdResponse
 import com.example.data.backend.models.responses.success.EditEventByIdResponseData
+import com.example.data.backend.models.responses.success.EditMyProfileResponse
+import com.example.data.backend.models.responses.success.EditMyProfileResponseData
 import com.example.data.backend.models.responses.success.GetAllEventResponse
 import com.example.data.backend.models.responses.success.GetAllEventResponseAuthor
 import com.example.data.backend.models.responses.success.GetAllEventResponseData
@@ -146,6 +148,8 @@ import com.example.domain.entity.responses.DataEmailResetEntity
 import com.example.domain.entity.responses.DataSendCodeDomain
 import com.example.domain.entity.responses.EditEventByIdResponseEntity
 import com.example.domain.entity.responses.EditEventByIdResponseEntityData
+import com.example.domain.entity.responses.EditMyProfileResponseEntity
+import com.example.domain.entity.responses.EditMyProfileResponseEntityData
 import com.example.domain.entity.responses.EmailPassDataErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorsEntity
@@ -1287,4 +1291,19 @@ internal fun GetRelevantUserSearchListErrorData.toGetRelevantUserSearchListError
 internal fun GetRelevantUserSearchListErrorDetail.toGetRelevantUserSearchListErrorDetailEntity(): GetRelevantUserSearchListErrorEntityDetail =
     GetRelevantUserSearchListErrorEntityDetail(
         this.detail
+    )
+
+internal fun EditMyProfileResponse.toEditMyProfileResponseEntity(): EditMyProfileResponseEntity =
+    EditMyProfileResponseEntity(
+        this.code,
+        this.data,
+        this.message,
+        this.status
+    )
+
+internal fun EditMyProfileResponseData.to (): EditMyProfileResponseEntityData =
+    EditMyProfileResponseEntityData(
+        this.phone,
+        this.configuration,
+        this.profile,
     )
