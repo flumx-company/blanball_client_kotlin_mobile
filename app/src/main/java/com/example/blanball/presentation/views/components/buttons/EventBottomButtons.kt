@@ -34,9 +34,10 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun EventBottomButtons(
-    toJoinBtnClick: () -> Unit,
+    onJoinBtnClick: () -> Unit,
+    onEditClick: () -> Unit,
     shareBtnClick: () -> Unit,
-    isMyEvent: Boolean ,
+    isMyEvent: Boolean,
 ) {
     Box(
         modifier = Modifier
@@ -56,7 +57,7 @@ fun EventBottomButtons(
     {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Button(
-                onClick = toJoinBtnClick,
+                onClick = if (isMyEvent) onEditClick else onJoinBtnClick ,
                 modifier = Modifier
                     .wrapContentWidth()
                     .height(40.dp),
@@ -74,6 +75,7 @@ fun EventBottomButtons(
                     Spacer(modifier = Modifier.size(6.dp))
                 }
                 Text(
+                    modifier = Modifier,
                     text = if (isMyEvent) stringResource(id = R.string.edit) else stringResource(R.string.to_join),
                     fontSize = 15.sp,
                     lineHeight = 24.sp,

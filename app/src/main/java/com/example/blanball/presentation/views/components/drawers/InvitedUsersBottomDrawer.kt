@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
@@ -34,7 +34,7 @@ fun InvitedUsersBottomDrawer(
     closeBottomDrawer: () -> Unit,
     state: UiState,
 ) {
-    (state as? EventCreationScreenMainContract.State)?.let { currentState ->
+    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
         ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }, containerColor = Color.White) {
             Column(
                 modifier = Modifier

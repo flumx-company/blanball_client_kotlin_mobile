@@ -26,7 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EmailVerificationMainContract
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
@@ -35,7 +35,7 @@ import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
-import com.example.blanball.presentation.viewmodels.EventCreationScreensViewModel
+import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
@@ -63,9 +63,9 @@ import com.example.blanball.presentation.views.components.textinputs.SimpleTimeP
 import com.example.blanball.presentation.views.components.topbars.TopBar
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
-import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep1
-import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep2
-import com.example.blanball.presentation.views.screens.eventcreation.EventCreationScreenStep3
+import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep1
+import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep2
+import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep3
 import com.example.blanball.presentation.views.screens.foundanerror.FoundAnErrorScreen
 import com.example.blanball.presentation.views.screens.friends.FriendsScreen
 import com.example.blanball.presentation.views.screens.futureevents.AllEventsFilterScreen
@@ -133,7 +133,7 @@ fun AppScreensConfig(
     resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
-    eventCreationScreenViewModel: EventCreationScreensViewModel,
+    eventCreationScreenViewModel: EventCreationOrEditScreensViewModel,
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
@@ -665,6 +665,7 @@ fun AppScreensConfig(
                 }
             )
         }
+
         composable(BottomNavItem.CreateNewEvent.screen_route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
             val isStartTimePickerModalVisible = remember { mutableStateOf(false) }
@@ -687,7 +688,7 @@ fun AppScreensConfig(
                     )
                 },
                 content = { it ->
-                    EventCreationScreenStep1(
+                    EventEditOrCreationScreenStep1(
                         paddingValues = it,
                         state = eventCreationScreenViewModelState,
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
@@ -716,7 +717,8 @@ fun AppScreensConfig(
                         },
                         backBtnCLicked = {
                             navController.navigate(Destinations.HOME.route)
-                        }
+                        },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
                     )
                 }
             )
@@ -1089,7 +1091,8 @@ fun AppScreensConfig(
                             ConfirmEmailReminder(
                             clickCallback = { isVerificationModalVisible.value = true },
                             userEmail = verifyEmailViewModeCurrentState.userEmailText.value
-                        )}
+                        )},
+                        onEditClick = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route )}
                     )
                 })
         }
@@ -1140,7 +1143,7 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EventCreationScreenStep2(
+                    EventEditOrCreationScreenStep2(
                         paddingValues = paddingValues,
                         state = eventCreationScreenViewModelState,
                         navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
@@ -1151,9 +1154,10 @@ fun AppScreensConfig(
                         backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
                         usersSearchClicked = {
                             eventCreationScreenViewModel.handleEvent(
-                                EventCreationScreenMainContract.Event.UsersSearchClicked
+                                EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
                             )
-                        }
+                        },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
                     )
                 }
             )
@@ -1188,7 +1192,7 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EventCreationScreenStep3(
+                    EventEditOrCreationScreenStep3(
                         paddingValues = paddingValues,
                         state = eventCreationScreenViewModelState,
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
@@ -1197,10 +1201,11 @@ fun AppScreensConfig(
                         isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
                         publishBtnClicked = {
                             eventCreationScreenViewModel.handleEvent(
-                                EventCreationScreenMainContract.Event.CreateNewEventClicked
+                                EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
                             )
                         },
                         backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
                     )
                 }
             )
@@ -1411,6 +1416,156 @@ fun AppScreensConfig(
                     )
                 }
             )
+        }
+
+        composable(Destinations.EDIT_EVENT_STEP_1.route) {
+            val isDatePickerModalVisible = remember { mutableStateOf(false) }
+            val isStartTimePickerModalVisible = remember { mutableStateOf(false) }
+            val isEndTimePickerModalVisible = remember { mutableStateOf(false) }
+            val currentState = eventCreationScreenViewModel.currentState
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { it ->
+                    EventEditOrCreationScreenStep1(
+                        paddingValues = it,
+                        state = eventCreationScreenViewModelState,
+                        navigateToSecondStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_2.route) },
+                        bottomDrawerPreviewContent = { bottomDrawerContent() },
+                        isBottomPreviewDrawerOpen = isBottomPreviewDrawerOpen,
+                        isStartTimePickerModalOpen = isStartTimePickerModalVisible,
+                        isEndTimePickerModalOpen = isEndTimePickerModalVisible,
+                        isDatePickerModalOpen = isDatePickerModalVisible,
+                        invitedUsersModalContent = { invitedUsersDrawerContent() },
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        datePickerModalContent = {
+                            DatePickerModal(
+                                selectedState = currentState.eventDateState,
+                                backBtnClicked = { isDatePickerModalVisible.value = false }
+                            )
+                        },
+                        startTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                                selectedTimeState = currentState.startEventTimeState
+                            ) { isStartTimePickerModalVisible.value = false }
+                        },
+                        endTimePickerModalContent = {
+                            SimpleTimePickerInAlertDialog(
+                                selectedTimeState = currentState.endEventTimeState,
+                            ) { isEndTimePickerModalVisible.value = false }
+                        },
+                        backBtnCLicked = {
+                            navController.navigate(Destinations.HOME.route)
+                        },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.EDIT_EVENT_STEP_2.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    EventEditOrCreationScreenStep2(
+                        paddingValues = paddingValues,
+                        state = eventCreationScreenViewModelState,
+                        navigateToThirdStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_3.route) },
+                        bottomDrawerPreviewContent = { bottomDrawerContent() },
+                        isBottomDrawerOpen = isBottomPreviewDrawerOpen,
+                        invitedUsersModalContent = { invitedUsersDrawerContent() },
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        backBtnCLicked = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route) },
+                        usersSearchClicked = {
+                            eventCreationScreenViewModel.handleEvent(
+                                EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                            )
+                        },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                    )
+                }
+            )
+        }
+
+        composable(Destinations.EDIT_EVENT_STEP_3.route) {
+            val currentState = eventCreationScreenViewModel.currentState
+            LaunchedEffect(key1 = Unit) {
+                val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
+                eventCreationScreenViewModel.setState {
+                    copy(
+                        phoneNumberState = mutableStateOf(
+                            userPhoneString
+                        )
+                    )
+                }
+            }
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                    EventEditOrCreationScreenStep3(
+                        paddingValues = paddingValues,
+                        state = eventCreationScreenViewModelState,
+                        bottomDrawerPreviewContent = { bottomDrawerContent() },
+                        isBottomDrawerOpen = isBottomPreviewDrawerOpen,
+                        invitedUsersModalContent = { invitedUsersDrawerContent() },
+                        isInvitedUsersModalOpen = isInvitedUsersDrawerOpen,
+                        publishBtnClicked = {
+                            eventCreationScreenViewModel.handleEvent(
+                                EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                            )
+                        },
+                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
+                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                    )
+                }
+            )
+            LaunchedEffect(currentState.isSuccessEventCreation.value) {
+                if (currentState.isSuccessEventCreation.value) {
+                    currentState.isSuccessEventCreation.value = false
+                    navController.navigate(Destinations.HOME.route)
+                }
+            }
         }
     }
 }

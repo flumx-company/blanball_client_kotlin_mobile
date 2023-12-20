@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.eventcreation
+package com.example.blanball.presentation.views.screens.eventcreationoredit
 
 import DottedLine
 import OutlineRadioButton
@@ -35,7 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -54,7 +54,7 @@ import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
 
 @Composable
-fun EventCreationScreenStep1(
+fun EventEditOrCreationScreenStep1(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToSecondStep: () -> Unit,
@@ -69,6 +69,7 @@ fun EventCreationScreenStep1(
     endTimePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
+    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
     val context = LocalContext.current
     val typesOfEvent = mutableListOf(
@@ -77,7 +78,7 @@ fun EventCreationScreenStep1(
     val typesOfSports = mutableListOf(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
-    (state as? EventCreationScreenMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -90,7 +91,9 @@ fun EventCreationScreenStep1(
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.creation_event),
+                    text = if (
+                       isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                    ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -162,33 +165,33 @@ fun EventCreationScreenStep1(
                     OutlineRadioButton(
                         onClick = {
                             it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                                EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.WOMANS
+                                    EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
                             },
                         state = it,
                         text = stringResource(id = R.string.woman_ukr),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.WOMANS,
+                        selected = it.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.playersGenderStates.value =
-                                EventCreationScreenMainContract.PlayersGenderStates.MANS
+                                EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.playersGenderStates.value =
-                                    EventCreationScreenMainContract.PlayersGenderStates.MANS
+                                    EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
                             },
                         state = it,
                         text = stringResource(id = R.string.man_ukr),
-                        selected = it.playersGenderStates.value == EventCreationScreenMainContract.PlayersGenderStates.MANS,
+                        selected = it.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
                 }
@@ -375,7 +378,7 @@ fun EventCreationScreenStep1(
                             && it.sportType.value.isNotEmpty()
                             && it.startEventTimeState.value.isNotEmpty()
                             && it.eventDuration.value != 0
-                            && it.playersGenderStates.value != EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT,
+                            && it.playersGenderStates.value != EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

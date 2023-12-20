@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.editevent
+package com.example.blanball.presentation.views.screens.eventcreationoredit
 
 import DottedLine
 import OutlineRadioButton
@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -65,7 +65,7 @@ import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHe
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventCreationScreenStep2(
+fun EventEditOrCreationScreenStep2(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToThirdStep: () -> Unit,
@@ -75,8 +75,9 @@ fun EventCreationScreenStep2(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
     usersSearchClicked: () -> Unit,
+    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
-    (state as? EventCreationScreenMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -89,7 +90,9 @@ fun EventCreationScreenStep2(
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.creation_event),
+                    text = if (
+                        isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                    ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -122,34 +125,34 @@ fun EventCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             it.isEventPrivacy.value =
-                                EventCreationScreenMainContract.EventPrivacyStates.NO
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.isEventPrivacy.value =
-                                    EventCreationScreenMainContract.EventPrivacyStates.NO
+                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = it.isEventPrivacy.value == EventCreationScreenMainContract.EventPrivacyStates.NO,
+                        selected = it.isEventPrivacy.value == EventEditAndCreationScreensMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.isEventPrivacy.value =
-                                EventCreationScreenMainContract.EventPrivacyStates.YES
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.isEventPrivacy.value =
-                                    EventCreationScreenMainContract.EventPrivacyStates.YES
+                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                             },
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
                         selected = it.isEventPrivacy.value ==
-                                EventCreationScreenMainContract.EventPrivacyStates.YES,
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
@@ -170,34 +173,34 @@ fun EventCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             it.entryStates.value =
-                                EventCreationScreenMainContract.EntryStates.FREE_ENTRY
+                                EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.entryStates.value =
-                                    EventCreationScreenMainContract.EntryStates.FREE_ENTRY
+                                    EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                             },
                         state = it,
                         text = stringResource(id = R.string.free),
-                        selected = it.entryStates.value == EventCreationScreenMainContract.EntryStates.FREE_ENTRY,
+                        selected = it.entryStates.value == EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.entryStates.value =
-                                EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY
+                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.entryStates.value =
-                                    EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY
+                                    EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                             },
                         state = it,
                         text = stringResource(R.string.paid),
                         selected = it.entryStates.value ==
-                                EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY,
+                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY,
                         icon = null,
                     )
                 }
@@ -304,7 +307,7 @@ fun EventCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (it.state == EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
+                    if (it.state == EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
