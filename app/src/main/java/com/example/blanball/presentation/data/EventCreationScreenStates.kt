@@ -37,6 +37,7 @@ class EventEditAndCreationScreensMainContract {
         val priseSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventCreation: MutableState<Boolean> = mutableStateOf(false),
+        val isErrorEventEdit: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
         val countOfFans: MutableState<Int> = mutableStateOf(0),

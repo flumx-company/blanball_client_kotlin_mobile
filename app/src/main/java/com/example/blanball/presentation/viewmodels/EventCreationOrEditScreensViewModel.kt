@@ -14,6 +14,7 @@ import com.example.blanball.utils.ext.SportTypesStringsToEnglish
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.domain.entity.results.CreationAnEventResultEntity
+import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
@@ -148,7 +149,51 @@ class EventCreationOrEditScreensViewModel
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
-            )
+            ).let {
+                when (it) {
+                    is EditEventByIdResultEntity.Success -> {
+                        setState {
+                            copy(
+                                state = EventEditAndCreationScreensMainContract.ScreenViewState.SuccessRequest,
+                                isSuccessEventCreation = mutableStateOf(true),
+                                isErrorEventCreation = mutableStateOf(false),
+                                eventName = mutableStateOf(""),
+                                eventType = mutableStateOf(""),
+                                playersGenderStates = mutableStateOf(
+                                    EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT
+                                ),
+                                placeOfEvent = mutableStateOf(""),
+                                sportType = mutableStateOf(""),
+                                entryStates = mutableStateOf(EventEditAndCreationScreensMainContract.EntryStates.NO_SELECT),
+                                contributingStates = mutableStateOf(
+                                    EventEditAndCreationScreensMainContract.СontributionsStates.NO_SELECT
+                                ),
+                                needFormStates = mutableStateOf(
+                                    EventEditAndCreationScreensMainContract.NeedFormStates.NO_SELECT
+                                ),
+                                phoneNumberState = mutableStateOf(""),
+                                eventDescriptionState = mutableStateOf(""),
+                                startEventTimeState = mutableStateOf(""),
+                                endEventTimeState = mutableStateOf(""),
+                                maxEventPlayersState = mutableStateOf(""),
+                                usersSearchState = mutableStateOf(""),
+                                priseSwitchButtonState = mutableStateOf(false),
+                                needBallSwitchButtonState = mutableStateOf(false),
+                                listOfFoundUsers = mutableStateOf(emptyList()),
+                                selectedUserIds = mutableStateOf(emptySet()),
+                                selectedUserProfiles = mutableStateOf(emptySet()),
+                            )
+                        }
+                    }
+                    is EditEventByIdResultEntity.Error -> {
+                        setState {
+                            copy(
+                                isErrorEventEdit = mutableStateOf(true)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
