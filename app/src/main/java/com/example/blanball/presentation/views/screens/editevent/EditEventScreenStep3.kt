@@ -188,7 +188,7 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = state.phoneNumberState.value, //TODO()
+                        text = state.phoneNumberState.value,
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -257,7 +257,7 @@ fun EventCreationScreenStep3(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = stringResource(R.string._3_3), //TODO()
+                        text = stringResource(R.string._3_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

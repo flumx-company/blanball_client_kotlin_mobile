@@ -53,7 +53,6 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.AddUserToTeam
-import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
@@ -571,7 +570,8 @@ fun EventScreen(
             }
             EventBottomButtons(
                 toJoinBtnClick = { /*TODO*/ },
-                shareBtnClick = { isShareLinkModalVisible.value = true }
+                shareBtnClick = { isShareLinkModalVisible.value = true },
+                isMyEvent = it.isMyEvent.value
             )
         }
         if (currentState.state is EventScreenMainContract.ScreenViewState.Loading) {

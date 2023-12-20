@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -35,6 +36,7 @@ import com.example.blanball.presentation.theme.typography
 fun EventBottomButtons(
     toJoinBtnClick: () -> Unit,
     shareBtnClick: () -> Unit,
+    isMyEvent: Boolean ,
 ) {
     Box(
         modifier = Modifier
@@ -56,7 +58,7 @@ fun EventBottomButtons(
             Button(
                 onClick = toJoinBtnClick,
                 modifier = Modifier
-                    .width(136.dp)
+                    .wrapContentWidth()
                     .height(40.dp),
                 shape = shapes.medium,
                 colors = ButtonDefaults.buttonColors(
@@ -64,8 +66,15 @@ fun EventBottomButtons(
                     contentColor = Color.White,
                 ),
             ) {
+                if (isMyEvent) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_settings_2),
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.size(6.dp))
+                }
                 Text(
-                    text = stringResource(R.string.to_join),
+                    text = if (isMyEvent) stringResource(id = R.string.edit) else stringResource(R.string.to_join),
                     fontSize = 15.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,

@@ -71,6 +71,7 @@ class EventScreenViewModel
                                     it.data.author.profile.avatar_url ?: ""
                                 ),
                                 eventPrice = mutableStateOf(it.data.price ?: 0),
+                                isMyEvent = mutableStateOf(it.data.author.profile.id == 2),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }

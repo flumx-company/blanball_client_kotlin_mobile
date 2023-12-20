@@ -23,6 +23,7 @@ class EventScreenMainContract {
         val eventAuthorPhone: MutableState<String> = mutableStateOf(""),
         val eventAuthorAvatar: MutableState<String> = mutableStateOf(""),
         val eventPrice: MutableState<Int> = mutableStateOf(0),
+        val isMyEvent: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {
