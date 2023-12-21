@@ -39,9 +39,7 @@ class EventCreationOrEditScreensViewModel
     internal val editEventUseCase: EditEventByIdUseCase,
     private val application: Application,
 ) : ViewModel() {
-
     private var job: Job? = null
-
     val defaultState
         get() = EventEditAndCreationScreensMainContract.State(
             state = EventEditAndCreationScreensMainContract.ScreenViewState.Idle,
@@ -68,15 +66,6 @@ class EventCreationOrEditScreensViewModel
                     )
                 }
                 requestCreationNewEvent()
-            }
-
-            is EventEditAndCreationScreensMainContract.Event.EditEventClicked -> {
-                setState {
-                    copy(
-                        state = EventEditAndCreationScreensMainContract.ScreenViewState.Loading,
-
-                        )
-                }
             }
 
             is EventEditAndCreationScreensMainContract.Event.UsersSearchClicked -> {
@@ -162,7 +151,6 @@ class EventCreationOrEditScreensViewModel
                                 playersGenderStates = mutableStateOf(
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT
                                 ),
-                                placeOfEvent = mutableStateOf(""),
                                 sportType = mutableStateOf(""),
                                 entryStates = mutableStateOf(EventEditAndCreationScreensMainContract.EntryStates.NO_SELECT),
                                 contributingStates = mutableStateOf(
@@ -185,6 +173,7 @@ class EventCreationOrEditScreensViewModel
                             )
                         }
                     }
+
                     is EditEventByIdResultEntity.Error -> {
                         setState {
                             copy(
@@ -235,7 +224,6 @@ class EventCreationOrEditScreensViewModel
                                 playersGenderStates = mutableStateOf(
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT
                                 ),
-                                placeOfEvent = mutableStateOf(""),
                                 sportType = mutableStateOf(""),
                                 entryStates = mutableStateOf(EventEditAndCreationScreensMainContract.EntryStates.NO_SELECT),
                                 contributingStates = mutableStateOf(

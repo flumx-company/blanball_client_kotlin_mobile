@@ -20,7 +20,6 @@ class EventEditAndCreationScreensMainContract {
         val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(
             PlayersGenderStates.NO_SELECT
         ),
-        val placeOfEvent: MutableState<String> = mutableStateOf(""),
         val sportType: MutableState<String> = mutableStateOf(""),
         val entryStates: MutableState<EntryStates> = mutableStateOf(EntryStates.NO_SELECT),
         val contributingStates: MutableState<СontributionsStates> = mutableStateOf(

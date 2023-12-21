@@ -7,6 +7,7 @@ import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
@@ -28,6 +29,7 @@ class NavigationDrawerViewModel
     internal val userNameManager: UserNameManager,
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val userEmailManager: UserEmailManager,
+    internal val userIdManager: UserIdManager,
 ) : ViewModel()
 {
     private var job: Job? = null
@@ -53,6 +55,7 @@ class NavigationDrawerViewModel
                         val userEmail = result.success.email
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
+                        userIdManager.saveUserId(myProfile.id)
                         myProfile.avatar_url?.let { avatarUrl -> userAvatarUrlManager.safeAvatarUrl(avatarUrl) }
                         userEmail?.let { userEmail -> userEmailManager.safeUserEmail(userEmail) }
                         val userFullName = userNameManager.getUserName().firstOrNull()

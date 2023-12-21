@@ -1092,7 +1092,9 @@ fun AppScreensConfig(
                             clickCallback = { isVerificationModalVisible.value = true },
                             userEmail = verifyEmailViewModeCurrentState.userEmailText.value
                         )},
-                        onEditClick = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route )}
+                        onEditClick = {
+                            navController.navigate(Destinations.EDIT_EVENT_STEP_1.route
+                            )}
                     )
                 })
         }

@@ -80,11 +80,13 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.SendCodeErrorEntity
+import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
 import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
@@ -97,8 +99,6 @@ import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErro
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
-import com.example.domain.entity.responses.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
 import com.example.domain.entity.results.CreationAnEventResultEntity
@@ -274,16 +274,14 @@ class AppRepositoryImpl @Inject constructor(
         date_and_time: String,
         description: String,
         duration: Int,
-        forms: Any?,
         gender: String,
         hidden: Boolean?,
         name: String,
         need_ball: Boolean,
         need_form: Boolean,
         place_name: String,
-        lat: Int,
-        lon: Int,
-        place: String,
+        lat: Double,
+        lon: Double,
         price: Int?,
         price_description: String?,
         privacy: Boolean,
@@ -298,7 +296,6 @@ class AppRepositoryImpl @Inject constructor(
                     date_and_time = date_and_time,
                     description = description,
                     duration = duration,
-                    forms = forms,
                     gender = gender,
                     hidden = hidden,
                     name = name,

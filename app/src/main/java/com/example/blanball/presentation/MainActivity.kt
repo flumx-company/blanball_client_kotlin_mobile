@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
+    private val eventScreenViewModel: EventScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -248,6 +248,7 @@ fun EventEditOrCreationScreenStep2(
                         it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
                             id = R.string.max_count_players_validation
                         )
+
                         else -> {
                             ""
                         }
@@ -329,7 +330,9 @@ fun EventEditOrCreationScreenStep2(
                                             userFirstName = user.profile.name,
                                             userLastName = user.profile.last_name,
                                             userId = user.id,
-                                            isUserSelected = it.selectedUserIds.value.contains(user.id),
+                                            isUserSelected = it.selectedUserIds.value.contains(
+                                                user.id
+                                            ),
                                             onUserSelected = { userId ->
                                                 if (!it.selectedUserIds.value.contains(userId)) {
                                                     it.selectedUserIds.value += userId
@@ -349,74 +352,74 @@ fun EventEditOrCreationScreenStep2(
                         }
                     }
                 }
-                DottedLine(color = defaultLightGray)
-                Spacer(modifier = Modifier.size(20.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = stringResource(R.string.progress),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = null,
-                        tint = avatarGrey,
-                    )
-                    Text(
-                        text = stringResource(R.string._2_3),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
-                    )
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
-                        contentDescription = null,
-                        tint = secondaryNavy,
-                    )
-                }
-                Row(
-                    Modifier.padding(top = 20.dp)
-                ) {
-                    repeat(2) {
-                        Image(
-                            painter = painterResource(R.drawable.stepline_1),
-                            contentDescription = null,
-                            Modifier.weight(1f)
-                        )
-                        Spacer(modifier = Modifier.size(2.dp))
-                    }
+            DottedLine(color = defaultLightGray)
+            Spacer(modifier = Modifier.size(20.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.progress),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = null,
+                    tint = avatarGrey,
+                )
+                Text(
+                    text = stringResource(R.string._2_3),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
+                )
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    contentDescription = null,
+                    tint = secondaryNavy,
+                )
+            }
+            Row(
+                Modifier.padding(top = 20.dp)
+            ) {
+                repeat(2) {
                     Image(
-                        painter = painterResource(id = R.drawable.empty_stepline),
+                        painter = painterResource(R.drawable.stepline_1),
                         contentDescription = null,
                         Modifier.weight(1f)
                     )
+                    Spacer(modifier = Modifier.size(2.dp))
                 }
-                Spacer(modifier = Modifier.size(16.dp))
-                NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
-                    nextBtnOnClick = { navigateToThirdStep() },
-                    prevBtnOnClick = { backBtnCLicked() },
-                    nextBtnOnTextId = R.string.next,
-                    prevBtnOnTextId = R.string.back,
+                Image(
+                    painter = painterResource(id = R.drawable.empty_stepline),
+                    contentDescription = null,
+                    Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
-                Spacer(modifier = Modifier.size(16.dp))
-                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
-                when {
-                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
-                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
-                }
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+            NextAndPreviousButtonsHorizontal(
+                isEnabled = true,
+                nextBtnOnClick = { navigateToThirdStep() },
+                prevBtnOnClick = { backBtnCLicked() },
+                nextBtnOnTextId = R.string.next,
+                prevBtnOnTextId = R.string.back,
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+            Spacer(modifier = Modifier.size(16.dp))
+            InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+            when {
+                isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                isInvitedUsersModalOpen.value -> invitedUsersModalContent()
             }
         }
+    }
     }
 }
