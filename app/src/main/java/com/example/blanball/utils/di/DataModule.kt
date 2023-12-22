@@ -13,6 +13,8 @@ import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManagerImpl
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.useremailmanager.UserEmailManagerImpl
+import com.example.data.datastore.useridmanager.UserIdManager
+import com.example.data.datastore.useridmanager.UserIdManagerImpl
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.usernamemanager.UserNameManagerImpl
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -120,4 +122,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindUserEmailManager(userEmailManager: UserEmailManagerImpl): UserEmailManager
+
+    @Binds
+    fun bindUserIdManager(userIdManager: UserIdManagerImpl): UserIdManager
 }

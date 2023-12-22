@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.editevent
+package com.example.blanball.presentation.views.screens.eventcreationoredit
 
 import DottedLine
 import OutlineRadioButton
@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -49,7 +49,7 @@ import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 
 @Composable
-fun EventCreationScreenStep3(
+fun EventEditOrCreationScreenStep3(
     paddingValues: PaddingValues,
     state: UiState,
     isBottomDrawerOpen: MutableState<Boolean>,
@@ -58,13 +58,14 @@ fun EventCreationScreenStep3(
     invitedUsersModalContent: @Composable () -> Unit,
     publishBtnClicked: () -> Unit,
     backBtnCLicked: () -> Unit,
+    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
-    val currentState: EventCreationScreenMainContract.State =
-        (state as? EventCreationScreenMainContract.State) ?: EventCreationScreenMainContract.State(
-            EventCreationScreenMainContract.ScreenViewState.Idle
+    val currentState: EventEditAndCreationScreensMainContract.State =
+        (state as? EventEditAndCreationScreensMainContract.State) ?: EventEditAndCreationScreensMainContract.State(
+            EventEditAndCreationScreensMainContract.ScreenViewState.Idle
         )
     val localFocusManager = LocalFocusManager.current
-    (state as? EventCreationScreenMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -77,7 +78,9 @@ fun EventCreationScreenStep3(
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.creation_event),
+                    text = if (
+                        isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                    ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -101,35 +104,35 @@ fun EventCreationScreenStep3(
                     OutlineRadioButton(
                         onClick = {
                             it.needFormStates.value =
-                                EventCreationScreenMainContract.NeedFormStates.YES
+                                EventEditAndCreationScreensMainContract.NeedFormStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.needFormStates.value =
-                                    EventCreationScreenMainContract.NeedFormStates.YES
+                                    EventEditAndCreationScreensMainContract.NeedFormStates.YES
                             },
                         state = it,
                         text = stringResource(R.string.yes),
                         selected = it.needFormStates.value ==
-                                EventCreationScreenMainContract.NeedFormStates.YES,
+                                EventEditAndCreationScreensMainContract.NeedFormStates.YES,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.needFormStates.value =
-                                EventCreationScreenMainContract.NeedFormStates.NO
+                                EventEditAndCreationScreensMainContract.NeedFormStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.needFormStates.value =
-                                    EventCreationScreenMainContract.NeedFormStates.NO
+                                    EventEditAndCreationScreensMainContract.NeedFormStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.no_have),
                         selected = it.needFormStates.value ==
-                                EventCreationScreenMainContract.NeedFormStates.NO,
+                                EventEditAndCreationScreensMainContract.NeedFormStates.NO,
                         icon = null,
                     )
                 }
@@ -188,7 +191,7 @@ fun EventCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = state.phoneNumberState.value, //TODO()
+                        text = state.phoneNumberState.value,
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -257,7 +260,7 @@ fun EventCreationScreenStep3(
                         tint = avatarGrey,
                     )
                     Text(
-                        text = stringResource(R.string._3_3), //TODO()
+                        text = stringResource(R.string._3_3),
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,
@@ -302,7 +305,7 @@ fun EventCreationScreenStep3(
             }
         }
     }
-    if (currentState.state is EventCreationScreenMainContract.ScreenViewState.Loading) {
+    if (currentState.state is EventEditAndCreationScreensMainContract.ScreenViewState.Loading) {
         Loader()
     }
 }

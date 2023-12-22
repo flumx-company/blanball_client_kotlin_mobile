@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.bgItemsGray
@@ -58,7 +58,7 @@ fun PreviewOfTheEventBottomDrawer(
     state: UiState,
 ) {
     val context = LocalContext.current
-    (state as? EventCreationScreenMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let {
    ModalBottomSheet(
        sheetState = bottomDrawerState,
        containerColor = Color.White,

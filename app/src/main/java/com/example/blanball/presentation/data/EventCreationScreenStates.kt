@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
-class EventCreationScreenMainContract {
+class EventEditAndCreationScreensMainContract {
 
     sealed class Event : UiEvent {
         object CreateNewEventClicked : Event()
         object UsersSearchClicked: Event()
+        object EditEventClicked: Event()
     }
 
     data class State(
@@ -19,7 +20,6 @@ class EventCreationScreenMainContract {
         val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(
             PlayersGenderStates.NO_SELECT
         ),
-        val placeOfEvent: MutableState<String> = mutableStateOf(""),
         val sportType: MutableState<String> = mutableStateOf(""),
         val entryStates: MutableState<EntryStates> = mutableStateOf(EntryStates.NO_SELECT),
         val contributingStates: MutableState<СontributionsStates> = mutableStateOf(
@@ -36,6 +36,7 @@ class EventCreationScreenMainContract {
         val priseSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventCreation: MutableState<Boolean> = mutableStateOf(false),
+        val isErrorEventEdit: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacy: MutableState<EventPrivacyStates> = mutableStateOf(EventPrivacyStates.NO_SELECT),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
@@ -50,7 +51,9 @@ class EventCreationScreenMainContract {
             emptySet()
         ),
         val isValidationActivated: MutableState<Boolean> = mutableStateOf(false),
-        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696))
+        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696)),
+        val isEditOrCreation: MutableState<EditOrCreationState> = mutableStateOf(EditOrCreationState.CREATION),
+        val currentEventId: MutableState<Int> = mutableStateOf(0),
     ) : UiState
 
     sealed class ScreenViewState {
@@ -95,5 +98,10 @@ class EventCreationScreenMainContract {
         NO_SELECT,
         YES,
         NO,
+    }
+
+    enum class EditOrCreationState{
+        EDIT,
+        CREATION,
     }
 }

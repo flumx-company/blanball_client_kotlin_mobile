@@ -5,7 +5,7 @@ import android.location.Geocoder
 import androidx.compose.runtime.MutableState
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import com.google.android.gms.maps.model.LatLng
@@ -115,10 +115,10 @@ internal fun String.formatSportTypeToEnglish(context: Context): String {
 
 internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
-        is EventCreationScreenMainContract.EventPrivacyStates -> {
+        is EventEditAndCreationScreensMainContract.EventPrivacyStates -> {
             when (this) {
-                EventCreationScreenMainContract.EventPrivacyStates.YES -> true
-                EventCreationScreenMainContract.EventPrivacyStates.NO -> false
+                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES -> true
+                EventEditAndCreationScreensMainContract.EventPrivacyStates.NO -> false
                 else -> false
             }
         }
@@ -135,20 +135,20 @@ internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
     }
 }
 
-internal fun EventCreationScreenMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
+internal fun EventEditAndCreationScreensMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
-        EventCreationScreenMainContract.EventPrivacyStates.YES -> true
-        EventCreationScreenMainContract.EventPrivacyStates.NO -> false
+        EventEditAndCreationScreensMainContract.EventPrivacyStates.YES -> true
+        EventEditAndCreationScreensMainContract.EventPrivacyStates.NO -> false
         else -> false
     }
 }
 
 internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
     return when (this) {
-        is EventCreationScreenMainContract.NeedFormStates -> {
+        is EventEditAndCreationScreensMainContract.NeedFormStates -> {
             when (this) {
-                EventCreationScreenMainContract.NeedFormStates.YES -> true
-                EventCreationScreenMainContract.NeedFormStates.NO -> false
+                EventEditAndCreationScreensMainContract.NeedFormStates.YES -> true
+                EventEditAndCreationScreensMainContract.NeedFormStates.NO -> false
                 else -> false
             }
         }
@@ -167,17 +167,17 @@ internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
 
 internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): String {
     return when (this) {
-        is EventCreationScreenMainContract.PlayersGenderStates -> {
+        is EventEditAndCreationScreensMainContract.PlayersGenderStates -> {
             when (this) {
-                EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(
+                EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS -> context.resources.getString(
                     R.string.man
                 )
 
-                EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
+                EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
                     R.string.woman
                 )
 
-                EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+                EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT -> ""
             }
         }
 
@@ -207,13 +207,13 @@ internal fun String.SportTypesStringsToEnglish(context: Context): String {
     }
 }
 
-internal fun EventCreationScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(
+internal fun EventEditAndCreationScreensMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(
     context: Context
 ): String {
     return when (this) {
-        EventCreationScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
-        EventCreationScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
-        EventCreationScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
+        EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
+        EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
+        EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT -> ""
     }
 }
 
