@@ -21,6 +21,7 @@ import com.example.data.backend.models.requests.UpdateUserProfileRequestPlace
 import com.example.data.backend.models.requests.UpdateUserProfileRequestProfile
 import com.example.data.backend.models.responses.errors.CreationAnEventError
 import com.example.data.backend.models.responses.errors.EditEventByIdResponseError
+import com.example.data.backend.models.responses.errors.EditMyProfileError
 import com.example.data.backend.models.responses.errors.EmailPassResetError
 import com.example.data.backend.models.responses.errors.GetAllEventResponseError
 import com.example.data.backend.models.responses.errors.GetEventByIdResponseError
@@ -48,6 +49,8 @@ import com.example.data.utils.ext.toCreationAnEventErrorEntity
 import com.example.data.utils.ext.toCreationAnEventResponseEntity
 import com.example.data.utils.ext.toEditEventByIdResponseEntity
 import com.example.data.utils.ext.toEditEventByIdResponseErrorEntity
+import com.example.data.utils.ext.toEditMyProfileErrorEntity
+import com.example.data.utils.ext.toEditMyProfileResponseEntity
 import com.example.data.utils.ext.toEmailPassResetErrorEntity
 import com.example.data.utils.ext.toEmailResetResponse
 import com.example.data.utils.ext.toErrorResponse
@@ -84,11 +87,14 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.ErrorResponse
+import com.example.domain.entity.responses.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.SendCodeErrorEntity
+import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
 import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
 import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
@@ -101,8 +107,6 @@ import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErro
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
-import com.example.domain.entity.responses.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.SendCodeErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
 import com.example.domain.entity.results.CreationAnEventResultEntity
@@ -138,6 +142,62 @@ class AppRepositoryImpl @Inject constructor(
     internal val userPhoneManager: UserPhoneManager,
     internal val userNameManager: UserNameManager,
 ) : AppRepository {
+
+    override suspend fun editMyProfile(
+        phone: String,
+        email: Boolean,
+        emailRequestConfiguration: Boolean,
+        phoneRequestConfiguration: Boolean,
+        showReviewsRequestConfiguration: Boolean,
+        about_me: String,
+        birthday: String,
+        gender: String,
+        height: Int,
+        last_name: String,
+        name: String,
+        position: String,
+        weight: Int,
+        working_leg: String,
+        lat: Double,
+        lon: Double,
+        place_name: String
+    ): EditMyProfileResultEntity {
+        return try {
+            val editMyProfileResponse = service.ediMyProfile(editMyProfileRequest = EditMyProfileRequest(
+                configuration = EditMyProfileRequestConfiguration(
+                    email = email,
+                    phone = phoneRequestConfiguration,
+                    show_reviews = showReviewsRequestConfiguration,
+                    ),
+                phone = phone,
+                profile = EditMyProfileRequestProfile(
+                    about_me = about_me,
+                    birthday = birthday,
+                    gender = gender,
+                    height = 0,
+                    last_name = last_name,
+                    name = name,
+                    place = EditMyProfileRequestPlace(
+                        lat = lat,
+                        lon = lon,
+                        place_name = place_name
+                    ),
+                    position = position,
+                    weight = 0,
+                    working_leg = working_leg,
+                )
+                )
+            )
+            val editMyProfileResponseDomain = editMyProfileResponse.toEditMyProfileResponseEntity()
+            EditMyProfileResultEntity.Success(data = editMyProfileResponseDomain)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<EditMyProfileError, EditMyProfileErrorEntity>(ex){
+                it.toEditMyProfileErrorEntity()
+            }
+            EditMyProfileResultEntity.Error(error = errorResponse.data.errors[0])
+        }
+    }
 
     override suspend fun getRelevantUserSearchList(
         search: String,
@@ -178,59 +238,6 @@ class AppRepositoryImpl @Inject constructor(
             GetIsTechnicalWorkStatusResultEntity.Error(errorResponse.data.errors[0])
         }
     }
-
-            override suspend fun editMyProfile(
-            phone: String,
-            email: Boolean,
-            emailRequestConfiguration: Boolean,
-            phoneRequestConfiguration: Boolean,
-            showReviewsRequestConfiguration: Boolean,
-            about_me: String,
-            birthday: String,
-            gender: String,
-            height: Int,
-            last_name: String,
-            name: String,
-            position: String,
-            weight: Int,
-            working_leg: String,
-            lat: Double,
-            lon: Double,
-            place_name: String
-        ): EditMyProfileResultEntity {
-            return try {
-                val editMyProfileByIdResponse = service.ediMyProfile(
-                    EditMyProfileRequest(
-                        phone = phone,
-                        configuration = EditMyProfileRequestConfiguration(
-                            email = emailRequestConfiguration,
-                            phone = phoneRequestConfiguration,
-                            show_reviews = showReviewsRequestConfiguration,
-                        ),
-                        profile = EditMyProfileRequestProfile(
-                            about_me = about_me,
-                            birthday = birthday,
-                            gender = gender,
-                            height = height,
-                            last_name = last_name,
-                            name = name,
-                            place = EditMyProfileRequestPlace(
-                                lat = lat,
-                                lon = lon,
-                                place_name = place_name,
-                            ),
-                            position = position,
-                            weight = weight,
-                            working_leg = working_leg,
-                        ),
-                    )
-                )
-                val editMyProfileByIdResponseDomain = editMyProfileByIdResponse.
-            } catch (ex: HttpException) {
-
-                EditEventByIdResultEntity.Error(errorResponse.data.errors[0])
-            }
-        }
 
     override suspend fun postEmailVerifyCode(code: String): PostEmailVerifyCodeResultEntity {
         return try {

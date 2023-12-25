@@ -160,8 +160,8 @@ interface AppRepository {
         position: String,
         weight: Int,
         working_leg: String,
-        lat: Int,
-        lon: Int,
+        lat: Double,
+        lon: Double,
         place_name: String,
     ): EditMyProfileResultEntity
 
