@@ -925,7 +925,7 @@ fun AppScreensConfig(
             val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
 
             LaunchedEffect(key1 = Unit, block = {
-                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendGetMyProfileRequest)
             }) //TODO
 
             Scaffold(

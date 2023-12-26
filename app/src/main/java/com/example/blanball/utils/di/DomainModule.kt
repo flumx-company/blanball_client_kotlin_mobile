@@ -34,6 +34,7 @@ import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
+import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.Binds
 import dagger.Module
@@ -96,6 +97,6 @@ interface DomainModule {
 
     @Binds
     fun bindSendingRequestToChangeUserProfileUseCase(SendingRequestToChangeUserProfileUseCaseImpl: SendingRequestToChangeUserProfileUseCaseImpl
-    ): GetRelevantUserSearchListUseCase
+    ): SendingRequestToChangeUserProfileUseCase
 
 }

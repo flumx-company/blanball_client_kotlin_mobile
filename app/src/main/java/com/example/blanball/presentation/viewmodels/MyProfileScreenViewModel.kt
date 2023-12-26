@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
+import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatRatingToFloat
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
@@ -45,17 +46,14 @@ class MyProfileScreenViewModel @Inject constructor(
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    fun handleScreenState(screenViewState: MyProfileScreensMainContract.ScreenViewState) {
-        when (screenViewState) {
-            is MyProfileScreensMainContract.ScreenViewState.Loading -> {
+    fun handleScreenState(event: UiEvent) {
+        when (event) {
+            is MyProfileScreensMainContract.Event.SendGetMyProfileRequest -> {
                 getMyProfile()
             }
-
-            is MyProfileScreensMainContract.ScreenViewState.LoadingError -> {
+            is MyProfileScreensMainContract.Event.SendEditMyProfileRequest -> {
+                updateMyProfile()
             }
-
-            is
-
             else -> {}
         }
     }
@@ -150,24 +148,24 @@ class MyProfileScreenViewModel @Inject constructor(
                                     splittedFullName?.get(1) ?: ""
                                 ),
                                 myAvatarUrl = mutableStateOf(userAvatarUrl ?: ""),
-                                aboutMeText = mutableStateOf(result.success.profile.about_me ?: ""),
-                                phoneText = mutableStateOf(userNumber ?: ""),
+                                aboutMeText = mutableStateOf(result.success.profile.about_me ?: "--"),
+                                phoneText = mutableStateOf(userNumber ?: "--"),
                                 heightState = mutableStateOf(
-                                    result.success?.profile?.height?.toString() ?: ""
+                                    result.success?.profile?.height?.toString() ?: "--"
                                 ),
                                 weightState = mutableStateOf(
-                                    result.success?.profile?.weight?.toString() ?: ""
+                                    result.success?.profile?.weight?.toString() ?: "--"
                                 ),
 
                                 workingLegState = mutableStateOf(
-                                    result.success.profile.working_leg ?: ""
+                                    result.success.profile.working_leg ?: "--"
                                 ),
                                 positionState = mutableStateOf(
-                                    result.success.profile.position ?: ""
+                                    result.success.profile.position ?: "--"
                                 ),
                                 emailStringState = mutableStateOf(result.success.email ?: ""),
                                 myGenderState = mutableStateOf(result.success.profile.gender ?: ""),
-                                roleState = mutableStateOf(result.success.role ?: ""),
+                                roleState = mutableStateOf(result.success.role ?: "--"),
                                 birthdayState = mutableStateOf(
                                     result.success.profile.birthday ?: ""
                                 ),
