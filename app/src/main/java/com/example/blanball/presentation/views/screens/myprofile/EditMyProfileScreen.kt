@@ -183,11 +183,11 @@ fun EditMyProfileScreen(
                                         .fillMaxSize()
                                 )
                                 Text(
-                                    text = "${state.myLastNameText.value.firstOrNull() ?: ""} ${state.myFirstNameText.value.firstOrNull() ?: ""}",
+                                    text = "${state.myLastNameText.value.firstOrNull() ?: ""}${state.myFirstNameText.value.firstOrNull() ?: ""}",
                                     modifier = Modifier.align(
                                         Alignment.Center
                                     ),
-                                    style = typography.h2, fontSize = 56.sp, color = mainGreen
+                                    style = typography.h2, fontSize = 22.sp, color = mainGreen
                                 )
                             }
                         } else {
@@ -203,7 +203,7 @@ fun EditMyProfileScreen(
                         Spacer(modifier = Modifier.size(12.dp))
                         Column {
                             Text(
-                                text = "Стефанія Калиновська", //TODO()
+                                text = "${state.myFirstNameText.value} ${state.myLastNameText.value}",
                                 fontSize = 18.sp,
                                 lineHeight = 24.sp,
                                 style = typography.h4,
@@ -591,7 +591,7 @@ fun EditMyProfileScreen(
                         .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
-                        text = "stefa.kalyna@gmail.com",
+                        text = it.emailStringState.value,
                         fontSize = 13.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,
