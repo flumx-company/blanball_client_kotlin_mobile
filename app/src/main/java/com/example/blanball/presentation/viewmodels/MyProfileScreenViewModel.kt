@@ -9,8 +9,10 @@ import com.example.blanball.utils.ext.formatRatingToFloat
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
+import com.example.domain.entity.results.EditMyProfileResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
+import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyProfileScreenViewModel @Inject constructor(
     internal val getMyProfileUseCase: GetMyProfileUseCase,
+    internal val sendingRequestToChangeUserProfileUseCase: SendingRequestToChangeUserProfileUseCase,
     internal val userNameManager: UserNameManager,
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val phoneNumberManager: UserPhoneManager,
@@ -47,9 +50,77 @@ class MyProfileScreenViewModel @Inject constructor(
             is MyProfileScreensMainContract.ScreenViewState.Loading -> {
                 getMyProfile()
             }
+
             is MyProfileScreensMainContract.ScreenViewState.LoadingError -> {
             }
+
+            is
+
             else -> {}
+        }
+    }
+
+    fun updateMyProfile() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            sendingRequestToChangeUserProfileUseCase.executeEditUserProfileRequest(
+                phone = currentState.phoneText.value,
+                email = false,
+                emailRequestConfiguration = false,
+                phoneRequestConfiguration = false,
+                showReviewsRequestConfiguration = false,
+                about_me = currentState.aboutMeText.value,
+                birthday = currentState.birthdayState.value,
+                gender = currentState.myGenderState.value,
+                height = currentState.heightState.value.toInt(),
+                last_name = currentState.myLastNameText.value,
+                name = currentState.myFirstNameText.value,
+                position = currentState.positionState.value,
+                weight = currentState.weightState.value.toInt(),
+                working_leg = currentState.workingLegState.value,
+                lat = 0.0,
+                lon = 0.0,
+                place_name = currentState.placeState.value,
+            ).let { result ->
+                when (result) {
+                    is EditMyProfileResultEntity.Success ->
+                        setState {
+                            copy(
+                                state = MyProfileScreensMainContract.ScreenViewState.EditProfileRequestSuccess,
+                                myAvatarUrl = mutableStateOf(""),
+                                myFirstNameText = mutableStateOf(""),
+                                myLastNameText = mutableStateOf(""),
+                                phoneNumberRadioButtonState = mutableStateOf(false),
+                                emailRadioButtonState = mutableStateOf(false),
+                                myReviewsRadioButtonState = mutableStateOf(false),
+                                plannedEventsRadioButtonState = mutableStateOf(false),
+                                aboutMeText = mutableStateOf(""),
+                                phoneText = mutableStateOf(""),
+                                heightState = mutableStateOf(""),
+                                weightState = mutableStateOf(""),
+                                workingLegState = mutableStateOf(""),
+                                positionState = mutableStateOf(""),
+                                regionState = mutableStateOf(""),
+                                cityState = mutableStateOf(""),
+                                editDayBirthdayState = mutableStateOf(""),
+                                editMonthBirthdayState = mutableStateOf(""),
+                                editYearBirthdayState = mutableStateOf(""),
+                                emailStringState = mutableStateOf(""),
+                                myGenderState = mutableStateOf(""),
+                                roleState = mutableStateOf(""),
+                                birthdayState = mutableStateOf(""),
+                                placeState = mutableStateOf(""),
+                                ratingState = mutableStateOf(0f),
+                            )
+                        }
+
+                    is EditMyProfileResultEntity.Error ->
+                        setState {
+                            copy(
+                                state = MyProfileScreensMainContract.ScreenViewState.EditProfileRequestError
+                            )
+                        }
+                }
+            }
         }
     }
 

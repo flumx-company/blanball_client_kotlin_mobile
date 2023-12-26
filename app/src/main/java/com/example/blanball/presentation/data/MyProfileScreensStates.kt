@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 class MyProfileScreensMainContract {
 
     sealed class Event : UiEvent {
+        object SendGetMyProfileRequest: UiEvent
+        object SendEditMyProfileRequest: UiEvent
     }
 
     data class State(
@@ -45,5 +47,7 @@ class MyProfileScreensMainContract {
         object Loading : ScreenViewState()
         object LoadingSuccess: ScreenViewState()
         object LoadingError : ScreenViewState()
+        object EditProfileRequestSuccess : ScreenViewState()
+        object EditProfileRequestError : ScreenViewState()
     }
 }

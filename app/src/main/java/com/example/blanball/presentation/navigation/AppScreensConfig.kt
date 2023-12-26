@@ -926,7 +926,7 @@ fun AppScreensConfig(
 
             LaunchedEffect(key1 = Unit, block = {
                 myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
-            })
+            }) //TODO
 
             Scaffold(
                 scaffoldState = scaffoldState,
