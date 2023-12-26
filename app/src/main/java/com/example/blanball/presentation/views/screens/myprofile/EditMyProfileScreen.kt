@@ -72,7 +72,7 @@ fun EditMyProfileScreen(
     state: UiState,
     paddingValues: PaddingValues,
     cancelBtnClicked: () -> Unit,
-    saveBtnClicked: () -> Unit,
+    onSaveChangesClicked: () -> Unit,
 ) {
     val localFocusManager = LocalFocusManager.current
     val regions = mutableListOf(
@@ -252,7 +252,7 @@ fun EditMyProfileScreen(
                 DefaultTextInput(
                     labelResId = R.string.a_few_words_about_me,
                     state = it,
-                    value = it.aboutMeText.value,
+                    value = it.aboutMeText.value ?: "",
                     onValueChange = { state.aboutMeText.value = it },
                     transformation = VisualTransformation.None,
                 )
@@ -355,7 +355,7 @@ fun EditMyProfileScreen(
                             .fillMaxWidth(),
                         state = it,
                         labelResId = R.string.height,
-                        value = it.heightState.value,
+                        value = it.heightState.value ?:"",
                         onValueChange = { state.heightState.value = it },
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -381,7 +381,7 @@ fun EditMyProfileScreen(
                             .fillMaxWidth(),
                         state = it,
                         labelResId = R.string.weight,
-                        value = it.weightState.value,
+                        value = it.weightState.value ?: "",
                         onValueChange = { state.weightState.value = it },
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -411,10 +411,38 @@ fun EditMyProfileScreen(
                             stringResource(id = R.string.right_leg),
                             stringResource(id = R.string.left_leg)
                         ),
-                        value = it.workingLegState.value,
+                        value = it.workingLegState.value ?:"",
                         onValueChange = { state.workingLegState.value = it },
                     )
                 }
+                Spacer(modifier = Modifier.size(12.dp))
+                CustomDropDownMenu(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    labelResId = R.string.game_position,
+                    listItems = listOf(
+                        stringResource(id = R.string.any_position),
+                        stringResource(id = R.string.goalkeeper),
+                        stringResource(id = R.string.right_defender),
+                        stringResource(id = R.string.left_defender),
+                        stringResource(id = R.string.central_defender),
+                        stringResource(id = R.string.left_flank_defender),
+                        stringResource(id = R.string.right_flank_defender),
+                        stringResource(id = R.string.supporting_mid_defender),
+                        stringResource(id = R.string.left_mid_defender),
+                        stringResource(id = R.string.attacking_mid_defender),
+                        stringResource(id = R.string.right_winger),
+                        stringResource(id = R.string.left_winger),
+                        stringResource(id = R.string.right_flank_attacker),
+                        stringResource(id = R.string.left_flank_attacker),
+                        stringResource(id = R.string.central_forward),
+                        stringResource(id = R.string.left_forward),
+                        stringResource(id = R.string.right_forward),
+                        stringResource(id = R.string.forward_striker),
+                    ),
+                    value = it.positionState.value ?: "",
+                    onValueChange = { state.positionState.value = it },
+                )
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.contacts),
@@ -428,7 +456,7 @@ fun EditMyProfileScreen(
                 DefaultTextInput(
                     labelResId = R.string.phone,
                     state = it,
-                    value = state.phoneText.value,
+                    value = state.phoneText.value ?: "",
                     onValueChange = { state.phoneText.value = it },
                     transformation = VisualTransformation.None,
                 )
@@ -623,8 +651,8 @@ fun EditMyProfileScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true, //TODO()
-                    nextBtnOnClick = { /*TODO*/ },
-                    prevBtnOnClick = { /*TODO*/ },
+                    nextBtnOnClick = { },
+                    prevBtnOnClick = { onSaveChangesClicked() },
                     nextBtnOnTextId = R.string.cancel,
                     prevBtnOnTextId = R.string.save,
                     cancelButtonColor = mainGreen,

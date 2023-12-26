@@ -1235,7 +1235,9 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = paddingValues,
                         cancelBtnClicked = { /*TODO*/ },
-                        saveBtnClicked = {},
+                        onSaveChangesClicked = {
+                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                        }
                     )
                 }
             )

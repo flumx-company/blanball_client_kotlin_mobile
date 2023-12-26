@@ -188,7 +188,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.aboutMeText.value,
+                    text = state.aboutMeText.value ?: "--",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -259,9 +259,11 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier
-                        .height(44.dp)
-                        .width(1.dp))
+                    Divider(
+                        color = defaultLightGray, modifier = Modifier
+                            .height(44.dp)
+                            .width(1.dp)
+                    )
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -282,13 +284,15 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier
-                        .height(44.dp)
-                        .width(1.dp))
+                    Divider(
+                        color = defaultLightGray, modifier = Modifier
+                            .height(44.dp)
+                            .width(1.dp)
+                    )
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = state.workingLegState.value,
+                            text = state.workingLegState.value ?: "--",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -310,7 +314,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.positionState.value,
+                    text = state.positionState.value ?: "--",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -320,11 +324,11 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(id = R.string.game_position),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -337,12 +341,12 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.phoneText.value,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
+                    text = state.phoneText.value ?: "--",
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                style = typography.h4,
+                fontWeight = FontWeight(400),
+                color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
@@ -545,13 +549,14 @@ fun MyProfileScreen(
                     )
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                Box (modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .clickable { deleteAccBtnClicked() }
-                    .padding(top = 12.dp, bottom = 12.dp),
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .clickable { deleteAccBtnClicked() }
+                        .padding(top = 12.dp, bottom = 12.dp),
                     contentAlignment = Alignment.Center,
-                    ) {
+                ) {
                     Text(
                         text = stringResource(R.string.delete_acc),
                         fontSize = 14.sp,

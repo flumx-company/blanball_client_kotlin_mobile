@@ -1,12 +1,15 @@
 package com.example.blanball.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.formatPositionToEnglish
 import com.example.blanball.utils.ext.formatRatingToFloat
+import com.example.blanball.utils.ext.formatWorkingLegToEnglishWord
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -31,6 +34,7 @@ class MyProfileScreenViewModel @Inject constructor(
     internal val userNameManager: UserNameManager,
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val phoneNumberManager: UserPhoneManager,
+    private val application: Application
 ) : ViewModel() {
     private var job: Job? = null
 
@@ -61,23 +65,23 @@ class MyProfileScreenViewModel @Inject constructor(
     fun updateMyProfile() {
         job = viewModelScope.launch(Dispatchers.IO) {
             sendingRequestToChangeUserProfileUseCase.executeEditUserProfileRequest(
-                phone = currentState.phoneText.value,
+                phone = currentState.phoneText.value.orEmpty(),
                 email = false,
                 emailRequestConfiguration = false,
                 phoneRequestConfiguration = false,
                 showReviewsRequestConfiguration = false,
-                about_me = currentState.aboutMeText.value,
+                about_me = currentState.aboutMeText.value.orEmpty(),
                 birthday = currentState.birthdayState.value,
                 gender = currentState.myGenderState.value,
-                height = currentState.heightState.value.toInt(),
+                height = currentState.heightState.value?.toInt(),
                 last_name = currentState.myLastNameText.value,
                 name = currentState.myFirstNameText.value,
-                position = currentState.positionState.value,
-                weight = currentState.weightState.value.toInt(),
-                working_leg = currentState.workingLegState.value,
+                position = currentState.positionState.value?.formatPositionToEnglish(application.applicationContext),
+                weight = currentState.weightState.value?.toInt(),
+                working_leg = currentState.workingLegState.value?.formatWorkingLegToEnglishWord(application.applicationContext),
                 lat = 0.0,
                 lon = 0.0,
-                place_name = currentState.placeState.value,
+                place_name = "${currentState.cityState.value}, ${currentState.regionState.value}",
             ).let { result ->
                 when (result) {
                     is EditMyProfileResultEntity.Success ->

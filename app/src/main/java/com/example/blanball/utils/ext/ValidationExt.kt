@@ -65,22 +65,22 @@ internal fun String.isNotValidBirthYear(): Boolean {
     return !isValidBirthYear() && isNotEmpty()
 }
 
-internal fun String.isValidHeight(): Boolean {
-    val height = this.toIntOrNull()
+internal fun String?.isValidHeight(): Boolean {
+    val height = this?.toIntOrNull()
     return height != null && height in Integers.ONE_HUNDRED_AND_FORTY_FIVE..Integers.TWO_HUNDRED_AND_TEN
 }
 
-internal fun String.isNotValidHeight(): Boolean {
-    return !isValidHeight() && isNotEmpty()
+internal fun String?.isNotValidHeight(): Boolean {
+    return !isValidHeight() && isNullOrEmpty()
 }
 
-internal fun String.isValidWeight(): Boolean {
-    val weight = this.toIntOrNull()
+internal fun String?.isValidWeight(): Boolean {
+    val weight = this?.toIntOrNull()
     return weight != null && weight in Integers.THIRTY..Integers.TWO_HUNDRED_AND_TEN
 }
 
-internal fun String.isNotValidWeight(): Boolean {
-    return !isValidWeight() && isNotEmpty()
+internal fun String?.isNotValidWeight(): Boolean {
+    return !isValidWeight() && isNullOrEmpty()
 }
 
 internal fun String.isValidErrorTopicField(): Boolean {
