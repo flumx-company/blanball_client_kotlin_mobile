@@ -174,7 +174,7 @@ class AppRepositoryImpl @Inject constructor(
                     about_me = about_me,
                     birthday = birthday,
                     gender = gender,
-                    height = 0,
+                    height = height,
                     last_name = last_name,
                     name = name,
                     place = EditMyProfileRequestPlace(
@@ -183,7 +183,7 @@ class AppRepositoryImpl @Inject constructor(
                         place_name = place_name
                     ),
                     position = position,
-                    weight = 0,
+                    weight = weight,
                     working_leg = working_leg,
                 )
                 )

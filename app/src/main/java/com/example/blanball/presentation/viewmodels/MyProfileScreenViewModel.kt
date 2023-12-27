@@ -71,7 +71,7 @@ class MyProfileScreenViewModel @Inject constructor(
                 phoneRequestConfiguration = false,
                 showReviewsRequestConfiguration = false,
                 about_me = currentState.aboutMeText.value.orEmpty(),
-                birthday = currentState.birthdayState.value,
+                birthday = "${currentState.editYearBirthdayState.value}-${currentState.editMonthBirthdayState.value}-${currentState.editDayBirthdayState.value}",
                 gender = currentState.myGenderState.value,
                 height = currentState.heightState.value?.toInt(),
                 last_name = currentState.myLastNameText.value,
