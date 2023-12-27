@@ -10,7 +10,6 @@ class SendingRequestToChangeUserProfileUseCaseImpl
     SendingRequestToChangeUserProfileUseCase {
     override suspend fun executeEditUserProfileRequest(
         phone: String,
-        email: Boolean,
         emailRequestConfiguration: Boolean,
         phoneRequestConfiguration: Boolean,
         showReviewsRequestConfiguration: Boolean,
@@ -29,7 +28,6 @@ class SendingRequestToChangeUserProfileUseCaseImpl
     ): EditMyProfileResultEntity {
         return appRepository.editMyProfile(
             phone = phone,
-            email = email,
             emailRequestConfiguration = emailRequestConfiguration,
             phoneRequestConfiguration = phoneRequestConfiguration,
             showReviewsRequestConfiguration = showReviewsRequestConfiguration,

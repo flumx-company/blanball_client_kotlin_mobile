@@ -147,7 +147,6 @@ interface AppRepository {
 
     suspend fun editMyProfile(
         phone: String,
-        email: Boolean,
         emailRequestConfiguration: Boolean,
         phoneRequestConfiguration: Boolean,
         showReviewsRequestConfiguration: Boolean,

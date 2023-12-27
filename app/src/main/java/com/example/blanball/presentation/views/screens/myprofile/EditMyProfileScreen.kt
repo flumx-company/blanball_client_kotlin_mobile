@@ -542,23 +542,6 @@ fun EditMyProfileScreen(
                         selected = it.myReviewsRadioButtonState.value,
                     )
                 }
-                Spacer(modifier = Modifier.size(20.dp))
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.planned_events_1),
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = lightGray,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    SwitchButton(
-                        state = it,
-                        onCheckedChange = { state.plannedEventsRadioButtonState.value = it },
-                        selected = it.plannedEventsRadioButtonState.value,
-                    )
-                }
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

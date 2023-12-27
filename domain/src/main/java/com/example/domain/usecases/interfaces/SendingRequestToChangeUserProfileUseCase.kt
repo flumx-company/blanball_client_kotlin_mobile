@@ -5,7 +5,6 @@ import com.example.domain.entity.results.EditMyProfileResultEntity
 interface SendingRequestToChangeUserProfileUseCase {
     suspend fun executeEditUserProfileRequest(
         phone: String,
-        email: Boolean,
         emailRequestConfiguration: Boolean,
         phoneRequestConfiguration: Boolean,
         showReviewsRequestConfiguration: Boolean,

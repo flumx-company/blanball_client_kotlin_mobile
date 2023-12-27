@@ -66,10 +66,9 @@ class MyProfileScreenViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             sendingRequestToChangeUserProfileUseCase.executeEditUserProfileRequest(
                 phone = currentState.phoneText.value.orEmpty(),
-                email = false,
-                emailRequestConfiguration = false,
-                phoneRequestConfiguration = false,
-                showReviewsRequestConfiguration = false,
+                emailRequestConfiguration = currentState.emailRadioButtonState.value,
+                phoneRequestConfiguration = currentState.phoneNumberRadioButtonState.value,
+                showReviewsRequestConfiguration = currentState.myReviewsRadioButtonState.value,
                 about_me = currentState.aboutMeText.value.orEmpty(),
                 birthday = "${currentState.editYearBirthdayState.value}-${currentState.editMonthBirthdayState.value}-${currentState.editDayBirthdayState.value}",
                 gender = currentState.myGenderState.value,
@@ -151,25 +150,28 @@ class MyProfileScreenViewModel @Inject constructor(
                                 myLastNameText = mutableStateOf(
                                     splittedFullName?.get(1) ?: ""
                                 ),
+                                emailRadioButtonState = mutableStateOf(result.success.configuration.email),
+                                myReviewsRadioButtonState = mutableStateOf(result.success.configuration.show_reviews),
+                                phoneNumberRadioButtonState = mutableStateOf(result.success.configuration.phone),
                                 myAvatarUrl = mutableStateOf(userAvatarUrl ?: ""),
-                                aboutMeText = mutableStateOf(result.success.profile.about_me ?: "--"),
-                                phoneText = mutableStateOf(userNumber ?: "--"),
+                                aboutMeText = mutableStateOf(result.success.profile.about_me ?: ""),
+                                phoneText = mutableStateOf(userNumber ?: ""),
                                 heightState = mutableStateOf(
-                                    result.success?.profile?.height?.toString() ?: "--"
+                                    result.success?.profile?.height?.toString() ?: ""
                                 ),
                                 weightState = mutableStateOf(
-                                    result.success?.profile?.weight?.toString() ?: "--"
+                                    result.success?.profile?.weight?.toString() ?: ""
                                 ),
 
                                 workingLegState = mutableStateOf(
-                                    result.success.profile.working_leg ?: "--"
+                                    result.success.profile.working_leg ?: ""
                                 ),
                                 positionState = mutableStateOf(
-                                    result.success.profile.position ?: "--"
+                                    result.success.profile.position ?: ""
                                 ),
                                 emailStringState = mutableStateOf(result.success.email ?: ""),
                                 myGenderState = mutableStateOf(result.success.profile.gender ?: ""),
-                                roleState = mutableStateOf(result.success.role ?: "--"),
+                                roleState = mutableStateOf(result.success.role ?: ""),
                                 birthdayState = mutableStateOf(
                                     result.success.profile.birthday ?: ""
                                 ),

@@ -145,7 +145,6 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun editMyProfile(
         phone: String,
-        email: Boolean,
         emailRequestConfiguration: Boolean,
         phoneRequestConfiguration: Boolean,
         showReviewsRequestConfiguration: Boolean,
@@ -165,7 +164,7 @@ class AppRepositoryImpl @Inject constructor(
         return try {
             val editMyProfileResponse = service.ediMyProfile(editMyProfileRequest = EditMyProfileRequest(
                 configuration = EditMyProfileRequestConfiguration(
-                    email = email,
+                    email = emailRequestConfiguration,
                     phone = phoneRequestConfiguration,
                     show_reviews = showReviewsRequestConfiguration,
                     ),
