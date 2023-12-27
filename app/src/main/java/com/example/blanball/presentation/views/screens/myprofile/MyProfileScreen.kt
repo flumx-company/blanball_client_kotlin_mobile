@@ -188,7 +188,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.aboutMeText.value ?: "--",
+                    text = state.aboutMeText.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -208,7 +208,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.birthdayState.value.toFormattedBirthdayDate() ?: "",
+                    text = state.birthdayState.value.toFormattedBirthdayDate().ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -242,7 +242,7 @@ fun MyProfileScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "${state.heightState.value} ${stringResource(id = R.string.height_meas_units)}",
+                            text = "${state.heightState.value.ifEmpty { "--" }} ${stringResource(id = R.string.height_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -267,7 +267,7 @@ fun MyProfileScreen(
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "${state.weightState.value} ${stringResource(id = R.string.weight_meas_units)}",
+                            text = "${state.weightState.value.ifEmpty { "--" }} ${stringResource(id = R.string.weight_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -292,7 +292,7 @@ fun MyProfileScreen(
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = state.workingLegState.value ?: "--",
+                            text = state.workingLegState.value.ifEmpty { "--" },
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -314,7 +314,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.positionState.value ?: "--",
+                    text = state.positionState.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -341,7 +341,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.phoneText.value ?: "--",
+                    text = state.phoneText.value.ifEmpty { "--" },
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
@@ -361,7 +361,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.placeState.value,
+                    text = state.placeState.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -463,7 +463,7 @@ fun MyProfileScreen(
                         .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
-                        text = "7 подій приховано",
+                        text = "7 " + stringResource(id = R.string.event_are_hint),
                         fontSize = 13.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,

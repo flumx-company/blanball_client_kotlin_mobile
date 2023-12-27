@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,6 +62,8 @@ import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
+import com.example.blanball.utils.ext.formatEnglishAbbreviationToPosition
+import com.example.blanball.utils.ext.formatEnglishWordToWorkingLeg
 import com.example.blanball.utils.ext.isNotValidBirthDay
 import com.example.blanball.utils.ext.isNotValidBirthMonth
 import com.example.blanball.utils.ext.isNotValidBirthYear
@@ -74,6 +77,7 @@ fun EditMyProfileScreen(
     cancelBtnClicked: () -> Unit,
     onSaveChangesClicked: () -> Unit,
 ) {
+    val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
     val regions = mutableListOf(
         stringResource(id = R.string.vinnytska_region),
@@ -411,7 +415,7 @@ fun EditMyProfileScreen(
                             stringResource(id = R.string.right_leg),
                             stringResource(id = R.string.left_leg)
                         ),
-                        value = it.workingLegState.value ?:"",
+                        value = it.workingLegState.value.formatEnglishWordToWorkingLeg(context = context),
                         onValueChange = { state.workingLegState.value = it },
                     )
                 }
@@ -440,7 +444,7 @@ fun EditMyProfileScreen(
                         stringResource(id = R.string.right_forward),
                         stringResource(id = R.string.forward_striker),
                     ),
-                    value = it.positionState.value ?: "",
+                    value = it.positionState.value.formatEnglishAbbreviationToPosition(context = context),
                     onValueChange = { state.positionState.value = it },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
@@ -634,10 +638,10 @@ fun EditMyProfileScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true, //TODO()
-                    nextBtnOnClick = { },
-                    prevBtnOnClick = { onSaveChangesClicked() },
-                    nextBtnOnTextId = R.string.cancel,
-                    prevBtnOnTextId = R.string.save,
+                    nextBtnOnClick = { onSaveChangesClicked() },
+                    prevBtnOnClick = {  },
+                    nextBtnOnTextId = R.string.save,
+                    prevBtnOnTextId = R.string.cancel,
                     cancelButtonColor = mainGreen,
                     borderCancelButtonColor = mainGreen,
                 )

@@ -1237,6 +1237,7 @@ fun AppScreensConfig(
                         cancelBtnClicked = { /*TODO*/ },
                         onSaveChangesClicked = {
                             myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                            navController.navigate(Destinations.MY_PROFILE.route)
                         }
                     )
                 }
