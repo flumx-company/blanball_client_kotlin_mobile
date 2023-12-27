@@ -548,7 +548,7 @@ fun MyProfileScreen(
                         color = errorRed,
                     )
                 }
-                Spacer(modifier = Modifier.size(44.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()

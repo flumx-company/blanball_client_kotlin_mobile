@@ -368,6 +368,20 @@ internal fun String.toFormattedBirthdayDate(): String {
     }
 }
 
+internal fun String.toBirthdayDay(): String {
+    if (this.isEmpty()){
+        return ""
+    }
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd", Locale("uk",  "UA"))
+     return try {
+        val date = inputFormat.parse(this)
+        date.let { outputFormat.format(it) }
+    } catch (e: Exception) {
+        this
+    }
+}
+
 fun String.calculateAge(): String {
     if (this.isEmpty()) {
         return ""

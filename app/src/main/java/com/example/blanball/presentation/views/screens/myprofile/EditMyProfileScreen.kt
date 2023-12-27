@@ -69,6 +69,7 @@ import com.example.blanball.utils.ext.isNotValidBirthMonth
 import com.example.blanball.utils.ext.isNotValidBirthYear
 import com.example.blanball.utils.ext.isNotValidHeight
 import com.example.blanball.utils.ext.isNotValidWeight
+import com.example.blanball.utils.ext.toBirthdayDay
 
 @Composable
 fun EditMyProfileScreen(
@@ -226,7 +227,7 @@ fun EditMyProfileScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                MyRatingCard(4.7f)
+                MyRatingCard(ratingValue = state.ratingState.value)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = stringResource(R.string.about_me),
@@ -265,7 +266,7 @@ fun EditMyProfileScreen(
                     BottomLineDefaultTextInput(
                         labelResId = R.string.day,
                         modifier = Modifier.weight(1f),
-                        value = it.editDayBirthdayState.value,
+                        value = it.editDayBirthdayState.value.toBirthdayDay(),
                         onValueChange = { state.editDayBirthdayState.value = it },
                         state = it,
                         transformation = VisualTransformation.None,
