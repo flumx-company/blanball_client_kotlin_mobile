@@ -154,7 +154,8 @@ fun EditMyProfileScreen(
             LookProfileFromTheSideModal(
                 onNavigateToDemoClicked = { onNavigateToDemoClicked() },
                 onSimpleSaveClicked = { onSimpleSaveClicked() },
-                onCancelEditsClicked = { onCancelEditsClicked() }
+                onCancelEditsClicked = { onCancelEditsClicked() },
+                onCloseModalClicked = { state.isModalOpen.value = false },
             )
         }
             Column(

@@ -39,6 +39,7 @@ fun LookProfileFromTheSideModal(
     onNavigateToDemoClicked: () -> Unit,
     onSimpleSaveClicked: () -> Unit,
     onCancelEditsClicked: () -> Unit,
+    onCloseModalClicked: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     AlertDialog(
@@ -60,6 +61,9 @@ fun LookProfileFromTheSideModal(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
+                    modifier = Modifier.clickable {
+                        onCloseModalClicked()
+                    },
                     painter = painterResource(id = R.drawable.ic_cancel),
                     contentDescription = null,
                     tint = Color.White,

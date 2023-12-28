@@ -1236,9 +1236,14 @@ fun AppScreensConfig(
                         state = state,
                         paddingValues = paddingValues,
                         onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
-                        onNavigateToDemoClicked = { -> },
-                        onSimpleSaveClicked = { -> },
-                        onCancelEditsClicked = { -> }
+                        onNavigateToDemoClicked = { navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) },
+                        onSimpleSaveClicked = {
+                            navController.navigate(Destinations.MY_PROFILE.route)
+                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                                              },
+                        onCancelEditsClicked = {
+                            navController.navigate(Destinations.MY_PROFILE.route)
+                        }
                     )
                 }
             )
