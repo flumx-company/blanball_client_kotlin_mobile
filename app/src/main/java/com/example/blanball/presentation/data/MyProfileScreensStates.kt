@@ -36,6 +36,7 @@ class MyProfileScreensMainContract {
         val birthdayState: MutableState<String> = mutableStateOf(""),
         val placeState: MutableState<String> = mutableStateOf(""),
         val ratingState: MutableState<Float> = mutableStateOf(0f),
+        val isModalOpen: MutableState<Boolean> = mutableStateOf(false),
         ) : UiState
 
     sealed class Effect: UiEffect {

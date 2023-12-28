@@ -92,7 +92,7 @@ fun MyProfilePreviewScreen(
                     modifier = Modifier
                         .height(28.dp)
                         .wrapContentWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.CenterEnd
                 ) {
                     Row (
                         modifier = Modifier.padding(horizontal = 6.dp),

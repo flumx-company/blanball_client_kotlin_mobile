@@ -57,6 +57,7 @@ import com.example.blanball.presentation.views.components.buttons.NextAndPreviou
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.modals.LookProfileFromTheSideModal
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
@@ -76,7 +77,9 @@ fun EditMyProfileScreen(
     state: UiState,
     paddingValues: PaddingValues,
     onBackClicked: () -> Unit,
-    onSaveChangesClicked: () -> Unit,
+    onNavigateToDemoClicked: () -> Unit,
+    onSimpleSaveClicked: () -> Unit,
+    onCancelEditsClicked: () -> Unit,
 ) {
     val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
@@ -141,14 +144,19 @@ fun EditMyProfileScreen(
         stringResource(id = R.string.my_profile),
         stringResource(R.string.rate_plan),
     )
-
+    (state as? MyProfileScreensMainContract.State)?.let {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-
-        (state as? MyProfileScreensMainContract.State)?.let {
+        if (state.isModalOpen.value) {
+            LookProfileFromTheSideModal(
+                onNavigateToDemoClicked = { onNavigateToDemoClicked() },
+                onSimpleSaveClicked = { onSimpleSaveClicked() },
+                onCancelEditsClicked = { onCancelEditsClicked() }
+            )
+        }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -362,7 +370,7 @@ fun EditMyProfileScreen(
                             .fillMaxWidth(),
                         state = it,
                         labelResId = R.string.height,
-                        value = it.heightState.value ?:"",
+                        value = it.heightState.value ?: "",
                         onValueChange = { state.heightState.value = it },
                         transformation = VisualTransformation.None,
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -641,7 +649,9 @@ fun EditMyProfileScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true, //TODO()
-                    nextBtnOnClick = { onSaveChangesClicked() },
+                    nextBtnOnClick = {
+                       state.isModalOpen.value = true
+                                     },
                     prevBtnOnClick = { onBackClicked() },
                     nextBtnOnTextId = R.string.save,
                     prevBtnOnTextId = R.string.cancel,
