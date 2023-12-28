@@ -75,6 +75,7 @@ import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
+import com.example.blanball.presentation.views.screens.myprofile.MyProfilePreviewScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
@@ -1234,10 +1235,9 @@ fun AppScreensConfig(
                     EditMyProfileScreen(
                         state = state,
                         paddingValues = paddingValues,
-                        cancelBtnClicked = { /*TODO*/ },
+                        onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
                         onSaveChangesClicked = {
-                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
-                            navController.navigate(Destinations.MY_PROFILE.route)
+                            navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route)
                         }
                     )
                 }
@@ -1415,5 +1415,39 @@ fun AppScreensConfig(
                 }
             )
         }
+
+        composable(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                   MyProfilePreviewScreen(
+                       state = myProfileScreenViewModel.currentState,
+                       paddingValues = paddingValues,
+                       onBackClicked = {
+                           navController.navigate(Destinations.EDIT_PROFILE.route)
+                       },
+                       onSaveClicked = {
+                           navController.navigate(Destinations.MY_PROFILE.route)
+                           myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                       }
+                   )
+                }
+            )
+        }
+
     }
 }

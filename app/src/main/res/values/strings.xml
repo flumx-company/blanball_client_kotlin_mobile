@@ -430,4 +430,6 @@
     <string name="no_match_for_you_query_banner">Ми не знайшли жодного співпадіння із вашим запитом</string>
     <string name="invited">Запрошено</string>
     <string name="event_are_hint">подій приховано</string>
+    <string name="continue_edit">Продовжити редагування</string>
+    <string name="save_and_exit">Зберегти та вийти</string>
 </resources>

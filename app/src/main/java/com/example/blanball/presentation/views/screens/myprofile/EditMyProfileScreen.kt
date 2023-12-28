@@ -75,7 +75,7 @@ import com.example.blanball.utils.ext.toBirthdayDay
 fun EditMyProfileScreen(
     state: UiState,
     paddingValues: PaddingValues,
-    cancelBtnClicked: () -> Unit,
+    onBackClicked: () -> Unit,
     onSaveChangesClicked: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -141,11 +141,13 @@ fun EditMyProfileScreen(
         stringResource(id = R.string.my_profile),
         stringResource(R.string.rate_plan),
     )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
+
         (state as? MyProfileScreensMainContract.State)?.let {
             Column(
                 modifier = Modifier
@@ -640,7 +642,7 @@ fun EditMyProfileScreen(
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true, //TODO()
                     nextBtnOnClick = { onSaveChangesClicked() },
-                    prevBtnOnClick = {  },
+                    prevBtnOnClick = { onBackClicked() },
                     nextBtnOnTextId = R.string.save,
                     prevBtnOnTextId = R.string.cancel,
                     cancelButtonColor = mainGreen,
