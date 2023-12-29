@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.ext.extractDate
+import com.example.blanball.utils.ext.extractWord
 import com.example.blanball.utils.ext.formatPositionToEnglish
 import com.example.blanball.utils.ext.formatRatingToFloat
 import com.example.blanball.utils.ext.formatWorkingLegToEnglishWord
@@ -162,7 +164,6 @@ class MyProfileScreenViewModel @Inject constructor(
                                 weightState = mutableStateOf(
                                     result.success?.profile?.weight?.toString() ?: ""
                                 ),
-
                                 workingLegState = mutableStateOf(
                                     result.success.profile.working_leg ?: ""
                                 ),
@@ -175,13 +176,28 @@ class MyProfileScreenViewModel @Inject constructor(
                                 birthdayState = mutableStateOf(
                                     result.success.profile.birthday ?: ""
                                 ),
+                                editDayBirthdayState = mutableStateOf(
+                                    result.success.profile.birthday?.extractDate(index = 2) ?: ""
+                                ),
+                                editMonthBirthdayState = mutableStateOf(
+                                    result.success.profile.birthday?.extractDate(index = 1) ?: ""
+                                ) ,
+                                editYearBirthdayState = mutableStateOf(
+                                    result.success.profile.birthday?.extractDate(index = 0) ?: ""
+                                ),
                                 placeState = mutableStateOf(
                                     result.success.profile.place?.place_name ?: ""
                                 ),
                                 ratingState = mutableStateOf(
                                     result.success.raiting?.formatRatingToFloat() ?: 0f
                                 ),
-                                state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess
+                                cityState = mutableStateOf(
+                                    result.success.profile.place?.place_name?.extractWord(wordIndex = 0) ?: ""
+                                ),
+                                regionState =  mutableStateOf(
+                                    result.success.profile.place?.place_name?.extractWord(wordIndex = 1) ?: ""
+                                ),
+                                state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
                     }

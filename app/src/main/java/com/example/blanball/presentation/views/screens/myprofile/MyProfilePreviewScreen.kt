@@ -241,7 +241,7 @@ fun MyProfilePreviewScreen(
                                     color = primaryDark
                                 )
                                 Text(
-                                    text = state.myFirstNameText.value,
+                                    text = state.myLastNameText.value,
                                     style = typography.h2, fontSize = 20.sp,
                                     color = primaryDark,
                                     textAlign = TextAlign.Start,

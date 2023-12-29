@@ -93,10 +93,10 @@ fun LookProfileFromTheSideModal(
                         modifier = Modifier
                             .wrapContentSize()
                             .background(color = mainGreen, shape = shapes.medium)
-                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
                             .clickable {
                                 onNavigateToDemoClicked()
                             }
+                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.yes_nav_to_demo),
@@ -114,10 +114,10 @@ fun LookProfileFromTheSideModal(
                             .wrapContentSize()
                             .background(color = primaryDark, shape = shapes.medium)
                             .border(width = 1.dp, color = Color.White, shape = shapes.small)
-                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
                             .clickable {
                                 onSimpleSaveClicked()
                             }
+                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.no_sipmly_save),
@@ -131,18 +131,20 @@ fun LookProfileFromTheSideModal(
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onCancelEditsClicked() },
-                    text = stringResource(R.string.cancel_edits),
-                    fontSize = 14.sp,
-                    lineHeight = 24.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = Color.White,
-                    textAlign = TextAlign.End
-                )
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        modifier = Modifier
+                            .clickable { onCancelEditsClicked() },
+                        text = stringResource(R.string.cancel_edits),
+                        fontSize = 14.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = Color.White,
+                        textAlign = TextAlign.End
+                    )
+                }
             }
         },
         shape = shapes.medium,

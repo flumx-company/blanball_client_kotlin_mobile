@@ -1238,8 +1238,8 @@ fun AppScreensConfig(
                         onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
                         onNavigateToDemoClicked = { navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) },
                         onSimpleSaveClicked = {
-                            navController.navigate(Destinations.MY_PROFILE.route)
                             myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                            navController.navigate(Destinations.MY_PROFILE.route)
                                               },
                         onCancelEditsClicked = {
                             navController.navigate(Destinations.MY_PROFILE.route)

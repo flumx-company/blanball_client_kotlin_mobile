@@ -46,7 +46,6 @@ import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
-import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -63,6 +62,7 @@ import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.BottomLineDefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
+import com.example.blanball.utils.ext.calculateAge
 import com.example.blanball.utils.ext.formatEnglishAbbreviationToPosition
 import com.example.blanball.utils.ext.formatEnglishWordToWorkingLeg
 import com.example.blanball.utils.ext.isNotValidBirthDay
@@ -145,19 +145,28 @@ fun EditMyProfileScreen(
         stringResource(R.string.rate_plan),
     )
     (state as? MyProfileScreensMainContract.State)?.let {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        if (state.isModalOpen.value) {
-            LookProfileFromTheSideModal(
-                onNavigateToDemoClicked = { onNavigateToDemoClicked() },
-                onSimpleSaveClicked = { onSimpleSaveClicked() },
-                onCancelEditsClicked = { onCancelEditsClicked() },
-                onCloseModalClicked = { state.isModalOpen.value = false },
-            )
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            if (state.isModalOpen.value) {
+                LookProfileFromTheSideModal(
+                    onNavigateToDemoClicked = {
+                        onNavigateToDemoClicked()
+                        state.isModalOpen.value = false
+                    },
+                    onSimpleSaveClicked = {
+                        onSimpleSaveClicked()
+                        state.isModalOpen.value = false
+                    },
+                    onCancelEditsClicked = {
+                        onCancelEditsClicked()
+                        state.isModalOpen.value = false
+                    },
+                    onCloseModalClicked = { state.isModalOpen.value = false },
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -228,11 +237,18 @@ fun EditMyProfileScreen(
                             )
                             Spacer(modifier = Modifier.size(10.dp))
                             Row {
-                                MyProfileMainGreenTextBadge(text = "Гравець")
+                                MyProfileMainGreenTextBadge(text = state.roleState.value)
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = "25 років")
+                                MyProfileMainGreenTextBadge(
+                                    text = "${state.birthdayState.value.calculateAge()} ${
+                                        stringResource(id = R.string.years)
+                                    }"
+                                )
                                 Spacer(modifier = Modifier.size(4.dp))
-                                MyProfileMainGreenTextBadge(text = "Жінка")
+                                MyProfileMainGreenTextBadge(
+                                    text =
+                                    state.myGenderState.value
+                                )
                             }
                         }
                     }
@@ -515,7 +531,7 @@ fun EditMyProfileScreen(
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(500),
-                        color = lightGray,
+                        color = primaryDark,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
@@ -532,7 +548,7 @@ fun EditMyProfileScreen(
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(500),
-                        color = lightGray,
+                        color = primaryDark,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
@@ -549,7 +565,7 @@ fun EditMyProfileScreen(
                         lineHeight = 20.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(500),
-                        color = lightGray,
+                        color = primaryDark,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
@@ -572,7 +588,7 @@ fun EditMyProfileScreen(
                         .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
-                        text = "7 подій приховано",
+                        text = "7 " + stringResource(id = R.string.event_are_hint),
                         fontSize = 13.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,
@@ -651,8 +667,8 @@ fun EditMyProfileScreen(
                 NextAndPreviousButtonsHorizontal(
                     isEnabled = true, //TODO()
                     nextBtnOnClick = {
-                       state.isModalOpen.value = true
-                                     },
+                        state.isModalOpen.value = true
+                    },
                     prevBtnOnClick = { onBackClicked() },
                     nextBtnOnTextId = R.string.save,
                     prevBtnOnTextId = R.string.cancel,

@@ -109,7 +109,7 @@ internal fun String.formatPositionToEnglish(context: Context): String {
         context.resources.getString(R.string.central_forward) -> context.resources.getString(R.string.cf)
         context.resources.getString(R.string.left_forward) -> context.resources.getString(R.string.lf)
         context.resources.getString(R.string.forward_striker) -> context.resources.getString(R.string.st)
-        else -> ""
+        else -> this
     }
 }
 
@@ -132,7 +132,7 @@ internal fun String.formatEnglishAbbreviationToPosition(context: Context): Strin
         context.resources.getString(R.string.cf) -> context.resources.getString(R.string.central_forward)
         context.resources.getString(R.string.lf) -> context.resources.getString(R.string.left_forward)
         context.resources.getString(R.string.st) -> context.resources.getString(R.string.forward_striker)
-        else -> ""
+        else -> this
     }
 }
 
@@ -394,4 +394,20 @@ fun String.calculateAge(): String {
     val age = diff / (1000L * 60 * 60 * 24 * 365)
 
     return age.toString()
+}
+
+fun String.extractWord(wordIndex: Int): String {
+    return try {
+        this.split(",")[wordIndex].trim()
+    } catch (ex: Exception) {
+        return this
+    }
+}
+
+fun String.extractDate(index: Int): String {
+    return try {
+        this.split("-")[index].trim()
+    } catch (ex: Exception) {
+        return this
+    }
 }
