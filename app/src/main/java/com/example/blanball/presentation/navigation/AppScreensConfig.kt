@@ -75,6 +75,7 @@ import com.example.blanball.presentation.views.screens.login.LoginScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
+import com.example.blanball.presentation.views.screens.myprofile.MyProfilePreviewScreen
 import com.example.blanball.presentation.views.screens.myprofile.MyProfileScreen
 import com.example.blanball.presentation.views.screens.notifications.NotificationsScreen
 import com.example.blanball.presentation.views.screens.onboarding.fillingouttheprofile.FillingOutTheUserProfileScreenStep1
@@ -927,8 +928,8 @@ fun AppScreensConfig(
             val myProfileScreenState = myProfileScreenViewModel.uiState.collectAsState().value
 
             LaunchedEffect(key1 = Unit, block = {
-                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.ScreenViewState.Loading)
-            })
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendGetMyProfileRequest)
+            }) //TODO
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -1241,8 +1242,15 @@ fun AppScreensConfig(
                     EditMyProfileScreen(
                         state = state,
                         paddingValues = paddingValues,
-                        cancelBtnClicked = { /*TODO*/ },
-                        saveBtnClicked = {},
+                        onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
+                        onNavigateToDemoClicked = { navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) },
+                        onSimpleSaveClicked = {
+                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                            navController.navigate(Destinations.MY_PROFILE.route)
+                                              },
+                        onCancelEditsClicked = {
+                            navController.navigate(Destinations.MY_PROFILE.route)
+                        }
                     )
                 }
             )
@@ -1420,7 +1428,41 @@ fun AppScreensConfig(
             )
         }
 
-        composable(Destinations.EDIT_EVENT_STEP_1.route) {
+        composable(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) {
+    
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
+                   MyProfilePreviewScreen(
+                       state = myProfileScreenViewModel.currentState,
+                       paddingValues = paddingValues,
+                       onBackClicked = {
+                           navController.navigate(Destinations.EDIT_PROFILE.route)
+                       },
+                       onSaveClicked = {
+                           navController.navigate(Destinations.MY_PROFILE.route)
+                           myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
+                       }
+                   )
+                }
+            )
+        }
+
+composable(Destinations.EDIT_EVENT_STEP_1.route) {
             val isDatePickerModalVisible = remember { mutableStateOf(false) }
             val isStartTimePickerModalVisible = remember { mutableStateOf(false) }
             val isEndTimePickerModalVisible = remember { mutableStateOf(false) }

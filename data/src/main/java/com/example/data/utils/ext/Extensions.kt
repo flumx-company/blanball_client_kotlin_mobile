@@ -8,6 +8,9 @@ import com.example.data.backend.models.responses.errors.DataResetCompleteError
 import com.example.data.backend.models.responses.errors.EditEventByIdResponseError
 import com.example.data.backend.models.responses.errors.EditEventByIdResponseErrorData
 import com.example.data.backend.models.responses.errors.EditEventByIdResponseErrorDetail
+import com.example.data.backend.models.responses.errors.EditMyProfileError
+import com.example.data.backend.models.responses.errors.EditMyProfileErrorData
+import com.example.data.backend.models.responses.errors.EditMyProfileErrorDetail
 import com.example.data.backend.models.responses.errors.EmailPassDataError
 import com.example.data.backend.models.responses.errors.EmailPassResetError
 import com.example.data.backend.models.responses.errors.EmailPassResetErrors
@@ -71,6 +74,10 @@ import com.example.data.backend.models.responses.success.DataResetCompleteRespon
 import com.example.data.backend.models.responses.success.DataSendCode
 import com.example.data.backend.models.responses.success.EditEventByIdResponse
 import com.example.data.backend.models.responses.success.EditEventByIdResponseData
+import com.example.data.backend.models.responses.success.EditMyProfileResponse
+import com.example.data.backend.models.responses.success.EditMyProfileResponseConfiguration
+import com.example.data.backend.models.responses.success.EditMyProfileResponseData
+import com.example.data.backend.models.responses.success.EditMyProfileResponseProfile
 import com.example.data.backend.models.responses.success.GetAllEventResponse
 import com.example.data.backend.models.responses.success.GetAllEventResponseAuthor
 import com.example.data.backend.models.responses.success.GetAllEventResponseData
@@ -146,6 +153,10 @@ import com.example.domain.entity.responses.DataEmailResetEntity
 import com.example.domain.entity.responses.DataSendCodeDomain
 import com.example.domain.entity.responses.EditEventByIdResponseEntity
 import com.example.domain.entity.responses.EditEventByIdResponseEntityData
+import com.example.domain.entity.responses.EditMyProfileResponseEntity
+import com.example.domain.entity.responses.EditMyProfileResponseEntityConfiguration
+import com.example.domain.entity.responses.EditMyProfileResponseEntityData
+import com.example.domain.entity.responses.EditMyProfileResponseEntityProfile
 import com.example.domain.entity.responses.EmailPassDataErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.EmailPassResetErrorsEntity
@@ -230,6 +241,9 @@ import com.example.domain.entity.responses.errors.CreationAnEventErrorEntityData
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDataEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDetailEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityData
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityDetail
 import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
 import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorData
 import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorDetail
@@ -1245,14 +1259,14 @@ internal fun GetRelevantUserSearchListResponseData.toGetRelevantUserSearchListRe
         this.next,
         this.page_size,
         this.previous,
-        this.results.map { it.toGetRelevantUserSearchListResponseEntityResult()},
+        this.results.map { it.toGetRelevantUserSearchListResponseEntityResult() },
         this.success,
         this.total_count
     )
 
-internal fun GetRelevantUserSearchListResponseResult.toGetRelevantUserSearchListResponseEntityResult( ): GetRelevantUserSearchListResponseEntityResult =
+internal fun GetRelevantUserSearchListResponseResult.toGetRelevantUserSearchListResponseEntityResult(): GetRelevantUserSearchListResponseEntityResult =
     GetRelevantUserSearchListResponseEntityResult(
-       this.id,
+        this.id,
         this.is_online,
         this.profile.toGetRelevantUserSearchListResponseEntityProfile(),
         this.raiting,
@@ -1287,4 +1301,56 @@ internal fun GetRelevantUserSearchListErrorData.toGetRelevantUserSearchListError
 internal fun GetRelevantUserSearchListErrorDetail.toGetRelevantUserSearchListErrorDetailEntity(): GetRelevantUserSearchListErrorEntityDetail =
     GetRelevantUserSearchListErrorEntityDetail(
         this.detail
+    )
+
+internal fun EditMyProfileResponse.toEditMyProfileResponseEntity(): EditMyProfileResponseEntity =
+    EditMyProfileResponseEntity(
+        this.code,
+        this.data.toEditMyProfileResponseEntityData(),
+        this.message,
+        this.status
+    )
+
+internal fun EditMyProfileResponseData.toEditMyProfileResponseEntityData(): EditMyProfileResponseEntityData =
+    EditMyProfileResponseEntityData(
+        configuration = this.configuration?.toEditMyProfileResponseEntityConfiguration(),
+        phone = this.phone,
+        profile = this.profile?.toEditMyProfileResponseProfileEntity(),
+    )
+
+internal fun EditMyProfileResponseProfile.toEditMyProfileResponseProfileEntity(): EditMyProfileResponseEntityProfile =
+    EditMyProfileResponseEntityProfile(
+        about_me = this.about_me,
+        birthday = this.birthday,
+        gender = this.gender,
+        height = this.height,
+        position = this.position,
+        weight = this.weight,
+        working_leg = this.working_leg
+    )
+
+internal fun EditMyProfileResponseConfiguration.toEditMyProfileResponseEntityConfiguration(): EditMyProfileResponseEntityConfiguration =
+    EditMyProfileResponseEntityConfiguration(
+        email = this.email,
+        show_reviews = this.show_reviews,
+        phone = phone,
+    )
+
+internal fun EditMyProfileError.toEditMyProfileErrorEntity(): EditMyProfileErrorEntity =
+    EditMyProfileErrorEntity(
+        code = this.code,
+        data = this.data.toEditMyProfileErrorEntityData(),
+        status = this.status,
+        message = this.message,
+    )
+
+internal fun EditMyProfileErrorData.toEditMyProfileErrorEntityData(): EditMyProfileErrorEntityData =
+    EditMyProfileErrorEntityData(
+        errors = listOf(this.errors[0].toEditMyProfileErrorEntityDetail()),
+        type = this.type,
+    )
+
+internal fun EditMyProfileErrorDetail.toEditMyProfileErrorEntityDetail (): EditMyProfileErrorEntityDetail =
+    EditMyProfileErrorEntityDetail(
+        detail = this.detail
     )

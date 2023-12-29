@@ -13,20 +13,20 @@ data class EditMyProfileRequestConfiguration(
 )
 
 data class EditMyProfileRequestProfile(
-    val about_me: String,
+    val about_me: String?,
     val birthday: String,
     val gender: String,
-    val height: Int,
+    val height: Int?,
     val last_name: String,
     val name: String,
     val place: EditMyProfileRequestPlace,
-    val position: String,
-    val weight: Int,
-    val working_leg: String
+    val position: String?,
+    val weight: Int?,
+    val working_leg: String?
 )
 
 data class EditMyProfileRequestPlace(
-    val lat: Int,
-    val lon: Int,
+    val lat: Double,
+    val lon: Double,
     val place_name: String
 )

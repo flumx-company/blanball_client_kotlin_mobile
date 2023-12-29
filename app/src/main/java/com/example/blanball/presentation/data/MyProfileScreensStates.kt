@@ -6,19 +6,21 @@ import androidx.compose.runtime.mutableStateOf
 class MyProfileScreensMainContract {
 
     sealed class Event : UiEvent {
+        object SendGetMyProfileRequest: UiEvent
+        object SendEditMyProfileRequest: UiEvent
     }
 
     data class State(
         val state: ScreenViewState,
         val myAvatarUrl: MutableState<String> = mutableStateOf(""),
-        val myFirstNameText: MutableState<String> = mutableStateOf("Женя"),
-        val myLastNameText: MutableState<String> = mutableStateOf("Жук"),
+        val myFirstNameText: MutableState<String> = mutableStateOf(""),
+        val myLastNameText: MutableState<String> = mutableStateOf(""),
         val phoneNumberRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val emailRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val myReviewsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val plannedEventsRadioButtonState: MutableState<Boolean> = mutableStateOf(false),
         val aboutMeText: MutableState<String> = mutableStateOf(""),
-        val phoneText: MutableState<String> = mutableStateOf("+380 (95) 390 86 50"),
+        val phoneText: MutableState<String> = mutableStateOf(""),
         val heightState: MutableState<String> = mutableStateOf(""),
         val weightState: MutableState<String> = mutableStateOf(""),
         val workingLegState: MutableState<String> = mutableStateOf(""),
@@ -34,6 +36,7 @@ class MyProfileScreensMainContract {
         val birthdayState: MutableState<String> = mutableStateOf(""),
         val placeState: MutableState<String> = mutableStateOf(""),
         val ratingState: MutableState<Float> = mutableStateOf(0f),
+        val isModalOpen: MutableState<Boolean> = mutableStateOf(false),
         ) : UiState
 
     sealed class Effect: UiEffect {
@@ -45,5 +48,7 @@ class MyProfileScreensMainContract {
         object Loading : ScreenViewState()
         object LoadingSuccess: ScreenViewState()
         object LoadingError : ScreenViewState()
+        object EditProfileRequestSuccess : ScreenViewState()
+        object EditProfileRequestError : ScreenViewState()
     }
 }

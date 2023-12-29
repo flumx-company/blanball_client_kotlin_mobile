@@ -136,6 +136,7 @@ interface MainApiService {
         @Body postEmailVerifyCodeRequest: PostEmailVerifyCodeRequest
     ): PostEmailVerifyCodeResponse
 
+    @PUT(Endpoints.EDIT_MY_PROFILE_ENDPOINT)
     suspend fun ediMyProfile(
         @Body editMyProfileRequest: EditMyProfileRequest,
     ): EditMyProfileResponse

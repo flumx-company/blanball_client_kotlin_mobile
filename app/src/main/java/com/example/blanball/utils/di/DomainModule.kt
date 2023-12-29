@@ -16,6 +16,7 @@ import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUsersListUseCaseImpl
 import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
+import com.example.domain.usecases.implementations.SendingRequestToChangeUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
@@ -33,6 +34,7 @@ import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
+import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.Binds
 import dagger.Module
@@ -92,5 +94,9 @@ interface DomainModule {
 
     @Binds
     fun bindGetRelevantUserSearchListUseCase(getRelevantWorkUseCaseImpl: GetRelevantUserSearchListUseCaseImpl): GetRelevantUserSearchListUseCase
+
+    @Binds
+    fun bindSendingRequestToChangeUserProfileUseCase(SendingRequestToChangeUserProfileUseCaseImpl: SendingRequestToChangeUserProfileUseCaseImpl
+    ): SendingRequestToChangeUserProfileUseCase
 
 }

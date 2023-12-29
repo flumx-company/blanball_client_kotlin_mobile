@@ -33,7 +33,7 @@ data class EditMyProfileResponseEntityProfile(
 )
 
 data class EditMyProfileResponseEntityPlace(
-    val lat: Int? = null,
-    val lon: Int? = null,
+    val lat: Double? = null,
+    val lon: Double? = null,
     val place_name: String? = null
 )

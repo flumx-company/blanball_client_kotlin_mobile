@@ -188,7 +188,7 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.aboutMeText.value,
+                    text = state.aboutMeText.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -208,7 +208,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.birthdayState.value.toFormattedBirthdayDate() ?: "",
+                    text = state.birthdayState.value.toFormattedBirthdayDate().ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -242,7 +242,7 @@ fun MyProfileScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "${state.heightState.value} ${stringResource(id = R.string.height_meas_units)}",
+                            text = "${state.heightState.value.ifEmpty { "--" }} ${stringResource(id = R.string.height_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -259,13 +259,15 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier
-                        .height(44.dp)
-                        .width(1.dp))
+                    Divider(
+                        color = defaultLightGray, modifier = Modifier
+                            .height(44.dp)
+                            .width(1.dp)
+                    )
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "${state.weightState.value} ${stringResource(id = R.string.weight_meas_units)}",
+                            text = "${state.weightState.value.ifEmpty { "--" }} ${stringResource(id = R.string.weight_meas_units)}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -282,13 +284,15 @@ fun MyProfileScreen(
                             color = secondaryNavy,
                         )
                     }
-                    Divider(color = defaultLightGray, modifier = Modifier
-                        .height(44.dp)
-                        .width(1.dp))
+                    Divider(
+                        color = defaultLightGray, modifier = Modifier
+                            .height(44.dp)
+                            .width(1.dp)
+                    )
                     Spacer(modifier = Modifier.size(8.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = state.workingLegState.value,
+                            text = state.workingLegState.value.ifEmpty { "--" },
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -310,7 +314,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.positionState.value,
+                    text = state.positionState.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -320,11 +324,11 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = stringResource(id = R.string.game_position),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -337,12 +341,12 @@ fun MyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.phoneText.value,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
+                    text = state.phoneText.value.ifEmpty { "--" },
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                style = typography.h4,
+                fontWeight = FontWeight(400),
+                color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
@@ -357,7 +361,7 @@ fun MyProfileScreen(
                 Divider(color = defaultLightGray)
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.placeState.value,
+                    text = state.placeState.value.ifEmpty { "--" },
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -445,24 +449,6 @@ fun MyProfileScreen(
                         selected = it.myReviewsRadioButtonState.value,
                     )
                 }
-                Spacer(modifier = Modifier.size(20.dp))
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.planned_events_1),
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = lightGray,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    SwitchButton(
-                        enabled = false,
-                        state = it,
-                        onCheckedChange = { state.plannedEventsRadioButtonState.value = it },
-                        selected = it.plannedEventsRadioButtonState.value,
-                    )
-                }
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -477,7 +463,7 @@ fun MyProfileScreen(
                         .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
-                        text = "7 подій приховано",
+                        text = "7 " + stringResource(id = R.string.event_are_hint),
                         fontSize = 13.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,
@@ -545,13 +531,14 @@ fun MyProfileScreen(
                     )
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                Box (modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .clickable { deleteAccBtnClicked() }
-                    .padding(top = 12.dp, bottom = 12.dp),
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .clickable { deleteAccBtnClicked() }
+                        .padding(top = 12.dp, bottom = 12.dp),
                     contentAlignment = Alignment.Center,
-                    ) {
+                ) {
                     Text(
                         text = stringResource(R.string.delete_acc),
                         fontSize = 14.sp,
@@ -561,7 +548,7 @@ fun MyProfileScreen(
                         color = errorRed,
                     )
                 }
-                Spacer(modifier = Modifier.size(44.dp))
+                Spacer(modifier = Modifier.size(20.dp))
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()

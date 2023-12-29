@@ -3,7 +3,7 @@ package com.example.domain.entity.responses.errors
 data class EditMyProfileErrorEntity(
     val code: Int,
     val `data`: EditMyProfileErrorEntityData,
-    val message: Any,
+    val message: Any? = null,
     val status: String
 )
 

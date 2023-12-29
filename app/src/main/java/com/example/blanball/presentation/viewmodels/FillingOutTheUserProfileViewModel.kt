@@ -68,7 +68,7 @@ class OnboardingProfileViewModel @Inject constructor(
                 weight = currentState.weightState.value.toInt(),
                 position = currentState.positionState.value.formatPositionToEnglish(application.applicationContext),
                 working_leg = currentState.workingLegState.value.formatWorkingLegToEnglishWord(application.applicationContext),
-                place_name = currentState.cityState.value,
+                place_name = "${currentState.cityState.value}, ${currentState.regionState.value}",
             ).let{
                 when (it) {
                     is FillingTheUserProfileResultEntity.Success -> {

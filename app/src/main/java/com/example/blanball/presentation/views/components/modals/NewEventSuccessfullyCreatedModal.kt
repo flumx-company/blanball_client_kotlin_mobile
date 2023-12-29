@@ -41,6 +41,7 @@ fun NewEventSuccessfullyCreatedModal(
     continueClicked: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
+
             AlertDialog(
                 modifier = Modifier
                     .wrapContentHeight()
