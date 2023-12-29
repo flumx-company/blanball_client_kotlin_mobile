@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.eventcreation
+package com.example.blanball.presentation.views.screens.eventcreationoredit
 
 import DottedLine
 import OutlineRadioButton
@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventCreationScreenMainContract
+import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -60,11 +60,12 @@ import com.example.blanball.presentation.views.components.buttons.NextAndPreviou
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.cards.UserCardOnEventCreation
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.utils.ext.isNotValidMaxCountOfPlayers
 import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventCreationScreenStep2(
+fun EventEditOrCreationScreenStep2(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToThirdStep: () -> Unit,
@@ -74,8 +75,9 @@ fun EventCreationScreenStep2(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
     usersSearchClicked: () -> Unit,
+    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
-    (state as? EventCreationScreenMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -88,7 +90,9 @@ fun EventCreationScreenStep2(
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.creation_event),
+                    text = if (
+                        isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                    ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -121,34 +125,34 @@ fun EventCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             it.isEventPrivacy.value =
-                                EventCreationScreenMainContract.EventPrivacyStates.NO
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.isEventPrivacy.value =
-                                    EventCreationScreenMainContract.EventPrivacyStates.NO
+                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                             },
                         state = it,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = it.isEventPrivacy.value == EventCreationScreenMainContract.EventPrivacyStates.NO,
+                        selected = it.isEventPrivacy.value == EventEditAndCreationScreensMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.isEventPrivacy.value =
-                                EventCreationScreenMainContract.EventPrivacyStates.YES
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.isEventPrivacy.value =
-                                    EventCreationScreenMainContract.EventPrivacyStates.YES
+                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                             },
                         state = it,
                         text = stringResource(R.string.yes_the_event_is_closed),
                         selected = it.isEventPrivacy.value ==
-                                EventCreationScreenMainContract.EventPrivacyStates.YES,
+                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
@@ -169,34 +173,34 @@ fun EventCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             it.entryStates.value =
-                                EventCreationScreenMainContract.EntryStates.FREE_ENTRY
+                                EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.entryStates.value =
-                                    EventCreationScreenMainContract.EntryStates.FREE_ENTRY
+                                    EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                             },
                         state = it,
                         text = stringResource(id = R.string.free),
-                        selected = it.entryStates.value == EventCreationScreenMainContract.EntryStates.FREE_ENTRY,
+                        selected = it.entryStates.value == EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             it.entryStates.value =
-                                EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY
+                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 it.entryStates.value =
-                                    EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY
+                                    EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                             },
                         state = it,
                         text = stringResource(R.string.paid),
                         selected = it.entryStates.value ==
-                                EventCreationScreenMainContract.EntryStates.CLOSE_ENTRY,
+                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY,
                         icon = null,
                     )
                 }
@@ -235,7 +239,20 @@ fun EventCreationScreenStep2(
                             contentDescription = null,
                             tint = primaryDark,
                         )
-                    }
+                    },
+                    isError = when {
+                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> true
+                        else -> false
+                    },
+                    errorMessage = when {
+                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
+                            id = R.string.max_count_players_validation
+                        )
+
+                        else -> {
+                            ""
+                        }
+                    },
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 SearchBar(
@@ -291,7 +308,7 @@ fun EventCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (it.state == EventCreationScreenMainContract.ScreenViewState.UserSearchLoading) {
+                    if (it.state == EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -313,9 +330,11 @@ fun EventCreationScreenStep2(
                                             userFirstName = user.profile.name,
                                             userLastName = user.profile.last_name,
                                             userId = user.id,
-                                            isUserSelected = it.selectedUserIds.value.contains(user.id),
+                                            isUserSelected = it.selectedUserIds.value.contains(
+                                                user.id
+                                            ),
                                             onUserSelected = { userId ->
-                                                if (!it.selectedUserIds.value.contains(userId)){
+                                                if (!it.selectedUserIds.value.contains(userId)) {
                                                     it.selectedUserIds.value += userId
                                                     it.selectedUserProfiles.value += user
 
@@ -333,74 +352,74 @@ fun EventCreationScreenStep2(
                         }
                     }
                 }
-                DottedLine(color = defaultLightGray)
-                Spacer(modifier = Modifier.size(20.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = stringResource(R.string.progress),
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = null,
-                        tint = avatarGrey,
-                    )
-                    Text(
-                        text = stringResource(R.string._2_3), //TODO()
-                        fontSize = 12.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
-                    )
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
-                        contentDescription = null,
-                        tint = secondaryNavy,
-                    )
-                }
-                Row(
-                    Modifier.padding(top = 20.dp)
-                ) {
-                    repeat(2) {
-                        Image(
-                            painter = painterResource(R.drawable.stepline_1),
-                            contentDescription = null,
-                            Modifier.weight(1f)
-                        )
-                        Spacer(modifier = Modifier.size(2.dp))
-                    }
+            DottedLine(color = defaultLightGray)
+            Spacer(modifier = Modifier.size(20.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.progress),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = secondaryNavy,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = null,
+                    tint = avatarGrey,
+                )
+                Text(
+                    text = stringResource(R.string._2_3),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
+                )
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    contentDescription = null,
+                    tint = secondaryNavy,
+                )
+            }
+            Row(
+                Modifier.padding(top = 20.dp)
+            ) {
+                repeat(2) {
                     Image(
-                        painter = painterResource(id = R.drawable.empty_stepline),
+                        painter = painterResource(R.drawable.stepline_1),
                         contentDescription = null,
                         Modifier.weight(1f)
                     )
+                    Spacer(modifier = Modifier.size(2.dp))
                 }
-                Spacer(modifier = Modifier.size(16.dp))
-                NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
-                    nextBtnOnClick = { navigateToThirdStep() },
-                    prevBtnOnClick = { backBtnCLicked() },
-                    nextBtnOnTextId = R.string.next,
-                    prevBtnOnTextId = R.string.back,
+                Image(
+                    painter = painterResource(id = R.drawable.empty_stepline),
+                    contentDescription = null,
+                    Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
-                Spacer(modifier = Modifier.size(16.dp))
-                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
-                when {
-                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
-                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
-                }
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+            NextAndPreviousButtonsHorizontal(
+                isEnabled = true,
+                nextBtnOnClick = { navigateToThirdStep() },
+                prevBtnOnClick = { backBtnCLicked() },
+                nextBtnOnTextId = R.string.next,
+                prevBtnOnTextId = R.string.back,
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+            Spacer(modifier = Modifier.size(16.dp))
+            InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+            when {
+                isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
+                isInvitedUsersModalOpen.value -> invitedUsersModalContent()
             }
         }
+    }
     }
 }

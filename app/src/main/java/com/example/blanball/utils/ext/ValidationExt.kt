@@ -91,3 +91,11 @@ internal fun String.isNotValidErrorTopicField(): Boolean {
     return !isValidErrorTopicField()
 }
 
+internal fun String.isValidMaxCountOfPlayers(): Boolean {
+    val count = this.toIntOrNull()
+    return count != null && count in Integers.ONE .. Integers.FIFTY
+}
+
+internal fun String.isNotValidMaxCountOfPlayers(): Boolean {
+    return !isValidMaxCountOfPlayers() && isNotEmpty()
+}
