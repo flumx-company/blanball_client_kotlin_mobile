@@ -388,7 +388,7 @@ internal fun String.calculateAge(): String {
     return age.toString()
 }
 
-fun String.extractWord(wordIndex: Int): String {
+internal fun String.extractWord(wordIndex: Int): String {
     return try {
         this.split(",")[wordIndex].trim()
     } catch (ex: Exception) {
@@ -396,13 +396,14 @@ fun String.extractWord(wordIndex: Int): String {
     }
 }
 
-fun String.extractDate(index: Int): String {
+internal fun String.extractDate(index: Int): String {
     return try {
         this.split("-")[index].trim()
     } catch (ex: Exception) {
         return this
     }
-    
+}
+
 internal fun String.addMinutes(minutes: Int): String {
     if (minutes == 0){
         return ""

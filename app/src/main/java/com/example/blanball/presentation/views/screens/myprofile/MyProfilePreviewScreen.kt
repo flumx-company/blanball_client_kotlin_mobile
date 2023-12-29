@@ -225,7 +225,7 @@ fun MyProfilePreviewScreen(
                                             .fillMaxSize()
                                     )
                                     Text(
-                                        text = "${state.myFirstNameText.value.firstOrNull() ?: ""} ${state.myLastNameText.value.firstOrNull() ?: ""}",
+                                        text = "${state.myFirstNameText.value.firstOrNull() ?: ""}${state.myLastNameText.value.firstOrNull() ?: ""}",
                                         modifier = Modifier.align(
                                             Alignment.Center
                                         ),

@@ -1521,6 +1521,23 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
         }
 
         composable(Destinations.EDIT_EVENT_STEP_2.route) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = openNavDrawer,
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController
+                    )
+                },
+                content = { paddingValues ->
                     EventEditOrCreationScreenStep2(
                         paddingValues = paddingValues,
                         state = eventCreationScreenViewModelState,
