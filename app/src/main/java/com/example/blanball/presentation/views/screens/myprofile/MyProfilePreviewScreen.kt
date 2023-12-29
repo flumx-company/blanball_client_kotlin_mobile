@@ -4,6 +4,7 @@ import DottedLine
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,8 +63,6 @@ import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.utils.ext.formatRating
-import com.example.blanball.utils.makeCall
-import com.example.blanball.utils.writeEmail
 
 @Composable
 fun MyProfilePreviewScreen(
@@ -94,24 +93,36 @@ fun MyProfilePreviewScreen(
                         .wrapContentWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
-                    Row (
+                    Row  (
                         modifier = Modifier.padding(horizontal = 6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = stringResource(R.string.continue_edit),
-                            fontSize = 13.sp,
-                            lineHeight = 24.sp,
-                            style = typography.h4,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFFE2E2E9),
-                            textAlign = TextAlign.Center,
-                        )
-                        Spacer(modifier = Modifier.size(6.dp))
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_backarrow),
-                            contentDescription = null,
-                            tint = bgItemsGray,
-                        )
+                        Box(
+                            modifier = Modifier
+                                .height(28.dp)
+                                .wrapContentWidth()
+                                .clickable { onBackClicked() },
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.continue_edit),
+                                    fontSize = 13.sp,
+                                    lineHeight = 24.sp,
+                                    style = typography.h4,
+                                    fontWeight = FontWeight(400),
+                                    color = Color(0xFFE2E2E9),
+                                    textAlign = TextAlign.Center,
+                                )
+                                Spacer(modifier = Modifier.size(6.dp))
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_backarrow),
+                                    contentDescription = null,
+                                    tint = bgItemsGray,
+                                )
+                            }
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
@@ -123,6 +134,8 @@ fun MyProfilePreviewScreen(
                             color = annotationGray,
                             shape = RoundedCornerShape(size = 6.dp)
                         )
+                        .clickable { onSaveClicked() },
+                    contentAlignment = Alignment.Center
                 ) {
                     Row (
                         modifier = Modifier.padding(horizontal = 6.dp),
@@ -306,13 +319,9 @@ fun MyProfilePreviewScreen(
                                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                                 horizontalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-                                if (state.emailStringState.value.isNotEmpty()) {
+                                if (state.emailRadioButtonState.value) {
                                     Button(
-                                        onClick = {
-                                            writeEmail(
-                                                arrayOf(state.emailStringState.value), context
-                                            )
-                                        },
+                                        onClick = {},
                                         modifier = Modifier
                                             .height(45.dp)
                                             .weight(1f)
@@ -337,14 +346,9 @@ fun MyProfilePreviewScreen(
                                         )
                                     }
                                 }
-                                if (state.phoneText.value.isNotEmpty()) {
+                                if (state.phoneNumberRadioButtonState.value) {
                                     Button(
-                                        onClick = {
-                                            makeCall(
-                                                state.phoneText.value,
-                                                context
-                                            )
-                                        },
+                                        onClick = {},
                                         modifier = Modifier
                                             .height(45.dp)
                                             .weight(1f)

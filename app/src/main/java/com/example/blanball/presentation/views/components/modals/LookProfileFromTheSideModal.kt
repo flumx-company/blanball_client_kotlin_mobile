@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -91,12 +90,14 @@ fun LookProfileFromTheSideModal(
                 ) {
                     Box(
                         modifier = Modifier
-                            .wrapContentSize()
+                            .fillMaxWidth()
+                            .wrapContentHeight()
                             .background(color = mainGreen, shape = shapes.medium)
                             .clickable {
                                 onNavigateToDemoClicked()
                             }
-                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = stringResource(R.string.yes_nav_to_demo),
@@ -111,13 +112,15 @@ fun LookProfileFromTheSideModal(
                     Spacer(modifier = Modifier.size(6.dp))
                     Box(
                         modifier = Modifier
-                            .wrapContentSize()
+                            .fillMaxWidth()
+                            .wrapContentHeight()
                             .background(color = primaryDark, shape = shapes.medium)
                             .border(width = 1.dp, color = Color.White, shape = shapes.small)
                             .clickable {
                                 onSimpleSaveClicked()
                             }
-                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                            .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 12.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = stringResource(R.string.no_sipmly_save),

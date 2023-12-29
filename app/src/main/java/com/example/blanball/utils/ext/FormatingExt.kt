@@ -74,16 +74,6 @@ internal fun String.formatWorkingLegToEnglishWord(context: Context): String {
     else (context.resources.getString(R.string.left))
 }
 
-internal fun String.formatEnglishWordToWorkingLeg(context: Context): String {
-    return if (this == context.resources.getString(
-            R.string.right
-        )
-    )
-        (context.resources.getString(R.string.right_leg)
-                )
-    else (context.resources.getString(R.string.right_leg))
-}
-
 internal fun String.formatPositionToEnglish(context: Context): String {
     return when (this) {
         context.resources.getString(R.string.goalkeeper) -> context.resources.getString(R.string.gk)

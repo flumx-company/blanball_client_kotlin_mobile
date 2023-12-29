@@ -64,7 +64,6 @@ import com.example.blanball.presentation.views.components.textinputs.DefaultText
 import com.example.blanball.presentation.views.components.texts.MyProfileMainGreenTextBadge
 import com.example.blanball.utils.ext.calculateAge
 import com.example.blanball.utils.ext.formatEnglishAbbreviationToPosition
-import com.example.blanball.utils.ext.formatEnglishWordToWorkingLeg
 import com.example.blanball.utils.ext.isNotValidBirthDay
 import com.example.blanball.utils.ext.isNotValidBirthMonth
 import com.example.blanball.utils.ext.isNotValidBirthYear
@@ -302,12 +301,10 @@ fun EditMyProfileScreen(
                             keyboardType = KeyboardType.Number
                         ),
                         isError = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.editDayBirthdayState.value.isNotValidBirthDay() -> true
                             else -> false
                         },
                         errorMessage = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.editDayBirthdayState.value.isNotValidBirthDay() -> stringResource(id = R.string.birth_day_valid_error)
                             else -> {
                                 ("")
@@ -326,12 +323,10 @@ fun EditMyProfileScreen(
                             keyboardType = KeyboardType.Number
                         ),
                         isError = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.editMonthBirthdayState.value.isNotValidBirthMonth() -> true
                             else -> false
                         },
                         errorMessage = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.editMonthBirthdayState.value.isNotValidBirthMonth() -> stringResource(
                                 id = R.string.birth_month_valid_error
                             )
@@ -354,12 +349,10 @@ fun EditMyProfileScreen(
                         ),
                         keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         isError = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.editYearBirthdayState.value.isNotValidBirthYear() -> true
                             else -> false
                         },
                         errorMessage = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.editYearBirthdayState.value.isNotValidBirthYear() -> stringResource(
                                 id = R.string.birth_year_valid_error
                             )
@@ -395,12 +388,10 @@ fun EditMyProfileScreen(
                             keyboardType = KeyboardType.Number
                         ),
                         isError = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.heightState.value.isNotValidHeight() -> true
                             else -> false
                         },
                         errorMessage = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.heightState.value.isNotValidHeight() -> stringResource(id = R.string.height_valid_error)
                             else -> {
                                 ("")
@@ -422,12 +413,10 @@ fun EditMyProfileScreen(
                         ),
                         keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() }),
                         isError = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> true
                             it.weightState.value.isNotValidWeight() -> true
                             else -> false
                         },
                         errorMessage = when {
-//                            it.isErrorRequestToFinishOutTheProfile.value -> stringResource(id = R.string.invalid_credential_error)
                             it.weightState.value.isNotValidWeight() -> stringResource(id = R.string.weight_valid_error)
                             else -> {
                                 ("")
@@ -443,7 +432,7 @@ fun EditMyProfileScreen(
                             stringResource(id = R.string.right_leg),
                             stringResource(id = R.string.left_leg)
                         ),
-                        value = it.workingLegState.value.formatEnglishWordToWorkingLeg(context = context),
+                        value = it.workingLegState.value,
                         onValueChange = { state.workingLegState.value = it },
                     )
                 }
@@ -665,7 +654,7 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = true, //TODO()
+                    isEnabled = state.editYearBirthdayState.value.isNotEmpty() && state.editMonthBirthdayState.value.isNotEmpty() && state.editDayBirthdayState.value.isNotEmpty(),
                     nextBtnOnClick = {
                         state.isModalOpen.value = true
                     },
