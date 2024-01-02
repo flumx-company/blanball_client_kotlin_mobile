@@ -23,14 +23,9 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -71,28 +66,11 @@ fun EventScreen(
     isConfirmReminderContent: @Composable () -> Unit,
     isVerificationModalVisible: MutableState<Boolean>,
     isShareLinkModalVisible: MutableState<Boolean>,
-    navigateToEventAuthorPublicProfile: () -> Unit,
+    onNavigateToEventAuthorPublicProfile: () -> Unit,
     isConfirmReminderVisible: Boolean,
     onEditClick: () -> Unit,
 ) {
-    val currentState: EventScreenMainContract.State =
-        (state as? EventScreenMainContract.State) ?: EventScreenMainContract.State(
-            EventScreenMainContract.ScreenViewState.Idle
-        )
-    val icons: List<Painter> = listOf(
-        painterResource(id = R.drawable.ic_ball),
-        painterResource(id = R.drawable.ic_peoples),
-        painterResource(id = R.drawable.ic_field),
-        painterResource(id = R.drawable.ic_add_user)
-    )
-    val tabs: List<String> = listOf(
-        stringResource(R.string.users_list),
-        stringResource(R.string.coaching_staff),
-        stringResource(R.string.registered_viewers),
-        stringResource(R.string.requests_for_participation),
-    )
-    var descriptionTextExpanded by remember { mutableStateOf(false) }
-    (state as? EventScreenMainContract.State)?.let {
+    (state as? EventScreenMainContract.State)?.let { currentState ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -119,7 +97,7 @@ fun EventScreen(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = state.eventName.value,
+                    text = currentState.eventName.value,
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     style = typography.h3,
@@ -144,7 +122,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = state.eventDateAndTime.value.formatToUkrainianDate(), //TODO()
+                        text = currentState.eventDateAndTime.value.formatToUkrainianDate(), //TODO()
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -153,7 +131,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = state.eventDateAndTime.value.formatTimeRange(state.eventDuration.value), //TODO()
+                        text = currentState.eventDateAndTime.value.formatTimeRange(currentState.eventDuration.value), //TODO()
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -169,7 +147,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = state.eventPlaceName.value,
+                        text = currentState.eventPlaceName.value,
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -194,10 +172,10 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = if (state.eventPrice.value == 0) {
+                        text = if (currentState.eventPrice.value == 0) {
                             stringResource(id = R.string.free)
                         } else {
-                            state.eventPrice.value.toString()
+                            currentState.eventPrice.value.toString()
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
@@ -219,14 +197,14 @@ fun EventScreen(
                 Text(
                     modifier = Modifier
                         .animateContentSize()
-                        .clickable { descriptionTextExpanded = !descriptionTextExpanded },
-                    text = state.eventDescription.value,
+                        .clickable { currentState.isDescriptionTextExpanded.value = !currentState.isDescriptionTextExpanded.value },
+                    text = currentState.eventDescription.value,
                     fontSize = 14.sp,
                     lineHeight = 24.sp,
                     style = typography.h4,
                     fontWeight = FontWeight(400),
                     color = primaryDark,
-                    maxLines = if (descriptionTextExpanded) Int.MAX_VALUE else 4,
+                    maxLines = if (currentState.isDescriptionTextExpanded.value) Int.MAX_VALUE else 4,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Spacer(modifier = Modifier.size(10.dp))
@@ -234,8 +212,8 @@ fun EventScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    TextBadge2(text = state.sportType.value)
-                    TextBadge2(text = state.eventGenders.value)
+                    TextBadge2(text = currentState.sportType.value)
+                    TextBadge2(text = currentState.eventGenders.value)
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 Box(
@@ -510,12 +488,12 @@ fun EventScreen(
                 }
                 Spacer(modifier = Modifier.size(20.dp))
                 UserCardWithPhone(
-                    userAvatarUrl = state.eventAuthorAvatar.value,
-                    firstName = state.eventAuthorFirstName.value,
-                    lastName = state.eventAuthorLastName.value,
-                    userPhone = state.eventAuthorPhone.value,
+                    userAvatarUrl = currentState.eventAuthorAvatar.value,
+                    firstName = currentState.eventAuthorFirstName.value,
+                    lastName = currentState.eventAuthorLastName.value,
+                    userPhone = currentState.eventAuthorPhone.value,
                     userRole = stringResource(R.string.organizer),
-                    clickCallback = { navigateToEventAuthorPublicProfile() },
+                    clickCallback = { onNavigateToEventAuthorPublicProfile() },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 Image(
@@ -536,7 +514,18 @@ fun EventScreen(
                     fontWeight = FontWeight(700),
                     color = Color(0xFF262541),
                 )
-                TabRow(tabs = tabs, icons = icons)
+                TabRow(tabs = listOf(
+                    stringResource(R.string.users_list),
+                    stringResource(R.string.coaching_staff),
+                    stringResource(R.string.registered_viewers),
+                    stringResource(R.string.requests_for_participation),
+                ),
+                    icons = listOf(
+                    painterResource(id = R.drawable.ic_ball),
+                    painterResource(id = R.drawable.ic_peoples),
+                    painterResource(id = R.drawable.ic_field),
+                    painterResource(id = R.drawable.ic_add_user)
+                ))
                 Spacer(modifier = Modifier.size(20.dp))
                 TeamSwitcher(
                     stringResource(R.string.team_first),
@@ -573,7 +562,7 @@ fun EventScreen(
                 onJoinBtnClick = { /*TODO*/ },
                 onEditClick = { onEditClick() },
                 shareBtnClick = { isShareLinkModalVisible.value = true },
-                isMyEvent = it.isMyEvent.value
+                isMyEvent = currentState.isMyEvent.value
             )
         }
         if (currentState.state is EventScreenMainContract.ScreenViewState.Loading) {

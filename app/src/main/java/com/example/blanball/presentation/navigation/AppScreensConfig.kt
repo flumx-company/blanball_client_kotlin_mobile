@@ -1086,7 +1086,10 @@ fun AppScreensConfig(
                                 )
                             }
                         },
-                        navigateToEventAuthorPublicProfile = {},
+                        onNavigateToEventAuthorPublicProfile = {
+                            publicProfileCurrentState.userId.value = eventScreenViewModelCurrentState.currentEventAuthorId.value
+                            navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                        },
                         isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
                         isConfirmReminderContent = {
                             ConfirmEmailReminder(
