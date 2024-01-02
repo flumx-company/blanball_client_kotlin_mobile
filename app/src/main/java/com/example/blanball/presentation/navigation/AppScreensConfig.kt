@@ -1301,7 +1301,8 @@ fun AppScreensConfig(
                                     state = MyEventsScreenMainContract.ScreenViewState.Loading
                                 )
                             }
-                        }
+                        },
+                        onCreatedEventClicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) }
                     )
                 }
             )
