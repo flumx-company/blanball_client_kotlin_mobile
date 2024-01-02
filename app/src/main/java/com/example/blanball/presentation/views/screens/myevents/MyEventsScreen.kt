@@ -71,6 +71,7 @@ fun MyEventsScreen(
     navigateToMyEventsFilterScreen: () -> Unit,
     selectedTab: MutableState<EventTab>,
     onClickedToChangeOrdering: () -> Unit,
+    onCreatedEventClicked: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -384,7 +385,7 @@ fun MyEventsScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
-            clickCallback = {}
+            clickCallback = { onCreatedEventClicked()}
         )
         if (currentState.state is MyEventsScreenMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)
