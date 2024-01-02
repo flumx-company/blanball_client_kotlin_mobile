@@ -75,33 +75,30 @@ import com.example.blanball.utils.writeEmail
 @Composable
 fun PublicProfileScreen(
     state: UiState,
-    onInviteToAnEventClicked: () -> Unit,
+    onInviteToAnEventClicked: () -> Unit, // TODO (Not implemented on backend side)
     onAllReviewsScreenClicked: () -> Unit,
     onAllPlannedEventsScreenClicked: () -> Unit,
     paddingValues: PaddingValues
 ) {
-    val currentState: PublicProfileMainContract.State =
-        (state as? PublicProfileMainContract.State) ?: PublicProfileMainContract.State(
-            PublicProfileMainContract.ScreenViewState.Idle
-        )
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(paddingValues),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.public_profile_cover_blue),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+
+    (state as? PublicProfileMainContract.State)?.let { currentState ->
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-        )
-        (state as? PublicProfileMainContract.State)?.let {
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.public_profile_cover_blue),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(130.dp)
+            )
             Column(
                 modifier = Modifier.padding(
                     start = 20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp,
@@ -154,7 +151,7 @@ fun PublicProfileScreen(
                                         .fillMaxSize()
                                 )
                                 Text(
-                                    text = "${state.userLastNameText.value.firstOrNull() ?: ""} ${state.userFirstNameText.value.firstOrNull() ?: ""}",
+                                    text = "${state.userLastNameText.value.firstOrNull() ?: ""}${state.userFirstNameText.value.firstOrNull() ?: ""}",
                                     modifier = Modifier.align(
                                         Center
                                     ),
@@ -223,7 +220,7 @@ fun PublicProfileScreen(
                     }
                     Spacer(modifier = Modifier.size(16.dp))
                     Button(
-                        onClick = { it.openInviteUserToInventModal.value = true },
+                        onClick = { currentState.openInviteUserToInventModal.value = true },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp)
@@ -473,7 +470,7 @@ fun PublicProfileScreen(
                             }"
                         )
                     } else {
-                        DisplayUserReviewsColumn(it)
+                        DisplayUserReviewsColumn(currentState)
                         Text(
                             stringResource(id = R.string.show_all_reviews),
                             style = typography.h6,
@@ -506,7 +503,7 @@ fun PublicProfileScreen(
                             }"
                         )
                     } else {
-                        DisplayUserPlannedEventsColumn(it)
+                        DisplayUserPlannedEventsColumn(currentState)
                         Text(
                             stringResource(id = R.string.show_all_planned_events),
                             style = typography.h6,
@@ -535,7 +532,7 @@ fun PublicProfileScreen(
                 }
                 Spacer(modifier = Modifier.size(32.dp))
             }
-            if (it.openInviteUserToInventModal.value) {
+            if (currentState.openInviteUserToInventModal.value) {
                 AlertDialog(
                     modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 30.dp),
                     shape = RoundedCornerShape(6.dp),
@@ -575,7 +572,7 @@ fun PublicProfileScreen(
                     },
                     dismissButton = {
                         TextButton(
-                            onClick = { it.openInviteUserToInventModal.value = false },
+                            onClick = { currentState.openInviteUserToInventModal.value = false },
                             modifier = Modifier.align(alignment = Alignment.CenterStart)
                         ) {
                             Text(
@@ -593,14 +590,14 @@ fun PublicProfileScreen(
                             Spacer(modifier = Modifier.size(16.dp))
                             CustomDropDownMenu(
                                 labelResId = R.string.choose_the_ivent,
-                                listItems = it.invitesList.value,
-                                value = it.selectedInviteState.value,
+                                listItems = currentState.invitesList.value,
+                                value = currentState.selectedInviteState.value,
                                 onValueChange = { state.selectedInviteState.value = it },
                             )
                             Spacer(modifier = Modifier.size(16.dp))
                             ReadOnlyOutlinePlaceholder(
                                 modifier = Modifier.fillMaxWidth(1f),
-                                value = it.addMessageState.value,
+                                value = currentState.addMessageState.value,
                                 onValueChange = { state.addMessageState.value = it },
                                 labelResId = R.string.message,
                             )
@@ -610,8 +607,8 @@ fun PublicProfileScreen(
                 )
             }
         }
-    }
-    if (currentState.state is PublicProfileMainContract.ScreenViewState.Loading) {
-        Loader(backgroundColor = Color.White, textColor = primaryDark)
+        if (currentState.state == PublicProfileMainContract.ScreenViewState.Loading) {
+            Loader(backgroundColor = Color.White, textColor = primaryDark)
+        }
     }
 }
