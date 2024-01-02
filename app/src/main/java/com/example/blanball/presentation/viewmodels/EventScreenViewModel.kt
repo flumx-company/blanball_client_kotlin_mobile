@@ -74,6 +74,7 @@ class EventScreenViewModel
                                 eventAuthorAvatar = mutableStateOf(
                                     it.data.author.profile.avatar_url ?: ""
                                 ),
+                                currentEventAuthorId = mutableStateOf(it.data.author.id),
                                 eventPrice = mutableStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
