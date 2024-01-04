@@ -142,6 +142,15 @@ fun AppScreensConfig(
     userEmailManager: UserEmailManager,
     techWorksScreenViewModel: TechWorksScreenViewModel,
 ) {
+    val navItems = remember {
+        listOf(
+            BottomNavItem.Home,
+            BottomNavItem.FutureEvents,
+            BottomNavItem.CreateNewEvent,
+            BottomNavItem.Rating,
+            BottomNavItem.Chat,
+        )
+    }
     val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
     val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
     val bottomPreviewDrawerState = rememberModalBottomSheetState()
@@ -447,7 +456,8 @@ fun AppScreensConfig(
             Scaffold(
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController, listOfItems = navItems,
+
                     )
                 },
                 content = { it ->
@@ -468,7 +478,8 @@ fun AppScreensConfig(
             Scaffold(
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -487,7 +498,8 @@ fun AppScreensConfig(
             Scaffold(
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -603,7 +615,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -639,7 +652,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -685,7 +699,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -749,7 +764,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -813,7 +829,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -838,7 +855,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -863,7 +881,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -888,7 +907,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -913,7 +933,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -944,7 +965,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -989,7 +1011,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 }, content = { it ->
                     VersionsScreen(
@@ -1041,7 +1064,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -1118,7 +1142,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1145,7 +1170,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1194,7 +1220,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1238,7 +1265,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1283,7 +1311,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -1330,7 +1359,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1389,7 +1419,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1447,7 +1478,8 @@ fun AppScreensConfig(
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1484,7 +1516,8 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { it ->
@@ -1538,7 +1571,8 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->
@@ -1587,7 +1621,8 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 },
                 bottomBar = {
                     BottomNavBar(
-                        navController = navController
+                        navController = navController,
+                        listOfItems = navItems,
                     )
                 },
                 content = { paddingValues ->

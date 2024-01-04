@@ -29,13 +29,13 @@ private val DarkColorPalette = darkColors(
 )
 
 
-private object MainGreenRippleTheme : RippleTheme {
+internal object MainGreenRippleTheme : RippleTheme {
     @Composable
     override fun defaultColor(): Color = mainGreenRippleEffect
-
+    
     @Composable
     override fun rippleAlpha(): RippleAlpha = RippleTheme.defaultRippleAlpha(
-        Color.Black,
+        Color.Unspecified,
         lightTheme = !isSystemInDarkTheme()
     )
 }
