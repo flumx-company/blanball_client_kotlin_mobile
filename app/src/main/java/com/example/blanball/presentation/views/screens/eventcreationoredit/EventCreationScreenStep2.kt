@@ -271,8 +271,7 @@ fun EventEditOrCreationScreenStep2(
                         state.userSearchQuery.value = searchText
                         usersSearchClicked()
                     },
-                    onSearch = {
-                    },
+                    onSearch = {},
                     colors = SearchBarDefaults.colors(
                         containerColor = Color.White,
                         inputFieldColors = SearchBarDefaults.inputFieldColors(
