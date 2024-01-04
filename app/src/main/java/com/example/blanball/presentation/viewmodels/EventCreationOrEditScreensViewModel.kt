@@ -96,7 +96,6 @@ class EventCreationOrEditScreensViewModel
                                 copy(
                                     listOfFoundUsers = mutableStateOf(it),
                                     state = EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchRequestSuccess,
-                                    usersSearchHasFinished = mutableStateOf(true),
                                 )
                             }
                         }
