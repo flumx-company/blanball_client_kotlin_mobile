@@ -54,6 +54,7 @@ class EventEditAndCreationScreensMainContract {
         val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696)),
         val isEditOrCreation: MutableState<EditOrCreationState> = mutableStateOf(EditOrCreationState.CREATION),
         val currentEventId: MutableState<Int> = mutableStateOf(0),
+        val usersSearchHasFinished: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {
