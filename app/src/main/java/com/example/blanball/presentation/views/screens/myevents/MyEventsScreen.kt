@@ -1,6 +1,5 @@
 package com.example.blanball.presentation.views.screens.myevents
 
-import DottedLine
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,8 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -34,14 +31,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.annotationGray
 import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.mainGreen
@@ -273,87 +268,6 @@ fun MyEventsScreen(
                                     TextBadge2(text = event.gender)
                                     Spacer(modifier = Modifier.size(4.dp))
                                     TextBadge2(text = event.type)
-                                }
-                                Spacer(modifier = Modifier.size(12.dp))
-                                DottedLine(color = annotationGray)
-                                Spacer(modifier = Modifier.size(12.dp))
-                                Row {
-                                    Text(
-                                        text = event.name,
-                                        fontSize = 13.sp,
-                                        lineHeight = 24.sp,
-                                        style = typography.h4,
-                                        fontWeight = FontWeight(400),
-                                        color = mainGreen,
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    Text(
-                                        text = stringResource(R.string.free),
-                                        fontSize = 14.sp,
-                                        lineHeight = 24.sp,
-                                        style = typography.h4,
-                                        fontWeight = FontWeight(600),
-                                        color = primaryDark,
-                                    )
-                                }
-                                Spacer(modifier = Modifier.size(16.dp))
-                                Row {
-                                    Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-                                        Row {
-                                            Text(
-                                                text = stringResource(R.string.players_),
-                                                fontSize = 13.sp,
-                                                lineHeight = 24.sp,
-                                                style = typography.h4,
-                                                fontWeight = FontWeight(400),
-                                                color = secondaryNavy,
-                                            )
-                                            Text(
-                                                text = "${event.count_current_users}/${event.amount_members}",
-                                                fontSize = 13.sp,
-                                                lineHeight = 24.sp,
-                                                style = typography.h4,
-                                                fontWeight = FontWeight(400),
-                                                color = primaryDark,
-                                            )
-                                        }
-                                        Row {
-                                            Text(
-                                                text = stringResource(R.string.fans),
-                                                fontSize = 13.sp,
-                                                lineHeight = 24.sp,
-                                                style = typography.h4,
-                                                fontWeight = FontWeight(400),
-                                                color = secondaryNavy,
-                                            )
-                                            Text(
-                                                text = "${event.count_current_fans}/${event.amount_members}",
-                                                fontSize = 13.sp,
-                                                lineHeight = 24.sp,
-                                                style = typography.h4,
-                                                fontWeight = FontWeight(400),
-                                                color = primaryDark,
-                                            )
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    Button(
-                                        onClick = { /*TODO*/ },
-                                        shape = shapes.medium,
-                                        colors = ButtonDefaults.buttonColors(
-                                            backgroundColor = mainGreen,
-                                            contentColor = Color.White,
-                                        ),
-                                    ) {
-                                        Text(
-                                            text = stringResource(id = R.string.i_am_with_you),
-                                            style = typography.h4,
-                                            fontSize = 14.sp,
-                                            lineHeight = 24.sp,
-                                            fontWeight = FontWeight(400),
-                                            textAlign = TextAlign.Center
-                                        )
-                                    }
                                 }
                             }
                             Spacer(modifier = Modifier.size(12.dp))

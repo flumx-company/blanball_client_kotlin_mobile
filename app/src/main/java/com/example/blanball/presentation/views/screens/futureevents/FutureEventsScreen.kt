@@ -289,14 +289,30 @@ fun FutureEventsScreen(
                                         color = mainGreen,
                                     )
                                     Spacer(modifier = Modifier.weight(1f))
-                                    Text(
-                                        text = stringResource(R.string.free),
-                                        fontSize = 14.sp,
-                                        lineHeight = 24.sp,
-                                        style = typography.h4,
-                                        fontWeight = FontWeight(600),
-                                        color = primaryDark,
-                                    )
+                                    if (event.price == 0) {
+                                        Text(
+                                            text = stringResource(R.string.free),
+                                            fontSize = 14.sp,
+                                            lineHeight = 24.sp,
+                                            style = typography.h4,
+                                            fontWeight = FontWeight(600),
+                                            color = primaryDark,
+                                        )
+                                    }
+                                    else {
+                                        Text(
+                                            text = if (event.price == 0) {
+                                                stringResource(id = R.string.free)
+                                            } else {
+                                                event.price.toString() + "" + stringResource(R.string.uah_char)
+                                            },
+                                            fontSize = 14.sp,
+                                            lineHeight = 24.sp,
+                                            style = typography.h4,
+                                            fontWeight = FontWeight(600),
+                                            color = primaryDark,
+                                        )
+                                    }
                                 }
                                 Spacer(modifier = Modifier.size(16.dp))
                                 Row {

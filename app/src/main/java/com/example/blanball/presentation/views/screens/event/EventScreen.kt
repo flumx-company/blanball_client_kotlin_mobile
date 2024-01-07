@@ -175,7 +175,7 @@ fun EventScreen(
                         text = if (currentState.eventPrice.value == 0) {
                             stringResource(id = R.string.free)
                         } else {
-                            currentState.eventPrice.value.toString()
+                            currentState.eventPrice.value.toString() + "" + stringResource(R.string.uah_char)
                         },
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
