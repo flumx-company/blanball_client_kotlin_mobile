@@ -10,7 +10,6 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +17,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.surfaceBrandSecondary
@@ -45,8 +43,6 @@ fun BottomNavBar(navController: NavController) {
         elevation = 10.dp,
         contentColor = primaryDark,
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item -> //TODO
             BottomNavigationItem(
                 selectedContentColor = primaryDark,
@@ -55,7 +51,7 @@ fun BottomNavBar(navController: NavController) {
                     Box(
                         modifier = Modifier
                             .background(
-                                color = if (currentRoute == item.screen_route) surfaceBrandSecondary else Color.White,
+                                color = if (navController.currentDestination?.route == item.screen_route) surfaceBrandSecondary else Color.White,
                                 shape = RoundedCornerShape(16.dp)
                             )
                             .size(width = 64.dp, height = 32.dp),
@@ -69,7 +65,7 @@ fun BottomNavBar(navController: NavController) {
                         )
                     }
                 },
-                selected = currentRoute == item.screen_route,
+                selected = navController.currentDestination?.route == item.screen_route,
                 onClick = {
                     navController.navigate(item.screen_route)
                 }
