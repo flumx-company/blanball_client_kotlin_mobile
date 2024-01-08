@@ -4,19 +4,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.primaryDark
 
-
 @Composable
-fun BottomNavBar(navController: NavController, listOfItems: List<BottomNavItem>) {
-        BottomNavigation(
+fun BottomNavBar(navController: NavController) {
+    BottomNavigation(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(72.dp),
@@ -25,12 +23,19 @@ fun BottomNavBar(navController: NavController, listOfItems: List<BottomNavItem>)
             contentColor = primaryDark,
         ) {
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            listOfItems.forEach { item ->
+        val navigationItems = remember {
+            listOf(
+                BottomNavItem.Home,
+                BottomNavItem.FutureEvents,
+                BottomNavItem.CreateNewEvent,
+                BottomNavItem.Rating,
+                BottomNavItem.Chat,
+            )
+        }
+            navigationItems.forEach { item ->
                     CustomNavItem(
-                        currentRoute = currentRoute,
                         item = item,
+                        selectedItem = navController.currentDestination?.route == item.screen_route,
                         navController = navController,
                     )
             }

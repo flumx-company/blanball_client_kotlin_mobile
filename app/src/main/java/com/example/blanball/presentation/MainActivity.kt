@@ -6,10 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,11 +23,11 @@ import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
-import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
 import com.example.data.datastore.remembermemanager.RememberMeManager
@@ -65,10 +65,12 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userEmailManager: UserEmailManager
 
+
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
     private val eventScreenViewModel: EventScreenViewModel by viewModels()
+    private val eventCreationScreenViewModel: EventCreationOrEditScreensViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,13 +141,6 @@ class MainActivity : ComponentActivity() {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                            Scaffold(
-                                bottomBar = {
-                                    BottomNavBar(
-                                        navController = navController, listOfItems = navItems,
-                                    )
-                                },
-                                content = { paddingValues ->
                                     AppScreensConfig(
                                         navController = navController,
                                         startDestinations = startDestinations,
@@ -173,9 +168,8 @@ class MainActivity : ComponentActivity() {
                                         emailVerificationViewModel = viewModel(),
                                         userEmailManager = userEmailManager,
                                         techWorksScreenViewModel = techWorksScreenViewModel,
+                                        eventCreationScreenViewModelState = eventCreationScreenViewModel.uiState.collectAsState().value
                                     )
-                                }
-                            )
                         }
                     }
                 }

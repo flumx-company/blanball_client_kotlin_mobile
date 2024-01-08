@@ -22,8 +22,8 @@ import com.example.blanball.presentation.theme.surfaceBrandSecondary
 
 @Composable
 fun CustomNavItem(
-    currentRoute: String?,
     item: BottomNavItem,
+    selectedItem: Boolean,
     navController: NavController,
 ) {
     Box(
@@ -32,11 +32,11 @@ fun CustomNavItem(
     ) {
         Box(
             modifier = Modifier
-                .size(width = 64.dp, height = 32.dp)
                 .background(
-                    color = if (currentRoute == item.screen_route) surfaceBrandSecondary else Color.White,
+                    color = if (selectedItem) surfaceBrandSecondary else Color.White,
                     shape = RoundedCornerShape(16.dp)
                 )
+                .size(width = 64.dp, height = 32.dp)
                 .clip(shape = RoundedCornerShape(16.dp))
                 .clickable {
                     navController.navigate(item.screen_route)
