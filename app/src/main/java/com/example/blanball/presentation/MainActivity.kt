@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -167,8 +166,7 @@ class MainActivity : ComponentActivity() {
                                         eventScreenViewModel = viewModel(),
                                         emailVerificationViewModel = viewModel(),
                                         userEmailManager = userEmailManager,
-                                        techWorksScreenViewModel = techWorksScreenViewModel,
-                                        eventCreationScreenViewModelState = eventCreationScreenViewModel.uiState.collectAsState().value
+                                        eventCreationOrEditViewModel = viewModel(),
                                     )
                         }
                     }

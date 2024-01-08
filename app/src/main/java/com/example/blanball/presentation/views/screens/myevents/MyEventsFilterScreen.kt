@@ -21,7 +21,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,12 +41,11 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.SelectEventDatesRangeButtons
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.modals.DateRangePickerModal
 
 @Composable
 fun MyEventsFilterScreen(
     state: UiState,
-    isDatePickerModalOpen: MutableState<Boolean>,
-    datePickerModalContent: @Composable () -> Unit,
     clearBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
     paddingValues: PaddingValues,
@@ -56,7 +54,7 @@ fun MyEventsFilterScreen(
         stringResource(id = R.string.football),
         stringResource(id = R.string.futsal),
     )
-    (state as MyEventsScreenMainContract.State).let {
+    (state as MyEventsScreenMainContract.State).let { currentState ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -77,7 +75,7 @@ fun MyEventsFilterScreen(
                     color = primaryDark,
                 )
                 Text(
-                    text = "${state.myEventsCounter.value} " + stringResource(id = R.string.ads),
+                    text = "${currentState.myEventsCounter.value} " + stringResource(id = R.string.ads),
                     fontSize = 12.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -90,8 +88,8 @@ fun MyEventsFilterScreen(
                 CustomDropDownMenu(
                     labelResId = R.string.sport_type,
                     listItems = typeOfSports,
-                    value = it.typeOfSportsStateSelected.value,
-                    onValueChange = { state.typeOfSportsStateSelected.value = it }
+                    value = currentState.typeOfSportsStateSelected.value,
+                    onValueChange = { currentState.typeOfSportsStateSelected.value = it }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(
@@ -101,12 +99,12 @@ fun MyEventsFilterScreen(
                     Box(
                         modifier = Modifier
                             .clickable {
-                                state.gendersSelectionState.value =
+                                currentState.gendersSelectionState.value =
                                     MyEventsScreenMainContract.GenderSelectionState.MALE
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -121,7 +119,7 @@ fun MyEventsFilterScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.male_ic),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
+                                tint = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
                             )
                             Spacer(modifier = Modifier.size(4.dp))
                             Text(
@@ -130,7 +128,7 @@ fun MyEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
                             )
                         }
                     }
@@ -138,12 +136,12 @@ fun MyEventsFilterScreen(
                     Box(
                         modifier = Modifier
                             .clickable {
-                                state.gendersSelectionState.value =
+                                currentState.gendersSelectionState.value =
                                     MyEventsScreenMainContract.GenderSelectionState.FEMALE
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -159,7 +157,7 @@ fun MyEventsFilterScreen(
                                 modifier = Modifier.size(20.dp),
                                 painter = painterResource(id = R.drawable.female_ic),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
+                                tint = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
 
                             )
                             Spacer(modifier = Modifier.size(4.dp))
@@ -169,7 +167,7 @@ fun MyEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
                             )
                         }
                     }
@@ -177,12 +175,12 @@ fun MyEventsFilterScreen(
                     Box(
                         modifier = Modifier
                             .clickable {
-                                state.gendersSelectionState.value =
+                                currentState.gendersSelectionState.value =
                                     MyEventsScreenMainContract.GenderSelectionState.ALL
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -198,7 +196,7 @@ fun MyEventsFilterScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_all),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
+                                tint = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
                             )
                             Spacer(modifier = Modifier.size(4.dp))
                             Text(
@@ -207,14 +205,14 @@ fun MyEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == MyEventsScreenMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
                             )
                         }
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectEventDatesRangeButtons(
-                    clickCallback = { isDatePickerModalOpen.value = true },
+                    clickCallback = { currentState.isDatePickerRangeModalVisible.value = true },
                     state = state,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
@@ -261,7 +259,10 @@ fun MyEventsFilterScreen(
             }
         }
         when {
-            isDatePickerModalOpen.value -> datePickerModalContent()
+            currentState.isDatePickerRangeModalVisible.value -> DateRangePickerModal(
+                backBtnClicked = { currentState.isDatePickerRangeModalVisible.value = false },
+                state = state,
+            )
+        }
         }
     }
-}

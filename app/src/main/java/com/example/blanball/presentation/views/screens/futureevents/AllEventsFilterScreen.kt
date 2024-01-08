@@ -21,7 +21,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,21 +41,20 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.SelectEventDatesRangeButtons
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.modals.DateRangePickerModal
 
 @Composable
 fun AllEventsFilterScreen(
     state: UiState,
-    isDatePickerModalOpen: MutableState<Boolean>,
-    datePickerModalContent: @Composable () -> Unit,
     turnBackBtnClicked: () -> Unit,
     confirmBtnClicked: () -> Unit,
     paddingValues: PaddingValues,
 ) {
-        val typeOfSports = listOf(
+        val typeOfSports =   listOf(
             stringResource(id = R.string.football),
             stringResource(id = R.string.futsal),
         )
-    (state as FutureEventsMainContract.State).let {
+    (state as FutureEventsMainContract.State).let { currentState ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -76,7 +74,7 @@ fun AllEventsFilterScreen(
                     color = primaryDark,
                 )
                 Text(
-                    text = "${state.allEventsCounter.value} " + stringResource(id = R.string.ads),
+                    text = "${currentState.allEventsCounter.value} " + stringResource(id = R.string.ads),
                     fontSize = 12.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -89,8 +87,8 @@ fun AllEventsFilterScreen(
                 CustomDropDownMenu(
                     labelResId = R.string.sport_type,
                     listItems = typeOfSports,
-                    value = it.typeOfSportsStateSelected.value,
-                    onValueChange = { state.typeOfSportsStateSelected.value = it }
+                    value = currentState.typeOfSportsStateSelected.value,
+                    onValueChange = { currentState.typeOfSportsStateSelected.value = it }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(
@@ -100,12 +98,12 @@ fun AllEventsFilterScreen(
                     Box(
                         modifier = Modifier
                             .clickable {
-                                state.gendersSelectionState.value =
+                                currentState.gendersSelectionState.value =
                                     FutureEventsMainContract.GenderSelectionState.MALE
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -120,7 +118,7 @@ fun AllEventsFilterScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.male_ic),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
+                                tint = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else secondaryNavy,
                             )
                             Spacer(modifier = Modifier.size(4.dp))
                             Text(
@@ -129,7 +127,7 @@ fun AllEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.MALE) mainGreen else primaryDark,
                             )
                         }
                     }
@@ -142,7 +140,7 @@ fun AllEventsFilterScreen(
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -158,7 +156,7 @@ fun AllEventsFilterScreen(
                                 modifier = Modifier.size(20.dp),
                                 painter = painterResource(id = R.drawable.female_ic),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
+                                tint = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else secondaryNavy
 
                             )
                             Spacer(modifier = Modifier.size(4.dp))
@@ -168,7 +166,7 @@ fun AllEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.FEMALE) mainGreen else primaryDark,
                             )
                         }
                     }
@@ -181,7 +179,7 @@ fun AllEventsFilterScreen(
                             }
                             .border(
                                 width = 1.dp,
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else defaultLightGray,
                                 shape = RoundedCornerShape(size = 6.dp)
                             )
                             .wrapContentWidth()
@@ -197,7 +195,7 @@ fun AllEventsFilterScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_all),
                                 contentDescription = null,
-                                tint = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
+                                tint = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else secondaryNavy,
                             )
                             Spacer(modifier = Modifier.size(4.dp))
                             Text(
@@ -206,14 +204,14 @@ fun AllEventsFilterScreen(
                                 lineHeight = 24.sp,
                                 style = typography.h4,
                                 fontWeight = FontWeight(400),
-                                color = if (state.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
+                                color = if (currentState.gendersSelectionState.value == FutureEventsMainContract.GenderSelectionState.ALL) mainGreen else primaryDark,
                             )
                         }
                     }
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectEventDatesRangeButtons(
-                    clickCallback = { isDatePickerModalOpen.value = true },
+                    clickCallback = { currentState.isRangeDatePickerModalOpen.value= true },
                     state = state,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
@@ -260,7 +258,11 @@ fun AllEventsFilterScreen(
             }
         }
         when {
-            isDatePickerModalOpen.value -> datePickerModalContent()
+            currentState.isRangeDatePickerModalOpen.value ->
+                DateRangePickerModal(
+                backBtnClicked = { currentState.isRangeDatePickerModalOpen.value = false },
+                state = currentState
+            )
         }
     }
 }

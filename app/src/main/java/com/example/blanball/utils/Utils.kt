@@ -90,6 +90,5 @@ internal class MaskVisualTransformation(private val mask: String) : VisualTransf
 }
 
 internal val navigateToLogin: MutableState<Boolean> = mutableStateOf(false)
-
 internal val toPrivacyPolicyUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
 internal val toFLumXUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.FLUM_X_URL))

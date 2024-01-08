@@ -31,7 +31,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -69,15 +68,13 @@ fun EventEditOrCreationScreenStep2(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToThirdStep: () -> Unit,
-    isBottomDrawerOpen: MutableState<Boolean>,
-    isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
     usersSearchClicked: () -> Unit,
     isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
-    (state as? EventEditAndCreationScreensMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -124,34 +121,34 @@ fun EventEditOrCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.isEventPrivacy.value =
+                            currentState.isEventPrivacy.value =
                                 EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.isEventPrivacy.value =
+                                currentState.isEventPrivacy.value =
                                     EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = it.isEventPrivacy.value == EventEditAndCreationScreensMainContract.EventPrivacyStates.NO,
+                        selected = currentState.isEventPrivacy.value == EventEditAndCreationScreensMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.isEventPrivacy.value =
+                            currentState.isEventPrivacy.value =
                                 EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.isEventPrivacy.value =
+                                currentState.isEventPrivacy.value =
                                     EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(R.string.yes_the_event_is_closed),
-                        selected = it.isEventPrivacy.value ==
+                        selected = currentState.isEventPrivacy.value ==
                                 EventEditAndCreationScreensMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
@@ -172,34 +169,34 @@ fun EventEditOrCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.entryStates.value =
+                            currentState.entryStates.value =
                                 EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.entryStates.value =
+                                currentState.entryStates.value =
                                     EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(id = R.string.free),
-                        selected = it.entryStates.value == EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY,
+                        selected = currentState.entryStates.value == EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.entryStates.value =
+                            currentState.entryStates.value =
                                 EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.entryStates.value =
+                                currentState.entryStates.value =
                                     EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(R.string.paid),
-                        selected = it.entryStates.value ==
+                        selected = currentState.entryStates.value ==
                                 EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY,
                         icon = null,
                     )
@@ -225,8 +222,8 @@ fun EventEditOrCreationScreenStep2(
                 Spacer(modifier = Modifier.size(20.dp))
                 DefaultTextInput(
                     labelResId = R.string.max_50,
-                    state = it,
-                    value = it.maxEventPlayersState.value,
+                    state = currentState,
+                    value = currentState.maxEventPlayersState.value,
                     onValueChange = { state.maxEventPlayersState.value = it },
                     transformation = VisualTransformation.None,
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -241,11 +238,11 @@ fun EventEditOrCreationScreenStep2(
                         )
                     },
                     isError = when {
-                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> true
+                        currentState.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
+                        currentState.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
                             id = R.string.max_count_players_validation
                         )
 
@@ -264,7 +261,7 @@ fun EventEditOrCreationScreenStep2(
                             width = 1.dp
                         )
                         .animateContentSize(),
-                    query = it.usersSearchState.value,
+                    query = currentState.usersSearchState.value,
                     onQueryChange = { searchText ->
                         state.usersSearchState.value = searchText
                     },
@@ -295,7 +292,7 @@ fun EventEditOrCreationScreenStep2(
                         )
 
                     },
-                    active = it.isSearchColumnOpen.value,
+                    active = currentState.isSearchColumnOpen.value,
                     onActiveChange = { state.isSearchColumnOpen.value = it },
                     placeholder = {
                         Text(
@@ -308,7 +305,7 @@ fun EventEditOrCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (it.state == EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchLoading) {
+                    if (currentState.state == EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -324,23 +321,26 @@ fun EventEditOrCreationScreenStep2(
                                     .dynamicContentWrapOrMaxHeight(scope = this)
                                     .fillMaxWidth(),
                                 content = {
-                                    itemsIndexed(state.listOfFoundUsers.value) { index, user ->
+                                    itemsIndexed(state.listOfFoundUsers.value) { _, user ->
                                         UserCardOnEventCreation(
                                             userAvatarUrl = user.profile.avatar_url ?: "",
                                             userFirstName = user.profile.name,
                                             userLastName = user.profile.last_name,
                                             userId = user.id,
-                                            isUserSelected = it.selectedUserIds.value.contains(
+                                            isUserSelected = currentState.selectedUserIds.value.contains(
                                                 user.id
                                             ),
                                             onUserSelected = { userId ->
-                                                if (!it.selectedUserIds.value.contains(userId)) {
-                                                    it.selectedUserIds.value += userId
-                                                    it.selectedUserProfiles.value += user
+                                                if (!currentState.selectedUserIds.value.contains(
+                                                        userId
+                                                    )
+                                                ) {
+                                                    currentState.selectedUserIds.value += userId
+                                                    currentState.selectedUserProfiles.value += user
 
                                                 } else {
-                                                    it.selectedUserIds.value -= userId
-                                                    it.selectedUserProfiles.value -= user
+                                                    currentState.selectedUserIds.value -= userId
+                                                    currentState.selectedUserProfiles.value -= user
                                                 }
                                             },
                                         )
@@ -352,74 +352,76 @@ fun EventEditOrCreationScreenStep2(
                         }
                     }
                 }
-            DottedLine(color = defaultLightGray)
-            Spacer(modifier = Modifier.size(20.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(R.string.progress),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = R.drawable.ic_arrow_left),
-                    contentDescription = null,
-                    tint = avatarGrey,
-                )
-                Text(
-                    text = stringResource(R.string._2_3),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = primaryDark,
-                )
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                    contentDescription = null,
-                    tint = secondaryNavy,
-                )
-            }
-            Row(
-                Modifier.padding(top = 20.dp)
-            ) {
-                repeat(2) {
+                DottedLine(color = defaultLightGray)
+                Spacer(modifier = Modifier.size(20.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.progress),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = null,
+                        tint = avatarGrey,
+                    )
+                    Text(
+                        text = stringResource(R.string._2_3),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = primaryDark,
+                    )
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = null,
+                        tint = secondaryNavy,
+                    )
+                }
+                Row(
+                    Modifier.padding(top = 20.dp)
+                ) {
+                    repeat(2) {
+                        Image(
+                            painter = painterResource(R.drawable.stepline_1),
+                            contentDescription = null,
+                            Modifier.weight(1f)
+                        )
+                        Spacer(modifier = Modifier.size(2.dp))
+                    }
                     Image(
-                        painter = painterResource(R.drawable.stepline_1),
+                        painter = painterResource(id = R.drawable.empty_stepline),
                         contentDescription = null,
                         Modifier.weight(1f)
                     )
-                    Spacer(modifier = Modifier.size(2.dp))
                 }
-                Image(
-                    painter = painterResource(id = R.drawable.empty_stepline),
-                    contentDescription = null,
-                    Modifier.weight(1f)
+                Spacer(modifier = Modifier.size(16.dp))
+                NextAndPreviousButtonsHorizontal(
+                    isEnabled = true,
+                    nextBtnOnClick = { navigateToThirdStep() },
+                    prevBtnOnClick = { backBtnCLicked() },
+                    nextBtnOnTextId = R.string.next,
+                    prevBtnOnTextId = R.string.back,
                 )
-            }
-            Spacer(modifier = Modifier.size(16.dp))
-            NextAndPreviousButtonsHorizontal(
-                isEnabled = true,
-                nextBtnOnClick = { navigateToThirdStep() },
-                prevBtnOnClick = { backBtnCLicked() },
-                nextBtnOnTextId = R.string.next,
-                prevBtnOnTextId = R.string.back,
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
-            Spacer(modifier = Modifier.size(16.dp))
-            InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
-            when {
-                isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
-                isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                Spacer(modifier = Modifier.size(16.dp))
+                PreviewOfTheEventPosterButton {
+                    currentState.isBottomPreviewDrawerOpen.value = true
+                }
+                Spacer(modifier = Modifier.size(16.dp))
+                InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
+                when {
+                    currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
+                    currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
+                }
             }
         }
-    }
     }
 }

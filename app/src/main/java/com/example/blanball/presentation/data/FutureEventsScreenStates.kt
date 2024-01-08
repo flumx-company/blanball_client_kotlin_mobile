@@ -33,6 +33,8 @@ class FutureEventsMainContract {
         val userFirstNameText: MutableState<String> = mutableStateOf(""),
         val filterDateAndTimeAfter: MutableState<String> = mutableStateOf(""),
         val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
+        val selectedEventTab: MutableState<EventTab> = mutableStateOf(EventTab.ALL_EVENTS),
+        val isRangeDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {
@@ -60,5 +62,10 @@ class FutureEventsMainContract {
     enum class EventsOrderingSelectionState(val stringValue: String?) {
         FIRST_NEW(Strings.FIRST_NEW),
         FIRST_OLDER(Strings.FIRST_OLDER)
+    }
+
+    enum class EventTab {
+        ALL_EVENTS,
+        MY_EVENTS
     }
 }

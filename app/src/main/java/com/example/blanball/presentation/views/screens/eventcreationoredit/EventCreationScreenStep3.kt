@@ -21,7 +21,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -52,20 +51,14 @@ import com.example.blanball.presentation.views.components.textinputs.DefaultText
 fun EventEditOrCreationScreenStep3(
     paddingValues: PaddingValues,
     state: UiState,
-    isBottomDrawerOpen: MutableState<Boolean>,
-    isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     publishBtnClicked: () -> Unit,
     backBtnCLicked: () -> Unit,
     isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
-    val currentState: EventEditAndCreationScreensMainContract.State =
-        (state as? EventEditAndCreationScreensMainContract.State) ?: EventEditAndCreationScreensMainContract.State(
-            EventEditAndCreationScreensMainContract.ScreenViewState.Idle
-        )
     val localFocusManager = LocalFocusManager.current
-    (state as? EventEditAndCreationScreensMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -103,35 +96,35 @@ fun EventEditOrCreationScreenStep3(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.needFormStates.value =
+                            currentState.needFormStates.value =
                                 EventEditAndCreationScreensMainContract.NeedFormStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.needFormStates.value =
+                                currentState.needFormStates.value =
                                     EventEditAndCreationScreensMainContract.NeedFormStates.YES
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(R.string.yes),
-                        selected = it.needFormStates.value ==
+                        selected = currentState.needFormStates.value ==
                                 EventEditAndCreationScreensMainContract.NeedFormStates.YES,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.needFormStates.value =
+                            currentState.needFormStates.value =
                                 EventEditAndCreationScreensMainContract.NeedFormStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.needFormStates.value =
+                                currentState.needFormStates.value =
                                     EventEditAndCreationScreensMainContract.NeedFormStates.NO
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(R.string.no_have),
-                        selected = it.needFormStates.value ==
+                        selected = currentState.needFormStates.value ==
                                 EventEditAndCreationScreensMainContract.NeedFormStates.NO,
                         icon = null,
                     )
@@ -148,8 +141,8 @@ fun EventEditOrCreationScreenStep3(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
-                        state = it,
-                        selected = it.priseSwitchButtonState.value,
+                        state = currentState,
+                        selected = currentState.priseSwitchButtonState.value,
                         onCheckedChange = { state.priseSwitchButtonState.value = it }
                     )
                 }
@@ -165,8 +158,8 @@ fun EventEditOrCreationScreenStep3(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     SwitchButton(
-                        state = it,
-                        selected = it.needBallSwitchButtonState.value,
+                        state = currentState,
+                        selected = currentState.needBallSwitchButtonState.value,
                         onCheckedChange = { state.needBallSwitchButtonState.value = it }
                     )
                 }
@@ -229,7 +222,7 @@ fun EventEditOrCreationScreenStep3(
                     textFieldModifier = Modifier
                         .fillMaxWidth()
                         .height(104.dp),
-                    state = it,
+                    state = currentState,
                     isSingleLine = false,
                     value = state.eventDescriptionState.value,
                     onValueChange = { state.eventDescriptionState.value = it },
@@ -295,17 +288,19 @@ fun EventEditOrCreationScreenStep3(
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomDrawerOpen.value = true }
+                PreviewOfTheEventPosterButton {
+                    currentState.isBottomPreviewDrawerOpen.value = true
+                }
                 Spacer(modifier = Modifier.size(16.dp))
-                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+                InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
                 when {
-                    isBottomDrawerOpen.value -> bottomDrawerPreviewContent()
-                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
+                    currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
+                    currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
                 }
             }
         }
-    }
-    if (currentState.state is EventEditAndCreationScreensMainContract.ScreenViewState.Loading) {
-        Loader()
+        if (currentState.state == EventEditAndCreationScreensMainContract.ScreenViewState.Loading) {
+            Loader()
+        }
     }
 }
