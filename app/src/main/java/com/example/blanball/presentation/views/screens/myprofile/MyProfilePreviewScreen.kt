@@ -82,21 +82,23 @@ fun MyProfilePreviewScreen(
                 .background(color = semiTransparentBlack),
             contentAlignment = Alignment.Center
         ) {
-            Row {
+            Row (verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.size(10.dp))
                 Box(
                     modifier = Modifier
                         .height(28.dp)
                         .wrapContentWidth(),
-                    contentAlignment = Alignment.CenterEnd
+                    contentAlignment = Alignment.Center
                 ) {
                     Row  (
-                        modifier = Modifier.padding(horizontal = 6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
                                 .height(28.dp)
                                 .wrapContentWidth()
+                                .clip(RoundedCornerShape(6.dp))
                                 .clickable { onBackClicked() },
+                            contentAlignment = Alignment.Center
                         ) {
                             Row(
                                 modifier = Modifier.padding(horizontal = 6.dp),
@@ -113,6 +115,7 @@ fun MyProfilePreviewScreen(
                                 )
                                 Spacer(modifier = Modifier.size(6.dp))
                                 Icon(
+                                    modifier = Modifier.size(20.dp),
                                     painter = painterResource(id = R.drawable.ic_backarrow),
                                     contentDescription = null,
                                     tint = bgItemsGray,
@@ -147,13 +150,14 @@ fun MyProfilePreviewScreen(
                         )
                         Spacer(modifier = Modifier.size(6.dp))
                         Icon(
+                            modifier = Modifier.size(20.dp),
                             painter = painterResource(id = R.drawable.ic_cancel),
                             contentDescription = null,
                             tint = bgItemsGray,
                         )
                     }
                 }
-                Spacer(modifier = Modifier.size(6.dp))
+                Spacer(modifier = Modifier.size(10.dp))
             }
         }
         Box(
