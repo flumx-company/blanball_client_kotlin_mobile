@@ -32,8 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,8 +73,6 @@ fun MyProfilePreviewScreen(
         (state as? MyProfileScreensMainContract.State) ?: MyProfileScreensMainContract.State(
             MyProfileScreensMainContract.ScreenViewState.Idle
         )
-    val configuration = LocalConfiguration.current
-    val context = LocalContext.current
 
     Column {
         Box(
@@ -125,7 +121,7 @@ fun MyProfilePreviewScreen(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.weight(1f))
                 Box(
                     modifier = Modifier
                         .height(28.dp)
@@ -141,7 +137,7 @@ fun MyProfilePreviewScreen(
                         modifier = Modifier.padding(horizontal = 6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = stringResource(R.string.save_and_exit),
+                            text = stringResource(R.string.save),
                             fontSize = 13.sp,
                             lineHeight = 24.sp,
                             style = typography.h4,
@@ -157,6 +153,7 @@ fun MyProfilePreviewScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(6.dp))
             }
         }
         Box(
