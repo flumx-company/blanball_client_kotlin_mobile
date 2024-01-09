@@ -52,10 +52,10 @@ import com.example.blanball.utils.ext.formatToUkrainianDate
 
 @Composable
 fun HomeScreenEventCardHorizontalList(
-    clickToEventCardCallback: () -> Unit,
+    clickToEventCardCallback: (eventId: Int) -> Unit,
     state: UiState,
     onLoadMoreUsers: () -> Unit,
-){
+) {
     val lazyListState = rememberLazyListState()
 
     val currentState: FutureEventsMainContract.State =
@@ -63,11 +63,11 @@ fun HomeScreenEventCardHorizontalList(
             FutureEventsMainContract.ScreenViewState.Loading
         )
     var locationTextExpanded by remember { mutableStateOf(false) }
-    (state as? FutureEventsMainContract.State )?.let {
+    (state as? FutureEventsMainContract.State)?.let {
         LazyRow(verticalAlignment = Alignment.CenterVertically) {
             itemsIndexed(state.allEventsList.value) { index, event ->
-                 DefaultCardWithColumn(
-                    clickCallback = clickToEventCardCallback
+                DefaultCardWithColumn(
+                    clickCallback = { clickToEventCardCallback(event.id) }
                 ) {
                     Row {
                         Box(
@@ -173,7 +173,7 @@ fun HomeScreenEventCardHorizontalList(
                 )
             }
         }
-        if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading ) {
+        if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)
         }
     }
