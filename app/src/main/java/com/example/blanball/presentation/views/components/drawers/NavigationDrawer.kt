@@ -52,12 +52,12 @@ fun NavigationDrawer(
     onLogOutClicked: () -> Unit,
     onFoundAnErrorClicked: () -> Unit,
 ) {
+    (state as? NavigationDrawerMainContract.State)?.let {currentState ->
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        (state as? NavigationDrawerMainContract.State)?.let {
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -98,7 +98,7 @@ fun NavigationDrawer(
 
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
-                            if (state.userAvatar.value.isNullOrEmpty()) {
+                            if (currentState.userAvatar.value.isNullOrEmpty()) {
                                 Box(
                                     modifier = Modifier.size(48.dp),
                                     contentAlignment = Alignment.Center
@@ -113,13 +113,13 @@ fun NavigationDrawer(
                                         alignment = Alignment.Center
                                     )
                                     Text(
-                                        text = "${state.userLastNameText.value.firstOrNull()}${state.userFirstNameText.value.firstOrNull()}",
+                                        text = "${currentState.userLastNameText.value.firstOrNull()}${currentState.userFirstNameText.value.firstOrNull()}",
                                         style = typography.h2, fontSize = 22.sp, color = mainGreen
                                     )
                                 }
                             } else {
                                 Image(
-                                    painter = rememberAsyncImagePainter(state.userAvatar.value),
+                                    painter = rememberAsyncImagePainter(currentState.userAvatar.value),
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(48.dp)
@@ -131,7 +131,7 @@ fun NavigationDrawer(
                         Spacer(modifier = Modifier.size(12.dp))
                         Column() {
                             Text(
-                                text = "${state.userFirstNameText.value} ${state.userLastNameText.value}",
+                                text = "${currentState.userFirstNameText.value} ${currentState.userLastNameText.value}",
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp,
                                 fontWeight = FontWeight(800),

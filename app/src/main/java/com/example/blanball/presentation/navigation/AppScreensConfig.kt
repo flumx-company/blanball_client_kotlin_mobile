@@ -137,86 +137,16 @@ fun AppScreensConfig(
 
     val eventCreationOrEditUiState =  eventCreationOrEditViewModel.uiState.collectAsState().value
 
-    val openNavDrawer: () -> Unit = {
+    fun openNavDrawer() {
         coroutineScope.launch {
             scaffoldState.drawerState.open()
         }
     }
-    val closeNavDrawer: () -> Unit = {
+    fun closeNavDrawer() {
         coroutineScope.launch {
             delay(200)
             scaffoldState.drawerState.close()
         }
-    }
-
-    val navDrawerContent: @Composable ColumnScope.() -> Unit = {
-        val navigationDrawerState =  navigationDrawerViewModel.uiState.collectAsState().value
-        NavigationDrawer(
-            state = navigationDrawerState,
-            onFriendsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.FRIENDS.route)
-            },
-            onPlannedEventsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.PLANNED_EVENTS.route)
-            },
-            onNotificationsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.NOTIFICATIONS.route)
-            },
-            onSettingsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.SETTINGS.route)
-            },
-            onMyProfileScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.MY_PROFILE.route)
-            },
-            onVersionsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.VERSIONS.route)
-            },
-            onFoundAnErrorClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.FOUND_AN_ERROR.route)
-            },
-            onLogOutClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.LOGIN.route)
-                {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
-                    }
-                }
-                coroutineScope.launch {
-                    rememberMeManager.deleteRememberMeFlag()
-                    tokenManager.deleteRefreshToken()
-                    tokenManager.deleteAccessToken()
-                    userAvatarUrlManager.deleteAvatarUrl()
-                    userNameManager.deleteUserName()
-                    userPhoneManager.deleteUserPhone()
-                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                    userEmailManager.deleteUserEmail()
-                }
-            },
-        )
-    }
-
-
-    val bottomDrawerContent: @Composable () -> Unit = {
-        val bottomPreviewDrawerState = rememberModalBottomSheetState()
-        val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
-        PreviewOfTheEventBottomDrawer(
-            bottomDrawerState = bottomPreviewDrawerState,
-            state = eventCreationOrEditUiState
-        )
-    }
-
-    val invitedUsersDrawerContent: @Composable () -> Unit = {
-        InvitedUsersBottomDrawer(
-            state = eventCreationOrEditUiState.,
-            )
     }
 
     NavHost(
@@ -224,6 +154,74 @@ fun AppScreensConfig(
         startDestination = startDestinations
     )
     {
+        val bottomDrawerContent: @Composable () -> Unit = {
+            val bottomPreviewDrawerState = rememberModalBottomSheetState()
+            val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+            PreviewOfTheEventBottomDrawer(
+                bottomDrawerState = bottomPreviewDrawerState,
+                state = eventCreationOrEditUiState
+            )
+        }
+
+        val invitedUsersDrawerContent: @Composable () -> Unit = {
+            InvitedUsersBottomDrawer(
+                state = eventCreationOrEditUiState,
+            )
+        }
+        val navDrawerContent: @Composable ColumnScope.() -> Unit = {
+            val navigationDrawerState =  navigationDrawerViewModel.uiState.collectAsState().value
+            NavigationDrawer(
+                state = navigationDrawerState,
+                onFriendsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.FRIENDS.route)
+                },
+                onPlannedEventsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.PLANNED_EVENTS.route)
+                },
+                onNotificationsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.NOTIFICATIONS.route)
+                },
+                onSettingsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.SETTINGS.route)
+                },
+                onMyProfileScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.MY_PROFILE.route)
+                },
+                onVersionsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.VERSIONS.route)
+                },
+                onFoundAnErrorClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.FOUND_AN_ERROR.route)
+                },
+                onLogOutClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.LOGIN.route)
+                    {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                    coroutineScope.launch {
+                        rememberMeManager.deleteRememberMeFlag()
+                        tokenManager.deleteRefreshToken()
+                        tokenManager.deleteAccessToken()
+                        userAvatarUrlManager.deleteAvatarUrl()
+                        userNameManager.deleteUserName()
+                        userPhoneManager.deleteUserPhone()
+                        resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                        userEmailManager.deleteUserEmail()
+                    }
+                },
+            )
+        }
+
         val publicProfileCurrentState = publicProfileViewModel.currentState
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
@@ -575,7 +573,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -612,7 +610,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { { openNavDrawer()} },
                     )
                 },
                 bottomBar = {
@@ -655,7 +653,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -666,7 +664,7 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep1(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
@@ -697,7 +695,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -761,7 +759,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -786,7 +784,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -811,7 +809,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -836,7 +834,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -861,7 +859,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -892,7 +890,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -937,7 +935,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -995,7 +993,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1072,7 +1070,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1099,7 +1097,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1110,7 +1108,7 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep2(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
@@ -1146,7 +1144,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1157,7 +1155,7 @@ fun AppScreensConfig(
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep3(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         publishBtnClicked = {
@@ -1188,7 +1186,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1231,7 +1229,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1276,7 +1274,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1326,7 +1324,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1377,7 +1375,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1410,7 +1408,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1421,7 +1419,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep1(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         navigateToSecondStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_2.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
@@ -1442,7 +1440,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer()},
                     )
                 },
                 bottomBar = {
@@ -1453,7 +1451,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep2(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         navigateToThirdStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_3.route) },
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
@@ -1489,7 +1487,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = openNavDrawer,
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1500,7 +1498,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 content = { paddingValues ->
                     EventEditOrCreationScreenStep3(
                         paddingValues = paddingValues,
-                        state = eventCreationScreenViewModelState,
+                        state = eventCreationOrEditUiState,
                         bottomDrawerPreviewContent = { bottomDrawerContent() },
                         invitedUsersModalContent = { invitedUsersDrawerContent() },
                         publishBtnClicked = {

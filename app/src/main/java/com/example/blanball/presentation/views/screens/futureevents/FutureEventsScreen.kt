@@ -25,6 +25,9 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -57,6 +60,7 @@ import com.example.blanball.presentation.views.components.handlers.InfiniteListH
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.EventTab
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
@@ -77,6 +81,9 @@ fun FutureEventsScreen(
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
+        val eventTabState: MutableState<EventTab> =  rememberSaveable{ mutableStateOf(
+            EventTab.ALL_EVENTS
+        )}
         (state as? FutureEventsMainContract.State)?.let { currentState ->
             Column(
                 modifier = Modifier
@@ -95,7 +102,7 @@ fun FutureEventsScreen(
                 EventsSwitcher(
                     navigateToAlLEvents = {},
                     navigateToMyEvents = { navigateToMyEventsScreen() },
-                    state = state,
+                    eventTabState = eventTabState,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = CenterVertically) {

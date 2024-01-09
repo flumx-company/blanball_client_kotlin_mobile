@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,21 +19,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.FutureEventsMainContract
-import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.utils.EventTab
 
 @Composable
 fun EventsSwitcher(
     navigateToAlLEvents: () -> Unit,
     navigateToMyEvents: () -> Unit,
-    state: UiState,
+    eventTabState: MutableState<EventTab>,
 ) {
-    (state as? FutureEventsMainContract.State)?.let { currentState ->
         Box(
             Modifier
                 .background(color = bgItemsGray, shape = RoundedCornerShape(size = 6.dp))
@@ -45,12 +44,12 @@ fun EventsSwitcher(
                     modifier = Modifier
                         .clickable {
                             navigateToAlLEvents()
-                            currentState.selectedEventTab.value = FutureEventsMainContract.EventTab.ALL_EVENTS
+                            eventTabState.value = EventTab.ALL_EVENTS
                         }
                         .weight(1f)
                         .height(32.dp)
                         .background(
-                            color = if (currentState.selectedEventTab.value == FutureEventsMainContract.EventTab.ALL_EVENTS) Color.White else bgItemsGray,
+                            color = if (eventTabState.value == EventTab.ALL_EVENTS) Color.White else bgItemsGray,
                             shape = shapes.medium
                         ),
                     contentAlignment = Alignment.Center,
@@ -59,7 +58,7 @@ fun EventsSwitcher(
                     Text(
                         text = stringResource(id = R.string.all),
                         style = typography.h4,
-                        color = if (currentState.selectedEventTab.value == FutureEventsMainContract.EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
+                        color = if (eventTabState.value == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
                         fontWeight = FontWeight(500),
                         fontSize = 13.sp
                     )
@@ -68,12 +67,12 @@ fun EventsSwitcher(
                     modifier = Modifier
                         .clickable {
                             navigateToMyEvents()
-                            currentState.selectedEventTab.value = FutureEventsMainContract.EventTab.MY_EVENTS
+                            eventTabState.value = EventTab.MY_EVENTS
                         }
                         .weight(1f)
                         .height(32.dp)
                         .background(
-                            color = if (currentState.selectedEventTab.value == FutureEventsMainContract.EventTab.MY_EVENTS) Color.White else bgItemsGray,
+                            color = if (eventTabState.value == EventTab.MY_EVENTS) Color.White else bgItemsGray,
                             shape = shapes.medium
                         ),
                     contentAlignment = Alignment.Center,
@@ -82,7 +81,7 @@ fun EventsSwitcher(
                     Text(
                         text = stringResource(id = R.string.my_events),
                         style = typography.h4,
-                        color = if (currentState.selectedEventTab.value == FutureEventsMainContract.EventTab.MY_EVENTS) primaryDark else secondaryNavy,
+                        color = if (eventTabState.value == EventTab.MY_EVENTS) primaryDark else secondaryNavy,
                         fontWeight = FontWeight(500),
                         fontSize = 13.sp
                     )
@@ -90,4 +89,3 @@ fun EventsSwitcher(
             }
         }
     }
-}
