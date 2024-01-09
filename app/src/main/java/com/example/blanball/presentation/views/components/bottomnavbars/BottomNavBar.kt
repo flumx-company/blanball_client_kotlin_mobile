@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,7 @@ fun BottomNavBar(navController: NavController) {
                 BottomNavItem.CreateNewEvent,
                 BottomNavItem.Rating,
                 BottomNavItem.Chat,
-            )
+        )
         }
             navigationItems.forEach { item ->
                     CustomNavItem(

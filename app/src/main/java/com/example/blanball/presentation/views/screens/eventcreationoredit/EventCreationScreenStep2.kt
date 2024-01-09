@@ -255,6 +255,7 @@ fun EventEditOrCreationScreenStep2(
                 SearchBar(
                     modifier = Modifier
                         .heightIn(min = 1.dp, max = 260.dp)
+                        .fillMaxWidth()
                         .border(
                             shape = RoundedCornerShape(size = 4.dp),
                             color = defaultLightGray,
@@ -264,11 +265,10 @@ fun EventEditOrCreationScreenStep2(
                     query = currentState.usersSearchState.value,
                     onQueryChange = { searchText ->
                         state.usersSearchState.value = searchText
-                    },
-                    onSearch = { searchQuery ->
-                        state.userSearchQuery.value = searchQuery
+                        state.userSearchQuery.value = searchText
                         usersSearchClicked()
                     },
+                    onSearch = {},
                     colors = SearchBarDefaults.colors(
                         containerColor = Color.White,
                         inputFieldColors = SearchBarDefaults.inputFieldColors(

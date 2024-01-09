@@ -432,7 +432,6 @@
     <string name="invited">Запрошено</string>
     <string name="event_are_hint">подій приховано</string>
     <string name="continue_edit">Продовжити редагування</string>
-    <string name="save_and_exit">Зберегти та вийти</string>
     <string name="look_from_side">Подивитись зі сторони</string>
     <string name="want_to_see_how">Бажаєте подивитись як виглядатиме ваш профіль для інших користувачів?</string>
     <string name="yes_nav_to_demo">Так, перейти до демонстрації</string>
@@ -440,4 +439,5 @@
     <string name="cancel_edits">Cкасувати зміни</string>
     <string name="max_count_players_validation">* Введіть значення від 1 до 50</string>
     <string name="edit">Редагувати</string>
+    <string name="uah_char">₴</string>
 </resources>
