@@ -26,7 +26,7 @@ import com.example.blanball.presentation.views.components.cards.HomeScreenEventC
 @Composable
 fun HomeScreen(
     paddingValues: PaddingValues,
-    navigateToEvent: () -> Unit,
+    onNavigateToEvent: (eventId: Int) -> Unit,
     state: UiState,
     onLoadMoreUsers: () -> Unit,
     userFirstName: String,
@@ -72,7 +72,7 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 HomeScreenEventCardHorizontalList(
-                    clickToEventCardCallback = { navigateToEvent() },
+                    clickToEventCardCallback = { eventId -> onNavigateToEvent(eventId) },
                     onLoadMoreUsers = onLoadMoreUsers,
                     state = state
                 )

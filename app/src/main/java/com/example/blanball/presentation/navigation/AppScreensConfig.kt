@@ -609,7 +609,10 @@ fun AppScreensConfig(
                 content = { it ->
                     HomeScreen(
                         paddingValues = it,
-                        navigateToEvent = {}, //TODO
+                        onNavigateToEvent = { eventId ->
+                            eventScreenViewModelCurrentState.currentEventId.value = eventId
+                            navController.navigate(Destinations.EVENT.route)
+                                            },
                         state = futureEventsScreenViewModelState,
                         onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
                         userFirstName = navigationDrawerCurrentState.userFirstNameText.value
