@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -33,6 +35,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +78,7 @@ fun MyEventsScreen(
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
-        val eventTabState: MutableState<EventTab> =  rememberSaveable {
+        val eventTabState: MutableState<EventTab> = rememberSaveable {
             mutableStateOf(
                 EventTab.MY_EVENTS
             )
@@ -87,7 +90,7 @@ fun MyEventsScreen(
                     .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.my_events).uppercase(),
+                    text = stringResource(id = R.string.future_events).uppercase(),
                     style = typography.h3,
                     color = primaryDark,
                     fontWeight = FontWeight(800),
@@ -208,14 +211,37 @@ fun MyEventsScreen(
                                     }
                                     Spacer(modifier = Modifier.size(8.dp))
                                     Column {
-                                        Text(
-                                            text = stringResource(id = R.string.friendly_match),
-                                            fontSize = 16.sp,
-                                            lineHeight = 20.sp,
-                                            style = typography.h3,
-                                            fontWeight = FontWeight(700),
-                                            color = primaryDark,
-                                        )
+                                        Row {
+                                            Text(
+                                                text = stringResource(id = R.string.friendly_match),
+                                                fontSize = 16.sp,
+                                                lineHeight = 20.sp,
+                                                style = typography.h3,
+                                                fontWeight = FontWeight(700),
+                                                color = primaryDark,
+                                            )
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Box(
+                                                modifier = Modifier
+                                                    .wrapContentWidth()
+                                                    .height(20.dp)
+                                                    .background(
+                                                        color = Color(0xFF10C156),
+                                                        shape = RoundedCornerShape(size = 4.dp)
+                                                    )
+                                                    .padding(start = 4.dp, end = 4.dp)
+                                            ) {
+                                                Text(
+                                                    text = event.status ?: "",
+                                                    fontSize = 13.sp,
+                                                    lineHeight = 20.sp,
+                                                    style = typography.h4,
+                                                    fontWeight = FontWeight(500),
+                                                    color = Color.White,
+                                                    textAlign = TextAlign.Center,
+                                                )
+                                            }
+                                        }
                                         Spacer(modifier = Modifier.size(6.dp))
                                         Row {
                                             Text(
