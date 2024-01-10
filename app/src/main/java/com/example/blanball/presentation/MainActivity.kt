@@ -11,6 +11,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -19,7 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
+import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
@@ -61,10 +64,12 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userEmailManager: UserEmailManager
 
+
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
     private val eventScreenViewModel: EventScreenViewModel by viewModels()
+    private val eventCreationScreenViewModel: EventCreationOrEditScreensViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +82,15 @@ class MainActivity : ComponentActivity() {
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
-
+            val navItems = remember {
+                listOf(
+                    BottomNavItem.Home,
+                    BottomNavItem.FutureEvents,
+                    BottomNavItem.CreateNewEvent,
+                    BottomNavItem.Rating,
+                    BottomNavItem.Chat,
+                )
+            }
 
             LaunchedEffect(key1 = Unit) {
                 navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
@@ -127,34 +140,34 @@ class MainActivity : ComponentActivity() {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                            AppScreensConfig(
-                                navController = navController,
-                                startDestinations = startDestinations,
-                                resetPassViewModel = viewModel(),
-                                registrationViewModel = viewModel(),
-                                publicProfileViewModel = viewModel(),
-                                loginViewModel = viewModel(),
-                                onboardingProfileViewModel = viewModel(),
-                                navigationDrawerViewModel = navigationDrawerViewModel,
-                                scaffoldState = scaffoldState,
-                                coroutineScope = coroutineScope,
-                                rememberMeManager = rememberMeManager,
-                                tokenManager = tokenManager,
-                                userNameManager = userNameManager,
-                                userAvatarUrlManager = userAvatarUrlManager,
-                                userPhoneManager = userPhoneManager,
-                                resetPassVerifyCodeManager = resetPassVerifyCodeManager,
-                                usersRatingViewModel = viewModel(),
-                                foundAnErrorViewModel = viewModel(),
-                                myProfileScreenViewModel = viewModel(),
-                                eventCreationScreenViewModel = viewModel(),
-                                myEventsViewModel = viewModel(),
-                                futureEventsScreenViewModel = futureEventsScreenViewModel,
-                                eventScreenViewModel = viewModel(),
-                                emailVerificationViewModel = viewModel(),
-                                userEmailManager = userEmailManager,
-                                techWorksScreenViewModel = techWorksScreenViewModel,
-                            )
+                                    AppScreensConfig(
+                                        navController = navController,
+                                        startDestinations = startDestinations,
+                                        resetPassViewModel = viewModel(),
+                                        registrationViewModel = viewModel(),
+                                        publicProfileViewModel = viewModel(),
+                                        loginViewModel = viewModel(),
+                                        onboardingProfileViewModel = viewModel(),
+                                        navigationDrawerViewModel = navigationDrawerViewModel,
+                                        scaffoldState = scaffoldState,
+                                        coroutineScope = coroutineScope,
+                                        rememberMeManager = rememberMeManager,
+                                        tokenManager = tokenManager,
+                                        userNameManager = userNameManager,
+                                        userAvatarUrlManager = userAvatarUrlManager,
+                                        userPhoneManager = userPhoneManager,
+                                        resetPassVerifyCodeManager = resetPassVerifyCodeManager,
+                                        usersRatingViewModel = viewModel(),
+                                        foundAnErrorViewModel = viewModel(),
+                                        myProfileScreenViewModel = viewModel(),
+                                        eventCreationScreenViewModel = viewModel(),
+                                        myEventsViewModel = viewModel(),
+                                        futureEventsScreenViewModel = futureEventsScreenViewModel,
+                                        eventScreenViewModel = viewModel(),
+                                        emailVerificationViewModel = viewModel(),
+                                        userEmailManager = userEmailManager,
+                                        eventCreationOrEditViewModel = viewModel(),
+                                    )
                         }
                     }
                 }

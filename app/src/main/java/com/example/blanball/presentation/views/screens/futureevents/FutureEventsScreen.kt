@@ -26,13 +26,14 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,9 +58,9 @@ import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
-import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.EventTab
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
@@ -70,24 +71,20 @@ fun FutureEventsScreen(
     navigateToEventScreen: (eventId: Int) -> Unit,
     onLoadMoreUsers: () -> Unit,
     navigateToMyEventsScreen: () -> Unit,
-    selectedTab: MutableState<EventTab>,
     onClickedToChangeOrdering: () -> Unit,
     navigateToCreationEventScreen: () -> Unit,
     navigateToFilterScreen: () -> Unit,
 ) {
-    val context = LocalContext.current
     Box(
         modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
-
-        val currentState: FutureEventsMainContract.State =
-            (state as? FutureEventsMainContract.State) ?: FutureEventsMainContract.State(
-                FutureEventsMainContract.ScreenViewState.Loading
-            )
-        (state as? FutureEventsMainContract.State)?.let {
+        val eventTabState: MutableState<EventTab> =  rememberSaveable{ mutableStateOf(
+            EventTab.ALL_EVENTS
+        )}
+        (state as? FutureEventsMainContract.State)?.let { currentState ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -105,7 +102,7 @@ fun FutureEventsScreen(
                 EventsSwitcher(
                     navigateToAlLEvents = {},
                     navigateToMyEvents = { navigateToMyEventsScreen() },
-                    selectedTab = selectedTab,
+                    eventTabState = eventTabState,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = CenterVertically) {
@@ -115,18 +112,19 @@ fun FutureEventsScreen(
                             .background(color = bgLight, shape = shapes.medium),
                     ) {
                         IcBox(
-                            icon = if (it.orderingIconState.value) {
-                                it.eventsOrderingSelectionState.value =
+                            icon = if (currentState.orderingIconState.value) {
+                                currentState.eventsOrderingSelectionState.value =
                                     FutureEventsMainContract.EventsOrderingSelectionState.FIRST_OLDER
                                 R.drawable.ic_sorting_old
                             } else {
-                                it.eventsOrderingSelectionState.value =
+                                currentState.eventsOrderingSelectionState.value =
                                     FutureEventsMainContract.EventsOrderingSelectionState.FIRST_NEW
                                 R.drawable.ic_sorting_new
                             },
                             modifier = Modifier
                                 .clickable {
-                                    it.orderingIconState.value = !it.orderingIconState.value
+                                    currentState.orderingIconState.value =
+                                        !currentState.orderingIconState.value
                                     onClickedToChangeOrdering()
                                 }
                                 .size(40.dp)
@@ -136,10 +134,11 @@ fun FutureEventsScreen(
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         modifier = Modifier.clickable {
-                            it.orderingIconState.value = !it.orderingIconState.value
+                            currentState.orderingIconState.value =
+                                !currentState.orderingIconState.value
                             onClickedToChangeOrdering()
                         },
-                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
+                        text = if (currentState.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
                             id = R.string.new_ones_first
                         ),
                         fontSize = 13.sp,
@@ -397,17 +396,17 @@ fun FutureEventsScreen(
                     }
                 }
             }
-        }
-        Fab(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(24.dp),
-            clickCallback = {
-                navigateToCreationEventScreen()
+            Fab(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp),
+                clickCallback = {
+                    navigateToCreationEventScreen()
+                }
+            )
+            if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
+                Loader(backgroundColor = Color.White, textColor = primaryDark)
             }
-        )
-        if (currentState.state is FutureEventsMainContract.ScreenViewState.Loading) {
-            Loader(backgroundColor = Color.White, textColor = primaryDark)
         }
     }
 }

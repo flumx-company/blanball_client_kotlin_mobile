@@ -10,9 +10,10 @@ class NavigationDrawerMainContract
 
     data class State(
         val state: ScreenViewState,
-        var userFirstNameText: MutableState<String> = mutableStateOf(""),
-        var userLastNameText: MutableState<String> = mutableStateOf(""),
-        var userAvatar: MutableState<String?> = mutableStateOf(""),
+        val userFirstNameText: MutableState<String> = mutableStateOf(""),
+        val userLastNameText: MutableState<String> = mutableStateOf(""),
+        val userAvatar: MutableState<String?> = mutableStateOf(""),
+        val isDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
 

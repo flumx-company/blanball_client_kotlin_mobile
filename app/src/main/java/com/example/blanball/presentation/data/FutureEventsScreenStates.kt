@@ -2,6 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.blanball.utils.EventTab
 import com.example.domain.entity.responses.GetAllEventResponseEntityResult
 import com.example.domain.utils.Strings
 
@@ -33,6 +34,8 @@ class FutureEventsMainContract {
         val userFirstNameText: MutableState<String> = mutableStateOf(""),
         val filterDateAndTimeAfter: MutableState<String> = mutableStateOf(""),
         val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
+        val selectedEventTab: MutableState<EventTab> = mutableStateOf(EventTab.ALL_EVENTS),
+        val isRangeDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

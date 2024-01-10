@@ -32,6 +32,7 @@ class MyEventsScreenMainContract {
         val orderingIconState: MutableState<Boolean> = mutableStateOf(false),
         val filterDateAndTimeAfter: MutableState<String> = mutableStateOf(""),
         val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
+        val isDatePickerRangeModalVisible: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

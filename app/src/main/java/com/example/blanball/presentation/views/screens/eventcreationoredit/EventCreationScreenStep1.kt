@@ -22,7 +22,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,8 +46,10 @@ import com.example.blanball.presentation.views.components.buttons.NextAndPreviou
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
+import com.example.blanball.presentation.views.components.modals.DatePickerModal
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
@@ -58,18 +59,9 @@ fun EventEditOrCreationScreenStep1(
     paddingValues: PaddingValues,
     state: UiState,
     navigateToSecondStep: () -> Unit,
-    isBottomPreviewDrawerOpen: MutableState<Boolean>,
-    isDatePickerModalOpen: MutableState<Boolean>,
-    isStartTimePickerModalOpen: MutableState<Boolean>,
-    isEndTimePickerModalOpen: MutableState<Boolean>,
-    isInvitedUsersModalOpen: MutableState<Boolean>,
     bottomDrawerPreviewContent: @Composable () -> Unit,
-    datePickerModalContent: @Composable () -> Unit,
-    startTimePickerModalContent: @Composable () -> Unit,
-    endTimePickerModalContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
-    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
 ) {
     val context = LocalContext.current
     val typesOfEvent = mutableListOf(
@@ -78,7 +70,7 @@ fun EventEditOrCreationScreenStep1(
     val typesOfSports = mutableListOf(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
-    (state as? EventEditAndCreationScreensMainContract.State)?.let {
+    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -92,7 +84,7 @@ fun EventEditOrCreationScreenStep1(
             ) {
                 Text(
                     text = if (
-                       isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                        currentState.isEditOrCreation.value == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
                     ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
@@ -113,14 +105,14 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
-                    value = it.eventType.value,
+                    value = currentState.eventType.value,
                     onValueChange = { state.eventType.value = it },
                     isError = when {
-                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> true
+                        currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                        currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> stringResource(
                             id = R.string.chose_event_type
                         )
 
@@ -132,16 +124,16 @@ fun EventEditOrCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.event_name,
-                    state = it,
-                    value = it.eventName.value,
+                    state = currentState,
+                    value = currentState.eventName.value,
                     onValueChange = { state.eventName.value = it },
                     transformation = VisualTransformation.None,
                     isError = when {
-                        it.eventName.value.isNotValidErrorTopicField() -> true
+                        currentState.eventName.value.isNotValidErrorTopicField() -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.eventName.value.isNotValidErrorTopicField() -> stringResource(R.string.validation_text_error_topic)
+                        currentState.eventName.value.isNotValidErrorTopicField() -> stringResource(R.string.validation_text_error_topic)
 
                         else -> {
                             ("")
@@ -164,34 +156,34 @@ fun EventEditOrCreationScreenStep1(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
+                            currentState.playersGenderStates.value =
                                 EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
+                                currentState.playersGenderStates.value =
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(id = R.string.woman_ukr),
-                        selected = it.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS,
+                        selected = currentState.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            it.playersGenderStates.value =
+                            currentState.playersGenderStates.value =
                                 EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                it.playersGenderStates.value =
+                                currentState.playersGenderStates.value =
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
                             },
-                        state = it,
+                        state = currentState,
                         text = stringResource(id = R.string.man_ukr),
-                        selected = it.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS,
+                        selected = currentState.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
                 }
@@ -199,14 +191,14 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.sport_type,
                     listItems = typesOfSports,
-                    value = it.sportType.value,
+                    value = currentState.sportType.value,
                     onValueChange = { state.sportType.value = it },
                     isError = when {
-                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> true
+                        currentState.sportType.value.isEmpty() && currentState.isValidationActivated.value -> true
                         else -> false
                     },
                     errorMessage = when {
-                        it.sportType.value.isEmpty() && it.isValidationActivated.value -> stringResource(
+                        currentState.sportType.value.isEmpty() && currentState.isValidationActivated.value -> stringResource(
                             id = R.string.chose_sport_type
                         )
 
@@ -228,14 +220,14 @@ fun EventEditOrCreationScreenStep1(
                 DefaultTextInput(textFieldModifier = Modifier.fillMaxWidth(),
                     labelResId = R.string.date,
                     readOnly = true,
-                    state = it,
+                    state = currentState,
                     onValueChange = {},
-                    value = it.eventDateState.value,
+                    value = currentState.eventDateState.value,
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                         LaunchedEffect(interactionSource) {
                             interactionSource.interactions.collect {
                                 if (it is PressInteraction.Release) {
-                                    isDatePickerModalOpen.value = true
+                                    currentState.isDatePickerModalOpen.value = true
                                 }
                             }
                         }
@@ -260,16 +252,16 @@ fun EventEditOrCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.event_time_start,
-                    modifier = Modifier.clickable { isStartTimePickerModalOpen.value = true },
-                    state = it,
+                    modifier = Modifier.clickable { currentState.isStartEventTimeModalOpen.value = true },
+                    state = currentState,
                     readOnly = true,
-                    value = it.startEventTimeState.value ?: "",
+                    value = currentState.startEventTimeState.value,
                     onValueChange = {},
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                         LaunchedEffect(interactionSource) {
-                            interactionSource.interactions.collect {
-                                if (it is PressInteraction.Release) {
-                                    isStartTimePickerModalOpen.value = true
+                            interactionSource.interactions.collect { interaction ->
+                                if (interaction is PressInteraction.Release) {
+                                    currentState.isStartEventTimeModalOpen.value = true
                                 }
                             }
                         }
@@ -305,11 +297,12 @@ fun EventEditOrCreationScreenStep1(
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 SelectLocationWithGoogleMap(
-                    eventLocationLatLng = it.eventLocationLatLng,
+                    eventLocationLatLng = currentState.eventLocationLatLng,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = it.eventLocationLatLng.value.getAddressFromLocation(context) ?: "",
+                    text = currentState.eventLocationLatLng.value.getAddressFromLocation(context)
+                        ?: "",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -372,27 +365,32 @@ fun EventEditOrCreationScreenStep1(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = it.eventName.value.isValidErrorTopicField()
-                            && it.eventName.value.isNotEmpty()
-                            && it.eventType.value.isNotEmpty()
-                            && it.sportType.value.isNotEmpty()
-                            && it.startEventTimeState.value.isNotEmpty()
-                            && it.eventDuration.value != 0
-                            && it.playersGenderStates.value != EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT,
+                    isEnabled = currentState.eventName.value.isValidErrorTopicField()
+                            && currentState.eventName.value.isNotEmpty()
+                            && currentState.eventType.value.isNotEmpty()
+                            && currentState.sportType.value.isNotEmpty()
+                            && currentState.startEventTimeState.value.isNotEmpty()
+                            && currentState.eventDuration.value != 0
+                            && currentState.playersGenderStates.value != EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { isBottomPreviewDrawerOpen.value = true }
+                PreviewOfTheEventPosterButton { currentState.isBottomPreviewDrawerOpen.value = true }
                 Spacer(modifier = Modifier.size(16.dp))
-                InvitedUsersOfTheEventButton { isInvitedUsersModalOpen.value = true }
+                InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
                 when {
-                    isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
-                    isDatePickerModalOpen.value -> datePickerModalContent()
-                    isInvitedUsersModalOpen.value -> invitedUsersModalContent()
-                    isStartTimePickerModalOpen.value -> startTimePickerModalContent()
+                    currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
+                    currentState.isDatePickerModalOpen.value -> DatePickerModal(
+                        selectedState = currentState.eventDateState,
+                        backBtnClicked = { currentState.isDatePickerModalOpen.value = false }
+                    )
+                    currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
+                    currentState.isStartEventTimeModalOpen.value -> SimpleTimePickerInAlertDialog(
+                        selectedTimeState = currentState.startEventTimeState
+                    ) { currentState.isStartEventTimeModalOpen.value = false }
                 }
             }
         }

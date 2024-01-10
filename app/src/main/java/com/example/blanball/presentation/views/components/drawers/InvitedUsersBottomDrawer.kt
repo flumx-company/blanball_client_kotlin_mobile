@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +29,10 @@ import com.example.blanball.presentation.views.components.cards.InvitedUserCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InvitedUsersBottomDrawer(
-    bottomDrawerState: SheetState,
-    closeBottomDrawer: () -> Unit,
     state: UiState,
 ) {
     (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
-        ModalBottomSheet(onDismissRequest = { closeBottomDrawer() }, containerColor = Color.White) {
+        ModalBottomSheet(onDismissRequest = { currentState.isInvitedUsersDrawerOpen.value = false }, containerColor = Color.White) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()

@@ -24,72 +24,68 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-
-enum class EventTab {
-    ALL_EVENTS,
-    MY_EVENTS
-}
+import com.example.blanball.utils.EventTab
 
 @Composable
 fun EventsSwitcher(
     navigateToAlLEvents: () -> Unit,
     navigateToMyEvents: () -> Unit,
-    selectedTab: MutableState<EventTab>,
+    eventTabState: MutableState<EventTab>,
 ) {
-    Box(
-        Modifier
-            .background(color = bgItemsGray, shape = RoundedCornerShape(size = 6.dp))
-            .padding(2.dp)
-            .fillMaxWidth()
-    )
-    {
-        Row {
-            Box(
-                modifier = Modifier
-                    .clickable {
-                        navigateToAlLEvents()
-                        selectedTab.value = EventTab.ALL_EVENTS
-                    }
-                    .weight(1f)
-                    .height(32.dp)
-                    .background(
-                        color = if (selectedTab.value == EventTab.ALL_EVENTS) Color.White else bgItemsGray,
-                        shape = shapes.medium
-                    ),
-                contentAlignment = Alignment.Center,
-            )
-            {
-                Text(
-                    text = stringResource(id = R.string.all),
-                    style = typography.h4,
-                    color = if (selectedTab.value == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
-                    fontWeight = FontWeight(500),
-                    fontSize = 13.sp
+        Box(
+            Modifier
+                .background(color = bgItemsGray, shape = RoundedCornerShape(size = 6.dp))
+                .padding(2.dp)
+                .fillMaxWidth()
+        )
+        {
+            Row {
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navigateToAlLEvents()
+                            eventTabState.value = EventTab.ALL_EVENTS
+                        }
+                        .weight(1f)
+                        .height(32.dp)
+                        .background(
+                            color = if (eventTabState.value == EventTab.ALL_EVENTS) Color.White else bgItemsGray,
+                            shape = shapes.medium
+                        ),
+                    contentAlignment = Alignment.Center,
                 )
-            }
-            Box(
-                modifier = Modifier
-                    .clickable {
-                        navigateToMyEvents()
-                        selectedTab.value = EventTab.MY_EVENTS
-                    }
-                    .weight(1f)
-                    .height(32.dp)
-                    .background(
-                        color = if (selectedTab.value == EventTab.MY_EVENTS) Color.White else bgItemsGray,
-                        shape = shapes.medium
-                    ),
-                contentAlignment = Alignment.Center,
-            )
-            {
-                Text(
-                    text = stringResource(id = R.string.my_events),
-                    style = typography.h4,
-                    color = if (selectedTab.value == EventTab.MY_EVENTS) primaryDark else secondaryNavy,
-                    fontWeight = FontWeight(500),
-                    fontSize = 13.sp
+                {
+                    Text(
+                        text = stringResource(id = R.string.all),
+                        style = typography.h4,
+                        color = if (eventTabState.value == EventTab.ALL_EVENTS) primaryDark else secondaryNavy,
+                        fontWeight = FontWeight(500),
+                        fontSize = 13.sp
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navigateToMyEvents()
+                            eventTabState.value = EventTab.MY_EVENTS
+                        }
+                        .weight(1f)
+                        .height(32.dp)
+                        .background(
+                            color = if (eventTabState.value == EventTab.MY_EVENTS) Color.White else bgItemsGray,
+                            shape = shapes.medium
+                        ),
+                    contentAlignment = Alignment.Center,
                 )
+                {
+                    Text(
+                        text = stringResource(id = R.string.my_events),
+                        style = typography.h4,
+                        color = if (eventTabState.value == EventTab.MY_EVENTS) primaryDark else secondaryNavy,
+                        fontWeight = FontWeight(500),
+                        fontSize = 13.sp
+                    )
+                }
             }
         }
     }
-}

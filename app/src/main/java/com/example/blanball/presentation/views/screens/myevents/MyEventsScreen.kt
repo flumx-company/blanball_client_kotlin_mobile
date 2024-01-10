@@ -23,6 +23,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,9 +52,9 @@ import com.example.blanball.presentation.views.components.buttons.Fab
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
 import com.example.blanball.presentation.views.components.loaders.Loader
-import com.example.blanball.presentation.views.components.switches.EventTab
 import com.example.blanball.presentation.views.components.switches.EventsSwitcher
 import com.example.blanball.presentation.views.components.texts.TextBadge2
+import com.example.blanball.utils.EventTab
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
 
@@ -64,7 +66,6 @@ fun MyEventsScreen(
     navigateToAllEventsScreen: () -> Unit,
     navigateToEventScreen: (eventId: Int) -> Unit,
     navigateToMyEventsFilterScreen: () -> Unit,
-    selectedTab: MutableState<EventTab>,
     onClickedToChangeOrdering: () -> Unit,
     onCreatedEventClicked: () -> Unit,
 ) {
@@ -74,11 +75,12 @@ fun MyEventsScreen(
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
-        val currentState: MyEventsScreenMainContract.State =
-            (state as? MyEventsScreenMainContract.State) ?: MyEventsScreenMainContract.State(
-                MyEventsScreenMainContract.ScreenViewState.Loading
+        val eventTabState: MutableState<EventTab> =  rememberSaveable {
+            mutableStateOf(
+                EventTab.MY_EVENTS
             )
-        (state as? MyEventsScreenMainContract.State)?.let {
+        }
+        (state as? MyEventsScreenMainContract.State)?.let { currentState ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -96,8 +98,8 @@ fun MyEventsScreen(
                 EventsSwitcher(
                     navigateToAlLEvents = { navigateToAllEventsScreen() },
                     navigateToMyEvents = {},
-                    selectedTab = selectedTab,
-                    )
+                    eventTabState = eventTabState,
+                )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -107,18 +109,19 @@ fun MyEventsScreen(
                                 .background(color = bgLight, shape = shapes.medium),
                         ) {
                             IcBox(
-                                icon = if (it.orderingIconState.value) {
-                                    it.myEventsOrderingSelectionState.value =
+                                icon = if (currentState.orderingIconState.value) {
+                                    currentState.myEventsOrderingSelectionState.value =
                                         MyEventsScreenMainContract.MyEventsOrderingSelectionState.FIRST_OLDER
                                     R.drawable.ic_sorting_old
                                 } else {
-                                    it.myEventsOrderingSelectionState.value =
+                                    currentState.myEventsOrderingSelectionState.value =
                                         MyEventsScreenMainContract.MyEventsOrderingSelectionState.FIRST_NEW
                                     R.drawable.ic_sorting_new
                                 },
                                 modifier = Modifier
                                     .clickable {
-                                        it.orderingIconState.value = !it.orderingIconState.value
+                                        currentState.orderingIconState.value =
+                                            !currentState.orderingIconState.value
                                         onClickedToChangeOrdering()
                                     }
                                     .size(40.dp)
@@ -129,10 +132,11 @@ fun MyEventsScreen(
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         modifier = Modifier.clickable {
-                            it.orderingIconState.value = !it.orderingIconState.value
+                            currentState.orderingIconState.value =
+                                !currentState.orderingIconState.value
                             onClickedToChangeOrdering()
                         },
-                        text = if (it.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
+                        text = if (currentState.orderingIconState.value) stringResource(id = R.string.old_ones_first) else stringResource(
                             id = R.string.new_ones_first
                         ),
                         fontSize = 13.sp,
@@ -294,15 +298,15 @@ fun MyEventsScreen(
                 }
 
             }
-        }
-        Fab(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(24.dp),
-            clickCallback = { onCreatedEventClicked()}
-        )
-        if (currentState.state is MyEventsScreenMainContract.ScreenViewState.Loading) {
-            Loader(backgroundColor = Color.White, textColor = primaryDark)
+            Fab(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp),
+                clickCallback = { onCreatedEventClicked() }
+            )
+            if (currentState.state is MyEventsScreenMainContract.ScreenViewState.Loading) {
+                Loader(backgroundColor = Color.White, textColor = primaryDark)
+            }
         }
     }
 }
