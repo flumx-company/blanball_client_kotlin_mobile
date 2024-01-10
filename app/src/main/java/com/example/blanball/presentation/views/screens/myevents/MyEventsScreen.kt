@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -60,6 +61,9 @@ import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.EventTab
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
+import com.example.blanball.utils.ext.mapStatusBackgroundColor
+import com.example.blanball.utils.ext.mapStatusTextColor
+import com.example.blanball.utils.ext.toUAStatus
 
 @Composable
 fun MyEventsScreen(
@@ -77,6 +81,7 @@ fun MyEventsScreen(
             .padding(paddingValues)
             .fillMaxSize()
     ) {
+        val context = LocalContext.current
         val lazyListState = rememberLazyListState()
         val eventTabState: MutableState<EventTab> = rememberSaveable {
             mutableStateOf(
@@ -211,7 +216,7 @@ fun MyEventsScreen(
                                     }
                                     Spacer(modifier = Modifier.size(8.dp))
                                     Column {
-                                        Row {
+                                        Row (verticalAlignment = Alignment.CenterVertically) {
                                             Text(
                                                 text = stringResource(id = R.string.friendly_match),
                                                 fontSize = 16.sp,
@@ -226,18 +231,20 @@ fun MyEventsScreen(
                                                     .wrapContentWidth()
                                                     .height(20.dp)
                                                     .background(
-                                                        color = Color(0xFF10C156),
+                                                        color = event.status?.mapStatusBackgroundColor(context)!!,
                                                         shape = RoundedCornerShape(size = 4.dp)
                                                     )
                                                     .padding(start = 4.dp, end = 4.dp)
                                             ) {
                                                 Text(
-                                                    text = event.status ?: "",
+                                                    text = event.status?.toUAStatus(
+                                                        context = context
+                                                    ) ?: "",
                                                     fontSize = 13.sp,
                                                     lineHeight = 20.sp,
                                                     style = typography.h4,
                                                     fontWeight = FontWeight(500),
-                                                    color = Color.White,
+                                                    color = event.status?.mapStatusTextColor(context)!!,
                                                     textAlign = TextAlign.Center,
                                                 )
                                             }
