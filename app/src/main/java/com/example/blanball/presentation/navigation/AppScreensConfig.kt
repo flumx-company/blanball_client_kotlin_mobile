@@ -239,7 +239,11 @@ fun AppScreensConfig(
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
                     navigationDrawerViewModel.getMyProfile()
-                    navController.navigate(Destinations.HOME.route)
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -482,7 +486,14 @@ fun AppScreensConfig(
                 onFillingOutTheUserProfileStep1Clicked = {
                     navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
                 },
-                onRemindMeLater = { /*TODO*/ })
+                onRemindMeLater = {
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
@@ -524,7 +535,7 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
-                    navController.navigate(Destinations.PUBLIC_PROFILE.route) {
+                    navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
                         }
@@ -563,6 +574,7 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
+            val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
             val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
             Scaffold(
@@ -583,7 +595,7 @@ fun AppScreensConfig(
                 },
                 content = { paddingValues ->
                     HomeScreen(
-                        paddingValues = it,
+                        paddingValues = paddingValues,
                         onNavigateToEvent = { eventId ->
                             eventScreenViewModelCurrentState.currentEventId.value = eventId
                             navController.navigate(Destinations.EVENT.route)
