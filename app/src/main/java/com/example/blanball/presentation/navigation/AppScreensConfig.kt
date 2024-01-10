@@ -487,6 +487,7 @@ fun AppScreensConfig(
                     navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
                 },
                 onRemindMeLater = {
+                    navigationDrawerViewModel.getMyProfile()
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -535,6 +536,7 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
+                    navigationDrawerViewModel.getMyProfile()
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true

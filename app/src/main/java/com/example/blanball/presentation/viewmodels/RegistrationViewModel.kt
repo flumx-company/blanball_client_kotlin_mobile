@@ -11,6 +11,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatBooleanToString
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
+import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,7 @@ class   RegistrationViewModel @Inject constructor(
     private val application: Application,
     private val tokenManager: TokenManager,
     val rememberMeManager: RememberMeManager,
+    val userNameManager: UserNameManager,
     ) :
     ViewModel() {
 
@@ -69,7 +71,7 @@ class   RegistrationViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             registrationUseCase.executeRegistration(
                 email = currentState.registrationEmailText.value,
-                phone = "+380${currentState.phoneNumberText.value}",
+                phone = application.getString(R.string.ua_phone_country_code) + currentState.phoneNumberText.value,
                 password = currentState.registrationPassText.value,
                 re_password = currentState.registrationPassTextRemember.value,
                 name = currentState.firstNameText.value,
@@ -79,6 +81,7 @@ class   RegistrationViewModel @Inject constructor(
             ).let {
                 when (it) {
                     is RegistrationResultEntity.Success -> {
+                        userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
                         rememberMeManager.saveRememberMeFlag(currentState.lostInSystemSwitchButton.value)
                         setState {
                             copy(
