@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
+import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.DarkOverlay
@@ -60,8 +61,10 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.successValidationGreen
 import com.example.blanball.presentation.theme.successValidationGreenBG
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.views.components.banners.AttentionText
 import com.example.blanball.presentation.views.components.boxes.IcBox
+import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserPlannedEventsColumn
 import com.example.blanball.presentation.views.components.colums.DisplayUserReviewsColumn
@@ -75,6 +78,7 @@ import com.example.blanball.utils.writeEmail
 @Composable
 fun PublicProfileScreen(
     state: UiState,
+    isEmailReminderVisible: Boolean,
     onInviteToAnEventClicked: () -> Unit, // TODO (Not implemented on backend side)
     onAllReviewsScreenClicked: () -> Unit,
     onAllPlannedEventsScreenClicked: () -> Unit,
@@ -104,6 +108,13 @@ fun PublicProfileScreen(
                     start = 20.dp, top = 20.dp, end = 20.dp, bottom = 0.dp,
                 )
             ) {
+                if (isEmailReminderVisible) {
+                    ConfirmEmailReminder(
+                        clickCallback = {} ,
+                        userEmail =
+                    )
+                    Spacer(modifier = Modifier.size(12.dp))
+                }
                 DefaultCardWithColumn(
                     columnPadStart = 0.dp,
                     columnPadEnd = 0.dp,

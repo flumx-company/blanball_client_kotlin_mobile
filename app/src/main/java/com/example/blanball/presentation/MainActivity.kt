@@ -22,6 +22,7 @@ import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.MyAppTheme
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
     private val eventScreenViewModel: EventScreenViewModel by viewModels()
     private val eventCreationScreenViewModel: EventCreationOrEditScreensViewModel by viewModels()
+    private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

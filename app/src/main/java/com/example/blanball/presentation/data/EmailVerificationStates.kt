@@ -19,6 +19,8 @@ class EmailVerificationMainContract {
         val isEmailVerifySuccess: MutableState<Boolean> = mutableStateOf(false),
         val isEmailVerifyError: MutableState<Boolean> = mutableStateOf(false),
         val isEmailVerified: MutableState<Boolean> = mutableStateOf(false),
+        val isVerificationModalVisible: MutableState<Boolean> = mutableStateOf(false),
+        val isShareLinkModalVisible: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

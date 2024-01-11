@@ -136,6 +136,7 @@ fun AppScreensConfig(
 ) {
 
     val eventCreationOrEditUiState =  eventCreationOrEditViewModel.uiState.collectAsState().value
+    val publicProfileCurrentState = publicProfileViewModel.currentState
 
     fun openNavDrawer() {
         coroutineScope.launch {
@@ -149,80 +150,79 @@ fun AppScreensConfig(
         }
     }
 
+    val bottomDrawerContent: @Composable () -> Unit = {
+        val bottomPreviewDrawerState = rememberModalBottomSheetState()
+        val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+        PreviewOfTheEventBottomDrawer(
+            bottomDrawerState = bottomPreviewDrawerState,
+            state = eventCreationOrEditUiState
+        )
+    }
+
+    val invitedUsersDrawerContent: @Composable () -> Unit = {
+        InvitedUsersBottomDrawer(
+            state = eventCreationOrEditUiState,
+        )
+    }
+    val navDrawerContent: @Composable ColumnScope.() -> Unit = {
+        val navigationDrawerState =  navigationDrawerViewModel.uiState.collectAsState().value
+        NavigationDrawer(
+            state = navigationDrawerState,
+            onFriendsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.FRIENDS.route)
+            },
+            onPlannedEventsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.PLANNED_EVENTS.route)
+            },
+            onNotificationsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.NOTIFICATIONS.route)
+            },
+            onSettingsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.SETTINGS.route)
+            },
+            onMyProfileScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.MY_PROFILE.route)
+            },
+            onVersionsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.VERSIONS.route)
+            },
+            onFoundAnErrorClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.FOUND_AN_ERROR.route)
+            },
+            onLogOutClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.LOGIN.route)
+                {
+                    popUpTo(navController.graph.id) {
+                        inclusive = true
+                    }
+                }
+                coroutineScope.launch {
+                    rememberMeManager.deleteRememberMeFlag()
+                    tokenManager.deleteRefreshToken()
+                    tokenManager.deleteAccessToken()
+                    userAvatarUrlManager.deleteAvatarUrl()
+                    userNameManager.deleteUserName()
+                    userPhoneManager.deleteUserPhone()
+                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                    userEmailManager.deleteUserEmail()
+                }
+            },
+        )
+    }
+
     NavHost(
         navController = navController,
         startDestination = startDestinations
     )
     {
-        val bottomDrawerContent: @Composable () -> Unit = {
-            val bottomPreviewDrawerState = rememberModalBottomSheetState()
-            val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
-            PreviewOfTheEventBottomDrawer(
-                bottomDrawerState = bottomPreviewDrawerState,
-                state = eventCreationOrEditUiState
-            )
-        }
-
-        val invitedUsersDrawerContent: @Composable () -> Unit = {
-            InvitedUsersBottomDrawer(
-                state = eventCreationOrEditUiState,
-            )
-        }
-        val navDrawerContent: @Composable ColumnScope.() -> Unit = {
-            val navigationDrawerState =  navigationDrawerViewModel.uiState.collectAsState().value
-            NavigationDrawer(
-                state = navigationDrawerState,
-                onFriendsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.FRIENDS.route)
-                },
-                onPlannedEventsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.PLANNED_EVENTS.route)
-                },
-                onNotificationsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.NOTIFICATIONS.route)
-                },
-                onSettingsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.SETTINGS.route)
-                },
-                onMyProfileScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.MY_PROFILE.route)
-                },
-                onVersionsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.VERSIONS.route)
-                },
-                onFoundAnErrorClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.FOUND_AN_ERROR.route)
-                },
-                onLogOutClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.LOGIN.route)
-                    {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
-                        }
-                    }
-                    coroutineScope.launch {
-                        rememberMeManager.deleteRememberMeFlag()
-                        tokenManager.deleteRefreshToken()
-                        tokenManager.deleteAccessToken()
-                        userAvatarUrlManager.deleteAvatarUrl()
-                        userNameManager.deleteUserName()
-                        userPhoneManager.deleteUserPhone()
-                        resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                        userEmailManager.deleteUserEmail()
-                    }
-                },
-            )
-        }
-
-        val publicProfileCurrentState = publicProfileViewModel.currentState
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
@@ -431,6 +431,7 @@ fun AppScreensConfig(
                 },
                 content = { paddingValues ->
                     PublicProfileScreen(
+                        isEmailReminderVisible = true , //TODO()
                         state = state,
                         onInviteToAnEventClicked = {}, // TODO("Invite to event action")
                         onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route) },
@@ -487,7 +488,6 @@ fun AppScreensConfig(
                     navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
                 },
                 onRemindMeLater = {
-                    navigationDrawerViewModel.getMyProfile()
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -536,7 +536,6 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
-                    navigationDrawerViewModel.getMyProfile()
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
