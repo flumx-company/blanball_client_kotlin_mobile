@@ -77,7 +77,6 @@ fun FutureEventsScreen(
 ) {
     Box(
         modifier = Modifier
-            .padding(paddingValues)
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()

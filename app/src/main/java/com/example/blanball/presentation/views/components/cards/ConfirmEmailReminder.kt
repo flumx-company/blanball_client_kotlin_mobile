@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,38 +34,48 @@ fun ConfirmEmailReminder(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(52.dp)
-            .background(color = primaryDark, shape = shapes.medium)
-            .padding(vertical = 6.dp, horizontal = 8.dp)
+            .verticalScroll(rememberScrollState())
+            .padding(start = 16.dp, end = 16.dp, top = 12.dp),
+        contentAlignment = Alignment.TopCenter,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Text(
-                modifier = Modifier.wrapContentWidth(),
-                text = stringResource(R.string.confirm_your_email) + "\n" + userEmail,
-                fontSize = 12.sp,
-                lineHeight = 20.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(500),
-                color = Color.White,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Box(modifier = Modifier
-                .height(28.dp)
-                .background(color = secondaryNavy, shape = shapes.small)
-                .clickable { clickCallback() }
-                .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
-                contentAlignment = Alignment.Center
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .background(color = primaryDark, shape = shapes.medium)
+                .padding(vertical = 6.dp, horizontal = 8.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(R.string.confirm),
-                    fontSize = 13.sp,
-                    lineHeight = 24.sp,
+                    modifier = Modifier.wrapContentWidth(),
+                    text = stringResource(R.string.confirm_your_email) + "\n" + userEmail,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
                     style = typography.h4,
                     fontWeight = FontWeight(500),
                     color = Color.White,
-                    textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.weight(1f))
+                Box(modifier = Modifier
+                    .height(28.dp)
+                    .background(color = secondaryNavy, shape = shapes.small)
+                    .clickable { clickCallback() }
+                    .padding(start = 8.dp, top = 2.dp, end = 8.dp, bottom = 2.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.confirm),
+                        fontSize = 13.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(500),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
     }

@@ -23,13 +23,12 @@ import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.MyAppTheme
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
-import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
-import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
@@ -65,13 +64,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userEmailManager: UserEmailManager
 
+    @Inject
+    lateinit var emailVerificationManager: EmailVerificationManager
+
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
-    private val eventScreenViewModel: EventScreenViewModel by viewModels()
-    private val eventCreationScreenViewModel: EventCreationOrEditScreensViewModel by viewModels()
     private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,9 +96,15 @@ class MainActivity : ComponentActivity() {
             }
 
             LaunchedEffect(key1 = Unit) {
+                val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                 navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
-                val userFullName: String? = userNameManager.getUserName().firstOrNull()
-                val userAvatarUrl: String? = userAvatarUrlManager.getAvatarUrl().firstOrNull()
+                val userFullName = userNameManager.getUserName().firstOrNull()
+                val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
+                val userEmail = userEmailManager.getUserEmail().firstOrNull()
+                val isEmailVerified = emailVerificationManager.getIsEmailVerified().firstOrNull()
+
+                isEmailVerificationVMCurrentState.isEmailVerified.value = isEmailVerified ?: false
+                isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: ""
                 userFullName?.let { fullName ->
                     val (firstName, lastName) = fullName.split(" ")
                     techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
@@ -108,6 +115,7 @@ class MainActivity : ComponentActivity() {
                             userAvatar = mutableStateOf(userAvatarUrl)
                         )
                     }
+
                 }
 
                 isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true

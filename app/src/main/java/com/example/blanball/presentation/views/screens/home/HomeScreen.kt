@@ -2,7 +2,6 @@ package com.example.blanball.presentation.views.screens.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +24,6 @@ import com.example.blanball.presentation.views.components.cards.HomeScreenEventC
 
 @Composable
 fun HomeScreen(
-    paddingValues: PaddingValues,
     onNavigateToEvent: (eventId: Int) -> Unit,
     state: UiState,
     onLoadMoreUsers: () -> Unit,
@@ -34,13 +32,12 @@ fun HomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
     ) {
         (state as? FutureEventsMainContract.State)?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, top = 36.dp)
+                    .padding(start = 16.dp, top = 20.dp)
             ) {
                 Row {
                     Text(

@@ -147,7 +147,6 @@ fun EditMyProfileScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             if (state.isModalOpen.value) {
                 LookProfileFromTheSideModal(

@@ -47,7 +47,9 @@ fun AllPlannedEventsScreen(
 ) {
     (state as? PublicProfileMainContract.State)?.let {
         val lazyListState = rememberLazyListState()
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box(
+            modifier = Modifier
+        ) {
             LazyColumn(
                 Modifier.padding(
                     top = 16.dp,

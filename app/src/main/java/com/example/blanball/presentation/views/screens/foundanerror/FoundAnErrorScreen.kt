@@ -52,7 +52,6 @@ fun FoundAnErrorScreen(
     //sendFeedbackButtonClicked: () -> Unit, TODO()
 ) {
     Box(
-        modifier = Modifier.padding(paddingValues)
     ) {
         (state as? FoundAnErrorScreenMainContract.State)?.let {
             Column(

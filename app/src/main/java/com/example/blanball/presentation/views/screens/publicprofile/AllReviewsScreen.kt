@@ -44,7 +44,9 @@ fun AllReviewsScreen(
 ) {
     (state as? PublicProfileMainContract.State)?.let {
         val lazyListState = rememberLazyListState()
-        Box( Modifier.padding(paddingValues)) {
+        Box(
+            Modifier
+        ) {
             LazyColumn(
                 Modifier.padding(
                     top = 16.dp,

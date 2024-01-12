@@ -87,7 +87,6 @@ fun MyProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
     ) {
         (state as? MyProfileScreensMainContract.State)?.let {
             Column(

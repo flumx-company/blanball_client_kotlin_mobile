@@ -11,6 +11,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatBooleanToString
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
+import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.RegistrationResultEntity
 import com.example.domain.usecases.interfaces.RegistrationUseCase
@@ -33,6 +34,7 @@ class   RegistrationViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     val rememberMeManager: RememberMeManager,
     val userNameManager: UserNameManager,
+    val userEmailManager: UserEmailManager,
     ) :
     ViewModel() {
 
@@ -82,6 +84,7 @@ class   RegistrationViewModel @Inject constructor(
                 when (it) {
                     is RegistrationResultEntity.Success -> {
                         userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
+                        userEmailManager.safeUserEmail(currentState.registrationEmailText.value)
                         rememberMeManager.saveRememberMeFlag(currentState.lostInSystemSwitchButton.value)
                         setState {
                             copy(

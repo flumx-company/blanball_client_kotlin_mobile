@@ -53,7 +53,6 @@ fun VersionsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
     ) {
         Column(
             modifier = Modifier

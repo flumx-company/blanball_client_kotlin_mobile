@@ -1,15 +1,12 @@
 package com.example.blanball.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.EmailVerificationMainContract
-import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
-import com.example.data.datastore.useremailmanager.UserEmailManager
-import com.example.domain.entity.results.EmailResetResultEntity
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 import com.example.domain.usecases.interfaces.EmailVerificationUseCase
@@ -22,15 +19,14 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EmailVerificationViewModel
 @Inject constructor(
-    internal val emailVerificationUseCase: EmailVerificationUseCase,
+    private val emailVerificationUseCase: EmailVerificationUseCase,
+    private val emailVerificationManager: EmailVerificationManager,
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -106,6 +102,7 @@ class EmailVerificationViewModel
             emailVerificationUseCase.executePostEmailVerifyCode(code).let {
                 when (it) {
                     is PostEmailVerifyCodeResultEntity.Success -> {
+                        emailVerificationManager.saveIsEmailVerifiedState(isEmailVerified = true)
                         setState {
                             copy(
                                 isEmailVerifyError = mutableStateOf(false),
