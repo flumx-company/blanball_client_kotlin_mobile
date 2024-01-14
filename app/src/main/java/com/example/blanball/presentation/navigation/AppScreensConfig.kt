@@ -243,7 +243,7 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
-                    navigationDrawerViewModel.getMyProfile()
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -541,6 +541,7 @@ fun AppScreensConfig(
                     navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
                 },
                 onRemindMeLater = {
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -589,6 +590,7 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true

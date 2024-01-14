@@ -14,6 +14,7 @@ class NavigationDrawerMainContract
         val userLastNameText: MutableState<String> = mutableStateOf(""),
         val userAvatar: MutableState<String?> = mutableStateOf(""),
         val isDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
+        val isSplashScreenActivated: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
 

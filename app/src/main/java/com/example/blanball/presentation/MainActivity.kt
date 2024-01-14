@@ -81,7 +81,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
-            var isLaunchedEffectComplete by rememberSaveable { mutableStateOf(false) }
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
@@ -94,8 +93,8 @@ class MainActivity : ComponentActivity() {
                     BottomNavItem.Chat,
                 )
             }
-
-            LaunchedEffect(key1 = Unit) {
+            navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+            LaunchedEffect(key1 = navigationDrawerViewModel.currentState.isSplashScreenActivated ) {
                 val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                 navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
                 val userFullName = userNameManager.getUserName().firstOrNull()
@@ -125,17 +124,16 @@ class MainActivity : ComponentActivity() {
                     tokenManager.deleteAccessToken()
                     tokenManager.deleteRefreshToken()
                 }
-                isLaunchedEffectComplete = true
+                navigationDrawerViewModel.currentState.isSplashScreenActivated.value = false
             }
 
             val isTechWorksStatus = techWorksScreenViewModel.currentState.isTechWorksAvailable.value
 
             when {
-                !isLaunchedEffectComplete
+                navigationDrawerViewModel.currentState.isSplashScreenActivated.value
                 -> {
                     SplashScreen()
                 }
-
                 isTechWorksStatus -> {
                     TechnicalWorksScreen()
                 }
