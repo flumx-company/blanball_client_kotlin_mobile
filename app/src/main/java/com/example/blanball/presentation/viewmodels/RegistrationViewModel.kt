@@ -83,7 +83,7 @@ class   RegistrationViewModel @Inject constructor(
             ).let {
                 when (it) {
                     is RegistrationResultEntity.Success -> {
-                        userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
+                        userNameManager.safeUserName(currentState.firstNameText.value + " " + currentState.lastNameText.value)
                         userEmailManager.safeUserEmail(currentState.registrationEmailText.value)
                         rememberMeManager.saveRememberMeFlag(currentState.lostInSystemSwitchButton.value)
                         setState {
