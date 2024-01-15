@@ -630,7 +630,6 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
             val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
             val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState

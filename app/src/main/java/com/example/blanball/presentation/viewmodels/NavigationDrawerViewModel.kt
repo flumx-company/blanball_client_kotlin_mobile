@@ -54,6 +54,7 @@ class NavigationDrawerViewModel
                     is GetMyProfileResultEntity.Success -> {
                         val userEmail = result.success.email
                         val myProfile = result.success.profile
+                        userIdManager.saveUserId(result.success.id)
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
                         userIdManager.saveUserId(myProfile.id)
                         myProfile.avatar_url?.let { avatarUrl -> userAvatarUrlManager.safeAvatarUrl(avatarUrl) }
