@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.useridmanager.UserIdManager
@@ -30,6 +31,7 @@ class NavigationDrawerViewModel
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val userEmailManager: UserEmailManager,
     internal val userIdManager: UserIdManager,
+    internal val emailVerificationManager: EmailVerificationManager,
 ) : ViewModel()
 {
     private var job: Job? = null
@@ -56,6 +58,7 @@ class NavigationDrawerViewModel
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
                         userIdManager.saveUserId(myProfile.id)
+                        emailVerificationManager.saveIsEmailVerifiedState(result.success.is_verified)
                         myProfile.avatar_url?.let { avatarUrl -> userAvatarUrlManager.safeAvatarUrl(avatarUrl) }
                         userEmail?.let { userEmail -> userEmailManager.safeUserEmail(userEmail) }
                         val userFullName = userNameManager.getUserName().firstOrNull()

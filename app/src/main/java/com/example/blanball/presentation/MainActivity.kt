@@ -65,7 +65,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var emailVerificationManager: EmailVerificationManager
 
-
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
@@ -167,6 +166,7 @@ class MainActivity : ComponentActivity() {
                                         emailVerificationViewModel = viewModel(),
                                         userEmailManager = userEmailManager,
                                         eventCreationOrEditViewModel = viewModel(),
+                                        emailVerificationManager = emailVerificationManager,
                                     )
                         }
                     }
