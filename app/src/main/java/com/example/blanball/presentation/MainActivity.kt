@@ -11,7 +11,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -20,15 +19,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
-import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.MyAppTheme
-import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
-import com.example.blanball.presentation.viewmodels.EventScreenViewModel
+import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
@@ -64,12 +62,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userEmailManager: UserEmailManager
 
+    @Inject
+    lateinit var emailVerificationManager: EmailVerificationManager
+
 
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
-    private val eventScreenViewModel: EventScreenViewModel by viewModels()
-    private val eventCreationScreenViewModel: EventCreationOrEditScreensViewModel by viewModels()
+    private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,54 +79,53 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
-            var isLaunchedEffectComplete by rememberSaveable { mutableStateOf(false) }
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
-            val navItems = remember {
-                listOf(
-                    BottomNavItem.Home,
-                    BottomNavItem.FutureEvents,
-                    BottomNavItem.CreateNewEvent,
-                    BottomNavItem.Rating,
-                    BottomNavItem.Chat,
-                )
-            }
 
-            LaunchedEffect(key1 = Unit) {
-                navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
-                val userFullName: String? = userNameManager.getUserName().firstOrNull()
-                val userAvatarUrl: String? = userAvatarUrlManager.getAvatarUrl().firstOrNull()
-                userFullName?.let { fullName ->
-                    val (firstName, lastName) = fullName.split(" ")
-                    techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
-                    navigationDrawerViewModel.setState {
-                        copy(
-                            userFirstNameText = mutableStateOf(firstName),
-                            userLastNameText = mutableStateOf(lastName),
-                            userAvatar = mutableStateOf(userAvatarUrl)
-                        )
+            if (navigationDrawerViewModel.currentState.isSplashScreenActivated.value) {
+            LaunchedEffect(key1 = Unit ) {
+                    val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
+                    navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
+                    val userFullName = userNameManager.getUserName().firstOrNull()
+                    val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
+                    val userEmail = userEmailManager.getUserEmail().firstOrNull()
+                    val isEmailVerified =
+                        emailVerificationManager.getIsEmailVerified().firstOrNull()
+
+                    isEmailVerificationVMCurrentState.isEmailVerified.value =
+                        isEmailVerified ?: false
+                    isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: "ndaoad"
+                    userFullName?.let { fullName ->
+                        val (firstName, lastName) = fullName.split(" ")
+                        techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
+                        navigationDrawerViewModel.setState {
+                            copy(
+                                userFirstNameText = mutableStateOf(firstName),
+                                userLastNameText = mutableStateOf(lastName),
+                                userAvatar = mutableStateOf(userAvatarUrl)
+                            )
+                        }
                     }
-                }
 
-                isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
-                if (!isRememberMeFlagActive && (tokenManager.getAccessToken()
-                        .first() != null) && (tokenManager.getAccessToken().first() != null)
-                ) {
-                    tokenManager.deleteAccessToken()
-                    tokenManager.deleteRefreshToken()
+                    isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
+                    if (!isRememberMeFlagActive && (tokenManager.getAccessToken()
+                            .first() != null) && (tokenManager.getAccessToken().first() != null)
+                    ) {
+                        tokenManager.deleteAccessToken()
+                        tokenManager.deleteRefreshToken()
+                    }
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = false
                 }
-                isLaunchedEffectComplete = true
             }
 
             val isTechWorksStatus = techWorksScreenViewModel.currentState.isTechWorksAvailable.value
 
             when {
-                !isLaunchedEffectComplete
+                navigationDrawerViewModel.currentState.isSplashScreenActivated.value
                 -> {
                     SplashScreen()
                 }
-
                 isTechWorksStatus -> {
                     TechnicalWorksScreen()
                 }

@@ -124,7 +124,6 @@ fun RatingScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             Column(Modifier.padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 0.dp)) {
                 Text(

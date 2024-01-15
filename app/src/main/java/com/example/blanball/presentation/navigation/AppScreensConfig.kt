@@ -3,7 +3,10 @@ package com.example.blanball.presentation.navigation
 import Destinations
 import PublicProfileScreen
 import android.content.Intent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -15,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -135,13 +139,15 @@ fun AppScreensConfig(
     eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
 ) {
 
-    val eventCreationOrEditUiState =  eventCreationOrEditViewModel.uiState.collectAsState().value
-
+    val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+    val publicProfileCurrentState = publicProfileViewModel.currentState
+    val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
     fun openNavDrawer() {
         coroutineScope.launch {
             scaffoldState.drawerState.open()
         }
     }
+
     fun closeNavDrawer() {
         coroutineScope.launch {
             delay(200)
@@ -149,80 +155,79 @@ fun AppScreensConfig(
         }
     }
 
+    val bottomDrawerContent: @Composable () -> Unit = {
+        val bottomPreviewDrawerState = rememberModalBottomSheetState()
+        val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+        PreviewOfTheEventBottomDrawer(
+            bottomDrawerState = bottomPreviewDrawerState,
+            state = eventCreationOrEditUiState
+        )
+    }
+
+    val invitedUsersDrawerContent: @Composable () -> Unit = {
+        InvitedUsersBottomDrawer(
+            state = eventCreationOrEditUiState,
+        )
+    }
+    val navDrawerContent: @Composable ColumnScope.() -> Unit = {
+        val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
+        NavigationDrawer(
+            state = navigationDrawerState,
+            onFriendsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.FRIENDS.route)
+            },
+            onPlannedEventsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.PLANNED_EVENTS.route)
+            },
+            onNotificationsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.NOTIFICATIONS.route)
+            },
+            onSettingsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.SETTINGS.route)
+            },
+            onMyProfileScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.MY_PROFILE.route)
+            },
+            onVersionsScreenClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.VERSIONS.route)
+            },
+            onFoundAnErrorClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.FOUND_AN_ERROR.route)
+            },
+            onLogOutClicked = {
+                closeNavDrawer()
+                navController.navigate(Destinations.LOGIN.route)
+                {
+                    popUpTo(navController.graph.id) {
+                        inclusive = true
+                    }
+                }
+                coroutineScope.launch {
+                    rememberMeManager.deleteRememberMeFlag()
+                    tokenManager.deleteRefreshToken()
+                    tokenManager.deleteAccessToken()
+                    userAvatarUrlManager.deleteAvatarUrl()
+                    userNameManager.deleteUserName()
+                    userPhoneManager.deleteUserPhone()
+                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                    userEmailManager.deleteUserEmail()
+                }
+            },
+        )
+    }
+
     NavHost(
         navController = navController,
         startDestination = startDestinations
     )
     {
-        val bottomDrawerContent: @Composable () -> Unit = {
-            val bottomPreviewDrawerState = rememberModalBottomSheetState()
-            val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
-            PreviewOfTheEventBottomDrawer(
-                bottomDrawerState = bottomPreviewDrawerState,
-                state = eventCreationOrEditUiState
-            )
-        }
-
-        val invitedUsersDrawerContent: @Composable () -> Unit = {
-            InvitedUsersBottomDrawer(
-                state = eventCreationOrEditUiState,
-            )
-        }
-        val navDrawerContent: @Composable ColumnScope.() -> Unit = {
-            val navigationDrawerState =  navigationDrawerViewModel.uiState.collectAsState().value
-            NavigationDrawer(
-                state = navigationDrawerState,
-                onFriendsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.FRIENDS.route)
-                },
-                onPlannedEventsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.PLANNED_EVENTS.route)
-                },
-                onNotificationsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.NOTIFICATIONS.route)
-                },
-                onSettingsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.SETTINGS.route)
-                },
-                onMyProfileScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.MY_PROFILE.route)
-                },
-                onVersionsScreenClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.VERSIONS.route)
-                },
-                onFoundAnErrorClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.FOUND_AN_ERROR.route)
-                },
-                onLogOutClicked = {
-                    closeNavDrawer()
-                    navController.navigate(Destinations.LOGIN.route)
-                    {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
-                        }
-                    }
-                    coroutineScope.launch {
-                        rememberMeManager.deleteRememberMeFlag()
-                        tokenManager.deleteRefreshToken()
-                        tokenManager.deleteAccessToken()
-                        userAvatarUrlManager.deleteAvatarUrl()
-                        userNameManager.deleteUserName()
-                        userPhoneManager.deleteUserPhone()
-                        resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                        userEmailManager.deleteUserEmail()
-                    }
-                },
-            )
-        }
-
-        val publicProfileCurrentState = publicProfileViewModel.currentState
         composable(Destinations.LOGIN.route) {
             val state = loginViewModel.uiState.collectAsState().value
             val currentState = loginViewModel.currentState
@@ -238,8 +243,12 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
-                    navigationDrawerViewModel.getMyProfile()
-                    navController.navigate(Destinations.HOME.route)
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -423,17 +432,36 @@ fun AppScreensConfig(
                     BottomNavBar(
                         navController = navController,
 
+                        )
+                },
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 content = { paddingValues ->
-                    PublicProfileScreen(
-                        state = state,
-                        onInviteToAnEventClicked = {}, // TODO("Invite to event action")
-                        onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route) },
-                        onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route) },
-                        paddingValues = paddingValues,
-                    )
-                }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                        }
+                        PublicProfileScreen(
+                            state = state,
+                            onInviteToAnEventClicked = {}, // TODO("Invite to event action")
+                            onAllReviewsScreenClicked = { navController.navigate(Destinations.ALL_REVIEWS.route) },
+                            onAllPlannedEventsScreenClicked = { navController.navigate(Destinations.ALL_PLANNED_EVENTS.route) },
+                        )
+                    }
+                },
             )
         }
 
@@ -445,12 +473,42 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    AllReviewsScreen(
-                        state = state,
-                        onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() },
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        AllReviewsScreen(
+                            state = state,
+                            onLoadMoreReviews = { publicProfileViewModel.loadMoreReviews() },
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -482,7 +540,15 @@ fun AppScreensConfig(
                 onFillingOutTheUserProfileStep1Clicked = {
                     navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE1.route)
                 },
-                onRemindMeLater = { /*TODO*/ })
+                onRemindMeLater = {
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
@@ -524,7 +590,8 @@ fun AppScreensConfig(
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
                     currentState.isSuccessRequestToFinishOutTheProfile.value = false
-                    navController.navigate(Destinations.PUBLIC_PROFILE.route) {
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+                    navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
                         }
@@ -563,8 +630,10 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
+            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
-            val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
+            val futureEventsScreenViewModelState =
+                futureEventsScreenViewModel.uiState.collectAsState().value
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -573,7 +642,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -582,25 +651,55 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    HomeScreen(
-                        paddingValues = it,
-                        onNavigateToEvent = { eventId ->
-                            eventScreenViewModelCurrentState.currentEventId.value = eventId
-                            navController.navigate(Destinations.EVENT.route)
-                                            },
-                        state = futureEventsScreenViewModelState,
-                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
-                        userFirstName = navigationDrawerCurrentState.userFirstNameText.value
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        HomeScreen(
+                            onNavigateToEvent = { eventId ->
+                                eventScreenViewModelCurrentState.currentEventId.value = eventId
+                                navController.navigate(Destinations.EVENT.route)
+                            },
+                            state = futureEventsScreenViewModelState,
+                            onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
+                            userFirstName = navigationDrawerCurrentState.userFirstNameText.value
+                        )
+                    }
                 }
             )
         }
 
         composable(BottomNavItem.FutureEvents.screen_route) {
             val futureEventScreenCurrentState = futureEventsScreenViewModel.currentState
-            val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
+            val futureEventsScreenViewModelState =
+                futureEventsScreenViewModel.uiState.collectAsState().value
             val previousState by remember { mutableStateOf(futureEventScreenCurrentState.state) }
-            val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState
+            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             LaunchedEffect(futureEventScreenCurrentState.state != previousState) {
                 futureEventsScreenViewModel.handleScreenState(futureEventScreenCurrentState.state)
             }
@@ -613,7 +712,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { { openNavDrawer()} },
+                        onNavIconClicked = { { openNavDrawer() } },
                     )
                 },
                 bottomBar = {
@@ -622,25 +721,55 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    FutureEventsScreen(
-                        state = futureEventsScreenViewModelState,
-                        paddingValues = paddingValues,
-                        navigateToEventScreen = { eventId ->
-                            eventScreenViewModelCurrentState.currentEventId.value = eventId
-                            navController.navigate(Destinations.EVENT.route)
-                        },
-                        onClickedToChangeOrdering = {
-                            futureEventsScreenViewModel.setState {
-                                copy(
-                                    state = FutureEventsMainContract.ScreenViewState.Loading
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
                                 )
                             }
-                        },
-                        onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
-                        navigateToCreationEventScreen = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
-                        navigateToFilterScreen = { navController.navigate(Destinations.ALL_EVENTS_FILTER_SCREEN.route) },
-                        navigateToMyEventsScreen = { navController.navigate(Destinations.MY_EVENTS.route) },
-                    )
+                        }
+                        FutureEventsScreen(
+                            state = futureEventsScreenViewModelState,
+                            paddingValues = paddingValues,
+                            navigateToEventScreen = { eventId ->
+                                eventScreenViewModelCurrentState.currentEventId.value = eventId
+                                navController.navigate(Destinations.EVENT.route)
+                            },
+                            onClickedToChangeOrdering = {
+                                futureEventsScreenViewModel.setState {
+                                    copy(
+                                        state = FutureEventsMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
+                            navigateToCreationEventScreen = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                            navigateToFilterScreen = { navController.navigate(Destinations.ALL_EVENTS_FILTER_SCREEN.route) },
+                            navigateToMyEventsScreen = { navController.navigate(Destinations.MY_EVENTS.route) },
+                        )
+                    }
                 }
             )
         }
@@ -656,7 +785,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -665,16 +794,46 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EventEditOrCreationScreenStep1(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        backBtnCLicked = {
-                            navController.navigate(Destinations.HOME.route)
-                        },
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep1(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            navigateToSecondStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            backBtnCLicked = {
+                                navController.navigate(Destinations.HOME.route)
+                            },
+                        )
+                    }
                 }
             )
         }
@@ -698,7 +857,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -707,48 +866,78 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    RatingScreen(
-                        state = state,
-                        onLoadMoreUsers = {
-                            usersRatingViewModel.loadMoreUsers()
-                        },
-                        onClickedToLoadWithNewFilters = {
-                            usersRatingViewModel.setState {
-                                copy(
-                                    openFiltersDialog = mutableStateOf(false),
-                                    state = RatingUsersMainContract.ScreenViewState.Loading,
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
                                 )
                             }
-                        },
-                        onClickedToChangeOrdering = {
-                            usersRatingViewModel.setState {
-                                copy(
-                                    state = RatingUsersMainContract.ScreenViewState.Loading
-                                )
-                            }
-                        },
-                        onClickedToCleanFiters = {
-                            usersRatingViewModel.setState {
-                                copy(
-                                    openFiltersDialog = mutableStateOf(false),
-                                    genderSelectionState = mutableStateOf(
-                                        RatingUsersMainContract.GenderSelectionState.ALL
-                                    ),
-                                    ageSliderPosition = mutableStateOf(6f..80f),
-                                    gamePositionSelectionState = mutableStateOf(
-                                        RatingUsersMainContract.GamePositionSelectionState.ALL
-                                    ),
-                                    positionSelectedItem = mutableStateOf(""),
-                                    state = RatingUsersMainContract.ScreenViewState.Loading
-                                )
-                            }
-                        },
-                        onClickedToPublicProfile = { userId ->
-                            publicProfileCurrentState.userId.value = userId
-                            navController.navigate(Destinations.PUBLIC_PROFILE.route)
-                        },
-                        paddingValues = paddingValues
-                    )
+                        }
+                        RatingScreen(
+                            state = state,
+                            onLoadMoreUsers = {
+                                usersRatingViewModel.loadMoreUsers()
+                            },
+                            onClickedToLoadWithNewFilters = {
+                                usersRatingViewModel.setState {
+                                    copy(
+                                        openFiltersDialog = mutableStateOf(false),
+                                        state = RatingUsersMainContract.ScreenViewState.Loading,
+                                    )
+                                }
+                            },
+                            onClickedToChangeOrdering = {
+                                usersRatingViewModel.setState {
+                                    copy(
+                                        state = RatingUsersMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            onClickedToCleanFiters = {
+                                usersRatingViewModel.setState {
+                                    copy(
+                                        openFiltersDialog = mutableStateOf(false),
+                                        genderSelectionState = mutableStateOf(
+                                            RatingUsersMainContract.GenderSelectionState.ALL
+                                        ),
+                                        ageSliderPosition = mutableStateOf(6f..80f),
+                                        gamePositionSelectionState = mutableStateOf(
+                                            RatingUsersMainContract.GamePositionSelectionState.ALL
+                                        ),
+                                        positionSelectedItem = mutableStateOf(""),
+                                        state = RatingUsersMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            onClickedToPublicProfile = { userId ->
+                                publicProfileCurrentState.userId.value = userId
+                                navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                            },
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -762,7 +951,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -770,10 +959,40 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    ChatsScreen(
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        ChatsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -787,7 +1006,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -795,10 +1014,40 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    FriendsScreen(
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        FriendsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -812,7 +1061,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -820,10 +1069,24 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    PlannedEventsScreen(
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                        }
+                        PlannedEventsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -837,7 +1100,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -845,10 +1108,24 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    NotificationsScreen(
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                        }
+                        NotificationsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -862,7 +1139,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -870,10 +1147,40 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    SettingsScreen(
-                        paddingValues = it
-                    )
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        SettingsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
                 }
             )
         }
@@ -893,7 +1200,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -901,30 +1208,60 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    MyProfileScreen(
-                        state = myProfileScreenState,
-                        paddingValues = it,
-                        editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
-                        exitBtnClicked = {
-                            navController.navigate(Destinations.LOGIN.route)
-                            {
-                                popUpTo(navController.graph.id) {
-                                    inclusive = true
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        MyProfileScreen(
+                            state = myProfileScreenState,
+                            paddingValues = paddingValues,
+                            editProfileButtonClicked = { navController.navigate(Destinations.EDIT_PROFILE.route) },
+                            exitBtnClicked = {
+                                navController.navigate(Destinations.LOGIN.route)
+                                {
+                                    popUpTo(navController.graph.id) {
+                                        inclusive = true
+                                    }
                                 }
-                            }
-                            coroutineScope.launch {
-                                rememberMeManager.deleteRememberMeFlag()
-                                tokenManager.deleteRefreshToken()
-                                tokenManager.deleteAccessToken()
-                                userAvatarUrlManager.deleteAvatarUrl()
-                                userNameManager.deleteUserName()
-                                userPhoneManager.deleteUserPhone()
-                                resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                            }
-                        },
-                        deleteAccBtnClicked = {}
-                    )
+                                coroutineScope.launch {
+                                    rememberMeManager.deleteRememberMeFlag()
+                                    tokenManager.deleteRefreshToken()
+                                    tokenManager.deleteAccessToken()
+                                    userAvatarUrlManager.deleteAvatarUrl()
+                                    userNameManager.deleteUserName()
+                                    userPhoneManager.deleteUserPhone()
+                                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                                }
+                            },
+                            deleteAccBtnClicked = {}
+                        )
+                    }
                 }
             )
         }
@@ -938,18 +1275,49 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
                     BottomNavBar(
                         navController = navController,
                     )
-                }, content = { it ->
-                    VersionsScreen(
-                        paddingValues = it
-                    )
-                })
+                }, content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        VersionsScreen(
+                            paddingValues = paddingValues
+                        )
+                    }
+                }
+            )
         }
 
         composable(
@@ -967,17 +1335,19 @@ fun AppScreensConfig(
                 }
             )
         ) { entry ->
-            val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState
+            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             val eventId = entry.arguments?.getInt("id")
             if (eventId != 0) {
                 eventScreenViewModelCurrentState.currentEventId.value = eventId
             }
-            val verifyEmailViewModelState =  emailVerificationViewModel.uiState.collectAsState().value
+            val verifyEmailViewModelState =
+                emailVerificationViewModel.uiState.collectAsState().value
 
-            val eventScreenViewModelState =   eventScreenViewModel.uiState.collectAsState().value
+            val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
             val isVerificationModalVisible = remember { mutableStateOf(false) }
-            val isShareLinkModalVisible = remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
-            val verifyEmailViewModeCurrentState =  emailVerificationViewModel.currentState
+            val isShareLinkModalVisible =
+                remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
+            val verifyEmailViewModeCurrentState = emailVerificationViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 eventScreenViewModel.loadUEventData() //TODO() Make it encapsulated - without calling the method directly
             }
@@ -996,7 +1366,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1004,63 +1374,85 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    EventScreen(
-                        state = eventScreenViewModelState,
-                        paddingValues = it,
-                        isVerificationModalVisible = isVerificationModalVisible,
-                        verificationModalScreenContent = {
-                            LaunchedEffect(key1 = Unit) {
-                                emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                val userEmail = userEmailManager.getUserEmail().firstOrNull()
-                                emailVerificationViewModel.setState {
-                                    copy(
-                                        userEmailText =  mutableStateOf(userEmail?: ""),
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                        }
+                        EventScreen(
+                            state = eventScreenViewModelState,
+                            paddingValues = paddingValues,
+                            isVerificationModalVisible = isVerificationModalVisible,
+                            verificationModalScreenContent = {
+                                LaunchedEffect(key1 = Unit) {
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                     )
-                                }
-                            }
-                            EmailVerificationModal(
-                                state = verifyEmailViewModelState,
-                                turnBackBtnClicked = {
-                                    isVerificationModalVisible.value = false
+                                    val userEmail =
+                                        emailVerificationViewModel.currentState.userEmailText.value
                                     emailVerificationViewModel.setState {
                                         copy(
-                                            codeText = List(5) { mutableStateOf("") }
+                                            userEmailText = mutableStateOf(userEmail ?: ""),
                                         )
                                     }
-                                                     },
-                                confirmBtnClicked = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.VerifyEmailClicked)
-                                                    },
-                                resendCodeToEmailClicked = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                },
-                            )
-                        },
-                        isShareLinkModalVisible = isShareLinkModalVisible,
-                        shareLinkModalScreenContent = {
-                            eventScreenViewModelCurrentState.currentEventId.value?.let { id ->
-                                ShareAnEventModal(
-                                    backBtnClicked = { isShareLinkModalVisible.value = false },
-                                    currentEventId = id,
+                                }
+                                EmailVerificationModal(
+                                    state = verifyEmailViewModelState,
+                                    turnBackBtnClicked = {
+                                        isVerificationModalVisible.value = false
+                                        emailVerificationViewModel.setState {
+                                            copy(
+                                                codeText = List(5) { mutableStateOf("") }
+                                            )
+                                        }
+                                    },
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                )
+                            },
+                            isShareLinkModalVisible = isShareLinkModalVisible,
+                            shareLinkModalScreenContent = {
+                                eventScreenViewModelCurrentState.currentEventId.value?.let { id ->
+                                    ShareAnEventModal(
+                                        backBtnClicked = { isShareLinkModalVisible.value = false },
+                                        currentEventId = id,
+                                    )
+                                }
+                            },
+                            onNavigateToEventAuthorPublicProfile = {
+                                publicProfileCurrentState.userId.value =
+                                    eventScreenViewModelCurrentState.currentEventAuthorId.value
+                                navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                            },
+                            isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
+                            isConfirmReminderContent = {
+                            },
+                            onEditClick = {
+                                navController.navigate(
+                                    Destinations.EDIT_EVENT_STEP_1.route
                                 )
                             }
-                        },
-                        onNavigateToEventAuthorPublicProfile = {
-                            publicProfileCurrentState.userId.value = eventScreenViewModelCurrentState.currentEventAuthorId.value
-                            navController.navigate(Destinations.PUBLIC_PROFILE.route)
-                        },
-                        isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
-                        isConfirmReminderContent = {
-                            ConfirmEmailReminder(
-                            clickCallback = { isVerificationModalVisible.value = true },
-                            userEmail = verifyEmailViewModeCurrentState.userEmailText.value
-                        )},
-                        onEditClick = {
-                            navController.navigate(Destinations.EDIT_EVENT_STEP_1.route
-                            )}
-                    )
-                })
+                        )
+                    }
+                }
+            )
         }
 
         composable(Destinations.FOUND_AN_ERROR.route) {
@@ -1073,7 +1465,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1082,11 +1474,41 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    FoundAnErrorScreen(
-                        state = state,
-                        paddingValues = paddingValues,
-                        closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        FoundAnErrorScreen(
+                            state = state,
+                            paddingValues = paddingValues,
+                            closeButtonClicked = { navController.navigate(Destinations.HOME.route) }
+                        )
+                    }
                 }
             )
         }
@@ -1100,7 +1522,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1109,20 +1531,50 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EventEditOrCreationScreenStep2(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
-                        usersSearchClicked = {
-                            eventCreationScreenViewModel.handleEvent(
-                                EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
-                        },
-                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
-                    )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep2(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            navigateToThirdStep = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_3.route) },
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                            usersSearchClicked = {
+                                eventCreationScreenViewModel.handleEvent(
+                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                )
+                            },
+                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                        )
+                    }
                 }
             )
         }
@@ -1147,7 +1599,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1156,19 +1608,49 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EventEditOrCreationScreenStep3(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        publishBtnClicked = {
-                            eventCreationScreenViewModel.handleEvent(
-                                EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
-                        },
-                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
-                    )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep3(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            publishBtnClicked = {
+                                eventCreationScreenViewModel.handleEvent(
+                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                )
+                            },
+                            backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
+                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                        )
+                    }
                 }
             )
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
@@ -1189,7 +1671,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1198,19 +1680,51 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    EditMyProfileScreen(
-                        state = state,
-                        paddingValues = paddingValues,
-                        onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
-                        onNavigateToDemoClicked = { navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) },
-                        onSimpleSaveClicked = {
-                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
-                            navController.navigate(Destinations.MY_PROFILE.route)
-                                              },
-                        onCancelEditsClicked = {
-                            navController.navigate(Destinations.MY_PROFILE.route)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
                         }
-                    )
+                        EditMyProfileScreen(
+                            state = state,
+                            paddingValues = paddingValues,
+                            onBackClicked = { navController.navigate(Destinations.MY_PROFILE.route) },
+                            onNavigateToDemoClicked = { navController.navigate(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) },
+                            onSimpleSaveClicked = {
+                                myProfileScreenViewModel.handleScreenState(
+                                    MyProfileScreensMainContract.Event.SendEditMyProfileRequest
+                                )
+                                navController.navigate(Destinations.MY_PROFILE.route)
+                            },
+                            onCancelEditsClicked = {
+                                navController.navigate(Destinations.MY_PROFILE.route)
+                            }
+                        )
+                    }
                 }
             )
         }
@@ -1232,7 +1746,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1240,27 +1754,58 @@ fun AppScreensConfig(
                         navController = navController,
                     )
                 },
-                content = { it ->
-                    MyEventsScreen(
-                        state = state,
-                        paddingValues = it,
-                        navigateToEventScreen = { eventId ->
-                            val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState
-                            eventScreenViewModelCurrentState.currentEventId.value = eventId
-                            navController.navigate(Destinations.EVENT.route)
-                        },
-                        onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },
-                        navigateToAllEventsScreen = { navController.navigate(Destinations.FUTURE_EVENTS.route) },
-                        navigateToMyEventsFilterScreen = { navController.navigate(Destinations.MY_EVENTS_FILTER_SCREEN.route) },
-                        onClickedToChangeOrdering = {
-                            myEventsViewModel.setState {
-                                copy(
-                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
                                 )
                             }
-                        },
-                        onCreatedEventClicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
-                    )
+                        }
+                        MyEventsScreen(
+                            state = state,
+                            paddingValues = paddingValues,
+                            navigateToEventScreen = { eventId ->
+                                val eventScreenViewModelCurrentState =
+                                    eventScreenViewModel.currentState
+                                eventScreenViewModelCurrentState.currentEventId.value = eventId
+                                navController.navigate(Destinations.EVENT.route)
+                            },
+                            onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },
+                            navigateToAllEventsScreen = { navController.navigate(Destinations.FUTURE_EVENTS.route) },
+                            navigateToMyEventsFilterScreen = { navController.navigate(Destinations.MY_EVENTS_FILTER_SCREEN.route) },
+                            onClickedToChangeOrdering = {
+                                myEventsViewModel.setState {
+                                    copy(
+                                        state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            onCreatedEventClicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                        )
+                    }
                 }
             )
         }
@@ -1277,7 +1822,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1286,32 +1831,64 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    AllEventsFilterScreen(
-                        state = state,
-                        turnBackBtnClicked = {
-                            navController.navigate(Destinations.FUTURE_EVENTS.route)
-                            futureEventsScreenViewModel.setState {
-                                copy(
-                                    openFiltersDialog = mutableStateOf(false),
-                                    gendersSelectionState = mutableStateOf(FutureEventsMainContract.GenderSelectionState.ALL),
-                                    typeOfSportsStateSelected = mutableStateOf(""),
-                                    eventDatesState = mutableStateOf(""),
-                                    filterDateAndTimeAfter = mutableStateOf(""),
-                                    filterDateAndTimeBefore = mutableStateOf(""),
-                                    state = FutureEventsMainContract.ScreenViewState.Loading
-                                )
-                            }
-                        },
-                        paddingValues = paddingValues,
-                        confirmBtnClicked = {
-                            navController.navigate(Destinations.FUTURE_EVENTS.route)
-                            futureEventsScreenViewModel.setState {
-                                copy(
-                                    state = FutureEventsMainContract.ScreenViewState.Loading
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
                                 )
                             }
                         }
-                    )
+                        AllEventsFilterScreen(
+                            state = state,
+                            turnBackBtnClicked = {
+                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                futureEventsScreenViewModel.setState {
+                                    copy(
+                                        openFiltersDialog = mutableStateOf(false),
+                                        gendersSelectionState = mutableStateOf(
+                                            FutureEventsMainContract.GenderSelectionState.ALL
+                                        ),
+                                        typeOfSportsStateSelected = mutableStateOf(""),
+                                        eventDatesState = mutableStateOf(""),
+                                        filterDateAndTimeAfter = mutableStateOf(""),
+                                        filterDateAndTimeBefore = mutableStateOf(""),
+                                        state = FutureEventsMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            paddingValues = paddingValues,
+                            confirmBtnClicked = {
+                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                futureEventsScreenViewModel.setState {
+                                    copy(
+                                        state = FutureEventsMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             )
         }
@@ -1327,7 +1904,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1336,40 +1913,103 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                    MyEventsFilterScreen(
-                        state = state,
-                        clearBtnClicked = {
-                            navController.navigate(Destinations.FUTURE_EVENTS.route)
-                            myEventsViewModel.setState {
-                                copy(
-                                    openFiltersDialog = mutableStateOf(false),
-                                    gendersSelectionState = mutableStateOf(
-                                        MyEventsScreenMainContract.GenderSelectionState.ALL
-                                    ),
-                                    filterDateAndTimeBefore = mutableStateOf(""),
-                                    filterDateAndTimeAfter = mutableStateOf(""),
-                                    typeOfSportsStateSelected = mutableStateOf(""),
-                                    eventDatesState = mutableStateOf(""),
-                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
                                 )
                             }
-                        },
+                        }
+                        MyEventsFilterScreen(
+                            state = state,
+                            clearBtnClicked = {
+                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                myEventsViewModel.setState {
+                                    copy(
+                                        openFiltersDialog = mutableStateOf(false),
+                                        gendersSelectionState = mutableStateOf(
+                                            MyEventsScreenMainContract.GenderSelectionState.ALL
+                                        ),
+                                        filterDateAndTimeBefore = mutableStateOf(""),
+                                        filterDateAndTimeAfter = mutableStateOf(""),
+                                        typeOfSportsStateSelected = mutableStateOf(""),
+                                        eventDatesState = mutableStateOf(""),
+                                        state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            },
+                            paddingValues = paddingValues,
+                            confirmBtnClicked = {
+                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                myEventsViewModel.setState {
+                                    copy(
+                                        state = MyEventsScreenMainContract.ScreenViewState.Loading
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+
+        composable(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) {
+
+            Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = { openNavDrawer() },
+                    )
+                },
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController,
+                    )
+                },
+                content = { paddingValues ->
+                    MyProfilePreviewScreen(
+                        state = myProfileScreenViewModel.currentState,
                         paddingValues = paddingValues,
-                        confirmBtnClicked = {
-                            navController.navigate(Destinations.FUTURE_EVENTS.route)
-                            myEventsViewModel.setState {
-                                copy(
-                                    state = MyEventsScreenMainContract.ScreenViewState.Loading
-                                )
-                            }
+                        onBackClicked = {
+                            navController.navigate(Destinations.EDIT_PROFILE.route)
+                        },
+                        onSaveClicked = {
+                            navController.navigate(Destinations.MY_PROFILE.route)
+                            myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
                         }
                     )
                 }
             )
         }
 
-        composable(Destinations.MY_PROFILE_PREVIEW_SCREEN.route) {
-    
+        composable(Destinations.EDIT_EVENT_STEP_1.route) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1378,7 +2018,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1387,49 +2027,46 @@ fun AppScreensConfig(
                     )
                 },
                 content = { paddingValues ->
-                   MyProfilePreviewScreen(
-                       state = myProfileScreenViewModel.currentState,
-                       paddingValues = paddingValues,
-                       onBackClicked = {
-                           navController.navigate(Destinations.EDIT_PROFILE.route)
-                       },
-                       onSaveClicked = {
-                           navController.navigate(Destinations.MY_PROFILE.route)
-                           myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendEditMyProfileRequest)
-                       }
-                   )
-                }
-            )
-        }
-
-composable(Destinations.EDIT_EVENT_STEP_1.route) {
-            Scaffold(
-                scaffoldState = scaffoldState,
-                drawerContent = navDrawerContent,
-                drawerShape = RoundedCornerShape(0.dp),
-                drawerBackgroundColor = backgroundItems,
-                topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
-                    )
-                },
-                bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
-                },
-                content = { paddingValues ->
-                    EventEditOrCreationScreenStep1(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        navigateToSecondStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_2.route) },
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        backBtnCLicked = {
-                            navController.navigate(Destinations.HOME.route)
-                        },
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep1(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            navigateToSecondStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_2.route) },
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            backBtnCLicked = {
+                                navController.navigate(Destinations.HOME.route)
+                            },
+                        )
+                    }
                 }
             )
         }
@@ -1443,7 +2080,7 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()},
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -1452,20 +2089,50 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                     )
                 },
                 content = { paddingValues ->
-                    EventEditOrCreationScreenStep2(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        navigateToThirdStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_3.route) },
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        backBtnCLicked = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route) },
-                        usersSearchClicked = {
-                            eventCreationScreenViewModel.handleEvent(
-                                EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
-                        },
-                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
-                    )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep2(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            navigateToThirdStep = { navController.navigate(Destinations.EDIT_EVENT_STEP_3.route) },
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            backBtnCLicked = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route) },
+                            usersSearchClicked = {
+                                eventCreationScreenViewModel.handleEvent(
+                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                )
+                            },
+                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                        )
+                    }
                 }
             )
         }
@@ -1499,19 +2166,49 @@ composable(Destinations.EDIT_EVENT_STEP_1.route) {
                     )
                 },
                 content = { paddingValues ->
-                    EventEditOrCreationScreenStep3(
-                        paddingValues = paddingValues,
-                        state = eventCreationOrEditUiState,
-                        bottomDrawerPreviewContent = { bottomDrawerContent() },
-                        invitedUsersModalContent = { invitedUsersDrawerContent() },
-                        publishBtnClicked = {
-                            eventCreationScreenViewModel.handleEvent(
-                                EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
-                        },
-                        backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                        isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
-                    )
+                            if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
+                                EmailVerificationModal(
+                                    state = emailVerificationViewModel.uiState.collectAsState().value,
+                                    resendCodeToEmailClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                        )
+                                    },
+                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    confirmBtnClicked = {
+                                        emailVerificationViewModel.handleEvent(
+                                            EmailVerificationMainContract.Event.VerifyEmailClicked
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        EventEditOrCreationScreenStep3(
+                            paddingValues = paddingValues,
+                            state = eventCreationOrEditUiState,
+                            bottomDrawerPreviewContent = { bottomDrawerContent() },
+                            invitedUsersModalContent = { invitedUsersDrawerContent() },
+                            publishBtnClicked = {
+                                eventCreationScreenViewModel.handleEvent(
+                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                )
+                            },
+                            backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
+                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                        )
+                    }
                 }
             )
             LaunchedEffect(currentState.isSuccessEventCreation.value) {

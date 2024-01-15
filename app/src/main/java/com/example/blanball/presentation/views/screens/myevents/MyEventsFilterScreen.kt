@@ -57,7 +57,6 @@ fun MyEventsFilterScreen(
     (state as MyEventsScreenMainContract.State).let { currentState ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
         ) {
             Column(

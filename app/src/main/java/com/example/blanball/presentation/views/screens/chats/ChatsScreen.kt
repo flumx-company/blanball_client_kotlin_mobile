@@ -23,7 +23,6 @@ fun ChatsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
             .background(successValidationGreenBG)
             .wrapContentSize(Alignment.Center)
     ) {

@@ -53,6 +53,8 @@ class EventScreenViewModel
         }
     }
 
+
+
     private fun getEventById(userId: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
             val userIdResult = userIdManager.getUserId().firstOrNull()
