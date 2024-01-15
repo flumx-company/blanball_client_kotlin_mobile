@@ -27,7 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -80,7 +80,7 @@ fun FutureEventsScreen(
             .fillMaxSize()
     ) {
         val lazyListState = rememberLazyListState()
-        val eventTabState: MutableState<EventTab> =  rememberSaveable{ mutableStateOf(
+        val eventTabState: MutableState<EventTab> =  remember{ mutableStateOf(
             EventTab.ALL_EVENTS
         )}
         (state as? FutureEventsMainContract.State)?.let { currentState ->
