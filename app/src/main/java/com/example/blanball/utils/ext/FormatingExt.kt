@@ -3,9 +3,13 @@ package com.example.blanball.utils.ext
 import android.content.Context
 import android.location.Geocoder
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.graphics.Color
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
 import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.successGreen
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import com.google.android.gms.maps.model.LatLng
@@ -425,4 +429,37 @@ internal fun LatLng.getAddressFromLocation(
         return address.getAddressLine(0)
     }
     return null
+}
+
+internal fun String.toUAStatus(
+    context: Context
+): String {
+    return when (this) {
+        context.getString(R.string.finished) -> context.getString(R.string.finished_ua)
+        context.getString(R.string.planned) -> context.getString(R.string.planned_ua)
+        context.getString(R.string.active) -> context.getString(R.string.active_ua)
+        else -> this
+    }
+}
+
+internal fun String.mapStatusBackgroundColor(
+    context: Context
+): Color {
+    return when (this) {
+        context.getString(R.string.finished) -> backgroundItems
+        context.getString(R.string.planned) -> successGreen
+        context.getString(R.string.active) -> successGreen
+        else -> backgroundItems
+    }
+}
+
+internal fun String.mapStatusTextColor(
+    context: Context
+): Color {
+    return when (this) {
+        context.getString(R.string.finished) -> secondaryNavy
+        context.getString(R.string.planned) -> Color.White
+        context.getString(R.string.active) -> Color.White
+        else -> Color.White
+    }
 }

@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -30,9 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +61,9 @@ import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.EventTab
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
+import com.example.blanball.utils.ext.mapStatusBackgroundColor
+import com.example.blanball.utils.ext.mapStatusTextColor
+import com.example.blanball.utils.ext.toUAStatus
 
 @Composable
 fun MyEventsScreen(
@@ -73,6 +80,7 @@ fun MyEventsScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        val context = LocalContext.current
         val lazyListState = rememberLazyListState()
         val eventTabState: MutableState<EventTab> =  remember {
             mutableStateOf(
@@ -86,7 +94,7 @@ fun MyEventsScreen(
                     .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.my_events).uppercase(),
+                    text = stringResource(id = R.string.future_events).uppercase(),
                     style = typography.h3,
                     color = primaryDark,
                     fontWeight = FontWeight(800),
@@ -207,14 +215,39 @@ fun MyEventsScreen(
                                     }
                                     Spacer(modifier = Modifier.size(8.dp))
                                     Column {
-                                        Text(
-                                            text = stringResource(id = R.string.friendly_match),
-                                            fontSize = 16.sp,
-                                            lineHeight = 20.sp,
-                                            style = typography.h3,
-                                            fontWeight = FontWeight(700),
-                                            color = primaryDark,
-                                        )
+                                        Row (verticalAlignment = Alignment.CenterVertically) {
+                                            Text(
+                                                text = stringResource(id = R.string.friendly_match),
+                                                fontSize = 16.sp,
+                                                lineHeight = 20.sp,
+                                                style = typography.h3,
+                                                fontWeight = FontWeight(700),
+                                                color = primaryDark,
+                                            )
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Box(
+                                                modifier = Modifier
+                                                    .wrapContentWidth()
+                                                    .height(20.dp)
+                                                    .background(
+                                                        color = event.status?.mapStatusBackgroundColor(context)!!,
+                                                        shape = RoundedCornerShape(size = 4.dp)
+                                                    )
+                                                    .padding(start = 4.dp, end = 4.dp)
+                                            ) {
+                                                Text(
+                                                    text = event.status?.toUAStatus(
+                                                        context = context
+                                                    ) ?: "",
+                                                    fontSize = 13.sp,
+                                                    lineHeight = 20.sp,
+                                                    style = typography.h4,
+                                                    fontWeight = FontWeight(500),
+                                                    color = event.status?.mapStatusTextColor(context)!!,
+                                                    textAlign = TextAlign.Center,
+                                                )
+                                            }
+                                        }
                                         Spacer(modifier = Modifier.size(6.dp))
                                         Row {
                                             Text(

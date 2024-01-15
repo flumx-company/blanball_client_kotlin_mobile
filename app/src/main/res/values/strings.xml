@@ -440,5 +440,11 @@
     <string name="max_count_players_validation">* Введіть значення від 1 до 50</string>
     <string name="edit">Редагувати</string>
     <string name="uah_char">₴</string>
+    <string name="finished">Finished</string>
+    <string name="planned">Planned</string>
+    <string name="active">Active</string>
+    <string name="finished_ua">Завершена</string>
+    <string name="planned_ua">Запланована</string>
+    <string name="active_ua">Активна</string>
     <string name="ua_phone_country_code">+380</string>
 </resources>
