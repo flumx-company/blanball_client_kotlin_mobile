@@ -61,7 +61,6 @@ fun EventEditOrCreationScreenStep3(
     (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {

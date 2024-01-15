@@ -78,7 +78,6 @@ fun MyEventsScreen(
 ) {
     Box(
         modifier = Modifier
-            .padding(paddingValues)
             .fillMaxSize()
     ) {
         val context = LocalContext.current

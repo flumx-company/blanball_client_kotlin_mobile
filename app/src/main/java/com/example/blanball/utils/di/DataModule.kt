@@ -5,6 +5,8 @@ import com.example.data.backend.*
 import com.example.data.backend.authentication.AuthApiService
 import com.example.data.backend.authentication.AuthAuthenticator
 import com.example.data.backend.authentication.AuthInterceptor
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManagerImpl
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.remembermemanager.RememberMeManagerImpl
 import com.example.data.datastore.tokenmanager.TokenManager
@@ -125,4 +127,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindUserIdManager(userIdManager: UserIdManagerImpl): UserIdManager
+
+    @Binds
+    fun bindEmailVerificationManager(emailVerificationManager: EmailVerificationManagerImpl): EmailVerificationManager
 }

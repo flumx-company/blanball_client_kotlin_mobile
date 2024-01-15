@@ -7,6 +7,8 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.data.datastore.remembermemanager.RememberMeManager
+import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +27,9 @@ import javax.inject.Inject
 class LoginViewModel
 @Inject constructor(
     internal val loginUseCase: UserLoginUseCase,
-    val rememberMeManager: RememberMeManager
+    val rememberMeManager: RememberMeManager,
+    val userEmailManager: UserEmailManager,
+    val userNameManager: UserNameManager,
     ) : ViewModel() {
 
     private var job: Job? = null
@@ -64,14 +68,15 @@ class LoginViewModel
            loginUseCase.executeUserLogin(currentState.loginEmailText.value, currentState.loginPasswordText.value).let {
                when(it) {
                    is LoginResultEntity.Success -> {
+                       userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
                        rememberMeManager.saveRememberMeFlag(currentState.rememberMeCheckbox.value)
+                       userEmailManager.safeUserEmail(currentState.loginEmailText.value)
                        setState { copy(
                            isErrorLoginRequest = mutableStateOf(false),
                            isSuccessLoginRequest = mutableStateOf(true),
                            state = StartScreensMainContract.ScreenViewState.SuccessLogin,
                            loginEmailText = mutableStateOf(""),
                            loginPasswordText = mutableStateOf(""),
-
                        ) }
                    }
                    is LoginResultEntity.Error -> setState {

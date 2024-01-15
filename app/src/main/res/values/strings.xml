@@ -446,4 +446,5 @@
     <string name="finished_ua">Завершена</string>
     <string name="planned_ua">Запланована</string>
     <string name="active_ua">Активна</string>
+    <string name="ua_phone_country_code">+380</string>
 </resources>

@@ -14,13 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
+import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun TopBar(
@@ -31,10 +34,14 @@ fun TopBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     TopAppBar (
-        title = { Text(
+        title = {  Text(
             text = stringResource(id = R.string.blanball),
-            color = primaryDark,
-            )},
+            style = typography.h3,
+            lineHeight = 32.sp,
+            fontSize = 20.sp,
+            fontWeight = FontWeight(800),
+            color = primaryDark
+        )},
         backgroundColor = Color.White,
         contentColor = primaryDark,
         navigationIcon = {

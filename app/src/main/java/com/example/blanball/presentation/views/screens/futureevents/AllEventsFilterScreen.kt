@@ -57,7 +57,6 @@ fun AllEventsFilterScreen(
     (state as FutureEventsMainContract.State).let { currentState ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
         ) {
             Column(
                 modifier = Modifier
