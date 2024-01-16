@@ -120,6 +120,7 @@ import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
 import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
@@ -133,6 +134,7 @@ import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 import com.example.domain.repository.AppRepository
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
+import java.lang.Exception
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
@@ -142,6 +144,15 @@ class AppRepositoryImpl @Inject constructor(
     internal val userPhoneManager: UserPhoneManager,
     internal val userNameManager: UserNameManager,
 ) : AppRepository {
+
+    override suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity {
+        return try {
+            val getUkraineCitiesListResponse = service.getUkraineCitiesList()
+            val getUkraineCitiesListResponseDomain = getUkraineCitiesListResponse
+        } catch (ex: HttpException) {
+
+        }
+    }
 
     override suspend fun editMyProfile(
         phone: String,
