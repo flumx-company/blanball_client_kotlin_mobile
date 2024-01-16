@@ -21,10 +21,7 @@ class EventEditAndCreationScreensMainContract {
             PlayersGenderStates.NO_SELECT
         ),
         val sportType: MutableState<String> = mutableStateOf(""),
-        val entryStates: MutableState<EntryStates> = mutableStateOf(EntryStates.NO_SELECT),
-        val contributingStates: MutableState<СontributionsStates> = mutableStateOf(
-            СontributionsStates.NO_SELECT
-        ),
+        val priceStates: MutableState<PriceStates> = mutableStateOf(PriceStates.NO_SELECT),
         val needFormStates: MutableState<NeedFormStates> = mutableStateOf(NeedFormStates.NO_SELECT),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDescriptionState: MutableState<String> = mutableStateOf(""),
@@ -58,6 +55,7 @@ class EventEditAndCreationScreensMainContract {
         val isBottomPreviewDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isStartEventTimeModalOpen: MutableState<Boolean> = mutableStateOf(false),
         val isDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
+        val eventSummaryPrice: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
@@ -80,13 +78,7 @@ class EventEditAndCreationScreensMainContract {
         WOMANS,
     }
 
-    enum class EntryStates {
-        NO_SELECT,
-        FREE_ENTRY,
-        CLOSE_ENTRY,
-    }
-
-    enum class СontributionsStates {
+    enum class PriceStates {
         NO_SELECT,
         FREE,
         PAID,

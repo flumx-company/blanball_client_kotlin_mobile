@@ -152,10 +152,7 @@ class EventCreationOrEditScreensViewModel
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT
                                 ),
                                 sportType = mutableStateOf(""),
-                                entryStates = mutableStateOf(EventEditAndCreationScreensMainContract.EntryStates.NO_SELECT),
-                                contributingStates = mutableStateOf(
-                                    EventEditAndCreationScreensMainContract.СontributionsStates.NO_SELECT
-                                ),
+                                priceStates = mutableStateOf(EventEditAndCreationScreensMainContract.PriceStates.NO_SELECT),
                                 needFormStates = mutableStateOf(
                                     EventEditAndCreationScreensMainContract.NeedFormStates.NO_SELECT
                                 ),
@@ -225,10 +222,7 @@ class EventCreationOrEditScreensViewModel
                                     EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT
                                 ),
                                 sportType = mutableStateOf(""),
-                                entryStates = mutableStateOf(EventEditAndCreationScreensMainContract.EntryStates.NO_SELECT),
-                                contributingStates = mutableStateOf(
-                                    EventEditAndCreationScreensMainContract.СontributionsStates.NO_SELECT
-                                ),
+                                priceStates = mutableStateOf(EventEditAndCreationScreensMainContract.PriceStates.NO_SELECT),
                                 needFormStates = mutableStateOf(
                                     EventEditAndCreationScreensMainContract.NeedFormStates.NO_SELECT
                                 ),
