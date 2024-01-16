@@ -297,6 +297,7 @@ fun EventEditOrCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 SelectLocationWithGoogleMap(
                     eventLocationLatLng = currentState.eventLocationLatLng,
+                    height = 124.dp,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
