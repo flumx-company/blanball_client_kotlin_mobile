@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class GetUkraineCitiesListResponseEntity(
     val code: Int,
     val `data`: List<GetUkraineCitiesListResponseEntityData>,
-    val message: Any,
+    val message: Any? = null,
     val status: String
 )
 
