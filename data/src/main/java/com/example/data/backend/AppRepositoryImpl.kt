@@ -29,6 +29,7 @@ import com.example.data.backend.models.responses.errors.GetIsTechnicalWorkStatus
 import com.example.data.backend.models.responses.errors.GetMyEventsResponseError
 import com.example.data.backend.models.responses.errors.GetMyProfileError
 import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListError
+import com.example.data.backend.models.responses.errors.GetUkraineCitiesListError
 import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdError
 import com.example.data.backend.models.responses.errors.GetUserProfileByIdError
 import com.example.data.backend.models.responses.errors.GetUserReviewsByIdResponseError
@@ -66,6 +67,8 @@ import com.example.data.utils.ext.toGetMyProfileErrorEntity
 import com.example.data.utils.ext.toGetMyProfileResponseEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListResponseEntity
+import com.example.data.utils.ext.toGetUkraineCitiesListErrorEntity
+import com.example.data.utils.ext.toGetUkraineCitiesListResponseEntity
 import com.example.data.utils.ext.toGetUserPlannedEventsByIdErrorEntity
 import com.example.data.utils.ext.toGetUserPlannedEventsByIdResponseEntity
 import com.example.data.utils.ext.toGetUserProfileByIdErrorEntity
@@ -101,6 +104,7 @@ import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorE
 import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
 import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListErrorEntity
 import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
 import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorEntity
 import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorEntity
@@ -134,7 +138,6 @@ import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 import com.example.domain.repository.AppRepository
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
-import java.lang.Exception
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
@@ -148,9 +151,15 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity {
         return try {
             val getUkraineCitiesListResponse = service.getUkraineCitiesList()
-            val getUkraineCitiesListResponseDomain = getUkraineCitiesListResponse
+            val getUkraineCitiesListResponseDomain =
+                getUkraineCitiesListResponse.toGetUkraineCitiesListResponseEntity()
+            GetUkraineCitiesListResultEntity.Success(data = getUkraineCitiesListResponseDomain)
         } catch (ex: HttpException) {
-
+            val errorResponse =
+                handleHttpError<GetUkraineCitiesListError, GetUkraineCitiesListErrorEntity>(ex) {
+                    it.toGetUkraineCitiesListErrorEntity()
+                }
+            GetUkraineCitiesListResultEntity.Error(error = errorResponse.data.errors[0])
         }
     }
 
@@ -170,41 +179,42 @@ class AppRepositoryImpl @Inject constructor(
         working_leg: String?,
         lat: Double,
         lon: Double,
-        place_name: String
+        place_name: String,
     ): EditMyProfileResultEntity {
         return try {
-            val editMyProfileResponse = service.ediMyProfile(editMyProfileRequest = EditMyProfileRequest(
-                configuration = EditMyProfileRequestConfiguration(
-                    email = emailRequestConfiguration,
-                    phone = phoneRequestConfiguration,
-                    show_reviews = showReviewsRequestConfiguration,
+            val editMyProfileResponse = service.ediMyProfile(
+                editMyProfileRequest = EditMyProfileRequest(
+                    configuration = EditMyProfileRequestConfiguration(
+                        email = emailRequestConfiguration,
+                        phone = phoneRequestConfiguration,
+                        show_reviews = showReviewsRequestConfiguration,
                     ),
-                phone = phone,
-                profile = EditMyProfileRequestProfile(
-                    about_me = about_me,
-                    birthday = birthday,
-                    gender = gender,
-                    height = height,
-                    last_name = last_name,
-                    name = name,
-                    place = EditMyProfileRequestPlace(
-                        lat = lat,
-                        lon = lon,
-                        place_name = place_name
-                    ),
-                    position = position,
-                    weight = weight,
-                    working_leg = working_leg,
-                )
+                    phone = phone,
+                    profile = EditMyProfileRequestProfile(
+                        about_me = about_me,
+                        birthday = birthday,
+                        gender = gender,
+                        height = height,
+                        last_name = last_name,
+                        name = name,
+                        place = EditMyProfileRequestPlace(
+                            lat = lat,
+                            lon = lon,
+                            place_name = place_name
+                        ),
+                        position = position,
+                        weight = weight,
+                        working_leg = working_leg,
+                    )
                 )
             )
             val editMyProfileResponseDomain = editMyProfileResponse.toEditMyProfileResponseEntity()
             EditMyProfileResultEntity.Success(data = editMyProfileResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
-                handleHttpError<EditMyProfileError, EditMyProfileErrorEntity>(ex){
-                it.toEditMyProfileErrorEntity()
-            }
+                handleHttpError<EditMyProfileError, EditMyProfileErrorEntity>(ex) {
+                    it.toEditMyProfileErrorEntity()
+                }
             EditMyProfileResultEntity.Error(error = errorResponse.data.errors[0])
         }
     }
@@ -212,7 +222,7 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun getRelevantUserSearchList(
         search: String,
         page: Int,
-        skipids: String
+        skipids: String,
     ): GetRelevantUserSearchListResultEntity {
         return try {
             val getRelevantUserSearchResponse = service.getRelevantUserSearchList(
@@ -225,7 +235,9 @@ class AppRepositoryImpl @Inject constructor(
             GetRelevantUserSearchListResultEntity.Success(data = getRelevantUserSearchResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
-                handleHttpError<GetRelevantUserSearchListError, GetRelevantUserSearchListErrorEntity>(ex) {
+                handleHttpError<GetRelevantUserSearchListError, GetRelevantUserSearchListErrorEntity>(
+                    ex
+                ) {
                     it.toGetRelevantUserSearchListErrorEntity()
                 }
             GetRelevantUserSearchListResultEntity.Error(error = errorResponse.data.errors[0])
@@ -301,7 +313,7 @@ class AppRepositoryImpl @Inject constructor(
         price: Int?,
         price_description: String?,
         privacy: Boolean,
-        type: String
+        type: String,
     ): EditEventByIdResultEntity {
         return try {
             val editEventByIdResponse = service.editEventById(
@@ -402,7 +414,7 @@ class AppRepositoryImpl @Inject constructor(
         price: Int,
         price_description: String,
         privacy: Boolean,
-        type: String
+        type: String,
     ): CreationAnEventResultEntity {
         return try {
             val request = CreationAnEventRequest(
@@ -514,7 +526,7 @@ class AppRepositoryImpl @Inject constructor(
         weight: Int,
         position: String,
         working_leg: String,
-        place_name: String
+        place_name: String,
     ): FillingTheUserProfileResultEntity {
         return try {
             val savedUserPhone = userPhoneManager.getUserPhone()
@@ -558,7 +570,7 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun getUserPlannedEventsById(
         id: Int,
-        page: Int
+        page: Int,
     ): GetUserPlannedEventsByIdResultEntity {
         return try {
             val getUserPlannedByIdResponse = service.getListOfUsersPlannedEvents(id, page)
