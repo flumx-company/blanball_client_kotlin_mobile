@@ -12,6 +12,7 @@ import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
 import com.example.domain.entity.results.GetMyEventsResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
@@ -169,4 +170,6 @@ interface AppRepository {
         page: Int,
         skipids: String,
     ): GetRelevantUserSearchListResultEntity
+
+    suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity
 }

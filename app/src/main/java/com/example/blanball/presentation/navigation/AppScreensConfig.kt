@@ -95,6 +95,7 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
+import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
@@ -137,8 +138,8 @@ fun AppScreensConfig(
     emailVerificationViewModel: EmailVerificationViewModel,
     userEmailManager: UserEmailManager,
     eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
+    emailVerificationManager: EmailVerificationManager,
 ) {
-
     val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
     val publicProfileCurrentState = publicProfileViewModel.currentState
     val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
@@ -218,6 +219,7 @@ fun AppScreensConfig(
                     userPhoneManager.deleteUserPhone()
                     resetPassVerifyCodeManager.deleteResetPassVerifyCode()
                     userEmailManager.deleteUserEmail()
+                    emailVerificationManager.deleteIsEmailVerifiedState()
                 }
             },
         )
@@ -630,7 +632,6 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
             val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
             val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState

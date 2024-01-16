@@ -7,6 +7,7 @@ import com.example.domain.usecases.implementations.FillingTheUserProfileUseCaseI
 import com.example.domain.usecases.implementations.GetAllEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetEventByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetIsTechWorksUseCaseImpl
+import com.example.domain.usecases.implementations.GetListOfUkraineCitiesUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyEventsUseCaseImpl
 import com.example.domain.usecases.implementations.GetMyProfileUseCaseImpl
 import com.example.domain.usecases.implementations.GetRelevantUserSearchListUseCaseImpl
@@ -25,6 +26,7 @@ import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
+import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyEventsUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
@@ -96,7 +98,8 @@ interface DomainModule {
     fun bindGetRelevantUserSearchListUseCase(getRelevantWorkUseCaseImpl: GetRelevantUserSearchListUseCaseImpl): GetRelevantUserSearchListUseCase
 
     @Binds
-    fun bindSendingRequestToChangeUserProfileUseCase(SendingRequestToChangeUserProfileUseCaseImpl: SendingRequestToChangeUserProfileUseCaseImpl
-    ): SendingRequestToChangeUserProfileUseCase
+    fun bindSendingRequestToChangeUserProfileUseCase(sendingRequestToChangeUserProfileUseCaseImpl: SendingRequestToChangeUserProfileUseCaseImpl): SendingRequestToChangeUserProfileUseCase
 
+    @Binds
+    fun bindGetListOfUkraineCitiesUseCase(getListOfUkraineCitiesUseCaseImpl: GetListOfUkraineCitiesUseCaseImpl): GetListOfUkraineCitiesUseCase
 }

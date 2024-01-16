@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.theme.MyAppTheme
@@ -65,7 +66,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var emailVerificationManager: EmailVerificationManager
 
-
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
             if (navigationDrawerViewModel.currentState.isSplashScreenActivated.value) {
             LaunchedEffect(key1 = Unit ) {
                     val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
-                    navigationDrawerViewModel.getMyProfile() //TODO() Make it encapsulated - without calling the method directly
+                    navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
@@ -167,6 +167,7 @@ class MainActivity : ComponentActivity() {
                                         emailVerificationViewModel = viewModel(),
                                         userEmailManager = userEmailManager,
                                         eventCreationOrEditViewModel = viewModel(),
+                                        emailVerificationManager = emailVerificationManager,
                                     )
                         }
                     }

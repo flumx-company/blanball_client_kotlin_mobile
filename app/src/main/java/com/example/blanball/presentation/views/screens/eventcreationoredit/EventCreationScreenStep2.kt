@@ -168,36 +168,52 @@ fun EventEditOrCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            currentState.entryStates.value =
-                                EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
+                            currentState.priceStates.value =
+                                EventEditAndCreationScreensMainContract.PriceStates.FREE
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.entryStates.value =
-                                    EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY
+                                currentState.priceStates.value =
+                                    EventEditAndCreationScreensMainContract.PriceStates.FREE
                             },
                         state = currentState,
                         text = stringResource(id = R.string.free),
-                        selected = currentState.entryStates.value == EventEditAndCreationScreensMainContract.EntryStates.FREE_ENTRY,
+                        selected = currentState.priceStates.value == EventEditAndCreationScreensMainContract.PriceStates.FREE,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            currentState.entryStates.value =
-                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
+                            currentState.priceStates.value =
+                                EventEditAndCreationScreensMainContract.PriceStates.PAID
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.entryStates.value =
-                                    EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY
+                                currentState.priceStates.value =
+                                    EventEditAndCreationScreensMainContract.PriceStates.PAID
                             },
                         state = currentState,
                         text = stringResource(R.string.paid),
-                        selected = currentState.entryStates.value ==
-                                EventEditAndCreationScreensMainContract.EntryStates.CLOSE_ENTRY,
+                        selected = currentState.priceStates.value ==
+                                EventEditAndCreationScreensMainContract.PriceStates.PAID,
                         icon = null,
+                    )
+                }
+                if (currentState.priceStates.value == EventEditAndCreationScreensMainContract.PriceStates.PAID) {
+                    DefaultTextInput(
+                        labelResId = R.string.summary_uah,
+                        state = state,
+                        value = currentState.eventSummaryPrice.value,
+                        onValueChange = { currentState.eventSummaryPrice.value = it },
+                        transformation = VisualTransformation.None,
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.dollar_ic),
+                                contentDescription = null,
+                                tint = primaryDark,
+                            )
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))

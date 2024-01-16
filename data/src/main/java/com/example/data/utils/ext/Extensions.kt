@@ -32,6 +32,9 @@ import com.example.data.backend.models.responses.errors.GetMyProfileErrorDetail
 import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListError
 import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListErrorData
 import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListErrorDetail
+import com.example.data.backend.models.responses.errors.GetUkraineCitiesListDataError
+import com.example.data.backend.models.responses.errors.GetUkraineCitiesListError
+import com.example.data.backend.models.responses.errors.GetUkraineCitiesListErrorDetail
 import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdDetailData
 import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdError
 import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdErrorData
@@ -108,6 +111,9 @@ import com.example.data.backend.models.responses.success.GetRelevantUserSearchLi
 import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseData
 import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseProfile
 import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseResult
+import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponse
+import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponseData
+import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponseItem
 import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdAuthorResponse
 import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdDataResponse
 import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdPlaceResponse
@@ -192,6 +198,9 @@ import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEnti
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityData
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityProfile
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
+import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntity
+import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntityData
+import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntityItem
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdAuthorResponseEntity
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdDataResponseEntity
 import com.example.domain.entity.responses.GetUserPlannedEventsByIdPlaceResponseEntity
@@ -262,6 +271,9 @@ import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityData
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityDetail
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorData
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorDetail
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListErrorEntity
 import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdDetailDataEntity
 import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorDataEntity
 import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
@@ -1352,5 +1364,44 @@ internal fun EditMyProfileErrorData.toEditMyProfileErrorEntityData(): EditMyProf
 
 internal fun EditMyProfileErrorDetail.toEditMyProfileErrorEntityDetail (): EditMyProfileErrorEntityDetail =
     EditMyProfileErrorEntityDetail(
+        detail = this.detail
+    )
+
+internal fun GetUkraineCitiesListResponse.toGetUkraineCitiesListResponseEntity(): GetUkraineCitiesListResponseEntity =
+    GetUkraineCitiesListResponseEntity(
+        code = this.code,
+        data = this.data.map { it.toGetUkraineCitiesListResponseDataEntity() },
+        message =this.message,
+        status =this.status,
+    )
+
+internal fun GetUkraineCitiesListResponseData.toGetUkraineCitiesListResponseDataEntity(): GetUkraineCitiesListResponseEntityData =
+    GetUkraineCitiesListResponseEntityData(
+        cities = this.cities.map { it.toGetUkraineCitiesListResponseEntityItem() },
+        name = this.name,
+    )
+
+internal fun GetUkraineCitiesListResponseItem.toGetUkraineCitiesListResponseEntityItem(): GetUkraineCitiesListResponseEntityItem =
+    GetUkraineCitiesListResponseEntityItem(
+        lat = this.lat,
+        lng = this.lng,
+        name =this.name,
+    )
+
+internal fun GetUkraineCitiesListError.toGetUkraineCitiesListErrorEntity(): GetUkraineCitiesListErrorEntity =
+    GetUkraineCitiesListErrorEntity(
+        code =this.code,
+        data =this.data.toGetUkraineCitiesListEntityErrorData(),
+        status = this.status,
+    )
+
+internal fun GetUkraineCitiesListDataError.toGetUkraineCitiesListEntityErrorData(): GetUkraineCitiesListEntityErrorData =
+    GetUkraineCitiesListEntityErrorData(
+        errors = this.errors.map { it.toGetUkraineCitiesListEntityErrorDetail() },
+        type = this.type
+    )
+
+internal fun GetUkraineCitiesListErrorDetail.toGetUkraineCitiesListEntityErrorDetail(): GetUkraineCitiesListEntityErrorDetail =
+    GetUkraineCitiesListEntityErrorDetail(
         detail = this.detail
     )

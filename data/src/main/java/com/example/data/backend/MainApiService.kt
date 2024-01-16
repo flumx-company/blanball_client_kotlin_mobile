@@ -21,6 +21,7 @@ import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatu
 import com.example.data.backend.models.responses.success.GetMyEventsResponse
 import com.example.data.backend.models.responses.success.GetMyProfileResponse
 import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponse
+import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponse
 import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdResponse
 import com.example.data.backend.models.responses.success.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponse
@@ -151,4 +152,6 @@ interface MainApiService {
         @Query("skipids") skipids: String,
     ): GetRelevantUserSearchListResponse
 
+    @GET(Endpoints.GET_UKRAINE_CITIES_ENDPOINT)
+    suspend fun getUkraineCitiesList(): GetUkraineCitiesListResponse
 }
