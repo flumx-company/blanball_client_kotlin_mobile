@@ -131,10 +131,10 @@ class EventCreationOrEditScreensViewModel
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place_name = currentState.eventLocationLatLng.value.getAddressFromLocation(context = application.applicationContext)
-                    ?: "", //TODO()
+                    ?: "",
                 lat = currentState.eventLocationLatLng.value.latitude,
                 lon = currentState.eventLocationLatLng.value.longitude,
-                price = 10, //TODO
+                price = currentState.eventSummaryPrice.value.toInt(),
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
@@ -201,10 +201,10 @@ class EventCreationOrEditScreensViewModel
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
                 place = currentState.eventLocationLatLng.value.getAddressFromLocation(context = application.applicationContext)
-                    ?: "", //TODO()
+                    ?: "",
                 lat = currentState.eventLocationLatLng.value.latitude,
                 lon = currentState.eventLocationLatLng.value.longitude,
-                price = 10, //TODO
+                price = currentState.eventSummaryPrice.value.toInt(),
                 price_description = "Todo", //TODO()
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
