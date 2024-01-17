@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
 
                     isEmailVerificationVMCurrentState.isEmailVerified.value =
                         isEmailVerified ?: false
-                    isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: "ndaoad"
+                    isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: ""
                     userFullName?.let { fullName ->
                         val (firstName, lastName) = fullName.split(" ")
                         techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)

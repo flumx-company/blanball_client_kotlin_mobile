@@ -713,7 +713,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { { openNavDrawer() } },
+                        onNavIconClicked = { openNavDrawer()  },
                     )
                 },
                 bottomBar = {
