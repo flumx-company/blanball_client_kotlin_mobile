@@ -68,6 +68,7 @@ import com.example.blanball.presentation.views.screens.futureevents.AllEventsFil
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
+import com.example.blanball.presentation.views.screens.map.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
@@ -451,8 +452,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                         }
@@ -484,8 +489,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -496,7 +505,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -633,8 +645,9 @@ fun AppScreensConfig(
 
         composable(BottomNavItem.Home.screen_route) {
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
-            val futureEventsScreenViewModelState =  futureEventsScreenViewModel.uiState.collectAsState().value
-            val eventScreenViewModelCurrentState =  eventScreenViewModel.currentState
+            val futureEventsScreenViewModelState =
+                futureEventsScreenViewModel.uiState.collectAsState().value
+            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -660,8 +673,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -672,7 +689,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -713,7 +733,7 @@ fun AppScreensConfig(
                 topBar = {
                     TopBar(
                         navController = navController,
-                        onNavIconClicked = { openNavDrawer()  },
+                        onNavIconClicked = { openNavDrawer() },
                     )
                 },
                 bottomBar = {
@@ -730,8 +750,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -742,7 +766,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -803,8 +830,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -815,7 +846,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -832,6 +866,9 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             backBtnCLicked = {
                                 navController.navigate(Destinations.HOME.route)
+                            },
+                            onSelectLocationScreenNav = {
+                                navController.navigate(Destinations.SELECT_LOCATION.route)
                             },
                         )
                     }
@@ -875,8 +912,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -887,7 +928,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -969,8 +1013,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -981,7 +1029,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1024,8 +1075,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1036,7 +1091,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1079,8 +1137,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                         }
@@ -1118,8 +1180,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                         }
@@ -1157,8 +1223,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1169,7 +1239,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1218,8 +1291,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1230,7 +1307,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1292,8 +1372,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1304,7 +1388,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1384,8 +1471,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                         }
@@ -1483,8 +1574,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1495,7 +1590,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1540,8 +1638,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1552,7 +1654,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1617,8 +1722,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1629,7 +1738,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1689,8 +1801,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1701,7 +1817,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1764,8 +1883,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1776,7 +1899,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1840,8 +1966,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1852,7 +1982,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -1922,8 +2055,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -1934,7 +2071,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -2036,8 +2176,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -2048,7 +2192,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -2066,6 +2213,8 @@ fun AppScreensConfig(
                             backBtnCLicked = {
                                 navController.navigate(Destinations.HOME.route)
                             },
+                            onSelectLocationScreenNav = {navController.navigate(Destinations.SELECT_LOCATION.route)},
+
                         )
                     }
                 }
@@ -2098,8 +2247,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -2110,7 +2263,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -2175,8 +2331,12 @@ fun AppScreensConfig(
                         if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
                             ConfirmEmailReminder(
                                 clickCallback = {
-                                    emailVerificationViewModel.handleEvent(EmailVerificationMainContract.Event.SendCodeToUserEmailClicked)
-                                    emailVerificationVMCurrentState.isVerificationModalVisible.value = true },
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
                                 userEmail = emailVerificationViewModel.currentState.userEmailText.value
                             )
                             if (emailVerificationVMCurrentState.isVerificationModalVisible.value) {
@@ -2187,7 +2347,10 @@ fun AppScreensConfig(
                                             EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
                                         )
                                     },
-                                    turnBackBtnClicked = { emailVerificationVMCurrentState.isVerificationModalVisible.value = false},
+                                    turnBackBtnClicked = {
+                                        emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                            false
+                                    },
                                     confirmBtnClicked = {
                                         emailVerificationViewModel.handleEvent(
                                             EmailVerificationMainContract.Event.VerifyEmailClicked
@@ -2219,5 +2382,54 @@ fun AppScreensConfig(
                 }
             }
         }
+
+        composable(Destinations.SELECT_LOCATION.route) {
+            val state = publicProfileViewModel.uiState.collectAsState().value
+
+            Scaffold(
+                bottomBar = {
+                    BottomNavBar(
+                        navController = navController,
+
+                        )
+                },
+                topBar = {
+                    TopBar(
+                        navController = navController,
+                        onNavIconClicked = { openNavDrawer() },
+                    )
+                },
+                content = { paddingValues ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        if (!emailVerificationViewModel.currentState.isEmailVerified.value) {
+                            ConfirmEmailReminder(
+                                clickCallback = {
+                                    emailVerificationViewModel.handleEvent(
+                                        EmailVerificationMainContract.Event.SendCodeToUserEmailClicked
+                                    )
+                                    emailVerificationVMCurrentState.isVerificationModalVisible.value =
+                                        true
+                                },
+                                userEmail = emailVerificationViewModel.currentState.userEmailText.value
+                            )
+                        }
+                        SelectLocationScreen(
+                            onCancelClicked = { navController.navigateUp() },
+                            onSaveLocationClicked = { navController.navigateUp() },
+                            eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
+                            listOfUkraineRegions = navigationDrawerViewModel.currentState.regionsOfUkraineList.value,
+                            listOfUkraineCities = navigationDrawerViewModel.currentState.citiesOfUkraineList.value,
+                            selectRegion = eventCreationOrEditViewModel.currentState.selectRegion,
+                            selectCity = eventCreationOrEditViewModel.currentState.selectCity,
+                        )
+                    }
+                },
+            )
+        }
+
     }
 }

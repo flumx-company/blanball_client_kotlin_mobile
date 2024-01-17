@@ -9,8 +9,8 @@ class EventEditAndCreationScreensMainContract {
 
     sealed class Event : UiEvent {
         object CreateNewEventClicked : Event()
-        object UsersSearchClicked: Event()
-        object EditEventClicked: Event()
+        object UsersSearchClicked : Event()
+        object EditEventClicked : Event()
     }
 
     data class State(
@@ -48,7 +48,12 @@ class EventEditAndCreationScreensMainContract {
             emptySet()
         ),
         val isValidationActivated: MutableState<Boolean> = mutableStateOf(false),
-        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696)),
+        val eventLocationLatLng: MutableState<LatLng> = mutableStateOf(
+            LatLng(
+                50.45074559462868,
+                30.523837655782696
+            )
+        ),
         val isEditOrCreation: MutableState<EditOrCreationState> = mutableStateOf(EditOrCreationState.CREATION),
         val currentEventId: MutableState<Int> = mutableStateOf(0),
         val isInvitedUsersDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
@@ -56,14 +61,16 @@ class EventEditAndCreationScreensMainContract {
         val isStartEventTimeModalOpen: MutableState<Boolean> = mutableStateOf(false),
         val isDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
         val eventSummaryPrice: MutableState<String> = mutableStateOf(""),
+        val selectRegion: MutableState<String> = mutableStateOf(""),
+        val selectCity: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
         object Idle : ScreenViewState()
         object Loading : ScreenViewState()
-        object UserSearchRequestSuccess: ScreenViewState()
-        object UserSearchLoading: ScreenViewState()
-        object UserSearchRequestError: ScreenViewState()
+        object UserSearchRequestSuccess : ScreenViewState()
+        object UserSearchLoading : ScreenViewState()
+        object UserSearchRequestError : ScreenViewState()
         object SuccessRequest : ScreenViewState()
         object ErrorRequest : ScreenViewState()
     }
@@ -96,7 +103,7 @@ class EventEditAndCreationScreensMainContract {
         NO,
     }
 
-    enum class EditOrCreationState{
+    enum class EditOrCreationState {
         EDIT,
         CREATION,
     }

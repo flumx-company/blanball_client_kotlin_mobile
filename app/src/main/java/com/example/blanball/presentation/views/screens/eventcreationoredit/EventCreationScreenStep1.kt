@@ -45,7 +45,7 @@ import com.example.blanball.presentation.views.components.buttons.InvitedUsersOf
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
-import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMapPreview
 import com.example.blanball.presentation.views.components.modals.DatePickerModal
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -62,6 +62,7 @@ fun EventEditOrCreationScreenStep1(
     bottomDrawerPreviewContent: @Composable () -> Unit,
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
+    onSelectLocationScreenNav: () -> Unit,
 ) {
     val context = LocalContext.current
     val typesOfEvent = mutableListOf(
@@ -295,9 +296,9 @@ fun EventEditOrCreationScreenStep1(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                SelectLocationWithGoogleMap(
+                SelectLocationWithGoogleMapPreview(
                     eventLocationLatLng = currentState.eventLocationLatLng,
-                    height = 124.dp,
+                    onSelectLocationScreenNav = {onSelectLocationScreenNav()},
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
