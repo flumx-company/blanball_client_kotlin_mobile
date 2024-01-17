@@ -47,7 +47,7 @@ class EventScreenViewModel
             }
             currentState.currentEventId.value?.let {
                 getEventById(
-                    userId = it
+                    eventId = it
                 )
             }
         }
@@ -55,10 +55,10 @@ class EventScreenViewModel
 
 
 
-    private fun getEventById(userId: Int) {
+    private fun getEventById(eventId: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
             val userIdResult = userIdManager.getUserId().firstOrNull()
-            getEventByIdUseCase.executeGetEventById(userId).let {
+            getEventByIdUseCase.executeGetEventById(eventId).let {
                 when (it) {
                     is GetEventByIdResultEntity.Success ->
                         setState {
