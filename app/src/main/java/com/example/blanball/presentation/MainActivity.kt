@@ -18,12 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
+import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.theme.MyAppTheme
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
 import com.example.blanball.presentation.viewmodels.NavigationDrawerViewModel
+import com.example.blanball.presentation.viewmodels.SelectLocationScreenViewModel
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
@@ -70,6 +72,7 @@ class MainActivity : ComponentActivity() {
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
     private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
+    private val selectLocationScreenViewModel: SelectLocationScreenViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +90,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(key1 = Unit ) {
                     val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                     navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
+                     selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
@@ -168,6 +172,7 @@ class MainActivity : ComponentActivity() {
                                         userEmailManager = userEmailManager,
                                         eventCreationOrEditViewModel = viewModel(),
                                         emailVerificationManager = emailVerificationManager,
+                                        selectLocationScreenViewModel = selectLocationScreenViewModel,
                                     )
                         }
                     }

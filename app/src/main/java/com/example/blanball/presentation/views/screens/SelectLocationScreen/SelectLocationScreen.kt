@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +24,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.data.SelectLocationScreenMainContract
+import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -40,100 +40,102 @@ fun SelectLocationScreen(
     onCancelClicked: () -> Unit,
     onSaveLocationClicked: () -> Unit,
     eventLocationLatLng: MutableState<LatLng>,
-    listOfUkraineRegions: List<String>,
-    listOfUkraineCities: List<String>,
     selectRegion: MutableState<String>,
     selectCity: MutableState<String>,
+    state: UiState
 ) {
-    val isMapExpanded = remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier.padding()
-    ) {
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+    (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
+        Box(
+            modifier = Modifier.padding()
         ) {
-            Text(
-                text = stringResource(R.string.location),
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                style = typography.h3,
-                fontWeight = FontWeight(700),
-                color = primaryDark,
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            CustomDropDownMenu(
-                labelResId = R.string.region,
-                listItems = listOfUkraineRegions,
-                value = selectRegion.value,
-                onValueChange = { selectRegion.value = it }
-            )
-            Spacer(modifier = Modifier.size(12.dp))
-            CustomDropDownMenu(
-                labelResId = R.string.city_village_town,
-                listItems = listOfUkraineCities,
-                value = selectCity.value,
-                onValueChange = { selectCity.value = it }
-            )
-            Spacer(modifier = Modifier.size(12.dp))
-            Text(
-                modifier = Modifier.clickable {
-                    isMapExpanded.value = !isMapExpanded.value
-                },
-                text = if (isMapExpanded.value) stringResource(R.string.close_the_map) else stringResource(R.string.open_the_map),
-                fontSize = 12.sp,
-                lineHeight = 20.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(400),
-                color = mainGreen,
-                textDecoration = TextDecoration.Underline,
-            )
-            Spacer(modifier = Modifier.size(12.dp))
-            SelectLocationWithGoogleMap(
-                eventLocationLatLng = eventLocationLatLng,
-                height = 244.dp,
-                isMapExtended = isMapExpanded.value,
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .clip(shape = shapes.small)
-                        .clickable { onCancelClicked() }
-                        .padding(vertical = 10.dp, horizontal = 12.dp)
-                        .wrapContentHeight()
-                ) {
-                    Text(
-                        text = stringResource(R.string.cancel),
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = secondaryNavy,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = mainGreen,
-                            shape = shapes.small
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.location),
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    style = typography.h3,
+                    fontWeight = FontWeight(700),
+                    color = primaryDark,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                CustomDropDownMenu(
+                    labelResId = R.string.region,
+                    listItems = currentState.regionsOfUkraineList.value,
+                    value = selectRegion.value,
+                    onValueChange = { selectRegion.value = it }
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                CustomDropDownMenu(
+                    labelResId = R.string.city_village_town,
+                    listItems = currentState.citiesOfUkraineList.value,
+                    value = selectCity.value,
+                    onValueChange = { selectCity.value = it }
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    modifier = Modifier.clickable {
+                        currentState.isMapExpanded.value =!currentState.isMapExpanded.value
+                    },
+                    text = if (currentState.isMapExpanded.value) stringResource(R.string.close_the_map) else stringResource(
+                        R.string.open_the_map
+                    ),
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = mainGreen,
+                    textDecoration = TextDecoration.Underline,
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                SelectLocationWithGoogleMap(
+                    eventLocationLatLng = eventLocationLatLng,
+                    height = 244.dp,
+                    isMapExtended = currentState.isMapExpanded.value,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .clip(shape = shapes.small)
+                            .clickable { onCancelClicked() }
+                            .padding(vertical = 10.dp, horizontal = 12.dp)
+                            .wrapContentHeight()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.cancel),
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(500),
+                            color = secondaryNavy,
+                            textAlign = TextAlign.Center,
                         )
-                        .clickable { onSaveLocationClicked() }
-                        .padding(vertical = 10.dp, horizontal = 12.dp)
-                        .wrapContentHeight(),
-                ) {
-                    Text(
-                        text = stringResource(R.string.save_the_location),
-                        fontSize = 15.sp,
-                        lineHeight = 24.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                    )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = mainGreen,
+                                shape = shapes.small
+                            )
+                            .clickable { onSaveLocationClicked() }
+                            .padding(vertical = 10.dp, horizontal = 12.dp)
+                            .wrapContentHeight(),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.save_the_location),
+                            fontSize = 15.sp,
+                            lineHeight = 24.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 }
             }
         }

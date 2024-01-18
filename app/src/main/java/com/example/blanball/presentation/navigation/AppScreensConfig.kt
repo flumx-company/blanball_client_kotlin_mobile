@@ -48,6 +48,7 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.SelectLocationScreenViewModel
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
@@ -140,6 +141,7 @@ fun AppScreensConfig(
     userEmailManager: UserEmailManager,
     eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
     emailVerificationManager: EmailVerificationManager,
+    selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
     val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
     val publicProfileCurrentState = publicProfileViewModel.currentState
@@ -2384,7 +2386,7 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.SELECT_LOCATION.route) {
-            val state = publicProfileViewModel.uiState.collectAsState().value
+            val state = selectLocationScreenViewModel.uiState.collectAsState().value
 
             Scaffold(
                 bottomBar = {
@@ -2421,10 +2423,9 @@ fun AppScreensConfig(
                             onCancelClicked = { navController.navigateUp() },
                             onSaveLocationClicked = { navController.navigateUp() },
                             eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
-                            listOfUkraineRegions = navigationDrawerViewModel.currentState.regionsOfUkraineList.value,
-                            listOfUkraineCities = navigationDrawerViewModel.currentState.citiesOfUkraineList.value,
                             selectRegion = eventCreationOrEditViewModel.currentState.selectRegion,
                             selectCity = eventCreationOrEditViewModel.currentState.selectCity,
+                            state = state,
                         )
                     }
                 },
