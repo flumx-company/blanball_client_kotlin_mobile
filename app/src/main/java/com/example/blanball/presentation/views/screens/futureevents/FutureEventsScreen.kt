@@ -279,12 +279,15 @@ fun FutureEventsScreen(
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Row {
                                     Text(
+                                        modifier = Modifier.weight(2f),
                                         text = event.name,
                                         fontSize = 13.sp,
                                         lineHeight = 24.sp,
                                         style = typography.h4,
                                         fontWeight = FontWeight(400),
                                         color = mainGreen,
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 2,
                                     )
                                     Spacer(modifier = Modifier.weight(1f))
                                     if (event.price == 0) {

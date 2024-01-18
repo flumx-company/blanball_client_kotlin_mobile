@@ -55,7 +55,7 @@ class NavigationDrawerViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is NavigationDrawerMainContract.Event.GetLaunchData -> {
-//                getMyProfile()
+                getMyProfile()
                 getUkraineCitiesList()
             }
         }
@@ -101,7 +101,8 @@ class NavigationDrawerViewModel
                     is GetUkraineCitiesListResultEntity.Success -> {
                         setState {
                            copy(
-                               citiesOfUkraineList = mutableStateOf(result.data.data),
+                               regionsOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
+                               citiesOfUkraineList = mutableStateOf(result.data.data.flatMap { it.cities.map { it.name }}),
                            )
                         }
                     }

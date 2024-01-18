@@ -170,7 +170,8 @@ fun EventEditOrCreationScreenStep2(
                         onClick = {
                             currentState.priceStates.value =
                                 EventEditAndCreationScreensMainContract.PriceStates.FREE
-                        },
+                            currentState.eventSummaryPrice.value = "0"
+                                  },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
@@ -260,7 +261,6 @@ fun EventEditOrCreationScreenStep2(
                         currentState.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
                             id = R.string.max_count_players_validation
                         )
-
                         else -> {
                             ""
                         }

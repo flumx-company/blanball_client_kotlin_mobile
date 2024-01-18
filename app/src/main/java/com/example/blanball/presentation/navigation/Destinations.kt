@@ -42,4 +42,5 @@ enum class Destinations(val route: String) {
     EDIT_EVENT_STEP_1("edit_event_step_1"),
     EDIT_EVENT_STEP_2("edit__event_step_2"),
     EDIT_EVENT_STEP_3("edit__event_step_3"),
+    SELECT_LOCATION("select_location")
 }
