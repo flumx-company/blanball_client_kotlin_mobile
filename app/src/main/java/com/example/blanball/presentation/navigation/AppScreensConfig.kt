@@ -68,7 +68,7 @@ import com.example.blanball.presentation.views.screens.futureevents.AllEventsFil
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
-import com.example.blanball.presentation.views.screens.map.SelectLocationScreen
+import com.example.blanball.presentation.views.screens.SelectLocationScreen.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen

@@ -1,5 +1,7 @@
 package com.example.blanball.presentation.views.components.maps
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -43,6 +45,7 @@ fun SelectLocationWithGoogleMapPreview(
 fun SelectLocationWithGoogleMap(
     eventLocationLatLng: MutableState<LatLng>,
     height: Dp,
+    isMapExtended: Boolean
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
@@ -50,8 +53,9 @@ fun SelectLocationWithGoogleMap(
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .height(height)
-            .clip(shape = shapes.medium),
+            .then(if (isMapExtended) Modifier.fillMaxSize() else Modifier.height(height))
+            .clip(shape = shapes.medium)
+            .animateContentSize(),
         cameraPositionState = cameraPositionState,
         onMapLongClick = { latLng ->
             eventLocationLatLng.value = latLng

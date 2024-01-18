@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.map
+package com.example.blanball.presentation.views.screens.SelectLocationScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -51,7 +52,7 @@ fun SelectLocationScreen(
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, top = 20.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Text(
                 text = stringResource(R.string.location),
@@ -68,7 +69,7 @@ fun SelectLocationScreen(
                 value = selectRegion.value,
                 onValueChange = { selectRegion.value = it }
             )
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(12.dp))
             CustomDropDownMenu(
                 labelResId = R.string.city_village_town,
                 listItems = listOfUkraineCities,
@@ -77,7 +78,10 @@ fun SelectLocationScreen(
             )
             Spacer(modifier = Modifier.size(12.dp))
             Text(
-                text = stringResource(R.string.open_the_map),
+                modifier = Modifier.clickable {
+                    isMapExpanded.value = !isMapExpanded.value
+                },
+                text = if (isMapExpanded.value) stringResource(R.string.close_the_map) else stringResource(R.string.open_the_map),
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,
@@ -89,14 +93,16 @@ fun SelectLocationScreen(
             SelectLocationWithGoogleMap(
                 eventLocationLatLng = eventLocationLatLng,
                 height = 244.dp,
+                isMapExtended = isMapExpanded.value,
             )
             Spacer(modifier = Modifier.size(16.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
-                        .padding(horizontal = 6.dp, vertical = 12.dp)
                         .clip(shape = shapes.small)
                         .clickable { onCancelClicked() }
+                        .padding(vertical = 10.dp, horizontal = 12.dp)
+                        .wrapContentHeight()
                 ) {
                     Text(
                         text = stringResource(R.string.cancel),
@@ -110,12 +116,14 @@ fun SelectLocationScreen(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Box(
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 12.dp)
+                    modifier = Modifier
                         .background(
                             color = mainGreen,
                             shape = shapes.small
                         )
-                        .clickable { onSaveLocationClicked() },
+                        .clickable { onSaveLocationClicked() }
+                        .padding(vertical = 10.dp, horizontal = 12.dp)
+                        .wrapContentHeight(),
                 ) {
                     Text(
                         text = stringResource(R.string.save_the_location),

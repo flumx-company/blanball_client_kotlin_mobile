@@ -449,6 +449,7 @@
     <string name="ua_phone_country_code">+380</string>
     <string name="place_of_residence">Населений пункт</string>
     <string name="open_the_map">Відкрити карту</string>
+    <string name="close_the_map">Закрити карту</string>
     <string name="save_the_location">Зберегти локацію</string>
     <string name="summary_uah">Сума, грн</string>
 </resources>
