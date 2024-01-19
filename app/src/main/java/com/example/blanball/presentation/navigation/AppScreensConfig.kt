@@ -33,6 +33,7 @@ import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
+import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
@@ -58,6 +59,7 @@ import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.topbars.TopBar
+import com.example.blanball.presentation.views.screens.SelectLocationScreen.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
 import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep1
@@ -69,7 +71,6 @@ import com.example.blanball.presentation.views.screens.futureevents.AllEventsFil
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
-import com.example.blanball.presentation.views.screens.SelectLocationScreen.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
@@ -2426,6 +2427,9 @@ fun AppScreensConfig(
                             selectRegion = eventCreationOrEditViewModel.currentState.selectRegion,
                             selectCity = eventCreationOrEditViewModel.currentState.selectCity,
                             state = state,
+                            onUpdateCitiesForRegionList ={
+                                selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.UpdateCitiesForRegionList)
+                            } ,
                         )
                     }
                 },

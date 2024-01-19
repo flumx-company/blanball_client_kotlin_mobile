@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +33,9 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
+import com.example.blanball.utils.ext.getAddressFromLocation
 import com.google.android.gms.maps.model.LatLng
 
 @Composable
@@ -42,8 +45,9 @@ fun SelectLocationScreen(
     eventLocationLatLng: MutableState<LatLng>,
     selectRegion: MutableState<String>,
     selectCity: MutableState<String>,
-    state: UiState
-) {
+    state: UiState,
+    onUpdateCitiesForRegionList: () -> Unit,) {
+    val context = LocalContext.current
     (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier.padding()
@@ -64,16 +68,19 @@ fun SelectLocationScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 CustomDropDownMenu(
                     labelResId = R.string.region,
-                    listItems = currentState.regionsOfUkraineList.value,
-                    value = selectRegion.value,
-                    onValueChange = { selectRegion.value = it }
+                    listItems = currentState.regionOfUkraineList.value,
+                    value = currentState.selectedRegion.value,
+                    onValueChange = {
+                        currentState.selectedRegion.value = it
+                        onUpdateCitiesForRegionList()
+                    }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 CustomDropDownMenu(
                     labelResId = R.string.city_village_town,
-                    listItems = currentState.citiesOfUkraineList.value,
-                    value = selectCity.value,
-                    onValueChange = { selectCity.value = it }
+                    listItems = currentState.citiesForRegionList.value,
+                    value = currentState.selectedCity.value,
+                    onValueChange = { currentState.selectedCity.value = it }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
@@ -95,6 +102,16 @@ fun SelectLocationScreen(
                     eventLocationLatLng = eventLocationLatLng,
                     height = 244.dp,
                     isMapExtended = currentState.isMapExpanded.value,
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = eventLocationLatLng.value.getAddressFromLocation(context)
+                        ?: "",
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(500),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -137,6 +154,9 @@ fun SelectLocationScreen(
                         )
                     }
                 }
+            }
+            if (currentState.state == SelectLocationScreenMainContract.ScreenViewState.Loading){
+                Loader()
             }
         }
     }
