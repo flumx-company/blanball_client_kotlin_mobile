@@ -82,7 +82,7 @@ fun CustomDropDownMenu(
                     },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                         unfocusedBorderColor = defaultLightGray,
-                        focusedBorderColor = mainGreen,
+                        focusedBorderColor = primaryDark,
                         textColor = Color.Black,
                         unfocusedLabelColor = secondaryNavy,
                         errorBorderColor = errorRed,

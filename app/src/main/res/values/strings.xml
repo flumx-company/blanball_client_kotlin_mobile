@@ -452,4 +452,5 @@
     <string name="close_the_map">Закрити карту</string>
     <string name="save_the_location">Зберегти локацію</string>
     <string name="summary_uah">Сума, грн</string>
+    <string name="hold_your_finger_to_select_a_loc">Утримуйте палець для вибору локації</string>
 </resources>

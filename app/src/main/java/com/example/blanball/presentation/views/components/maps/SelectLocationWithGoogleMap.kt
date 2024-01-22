@@ -34,11 +34,7 @@ fun SelectLocationWithGoogleMapPreview(
                 .clip(shape = shapes.medium),
             cameraPositionState = cameraPositionState,
             onMapClick = { onSelectLocationScreenNav() },
-        ) {
-            Marker(
-                state = MarkerState(position = eventLocationLatLng.value),
-            )
-        }
+        )
 }
 
 @Composable

@@ -83,20 +83,31 @@ fun SelectLocationScreen(
                     onValueChange = { currentState.selectedCity.value = it }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                Text(
-                    modifier = Modifier.clickable {
-                        currentState.isMapExpanded.value =!currentState.isMapExpanded.value
-                    },
-                    text = if (currentState.isMapExpanded.value) stringResource(R.string.close_the_map) else stringResource(
-                        R.string.open_the_map
-                    ),
-                    fontSize = 12.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = mainGreen,
-                    textDecoration = TextDecoration.Underline,
-                )
+                Row (verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        modifier = Modifier.clickable {
+                            currentState.isMapExpanded.value = !currentState.isMapExpanded.value
+                        },
+                        text = if (currentState.isMapExpanded.value) stringResource(R.string.close_the_map) else stringResource(
+                            R.string.open_the_map
+                        ),
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = mainGreen,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.hold_your_finger_to_select_a_loc),
+                            fontSize = 12.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = secondaryNavy,
+                        )
+                }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectLocationWithGoogleMap(
                     eventLocationLatLng = eventLocationLatLng,
