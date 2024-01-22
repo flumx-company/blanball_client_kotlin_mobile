@@ -60,9 +60,10 @@ class EventEditAndCreationScreensMainContract {
         val isBottomPreviewDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isStartEventTimeModalOpen: MutableState<Boolean> = mutableStateOf(false),
         val isDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
-        val eventSummaryPrice: MutableState<String> = mutableStateOf(""),
+        val eventSummaryPrice: MutableState<String?> = mutableStateOf(null),
         val selectRegion: MutableState<String> = mutableStateOf(""),
         val selectCity: MutableState<String> = mutableStateOf(""),
+        val priceDescription: MutableState<String?> = mutableStateOf(null),
     ) : UiState
 
     sealed class ScreenViewState {

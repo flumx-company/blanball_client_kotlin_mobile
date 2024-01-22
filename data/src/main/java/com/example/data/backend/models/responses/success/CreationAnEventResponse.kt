@@ -22,8 +22,8 @@ data class CreationAnEventResponseData(
     @Json(name = "need_ball") val need_ball: Boolean,
     @Json(name = "need_form") val need_form: Boolean,
     @Json(name = "place") val place: CreationAnEventResponsePlace,
-    @Json(name = "price") val price: Int,
-    @Json(name = "price_description") val price_description: String,
+    @Json(name = "price") val price: Int? = null,
+    @Json(name = "price_description") val price_description: String? = null,
     @Json(name = "privacy") val privacy: Boolean,
     @Json(name = "type") val type: String
 )

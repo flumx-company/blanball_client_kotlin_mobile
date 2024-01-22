@@ -59,7 +59,7 @@ import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.topbars.TopBar
-import com.example.blanball.presentation.views.screens.SelectLocationScreen.SelectLocationScreen
+import com.example.blanball.presentation.views.screens.selectlocation.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
 import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep1
@@ -1539,7 +1539,8 @@ fun AppScreensConfig(
                             isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
                             isConfirmReminderContent = {
                             },
-                            onEditClick = {
+                            onEditClick = { currentEventId ->
+                                eventCreationOrEditViewModel.currentState.currentEventId.value = currentEventId
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
                                 )
@@ -2369,7 +2370,7 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
                                 eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                    EventEditAndCreationScreensMainContract.Event.EditEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },

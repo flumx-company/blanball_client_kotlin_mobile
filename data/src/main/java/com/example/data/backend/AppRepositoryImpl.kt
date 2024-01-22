@@ -411,8 +411,8 @@ class AppRepositoryImpl @Inject constructor(
         place: String,
         lon: Double,
         lat: Double,
-        price: Int,
-        price_description: String,
+        price: Int?,
+        price_description: String?,
         privacy: Boolean,
         type: String,
     ): CreationAnEventResultEntity {

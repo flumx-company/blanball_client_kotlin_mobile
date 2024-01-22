@@ -1,7 +1,6 @@
 package com.example.domain.usecases.implementations
 
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.CreationAnEventResponseEntityPlace
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
@@ -25,8 +24,8 @@ class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository:
         place: String,
         lon: Double,
         lat: Double,
-        price: Int,
-        price_description: String,
+        price: Int?,
+        price_description: String?,
         privacy: Boolean,
         type: String
     ): CreationAnEventResultEntity {

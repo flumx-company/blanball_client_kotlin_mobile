@@ -26,6 +26,8 @@ class EventScreenMainContract {
         val isMyEvent: MutableState<Boolean> = mutableStateOf(false),
         val isDescriptionTextExpanded: MutableState<Boolean> = mutableStateOf(false),
         val currentEventAuthorId: MutableState<Int> = mutableStateOf(0),
+        val priceDescription: MutableState<String?> = mutableStateOf(null),
+        val isEventDescriptionVisible: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

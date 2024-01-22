@@ -453,4 +453,6 @@
     <string name="save_the_location">Зберегти локацію</string>
     <string name="summary_uah">Сума, грн</string>
     <string name="hold_your_finger_to_select_a_loc">Утримуйте палець для вибору локації</string>
+    <string name="describ_what_this_amount_is_needed_for">Опишіть для чого потрібна ця сума</string>
+    <string name="price_description">Обґрунтування вартості</string>
 </resources>

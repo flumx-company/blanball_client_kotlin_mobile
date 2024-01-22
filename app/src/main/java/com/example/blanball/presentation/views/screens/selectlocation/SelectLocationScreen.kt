@@ -1,4 +1,4 @@
-package com.example.blanball.presentation.views.screens.SelectLocationScreen
+package com.example.blanball.presentation.views.screens.selectlocation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
