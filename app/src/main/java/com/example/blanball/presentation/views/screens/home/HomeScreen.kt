@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,6 +22,8 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.HomeScreenEventCardHorizontalList
+import com.example.blanball.presentation.views.components.modals.NewEventSuccessfullyCreatedModal
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -29,51 +32,65 @@ fun HomeScreen(
     onLoadMoreUsers: () -> Unit,
     userFirstName: String,
 ) {
+    (state as? FutureEventsMainContract.State)?.let { currentState ->
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        (state as? FutureEventsMainContract.State)?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 16.dp, top = 20.dp)
             ) {
-                Row {
+                    Row {
+                        Text(
+                            text = stringResource(R.string.hi),
+                            fontSize = 20.sp,
+                            lineHeight = 32.sp,
+                            style = typography.h3,
+                            fontWeight = FontWeight(700),
+                            color = secondaryNavy,
+                        )
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = userFirstName,
+                            fontSize = 20.sp,
+                            lineHeight = 32.sp,
+                            style = typography.h3,
+                            fontWeight = FontWeight(700),
+                            color = primaryDark,
+                        )
+                    }
+                    Spacer(Modifier.size(10.dp))
                     Text(
-                        text = stringResource(R.string.hi),
-                        fontSize = 20.sp,
-                        lineHeight = 32.sp,
+                        text = stringResource(R.string.what_activities_are_we_planning_today),
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
                         style = typography.h3,
                         fontWeight = FontWeight(700),
                         color = secondaryNavy,
                     )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = userFirstName,
-                        fontSize = 20.sp,
-                        lineHeight = 32.sp,
-                        style = typography.h3,
-                        fontWeight = FontWeight(700),
-                        color = primaryDark,
+                    Spacer(modifier = Modifier.size(16.dp))
+                    HomeScreenEventCardHorizontalList(
+                        clickToEventCardCallback = { eventId -> onNavigateToEvent(eventId) },
+                        onLoadMoreUsers = onLoadMoreUsers,
+                        state = state,
                     )
-                }
-                Spacer(Modifier.size(10.dp))
-                Text(
-                    text = stringResource(R.string.what_activities_are_we_planning_today),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    style = typography.h3,
-                    fontWeight = FontWeight(700),
-                    color = secondaryNavy,
-                )
-                Spacer(modifier = Modifier.size(16.dp))
-                HomeScreenEventCardHorizontalList(
-                    clickToEventCardCallback = { eventId -> onNavigateToEvent(eventId) },
-                    onLoadMoreUsers = onLoadMoreUsers,
-                    state = state
-                )
             }
+        LaunchedEffect(Unit) {
+            when {
+                currentState.isShowEventSuccessCreatedModal.value -> {
+                    delay(5000)
+                    currentState.isShowEventSuccessCreatedModal.value = false
+                }
+                currentState.isShowProfileSuccessEditModal.value -> {
+                    delay(5000)
+                    currentState.isShowEventSuccessEditModal.value = false
+                }
+            }
+        }
+        NewEventSuccessfullyCreatedModal(isModalVisible = currentState.isShowEventSuccessCreatedModal.value)
+
         }
     }
 }

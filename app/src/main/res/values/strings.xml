@@ -404,7 +404,7 @@
     <string name="how_look_my_prof_for_others">Як виглядатиме мій профіль для інших?</string>
     <string name="good">Добре</string>
     <string name="nice">Чудово!</string>
-    <string name="event_created_successfully">Подію успішно створено</string>
+    <string name="event_created_successfully">Подія успішно опублікована та доступна для інших користувачів</string>
     <string name="save">Зберегти</string>
     <string name="reviews_about_me">Відгуки про мене</string>
     <string name="safety">Безпека</string>
@@ -455,4 +455,8 @@
     <string name="hold_your_finger_to_select_a_loc">Утримуйте палець для вибору локації</string>
     <string name="describ_what_this_amount_is_needed_for">Опишіть для чого потрібна ця сума</string>
     <string name="price_description">Обґрунтування вартості</string>
+    <string name="account_deleting">Видалення акаунту</string>
+    <string name="confirm_acc_deleting">Підтвердіть свій намір видалити акаунт</string>
+    <string name="save_1">Збережено</string>
+    <string name="info_saved">Інформацію успішно відредаговано та застосовано</string>
 </resources>

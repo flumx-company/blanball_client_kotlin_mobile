@@ -59,7 +59,6 @@ import com.example.blanball.presentation.views.components.drawers.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.modals.EmailVerificationModal
 import com.example.blanball.presentation.views.components.modals.ShareAnEventModal
 import com.example.blanball.presentation.views.components.topbars.TopBar
-import com.example.blanball.presentation.views.screens.selectlocation.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.chats.ChatsScreen
 import com.example.blanball.presentation.views.screens.event.EventScreen
 import com.example.blanball.presentation.views.screens.eventcreationoredit.EventEditOrCreationScreenStep1
@@ -96,6 +95,7 @@ import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccess
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.selectlocation.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
@@ -711,7 +711,7 @@ fun AppScreensConfig(
                             },
                             state = futureEventsScreenViewModelState,
                             onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
-                            userFirstName = navigationDrawerCurrentState.userFirstNameText.value
+                            userFirstName = navigationDrawerCurrentState.userFirstNameText.value,
                         )
                     }
                 }
@@ -1773,6 +1773,7 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
+                   futureEventsScreenViewModel.currentState.isShowEventSuccessCreatedModal.value = true
                     navController.navigate(Destinations.HOME.route)
                 }
             }

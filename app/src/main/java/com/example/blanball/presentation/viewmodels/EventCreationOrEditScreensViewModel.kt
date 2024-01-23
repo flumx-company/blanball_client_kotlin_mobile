@@ -176,7 +176,7 @@ class EventCreationOrEditScreensViewModel
                                 listOfFoundUsers = mutableStateOf(emptyList()),
                                 selectedUserIds = mutableStateOf(emptySet()),
                                 selectedUserProfiles = mutableStateOf(emptySet()),
-                                priceDescription = mutableStateOf(""),
+                                priceDescription = mutableStateOf(null),
                             )
                         }
                     }
@@ -247,7 +247,7 @@ class EventCreationOrEditScreensViewModel
                                 listOfFoundUsers = mutableStateOf(emptyList()),
                                 selectedUserIds = mutableStateOf(emptySet()),
                                 selectedUserProfiles = mutableStateOf(emptySet()),
-                                priceDescription = mutableStateOf(""),
+                                priceDescription = mutableStateOf(null),
                             )
                         }
                     }
