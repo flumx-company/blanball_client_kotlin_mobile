@@ -23,6 +23,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.cards.HomeScreenEventCardHorizontalList
 import com.example.blanball.presentation.views.components.modals.NewEventSuccessfullyCreatedModal
+import com.example.blanball.presentation.views.components.modals.SuccessEditEventModal
 import kotlinx.coroutines.delay
 
 @Composable
@@ -83,14 +84,14 @@ fun HomeScreen(
                     delay(5000)
                     currentState.isShowEventSuccessCreatedModal.value = false
                 }
-                currentState.isShowProfileSuccessEditModal.value -> {
+                currentState.isShowEventSuccessEditModal.value -> {
                     delay(5000)
                     currentState.isShowEventSuccessEditModal.value = false
                 }
             }
         }
         NewEventSuccessfullyCreatedModal(isModalVisible = currentState.isShowEventSuccessCreatedModal.value)
-
+        SuccessEditEventModal(isModalVisible = currentState.isShowEventSuccessEditModal.value)
         }
     }
 }

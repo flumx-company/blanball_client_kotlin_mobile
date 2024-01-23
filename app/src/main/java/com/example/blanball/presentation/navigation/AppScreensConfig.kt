@@ -2383,6 +2383,7 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
+                    futureEventsScreenViewModel.currentState.isShowEventSuccessEditModal.value = true
                     navController.navigate(Destinations.HOME.route)
                 }
             }

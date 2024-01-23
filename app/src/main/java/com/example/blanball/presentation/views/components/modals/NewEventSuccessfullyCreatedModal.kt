@@ -40,8 +40,8 @@ isModalVisible: Boolean,
 ) {
     AnimatedVisibility(
         visible = isModalVisible,
-        enter = fadeIn(animationSpec = tween(durationMillis = 1000)),
-        exit = fadeOut(animationSpec = tween(durationMillis = 1000))
+        enter = fadeIn(animationSpec = tween(durationMillis = 700)),
+        exit = fadeOut(animationSpec = tween(durationMillis = 700))
     ) {
             Box(
                 modifier = Modifier

@@ -36,7 +36,7 @@ class FutureEventsMainContract {
         val filterDateAndTimeBefore: MutableState<String> = mutableStateOf(""),
         val selectedEventTab: MutableState<EventTab> = mutableStateOf(EventTab.ALL_EVENTS),
         val isRangeDatePickerModalOpen: MutableState<Boolean> = mutableStateOf(false),
-        val isShowEventSuccessCreatedModal: MutableState<Boolean> = mutableStateOf(true),
+        val isShowEventSuccessCreatedModal: MutableState<Boolean> = mutableStateOf(false),
         val isShowEventSuccessEditModal: MutableState<Boolean> = mutableStateOf(false),
         val isShowProfileSuccessEditModal: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
