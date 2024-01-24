@@ -459,4 +459,7 @@
     <string name="confirm_acc_deleting">Підтвердіть свій намір видалити акаунт</string>
     <string name="save_1">Збережено</string>
     <string name="info_saved">Інформацію успішно відредаговано та застосовано</string>
+    <string name="cancel_exit">Скасувати вихід</string>
+    <string name="you_want_exit_from_your_acc">Ви бажаете вийти зі свого аккаунта?</string>
+    <string name="exit_from_account">Вихід з акаунту</string>
 </resources>

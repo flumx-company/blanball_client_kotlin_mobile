@@ -54,6 +54,7 @@ import com.example.blanball.presentation.views.components.buttons.EditProfileBut
 import com.example.blanball.presentation.views.components.cards.DefaultCardWithColumn
 import com.example.blanball.presentation.views.components.cards.MyRatingCard
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.modals.ExitFromAccModal
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -341,11 +342,11 @@ fun MyProfileScreen(
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = state.phoneText.value.ifEmpty { "--" },
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-                style = typography.h4,
-                fontWeight = FontWeight(400),
-                color = primaryDark,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
@@ -516,7 +517,7 @@ fun MyProfileScreen(
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .clickable { exitBtnClicked() }
+                    .clickable { currentState.isDeleteModalVisible.value = true }
                     .padding(top = 12.dp, bottom = 12.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -557,6 +558,11 @@ fun MyProfileScreen(
                     }
                 }
             }
+            ExitFromAccModal(
+                onCancelExitClicked = { currentState.isDeleteModalVisible.value = false },
+                onDeleteAccClicked = { exitBtnClicked() },
+                isModalVisible = currentState.isDeleteModalVisible.value,
+            )
         }
         if (currentState.state is MyProfileScreensMainContract.ScreenViewState.Loading) {
             Loader(backgroundColor = Color.White, textColor = primaryDark)

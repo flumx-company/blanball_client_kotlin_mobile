@@ -77,7 +77,7 @@ fun PreviewOfTheEventBottomDrawer(
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
-                DefaultCardWithColumn(clickCallback = {}) {
+                DefaultCardWithColumn {
                     Row {
                         Box(
                             Modifier

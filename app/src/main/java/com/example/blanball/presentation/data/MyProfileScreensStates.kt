@@ -37,6 +37,7 @@ class MyProfileScreensMainContract {
         val placeState: MutableState<String> = mutableStateOf(""),
         val ratingState: MutableState<Float> = mutableStateOf(0f),
         val isModalOpen: MutableState<Boolean> = mutableStateOf(false),
+        val isDeleteModalVisible: MutableState<Boolean> = mutableStateOf(false),
         ) : UiState
 
     sealed class Effect: UiEffect {

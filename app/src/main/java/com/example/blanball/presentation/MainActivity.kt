@@ -101,14 +101,17 @@ class MainActivity : ComponentActivity() {
                         isEmailVerified ?: false
                     isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: ""
                     userFullName?.let { fullName ->
-                        val (firstName, lastName) = fullName.split(" ")
-                        techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
-                        navigationDrawerViewModel.setState {
-                            copy(
-                                userFirstNameText = mutableStateOf(firstName),
-                                userLastNameText = mutableStateOf(lastName),
-                                userAvatar = mutableStateOf(userAvatarUrl)
-                            )
+                        val names = fullName.split(" ")
+                        if (names.size >= 2) {
+                            val (firstName, lastName) = names
+                            techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
+                            navigationDrawerViewModel.setState {
+                                copy(
+                                    userFirstNameText = mutableStateOf(firstName),
+                                    userLastNameText = mutableStateOf(lastName),
+                                    userAvatar = mutableStateOf(userAvatarUrl)
+                                )
+                            }
                         }
                     }
 
