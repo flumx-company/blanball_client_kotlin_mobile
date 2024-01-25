@@ -3,12 +3,14 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntityData
+import com.google.android.gms.maps.model.LatLng
 
 class SelectLocationScreenMainContract
 {
     sealed class Event : UiEvent {
         object GetUkraineCitiesList : Event()
         object UpdateCitiesForRegionList: Event()
+        object UpdateMap: Event()
     }
 
     data class State(
@@ -25,7 +27,8 @@ class SelectLocationScreenMainContract
         ),
         val locationsData: MutableState<List<GetUkraineCitiesListResponseEntityData>> = mutableStateOf(
             emptyList()
-        )
+        ),
+        val selectedCityLatLan: MutableState<LatLng>  = mutableStateOf(LatLng(50.45074559462868, 30.523837655782696)),
     ) : UiState
 
 

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,13 +44,17 @@ fun SelectLocationScreen(
     onCancelClicked: () -> Unit,
     onSaveLocationClicked: () -> Unit,
     eventLocationLatLng: MutableState<LatLng>,
-    selectRegion: MutableState<String>,
-    selectCity: MutableState<String>,
     state: UiState,
     onUpdateCitiesForRegionList: () -> Unit,
+    onUpdateMap: () -> Unit
     ) {
     val context = LocalContext.current
     (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
+
+        LaunchedEffect(eventLocationLatLng.value) {
+            currentState.selectedCityLatLan.value = eventLocationLatLng.value
+        }
+
         Box(
             modifier = Modifier.padding()
         ) {
@@ -81,7 +86,10 @@ fun SelectLocationScreen(
                     labelResId = R.string.city_village_town,
                     listItems = currentState.citiesForRegionList.value,
                     value = currentState.selectedCity.value,
-                    onValueChange = { currentState.selectedCity.value = it }
+                    onValueChange = {
+                        currentState.selectedCity.value = it
+                        onUpdateMap()
+                    }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Row (verticalAlignment = Alignment.CenterVertically) {
@@ -111,13 +119,13 @@ fun SelectLocationScreen(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectLocationWithGoogleMap(
-                    eventLocationLatLng = eventLocationLatLng,
+                    eventLocationLatLng = currentState.selectedCityLatLan,
                     height = 244.dp,
                     isMapExtended = currentState.isMapExpanded.value,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
-                    text = eventLocationLatLng.value.getAddressFromLocation(context)
+                    text = currentState.selectedCityLatLan.value.getAddressFromLocation(context)
                         ?: "",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,

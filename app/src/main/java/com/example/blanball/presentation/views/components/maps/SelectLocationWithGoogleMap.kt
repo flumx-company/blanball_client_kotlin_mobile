@@ -58,6 +58,9 @@ fun SelectLocationWithGoogleMap(
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
     }
+    LaunchedEffect(eventLocationLatLng.value) {
+        cameraPositionState.position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
+    }
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()

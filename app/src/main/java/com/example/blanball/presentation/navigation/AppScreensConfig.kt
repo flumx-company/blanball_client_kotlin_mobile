@@ -1538,7 +1538,8 @@ fun AppScreensConfig(
                             isConfirmReminderContent = {
                             },
                             onEditClick = { currentEventId ->
-                                eventCreationOrEditViewModel.currentState.currentEventId.value = currentEventId
+                                eventCreationOrEditViewModel.currentState.currentEventId.value =
+                                    currentEventId
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
                                 )
@@ -1771,7 +1772,8 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
-                   futureEventsScreenViewModel.currentState.isShowEventSuccessCreatedModal.value = true
+                    futureEventsScreenViewModel.currentState.isShowEventSuccessCreatedModal.value =
+                        true
                     navController.navigate(Destinations.HOME.route)
                 }
             }
@@ -1846,7 +1848,11 @@ fun AppScreensConfig(
                             onCancelEditsClicked = {
                                 navController.navigate(Destinations.MY_PROFILE.route)
                             },
-                            onUpdateCitiesForRegionList = { myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.UpdateCitiesForRegionList) },
+                            onUpdateCitiesForRegionList = {
+                                myProfileScreenViewModel.handleScreenState(
+                                    MyProfileScreensMainContract.Event.UpdateCitiesForRegionList
+                                )
+                            },
                         )
                     }
                 }
@@ -2217,7 +2223,7 @@ fun AppScreensConfig(
                             backBtnCLicked = {
                                 navController.navigate(Destinations.HOME.route)
                             },
-                            onSelectLocationScreenNav = {navController.navigate(Destinations.SELECT_LOCATION.route)},
+                            onSelectLocationScreenNav = { navController.navigate(Destinations.SELECT_LOCATION.route) },
                         )
                     }
                 }
@@ -2381,7 +2387,8 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
-                    futureEventsScreenViewModel.currentState.isShowEventSuccessEditModal.value = true
+                    futureEventsScreenViewModel.currentState.isShowEventSuccessEditModal.value =
+                        true
                     navController.navigate(Destinations.HOME.route)
                 }
             }
@@ -2425,12 +2432,17 @@ fun AppScreensConfig(
                             onCancelClicked = { navController.navigateUp() },
                             onSaveLocationClicked = { navController.navigateUp() },
                             eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
-                            selectRegion = eventCreationOrEditViewModel.currentState.selectRegion,
-                            selectCity = eventCreationOrEditViewModel.currentState.selectCity,
                             state = state,
-                            onUpdateCitiesForRegionList ={
-                                selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.UpdateCitiesForRegionList)
-                            } ,
+                            onUpdateCitiesForRegionList = {
+                                selectLocationScreenViewModel.handleEvent(
+                                    SelectLocationScreenMainContract.Event.UpdateCitiesForRegionList
+                                )
+                            },
+                            onUpdateMap = {
+                                selectLocationScreenViewModel.handleEvent(
+                                    SelectLocationScreenMainContract.Event.UpdateMap
+                                )
+                            }
                         )
                     }
                 },

@@ -8,6 +8,7 @@ import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,6 +46,9 @@ class SelectLocationScreenViewModel
             is SelectLocationScreenMainContract.Event.UpdateCitiesForRegionList -> {
                 filterCitiesFromRegion(currentState.selectedRegion.value)
             }
+            is SelectLocationScreenMainContract.Event.UpdateMap -> {
+                updateMap(selectedCity = currentState.selectedCity.value, selectedRegion = currentState.selectedRegion.value)
+            }
         }
     }
 
@@ -70,18 +74,36 @@ class SelectLocationScreenViewModel
     }
 
     private fun filterCitiesFromRegion(selectedRegion: String) {
+
         job = viewModelScope.launch(Dispatchers.IO) {
             currentState.citiesForRegionList.value = currentState.defaultCitiesForRegionList.value
-            val citiesForRegionList = currentState.citiesForRegionList.value.filter {city ->
-                currentState.locationsData.value.any() { it.name == selectedRegion && city in it.cities.map { cityItem -> cityItem.name } }
+            val citiesForRegionList = currentState.citiesForRegionList.value.filter { city ->
+                currentState.locationsData.value.any { it.name == selectedRegion && city in it.cities.map { cityItem -> cityItem.name } }
             }
             currentState.selectedCity.value = citiesForRegionList[0]
+
+            updateMap(selectedRegion = currentState.selectedRegion.value, selectedCity = currentState.selectedCity.value)
+
+                setState {
+                    copy(
+                        citiesForRegionList = mutableStateOf(citiesForRegionList),
+                    )
+                }
+        }
+    }
+
+    private fun updateMap(selectedCity: String, selectedRegion: String) {
+            val selectedCityData = currentState.locationsData.value.find { it.name == selectedRegion }?.cities?.find { it.name == selectedCity }
+
+            if (selectedCityData != null) {
+                currentState.selectedCityLatLan.value = LatLng(selectedCityData.lat.toDouble(), selectedCityData.lng.toDouble())
+            }
+
             setState {
                 copy(
-                    citiesForRegionList = mutableStateOf(citiesForRegionList),
-                    )
+                    selectedCity = mutableStateOf(selectedCity),
+                )
             }
-        }
     }
 
     private fun setState(reduce: SelectLocationScreenMainContract.State.() -> SelectLocationScreenMainContract.State) {
