@@ -47,7 +47,6 @@ import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.ChangePassButton
 import com.example.blanball.presentation.views.components.buttons.EditProfileButton
@@ -453,14 +452,14 @@ fun MyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .height(40.dp)
+                        .height(60.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
                         .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = shapes.medium,
+                            shape = RoundedCornerShape(size = 2.dp),
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = "7 " + stringResource(id = R.string.event_are_hint),

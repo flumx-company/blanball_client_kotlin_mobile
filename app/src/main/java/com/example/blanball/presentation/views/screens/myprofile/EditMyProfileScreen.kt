@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -49,7 +49,6 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.ChangePassButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
@@ -519,14 +518,14 @@ fun EditMyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .height(60.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
+                        .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = shapes.medium,
+                            shape = RoundedCornerShape(size = 2.dp),
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = "7 " + stringResource(id = R.string.event_are_hint),
@@ -565,14 +564,14 @@ fun EditMyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .height(60.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
+                        .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = shapes.medium,
+                            shape = RoundedCornerShape(size = 2.dp),
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = it.emailStringState.value,

@@ -563,7 +563,7 @@ fun EventScreen(
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 SelectLocationWithGoogleMapPreview(
-                    isClickable = false,
+                    isClickable = true,
                     eventLocationLatLng = currentState.eventLatLng,
                     isMarkerVisible = true,
                     )
