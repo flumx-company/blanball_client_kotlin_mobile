@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.views.screens.event
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -55,6 +53,7 @@ import com.example.blanball.presentation.views.components.cards.AddUserToTeam
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMapPreview
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
@@ -74,6 +73,7 @@ fun EventScreen(
     isConfirmReminderVisible: Boolean,
     onEditClick: (currentEventId: Int) -> Unit,
 ) {
+
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Column(
             modifier = Modifier
@@ -562,15 +562,11 @@ fun EventScreen(
                     clickCallback = { onNavigateToEventAuthorPublicProfile() },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                Image(
-                    modifier = Modifier
-                        .border(width = 1.dp, color = defaultLightGray, shape = shapes.medium)
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .clickable { },
-                    painter = painterResource(id = R.drawable.temp_map_image), //TODO()
-                    contentDescription = null
-                )
+                SelectLocationWithGoogleMapPreview(
+                    isClickable = false,
+                    eventLocationLatLng = currentState.eventLatLng,
+                    isMarkerVisible = true,
+                    )
                 Spacer(modifier = Modifier.size(36.dp))
                 Text(
                     text = stringResource(R.string.already_confirme_participation),
@@ -578,7 +574,7 @@ fun EventScreen(
                     lineHeight = 24.sp,
                     style = typography.h3,
                     fontWeight = FontWeight(700),
-                    color = Color(0xFF262541),
+                    color = primaryDark,
                 )
                 TabRow(
                     tabs = listOf(

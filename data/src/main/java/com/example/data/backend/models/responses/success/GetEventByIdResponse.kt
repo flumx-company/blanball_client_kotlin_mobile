@@ -48,8 +48,8 @@ data class GetEventByIdResponseCoordinates(
 class GetEventByIdResponseForms  // TODO("Not implemented on the backend")
 
 data class GetEventByIdResponsePlace(
-    @Json(name = "lat") val lat: Float,
-    @Json(name = "lon") val lon: Float,
+    @Json(name = "lat") val lat: Double,
+    @Json(name = "lon") val lon: Double,
     @Json(name = "place_name") val place_name: String
 )
 

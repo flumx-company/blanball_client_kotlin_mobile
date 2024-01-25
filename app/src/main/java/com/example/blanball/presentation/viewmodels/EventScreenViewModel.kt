@@ -8,6 +8,7 @@ import com.example.blanball.presentation.data.UiState
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,7 +46,7 @@ class EventScreenViewModel
                     state = EventScreenMainContract.ScreenViewState.Loading
                 )
             }
-            currentState.currentEventId.value.let {currentEventId ->
+            currentState.currentEventId.value.let { currentEventId ->
                 currentEventId?.let { it ->
                     getEventById(
                         eventId = it
@@ -80,6 +81,7 @@ class EventScreenViewModel
                                 eventPrice = mutableStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
                                 priceDescription = mutableStateOf(it.data.price_description),
+                                eventLatLng = mutableStateOf(LatLng(it.data.place.lat, it.data.place.lon)),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }

@@ -46,8 +46,8 @@ data class GetEventByIdResponseCoordinatesEntity(
 class GetEventByIdResponseFormsEntity // TODO("Not implemented on the backend")
 
 data class GetEventByIdResponsePlaceEntity(
-    val lat: Float,
-    val lon: Float,
+    val lat: Double,
+    val lon: Double,
     val place_name: String
 )
 

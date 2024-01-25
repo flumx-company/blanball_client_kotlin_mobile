@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,10 +23,15 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun SelectLocationWithGoogleMapPreview(
     eventLocationLatLng: MutableState<LatLng>,
-    onSelectLocationScreenNav: () -> Unit,
+    onSelectLocationScreenNav: () -> Unit = {},
+    isClickable: Boolean = true,
+    isMarkerVisible: Boolean = false,
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
+    }
+    LaunchedEffect(eventLocationLatLng.value) {
+        cameraPositionState.position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
     }
         GoogleMap(
             modifier = Modifier
@@ -33,15 +39,21 @@ fun SelectLocationWithGoogleMapPreview(
                 .height(124.dp)
                 .clip(shape = shapes.medium),
             cameraPositionState = cameraPositionState,
-            onMapClick = { onSelectLocationScreenNav() },
-        )
+            onMapClick = { if (isClickable) { onSelectLocationScreenNav() } },
+        ) {
+            if (isMarkerVisible) {
+                Marker(
+                    state = MarkerState(position = eventLocationLatLng.value),
+                )
+            }
+        }
 }
 
 @Composable
 fun SelectLocationWithGoogleMap(
     eventLocationLatLng: MutableState<LatLng>,
     height: Dp,
-    isMapExtended: Boolean
+    isMapExtended: Boolean,
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)

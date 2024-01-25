@@ -806,8 +806,6 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.CreateNewEvent.screen_route) {
-            val isDatePickerModalVisible = remember { mutableStateOf(false) }
-            val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1433,7 +1431,6 @@ fun AppScreensConfig(
             }
             val verifyEmailViewModelState =
                 emailVerificationViewModel.uiState.collectAsState().value
-
             val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
             val isVerificationModalVisible = remember { mutableStateOf(false) }
             val isShareLinkModalVisible =
@@ -2219,7 +2216,6 @@ fun AppScreensConfig(
                                 navController.navigate(Destinations.HOME.route)
                             },
                             onSelectLocationScreenNav = {navController.navigate(Destinations.SELECT_LOCATION.route)},
-
                         )
                     }
                 }
