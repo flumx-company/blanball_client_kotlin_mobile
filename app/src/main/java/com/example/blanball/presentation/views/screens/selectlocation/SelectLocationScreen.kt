@@ -46,7 +46,8 @@ fun SelectLocationScreen(
     selectRegion: MutableState<String>,
     selectCity: MutableState<String>,
     state: UiState,
-    onUpdateCitiesForRegionList: () -> Unit,) {
+    onUpdateCitiesForRegionList: () -> Unit,
+    ) {
     val context = LocalContext.current
     (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
         Box(

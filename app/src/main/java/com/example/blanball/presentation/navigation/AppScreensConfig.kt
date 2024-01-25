@@ -1265,7 +1265,8 @@ fun AppScreensConfig(
 
             LaunchedEffect(key1 = Unit, block = {
                 myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendGetMyProfileRequest)
-            }) //TODO
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.GetUkraineCitiesList)
+            })
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -1844,7 +1845,8 @@ fun AppScreensConfig(
                             },
                             onCancelEditsClicked = {
                                 navController.navigate(Destinations.MY_PROFILE.route)
-                            }
+                            },
+                            onUpdateCitiesForRegionList = { myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.UpdateCitiesForRegionList) },
                         )
                     }
                 }

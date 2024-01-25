@@ -2,12 +2,15 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntityData
 
 class MyProfileScreensMainContract {
 
     sealed class Event : UiEvent {
         object SendGetMyProfileRequest: UiEvent
         object SendEditMyProfileRequest: UiEvent
+        object UpdateCitiesForRegionList: UiEvent
+        object GetUkraineCitiesList : UiEvent
     }
 
     data class State(
@@ -25,8 +28,6 @@ class MyProfileScreensMainContract {
         val weightState: MutableState<String> = mutableStateOf(""),
         val workingLegState: MutableState<String> = mutableStateOf(""),
         val positionState: MutableState<String> = mutableStateOf(""),
-        val regionState: MutableState<String> = mutableStateOf(""),
-        val cityState: MutableState<String> = mutableStateOf(""),
         val editDayBirthdayState: MutableState<String> = mutableStateOf(""),
         val editMonthBirthdayState: MutableState<String> = mutableStateOf(""),
         val editYearBirthdayState: MutableState<String> = mutableStateOf(""),
@@ -38,6 +39,18 @@ class MyProfileScreensMainContract {
         val ratingState: MutableState<Float> = mutableStateOf(0f),
         val isModalOpen: MutableState<Boolean> = mutableStateOf(false),
         val isDeleteModalVisible: MutableState<Boolean> = mutableStateOf(false),
+        val selectedRegion: MutableState<String> = mutableStateOf(""),
+        val selectedCity: MutableState<String> = mutableStateOf(""),
+        val regionOfUkraineList: MutableState<List<String>> = mutableStateOf(emptyList()),
+        val citiesForRegionList: MutableState<List<String>> = mutableStateOf(
+            emptyList()
+        ),
+        val defaultCitiesForRegionList: MutableState<List<String>> = mutableStateOf(
+            emptyList()
+        ),
+        val locationsData: MutableState<List<GetUkraineCitiesListResponseEntityData>> = mutableStateOf(
+            emptyList()
+        )
         ) : UiState
 
     sealed class Effect: UiEffect {

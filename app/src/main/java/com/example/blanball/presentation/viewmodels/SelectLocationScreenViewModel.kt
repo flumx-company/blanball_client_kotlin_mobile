@@ -21,7 +21,6 @@ import javax.inject.Inject
 class SelectLocationScreenViewModel
 @Inject constructor(
     internal val getListOfUkraineCitiesUseCase: GetListOfUkraineCitiesUseCase,
-
     ) : ViewModel() {
 
     private var job: Job? = null
