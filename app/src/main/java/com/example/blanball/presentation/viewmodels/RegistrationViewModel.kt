@@ -28,14 +28,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class   RegistrationViewModel @Inject constructor(
+class RegistrationViewModel @Inject constructor(
     internal val registrationUseCase: RegistrationUseCase,
     private val application: Application,
     private val tokenManager: TokenManager,
     val rememberMeManager: RememberMeManager,
     val userNameManager: UserNameManager,
     val userEmailManager: UserEmailManager,
-    ) :
+) :
     ViewModel() {
 
     private var job: Job? = null
@@ -78,8 +78,11 @@ class   RegistrationViewModel @Inject constructor(
                 re_password = currentState.registrationPassTextRemember.value,
                 name = currentState.firstNameText.value,
                 lastName = currentState.lastNameText.value,
-                gender = currentState.genderIsMale.value.formatBooleanToString(trueToString = application.applicationContext.getString(
-                    R.string.man), falseToString = application.applicationContext.getString(R.string.woman))
+                gender = currentState.genderIsMale.value.formatBooleanToString(
+                    trueToString = application.applicationContext.getString(
+                        R.string.man
+                    ), falseToString = application.applicationContext.getString(R.string.woman)
+                )
             ).let {
                 when (it) {
                     is RegistrationResultEntity.Success -> {
@@ -106,7 +109,27 @@ class   RegistrationViewModel @Inject constructor(
                         tokenManager.saveAccessToken(it.data.access)
                         tokenManager.saveRefreshToken(it.data.refresh)
                     }
+
                     is RegistrationResultEntity.Error -> {
+                        when (it.error.detail) {
+                            application.getString(R.string.invalid_phone_error_message) -> {
+                                currentState.isUniquePhoneValidationError.value = true
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_phone_error)
+                            }
+
+                            application.getString(R.string.unique_phone_error_message) -> {
+                                currentState.isUniquePhoneValidationError.value = true
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_phone_error)
+                            }
+
+                            application.getString(R.string.email_unique_message) -> {
+                                currentState.isUniqueEmailValidationError.value = true
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_email_error)
+                            }
+                        }
                         setState {
                             copy(
                                 state = StartScreensMainContract.ScreenViewState.ErrorRegistration,
@@ -119,7 +142,7 @@ class   RegistrationViewModel @Inject constructor(
         }
     }
 
-   fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
+    fun setState(reduce: StartScreensMainContract.State.() -> StartScreensMainContract.State) {
         val newState = currentState.reduce()
         _uiState.value = newState
     }
