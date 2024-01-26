@@ -109,19 +109,25 @@ class RegistrationViewModel @Inject constructor(
                         tokenManager.saveAccessToken(it.data.access)
                         tokenManager.saveRefreshToken(it.data.refresh)
                     }
+
                     is RegistrationResultEntity.Error -> {
                         when (it.error.detail) {
-                            ("phone_invalid_phone_number") -> {
+                            application.getString(R.string.invalid_phone_error_message) -> {
                                 currentState.isUniquePhoneValidationError.value = true
-                                currentState.errorMessageText.value = application.getString(R.string.unique_phone_error)
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_phone_error)
                             }
-                            ("phone_unique") -> {
+
+                            application.getString(R.string.unique_phone_error_message) -> {
                                 currentState.isUniquePhoneValidationError.value = true
-                                currentState.errorMessageText.value = application.getString(R.string.unique_phone_error)
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_phone_error)
                             }
-                            ("email_unique") -> {
+
+                            application.getString(R.string.email_unique_message) -> {
                                 currentState.isUniqueEmailValidationError.value = true
-                                currentState.errorMessageText.value = application.getString(R.string.unique_email_error)
+                                currentState.errorMessageText.value =
+                                    application.getString(R.string.unique_email_error)
                             }
                         }
                         setState {
