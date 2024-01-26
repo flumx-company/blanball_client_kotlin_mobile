@@ -457,7 +457,7 @@ fun MyProfileScreen(
                         .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = RoundedCornerShape(size = 2.dp),
+                            shape = RoundedCornerShape(size = 1.dp),
                         )
                         .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {

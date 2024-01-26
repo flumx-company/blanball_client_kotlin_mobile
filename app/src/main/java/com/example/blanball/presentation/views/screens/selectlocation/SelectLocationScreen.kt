@@ -91,6 +91,7 @@ fun SelectLocationScreen(
                         onUpdateMap()
                     }
                 )
+
                 Spacer(modifier = Modifier.size(12.dp))
                 Row (verticalAlignment = Alignment.CenterVertically) {
                     Text(
