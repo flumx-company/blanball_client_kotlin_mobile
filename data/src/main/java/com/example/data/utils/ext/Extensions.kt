@@ -309,7 +309,7 @@ internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEnt
 
 internal fun RegistrationErrorsData.toRegistrationErrorsDataEntity(): RegistrationErrorsDataEntity =
     RegistrationErrorsDataEntity(
-        listOf(this.errors[0].toRegistrationErrorDetailEntity()),
+        errors = this.errors.map { it.toRegistrationErrorDetailEntity() },
         this.type
     )
 

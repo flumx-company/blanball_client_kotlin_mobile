@@ -5,19 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 
 class StartScreensMainContract {
 
-    sealed class Event: UiEvent {
-        object SendCodeClicked: Event()
-        object SendEmailResetRequestClicked: Event()
-        object CompleteResetClicked: Event()
-        object RegistrationClicked: Event()
-        object LoginClicked: Event()
+    sealed class Event : UiEvent {
+        object SendCodeClicked : Event()
+        object SendEmailResetRequestClicked : Event()
+        object CompleteResetClicked : Event()
+        object RegistrationClicked : Event()
+        object LoginClicked : Event()
     }
 
     data class State(
         val state: ScreenViewState,
         val data: UiData? = null,
         var resetEmailText: MutableState<String> = mutableStateOf(""),
-        var codeText: List<MutableState<String>> = List(5){ mutableStateOf("") },
+        var codeText: List<MutableState<String>> = List(5) { mutableStateOf("") },
         var newPassText: MutableState<String> = mutableStateOf(""),
         var firstNameText: MutableState<String> = mutableStateOf(""),
         var lastNameText: MutableState<String> = mutableStateOf(""),
@@ -40,7 +40,7 @@ class StartScreensMainContract {
         val loginPasswordText: MutableState<String> = mutableStateOf(""),
         val rememberMeCheckbox: MutableState<Boolean> = mutableStateOf(false),
         val isErrorLoginRequest: MutableState<Boolean> = mutableStateOf(false),
-        val isSuccessLoginRequest:  MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessLoginRequest: MutableState<Boolean> = mutableStateOf(false),
         val isErrorResetEmailState: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessResetRequest: MutableState<Boolean> = mutableStateOf(false),
         val isErrorSendCodeState: MutableState<Boolean> = mutableStateOf(false),
@@ -49,28 +49,31 @@ class StartScreensMainContract {
         val isSuccessCompleteResetState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorRegistrationNewPass: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessRegistrationNewPass: MutableState<Boolean> = mutableStateOf(false),
+        val isUniqueEmailValidationError: MutableState<Boolean> = mutableStateOf(false),
+        val isUniquePhoneValidationError: MutableState<Boolean> = mutableStateOf(false),
+        val errorMessageText: MutableState<String> = mutableStateOf(""),
     ) : UiState
 
     sealed class ScreenViewState {
         object Loading : ScreenViewState()
-        object Idle: ScreenViewState()
-        object SuccessResetRequest: ScreenViewState()
-        object ErrorResetRequest: ScreenViewState()
-        object SuccessSendCodeRequest: ScreenViewState()
-        object ErrorSendCodeRequest: ScreenViewState()
-        object SuccessCompleteResetRequest: ScreenViewState()
-        object ErrorCompleteResetRequest: ScreenViewState()
-        object SuccessLogin: ScreenViewState()
-        object LoginError: ScreenViewState()
-        object SuccessRegistration: ScreenViewState()
-        object ErrorRegistration: ScreenViewState()
+        object Idle : ScreenViewState()
+        object SuccessResetRequest : ScreenViewState()
+        object ErrorResetRequest : ScreenViewState()
+        object SuccessSendCodeRequest : ScreenViewState()
+        object ErrorSendCodeRequest : ScreenViewState()
+        object SuccessCompleteResetRequest : ScreenViewState()
+        object ErrorCompleteResetRequest : ScreenViewState()
+        object SuccessLogin : ScreenViewState()
+        object LoginError : ScreenViewState()
+        object SuccessRegistration : ScreenViewState()
+        object ErrorRegistration : ScreenViewState()
     }
 
-    sealed class Effect: UiEffect {
-       class ShowToast(val message: String): Effect()
+    sealed class Effect : UiEffect {
+        class ShowToast(val message: String) : Effect()
     }
 
     data class UiData(
-        val progress: Float
+        val progress: Float,
     )
 }

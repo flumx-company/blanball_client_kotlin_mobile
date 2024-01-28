@@ -19,6 +19,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +41,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.animations.AnimationRotatingBalls
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsVertical
+import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -49,6 +51,7 @@ import com.example.blanball.utils.ext.isNotInReqRange
 import com.example.blanball.utils.ext.isNotValidEmail
 import com.example.blanball.utils.ext.isValidEmail
 import com.example.blanball.utils.toPrivacyPolicyUrlIntent
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -97,7 +100,7 @@ fun RegistrationScreenStep2(
                         painter = painterResource(R.drawable.stepline_1),
                         contentDescription = null,
 
-                    )
+                        )
                     Spacer(modifier = Modifier.size(2.dp))
                     Image(
                         modifier = Modifier.height(4.dp),
@@ -203,7 +206,10 @@ fun RegistrationScreenStep2(
                         onCheckedChange = { state.lostInSystemSwitchButton.value = it })
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        modifier = Modifier.clickable { state.lostInSystemSwitchButton.value = !(state.lostInSystemSwitchButton.value) },
+                        modifier = Modifier.clickable {
+                            state.lostInSystemSwitchButton.value =
+                                !(state.lostInSystemSwitchButton.value)
+                        },
                         text = stringResource(id = R.string.lost_in_system),
                         style = typography.h6,
                         color = primaryDark
@@ -255,8 +261,20 @@ fun RegistrationScreenStep2(
                 )
             }
         }
+        LaunchedEffect(currentState.isUniqueEmailValidationError.value || currentState.isUniquePhoneValidationError.value) {
+            delay(3000)
+            currentState.isUniqueEmailValidationError.value = false
+            currentState.isUniquePhoneValidationError.value = false
+        }
+        ErrorMessageCard(
+            text = currentState.errorMessageText.value,
+            isMessageVisible = (currentState.isUniqueEmailValidationError.value || currentState.isUniquePhoneValidationError.value),
+            onCancelIconClicked = {
+                currentState.isUniqueEmailValidationError.value = false
+                currentState.isUniquePhoneValidationError.value = false
+            })
     }
-            if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
-                Loader()
-            }
+    if (currentState.state is StartScreensMainContract.ScreenViewState.Loading) {
+        Loader()
+    }
 }
