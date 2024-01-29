@@ -20,8 +20,8 @@ data class CreationAnEventResponseEntityData(
     val need_ball: Boolean,
     val need_form: Boolean,
     val place: CreationAnEventResponseEntityPlace,
-    val price: Int,
-    val price_description: String,
+    val price: Int?,
+    val price_description: String?,
     val privacy: Boolean,
     val type: String
 )

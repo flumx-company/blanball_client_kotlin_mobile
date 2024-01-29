@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.views.screens.event
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,9 +12,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,10 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +53,7 @@ import com.example.blanball.presentation.views.components.cards.AddUserToTeam
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMapPreview
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
@@ -68,12 +71,14 @@ fun EventScreen(
     isShareLinkModalVisible: MutableState<Boolean>,
     onNavigateToEventAuthorPublicProfile: () -> Unit,
     isConfirmReminderVisible: Boolean,
-    onEditClick: () -> Unit,
+    onEditClick: (currentEventId: Int) -> Unit,
 ) {
+
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .animateContentSize()
                 .verticalScroll(rememberScrollState())
         ) {
             Box(
@@ -121,7 +126,7 @@ fun EventScreen(
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
-                        text = currentState.eventDateAndTime.value.formatToUkrainianDate(), //TODO()
+                        text = currentState.eventDateAndTime.value.formatToUkrainianDate(),
                         fontSize = 14.sp,
                         lineHeight = 16.sp,
                         style = typography.h4,
@@ -152,11 +157,27 @@ fun EventScreen(
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
+                        textDecoration = TextDecoration.Underline,
                     )
                 }
                 Spacer(modifier = Modifier.size(10.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .background(
+                            color = Color(0xFFE3FBFA),
+                            shape = RoundedCornerShape(size = 4.dp)
+                        )
+                        .padding(start = 4.dp, top = 4.dp, end = 4.dp)
+                        .clickable {
+                            currentState.isEventDescriptionVisible.value =
+                                !currentState.isEventDescriptionVisible.value
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Icon(
+                        modifier = Modifier,
                         painter = painterResource(id = R.drawable.ic_info),
                         contentDescription = null
                     )
@@ -168,6 +189,7 @@ fun EventScreen(
                         style = typography.h4,
                         fontWeight = FontWeight(400),
                         color = primaryDark,
+                        textDecoration = TextDecoration.Underline
                     )
                     Spacer(modifier = Modifier.size(8.dp))
                     Text(
@@ -183,6 +205,48 @@ fun EventScreen(
                         color = primaryDark,
                     )
                 }
+                Box(modifier = Modifier.animateContentSize()) {
+                    Column {
+                        if ( !currentState.priceDescription.value.isNullOrEmpty() && currentState.isEventDescriptionVisible.value) {
+                            Spacer(modifier = Modifier.size(16.dp))
+                            Box(
+                                Modifier
+                                    .shadow(
+                                        elevation = 15.dp,
+                                        spotColor = Color(0x1A081B82),
+                                        ambientColor = Color(0x1A081B82)
+                                    )
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                                    .background(
+                                        color = Color(0xFF575775),
+                                        shape = RoundedCornerShape(size = 6.dp)
+                                    )
+                                    .padding(start = 6.dp, top = 4.dp, end = 6.dp, bottom = 4.dp)
+                            ) {
+                                Column {
+                                    Text(
+                                        text = stringResource(R.string.price_description),
+                                        fontSize = 12.sp,
+                                        lineHeight = 16.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(600),
+                                        color = Color.White,
+                                    )
+                                    Spacer(modifier = Modifier.size(4.dp))
+                                    Text(
+                                        text = currentState.priceDescription.value ?: "",
+                                        fontSize = 12.sp,
+                                        lineHeight = 16.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(449),
+                                        color = Color(0xFFEFEFEF),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.description_of_the_event),
@@ -196,7 +260,10 @@ fun EventScreen(
                 Text(
                     modifier = Modifier
                         .animateContentSize()
-                        .clickable { currentState.isDescriptionTextExpanded.value = !currentState.isDescriptionTextExpanded.value },
+                        .clickable {
+                            currentState.isDescriptionTextExpanded.value =
+                                !currentState.isDescriptionTextExpanded.value
+                        },
                     text = currentState.eventDescription.value,
                     fontSize = 14.sp,
                     lineHeight = 24.sp,
@@ -495,15 +562,11 @@ fun EventScreen(
                     clickCallback = { onNavigateToEventAuthorPublicProfile() },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                Image(
-                    modifier = Modifier
-                        .border(width = 1.dp, color = defaultLightGray, shape = shapes.medium)
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .clickable { },
-                    painter = painterResource(id = R.drawable.temp_map_image), //TODO()
-                    contentDescription = null
-                )
+                SelectLocationWithGoogleMapPreview(
+                    isClickable = true,
+                    eventLocationLatLng = currentState.eventLatLng,
+                    isMarkerVisible = true,
+                    )
                 Spacer(modifier = Modifier.size(36.dp))
                 Text(
                     text = stringResource(R.string.already_confirme_participation),
@@ -511,20 +574,22 @@ fun EventScreen(
                     lineHeight = 24.sp,
                     style = typography.h3,
                     fontWeight = FontWeight(700),
-                    color = Color(0xFF262541),
+                    color = primaryDark,
                 )
-                TabRow(tabs = listOf(
-                    stringResource(R.string.users_list),
-                    stringResource(R.string.coaching_staff),
-                    stringResource(R.string.registered_viewers),
-                    stringResource(R.string.requests_for_participation),
-                ),
+                TabRow(
+                    tabs = listOf(
+                        stringResource(R.string.users_list),
+                        stringResource(R.string.coaching_staff),
+                        stringResource(R.string.registered_viewers),
+                        stringResource(R.string.requests_for_participation),
+                    ),
                     icons = listOf(
-                    painterResource(id = R.drawable.ic_ball),
-                    painterResource(id = R.drawable.ic_peoples),
-                    painterResource(id = R.drawable.ic_field),
-                    painterResource(id = R.drawable.ic_add_user)
-                ))
+                        painterResource(id = R.drawable.ic_ball),
+                        painterResource(id = R.drawable.ic_peoples),
+                        painterResource(id = R.drawable.ic_field),
+                        painterResource(id = R.drawable.ic_add_user)
+                    )
+                )
                 Spacer(modifier = Modifier.size(20.dp))
                 TeamSwitcher(
                     stringResource(R.string.team_first),
@@ -559,7 +624,7 @@ fun EventScreen(
             }
             EventBottomButtons(
                 onJoinBtnClick = { /*TODO*/ },
-                onEditClick = { onEditClick() },
+                onEditClick = { currentState.currentEventId.value?.let { onEditClick(it) } },
                 shareBtnClick = { isShareLinkModalVisible.value = true },
                 isMyEvent = currentState.isMyEvent.value
             )

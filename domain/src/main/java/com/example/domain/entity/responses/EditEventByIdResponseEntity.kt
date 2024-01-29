@@ -3,7 +3,7 @@ package com.example.domain.entity.responses
 data class EditEventByIdResponseEntity(
     val code: Int,
     val `data`: EditEventByIdResponseEntityData,
-    val message: Any,
+    val message: String? = null,
     val status: String
 )
 

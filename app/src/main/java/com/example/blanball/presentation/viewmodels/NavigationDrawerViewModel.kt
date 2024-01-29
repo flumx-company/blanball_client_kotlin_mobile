@@ -12,7 +12,6 @@ import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +55,6 @@ class NavigationDrawerViewModel
         when (event) {
             is NavigationDrawerMainContract.Event.GetLaunchData -> {
                 getMyProfile()
-                getUkraineCitiesList()
             }
         }
     }
@@ -88,25 +86,6 @@ class NavigationDrawerViewModel
                     }
                     is GetMyProfileResultEntity.Error -> {
 
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getUkraineCitiesList() {
-        job = viewModelScope.launch (Dispatchers.IO) {
-            getListOfUkraineCitiesUseCase.executeGetListOfUkraineCities().let { result ->
-                when (result) {
-                    is GetUkraineCitiesListResultEntity.Success -> {
-                        setState {
-                           copy(
-                               regionsOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
-                               citiesOfUkraineList = mutableStateOf(result.data.data.flatMap { it.cities.map { it.name }}),
-                           )
-                        }
-                    }
-                    is  GetUkraineCitiesListResultEntity.Error -> {
                     }
                 }
             }

@@ -17,6 +17,8 @@ import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.domain.entity.results.EditMyProfileResultEntity
 import com.example.domain.entity.results.GetMyProfileResultEntity
+import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
+import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +35,7 @@ import javax.inject.Inject
 class MyProfileScreenViewModel @Inject constructor(
     internal val getMyProfileUseCase: GetMyProfileUseCase,
     internal val sendingRequestToChangeUserProfileUseCase: SendingRequestToChangeUserProfileUseCase,
+    internal val getListOfUkraineCitiesUseCase: GetListOfUkraineCitiesUseCase,
     internal val userNameManager: UserNameManager,
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val phoneNumberManager: UserPhoneManager,
@@ -54,11 +57,17 @@ class MyProfileScreenViewModel @Inject constructor(
 
     fun handleScreenState(event: UiEvent) {
         when (event) {
+            is MyProfileScreensMainContract.Event.GetUkraineCitiesList -> {
+                getUkraineCitiesList()
+            }
             is MyProfileScreensMainContract.Event.SendGetMyProfileRequest -> {
                 getMyProfile()
             }
             is MyProfileScreensMainContract.Event.SendEditMyProfileRequest -> {
                 updateMyProfile()
+            }
+            is MyProfileScreensMainContract.Event.UpdateCitiesForRegionList -> {
+                filterCitiesFromRegion(currentState.selectedRegion.value)
             }
             else -> {}
         }
@@ -82,7 +91,7 @@ class MyProfileScreenViewModel @Inject constructor(
                 working_leg = currentState.workingLegState.value.formatWorkingLegToEnglishWord(application.applicationContext),
                 lat = 0.0,
                 lon = 0.0,
-                place_name = "${currentState.cityState.value}, ${currentState.regionState.value}",
+                place_name = "${currentState.selectedCity.value}, ${currentState.selectedRegion.value}",
             ).let { result ->
                 when (result) {
                     is EditMyProfileResultEntity.Success ->
@@ -102,8 +111,8 @@ class MyProfileScreenViewModel @Inject constructor(
                                 weightState = mutableStateOf(""),
                                 workingLegState = mutableStateOf(""),
                                 positionState = mutableStateOf(""),
-                                regionState = mutableStateOf(""),
-                                cityState = mutableStateOf(""),
+                                selectedCity = mutableStateOf(""),
+                                selectedRegion = mutableStateOf(""),
                                 editDayBirthdayState = mutableStateOf(""),
                                 editMonthBirthdayState = mutableStateOf(""),
                                 editYearBirthdayState = mutableStateOf(""),
@@ -113,6 +122,18 @@ class MyProfileScreenViewModel @Inject constructor(
                                 birthdayState = mutableStateOf(""),
                                 placeState = mutableStateOf(""),
                                 ratingState = mutableStateOf(0f),
+                                locationsData = mutableStateOf(
+                                    emptyList()
+                                ),
+                                defaultCitiesForRegionList = mutableStateOf(
+                                    emptyList()
+                                ),
+                                citiesForRegionList = mutableStateOf(
+                                    emptyList()
+                                ),
+                                regionOfUkraineList = mutableStateOf(
+                                    emptyList()
+                                ),
                             )
                         }
 
@@ -123,6 +144,42 @@ class MyProfileScreenViewModel @Inject constructor(
                             )
                         }
                 }
+            }
+        }
+    }
+
+    private fun getUkraineCitiesList() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            getListOfUkraineCitiesUseCase.executeGetListOfUkraineCities().let { result ->
+                when (result) {
+                    is GetUkraineCitiesListResultEntity.Success -> {
+                        setState {
+                            copy(
+                                regionOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
+                                locationsData = mutableStateOf(result.data.data.map { it}),
+                                citiesForRegionList = mutableStateOf(result.data.data.flatMap { it.cities.map { it.name } }),
+                                defaultCitiesForRegionList =  mutableStateOf(result.data.data.flatMap { it.cities.map { it.name } }),
+                            )
+                        }
+                    }
+                    is GetUkraineCitiesListResultEntity.Error -> {
+                    }
+                }
+            }
+        }
+    }
+
+    private fun filterCitiesFromRegion(selectedRegion: String) {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            currentState.citiesForRegionList.value = currentState.defaultCitiesForRegionList.value
+            val citiesForRegionList = currentState.citiesForRegionList.value.filter {city ->
+                currentState.locationsData.value.any() { it.name == selectedRegion && city in it.cities.map { cityItem -> cityItem.name } }
+            }
+            currentState.selectedCity.value = citiesForRegionList[0]
+            setState {
+                copy(
+                    citiesForRegionList = mutableStateOf(citiesForRegionList),
+                )
             }
         }
     }
@@ -191,10 +248,10 @@ class MyProfileScreenViewModel @Inject constructor(
                                 ratingState = mutableStateOf(
                                     result.success.raiting?.formatRatingToFloat() ?: 0f
                                 ),
-                                cityState = mutableStateOf(
+                                selectedCity = mutableStateOf(
                                     result.success.profile.place?.place_name?.extractWord(wordIndex = 0) ?: ""
                                 ),
-                                regionState =  mutableStateOf(
+                                selectedRegion =  mutableStateOf(
                                     result.success.profile.place?.place_name?.extractWord(wordIndex = 1) ?: ""
                                 ),
                                 state = MyProfileScreensMainContract.ScreenViewState.LoadingSuccess,

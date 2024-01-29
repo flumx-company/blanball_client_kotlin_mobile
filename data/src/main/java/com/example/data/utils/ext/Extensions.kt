@@ -1405,3 +1405,12 @@ internal fun GetUkraineCitiesListErrorDetail.toGetUkraineCitiesListEntityErrorDe
     GetUkraineCitiesListEntityErrorDetail(
         detail = this.detail
     )
+
+internal fun priceCheck(price: String,): Int? {
+    return if (price.isEmpty()){
+     null
+    }
+    else {
+        price.toInt()
+    }
+}

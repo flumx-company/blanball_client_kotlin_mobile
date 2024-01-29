@@ -2,6 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.google.android.gms.maps.model.LatLng
 
 class EventScreenMainContract {
 
@@ -26,6 +27,14 @@ class EventScreenMainContract {
         val isMyEvent: MutableState<Boolean> = mutableStateOf(false),
         val isDescriptionTextExpanded: MutableState<Boolean> = mutableStateOf(false),
         val currentEventAuthorId: MutableState<Int> = mutableStateOf(0),
+        val priceDescription: MutableState<String?> = mutableStateOf(null),
+        val isEventDescriptionVisible: MutableState<Boolean> = mutableStateOf(false),
+        val eventLatLng: MutableState<LatLng> = mutableStateOf(
+            LatLng(
+                50.45074559462868,
+                30.523837655782696
+            )
+        ),
     ) : UiState
 
     sealed class ScreenViewState {

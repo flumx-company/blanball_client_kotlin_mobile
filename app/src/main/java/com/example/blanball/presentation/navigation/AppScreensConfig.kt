@@ -33,6 +33,7 @@ import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
+import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
@@ -48,6 +49,7 @@ import com.example.blanball.presentation.viewmodels.OnboardingProfileViewModel
 import com.example.blanball.presentation.viewmodels.PublicProfileViewModel
 import com.example.blanball.presentation.viewmodels.RegistrationViewModel
 import com.example.blanball.presentation.viewmodels.ResetPasswordViewModel
+import com.example.blanball.presentation.viewmodels.SelectLocationScreenViewModel
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
 import com.example.blanball.presentation.views.components.bottomnavbars.BottomNavBar
 import com.example.blanball.presentation.views.components.cards.ConfirmEmailReminder
@@ -68,7 +70,6 @@ import com.example.blanball.presentation.views.screens.futureevents.AllEventsFil
 import com.example.blanball.presentation.views.screens.futureevents.FutureEventsScreen
 import com.example.blanball.presentation.views.screens.home.HomeScreen
 import com.example.blanball.presentation.views.screens.login.LoginScreen
-import com.example.blanball.presentation.views.screens.map.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsFilterScreen
 import com.example.blanball.presentation.views.screens.myevents.MyEventsScreen
 import com.example.blanball.presentation.views.screens.myprofile.EditMyProfileScreen
@@ -94,6 +95,7 @@ import com.example.blanball.presentation.views.screens.resset.NewPasswordSuccess
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep1
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep2
 import com.example.blanball.presentation.views.screens.resset.ResetPasswordScreenStep3
+import com.example.blanball.presentation.views.screens.selectlocation.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
@@ -140,6 +142,7 @@ fun AppScreensConfig(
     userEmailManager: UserEmailManager,
     eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
     emailVerificationManager: EmailVerificationManager,
+    selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
     val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
     val publicProfileCurrentState = publicProfileViewModel.currentState
@@ -708,7 +711,7 @@ fun AppScreensConfig(
                             },
                             state = futureEventsScreenViewModelState,
                             onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
-                            userFirstName = navigationDrawerCurrentState.userFirstNameText.value
+                            userFirstName = navigationDrawerCurrentState.userFirstNameText.value,
                         )
                     }
                 }
@@ -803,8 +806,6 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.CreateNewEvent.screen_route) {
-            val isDatePickerModalVisible = remember { mutableStateOf(false) }
-            val currentState = eventCreationScreenViewModel.currentState
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1264,7 +1265,8 @@ fun AppScreensConfig(
 
             LaunchedEffect(key1 = Unit, block = {
                 myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.SendGetMyProfileRequest)
-            }) //TODO
+                myProfileScreenViewModel.handleScreenState(MyProfileScreensMainContract.Event.GetUkraineCitiesList)
+            })
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -1430,7 +1432,6 @@ fun AppScreensConfig(
             }
             val verifyEmailViewModelState =
                 emailVerificationViewModel.uiState.collectAsState().value
-
             val eventScreenViewModelState = eventScreenViewModel.uiState.collectAsState().value
             val isVerificationModalVisible = remember { mutableStateOf(false) }
             val isShareLinkModalVisible =
@@ -1536,7 +1537,9 @@ fun AppScreensConfig(
                             isConfirmReminderVisible = verifyEmailViewModeCurrentState.isEmailVerified.value,
                             isConfirmReminderContent = {
                             },
-                            onEditClick = {
+                            onEditClick = { currentEventId ->
+                                eventCreationOrEditViewModel.currentState.currentEventId.value =
+                                    currentEventId
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
                                 )
@@ -1769,6 +1772,8 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
+                    futureEventsScreenViewModel.currentState.isShowEventSuccessCreatedModal.value =
+                        true
                     navController.navigate(Destinations.HOME.route)
                 }
             }
@@ -1842,7 +1847,12 @@ fun AppScreensConfig(
                             },
                             onCancelEditsClicked = {
                                 navController.navigate(Destinations.MY_PROFILE.route)
-                            }
+                            },
+                            onUpdateCitiesForRegionList = {
+                                myProfileScreenViewModel.handleScreenState(
+                                    MyProfileScreensMainContract.Event.UpdateCitiesForRegionList
+                                )
+                            },
                         )
                     }
                 }
@@ -2213,8 +2223,7 @@ fun AppScreensConfig(
                             backBtnCLicked = {
                                 navController.navigate(Destinations.HOME.route)
                             },
-                            onSelectLocationScreenNav = {navController.navigate(Destinations.SELECT_LOCATION.route)},
-
+                            onSelectLocationScreenNav = { navController.navigate(Destinations.SELECT_LOCATION.route) },
                         )
                     }
                 }
@@ -2366,7 +2375,7 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
                                 eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                    EventEditAndCreationScreensMainContract.Event.EditEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
@@ -2378,13 +2387,15 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessEventCreation.value) {
                 if (currentState.isSuccessEventCreation.value) {
                     currentState.isSuccessEventCreation.value = false
+                    futureEventsScreenViewModel.currentState.isShowEventSuccessEditModal.value =
+                        true
                     navController.navigate(Destinations.HOME.route)
                 }
             }
         }
 
         composable(Destinations.SELECT_LOCATION.route) {
-            val state = publicProfileViewModel.uiState.collectAsState().value
+            val state = selectLocationScreenViewModel.uiState.collectAsState().value
 
             Scaffold(
                 bottomBar = {
@@ -2421,10 +2432,17 @@ fun AppScreensConfig(
                             onCancelClicked = { navController.navigateUp() },
                             onSaveLocationClicked = { navController.navigateUp() },
                             eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
-                            listOfUkraineRegions = navigationDrawerViewModel.currentState.regionsOfUkraineList.value,
-                            listOfUkraineCities = navigationDrawerViewModel.currentState.citiesOfUkraineList.value,
-                            selectRegion = eventCreationOrEditViewModel.currentState.selectRegion,
-                            selectCity = eventCreationOrEditViewModel.currentState.selectCity,
+                            state = state,
+                            onUpdateCitiesForRegionList = {
+                                selectLocationScreenViewModel.handleEvent(
+                                    SelectLocationScreenMainContract.Event.UpdateCitiesForRegionList
+                                )
+                            },
+                            onUpdateMap = {
+                                selectLocationScreenViewModel.handleEvent(
+                                    SelectLocationScreenMainContract.Event.UpdateMap
+                                )
+                            }
                         )
                     }
                 },

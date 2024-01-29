@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -49,7 +49,6 @@ import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.ChangePassButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
@@ -79,61 +78,10 @@ fun EditMyProfileScreen(
     onNavigateToDemoClicked: () -> Unit,
     onSimpleSaveClicked: () -> Unit,
     onCancelEditsClicked: () -> Unit,
+    onUpdateCitiesForRegionList: () -> Unit,
 ) {
     val context = LocalContext.current
     val localFocusManager = LocalFocusManager.current
-    val regions = mutableListOf(
-        stringResource(id = R.string.vinnytska_region),
-        stringResource(id = R.string.volynska_region),
-        stringResource(id = R.string.dnipropetrovska_region),
-        stringResource(id = R.string.donetska_region),
-        stringResource(id = R.string.zhytomyrska_region),
-        stringResource(id = R.string.zakarpatska_region),
-        stringResource(id = R.string.zaporizka_region),
-        stringResource(id = R.string.ivano_frankivska_region),
-        stringResource(id = R.string.kievska_region),
-        stringResource(id = R.string.kirovogradska_region),
-        stringResource(id = R.string.luhanska_region),
-        stringResource(id = R.string.lvivska_region),
-        stringResource(id = R.string.mykolaivska_region),
-        stringResource(id = R.string.odeska_region),
-        stringResource(id = R.string.poltavska_region),
-        stringResource(id = R.string.rivnenska_region),
-        stringResource(id = R.string.sumska_region),
-        stringResource(id = R.string.ternopilska_region),
-        stringResource(id = R.string.kharkivska_region),
-        stringResource(id = R.string.khersonska_region),
-        stringResource(id = R.string.khmelnytska_region),
-        stringResource(id = R.string.cherkaska_region),
-        stringResource(id = R.string.chernivetska_region),
-        stringResource(id = R.string.chernihivska_region)
-    )
-    val cities = mutableListOf(
-        stringResource(id = R.string.vinnytska_city),
-        stringResource(id = R.string.volynska_city),
-        stringResource(id = R.string.dnipropetrovska_city),
-        stringResource(id = R.string.donetska_city),
-        stringResource(id = R.string.zhytomyrska_city),
-        stringResource(id = R.string.zakarpatska_city),
-        stringResource(id = R.string.zaporizka_city),
-        stringResource(id = R.string.ivano_frankivska_city),
-        stringResource(id = R.string.kievska_city),
-        stringResource(id = R.string.kirovogradska_city),
-        stringResource(id = R.string.luhanska_city),
-        stringResource(id = R.string.lvivska_city),
-        stringResource(id = R.string.mykolaivska_city),
-        stringResource(id = R.string.odeska_city),
-        stringResource(id = R.string.poltavska_city),
-        stringResource(id = R.string.rivnenska_city),
-        stringResource(id = R.string.sumska_city),
-        stringResource(id = R.string.ternopilska_city),
-        stringResource(id = R.string.kharkivska_city),
-        stringResource(id = R.string.khersonska_city),
-        stringResource(id = R.string.khmelnytska_city),
-        stringResource(id = R.string.cherkaska_city),
-        stringResource(id = R.string.chernivetska_city),
-        stringResource(id = R.string.chernihivska_city)
-    )
     val icons: List<Painter> = listOf(
         painterResource(id = R.drawable.ic_user),
         painterResource(id = R.drawable.ic_rate)
@@ -482,16 +430,20 @@ fun EditMyProfileScreen(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 CustomDropDownMenu(
-                    labelResId = R.string.city,
-                    listItems = cities,
-                    value = it.cityState.value,
-                    onValueChange = { state.cityState.value = it })
+                    labelResId = R.string.region,
+                    listItems = it.regionOfUkraineList.value,
+                    value = it.selectedRegion.value,
+                    onValueChange = {
+                        state.selectedRegion.value = it
+                        onUpdateCitiesForRegionList()
+                    }
+                )
                 Spacer(modifier = Modifier.size(12.dp))
                 CustomDropDownMenu(
-                    labelResId = R.string.region,
-                    listItems = regions,
-                    value = it.regionState.value,
-                    onValueChange = { state.regionState.value = it }
+                    labelResId = R.string.city,
+                    listItems = it.citiesForRegionList.value,
+                    value = it.selectedCity.value,
+                    onValueChange = { state.selectedCity.value = it }
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
@@ -566,14 +518,14 @@ fun EditMyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .height(60.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
+                        .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = shapes.medium,
+                            shape = RoundedCornerShape(size = 1.dp),
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = "7 " + stringResource(id = R.string.event_are_hint),
@@ -612,14 +564,14 @@ fun EditMyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .height(60.dp)
                         .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
-                        .wrapContentHeight()
+                        .fillMaxWidth()
                         .background(
                             color = Color.White,
-                            shape = shapes.medium,
+                            shape = RoundedCornerShape(size = 1.dp),
                         )
-                        .padding(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .padding(start = 16.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = it.emailStringState.value,

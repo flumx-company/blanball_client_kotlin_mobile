@@ -68,6 +68,15 @@ class EventCreationOrEditScreensViewModel
                 requestCreationNewEvent()
             }
 
+            is EventEditAndCreationScreensMainContract.Event.EditEventClicked -> {
+                setState {
+                    copy(
+                        state = EventEditAndCreationScreensMainContract.ScreenViewState.Loading
+                    )
+                }
+                requestEditEvent()
+            }
+
             is EventEditAndCreationScreensMainContract.Event.UsersSearchClicked -> {
                 job = viewModelScope.launch(Dispatchers.Default) {
                     setState {
@@ -134,8 +143,8 @@ class EventCreationOrEditScreensViewModel
                     ?: "",
                 lat = currentState.eventLocationLatLng.value.latitude,
                 lon = currentState.eventLocationLatLng.value.longitude,
-                price = currentState.eventSummaryPrice.value.toInt(),
-                price_description = "Todo", //TODO()
+                price = currentState.eventSummaryPrice.value?.toIntOrNull(),
+                price_description = currentState.priceDescription.value,
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
             ).let {
@@ -167,6 +176,7 @@ class EventCreationOrEditScreensViewModel
                                 listOfFoundUsers = mutableStateOf(emptyList()),
                                 selectedUserIds = mutableStateOf(emptySet()),
                                 selectedUserProfiles = mutableStateOf(emptySet()),
+                                priceDescription = mutableStateOf(null),
                             )
                         }
                     }
@@ -204,8 +214,8 @@ class EventCreationOrEditScreensViewModel
                     ?: "",
                 lat = currentState.eventLocationLatLng.value.latitude,
                 lon = currentState.eventLocationLatLng.value.longitude,
-                price = currentState.eventSummaryPrice.value.toInt(),
-                price_description = "Todo", //TODO()
+                price = currentState.eventSummaryPrice.value?.toIntOrNull(),
+                price_description = currentState.priceDescription.value,
                 privacy = currentState.isEventPrivacy.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
             ).let {
@@ -237,6 +247,7 @@ class EventCreationOrEditScreensViewModel
                                 listOfFoundUsers = mutableStateOf(emptyList()),
                                 selectedUserIds = mutableStateOf(emptySet()),
                                 selectedUserProfiles = mutableStateOf(emptySet()),
+                                priceDescription = mutableStateOf(null),
                             )
                         }
                     }

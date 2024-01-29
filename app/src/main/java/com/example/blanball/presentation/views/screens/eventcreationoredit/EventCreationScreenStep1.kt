@@ -299,6 +299,8 @@ fun EventEditOrCreationScreenStep1(
                 SelectLocationWithGoogleMapPreview(
                     eventLocationLatLng = currentState.eventLocationLatLng,
                     onSelectLocationScreenNav = {onSelectLocationScreenNav()},
+                    isMarkerVisible = true,
+                    isClickable = true,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(

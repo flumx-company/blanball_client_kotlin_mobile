@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -170,13 +171,15 @@ fun EventEditOrCreationScreenStep2(
                         onClick = {
                             currentState.priceStates.value =
                                 EventEditAndCreationScreensMainContract.PriceStates.FREE
-                            currentState.eventSummaryPrice.value = "0"
+                            currentState.eventSummaryPrice.value = null
+                            currentState.priceDescription.value = null
                                   },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.priceStates.value =
                                     EventEditAndCreationScreensMainContract.PriceStates.FREE
+
                             },
                         state = currentState,
                         text = stringResource(id = R.string.free),
@@ -202,10 +205,11 @@ fun EventEditOrCreationScreenStep2(
                     )
                 }
                 if (currentState.priceStates.value == EventEditAndCreationScreensMainContract.PriceStates.PAID) {
+                    Spacer(modifier = Modifier.size(16.dp))
                     DefaultTextInput(
                         labelResId = R.string.summary_uah,
                         state = state,
-                        value = currentState.eventSummaryPrice.value,
+                        value = currentState. eventSummaryPrice.value?: "",
                         onValueChange = { currentState.eventSummaryPrice.value = it },
                         transformation = VisualTransformation.None,
                         leadingIcon = {
@@ -215,6 +219,23 @@ fun EventEditOrCreationScreenStep2(
                                 tint = primaryDark,
                             )
                         }
+                    )
+                    Spacer(modifier = Modifier.size(16.dp))
+                    DefaultTextInput(
+                        modifier = Modifier.fillMaxWidth(),
+                        trailingIcon = {},
+                        textFieldModifier = Modifier
+                            .fillMaxWidth()
+                            .height(104.dp),
+                        state = state,
+                        isSingleLine = false,
+                        value = state.priceDescription.value?: "",
+                        onValueChange = { state.priceDescription.value = it },
+                        transformation = VisualTransformation.None,
+                        labelResId = R.string.describ_what_this_amount_is_needed_for,
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Done
+                        ),
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))

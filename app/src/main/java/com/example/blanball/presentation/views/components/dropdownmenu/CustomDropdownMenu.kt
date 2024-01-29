@@ -1,5 +1,6 @@
 package com.example.blanball.presentation.views.components.dropdownmenu
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,13 +57,13 @@ fun CustomDropDownMenu(
         Row(
             verticalAlignment = CenterVertically,
         ) {
-            Column(columnModifier.animateContentSize(), verticalArrangement = Arrangement.Center) {
+            Column(Modifier.fillMaxWidth().animateContentSize(), verticalArrangement = Arrangement.Center) {
                 OutlinedTextField(
                     value = value,
                     onValueChange = onValueChange,
                     readOnly = true,
                     textStyle = typography.h6,
-                    modifier = Modifier.fillMaxWidth(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     label = {
                         Text(
                             text = stringResource(id = labelResId),
@@ -82,7 +83,7 @@ fun CustomDropDownMenu(
                     },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                         unfocusedBorderColor = defaultLightGray,
-                        focusedBorderColor = mainGreen,
+                        focusedBorderColor = primaryDark,
                         textColor = Color.Black,
                         unfocusedLabelColor = secondaryNavy,
                         errorBorderColor = errorRed,
@@ -94,24 +95,32 @@ fun CustomDropDownMenu(
                 if (isError) {
                     Text(text = errorMessage, style = typography.h6, color = errorRed)
                 }
-            }
-
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.align(CenterVertically)
-            ) {
-                listItems.forEach { selectedOption ->
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        onValueChange(selectedOption)
-                    }) {
-                        Text(
-                            text = selectedOption, style = typography.h6, color = primaryDark
-                        )
+                AnimatedVisibility(
+                    visible = expanded
+                ) {
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        listItems.forEach { selectedOption ->
+                            DropdownMenuItem(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    expanded = false
+                                    onValueChange(selectedOption)
+                                }) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = selectedOption,
+                                    style = typography.h6,
+                                    color = primaryDark
+                                )
+                            }
+                        }
                     }
                 }
             }
-    }
+        }
 }
 }

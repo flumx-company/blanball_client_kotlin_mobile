@@ -32,7 +32,10 @@ fun InvitedUsersBottomDrawer(
     state: UiState,
 ) {
     (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
-        ModalBottomSheet(onDismissRequest = { currentState.isInvitedUsersDrawerOpen.value = false }, containerColor = Color.White) {
+        ModalBottomSheet(
+            onDismissRequest = { currentState.isInvitedUsersDrawerOpen.value = false },
+            containerColor = Color.White
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()

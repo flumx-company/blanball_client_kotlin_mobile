@@ -302,7 +302,7 @@ fun FutureEventsScreen(
                                     }
                                     else {
                                         Text(
-                                            text = if (event.price == 0) {
+                                            text = if (event.price == null) {
                                                 stringResource(id = R.string.free)
                                             } else {
                                                 event.price.toString() + "" + stringResource(R.string.uah_char)
