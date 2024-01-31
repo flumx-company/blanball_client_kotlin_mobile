@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EmailVerificationMainContract
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
@@ -37,7 +37,6 @@ import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
-import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
@@ -134,17 +133,15 @@ fun AppScreensConfig(
     resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
-    eventCreationScreenViewModel: EventCreationOrEditScreensViewModel,
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
     emailVerificationViewModel: EmailVerificationViewModel,
     userEmailManager: UserEmailManager,
-    eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
     emailVerificationManager: EmailVerificationManager,
     selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
-    val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+    val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
     val publicProfileCurrentState = publicProfileViewModel.currentState
     val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
     fun openNavDrawer() {
@@ -162,7 +159,7 @@ fun AppScreensConfig(
 
     val bottomDrawerContent: @Composable () -> Unit = {
         val bottomPreviewDrawerState = rememberModalBottomSheetState()
-        val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+        val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
         PreviewOfTheEventBottomDrawer(
             bottomDrawerState = bottomPreviewDrawerState,
             state = eventCreationOrEditUiState
@@ -1538,7 +1535,7 @@ fun AppScreensConfig(
                             isConfirmReminderContent = {
                             },
                             onEditClick = { currentEventId ->
-                                eventCreationOrEditViewModel.currentState.currentEventId.value =
+                                eventScreenViewModel.currentState.currentEventId.value =
                                     currentEventId
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
@@ -1677,11 +1674,11 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
                             usersSearchClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.UsersSearchClicked
                                 )
                             },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.CREATION,
                         )
                     }
                 }
@@ -1689,10 +1686,10 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
-            val currentState = eventCreationScreenViewModel.currentState
+            val currentState = eventScreenViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventCreationScreenViewModel.setState {
+                eventScreenViewModel.setState {
                     copy(
                         phoneNumberState = mutableStateOf(
                             userPhoneString
@@ -1759,12 +1756,12 @@ fun AppScreensConfig(
                             bottomDrawerPreviewContent = { bottomDrawerContent() },
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.CreateNewEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.CREATION,
                         )
                     }
                 }
@@ -2292,11 +2289,11 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             backBtnCLicked = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route) },
                             usersSearchClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.UsersSearchClicked
                                 )
                             },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.EDIT,
                         )
                     }
                 }
@@ -2304,10 +2301,10 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.EDIT_EVENT_STEP_3.route) {
-            val currentState = eventCreationScreenViewModel.currentState
+            val currentState = eventScreenViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventCreationScreenViewModel.setState {
+                eventScreenViewModel.setState {
                     copy(
                         phoneNumberState = mutableStateOf(
                             userPhoneString
@@ -2374,12 +2371,12 @@ fun AppScreensConfig(
                             bottomDrawerPreviewContent = { bottomDrawerContent() },
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.EditEventClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.EditEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.EDIT,
                         )
                     }
                 }
@@ -2431,7 +2428,7 @@ fun AppScreensConfig(
                         SelectLocationScreen(
                             onCancelClicked = { navController.navigateUp() },
                             onSaveLocationClicked = { navController.navigateUp() },
-                            eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
+                            eventLocationLatLng = eventScreenViewModel.currentState.eventLocationLatLng,
                             state = state,
                             onUpdateCitiesForRegionList = {
                                 selectLocationScreenViewModel.handleEvent(

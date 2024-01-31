@@ -33,7 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -55,10 +55,10 @@ fun EventEditOrCreationScreenStep3(
     invitedUsersModalContent: @Composable () -> Unit,
     publishBtnClicked: () -> Unit,
     backBtnCLicked: () -> Unit,
-    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
+    isEditOrCreation: EventScreenMainContract.EditOrCreationState,
 ) {
     val localFocusManager = LocalFocusManager.current
-    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
+    (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -71,7 +71,7 @@ fun EventEditOrCreationScreenStep3(
             ) {
                 Text(
                     text = if (
-                        isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                        isEditOrCreation == EventScreenMainContract.EditOrCreationState.CREATION
                     ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
@@ -96,35 +96,35 @@ fun EventEditOrCreationScreenStep3(
                     OutlineRadioButton(
                         onClick = {
                             currentState.needFormStates.value =
-                                EventEditAndCreationScreensMainContract.NeedFormStates.YES
+                                EventScreenMainContract.NeedFormStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.needFormStates.value =
-                                    EventEditAndCreationScreensMainContract.NeedFormStates.YES
+                                    EventScreenMainContract.NeedFormStates.YES
                             },
                         state = currentState,
                         text = stringResource(R.string.yes),
                         selected = currentState.needFormStates.value ==
-                                EventEditAndCreationScreensMainContract.NeedFormStates.YES,
+                                EventScreenMainContract.NeedFormStates.YES,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             currentState.needFormStates.value =
-                                EventEditAndCreationScreensMainContract.NeedFormStates.NO
+                                EventScreenMainContract.NeedFormStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.needFormStates.value =
-                                    EventEditAndCreationScreensMainContract.NeedFormStates.NO
+                                    EventScreenMainContract.NeedFormStates.NO
                             },
                         state = currentState,
                         text = stringResource(R.string.no_have),
                         selected = currentState.needFormStates.value ==
-                                EventEditAndCreationScreensMainContract.NeedFormStates.NO,
+                                EventScreenMainContract.NeedFormStates.NO,
                         icon = null,
                     )
                 }
@@ -298,7 +298,7 @@ fun EventEditOrCreationScreenStep3(
                 }
             }
         }
-        if (currentState.state == EventEditAndCreationScreensMainContract.ScreenViewState.Loading) {
+        if (currentState.state == EventScreenMainContract.ScreenViewState.Loading) {
             Loader()
         }
     }

@@ -2,11 +2,10 @@ package com.example.blanball.utils.ext
 
 import android.content.Context
 import android.location.Geocoder
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.successGreen
@@ -16,6 +15,8 @@ import com.google.android.gms.maps.model.LatLng
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -142,10 +143,10 @@ internal fun String.formatSportTypeToEnglish(context: Context): String {
 
 internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
-        is EventEditAndCreationScreensMainContract.EventPrivacyStates -> {
+        is EventScreenMainContract.EventPrivacyStates -> {
             when (this) {
-                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES -> true
-                EventEditAndCreationScreensMainContract.EventPrivacyStates.NO -> false
+                EventScreenMainContract.EventPrivacyStates.YES -> true
+                EventScreenMainContract.EventPrivacyStates.NO -> false
                 else -> false
             }
         }
@@ -162,20 +163,20 @@ internal fun <T : Enum<T>> T.EventPrivacyStatesToBoolean(): Boolean {
     }
 }
 
-internal fun EventEditAndCreationScreensMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
+internal fun EventScreenMainContract.EventPrivacyStates.EventPrivacyStatesToBoolean(): Boolean {
     return when (this) {
-        EventEditAndCreationScreensMainContract.EventPrivacyStates.YES -> true
-        EventEditAndCreationScreensMainContract.EventPrivacyStates.NO -> false
+        EventScreenMainContract.EventPrivacyStates.YES -> true
+        EventScreenMainContract.EventPrivacyStates.NO -> false
         else -> false
     }
 }
 
 internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
     return when (this) {
-        is EventEditAndCreationScreensMainContract.NeedFormStates -> {
+        is EventScreenMainContract.NeedFormStates -> {
             when (this) {
-                EventEditAndCreationScreensMainContract.NeedFormStates.YES -> true
-                EventEditAndCreationScreensMainContract.NeedFormStates.NO -> false
+                EventScreenMainContract.NeedFormStates.YES -> true
+                EventScreenMainContract.NeedFormStates.NO -> false
                 else -> false
             }
         }
@@ -194,17 +195,17 @@ internal fun <T : Enum<T>> T.NeedFormStatesToBoolean(): Boolean {
 
 internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): String {
     return when (this) {
-        is EventEditAndCreationScreensMainContract.PlayersGenderStates -> {
+        is EventScreenMainContract.PlayersGenderStates -> {
             when (this) {
-                EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS -> context.resources.getString(
+                EventScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(
                     R.string.man
                 )
 
-                EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
+                EventScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
                     R.string.woman
                 )
 
-                EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT -> ""
+                EventScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
             }
         }
 
@@ -234,13 +235,13 @@ internal fun String.SportTypesStringsToEnglish(context: Context): String {
     }
 }
 
-internal fun EventEditAndCreationScreensMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(
-    context: Context
+internal fun EventScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUkrainianString(
+    context: Context,
 ): String {
     return when (this) {
-        EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
-        EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
-        EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT -> ""
+        EventScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
+        EventScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
+        EventScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
     }
 }
 
@@ -265,34 +266,6 @@ fun formatToIso8601DateTime(date: String, time: String): String {
 
     val dateTime = inputFormat.parse(inputDateTime)
     return dateTime?.let { outputFormat.format(it) } ?: ""
-}
-
-fun String.calculateTimeDifferenceInMinutes(endTime: String): Int {
-
-    val dateFormat = SimpleDateFormat("HH:mm")
-
-    if (endTime.isEmpty()) {
-        return 0
-    }
-    val startTime = dateFormat.parse(this)
-    val endTimeDate = dateFormat.parse(endTime)
-
-    val timeDifferenceMillis = endTimeDate.time - startTime.time
-
-    return (timeDifferenceMillis / (60 * 1000)).toInt()
-}
-
-internal fun MutableState<String>.calculateValueWithEventDuration(eventDuration: MutableState<Int>): String {
-    if (this.value.isEmpty()) {
-        return ""
-    }
-    return if (eventDuration.value != 0) {
-        val startTime = SimpleDateFormat("HH:mm").parse(this.value)
-        val endTime = Date(startTime.time + (eventDuration.value * 60 * 1000))
-        SimpleDateFormat("HH:mm").format(endTime)
-    } else {
-        this.value ?: ""
-    }
 }
 
 internal fun String.formatTimeRange(durationInMinutes: Int): String {
@@ -365,12 +338,12 @@ internal fun String.toFormattedBirthdayDate(): String {
 }
 
 internal fun String.toBirthdayDay(): String {
-    if (this.isEmpty()){
+    if (this.isEmpty()) {
         return ""
     }
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("dd", Locale("uk",  "UA"))
-     return try {
+    val outputFormat = SimpleDateFormat("dd", Locale("uk", "UA"))
+    return try {
         val date = inputFormat.parse(this)
         date.let { outputFormat.format(it) }
     } catch (e: Exception) {
@@ -409,19 +382,19 @@ internal fun String.extractDate(index: Int): String {
 }
 
 internal fun String.addMinutes(minutes: Int): String {
-    if (minutes == 0){
+    if (minutes == 0) {
         return ""
     }
     val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-    val calendar =  Calendar.getInstance()
-    calendar.time  = sdf.parse(this) ?: Date()
+    val calendar = Calendar.getInstance()
+    calendar.time = sdf.parse(this) ?: Date()
     calendar.add(Calendar.MINUTE, minutes)
     return sdf.format(calendar.time)
 }
 
 internal fun LatLng.getAddressFromLocation(
     context: Context,
-) : String? {
+): String? {
     val geocoder = Geocoder(context, Locale("uk", "UA"))
     val addresses = geocoder.getFromLocation(this.latitude, this.longitude, 1)
     if (addresses?.isNotEmpty() == true) {
@@ -432,7 +405,7 @@ internal fun LatLng.getAddressFromLocation(
 }
 
 internal fun String.toUAStatus(
-    context: Context
+    context: Context,
 ): String {
     return when (this) {
         context.getString(R.string.finished) -> context.getString(R.string.finished_ua)
@@ -443,7 +416,7 @@ internal fun String.toUAStatus(
 }
 
 internal fun String.mapStatusBackgroundColor(
-    context: Context
+    context: Context,
 ): Color {
     return when (this) {
         context.getString(R.string.finished) -> backgroundItems
@@ -454,7 +427,7 @@ internal fun String.mapStatusBackgroundColor(
 }
 
 internal fun String.mapStatusTextColor(
-    context: Context
+    context: Context,
 ): Color {
     return when (this) {
         context.getString(R.string.finished) -> secondaryNavy
@@ -462,4 +435,34 @@ internal fun String.mapStatusTextColor(
         context.getString(R.string.active) -> Color.White
         else -> Color.White
     }
+}
+
+internal fun checkGender(gender: String, expectedGender: String): Boolean {
+    return gender.isNotEmpty() && gender.equals(expectedGender, ignoreCase = true)
+}
+
+internal fun String.SportTypesStringsToUkr(context: Context): String {
+    return when (this) {
+        context.resources.getString(R.string.football_us) -> context.resources.getString(R.string.football)
+        context.resources.getString(R.string.futsal_us) -> context.resources.getString(R.string.futsal)
+        else -> this
+    }
+}
+
+internal fun String.mapToDate(inputDateTime: String): String {
+    if (this.isNotEmpty()) {
+        return  this
+    }
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val dateTime = LocalDateTime.parse(inputDateTime, formatter)
+    return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+}
+
+internal fun String.mapToTime(inputDateTime: String): String {
+    if (this.isNotEmpty()) {
+        return  this
+    }
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val dateTime = LocalDateTime.parse(inputDateTime, formatter)
+    return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 }
