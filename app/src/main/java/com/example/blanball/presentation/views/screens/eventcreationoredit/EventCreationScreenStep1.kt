@@ -51,12 +51,9 @@ import com.example.blanball.presentation.views.components.switches.NewEventTimeS
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.utils.ext.SportTypesStringsToUkr
-import com.example.blanball.utils.ext.checkGender
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
-import com.example.blanball.utils.ext.mapToDate
-import com.example.blanball.utils.ext.mapToTime
 
 @Composable
 fun EventEditOrCreationScreenStep1(
@@ -76,6 +73,9 @@ fun EventEditOrCreationScreenStep1(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
     (state as? EventScreenMainContract.State)?.let { currentState ->
+        LaunchedEffect(Unit) {
+            currentState.eventType.value = typesOfEvent[0]
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -170,10 +170,7 @@ fun EventEditOrCreationScreenStep1(
                             },
                         state = currentState,
                         text = stringResource(id = R.string.woman_ukr),
-                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.WOMANS || checkGender(
-                            gender = currentState.eventGenders.value,
-                            expectedGender = stringResource(R.string.woman)
-                        ),
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
                     OutlineRadioButton(
@@ -189,10 +186,7 @@ fun EventEditOrCreationScreenStep1(
                             },
                         state = currentState,
                         text = stringResource(id = R.string.man_ukr),
-                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.MANS || checkGender(
-                            gender = currentState.eventGenders.value,
-                            expectedGender = stringResource(R.string.man)
-                        ),
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
                 }
@@ -231,7 +225,7 @@ fun EventEditOrCreationScreenStep1(
                     readOnly = true,
                     state = currentState,
                     onValueChange = {},
-                    value = currentState.eventDateState.value.mapToDate(currentState.eventDateAndTime.value),
+                    value = currentState.eventDateState.value,
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                         LaunchedEffect(interactionSource) {
                             interactionSource.interactions.collect {
@@ -264,7 +258,7 @@ fun EventEditOrCreationScreenStep1(
                     modifier = Modifier.clickable { currentState.isStartEventTimeModalOpen.value = true },
                     state = currentState,
                     readOnly = true,
-                    value = currentState.startEventTimeState.value.mapToTime(currentState.eventDateAndTime.value),
+                    value = currentState.startEventTimeState.value,
                     onValueChange = {},
                     interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
                         LaunchedEffect(interactionSource) {

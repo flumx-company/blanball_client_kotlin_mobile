@@ -2,6 +2,7 @@ package com.example.blanball.utils.ext
 
 import android.content.Context
 import android.location.Geocoder
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
@@ -231,7 +232,7 @@ internal fun String.SportTypesStringsToEnglish(context: Context): String {
     return when (this) {
         context.resources.getString(R.string.football) -> context.resources.getString(R.string.football_us)
         context.resources.getString(R.string.futsal) -> context.resources.getString(R.string.futsal_us)
-        else -> ""
+        else -> this
     }
 }
 
@@ -437,10 +438,6 @@ internal fun String.mapStatusTextColor(
     }
 }
 
-internal fun checkGender(gender: String, expectedGender: String): Boolean {
-    return gender.isNotEmpty() && gender.equals(expectedGender, ignoreCase = true)
-}
-
 internal fun String.SportTypesStringsToUkr(context: Context): String {
     return when (this) {
         context.resources.getString(R.string.football_us) -> context.resources.getString(R.string.football)
@@ -449,20 +446,77 @@ internal fun String.SportTypesStringsToUkr(context: Context): String {
     }
 }
 
-internal fun String.mapToDate(inputDateTime: String): String {
-    if (this.isNotEmpty()) {
-        return  this
-    }
+internal fun mapToDateOnEditScreen(inputDateTime: String, outputDate: MutableState<String>) {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
     val dateTime = LocalDateTime.parse(inputDateTime, formatter)
-    return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    if (inputDateTime.isNotEmpty()) {
+        outputDate.value = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    }
 }
 
 internal fun String.mapToTime(inputDateTime: String): String {
-    if (this.isNotEmpty()) {
-        return  this
+    if (this.isNotEmpty() || inputDateTime.isEmpty()) {
+        return this
     }
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
     val dateTime = LocalDateTime.parse(inputDateTime, formatter)
     return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+}
+
+internal fun mapToTimeOnEditScreen(inputTime: String, outputTime: MutableState<String>) {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val dateTime = LocalDateTime.parse(inputTime, formatter)
+    if (inputTime.isNotEmpty()) {
+        outputTime.value = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+    }
+}
+
+
+internal fun mapGenderOnEditScreen(
+    eventGenders: String,
+    context: Context,
+    playersGenderStates: MutableState<EventScreenMainContract.PlayersGenderStates>,
+) {
+    when (eventGenders) {
+        context.getString(R.string.woman) -> playersGenderStates.value =
+            EventScreenMainContract.PlayersGenderStates.WOMANS
+
+        context.getString(R.string.man) -> playersGenderStates.value =
+            EventScreenMainContract.PlayersGenderStates.MANS
+
+        else -> playersGenderStates.value = EventScreenMainContract.PlayersGenderStates.NO_SELECT
+    }
+}
+
+internal fun mapPriceOnEditScreen(
+    price: Int,
+    priceStates: MutableState<EventScreenMainContract.PriceStates>,
+) {
+    when {
+        price != 0 -> priceStates.value = EventScreenMainContract.PriceStates.PAID
+        price == 0 -> priceStates.value = EventScreenMainContract.PriceStates.FREE
+        else -> priceStates.value = EventScreenMainContract.PriceStates.NO_SELECT
+    }
+}
+
+internal fun mapPrivacyOnEditScreen(
+    isPrivacy: Boolean,
+    privacyStates: MutableState <EventScreenMainContract.EventPrivacyStates>
+) {
+    when {
+        isPrivacy -> privacyStates.value = EventScreenMainContract.EventPrivacyStates.YES
+        !isPrivacy -> privacyStates.value = EventScreenMainContract.EventPrivacyStates.NO
+        else -> privacyStates.value = EventScreenMainContract.EventPrivacyStates.NO_SELECT
+    }
+}
+
+internal fun mapFormStatesOnEditScreen(
+    isFormNeed: Boolean,
+    formNeedStates: MutableState<EventScreenMainContract.NeedFormStates>
+) {
+    when {
+        isFormNeed -> formNeedStates.value = EventScreenMainContract.NeedFormStates.YES
+        !isFormNeed -> formNeedStates.value = EventScreenMainContract.NeedFormStates.NO
+        else -> formNeedStates.value = EventScreenMainContract.NeedFormStates.NO_SELECT
+    }
 }

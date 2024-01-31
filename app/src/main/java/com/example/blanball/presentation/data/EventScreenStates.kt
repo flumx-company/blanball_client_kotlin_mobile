@@ -11,6 +11,8 @@ class EventScreenMainContract {
         object CreateNewEventClicked : Event()
         object UsersSearchClicked : Event()
         object EditEventClicked : Event()
+        object CleanStates: Event()
+        object LoadEventData: Event()
     }
 
     data class State(
@@ -48,7 +50,6 @@ class EventScreenMainContract {
         val needFormStates: MutableState<EventScreenMainContract.NeedFormStates> = mutableStateOf(
             EventScreenMainContract.NeedFormStates.NO_SELECT),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
-        val eventDescriptionState: MutableState<String> = mutableStateOf(""),
         val eventDateState: MutableState<String> = mutableStateOf(""),
         val startEventTimeState: MutableState<String> = mutableStateOf(""),
         val endEventTimeState: MutableState<String> = mutableStateOf(""),
@@ -59,9 +60,11 @@ class EventScreenMainContract {
         val isErrorEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventEdit: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
-        val isEventPrivacy: MutableState<EventScreenMainContract.EventPrivacyStates> = mutableStateOf(
-            EventScreenMainContract.EventPrivacyStates.NO_SELECT),
+        val isEventPrivacyStates: MutableState<EventPrivacyStates> = mutableStateOf(
+            EventPrivacyStates.NO_SELECT),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
+        val isEventPrivate: MutableState<Boolean> = mutableStateOf(false),
+        val isFormNeed: MutableState<Boolean> = mutableStateOf(false),
         val listOfFoundUsers: MutableState<List<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
             emptyList()
         ),

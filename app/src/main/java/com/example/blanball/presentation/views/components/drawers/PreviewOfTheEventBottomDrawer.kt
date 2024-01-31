@@ -153,7 +153,7 @@ fun PreviewOfTheEventBottomDrawer(
                     }
                     Spacer(modifier = Modifier.size(12.dp))
                     Text(
-                        text = currentState.eventDescriptionState.value,
+                        text = currentState.eventDescription.value,
                         fontSize = 12.sp,
                         lineHeight = 20.sp,
                         style = typography.h4,

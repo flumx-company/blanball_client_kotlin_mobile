@@ -121,34 +121,34 @@ fun EventEditOrCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            currentState.isEventPrivacy.value =
+                            currentState.isEventPrivacyStates.value =
                                 EventScreenMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.isEventPrivacy.value =
+                                currentState.isEventPrivacyStates.value =
                                     EventScreenMainContract.EventPrivacyStates.NO
                             },
                         state = currentState,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = currentState.isEventPrivacy.value == EventScreenMainContract.EventPrivacyStates.NO,
+                        selected = currentState.isEventPrivacyStates.value == EventScreenMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            currentState.isEventPrivacy.value =
+                            currentState.isEventPrivacyStates.value =
                                 EventScreenMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.isEventPrivacy.value =
+                                currentState.isEventPrivacyStates.value =
                                     EventScreenMainContract.EventPrivacyStates.YES
                             },
                         state = currentState,
                         text = stringResource(R.string.yes_the_event_is_closed),
-                        selected = currentState.isEventPrivacy.value ==
+                        selected = currentState.isEventPrivacyStates.value ==
                                 EventScreenMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )

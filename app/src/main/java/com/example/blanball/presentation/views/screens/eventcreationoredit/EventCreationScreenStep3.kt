@@ -223,8 +223,8 @@ fun EventEditOrCreationScreenStep3(
                         .height(104.dp),
                     state = currentState,
                     isSingleLine = false,
-                    value = state.eventDescriptionState.value,
-                    onValueChange = { state.eventDescriptionState.value = it },
+                    value = state.eventDescription.value,
+                    onValueChange = { state.eventDescription.value = it },
                     transformation = VisualTransformation.None,
                     labelResId = R.string.event_description,
                     keyboardOptions = KeyboardOptions(

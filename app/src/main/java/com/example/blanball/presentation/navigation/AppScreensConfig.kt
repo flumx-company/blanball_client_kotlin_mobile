@@ -803,6 +803,9 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.CreateNewEvent.screen_route) {
+            LaunchedEffect(Unit) {
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -1435,7 +1438,7 @@ fun AppScreensConfig(
                 remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             val verifyEmailViewModeCurrentState = emailVerificationViewModel.currentState
             LaunchedEffect(key1 = Unit) {
-                eventScreenViewModel.loadUEventData() //TODO() Make it encapsulated - without calling the method directly
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
             }
             LaunchedEffect(verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                 if (verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
