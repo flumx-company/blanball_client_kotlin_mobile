@@ -50,10 +50,10 @@ fun AllEventsFilterScreen(
     confirmBtnClicked: () -> Unit,
     paddingValues: PaddingValues,
 ) {
-        val typeOfSports =   listOf(
-            stringResource(id = R.string.football),
-            stringResource(id = R.string.futsal),
-        )
+    val typeOfSports = listOf(
+        stringResource(id = R.string.football),
+        stringResource(id = R.string.futsal),
+    )
     (state as FutureEventsMainContract.State).let { currentState ->
         Box(
             modifier = Modifier
@@ -210,7 +210,7 @@ fun AllEventsFilterScreen(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectEventDatesRangeButtons(
-                    clickCallback = { currentState.isRangeDatePickerModalOpen.value= true },
+                    clickCallback = { currentState.isRangeDatePickerModalOpen.value = true },
                     state = state,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
@@ -255,12 +255,10 @@ fun AllEventsFilterScreen(
                     }
                 }
             }
-        }
-        when {
-            currentState.isRangeDatePickerModalOpen.value ->
-                DateRangePickerModal(
+            DateRangePickerModal(
                 backBtnClicked = { currentState.isRangeDatePickerModalOpen.value = false },
-                state = currentState
+                state = currentState,
+                isModalVisible = currentState.isRangeDatePickerModalOpen.value
             )
         }
     }

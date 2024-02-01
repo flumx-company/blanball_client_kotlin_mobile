@@ -256,12 +256,11 @@ fun MyEventsFilterScreen(
                     }
                 }
             }
-        }
-        when {
-            currentState.isDatePickerRangeModalVisible.value -> DateRangePickerModal(
+            DateRangePickerModal(
                 backBtnClicked = { currentState.isDatePickerRangeModalVisible.value = false },
                 state = state,
+                isModalVisible = currentState.isDatePickerRangeModalVisible.value,
             )
         }
-        }
     }
+}

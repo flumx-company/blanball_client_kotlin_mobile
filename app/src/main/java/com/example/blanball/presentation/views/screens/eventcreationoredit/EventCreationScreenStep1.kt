@@ -386,10 +386,6 @@ fun EventEditOrCreationScreenStep1(
                 InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
                 when {
                     currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
-                    currentState.isDatePickerModalOpen.value -> DatePickerModal(
-                        selectedState = currentState.eventDateState,
-                        backBtnClicked = { currentState.isDatePickerModalOpen.value = false }
-                    )
                     currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
                 }
             }
@@ -399,6 +395,11 @@ fun EventEditOrCreationScreenStep1(
                     currentState.isStartEventTimeModalOpen.value = false
                 },
                 isModalVisible = currentState.isStartEventTimeModalOpen.value,
+            )
+            DatePickerModal(
+                selectedState = currentState.eventDateState,
+                backBtnClicked = { currentState.isDatePickerModalOpen.value = false },
+                isModalVisible = currentState.isDatePickerModalOpen.value,
             )
         }
     }
