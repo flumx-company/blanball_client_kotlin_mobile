@@ -18,7 +18,6 @@ private val LightColorPalette = lightColors(
     onSecondary = Color.Black,
     primaryVariant = mainGreen,
     secondaryVariant = mainGreen,
-
     )
 
 private val DarkColorPalette = darkColors(

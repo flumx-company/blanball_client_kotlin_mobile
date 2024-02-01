@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shadowDark
 import com.example.blanball.presentation.theme.typography
 
 @Composable
@@ -56,8 +57,8 @@ isModalVisible: Boolean,
                         .height(192.dp)
                         .shadow(
                             elevation = 10.dp,
-                            spotColor = Color(0x1A3838FB),
-                            ambientColor = Color(0x1A3838FB)
+                            spotColor =shadowDark,
+                            ambientColor = shadowDark
                         )
                         .background(Color.White, shape = RoundedCornerShape(8.dp)),
                 ) {
