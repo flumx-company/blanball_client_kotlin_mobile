@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -73,9 +73,9 @@ fun EventEditOrCreationScreenStep2(
     invitedUsersModalContent: @Composable () -> Unit,
     backBtnCLicked: () -> Unit,
     usersSearchClicked: () -> Unit,
-    isEditOrCreation: EventEditAndCreationScreensMainContract.EditOrCreationState,
+    isEditOrCreation: EventScreenMainContract.EditOrCreationState,
 ) {
-    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
+    (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -88,7 +88,7 @@ fun EventEditOrCreationScreenStep2(
             ) {
                 Text(
                     text = if (
-                        isEditOrCreation == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                        isEditOrCreation == EventScreenMainContract.EditOrCreationState.CREATION
                     ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
@@ -121,35 +121,35 @@ fun EventEditOrCreationScreenStep2(
                 ) {
                     OutlineRadioButton(
                         onClick = {
-                            currentState.isEventPrivacy.value =
-                                EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
+                            currentState.isEventPrivacyStates.value =
+                                EventScreenMainContract.EventPrivacyStates.NO
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.isEventPrivacy.value =
-                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.NO
+                                currentState.isEventPrivacyStates.value =
+                                    EventScreenMainContract.EventPrivacyStates.NO
                             },
                         state = currentState,
                         text = stringResource(R.string.No_the_entrance_is_free),
-                        selected = currentState.isEventPrivacy.value == EventEditAndCreationScreensMainContract.EventPrivacyStates.NO,
+                        selected = currentState.isEventPrivacyStates.value == EventScreenMainContract.EventPrivacyStates.NO,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
-                            currentState.isEventPrivacy.value =
-                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
+                            currentState.isEventPrivacyStates.value =
+                                EventScreenMainContract.EventPrivacyStates.YES
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                currentState.isEventPrivacy.value =
-                                    EventEditAndCreationScreensMainContract.EventPrivacyStates.YES
+                                currentState.isEventPrivacyStates.value =
+                                    EventScreenMainContract.EventPrivacyStates.YES
                             },
                         state = currentState,
                         text = stringResource(R.string.yes_the_event_is_closed),
-                        selected = currentState.isEventPrivacy.value ==
-                                EventEditAndCreationScreensMainContract.EventPrivacyStates.YES,
+                        selected = currentState.isEventPrivacyStates.value ==
+                                EventScreenMainContract.EventPrivacyStates.YES,
                         icon = null,
                     )
                 }
@@ -170,7 +170,7 @@ fun EventEditOrCreationScreenStep2(
                     OutlineRadioButton(
                         onClick = {
                             currentState.priceStates.value =
-                                EventEditAndCreationScreensMainContract.PriceStates.FREE
+                                EventScreenMainContract.PriceStates.FREE
                             currentState.eventSummaryPrice.value = null
                             currentState.priceDescription.value = null
                                   },
@@ -178,33 +178,33 @@ fun EventEditOrCreationScreenStep2(
                             .weight(1f)
                             .clickable {
                                 currentState.priceStates.value =
-                                    EventEditAndCreationScreensMainContract.PriceStates.FREE
+                                    EventScreenMainContract.PriceStates.FREE
 
                             },
                         state = currentState,
                         text = stringResource(id = R.string.free),
-                        selected = currentState.priceStates.value == EventEditAndCreationScreensMainContract.PriceStates.FREE,
+                        selected = currentState.priceStates.value == EventScreenMainContract.PriceStates.FREE,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             currentState.priceStates.value =
-                                EventEditAndCreationScreensMainContract.PriceStates.PAID
+                                EventScreenMainContract.PriceStates.PAID
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.priceStates.value =
-                                    EventEditAndCreationScreensMainContract.PriceStates.PAID
+                                    EventScreenMainContract.PriceStates.PAID
                             },
                         state = currentState,
                         text = stringResource(R.string.paid),
                         selected = currentState.priceStates.value ==
-                                EventEditAndCreationScreensMainContract.PriceStates.PAID,
+                                EventScreenMainContract.PriceStates.PAID,
                         icon = null,
                     )
                 }
-                if (currentState.priceStates.value == EventEditAndCreationScreensMainContract.PriceStates.PAID) {
+                if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
                     Spacer(modifier = Modifier.size(16.dp))
                     DefaultTextInput(
                         labelResId = R.string.summary_uah,
@@ -341,7 +341,7 @@ fun EventEditOrCreationScreenStep2(
                         )
                     },
                 ) {
-                    if (currentState.state == EventEditAndCreationScreensMainContract.ScreenViewState.UserSearchLoading) {
+                    if (currentState.state == EventScreenMainContract.ScreenViewState.UserSearchLoading) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

@@ -167,13 +167,11 @@ class MainActivity : ComponentActivity() {
                                         usersRatingViewModel = viewModel(),
                                         foundAnErrorViewModel = viewModel(),
                                         myProfileScreenViewModel = viewModel(),
-                                        eventCreationScreenViewModel = viewModel(),
                                         myEventsViewModel = viewModel(),
                                         futureEventsScreenViewModel = futureEventsScreenViewModel,
                                         eventScreenViewModel = viewModel(),
                                         emailVerificationViewModel = viewModel(),
                                         userEmailManager = userEmailManager,
-                                        eventCreationOrEditViewModel = viewModel(),
                                         emailVerificationManager = emailVerificationManager,
                                         selectLocationScreenViewModel = selectLocationScreenViewModel,
                                     )

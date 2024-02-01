@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.example.blanball.presentation.data.EmailVerificationMainContract
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
@@ -37,7 +37,6 @@ import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.theme.backgroundItems
 import com.example.blanball.presentation.viewmodels.EmailVerificationViewModel
-import com.example.blanball.presentation.viewmodels.EventCreationOrEditScreensViewModel
 import com.example.blanball.presentation.viewmodels.EventScreenViewModel
 import com.example.blanball.presentation.viewmodels.FoundAnErrorViewModel
 import com.example.blanball.presentation.viewmodels.FutureEventsScreenViewModel
@@ -134,19 +133,14 @@ fun AppScreensConfig(
     resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     foundAnErrorViewModel: FoundAnErrorViewModel,
     myProfileScreenViewModel: MyProfileScreenViewModel,
-    eventCreationScreenViewModel: EventCreationOrEditScreensViewModel,
     futureEventsScreenViewModel: FutureEventsScreenViewModel,
     myEventsViewModel: MyEventsScreenViewModel,
     eventScreenViewModel: EventScreenViewModel,
     emailVerificationViewModel: EmailVerificationViewModel,
     userEmailManager: UserEmailManager,
-    eventCreationOrEditViewModel: EventCreationOrEditScreensViewModel,
     emailVerificationManager: EmailVerificationManager,
     selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
-    val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
-    val publicProfileCurrentState = publicProfileViewModel.currentState
-    val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
     fun openNavDrawer() {
         coroutineScope.launch {
             scaffoldState.drawerState.open()
@@ -159,10 +153,28 @@ fun AppScreensConfig(
             scaffoldState.drawerState.close()
         }
     }
+    val bottomNavBar: @Composable () -> Unit = {
+        BottomNavBar(
+            navController = navController,
+            onCleanStatesCallback = {
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+            }
+        )
+    }
+
+    val topBar: @Composable () -> Unit = {
+        TopBar(
+            navController = navController,
+            onNavIconClicked = { openNavDrawer() },
+        )
+    }
+    val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
+    val publicProfileCurrentState = publicProfileViewModel.currentState
+    val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
 
     val bottomDrawerContent: @Composable () -> Unit = {
         val bottomPreviewDrawerState = rememberModalBottomSheetState()
-        val eventCreationOrEditUiState = eventCreationOrEditViewModel.uiState.collectAsState().value
+        val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
         PreviewOfTheEventBottomDrawer(
             bottomDrawerState = bottomPreviewDrawerState,
             state = eventCreationOrEditUiState
@@ -435,16 +447,10 @@ fun AppScreensConfig(
             }
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-
-                        )
+                    bottomNavBar()
                 },
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -479,9 +485,7 @@ fun AppScreensConfig(
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -534,9 +538,7 @@ fun AppScreensConfig(
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { it ->
                     AllPlannedEventsScreen(
@@ -657,15 +659,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -734,15 +731,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -812,15 +804,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -894,15 +881,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -995,15 +977,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1057,15 +1034,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1119,15 +1091,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1162,15 +1129,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1205,15 +1167,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1274,15 +1231,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1356,15 +1308,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 }, content = { paddingValues ->
                     Column(
                         modifier = Modifier
@@ -1438,7 +1385,7 @@ fun AppScreensConfig(
                 remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             val verifyEmailViewModeCurrentState = emailVerificationViewModel.currentState
             LaunchedEffect(key1 = Unit) {
-                eventScreenViewModel.loadUEventData() //TODO() Make it encapsulated - without calling the method directly
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
             }
             LaunchedEffect(verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                 if (verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
@@ -1453,15 +1400,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1538,7 +1480,7 @@ fun AppScreensConfig(
                             isConfirmReminderContent = {
                             },
                             onEditClick = { currentEventId ->
-                                eventCreationOrEditViewModel.currentState.currentEventId.value =
+                                eventScreenViewModel.currentState.currentEventId.value =
                                     currentEventId
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
@@ -1558,15 +1500,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1622,15 +1559,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1677,11 +1609,11 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
                             usersSearchClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.UsersSearchClicked
                                 )
                             },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.CREATION,
                         )
                     }
                 }
@@ -1689,10 +1621,10 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
-            val currentState = eventCreationScreenViewModel.currentState
+            val currentState = eventScreenViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventCreationScreenViewModel.setState {
+                eventScreenViewModel.setState {
                     copy(
                         phoneNumberState = mutableStateOf(
                             userPhoneString
@@ -1706,15 +1638,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1759,12 +1686,12 @@ fun AppScreensConfig(
                             bottomDrawerPreviewContent = { bottomDrawerContent() },
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.CreateNewEventClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.CreateNewEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.CREATION,
                         )
                     }
                 }
@@ -1787,15 +1714,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1874,15 +1796,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1957,15 +1874,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2046,15 +1958,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2134,15 +2041,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     MyProfilePreviewScreen(
@@ -2167,15 +2069,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2237,15 +2134,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2292,11 +2184,11 @@ fun AppScreensConfig(
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             backBtnCLicked = { navController.navigate(Destinations.EDIT_EVENT_STEP_1.route) },
                             usersSearchClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.UsersSearchClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.UsersSearchClicked
                                 )
                             },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.EDIT,
                         )
                     }
                 }
@@ -2304,10 +2196,10 @@ fun AppScreensConfig(
         }
 
         composable(Destinations.EDIT_EVENT_STEP_3.route) {
-            val currentState = eventCreationScreenViewModel.currentState
+            val currentState = eventScreenViewModel.currentState
             LaunchedEffect(key1 = Unit) {
                 val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventCreationScreenViewModel.setState {
+                eventScreenViewModel.setState {
                     copy(
                         phoneNumberState = mutableStateOf(
                             userPhoneString
@@ -2321,15 +2213,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2374,12 +2261,12 @@ fun AppScreensConfig(
                             bottomDrawerPreviewContent = { bottomDrawerContent() },
                             invitedUsersModalContent = { invitedUsersDrawerContent() },
                             publishBtnClicked = {
-                                eventCreationScreenViewModel.handleEvent(
-                                    EventEditAndCreationScreensMainContract.Event.EditEventClicked
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.EditEventClicked
                                 )
                             },
                             backBtnCLicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_2.route) },
-                            isEditOrCreation = EventEditAndCreationScreensMainContract.EditOrCreationState.EDIT,
+                            isEditOrCreation = EventScreenMainContract.EditOrCreationState.EDIT,
                         )
                     }
                 }
@@ -2399,16 +2286,10 @@ fun AppScreensConfig(
 
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-
-                        )
+                    bottomNavBar()
                 },
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2431,7 +2312,7 @@ fun AppScreensConfig(
                         SelectLocationScreen(
                             onCancelClicked = { navController.navigateUp() },
                             onSaveLocationClicked = { navController.navigateUp() },
-                            eventLocationLatLng = eventCreationOrEditViewModel.currentState.eventLocationLatLng,
+                            eventLocationLatLng = eventScreenViewModel.currentState.eventLocationLatLng,
                             state = state,
                             onUpdateCitiesForRegionList = {
                                 selectLocationScreenViewModel.handleEvent(

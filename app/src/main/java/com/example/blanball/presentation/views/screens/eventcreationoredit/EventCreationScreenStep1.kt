@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
-import com.example.blanball.presentation.data.EventEditAndCreationScreensMainContract
+import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
 import com.example.blanball.presentation.theme.defaultLightGray
@@ -50,6 +50,7 @@ import com.example.blanball.presentation.views.components.modals.DatePickerModal
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
+import com.example.blanball.utils.ext.SportTypesStringsToUkr
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
@@ -71,7 +72,10 @@ fun EventEditOrCreationScreenStep1(
     val typesOfSports = mutableListOf(
         stringResource(id = R.string.football), stringResource(id = R.string.futsal)
     )
-    (state as? EventEditAndCreationScreensMainContract.State)?.let { currentState ->
+    (state as? EventScreenMainContract.State)?.let { currentState ->
+        LaunchedEffect(Unit) {
+            currentState.eventType.value = typesOfEvent[0]
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -84,7 +88,7 @@ fun EventEditOrCreationScreenStep1(
             ) {
                 Text(
                     text = if (
-                        currentState.isEditOrCreation.value == EventEditAndCreationScreensMainContract.EditOrCreationState.CREATION
+                        currentState.isEditOrCreation.value == EventScreenMainContract.EditOrCreationState.CREATION
                     ) stringResource(R.string.creation_event) else stringResource(id = R.string.edit_event),
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
@@ -105,7 +109,7 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
-                    value = currentState.eventType.value,
+                    value = currentState.eventType.value ,
                     onValueChange = { state.eventType.value = it },
                     isError = when {
                         currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> true
@@ -115,7 +119,6 @@ fun EventEditOrCreationScreenStep1(
                         currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> stringResource(
                             id = R.string.chose_event_type
                         )
-
                         else -> {
                             ("")
                         }
@@ -157,33 +160,33 @@ fun EventEditOrCreationScreenStep1(
                     OutlineRadioButton(
                         onClick = {
                             currentState.playersGenderStates.value =
-                                EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
+                                EventScreenMainContract.PlayersGenderStates.WOMANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.playersGenderStates.value =
-                                    EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS
+                                    EventScreenMainContract.PlayersGenderStates.WOMANS
                             },
                         state = currentState,
                         text = stringResource(id = R.string.woman_ukr),
-                        selected = currentState.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.WOMANS,
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.WOMANS,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             currentState.playersGenderStates.value =
-                                EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
+                                EventScreenMainContract.PlayersGenderStates.MANS
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.playersGenderStates.value =
-                                    EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS
+                                    EventScreenMainContract.PlayersGenderStates.MANS
                             },
                         state = currentState,
                         text = stringResource(id = R.string.man_ukr),
-                        selected = currentState.playersGenderStates.value == EventEditAndCreationScreensMainContract.PlayersGenderStates.MANS,
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.MANS,
                         icon = null,
                     )
                 }
@@ -191,7 +194,7 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.sport_type,
                     listItems = typesOfSports,
-                    value = currentState.sportType.value,
+                    value = currentState.sportType.value.SportTypesStringsToUkr(context = context),
                     onValueChange = { state.sportType.value = it },
                     isError = when {
                         currentState.sportType.value.isEmpty() && currentState.isValidationActivated.value -> true
@@ -374,7 +377,7 @@ fun EventEditOrCreationScreenStep1(
                             && currentState.sportType.value.isNotEmpty()
                             && currentState.startEventTimeState.value.isNotEmpty()
                             && currentState.eventDuration.value != 0
-                            && currentState.playersGenderStates.value != EventEditAndCreationScreensMainContract.PlayersGenderStates.NO_SELECT,
+                            && currentState.playersGenderStates.value != EventScreenMainContract.PlayersGenderStates.NO_SELECT,
                     nextBtnOnClick = { navigateToSecondStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

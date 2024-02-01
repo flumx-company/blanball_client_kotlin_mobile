@@ -42,6 +42,7 @@ fun CustomDropDownMenu(
     isError: Boolean = false,
     onValueChange: (String) -> Unit,
     errorMessage: String = "",
+    isFirstElementSelected: Boolean = false,
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -122,5 +123,5 @@ fun CustomDropDownMenu(
                 }
             }
         }
-}
+    }
 }

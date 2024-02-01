@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.surfaceBrandSecondary
@@ -24,7 +23,7 @@ import com.example.blanball.presentation.theme.surfaceBrandSecondary
 fun CustomNavItem(
     item: BottomNavItem,
     selectedItem: Boolean,
-    navController: NavController,
+    onItemClicked: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxHeight().padding(horizontal = 6.dp),
@@ -39,7 +38,7 @@ fun CustomNavItem(
                 .size(width = 64.dp, height = 32.dp)
                 .clip(shape = RoundedCornerShape(16.dp))
                 .clickable {
-                    navController.navigate(item.screen_route)
+                    onItemClicked()
                 },
             contentAlignment = Alignment.Center,
         ) {
