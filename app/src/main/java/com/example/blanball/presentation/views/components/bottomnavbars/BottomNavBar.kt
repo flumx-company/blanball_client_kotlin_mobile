@@ -13,16 +13,18 @@ import com.example.blanball.presentation.navigation.BottomNavItem
 import com.example.blanball.presentation.theme.primaryDark
 
 @Composable
-fun BottomNavBar(navController: NavController) {
+fun BottomNavBar(
+    navController: NavController,
+    onCleanStatesCallback: () -> Unit,
+) {
     BottomNavigation(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(72.dp),
-            backgroundColor = Color.White,
-            elevation = 10.dp,
-            contentColor = primaryDark,
-        ) {
-
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp),
+        backgroundColor = Color.White,
+        elevation = 10.dp,
+        contentColor = primaryDark,
+    ) {
         val navigationItems = remember {
             listOf(
                 BottomNavItem.Home,
@@ -30,14 +32,23 @@ fun BottomNavBar(navController: NavController) {
                 BottomNavItem.CreateNewEvent,
                 BottomNavItem.Rating,
                 BottomNavItem.Chat,
-        )
+            )
         }
-            navigationItems.forEach { item ->
-                    CustomNavItem(
-                        item = item,
-                        selectedItem = navController.currentDestination?.route == item.screen_route,
-                        navController = navController,
-                    )
-            }
+        navigationItems.forEachIndexed { index, item ->
+            CustomNavItem(
+                item = item,
+                selectedItem = navController.currentDestination?.route == item.screen_route,
+                onItemClicked = {
+                    when (index) {
+                        2 -> {
+                            onCleanStatesCallback()
+                            navController.navigate(item.screen_route)
+                        }
+
+                        else -> navController.navigate(item.screen_route)
+                    }
+                },
+            )
         }
     }
+}

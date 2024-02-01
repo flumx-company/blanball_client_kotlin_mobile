@@ -31,7 +31,6 @@ fun TopBar(
     onNavIconClicked: () -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
     TopAppBar (
         title = {  Text(

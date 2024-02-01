@@ -141,9 +141,6 @@ fun AppScreensConfig(
     emailVerificationManager: EmailVerificationManager,
     selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
-    val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
-    val publicProfileCurrentState = publicProfileViewModel.currentState
-    val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
     fun openNavDrawer() {
         coroutineScope.launch {
             scaffoldState.drawerState.open()
@@ -156,6 +153,24 @@ fun AppScreensConfig(
             scaffoldState.drawerState.close()
         }
     }
+    val bottomNavBar: @Composable () -> Unit = {
+        BottomNavBar(
+            navController = navController,
+            onCleanStatesCallback = {
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+            }
+        )
+    }
+
+    val topBar: @Composable () -> Unit = {
+        TopBar(
+            navController = navController,
+            onNavIconClicked = { openNavDrawer() },
+        )
+    }
+    val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
+    val publicProfileCurrentState = publicProfileViewModel.currentState
+    val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
 
     val bottomDrawerContent: @Composable () -> Unit = {
         val bottomPreviewDrawerState = rememberModalBottomSheetState()
@@ -432,16 +447,10 @@ fun AppScreensConfig(
             }
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-
-                        )
+                    bottomNavBar()
                 },
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -476,9 +485,7 @@ fun AppScreensConfig(
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -531,9 +538,7 @@ fun AppScreensConfig(
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { it ->
                     AllPlannedEventsScreen(
@@ -654,15 +659,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -731,15 +731,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -803,24 +798,16 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.CreateNewEvent.screen_route) {
-            LaunchedEffect(Unit) {
-                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
-            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -894,15 +881,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -995,15 +977,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1057,15 +1034,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1119,15 +1091,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1162,15 +1129,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1205,15 +1167,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1274,15 +1231,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1356,15 +1308,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 }, content = { paddingValues ->
                     Column(
                         modifier = Modifier
@@ -1453,15 +1400,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1558,15 +1500,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1622,15 +1559,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1706,15 +1638,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1787,15 +1714,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1874,15 +1796,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -1957,15 +1874,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2046,15 +1958,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2134,15 +2041,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     MyProfilePreviewScreen(
@@ -2167,15 +2069,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2237,15 +2134,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2321,15 +2213,10 @@ fun AppScreensConfig(
                 drawerShape = RoundedCornerShape(0.dp),
                 drawerBackgroundColor = backgroundItems,
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-                    )
+                    bottomNavBar()
                 },
                 content = { paddingValues ->
                     Column(
@@ -2399,16 +2286,10 @@ fun AppScreensConfig(
 
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        navController = navController,
-
-                        )
+                    bottomNavBar()
                 },
                 topBar = {
-                    TopBar(
-                        navController = navController,
-                        onNavIconClicked = { openNavDrawer() },
-                    )
+                    topBar()
                 },
                 content = { paddingValues ->
                     Column(
