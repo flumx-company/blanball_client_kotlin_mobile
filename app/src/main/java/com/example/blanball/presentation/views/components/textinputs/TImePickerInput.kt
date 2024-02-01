@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -27,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -67,7 +67,7 @@ fun SimpleTimePickerInAlertDialog(
             Box(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 24.dp)
-                    .wrapContentSize()
+                    .fillMaxWidth(0.8f)
                     .shadow(
                         elevation = 10.dp,
                         spotColor = shadowDark,
@@ -93,7 +93,7 @@ fun SimpleTimePickerInAlertDialog(
                         )
                     }
                     TimePicker(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().scale(0.8f),
                         state = timePickerState,
                         colors = TimePickerDefaults.colors(
                             selectorColor = mainGreen,
@@ -133,6 +133,7 @@ fun SimpleTimePickerInAlertDialog(
                             tint = primaryDark
                         )
                     }
+                    Spacer(modifier = Modifier.size(12.dp))
                 }
             }
         }
