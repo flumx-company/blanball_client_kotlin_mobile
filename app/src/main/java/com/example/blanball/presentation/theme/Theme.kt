@@ -1,31 +1,38 @@
 package com.example.blanball.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-private val LightColorPalette = lightColors(
-    primary = primaryDark,
-    secondary = secondaryNavy,
-    onPrimary = Color.Black,
-    onSecondary = Color.Black,
-    primaryVariant = mainGreen,
-    secondaryVariant = mainGreen,
-
+private val LightColorPalette = lightColorScheme(
+    primary = mainGreen,
+    secondary = primaryDark,
+    onPrimary = Color.White,
+    onSecondary = primaryDark,
+    secondaryContainer = accentLightGreen,
+    onSecondaryContainer = primaryDark,
+    surface = Color.White,
+    onSurface = primaryDark,
+    inverseSurface = mainGreen,
+    inverseOnSurface = mainGreen,
+    error = errorRed,
+    onError = errorRed,
+    outline = mainGreen,
+    outlineVariant = mainGreen,
     )
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme(
     primary = primaryDark,
     secondary = secondaryNavy,
     surface = VeryDarkGray,
-    primaryVariant = mainGreen,
 )
 
 
@@ -49,7 +56,7 @@ fun MyAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
     }
 
     MaterialTheme(
-        colors = colors,
+      colorScheme = colors,
         shapes = shapes,
     ) {
         CompositionLocalProvider(

@@ -207,11 +207,6 @@ fun MyEventsFilterModal(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.size(12.dp))
-                    DatePickerModal(
-                        selectedState = it.eventDatesState,
-                        backBtnClicked = {},
-                    )
                     Spacer(modifier = Modifier.size(20.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

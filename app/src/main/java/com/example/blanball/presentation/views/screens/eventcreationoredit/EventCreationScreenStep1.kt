@@ -79,12 +79,12 @@ fun EventEditOrCreationScreenStep1(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Text(
                     text = if (
@@ -389,16 +389,21 @@ fun EventEditOrCreationScreenStep1(
                 InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
                 when {
                     currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
-                    currentState.isDatePickerModalOpen.value -> DatePickerModal(
-                        selectedState = currentState.eventDateState,
-                        backBtnClicked = { currentState.isDatePickerModalOpen.value = false }
-                    )
                     currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
-                    currentState.isStartEventTimeModalOpen.value -> SimpleTimePickerInAlertDialog(
-                        selectedTimeState = currentState.startEventTimeState
-                    ) { currentState.isStartEventTimeModalOpen.value = false }
                 }
             }
+            SimpleTimePickerInAlertDialog(
+                selectedTimeState = currentState.startEventTimeState,
+                backBtnClicked = {
+                    currentState.isStartEventTimeModalOpen.value = false
+                },
+                isModalVisible = currentState.isStartEventTimeModalOpen.value,
+            )
+            DatePickerModal(
+                selectedState = currentState.eventDateState,
+                backBtnClicked = { currentState.isDatePickerModalOpen.value = false },
+                isModalVisible = currentState.isDatePickerModalOpen.value,
+            )
         }
     }
 }
