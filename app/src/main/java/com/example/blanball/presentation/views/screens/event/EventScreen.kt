@@ -53,7 +53,7 @@ import com.example.blanball.presentation.views.components.cards.AddUserToTeam
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
-import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMapPreview
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
 import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
@@ -207,7 +207,7 @@ fun EventScreen(
                 }
                 Box(modifier = Modifier.animateContentSize()) {
                     Column {
-                        if ( !currentState.priceDescription.value.isNullOrEmpty() && currentState.isEventDescriptionVisible.value) {
+                        if (!currentState.priceDescription.value.isNullOrEmpty() && currentState.isEventDescriptionVisible.value) {
                             Spacer(modifier = Modifier.size(16.dp))
                             Box(
                                 Modifier
@@ -400,7 +400,7 @@ fun EventScreen(
                                             }
                                             Spacer(modifier = Modifier.size(8.dp))
                                             Text(
-                                                text = stringResource(R.string.red), //TODO()
+                                                text = stringResource(R.string.red),
                                                 fontSize = 12.sp,
                                                 lineHeight = 20.sp,
                                                 style = typography.h4,
@@ -562,10 +562,11 @@ fun EventScreen(
                     clickCallback = { onNavigateToEventAuthorPublicProfile() },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                SelectLocationWithGoogleMapPreview(
+                SelectLocationWithGoogleMap(
                     isClickable = true,
                     eventLocationLatLng = currentState.eventLatLng,
                     isMarkerVisible = true,
+                    height = 128.dp,
                     )
                 Spacer(modifier = Modifier.size(36.dp))
                 Text(

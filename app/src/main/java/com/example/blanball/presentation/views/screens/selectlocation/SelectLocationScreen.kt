@@ -51,7 +51,7 @@ fun SelectLocationScreen(
     val context = LocalContext.current
     (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
 
-        LaunchedEffect(eventLocationLatLng.value) {
+        LaunchedEffect(eventLocationLatLng.value, key2 = currentState.selectedCityLatLan.value) {
             currentState.selectedCityLatLan.value = eventLocationLatLng.value
         }
 
@@ -77,6 +77,7 @@ fun SelectLocationScreen(
                     listItems = currentState.regionOfUkraineList.value,
                     value = currentState.selectedRegion.value,
                     onValueChange = {
+                        eventLocationLatLng.value = currentState.selectedCityLatLan.value
                         currentState.selectedRegion.value = it
                         onUpdateCitiesForRegionList()
                     }
@@ -87,6 +88,7 @@ fun SelectLocationScreen(
                     listItems = currentState.citiesForRegionList.value,
                     value = currentState.selectedCity.value,
                     onValueChange = {
+                        eventLocationLatLng.value = currentState.selectedCityLatLan.value
                         currentState.selectedCity.value = it
                         onUpdateMap()
                     }
@@ -120,9 +122,10 @@ fun SelectLocationScreen(
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectLocationWithGoogleMap(
-                    eventLocationLatLng = currentState.selectedCityLatLan,
+                    eventLocationLatLng = eventLocationLatLng,
                     height = 244.dp,
                     isMapExtended = currentState.isMapExpanded.value,
+                    isMarkerVisible = true,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(

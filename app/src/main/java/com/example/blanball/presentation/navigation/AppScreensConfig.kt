@@ -106,6 +106,7 @@ import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import com.example.domain.utils.Endpoints
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
@@ -153,6 +154,7 @@ fun AppScreensConfig(
             scaffoldState.drawerState.close()
         }
     }
+
     val bottomNavBar: @Composable () -> Unit = {
         BottomNavBar(
             navController = navController,
@@ -572,6 +574,9 @@ fun AppScreensConfig(
 
         composable(Destinations.FILLING_OUT_THE_USER_PROFILE1.route) {
             val state = onboardingProfileViewModel.uiState.collectAsState().value
+            LaunchedEffect(Unit) {
+                onboardingProfileViewModel.handleEvent(OnboardingScreensStatesMainContract.Event.GetUkraineCitiesList)
+            }
             FillingOutTheUserProfileScreenStep1(
                 state = state,
                 onFillingOutTheUserProfileStep2Clicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE2.route) },
@@ -604,7 +609,13 @@ fun AppScreensConfig(
                 onFinishClicked = {
                     onboardingProfileViewModel.handleEvent(OnboardingScreensStatesMainContract.Event.FinishFillingOutTheProfileClicked)
                 },
-                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) })
+
+                onTurnBackClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE3.route) },
+                onUpdateCitiesForRegionList = {
+                    onboardingProfileViewModel.handleEvent(
+                        OnboardingScreensStatesMainContract.Event.UpdateCitiesForRegionList
+                    )
+                })
 
             LaunchedEffect(key1 = currentState.isSuccessRequestToFinishOutTheProfile.value) {
                 if (currentState.isSuccessRequestToFinishOutTheProfile.value) {
@@ -2310,7 +2321,14 @@ fun AppScreensConfig(
                             )
                         }
                         SelectLocationScreen(
-                            onCancelClicked = { navController.navigateUp() },
+                            onCancelClicked = {
+                                navController.navigateUp()
+                                eventScreenViewModel.currentState.eventLocationLatLng.value =
+                                    LatLng(
+                                        50.45074559462868,
+                                        30.523837655782696
+                                    )
+                            },
                             onSaveLocationClicked = { navController.navigateUp() },
                             eventLocationLatLng = eventScreenViewModel.currentState.eventLocationLatLng,
                             state = state,
