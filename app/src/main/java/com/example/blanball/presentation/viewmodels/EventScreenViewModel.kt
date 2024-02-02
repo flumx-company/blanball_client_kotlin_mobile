@@ -185,7 +185,7 @@ class EventScreenViewModel
                 description = currentState.eventDescription.value,
                 duration = currentState.eventDuration.value,
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
-                hidden = false,
+                hidden = currentState.isEventPrivacyStates.value.EventPrivacyStatesToBoolean(),
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
@@ -203,9 +203,10 @@ class EventScreenViewModel
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
-                                isSuccessEventCreation = mutableStateOf(true),
-                                isErrorEventCreation = mutableStateOf(false),
+                                isSuccessEventEdit = mutableStateOf(true),
+                                isErrorEventEdit = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
+                                eventSummaryPrice = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
@@ -215,6 +216,7 @@ class EventScreenViewModel
                                 needFormStates = mutableStateOf(
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -279,6 +281,7 @@ class EventScreenViewModel
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
                                 ),
@@ -289,6 +292,7 @@ class EventScreenViewModel
                                 ),
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
+                                eventSummaryPrice = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
                                 endEventTimeState = mutableStateOf(""),
                                 maxEventPlayersState = mutableStateOf(""),

@@ -59,6 +59,7 @@ class EventScreenMainContract {
         val needBallSwitchButtonState: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isErrorEventEdit: MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessEventEdit: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacyStates: MutableState<EventPrivacyStates> = mutableStateOf(
             EventPrivacyStates.NO_SELECT),

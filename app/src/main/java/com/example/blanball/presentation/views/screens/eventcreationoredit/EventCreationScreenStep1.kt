@@ -311,31 +311,6 @@ fun EventEditOrCreationScreenStep1(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-//                DefaultTextInput(
-//                    labelResId = R.string.сhose_event_location,
-//                    state = currentState,
-//                    readOnly = true,
-//                    value = "",
-//                    onValueChange = {},
-//                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-//                        LaunchedEffect(interactionSource) {
-//                            interactionSource.interactions.collect { interaction ->
-//                                if (interaction is PressInteraction.Release) {
-//                                    onSelectLocationScreenNav()
-//                                }
-//                            }
-//                        }
-//                    },
-//                    trailingIcon = {
-//                        Icon(
-//                            modifier = Modifier.size(20.dp),
-//                            painter = painterResource(id = R.drawable.ic_location),
-//                            contentDescription = null,
-//                            tint = primaryDark,
-//                        )
-//                    },
-//                    transformation = VisualTransformation.None,
-//                )
                 SelectLocationWithGoogleMap(
                     eventLocationLatLng = currentState.eventLocationLatLng,
                     onSelectLocationScreenNav = {onSelectLocationScreenNav()},

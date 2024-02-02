@@ -2282,9 +2282,9 @@ fun AppScreensConfig(
                     }
                 }
             )
-            LaunchedEffect(currentState.isSuccessEventCreation.value) {
-                if (currentState.isSuccessEventCreation.value) {
-                    currentState.isSuccessEventCreation.value = false
+            LaunchedEffect(currentState.isSuccessEventEdit.value) {
+                if (currentState.isSuccessEventEdit.value) {
+                    currentState.isSuccessEventEdit.value = false
                     futureEventsScreenViewModel.currentState.isShowEventSuccessEditModal.value =
                         true
                     navController.navigate(Destinations.HOME.route)
