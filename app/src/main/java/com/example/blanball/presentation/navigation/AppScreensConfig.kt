@@ -2329,8 +2329,10 @@ fun AppScreensConfig(
                                         30.523837655782696
                                     )
                             },
-                            onSaveLocationClicked = { navController.navigateUp() },
-                            eventLocationLatLng = eventScreenViewModel.currentState.eventLocationLatLng,
+                            onSaveLocationClicked = { it -> eventScreenViewModel.currentState.eventLocationLatLng.value = it
+                                navController.navigateUp()
+                                                    },
+
                             state = state,
                             onUpdateCitiesForRegionList = {
                                 selectLocationScreenViewModel.handleEvent(

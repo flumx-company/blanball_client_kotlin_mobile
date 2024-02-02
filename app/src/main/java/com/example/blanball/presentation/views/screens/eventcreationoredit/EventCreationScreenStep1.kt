@@ -45,6 +45,7 @@ import com.example.blanball.presentation.views.components.buttons.InvitedUsersOf
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
 import com.example.blanball.presentation.views.components.modals.DatePickerModal
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -126,7 +127,6 @@ fun EventEditOrCreationScreenStep1(
                         currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> stringResource(
                             id = R.string.chose_event_type
                         )
-
                         else -> {
                             ("")
                         }
@@ -311,30 +311,37 @@ fun EventEditOrCreationScreenStep1(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                DefaultTextInput(
-                    labelResId = R.string.сhose_event_location,
-                    state = currentState,
-                    readOnly = true,
-                    value = "",
-                    onValueChange = {},
-                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
-                        LaunchedEffect(interactionSource) {
-                            interactionSource.interactions.collect { interaction ->
-                                if (interaction is PressInteraction.Release) {
-                                    onSelectLocationScreenNav()
-                                }
-                            }
-                        }
-                    },
-                    trailingIcon = {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_location),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    },
-                    transformation = VisualTransformation.None,
+//                DefaultTextInput(
+//                    labelResId = R.string.сhose_event_location,
+//                    state = currentState,
+//                    readOnly = true,
+//                    value = "",
+//                    onValueChange = {},
+//                    interactionSource = remember { MutableInteractionSource() }.also { interactionSource ->
+//                        LaunchedEffect(interactionSource) {
+//                            interactionSource.interactions.collect { interaction ->
+//                                if (interaction is PressInteraction.Release) {
+//                                    onSelectLocationScreenNav()
+//                                }
+//                            }
+//                        }
+//                    },
+//                    trailingIcon = {
+//                        Icon(
+//                            modifier = Modifier.size(20.dp),
+//                            painter = painterResource(id = R.drawable.ic_location),
+//                            contentDescription = null,
+//                            tint = primaryDark,
+//                        )
+//                    },
+//                    transformation = VisualTransformation.None,
+//                )
+                SelectLocationWithGoogleMap(
+                    eventLocationLatLng = currentState.eventLocationLatLng,
+                    onSelectLocationScreenNav = {onSelectLocationScreenNav()},
+                    isMarkerVisible = true,
+                    isClickable = true,
+                    height = 124.dp,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
