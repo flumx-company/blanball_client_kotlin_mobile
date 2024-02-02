@@ -26,7 +26,7 @@ data class CreationAnEventResponseEntityData(
     val type: String
 )
 
-class CreationAnEventResponseEntityForms
+class CreationAnEventResponseEntityForms{}
 
 data class CreationAnEventResponseEntityPlace(
     val lat: Double,

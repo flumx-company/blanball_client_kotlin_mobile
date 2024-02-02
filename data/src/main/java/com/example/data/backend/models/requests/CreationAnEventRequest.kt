@@ -9,7 +9,7 @@ data class CreationAnEventRequest(
     @Json(name = "date_and_time") val date_and_time: String,
     @Json(name = "description") val description: String,
     @Json(name = "duration") val duration: Int,
-    @Json(name = "forms") val forms: CreationAnEventRequestForms? = null,
+    @Json(name = "forms") val forms: CreationAnEventRequestForms,
     @Json(name = "gender") val gender: String,
     @Json(name = "hidden") val hidden: Boolean?,
     @Json(name = "name") val name: String,
@@ -22,7 +22,8 @@ data class CreationAnEventRequest(
     @Json(name = "type") val type: String
 )
 
-class CreationAnEventRequestForms
+class CreationAnEventRequestForms{
+}
 
 data class CreationAnEventRequestPlace(
     @Json(name = "lat") val lat: Double,

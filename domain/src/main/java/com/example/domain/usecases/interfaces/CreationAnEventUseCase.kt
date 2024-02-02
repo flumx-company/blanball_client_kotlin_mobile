@@ -11,7 +11,7 @@ interface CreationAnEventUseCase {
         date_and_time: String,
         description: String,
         duration: Int,
-        forms: CreationAnEventResponseEntityForms? = null,
+        forms: CreationAnEventResponseEntityForms,
         gender: String,
         hidden: Boolean?,
         name: String,
