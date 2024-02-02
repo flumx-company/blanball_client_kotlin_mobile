@@ -11,6 +11,7 @@ import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
+import com.example.blanball.utils.ext.checkNullIntPriceValue
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.mapFormStatesOnEditScreen
@@ -370,7 +371,7 @@ class EventScreenViewModel
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
-                        currentState.eventSummaryPrice.value = currentState.eventPrice.value.toString()
+                        currentState.eventSummaryPrice.value = checkNullIntPriceValue( currentState.eventPrice.value)
                         mapGenderOnEditScreen(
                             eventGenders = currentState.eventGenders.value,
                             context = application.applicationContext,

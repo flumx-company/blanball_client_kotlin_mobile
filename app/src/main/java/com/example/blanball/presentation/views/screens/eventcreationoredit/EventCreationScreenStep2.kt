@@ -208,7 +208,7 @@ fun EventEditOrCreationScreenStep2(
                     DefaultTextInput(
                         labelResId = R.string.summary_uah,
                         state = state,
-                        value = currentState. eventSummaryPrice.value?: "",
+                        value = currentState.eventSummaryPrice.value?: "",
                         onValueChange = { currentState.eventSummaryPrice.value = it },
                         transformation = VisualTransformation.None,
                         leadingIcon = {
