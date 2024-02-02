@@ -27,6 +27,8 @@ private val LightColorPalette = lightColorScheme(
     onError = errorRed,
     outline = mainGreen,
     outlineVariant = mainGreen,
+    onSurfaceVariant = Color.White,
+    surfaceTint = Color.White,
     )
 
 private val DarkColorPalette = darkColorScheme(
