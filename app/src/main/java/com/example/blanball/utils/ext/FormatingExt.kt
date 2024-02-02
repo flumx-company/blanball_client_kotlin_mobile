@@ -383,7 +383,8 @@ internal fun String.extractDate(index: Int): String {
 }
 
 internal fun String.addMinutes(minutes: Int): String {
-    if (minutes == 0) {
+
+    if (minutes == 0 || this.isEmpty()) {
         return ""
     }
     val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
