@@ -444,7 +444,8 @@ fun RatingScreen(
                                         Text(
                                             text = stringResource(id = R.string.male),
                                             style = typography.h6,
-                                            fontSize = 13.sp
+                                            fontSize = 13.sp,
+                                            color = primaryDark
                                         )
                                     }
                                 }
@@ -466,7 +467,8 @@ fun RatingScreen(
                                         Text(
                                             text = stringResource(id = R.string.female),
                                             style = typography.h6,
-                                            fontSize = 13.sp
+                                            fontSize = 13.sp,
+                                            color = secondaryNavy,
                                         )
                                     }
                                 }
@@ -488,7 +490,8 @@ fun RatingScreen(
                                         Text(
                                             text = stringResource(id = R.string.all),
                                             style = typography.h6,
-                                            fontSize = 13.sp
+                                            fontSize = 13.sp,
+                                            color = secondaryNavy,
                                         )
                                     }
                                 }
