@@ -2,8 +2,10 @@ package com.example.data.backend
 
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.CreationAnEventRequest
+import com.example.data.backend.models.requests.CreationAnEventRequestForms
 import com.example.data.backend.models.requests.CreationAnEventRequestPlace
 import com.example.data.backend.models.requests.EditEventByIdRequest
+import com.example.data.backend.models.requests.EditEventByIdRequestForms
 import com.example.data.backend.models.requests.EditEventByIdRequestPlace
 import com.example.data.backend.models.requests.EditMyProfileRequest
 import com.example.data.backend.models.requests.EditMyProfileRequestConfiguration
@@ -327,6 +329,7 @@ class AppRepositoryImpl @Inject constructor(
                     gender = gender,
                     hidden = hidden,
                     name = name,
+                    forms = EditEventByIdRequestForms(),
                     need_ball = need_ball,
                     need_form = need_form,
                     place = EditEventByIdRequestPlace(
@@ -424,7 +427,7 @@ class AppRepositoryImpl @Inject constructor(
                 date_and_time = date_and_time,
                 description = description,
                 duration = duration,
-                forms = null,
+                forms = CreationAnEventRequestForms(),
                 gender = gender,
                 hidden = hidden,
                 name = name,

@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,18 +40,13 @@ import com.google.android.gms.maps.model.LatLng
 @Composable
 fun SelectLocationScreen(
     onCancelClicked: () -> Unit,
-    onSaveLocationClicked: () -> Unit,
-    eventLocationLatLng: MutableState<LatLng>,
+    onSaveLocationClicked: (lanLat: LatLng) -> Unit,
     state: UiState,
     onUpdateCitiesForRegionList: () -> Unit,
     onUpdateMap: () -> Unit
-    ) {
+) {
     val context = LocalContext.current
     (state as? SelectLocationScreenMainContract.State)?.let { currentState ->
-
-        LaunchedEffect(eventLocationLatLng.value) {
-            currentState.selectedCityLatLan.value = eventLocationLatLng.value
-        }
 
         Box(
             modifier = Modifier.padding()
@@ -111,18 +104,19 @@ fun SelectLocationScreen(
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
                         text = stringResource(R.string.hold_your_finger_to_select_a_loc),
-                            fontSize = 12.sp,
-                            lineHeight = 20.sp,
-                            style = typography.h4,
-                            fontWeight = FontWeight(400),
-                            color = secondaryNavy,
-                        )
+                        fontSize = 12.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                    )
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 SelectLocationWithGoogleMap(
                     eventLocationLatLng = currentState.selectedCityLatLan,
                     height = 244.dp,
                     isMapExtended = currentState.isMapExpanded.value,
+                    isMarkerVisible = true,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Text(
@@ -160,7 +154,7 @@ fun SelectLocationScreen(
                                 color = mainGreen,
                                 shape = shapes.small
                             )
-                            .clickable { onSaveLocationClicked() }
+                            .clickable { onSaveLocationClicked(currentState.selectedCityLatLan.value) }
                             .padding(vertical = 10.dp, horizontal = 12.dp)
                             .wrapContentHeight(),
                     ) {

@@ -383,7 +383,8 @@ internal fun String.extractDate(index: Int): String {
 }
 
 internal fun String.addMinutes(minutes: Int): String {
-    if (minutes == 0) {
+
+    if (minutes == 0 || this.isEmpty()) {
         return ""
     }
     val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -454,15 +455,6 @@ internal fun mapToDateOnEditScreen(inputDateTime: String, outputDate: MutableSta
     }
 }
 
-internal fun String.mapToTime(inputDateTime: String): String {
-    if (this.isNotEmpty() || inputDateTime.isEmpty()) {
-        return this
-    }
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-    val dateTime = LocalDateTime.parse(inputDateTime, formatter)
-    return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-}
-
 internal fun mapToTimeOnEditScreen(inputTime: String, outputTime: MutableState<String>) {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
     val dateTime = LocalDateTime.parse(inputTime, formatter)
@@ -518,5 +510,13 @@ internal fun mapFormStatesOnEditScreen(
         isFormNeed -> formNeedStates.value = EventScreenMainContract.NeedFormStates.YES
         !isFormNeed -> formNeedStates.value = EventScreenMainContract.NeedFormStates.NO
         else -> formNeedStates.value = EventScreenMainContract.NeedFormStates.NO_SELECT
+    }
+}
+
+internal fun checkNullIntPriceValue(priceInt: Int): String  {
+    if (priceInt == 0 ) {
+        return ""
+    } else {
+        return priceInt.toString()
     }
 }

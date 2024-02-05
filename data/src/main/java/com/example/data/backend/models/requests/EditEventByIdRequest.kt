@@ -6,7 +6,7 @@ data class EditEventByIdRequest(
     val date_and_time: String,
     val description: String,
     val duration: Int,
-    val forms: Any? = null,
+    val forms: EditEventByIdRequestForms,
     val gender: String,
     val hidden: Boolean? = null,
     val name: String,
@@ -19,7 +19,7 @@ data class EditEventByIdRequest(
     val type: String
 )
 
-class EditEventByIdRequestForms // TODO("Not implemented on the backend")
+class EditEventByIdRequestForms{}
 
 data class EditEventByIdRequestPlace(
     val lat: Double,

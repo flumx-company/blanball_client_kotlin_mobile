@@ -34,7 +34,6 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -173,7 +172,7 @@ fun EventEditOrCreationScreenStep2(
                                 EventScreenMainContract.PriceStates.FREE
                             currentState.eventSummaryPrice.value = null
                             currentState.priceDescription.value = null
-                                  },
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
@@ -209,7 +208,7 @@ fun EventEditOrCreationScreenStep2(
                     DefaultTextInput(
                         labelResId = R.string.summary_uah,
                         state = state,
-                        value = currentState. eventSummaryPrice.value?: "",
+                        value = currentState.eventSummaryPrice.value ?: "",
                         onValueChange = { currentState.eventSummaryPrice.value = it },
                         transformation = VisualTransformation.None,
                         leadingIcon = {
@@ -218,7 +217,11 @@ fun EventEditOrCreationScreenStep2(
                                 contentDescription = null,
                                 tint = primaryDark,
                             )
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
                     )
                     Spacer(modifier = Modifier.size(16.dp))
                     DefaultTextInput(
@@ -229,7 +232,7 @@ fun EventEditOrCreationScreenStep2(
                             .height(104.dp),
                         state = state,
                         isSingleLine = false,
-                        value = state.priceDescription.value?: "",
+                        value = state.priceDescription.value ?: "",
                         onValueChange = { state.priceDescription.value = it },
                         transformation = VisualTransformation.None,
                         labelResId = R.string.describ_what_this_amount_is_needed_for,
@@ -282,6 +285,7 @@ fun EventEditOrCreationScreenStep2(
                         currentState.maxEventPlayersState.value.isNotValidMaxCountOfPlayers() -> stringResource(
                             id = R.string.max_count_players_validation
                         )
+
                         else -> {
                             ""
                         }
@@ -306,7 +310,6 @@ fun EventEditOrCreationScreenStep2(
                     },
                     onSearch = {},
                     colors = SearchBarDefaults.colors(
-                        containerColor = Color.White,
                         inputFieldColors = SearchBarDefaults.inputFieldColors(
                             focusedTextColor = primaryDark,
                             cursorColor = mainGreen,
@@ -441,7 +444,13 @@ fun EventEditOrCreationScreenStep2(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
+                    isEnabled =if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
+                        !currentState.priceDescription.value.isNullOrEmpty() &&
+                                !currentState.eventSummaryPrice.value.isNullOrEmpty() &&
+                                currentState.maxEventPlayersState.value.isNotEmpty()
+                    } else {
+                        currentState.maxEventPlayersState.value.isNotEmpty()
+                    },
                     nextBtnOnClick = { navigateToThirdStep() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.next,

@@ -280,7 +280,7 @@ fun EventEditOrCreationScreenStep3(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled = true,
+                    isEnabled = state.eventDescription.value.isNotEmpty(),
                     nextBtnOnClick = { publishBtnClicked() },
                     prevBtnOnClick = { backBtnCLicked() },
                     nextBtnOnTextId = R.string.publish,

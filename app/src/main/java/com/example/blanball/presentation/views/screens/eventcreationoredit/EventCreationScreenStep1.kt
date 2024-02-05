@@ -45,15 +45,16 @@ import com.example.blanball.presentation.views.components.buttons.InvitedUsersOf
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
-import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMapPreview
+import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
 import com.example.blanball.presentation.views.components.modals.DatePickerModal
 import com.example.blanball.presentation.views.components.switches.NewEventTimeSwitcher
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.SimpleTimePickerInAlertDialog
 import com.example.blanball.utils.ext.SportTypesStringsToUkr
-import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.isNotValidErrorTopicField
 import com.example.blanball.utils.ext.isValidErrorTopicField
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun EventEditOrCreationScreenStep1(
@@ -75,6 +76,13 @@ fun EventEditOrCreationScreenStep1(
     (state as? EventScreenMainContract.State)?.let { currentState ->
         LaunchedEffect(Unit) {
             currentState.eventType.value = typesOfEvent[0]
+        }
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(currentState.eventLocationLatLng.value, 10f)
+        }
+        LaunchedEffect(currentState.eventLocationLatLng.value) {
+            cameraPositionState.position =
+                CameraPosition.fromLatLngZoom(currentState.eventLocationLatLng.value, 10f)
         }
         Box(
             modifier = Modifier
@@ -109,7 +117,7 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
-                    value = currentState.eventType.value ,
+                    value = currentState.eventType.value,
                     onValueChange = { state.eventType.value = it },
                     isError = when {
                         currentState.eventType.value.isEmpty() && currentState.isValidationActivated.value -> true
@@ -238,6 +246,7 @@ fun EventEditOrCreationScreenStep1(
                     transformation = VisualTransformation.None,
                     trailingIcon = {
                         Icon(
+                            modifier = Modifier.size(20.dp),
                             painter = painterResource(id = R.drawable.ic_date),
                             contentDescription = null,
                             tint = primaryDark,
@@ -255,7 +264,9 @@ fun EventEditOrCreationScreenStep1(
                 Spacer(modifier = Modifier.size(16.dp))
                 DefaultTextInput(
                     labelResId = R.string.event_time_start,
-                    modifier = Modifier.clickable { currentState.isStartEventTimeModalOpen.value = true },
+                    modifier = Modifier.clickable {
+                        currentState.isStartEventTimeModalOpen.value = true
+                    },
                     state = currentState,
                     readOnly = true,
                     value = currentState.startEventTimeState.value,
@@ -271,6 +282,7 @@ fun EventEditOrCreationScreenStep1(
                     },
                     trailingIcon = {
                         Icon(
+                            modifier = Modifier.size(20.dp),
                             painter = painterResource(id = R.drawable.ic_time),
                             contentDescription = null,
                             tint = primaryDark,
@@ -299,21 +311,12 @@ fun EventEditOrCreationScreenStep1(
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                SelectLocationWithGoogleMapPreview(
+                SelectLocationWithGoogleMap(
                     eventLocationLatLng = currentState.eventLocationLatLng,
                     onSelectLocationScreenNav = {onSelectLocationScreenNav()},
                     isMarkerVisible = true,
                     isClickable = true,
-                )
-                Spacer(modifier = Modifier.size(16.dp))
-                Text(
-                    text = currentState.eventLocationLatLng.value.getAddressFromLocation(context)
-                        ?: "",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(500),
-                    color = primaryDark,
+                    height = 124.dp,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 DottedLine(color = defaultLightGray)
@@ -384,7 +387,9 @@ fun EventEditOrCreationScreenStep1(
                     prevBtnOnTextId = R.string.back,
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                PreviewOfTheEventPosterButton { currentState.isBottomPreviewDrawerOpen.value = true }
+                PreviewOfTheEventPosterButton {
+                    currentState.isBottomPreviewDrawerOpen.value = true
+                }
                 Spacer(modifier = Modifier.size(16.dp))
                 InvitedUsersOfTheEventButton { currentState.isInvitedUsersDrawerOpen.value = true }
                 when {

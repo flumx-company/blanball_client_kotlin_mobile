@@ -15,7 +15,7 @@ class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository:
         date_and_time: String,
         description: String,
         duration: Int,
-        forms: CreationAnEventResponseEntityForms?,
+        forms: CreationAnEventResponseEntityForms,
         gender: String,
         hidden: Boolean?,
         name: String,
@@ -27,7 +27,7 @@ class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository:
         price: Int?,
         price_description: String?,
         privacy: Boolean,
-        type: String
+        type: String,
     ): CreationAnEventResultEntity {
         return appRepository.createAnNewEvent(
             amount_members = amount_members,
@@ -49,7 +49,6 @@ class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository:
             type = type,
             lat = lat,
             lon = lon,
-
             )
     }
 }

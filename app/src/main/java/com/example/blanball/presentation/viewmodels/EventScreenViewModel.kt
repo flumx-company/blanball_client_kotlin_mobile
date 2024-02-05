@@ -11,6 +11,7 @@ import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
 import com.example.blanball.utils.ext.SportTypesStringsToEnglish
+import com.example.blanball.utils.ext.checkNullIntPriceValue
 import com.example.blanball.utils.ext.formatToIso8601DateTime
 import com.example.blanball.utils.ext.getAddressFromLocation
 import com.example.blanball.utils.ext.mapFormStatesOnEditScreen
@@ -20,6 +21,7 @@ import com.example.blanball.utils.ext.mapPrivacyOnEditScreen
 import com.example.blanball.utils.ext.mapToDateOnEditScreen
 import com.example.blanball.utils.ext.mapToTimeOnEditScreen
 import com.example.data.datastore.useridmanager.UserIdManager
+import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
@@ -183,7 +185,7 @@ class EventScreenViewModel
                 description = currentState.eventDescription.value,
                 duration = currentState.eventDuration.value,
                 gender = currentState.playersGenderStates.value.PlayersGenderStatesToString(context = application.applicationContext),
-                hidden = false,
+                hidden = currentState.isEventPrivacyStates.value.EventPrivacyStatesToBoolean(),
                 name = currentState.eventName.value,
                 need_ball = currentState.needBallSwitchButtonState.value,
                 need_form = currentState.needFormStates.value.NeedFormStatesToBoolean(),
@@ -201,9 +203,10 @@ class EventScreenViewModel
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
-                                isSuccessEventCreation = mutableStateOf(true),
-                                isErrorEventCreation = mutableStateOf(false),
+                                isSuccessEventEdit = mutableStateOf(true),
+                                isErrorEventEdit = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
+                                eventSummaryPrice = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
@@ -213,6 +216,7 @@ class EventScreenViewModel
                                 needFormStates = mutableStateOf(
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -266,6 +270,7 @@ class EventScreenViewModel
                 price_description = currentState.priceDescription.value,
                 privacy = currentState.isEventPrivacyStates.value.EventPrivacyStatesToBoolean(),
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
+                forms = CreationAnEventResponseEntityForms(),
             ).let {
                 when (it) {
                     is CreationAnEventResultEntity.Success -> {
@@ -276,6 +281,7 @@ class EventScreenViewModel
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
                                 ),
@@ -286,6 +292,7 @@ class EventScreenViewModel
                                 ),
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
+                                eventSummaryPrice = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
                                 endEventTimeState = mutableStateOf(""),
                                 maxEventPlayersState = mutableStateOf(""),
@@ -368,7 +375,7 @@ class EventScreenViewModel
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
-                        currentState.eventSummaryPrice.value = currentState.eventPrice.value.toString()
+                        currentState.eventSummaryPrice.value = checkNullIntPriceValue( currentState.eventPrice.value)
                         mapGenderOnEditScreen(
                             eventGenders = currentState.eventGenders.value,
                             context = application.applicationContext,
