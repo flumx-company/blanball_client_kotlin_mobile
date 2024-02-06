@@ -155,14 +155,14 @@ fun AppScreensConfig(
         }
     }
 
-    val bottomNavBar: @Composable () -> Unit = {
-        BottomNavBar(
-            navController = navController,
-            onCleanStatesCallback = {
-                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
-            }
-        )
-    }
+    val bottomNavBar:  @Composable () -> Unit = {
+            BottomNavBar(
+                navController = navController,
+                onCleanStatesCallback = {
+                    eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                }
+            )
+        }
 
     val topBar: @Composable () -> Unit = {
         TopBar(
