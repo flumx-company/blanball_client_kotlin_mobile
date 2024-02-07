@@ -1,7 +1,6 @@
 package com.example.blanball.presentation.views.components.maps
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -37,7 +36,7 @@ fun SelectLocationWithGoogleMap(
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .then(if (isMapExtended) Modifier.fillMaxSize() else Modifier.height(height))
+            .then(if (isMapExtended) Modifier.height(height*2) else Modifier.height(height))
             .clip(shape = shapes.medium)
             .animateContentSize(),
         cameraPositionState = cameraPositionState,
