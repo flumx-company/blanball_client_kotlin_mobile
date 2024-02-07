@@ -566,6 +566,7 @@ fun EventScreen(
                     isClickable = true,
                     eventLocationLatLng = currentState.eventLatLng,
                     isMarkerVisible = true,
+                    isLongClickAvailable = false,
                     height = 128.dp,
                     )
                 Spacer(modifier = Modifier.size(36.dp))

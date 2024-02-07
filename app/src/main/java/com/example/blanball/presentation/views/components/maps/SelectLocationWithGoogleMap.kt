@@ -26,6 +26,7 @@ fun SelectLocationWithGoogleMap(
     isMapExtended: Boolean = false,
     isMarkerVisible: Boolean = false,
     isClickable: Boolean = true,
+    isLongClickAvailable: Boolean = true,
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(eventLocationLatLng.value, 10f)
@@ -36,7 +37,7 @@ fun SelectLocationWithGoogleMap(
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .then(if (isMapExtended) Modifier.height(height*2) else Modifier.height(height))
+            .then(if (isMapExtended) Modifier.height(height * 2) else Modifier.height(height))
             .clip(shape = shapes.medium)
             .animateContentSize(),
         cameraPositionState = cameraPositionState,
@@ -46,7 +47,9 @@ fun SelectLocationWithGoogleMap(
             }
         },
         onMapLongClick = { latLng ->
-            eventLocationLatLng.value = latLng
+            if (isLongClickAvailable) {
+                eventLocationLatLng.value = latLng
+            }
         },
     ) {
         if (isMarkerVisible) {
