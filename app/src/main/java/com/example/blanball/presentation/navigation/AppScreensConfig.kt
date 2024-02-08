@@ -155,92 +155,104 @@ fun AppScreensConfig(
         }
     }
 
-    val bottomNavBar: @Composable () -> Unit = {
-        BottomNavBar(
-            navController = navController,
-            onCleanStatesCallback = {
-                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
-            }
-        )
+    val bottomNavBar: @Composable () -> Unit = remember {
+        {
+            BottomNavBar(
+                navController = navController,
+                onCleanStatesCallback = {
+                    eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                }
+            )
+        }
     }
 
-    val topBar: @Composable () -> Unit = {
-        TopBar(
-            navController = navController,
-            onNavIconClicked = { openNavDrawer() },
-        )
+    val topBar: @Composable () -> Unit = remember {
+        {
+            TopBar(
+                navController = navController,
+                onNavIconClicked = { openNavDrawer() },
+            )
+        }
     }
+
     val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
     val publicProfileCurrentState = publicProfileViewModel.currentState
     val emailVerificationVMCurrentState = emailVerificationViewModel.currentState
 
-    val bottomDrawerContent: @Composable () -> Unit = {
-        val bottomPreviewDrawerState = rememberModalBottomSheetState()
-        val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
-        PreviewOfTheEventBottomDrawer(
-            bottomDrawerState = bottomPreviewDrawerState,
-            state = eventCreationOrEditUiState
-        )
+    val bottomDrawerContent: @Composable () -> Unit = remember {
+        {
+            val bottomPreviewDrawerState = rememberModalBottomSheetState()
+            val eventCreationOrEditUiState = eventScreenViewModel.uiState.collectAsState().value
+            PreviewOfTheEventBottomDrawer(
+                bottomDrawerState = bottomPreviewDrawerState,
+                state = eventCreationOrEditUiState
+            )
+        }
     }
 
-    val invitedUsersDrawerContent: @Composable () -> Unit = {
-        InvitedUsersBottomDrawer(
-            state = eventCreationOrEditUiState,
-        )
+    val invitedUsersDrawerContent: @Composable () -> Unit = remember {
+        {
+            InvitedUsersBottomDrawer(
+                state = eventCreationOrEditUiState,
+            )
+        }
     }
-    val navDrawerContent: @Composable ColumnScope.() -> Unit = {
-        val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
-        NavigationDrawer(
-            state = navigationDrawerState,
-            onFriendsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.FRIENDS.route)
-            },
-            onPlannedEventsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.PLANNED_EVENTS.route)
-            },
-            onNotificationsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.NOTIFICATIONS.route)
-            },
-            onSettingsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.SETTINGS.route)
-            },
-            onMyProfileScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.MY_PROFILE.route)
-            },
-            onVersionsScreenClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.VERSIONS.route)
-            },
-            onFoundAnErrorClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.FOUND_AN_ERROR.route)
-            },
-            onLogOutClicked = {
-                closeNavDrawer()
-                navController.navigate(Destinations.LOGIN.route)
-                {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
+
+    val navDrawerContent: @Composable ColumnScope.() -> Unit = remember {
+        {
+            val navigationDrawerState = navigationDrawerViewModel.uiState.collectAsState().value
+            NavigationDrawer(
+                state = navigationDrawerState,
+                onFriendsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.FRIENDS.route)
+                },
+                onPlannedEventsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.PLANNED_EVENTS.route)
+                },
+                onNotificationsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.NOTIFICATIONS.route)
+                },
+                onSettingsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.SETTINGS.route)
+                },
+                onMyProfileScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.MY_PROFILE.route)
+                },
+                onVersionsScreenClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.VERSIONS.route)
+                },
+                onFoundAnErrorClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.FOUND_AN_ERROR.route)
+                },
+                onLogOutClicked = {
+                    closeNavDrawer()
+                    navController.navigate(Destinations.LOGIN.route)
+                    {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
                     }
-                }
-                coroutineScope.launch {
-                    rememberMeManager.deleteRememberMeFlag()
-                    tokenManager.deleteRefreshToken()
-                    tokenManager.deleteAccessToken()
-                    userAvatarUrlManager.deleteAvatarUrl()
-                    userNameManager.deleteUserName()
-                    userPhoneManager.deleteUserPhone()
-                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                    userEmailManager.deleteUserEmail()
-                    emailVerificationManager.deleteIsEmailVerifiedState()
-                }
-            },
-        )
+                    coroutineScope.launch {
+                        rememberMeManager.deleteRememberMeFlag()
+                        tokenManager.deleteRefreshToken()
+                        tokenManager.deleteAccessToken()
+                        userAvatarUrlManager.deleteAvatarUrl()
+                        userNameManager.deleteUserName()
+                        userPhoneManager.deleteUserPhone()
+                        resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                        userEmailManager.deleteUserEmail()
+                        emailVerificationManager.deleteIsEmailVerifiedState()
+                    }
+                },
+            )
+        }
     }
 
     NavHost(
@@ -2329,9 +2341,10 @@ fun AppScreensConfig(
                                         30.523837655782696
                                     )
                             },
-                            onSaveLocationClicked = { it -> eventScreenViewModel.currentState.eventLocationLatLng.value = it
+                            onSaveLocationClicked = { it ->
+                                eventScreenViewModel.currentState.eventLocationLatLng.value = it
                                 navController.navigateUp()
-                                                    },
+                            },
 
                             state = state,
                             onUpdateCitiesForRegionList = {

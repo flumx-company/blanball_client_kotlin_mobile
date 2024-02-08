@@ -62,6 +62,7 @@ import com.example.blanball.presentation.views.components.banners.NoHaveContentB
 import com.example.blanball.presentation.views.components.boxes.IcBox
 import com.example.blanball.presentation.views.components.dropdownmenu.CustomDropDownMenu
 import com.example.blanball.presentation.views.components.handlers.InfiniteListHandler
+import com.example.blanball.presentation.views.components.icons.ExpandableIcon
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.ratingbars.RatingBar
 import com.example.blanball.presentation.views.components.sliders.SteppedSlider
@@ -276,14 +277,9 @@ fun RatingScreen(
                                     )
                                 }
                                 Spacer(modifier = Modifier.size(8.dp))
-                                Icon(
-                                    painter = if (expandedStateMap[index] == true) painterResource(
-                                        id = R.drawable.ic_arrow_up
-                                    ) else painterResource(
-                                        id = R.drawable.ic_arrow_down
-                                    ), modifier = Modifier.size(11.25.dp, 6.25.dp),
-                                    tint = primaryDark,
-                                    contentDescription = null
+                                ExpandableIcon(
+                                    isExpanded = expandedStateMap[index] == true,
+                                    modifier = Modifier.size(11.25.dp, 6.25.dp),
                                 )
                             }
                             if (expandedStateMap[index] == true) {

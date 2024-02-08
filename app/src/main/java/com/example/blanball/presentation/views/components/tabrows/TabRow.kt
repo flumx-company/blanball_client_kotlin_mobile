@@ -11,6 +11,7 @@ import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ import com.example.blanball.presentation.theme.itemsGrayBlue
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.typography
 
+@Stable
 @Composable
 fun TabRow(tabs: List<String>, icons: List<Painter>, modifier: Modifier? = null) {
     val selectedTab = remember { mutableStateOf(0) }
