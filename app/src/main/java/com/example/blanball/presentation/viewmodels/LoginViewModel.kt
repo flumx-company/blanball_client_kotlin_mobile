@@ -60,6 +60,19 @@ class LoginViewModel
                 }
                 login()
             }
+
+            is StartScreensMainContract.Event.ClearStates -> {
+                setState {
+                    copy(
+                        loginPasswordVisibility = mutableStateOf(false),
+                        isErrorLoginRequest = mutableStateOf(false),
+                        isSuccessLoginRequest = mutableStateOf(false),
+                        rememberMeCheckbox = mutableStateOf(false),
+                        loginEmailText = mutableStateOf(""),
+                        loginPasswordText = mutableStateOf(""),
+                    )
+                }
+            }
         }
     }
 
@@ -72,6 +85,8 @@ class LoginViewModel
                        rememberMeManager.saveRememberMeFlag(currentState.rememberMeCheckbox.value)
                        userEmailManager.safeUserEmail(currentState.loginEmailText.value)
                        setState { copy(
+                           loginPasswordVisibility = mutableStateOf(false),
+                           rememberMeCheckbox = mutableStateOf(false),
                            isErrorLoginRequest = mutableStateOf(false),
                            isSuccessLoginRequest = mutableStateOf(true),
                            state = StartScreensMainContract.ScreenViewState.SuccessLogin,

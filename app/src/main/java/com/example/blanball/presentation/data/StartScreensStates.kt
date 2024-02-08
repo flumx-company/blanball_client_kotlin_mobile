@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 class StartScreensMainContract {
 
     sealed class Event : UiEvent {
+        object ClearStates: Event()
         object SendCodeClicked : Event()
         object SendEmailResetRequestClicked : Event()
         object CompleteResetClicked : Event()
