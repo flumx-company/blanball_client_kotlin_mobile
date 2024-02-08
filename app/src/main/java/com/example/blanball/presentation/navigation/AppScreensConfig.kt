@@ -269,9 +269,14 @@ fun AppScreensConfig(
                 onLoginClicked = {
                     loginViewModel.handleEvent(StartScreensMainContract.Event.LoginClicked)
                 },
-                dontRememberButtonClicked = { navController.navigate(Destinations.RESET1.route) },
-                registrationButtonClicked = { navController.navigate(Destinations.REGISTRATION1.route) })
-
+                dontRememberButtonClicked = {
+                    navController.navigate(Destinations.RESET1.route)
+                    loginViewModel.handleEvent(StartScreensMainContract.Event.ClearStates)
+                },
+                registrationButtonClicked = {
+                    navController.navigate(Destinations.REGISTRATION1.route)
+                    loginViewModel.handleEvent(StartScreensMainContract.Event.ClearStates)
+                })
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
