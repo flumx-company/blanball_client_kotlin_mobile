@@ -75,7 +75,7 @@ fun LoginScreen(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.size(24.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo_1_one_color),
                 contentDescription = null,
@@ -83,14 +83,14 @@ fun LoginScreen(
                     .size(width = 104.dp, 118.dp)
                     .align(CenterHorizontally)
             )
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = stringResource(id = R.string.blanball),
                 style = typography.h1,
                 color = primaryDark,
                 modifier = Modifier.align(CenterHorizontally)
             )
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = stringResource(id = R.string.auth_in_system),
                 style = typography.h2,
@@ -146,6 +146,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.size(12.dp))
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                Spacer(modifier = Modifier.size(2.dp))
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
                     onCheckedChange = { state.rememberMeCheckbox.value = it },
