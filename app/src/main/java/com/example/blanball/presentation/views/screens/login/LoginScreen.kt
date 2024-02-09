@@ -168,7 +168,8 @@ fun LoginScreen(
                         it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
                     },
                     text = stringResource(id = R.string.remember_me),
-                    style = typography.h6,
+                    style = typography.h4,
+                    fontSize = 12.sp,
                     lineHeight = 20.sp,
                     fontWeight = FontWeight(400),
                     color = secondaryNavy,
@@ -178,6 +179,7 @@ fun LoginScreen(
                     text = stringResource(id = R.string.i_dont_remember),
                     style = typography.h4,
                     lineHeight = 20.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight(400),
                     color = primaryDark,
                     modifier = Modifier
@@ -206,7 +208,9 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(id = R.string.sign_in),
-                style = typography.h4,
+                style = typography.h5,
+                fontWeight = FontWeight(500),
+                lineHeight = 24.sp,
             )
         }
         Spacer(modifier = Modifier.size(12.dp))
@@ -214,6 +218,7 @@ fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.dont_have_acc),
                 style = typography.h4,
+                fontSize = 12.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight(400),
                 color = secondaryNavy
@@ -222,6 +227,7 @@ fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.register),
                 style = typography.h4,
+                fontSize = 12.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight(400),
                 color = primaryDark,
