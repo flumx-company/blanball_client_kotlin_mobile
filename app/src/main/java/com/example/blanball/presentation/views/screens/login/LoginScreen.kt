@@ -168,7 +168,7 @@ fun LoginScreen(
                         it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
                     },
                     text = stringResource(id = R.string.remember_me),
-                    style = typography.h4,
+                    style = typography.h6,
                     lineHeight = 20.sp,
                     fontWeight = FontWeight(400),
                     color = secondaryNavy,
