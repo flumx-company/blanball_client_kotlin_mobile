@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -45,6 +44,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.modifiers.dottedLine
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
@@ -148,7 +148,10 @@ fun LoginScreen(
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Spacer(modifier = Modifier.size(2.dp))
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
@@ -176,9 +179,13 @@ fun LoginScreen(
                     style = typography.h4,
                     lineHeight = 20.sp,
                     fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                    modifier = Modifier.clickable(onClick = dontRememberButtonClicked),
-                    textDecoration = TextDecoration.Underline,
+                    color = primaryDark,
+                    modifier = Modifier
+                        .clickable(onClick = dontRememberButtonClicked)
+                        .dottedLine(
+                            strokeWidth = 1.dp,
+                            color = defaultLightGray,
+                        ),
                 )
             }
         }
@@ -217,9 +224,11 @@ fun LoginScreen(
                 style = typography.h4,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight(400),
-                color = mainGreen,
-                modifier = Modifier.clickable(onClick = registrationButtonClicked),
-                textDecoration = TextDecoration.Underline
+                color = primaryDark,
+                modifier = Modifier.clickable(onClick = registrationButtonClicked).dottedLine(
+                    strokeWidth = 1.dp,
+                    color = defaultLightGray,
+                ),
             )
         }
         Spacer(modifier = Modifier.weight(1f))
