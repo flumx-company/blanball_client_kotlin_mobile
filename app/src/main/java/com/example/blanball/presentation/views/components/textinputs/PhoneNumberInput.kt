@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,14 @@ fun PhoneNumberInput(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
+        textStyle =  TextStyle(
+            fontFamily = FontFamily(
+                Font(R.font.inter),
+            ),
+            fontSize = 13.sp,
+            fontWeight = FontWeight(400),
+            lineHeight = 24.sp,
+        ),
         label = {
             Text(
                 stringResource(
