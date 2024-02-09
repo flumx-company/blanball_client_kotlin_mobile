@@ -21,16 +21,19 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
@@ -145,7 +148,7 @@ fun LoginScreen(
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Spacer(modifier = Modifier.size(2.dp))
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
@@ -162,16 +165,20 @@ fun LoginScreen(
                         it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
                     },
                     text = stringResource(id = R.string.remember_me),
-                    style = typography.h6,
+                    style = typography.h4,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight(400),
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = stringResource(id = R.string.i_dont_remember),
-                    style = typography.h6,
+                    style = typography.h4,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight(400),
                     color = secondaryNavy,
                     modifier = Modifier.clickable(onClick = dontRememberButtonClicked),
-                    textDecoration = TextDecoration.Underline
+                    textDecoration = TextDecoration.Underline,
                 )
             }
         }
@@ -199,13 +206,17 @@ fun LoginScreen(
         Row() {
             Text(
                 text = stringResource(id = R.string.dont_have_acc),
-                style = typography.h6,
+                style = typography.h4,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight(400),
                 color = secondaryNavy
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = stringResource(id = R.string.register),
-                style = typography.h6,
+                style = typography.h4,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight(400),
                 color = mainGreen,
                 modifier = Modifier.clickable(onClick = registrationButtonClicked),
                 textDecoration = TextDecoration.Underline
