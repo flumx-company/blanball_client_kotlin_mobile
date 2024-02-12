@@ -76,7 +76,7 @@ fun NavigationDrawer(
                         modifier = Modifier.clickable(onClick = onVersionsScreenClicked),
                         text = stringResource(id = R.string.blanball_version) + " ${BuildConfig.VERSION_NAME}",
                         style = typography.h4,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         lineHeight = 16.sp,
                         color = secondaryNavy,
                         fontWeight = FontWeight(400),
@@ -150,7 +150,7 @@ fun NavigationDrawer(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(16.dp))
                 Row {
                     Box(
                         modifier = Modifier
@@ -180,7 +180,7 @@ fun NavigationDrawer(
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.friends),
-                                fontSize = 11.sp,
+                                fontSize = 13.sp,
                                 lineHeight = 16.sp,
                                 fontWeight = FontWeight(500),
                                 color = primaryDark,
@@ -216,7 +216,7 @@ fun NavigationDrawer(
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.planned_events_side_bar),
-                                fontSize = 11.sp,
+                                fontSize = 13.sp,
                                 lineHeight = 16.sp,
                                 fontWeight = FontWeight(500),
                                 color = primaryDark,
@@ -251,7 +251,7 @@ fun NavigationDrawer(
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.notifications),
-                                fontSize = 11.sp,
+                                fontSize = 13.sp,
                                 lineHeight = 16.sp,
                                 fontWeight = FontWeight(500),
                                 color = primaryDark,
@@ -286,7 +286,7 @@ fun NavigationDrawer(
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.params),
-                                fontSize = 11.sp,
+                                fontSize = 13.sp,
                                 lineHeight = 16.sp,
                                 fontWeight = FontWeight(500),
                                 color = primaryDark,
