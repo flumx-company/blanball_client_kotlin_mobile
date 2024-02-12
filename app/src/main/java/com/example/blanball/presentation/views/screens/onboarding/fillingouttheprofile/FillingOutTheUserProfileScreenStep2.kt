@@ -208,6 +208,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                     }
                 },
                 enableAnimation = false,
+                topPadding = 184.dp,
             )
         }
     }
