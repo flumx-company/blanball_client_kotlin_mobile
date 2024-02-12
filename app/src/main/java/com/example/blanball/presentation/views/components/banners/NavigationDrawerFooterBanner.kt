@@ -38,10 +38,10 @@ fun NavigationDrawerFooterBanner(){
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
         Text(
             text = stringResource(id = R.string.c_blanball),
-            lineHeight = 20.sp,
+            lineHeight = 16.sp,
             style = typography.h4,
             fontSize = 12.sp,
-            fontWeight = FontWeight(500),
+            fontWeight = FontWeight(400),
             color = textTertiary,
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -50,10 +50,10 @@ fun NavigationDrawerFooterBanner(){
                 ContextCompat.startActivity(context, toPrivacyPolicyUrlIntent, null  )
             },
             text = stringResource(id = R.string.data_proto),
-            lineHeight = 20.sp,
+            lineHeight = 16.sp,
             fontSize = 12.sp,
             style = typography.h4,
-            fontWeight = FontWeight(500),
+            fontWeight = FontWeight(400),
             color = textTertiary,
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -70,10 +70,10 @@ fun NavigationDrawerFooterBanner(){
                 ContextCompat.startActivity(context, toFLumXUrlIntent, null  )
             },
             text = stringResource(id = R.string.flumx),
-            lineHeight = 20.sp,
+            lineHeight = 16.sp,
             fontSize = 12.sp,
             style = typography.h4,
-            fontWeight = FontWeight(500),
+            fontWeight = FontWeight(400),
             color = textTertiary,
         )
     }
