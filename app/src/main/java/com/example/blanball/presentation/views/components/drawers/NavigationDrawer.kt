@@ -33,12 +33,15 @@ import com.example.blanball.BuildConfig
 import com.example.blanball.R
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.presentation.theme.grayBorder
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.NavigationDrawerFooterBanner
 import com.example.blanball.presentation.views.components.buttons.FoundAnErrorButton
+import com.example.blanball.presentation.views.components.modifiers.BorderPosition
+import com.example.blanball.presentation.views.components.modifiers.customBorder
 
 @Composable
 fun NavigationDrawer(
@@ -159,7 +162,8 @@ fun NavigationDrawer(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(topStart = 8.dp)
-                            ),
+                            )
+                            .customBorder(strokeWidth = 1.dp, color = grayBorder, position = BorderPosition.Bottom),
                          contentAlignment = Alignment.Center
                     ) {
                         Row(
@@ -192,7 +196,10 @@ fun NavigationDrawer(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(topEnd = 8.dp)
-                            ),
+                            )
+                            .customBorder(strokeWidth = 1.dp, color = grayBorder, position = BorderPosition.Bottom)
+                            .customBorder(strokeWidth = 1.dp, color = grayBorder, position = BorderPosition.Start)
+                        ,
                         contentAlignment = Alignment.Center
                     ) {
                         Row(
@@ -260,7 +267,9 @@ fun NavigationDrawer(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(bottomEnd = 8.dp)
-                            ),
+                            )
+                            .customBorder(strokeWidth = 1.dp, color = grayBorder, position = BorderPosition.Start)
+                        ,
                         contentAlignment = Alignment.Center
                     ) {
                         Row(

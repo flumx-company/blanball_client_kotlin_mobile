@@ -12,6 +12,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -46,6 +49,14 @@ fun PassTextInput(
         onValueChange = onValueChange,
         visualTransformation = if (visibilityIconState.value) VisualTransformation.None else PasswordVisualTransformation(),
         singleLine = true,
+        textStyle =  TextStyle(
+            fontFamily = FontFamily(
+                Font(R.font.inter),
+            ),
+            fontSize = 13.sp,
+            fontWeight = FontWeight(400),
+            lineHeight = 24.sp,
+        ),
         label = {
             Text(
                 stringResource(

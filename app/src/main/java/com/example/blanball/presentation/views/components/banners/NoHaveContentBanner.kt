@@ -44,8 +44,8 @@ fun NoHaveContentBanner(
                 Text(
                     text = stringResource(id = headerTextId),
                     style = typography.h3,
-                    fontSize = 16.sp,
-                    lineHeight = 20.sp,
+                    fontSize = 20.sp,
+                    lineHeight = 28.sp,
                     fontWeight = FontWeight(800),
                     color = primaryDark
                 )
@@ -53,7 +53,7 @@ fun NoHaveContentBanner(
                 Text(
                     text = stringResource(id = secTextId),
                     style = typography.h4,
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     lineHeight = 20.sp,
                     fontWeight = FontWeight(500),
                     color = secondaryNavy

@@ -21,16 +21,18 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiState
@@ -42,6 +44,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.PrivacyPolicyBanner
 import com.example.blanball.presentation.views.components.loaders.Loader
+import com.example.blanball.presentation.views.components.modifiers.dottedLine
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PassTextInput
 import com.example.blanball.utils.ext.isInReqRange
@@ -75,7 +78,7 @@ fun LoginScreen(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.size(24.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo_1_one_color),
                 contentDescription = null,
@@ -83,14 +86,14 @@ fun LoginScreen(
                     .size(width = 104.dp, 118.dp)
                     .align(CenterHorizontally)
             )
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = stringResource(id = R.string.blanball),
                 style = typography.h1,
                 color = primaryDark,
                 modifier = Modifier.align(CenterHorizontally)
             )
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.size(6.dp))
             Text(
                 text = stringResource(id = R.string.auth_in_system),
                 style = typography.h2,
@@ -145,7 +148,11 @@ fun LoginScreen(
                 visibilityIconState = it.loginPasswordVisibility,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.size(2.dp))
                 Checkbox(
                     checked = it.rememberMeCheckbox.value,
                     onCheckedChange = { state.rememberMeCheckbox.value = it },
@@ -161,16 +168,26 @@ fun LoginScreen(
                         it.rememberMeCheckbox.value = !(it.rememberMeCheckbox.value)
                     },
                     text = stringResource(id = R.string.remember_me),
-                    style = typography.h6,
+                    style = typography.h4,
+                    fontSize = 12.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight(400),
                     color = secondaryNavy,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = stringResource(id = R.string.i_dont_remember),
-                    style = typography.h6,
-                    color = secondaryNavy,
-                    modifier = Modifier.clickable(onClick = dontRememberButtonClicked),
-                    textDecoration = TextDecoration.Underline
+                    style = typography.h4,
+                    lineHeight = 20.sp,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight(400),
+                    color = primaryDark,
+                    modifier = Modifier
+                        .clickable(onClick = dontRememberButtonClicked)
+                        .dottedLine(
+                            strokeWidth = 1.dp,
+                            color = defaultLightGray,
+                        ),
                 )
             }
         }
@@ -191,23 +208,33 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(id = R.string.sign_in),
-                style = typography.h4,
+                style = typography.h5,
+                fontWeight = FontWeight(500),
+                lineHeight = 24.sp,
             )
         }
         Spacer(modifier = Modifier.size(12.dp))
         Row() {
             Text(
                 text = stringResource(id = R.string.dont_have_acc),
-                style = typography.h6,
+                style = typography.h4,
+                fontSize = 12.sp,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight(400),
                 color = secondaryNavy
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = stringResource(id = R.string.register),
-                style = typography.h6,
-                color = mainGreen,
-                modifier = Modifier.clickable(onClick = registrationButtonClicked),
-                textDecoration = TextDecoration.Underline
+                style = typography.h4,
+                fontSize = 12.sp,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight(400),
+                color = primaryDark,
+                modifier = Modifier.clickable(onClick = registrationButtonClicked).dottedLine(
+                    strokeWidth = 1.dp,
+                    color = defaultLightGray,
+                ),
             )
         }
         Spacer(modifier = Modifier.weight(1f))
