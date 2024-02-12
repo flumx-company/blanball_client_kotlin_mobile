@@ -137,7 +137,7 @@ fun NavigationDrawer(
                                 text = "${currentState.userFirstNameText.value} ${currentState.userLastNameText.value}",
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp,
-                                fontWeight = FontWeight(800),
+                                fontWeight = FontWeight(700),
                                 color = primaryDark,
                             )
                             Text(
