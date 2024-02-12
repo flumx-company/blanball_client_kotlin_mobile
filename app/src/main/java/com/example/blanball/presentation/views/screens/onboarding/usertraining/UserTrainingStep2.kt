@@ -70,8 +70,10 @@ fun UserTrainingStep2(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = stringResource(id = R.string.tournaments_friendly_matches),
+                    text = stringResource(id = R.string.blanball_is),
                     style = typography.h3,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
                     lineHeight = 20.sp,
                     color = secondaryNavy,
                 )

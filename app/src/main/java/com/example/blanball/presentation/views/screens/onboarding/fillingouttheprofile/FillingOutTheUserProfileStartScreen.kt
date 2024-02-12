@@ -74,11 +74,12 @@ fun FillingOutTheUserProfileStartScreen(
                     )
                     Spacer(modifier = Modifier.size(24.dp))
                     Text(
-                        text = stringResource(id = R.string.tell_us_about_yourself),
+                        text = stringResource(id = R.string.blanball_is),
                         style = typography.h3,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400),
                         lineHeight = 20.sp,
-                        fontSize = 16.sp,
-                        color = secondaryNavy
+                        color = secondaryNavy,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.size(24.dp))

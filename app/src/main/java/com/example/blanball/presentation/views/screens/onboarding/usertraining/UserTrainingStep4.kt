@@ -72,6 +72,8 @@ fun UserTrainingStep4(
                 Text(
                     text = stringResource(id = R.string.blanball_is),
                     style = typography.h3,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
                     lineHeight = 20.sp,
                     color = secondaryNavy,
                 )

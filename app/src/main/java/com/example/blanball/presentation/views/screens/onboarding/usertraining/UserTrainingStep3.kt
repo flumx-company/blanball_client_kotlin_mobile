@@ -74,8 +74,10 @@ fun UserTrainingStep3(
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
-                    text = stringResource(id = R.string.after_each_event),
+                    text = stringResource(id = R.string.blanball_is),
                     style = typography.h3,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
                     lineHeight = 20.sp,
                     color = secondaryNavy,
                 )
@@ -92,6 +94,7 @@ fun UserTrainingStep3(
                             text = stringResource(id = R.string.users_with_good_rating),
                             style = typography.h6,
                             fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
                             lineHeight = 20.sp,
                         )
                     }
