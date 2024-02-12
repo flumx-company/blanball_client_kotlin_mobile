@@ -93,8 +93,8 @@ fun NavigationDrawer(
                 Box(
                     modifier = Modifier
                         .background(color = Color.White, shape = RoundedCornerShape(8.dp))
-                        .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
                         .height(64.dp)
+                        .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
                         .fillMaxWidth()
                         .clickable(onClick = onMyProfileScreenClicked),
                     contentAlignment = Alignment.CenterStart,
