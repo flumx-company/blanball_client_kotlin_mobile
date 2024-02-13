@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.domain.utils.Integers
 
@@ -23,6 +24,7 @@ import com.example.domain.utils.Integers
 fun AnimatedPaddingCard(
     content: @Composable () -> Unit,
     enableAnimation: Boolean,
+    topPadding: Dp = 376.dp,
 ) {
     val keyboardVisible = remember { mutableStateOf(false) }
 
@@ -33,7 +35,7 @@ fun AnimatedPaddingCard(
     }
 
     val padding by animateDpAsState(
-        targetValue = if (keyboardVisible.value && enableAnimation) 0.dp else 190.dp,
+        targetValue = if (keyboardVisible.value && enableAnimation) 0.dp else topPadding,
         tween(durationMillis = Integers.DURATION_MILLIS_ON_CARD)
     )
 
