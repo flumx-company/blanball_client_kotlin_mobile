@@ -68,6 +68,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.45"
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
     implementation 'androidx.compose.material3:material3:1.1.1'
+    implementation 'androidx.compose.foundation:foundation-android:1.6.1'
     kapt "com.google.dagger:hilt-compiler:2.45"
 
 //    // Test
