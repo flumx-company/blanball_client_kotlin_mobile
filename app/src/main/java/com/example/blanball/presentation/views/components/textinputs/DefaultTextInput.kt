@@ -86,7 +86,7 @@ fun DefaultTextInput(
                             width = 1.dp,
                             color = (
                                     when {
-                                        (isTextFieldFocused) -> selectedDarkGray
+                                        (isTextFieldFocused && !isError) -> selectedDarkGray
                                         (isError) -> errorRed
                                         else -> defaultLightGray
                                     }),
