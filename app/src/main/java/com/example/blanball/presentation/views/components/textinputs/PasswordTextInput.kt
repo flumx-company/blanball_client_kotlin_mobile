@@ -49,13 +49,13 @@ import com.example.blanball.presentation.theme.typography
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PassTextInput(
+    modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
     labelResId: Int,
     value: String,
     onValueChange: (String) -> Unit,
     state: StartScreensMainContract.State,
     isError: Boolean = false,
-    modifier: Modifier = Modifier,
-    textFieldModifier: Modifier = Modifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     errorMessage: String = "",
