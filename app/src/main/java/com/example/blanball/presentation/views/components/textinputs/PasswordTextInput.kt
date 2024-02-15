@@ -73,6 +73,7 @@ fun PassTextInput(
             onValueChange = onValueChange,
             singleLine = true,
             keyboardOptions = keyboardOptions,
+            interactionSource = interactionSource,
             keyboardActions = keyboardActions,
             visualTransformation = if (visibilityIconState.value) VisualTransformation.None else PasswordVisualTransformation(),
             textStyle = TextStyle(
