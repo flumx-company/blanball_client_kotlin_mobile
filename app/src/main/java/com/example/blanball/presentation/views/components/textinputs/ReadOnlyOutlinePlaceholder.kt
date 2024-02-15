@@ -6,10 +6,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -50,7 +50,7 @@ fun ReadOnlyOutlinePlaceholder(
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     val isTextFieldFocused by interactionSource.collectIsFocusedAsState()
     Column(
-        modifier = modifier.animateContentSize().fillMaxSize()
+        modifier = modifier.animateContentSize().wrapContentSize()
     ) {
         BasicTextField(
             modifier = textFieldModifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),

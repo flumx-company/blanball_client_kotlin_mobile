@@ -46,7 +46,7 @@ import com.example.blanball.presentation.theme.typography
 @Composable
 fun DefaultTextInput(
     modifier: Modifier = Modifier,
-    textFieldModifier: Modifier = Modifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
+    textFieldModifier: Modifier = Modifier,
     labelResId: Int,
     state: UiState,
     value: String,
@@ -69,7 +69,7 @@ fun DefaultTextInput(
         modifier = modifier.animateContentSize().fillMaxSize()
     ) {
         BasicTextField(
-            modifier = textFieldModifier,
+            modifier = textFieldModifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             singleLine = isSingleLine,

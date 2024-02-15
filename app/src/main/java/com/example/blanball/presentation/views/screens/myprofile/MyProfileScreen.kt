@@ -40,13 +40,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.avatarGrey
+import com.example.blanball.presentation.theme.borderPrimary
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.lightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
+import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.ChangePassButton
 import com.example.blanball.presentation.views.components.buttons.EditProfileButton
@@ -452,8 +453,8 @@ fun MyProfileScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .height(60.dp)
-                        .border(width = 1.dp, color = avatarGrey, shape = RoundedCornerShape(8.dp))
+                        .height(44.dp)
+                        .border(width = 1.dp, color = borderPrimary, shape = shapes.medium)
                         .fillMaxWidth()
                         .background(
                             color = Color.White,
