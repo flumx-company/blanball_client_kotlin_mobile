@@ -83,8 +83,8 @@ fun ResetPasswordScreenStep3(
                     color = primaryDark,
                     textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.size(16.dp))
                 Row(
-                    Modifier.padding(top = 20.dp)
                 ) {
                     repeat(3) {
                         Image(
@@ -95,11 +95,11 @@ fun ResetPasswordScreenStep3(
                         Spacer(modifier = Modifier.size(2.dp))
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.create_a_new_password),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                        .fillMaxWidth(),
                     style = typography.h3,
                     fontWeight = FontWeight(400),
                     lineHeight = 24.sp,
