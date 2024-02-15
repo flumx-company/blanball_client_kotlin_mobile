@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -44,13 +45,13 @@ fun PhoneNumberInput(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        textStyle =  TextStyle(
-            fontFamily = FontFamily(
-                Font(R.font.inter),
-            ),
+        textStyle = TextStyle(
+            color = primaryDark,
             fontSize = 13.sp,
             fontWeight = FontWeight(400),
+            fontFamily = FontFamily(Font(R.font.inter)),
             lineHeight = 24.sp,
+            textMotion = TextMotion.Animated,
         ),
         label = {
             Text(

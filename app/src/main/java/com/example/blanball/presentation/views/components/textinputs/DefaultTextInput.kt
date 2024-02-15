@@ -22,11 +22,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.blanball.R
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
@@ -39,7 +44,7 @@ import com.example.blanball.presentation.theme.typography
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DefaultTextInput(
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier,
     textFieldModifier: Modifier = Modifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
     labelResId: Int,
     state: UiState,
@@ -63,12 +68,20 @@ fun DefaultTextInput(
         modifier = modifier.animateContentSize().fillMaxSize()
     ) {
         BasicTextField(
+            modifier = textFieldModifier,
             value = value,
             onValueChange = onValueChange,
-            modifier = textFieldModifier,
             singleLine = isSingleLine,
             interactionSource = interactionSource,
             enabled = enabled,
+            textStyle = TextStyle(
+                color = primaryDark,
+                fontSize = 13.sp,
+                fontWeight = FontWeight(400),
+                fontFamily = FontFamily(Font(R.font.inter)),
+                lineHeight = 24.sp,
+                textMotion = TextMotion.Animated,
+            ),
             visualTransformation = transformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
