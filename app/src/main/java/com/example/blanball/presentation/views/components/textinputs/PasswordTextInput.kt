@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.StartScreensMainContract
+import com.example.blanball.presentation.theme.borderPrimary
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.errorRed
 import com.example.blanball.presentation.theme.mainGreen
@@ -110,7 +111,7 @@ fun PassTextInput(
                                     when {
                                         (isTextFieldFocused && !isError) -> selectedDarkGray
                                         (isError) -> errorRed
-                                        else -> defaultLightGray
+                                        else -> borderPrimary
                                     }),
                             shape = shapes.medium
                         )

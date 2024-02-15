@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
@@ -40,7 +39,6 @@ fun OutlineRadioButton(
                     color = if (selected) mainGreen else defaultLightGray,
                     shape = shapes.medium
                 )
-                .padding(horizontal = 4.dp, vertical = 8.dp)
                 .height(40.dp).fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
