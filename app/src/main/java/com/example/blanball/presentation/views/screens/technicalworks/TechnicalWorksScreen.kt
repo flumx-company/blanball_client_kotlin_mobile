@@ -27,8 +27,10 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun TechnicalWorksScreen(
+    messageTextId: Int,
+    secondaryTextId: Int,
 ) {
-    val techWorksSplittedWords = stringResource(R.string.technical_works).uppercase().split(" ")
+    val techWorksSplittedWords = stringResource(messageTextId).uppercase().split(" ")
     Box {
         Image(
             modifier = Modifier
@@ -56,7 +58,7 @@ fun TechnicalWorksScreen(
             )
             Spacer(modifier = Modifier.size(12.dp))
             Text(
-                text = stringResource(R.string.our_team_works),
+                text = stringResource(secondaryTextId),
                 fontSize = 12.sp,
                 lineHeight = 20.sp,
                 style = typography.h4,

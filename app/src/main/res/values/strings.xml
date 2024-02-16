@@ -467,4 +467,6 @@
     <string name="invalid_phone_error_message">phone_invalid_phone_number</string>
     <string name="unique_phone_error_message">phone_unique</string>
     <string name="email_unique_message">email_unique</string>
+    <string name="connection_error">Відсутнє підключення до Інтернету</string>
+    <string name="check_your_connection">Перевірте підключення до інтернету та спробуйте ще раз</string>
 </resources>
