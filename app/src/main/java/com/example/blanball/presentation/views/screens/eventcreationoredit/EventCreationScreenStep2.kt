@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -47,6 +46,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
+import com.example.blanball.presentation.theme.borderPrimary
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -297,8 +297,8 @@ fun EventEditOrCreationScreenStep2(
                         .heightIn(min = 1.dp, max = 260.dp)
                         .fillMaxWidth()
                         .border(
-                            shape = RoundedCornerShape(size = 4.dp),
-                            color = defaultLightGray,
+                            shape = shapes.medium,
+                            color = borderPrimary,
                             width = 1.dp
                         )
                         .animateContentSize(),

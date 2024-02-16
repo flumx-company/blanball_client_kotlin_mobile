@@ -111,8 +111,8 @@ fun ResetPasswordScreenStep2(
                     color = primaryDark,
                     textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.size(16.dp))
                 Row(
-                    Modifier.padding(top = 20.dp)
                 ) {
                     repeat(2) {
                         Image(
@@ -128,11 +128,11 @@ fun ResetPasswordScreenStep2(
                         Modifier.weight(1f).height(4.dp),
                     )
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.send_email_text),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                        .fillMaxWidth(),
                     style = typography.h3,
                     fontWeight = FontWeight(400),
                     lineHeight = 24.sp,

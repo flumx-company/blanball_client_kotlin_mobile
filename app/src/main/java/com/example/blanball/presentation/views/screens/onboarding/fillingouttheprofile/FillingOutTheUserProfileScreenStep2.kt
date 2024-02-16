@@ -190,6 +190,7 @@ fun FillingOutTheUserProfileScreenStep2 (
                             lineHeight = 24.sp,
                             fontWeight = FontWeight(700),
                         )
+                        Spacer(modifier = Modifier.size(12.dp))
                         ReadOnlyOutlinePlaceholder(
                             modifier = Modifier.fillMaxWidth(1f),
                             value = it.selectDocumentState.value,

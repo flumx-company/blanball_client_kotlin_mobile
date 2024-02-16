@@ -86,8 +86,9 @@ fun ResetPasswordScreenStep1(
                     color = primaryDark,
                     textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.size(16.dp))
                 Row(
-                    Modifier.padding(top = 20.dp)
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         painter = painterResource(R.drawable.stepline_1),
@@ -105,11 +106,11 @@ fun ResetPasswordScreenStep1(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.size(20.dp))
                 Text(
                     text = stringResource(R.string.send_email_text_step_1),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
+                        .fillMaxWidth(),
                     style = typography.h3,
                     fontWeight = FontWeight(400),
                     lineHeight = 24.sp,
@@ -145,7 +146,7 @@ fun ResetPasswordScreenStep1(
                     isEnabled = currentState.resetEmailText.value.isValidEmail(),
                     nextBtnOnClick = onStep2Clicked,
                     prevBtnOnClick = onCancelClicked,
-                    nextBtnOnTextId = R.string.send_code,
+                    nextBtnOnTextId = R.string.next,
                     prevBtnOnTextId = R.string.cancel,
                 )
                 Spacer(modifier = Modifier.size(20.dp))
