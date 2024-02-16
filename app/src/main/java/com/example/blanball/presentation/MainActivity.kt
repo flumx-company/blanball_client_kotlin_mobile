@@ -11,12 +11,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.blanball.R
 import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
@@ -77,20 +79,26 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         actionBar?.hide()
 
         setContent {
+            var isConnectException by remember { mutableStateOf(false) }
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
 
+            Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
+                if (throwable is java.net.ConnectException) {
+                    isConnectException = true
+                }
+            }
+
             if (navigationDrawerViewModel.currentState.isSplashScreenActivated.value) {
-            LaunchedEffect(key1 = Unit ) {
+                LaunchedEffect(key1 = Unit) {
                     val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                     navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
-                     selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
+                    selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
@@ -129,12 +137,23 @@ class MainActivity : ComponentActivity() {
             val isTechWorksStatus = techWorksScreenViewModel.currentState.isTechWorksAvailable.value
 
             when {
+                isConnectException -> {
+                    TechnicalWorksScreen(
+                        messageTextId = R.string.connection_error,
+                        secondaryTextId = R.string.check_your_connection,
+                    )
+                }
+
                 navigationDrawerViewModel.currentState.isSplashScreenActivated.value
                 -> {
                     SplashScreen()
                 }
+
                 isTechWorksStatus -> {
-                    TechnicalWorksScreen()
+                    TechnicalWorksScreen(
+                        messageTextId = R.string.technical_works,
+                        secondaryTextId = R.string.our_team_works,
+                    )
                 }
 
                 else -> {
@@ -147,34 +166,34 @@ class MainActivity : ComponentActivity() {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                                    AppScreensConfig(
-                                        navController = navController,
-                                        startDestinations = startDestinations,
-                                        resetPassViewModel = viewModel(),
-                                        registrationViewModel = viewModel(),
-                                        publicProfileViewModel = viewModel(),
-                                        loginViewModel = viewModel(),
-                                        onboardingProfileViewModel = viewModel(),
-                                        navigationDrawerViewModel = navigationDrawerViewModel,
-                                        scaffoldState = scaffoldState,
-                                        coroutineScope = coroutineScope,
-                                        rememberMeManager = rememberMeManager,
-                                        tokenManager = tokenManager,
-                                        userNameManager = userNameManager,
-                                        userAvatarUrlManager = userAvatarUrlManager,
-                                        userPhoneManager = userPhoneManager,
-                                        resetPassVerifyCodeManager = resetPassVerifyCodeManager,
-                                        usersRatingViewModel = viewModel(),
-                                        foundAnErrorViewModel = viewModel(),
-                                        myProfileScreenViewModel = viewModel(),
-                                        myEventsViewModel = viewModel(),
-                                        futureEventsScreenViewModel = futureEventsScreenViewModel,
-                                        eventScreenViewModel = viewModel(),
-                                        emailVerificationViewModel = viewModel(),
-                                        userEmailManager = userEmailManager,
-                                        emailVerificationManager = emailVerificationManager,
-                                        selectLocationScreenViewModel = selectLocationScreenViewModel,
-                                    )
+                            AppScreensConfig(
+                                navController = navController,
+                                startDestinations = startDestinations,
+                                resetPassViewModel = viewModel(),
+                                registrationViewModel = viewModel(),
+                                publicProfileViewModel = viewModel(),
+                                loginViewModel = viewModel(),
+                                onboardingProfileViewModel = viewModel(),
+                                navigationDrawerViewModel = navigationDrawerViewModel,
+                                scaffoldState = scaffoldState,
+                                coroutineScope = coroutineScope,
+                                rememberMeManager = rememberMeManager,
+                                tokenManager = tokenManager,
+                                userNameManager = userNameManager,
+                                userAvatarUrlManager = userAvatarUrlManager,
+                                userPhoneManager = userPhoneManager,
+                                resetPassVerifyCodeManager = resetPassVerifyCodeManager,
+                                usersRatingViewModel = viewModel(),
+                                foundAnErrorViewModel = viewModel(),
+                                myProfileScreenViewModel = viewModel(),
+                                myEventsViewModel = viewModel(),
+                                futureEventsScreenViewModel = futureEventsScreenViewModel,
+                                eventScreenViewModel = viewModel(),
+                                emailVerificationViewModel = viewModel(),
+                                userEmailManager = userEmailManager,
+                                emailVerificationManager = emailVerificationManager,
+                                selectLocationScreenViewModel = selectLocationScreenViewModel,
+                            )
                         }
                     }
                 }
