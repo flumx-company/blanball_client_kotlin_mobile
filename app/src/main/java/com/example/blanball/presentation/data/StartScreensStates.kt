@@ -53,6 +53,7 @@ class StartScreensMainContract {
         val isUniqueEmailValidationError: MutableState<Boolean> = mutableStateOf(false),
         val isUniquePhoneValidationError: MutableState<Boolean> = mutableStateOf(false),
         val errorMessageText: MutableState<String> = mutableStateOf(""),
+        val isUserAuthorized: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

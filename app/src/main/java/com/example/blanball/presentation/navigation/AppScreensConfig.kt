@@ -31,6 +31,7 @@ import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
+import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.SelectLocationScreenMainContract
@@ -671,7 +672,10 @@ fun AppScreensConfig(
 
         composable(Destinations.USER_TRAINING_4.route) {
             UserTrainingStep4(
-                onFillingOutTheUserProfileStartScreenClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) },
+                onFillingOutTheUserProfileStartScreenClicked = {
+                    navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route)
+                    selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
+                },
                 onSkipButtonClicked = { navController.navigate(Destinations.FILLING_OUT_THE_USER_PROFILE_START.route) }
             )
         }
@@ -681,6 +685,7 @@ fun AppScreensConfig(
             val futureEventsScreenViewModelState =
                 futureEventsScreenViewModel.uiState.collectAsState().value
             val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
+            navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
