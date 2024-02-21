@@ -15,8 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,7 +28,6 @@ fun TechnicalWorksScreen(
     messageTextId: Int,
     secondaryTextId: Int,
 ) {
-    val techWorksSplittedWords = stringResource(messageTextId).uppercase().split(" ")
     Box {
         Image(
             modifier = Modifier
@@ -43,18 +40,12 @@ fun TechnicalWorksScreen(
         Column(modifier = Modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp)) {
 
             Text(
-                text = AnnotatedString.Builder().apply {
-                    for ((index, word) in techWorksSplittedWords.withIndex()) {
-                        pushStyle(SpanStyle(color = if (index == 2 || index == 4) primaryDark else secondaryNavy))
-                        append("$word ")
-                        pop()
-                    }
-                }.toAnnotatedString(),
+                text = stringResource(messageTextId).uppercase(),
                 fontSize = 20.sp,
                 lineHeight = 28.sp,
                 style = typography.h3,
                 fontWeight = FontWeight(800),
-                color = secondaryNavy,
+                color = primaryDark,
             )
             Spacer(modifier = Modifier.size(12.dp))
             Text(
@@ -65,7 +56,6 @@ fun TechnicalWorksScreen(
                 fontWeight = FontWeight(400),
                 color = secondaryNavy,
             )
-            Spacer(modifier = Modifier.size(20.dp))
             Image(
                 modifier = Modifier.fillMaxWidth(),
                 alignment = Alignment.Center,

@@ -238,7 +238,7 @@ fun AllEventsFilterScreen(
                             contentColor = Color.White,
                         )
                     ) {
-                        Row {
+                        Row (verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_check),
                                 contentDescription = null

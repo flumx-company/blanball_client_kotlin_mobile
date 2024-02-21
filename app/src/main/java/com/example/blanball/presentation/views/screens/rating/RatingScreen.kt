@@ -199,7 +199,10 @@ fun RatingScreen(
                 }
                 Spacer(modifier = Modifier.size(6.dp))
                 if (state.usersList.value.isEmpty()) {
-                    NoHaveContentBanner(headerTextId = R.string.not_found_users_for_this_filter, secTextId = R.string.change_search_params)
+                    NoHaveContentBanner(
+                        headerTextId = R.string.not_found_users_for_this_filter,
+                        secTextId = R.string.change_search_params,
+                    )
                 }
                 else {
                     LazyColumn {

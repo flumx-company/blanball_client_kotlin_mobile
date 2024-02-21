@@ -469,4 +469,10 @@
     <string name="email_unique_message">email_unique</string>
     <string name="connection_error">Відсутнє підключення до Інтернету</string>
     <string name="check_your_connection">Перевірте підключення до інтернету та спробуйте ще раз</string>
+    <string name="organize_event">Організувати подію!</string>
+    <string name="no_have_actually_events">Наразі немає актуальних подій для відображення</string>
+    <string name="your_event_can_be_first">Ваша подія може стати першою</string>
+    <string name="you_have_not_been_an_event_organizer">До сьогодні ви ще не були організатором подій</string>
+    <string name="organize_your_first_event">Організуйте вашу першу подію</string>
+    <string name="create_event">Створити подію</string>
 </resources>

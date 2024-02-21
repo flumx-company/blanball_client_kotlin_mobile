@@ -816,9 +816,14 @@ fun AppScreensConfig(
                                 }
                             },
                             onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
-                            navigateToCreationEventScreen = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                            navigateToCreationEventScreen = {
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
                             navigateToFilterScreen = { navController.navigate(Destinations.ALL_EVENTS_FILTER_SCREEN.route) },
                             navigateToMyEventsScreen = { navController.navigate(Destinations.MY_EVENTS.route) },
+                            onNavigateToEventCreation = {
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
                         )
                     }
                 }
@@ -1885,7 +1890,14 @@ fun AppScreensConfig(
                                     )
                                 }
                             },
-                            onCreatedEventClicked = { navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                            onCreatedEventClicked = {
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                            },
+                            onNavigateToEventCreation = {
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+                            },
                         )
                     }
                 }
@@ -2048,7 +2060,7 @@ fun AppScreensConfig(
                             },
                             paddingValues = paddingValues,
                             confirmBtnClicked = {
-                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                navController.navigate(Destinations.MY_EVENTS.route)
                                 myEventsViewModel.setState {
                                     copy(
                                         state = MyEventsScreenMainContract.ScreenViewState.Loading

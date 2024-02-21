@@ -75,6 +75,7 @@ fun MyEventsScreen(
     navigateToMyEventsFilterScreen: () -> Unit,
     onClickedToChangeOrdering: () -> Unit,
     onCreatedEventClicked: () -> Unit,
+    onNavigateToEventCreation: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -187,8 +188,11 @@ fun MyEventsScreen(
                 Spacer(modifier = Modifier.size(12.dp))
                 if (state.myEventsList.value.isEmpty()) {
                     NoHaveContentBanner(
-                        headerTextId = R.string.not_found_events_for_this_filter,
-                        secTextId = R.string.change_search_params
+                        headerTextId = R.string.no_have_actually_events,
+                        secTextId = R.string.organize_your_first_event,
+                        isBtnVisible = true,
+                        onButtonClicked = {onNavigateToEventCreation()},
+                        buttonTextId = R.string.create_event,
                     )
                 } else {
                     LazyColumn {
