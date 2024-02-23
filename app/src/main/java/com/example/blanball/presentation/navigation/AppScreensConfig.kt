@@ -281,7 +281,7 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
-                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+//                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true

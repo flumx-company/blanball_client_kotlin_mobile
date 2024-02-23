@@ -7,6 +7,7 @@ import com.example.blanball.presentation.data.StartScreensMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.data.datastore.remembermemanager.RememberMeManager
+import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.LoginResultEntity
@@ -93,6 +94,7 @@ class LoginViewModel
                            loginEmailText = mutableStateOf(""),
                            loginPasswordText = mutableStateOf(""),
                        ) }
+
                    }
                    is LoginResultEntity.Error -> setState {
                        copy(isErrorLoginRequest =  mutableStateOf(true),

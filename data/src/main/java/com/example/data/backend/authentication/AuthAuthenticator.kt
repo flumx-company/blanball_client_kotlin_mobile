@@ -58,6 +58,6 @@ class AuthAuthenticator @Inject constructor(
             .client(okHttpClient)
             .build()
         val service = retrofit.create(AuthApiService::class.java)
-        return service.refreshToken(refreshToken.toString())
+        return service.refreshToken(refresh = refreshToken.toString())
     }
 }
