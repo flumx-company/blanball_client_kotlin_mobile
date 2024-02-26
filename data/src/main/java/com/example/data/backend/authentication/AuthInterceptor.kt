@@ -1,5 +1,6 @@
 package com.example.data.backend.authentication
 
+import android.util.Log
 import com.example.data.datastore.tokenmanager.TokenManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -16,6 +17,7 @@ class AuthInterceptor @Inject constructor (
         runBlocking {
             tokenManager.getAccessToken().first()?.let { token ->
                 request.addHeader("Authorization", "Bearer $token")
+                Log.d("Token", token)
             }
         }
         return chain.proceed(request.build())

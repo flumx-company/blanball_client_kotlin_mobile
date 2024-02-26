@@ -12,7 +12,6 @@ import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +28,6 @@ import javax.inject.Inject
 class NavigationDrawerViewModel
 @Inject constructor(
     internal val getMyProfileUseCase: GetMyProfileUseCase,
-    internal val getListOfUkraineCitiesUseCase: GetListOfUkraineCitiesUseCase,
     internal val userNameManager: UserNameManager,
     internal val userAvatarUrlManager: UserAvatarUrlManager,
     internal val userEmailManager: UserEmailManager,

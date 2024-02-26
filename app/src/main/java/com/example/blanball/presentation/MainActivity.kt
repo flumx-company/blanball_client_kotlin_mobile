@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(key1 = Unit ) {
                     val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                     navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
-                     selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
+                    selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
@@ -117,20 +117,19 @@ class MainActivity : ComponentActivity() {
 
                     isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
                     if (!isRememberMeFlagActive && (tokenManager.getAccessToken()
-                            .first() != null) && (tokenManager.getAccessToken().first() != null)
+                            .first() != null) && (tokenManager.getRefreshToken().first() != null)
                     ) {
                         tokenManager.deleteAccessToken()
                         tokenManager.deleteRefreshToken()
                     }
-                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = false
+                navigationDrawerViewModel.currentState.isSplashScreenActivated.value = false
                 }
             }
 
             val isTechWorksStatus = techWorksScreenViewModel.currentState.isTechWorksAvailable.value
 
             when {
-                navigationDrawerViewModel.currentState.isSplashScreenActivated.value
-                -> {
+                navigationDrawerViewModel.currentState.isSplashScreenActivated.value -> {
                     SplashScreen()
                 }
                 isTechWorksStatus -> {

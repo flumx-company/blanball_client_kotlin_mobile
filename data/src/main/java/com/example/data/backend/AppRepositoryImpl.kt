@@ -661,8 +661,6 @@ class AppRepositoryImpl @Inject constructor(
             val authRequest = AuthRequest(email, password)
             val loginSuccess = service.loginAuthorization(authRequest)
             val loginResponse = loginSuccess.toLoginResponse()
-            tokenManager.saveAccessToken(loginResponse.data.tokens.access)
-            tokenManager.saveRefreshToken(loginResponse.data.tokens.refresh)
             LoginResultEntity.Success(loginResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
