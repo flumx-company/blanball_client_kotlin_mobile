@@ -2,6 +2,7 @@ package com.example.blanball.presentation
 
 import Destinations
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.R
+import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.navigation.AppScreensConfig
 import com.example.blanball.presentation.theme.MyAppTheme
@@ -38,8 +40,11 @@ import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -74,7 +79,6 @@ class MainActivity : ComponentActivity() {
     private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
     private val selectLocationScreenViewModel: SelectLocationScreenViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
@@ -94,15 +98,18 @@ class MainActivity : ComponentActivity() {
 
             if (navigationDrawerViewModel.currentState.isSplashScreenActivated.value) {
                 LaunchedEffect(key1 = Unit) {
+                    navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
                     val isEmailVerificationVMCurrentState = emailVerificationViewModel.currentState
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
-                    val isEmailVerified =
-                        emailVerificationManager.getIsEmailVerified().firstOrNull()
-
-                    isEmailVerificationVMCurrentState.isEmailVerified.value =
-                        isEmailVerified ?: false
+                    GlobalScope.launch(Dispatchers.IO) {
+                        emailVerificationManager.getIsEmailVerified().collect { isEmailVerified ->
+                            Log.d("isVer", isEmailVerified.toString())
+                            isEmailVerificationVMCurrentState.isEmailVerified.value =
+                                isEmailVerified == true
+                        }
+                    }
                     isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: ""
                     userFullName?.let { fullName ->
                         val names = fullName.split(" ")

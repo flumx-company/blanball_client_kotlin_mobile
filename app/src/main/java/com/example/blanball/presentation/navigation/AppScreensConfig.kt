@@ -31,7 +31,6 @@ import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.MyEventsScreenMainContract
 import com.example.blanball.presentation.data.MyProfileScreensMainContract
-import com.example.blanball.presentation.data.NavigationDrawerMainContract
 import com.example.blanball.presentation.data.OnboardingScreensStatesMainContract
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.data.SelectLocationScreenMainContract
@@ -281,7 +280,7 @@ fun AppScreensConfig(
             LaunchedEffect(currentState.isSuccessLoginRequest.value) {
                 if (currentState.isSuccessLoginRequest.value) {
                     currentState.isSuccessLoginRequest.value = false
-//                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
+                    navigationDrawerViewModel.currentState.isSplashScreenActivated.value = true
                     navController.navigate(Destinations.HOME.route) {
                         popUpTo(navController.graph.id) {
                             inclusive = true
@@ -685,7 +684,6 @@ fun AppScreensConfig(
             val futureEventsScreenViewModelState =
                 futureEventsScreenViewModel.uiState.collectAsState().value
             val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
-            navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
