@@ -31,6 +31,7 @@ class LoginViewModel
     val rememberMeManager: RememberMeManager,
     val userEmailManager: UserEmailManager,
     val userNameManager: UserNameManager,
+    val tokenManager: TokenManager,
     ) : ViewModel() {
 
     private var job: Job? = null
@@ -82,6 +83,8 @@ class LoginViewModel
            loginUseCase.executeUserLogin(currentState.loginEmailText.value, currentState.loginPasswordText.value).let {
                when(it) {
                    is LoginResultEntity.Success -> {
+                       tokenManager.saveAccessToken(it.data.tokens.access)
+                       tokenManager.saveRefreshToken(it.data.tokens.refresh)
                        userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
                        rememberMeManager.saveRememberMeFlag(currentState.rememberMeCheckbox.value)
                        userEmailManager.safeUserEmail(currentState.loginEmailText.value)

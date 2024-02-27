@@ -97,11 +97,13 @@ import com.example.blanball.presentation.views.screens.resset.ResetPasswordScree
 import com.example.blanball.presentation.views.screens.selectlocation.SelectLocationScreen
 import com.example.blanball.presentation.views.screens.settings.SettingsScreen
 import com.example.blanball.presentation.views.screens.versions.VersionsScreen
+import com.example.blanball.utils.SessionManager
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
@@ -140,6 +142,7 @@ fun AppScreensConfig(
     emailVerificationViewModel: EmailVerificationViewModel,
     userEmailManager: UserEmailManager,
     emailVerificationManager: EmailVerificationManager,
+    userIdManager: UserIdManager,
     selectLocationScreenViewModel: SelectLocationScreenViewModel,
 ) {
     fun openNavDrawer() {
@@ -232,23 +235,27 @@ fun AppScreensConfig(
                     navController.navigate(Destinations.FOUND_AN_ERROR.route)
                 },
                 onLogOutClicked = {
+                    coroutineScope.launch {
+                        SessionManager(
+                            rememberMeManager = rememberMeManager,
+                            tokenManager = tokenManager,
+                            userNameManager = userNameManager,
+                            userAvatarUrlManager = userAvatarUrlManager,
+                            userPhoneManager = userPhoneManager,
+                            resetPassVerifyCodeManager = resetPassVerifyCodeManager,
+                            userEmailManager = userEmailManager,
+                            emailVerificationManager = emailVerificationManager,
+                            userIdManager = userIdManager,
+                        )
+                            .cleanDataStore()
+                            .await()
+                    }
                     closeNavDrawer()
                     navController.navigate(Destinations.LOGIN.route)
                     {
                         popUpTo(navController.graph.id) {
                             inclusive = true
                         }
-                    }
-                    coroutineScope.launch {
-                        rememberMeManager.deleteRememberMeFlag()
-                        tokenManager.deleteRefreshToken()
-                        tokenManager.deleteAccessToken()
-                        userAvatarUrlManager.deleteAvatarUrl()
-                        userNameManager.deleteUserName()
-                        userPhoneManager.deleteUserPhone()
-                        resetPassVerifyCodeManager.deleteResetPassVerifyCode()
-                        userEmailManager.deleteUserEmail()
-                        emailVerificationManager.deleteIsEmailVerifiedState()
                     }
                 },
             )
@@ -1316,13 +1323,19 @@ fun AppScreensConfig(
                                     }
                                 }
                                 coroutineScope.launch {
-                                    rememberMeManager.deleteRememberMeFlag()
-                                    tokenManager.deleteRefreshToken()
-                                    tokenManager.deleteAccessToken()
-                                    userAvatarUrlManager.deleteAvatarUrl()
-                                    userNameManager.deleteUserName()
-                                    userPhoneManager.deleteUserPhone()
-                                    resetPassVerifyCodeManager.deleteResetPassVerifyCode()
+                                    SessionManager(
+                                        rememberMeManager = rememberMeManager,
+                                        tokenManager = tokenManager,
+                                        userNameManager = userNameManager,
+                                        userAvatarUrlManager = userAvatarUrlManager,
+                                        userPhoneManager = userPhoneManager,
+                                        resetPassVerifyCodeManager = resetPassVerifyCodeManager,
+                                        userEmailManager = userEmailManager,
+                                        emailVerificationManager = emailVerificationManager,
+                                        userIdManager = userIdManager,
+                                    )
+                                        .cleanDataStore()
+                                        .await()
                                 }
                             },
                             deleteAccBtnClicked = {}
@@ -2370,6 +2383,5 @@ fun AppScreensConfig(
                 },
             )
         }
-
     }
 }

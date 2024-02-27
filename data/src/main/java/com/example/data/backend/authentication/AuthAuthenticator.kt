@@ -1,5 +1,6 @@
 package com.example.data.backend.authentication
 
+import android.util.Log
 import com.example.data.backend.models.responses.success.Tokens
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.domain.utils.Endpoints
@@ -24,10 +25,11 @@ class AuthAuthenticator @Inject constructor(
         val token = runBlocking {
             tokenManager.getRefreshToken().first()
         }
-        val newToken = runBlocking {
+        Log.d("Token2", token.toString())
+        val newTokens = runBlocking {
             getNewToken(token)
         }
-        return if (!newToken.isSuccessful || newToken.body() == null) {
+        return if (newTokens.code() == 401 ) {
             runBlocking {
                 tokenManager.deleteRefreshToken()
                 tokenManager.deleteAccessToken()
@@ -35,7 +37,7 @@ class AuthAuthenticator @Inject constructor(
             }
             null
         } else {
-            newToken.body()?.let {
+            newTokens.body()?.let {
                 runBlocking {
                     tokenManager.saveAccessToken(it.access)
                 }

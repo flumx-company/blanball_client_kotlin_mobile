@@ -2,7 +2,6 @@ package com.example.blanball.presentation
 
 import Destinations
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.blanball.R
@@ -31,17 +31,18 @@ import com.example.blanball.presentation.viewmodels.SelectLocationScreenViewMode
 import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
+import com.example.blanball.utils.SessionManager
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
+import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -73,16 +74,35 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var emailVerificationManager: EmailVerificationManager
 
+    @Inject
+    lateinit var userIdManager: UserIdManager
+
     private val navigationDrawerViewModel: NavigationDrawerViewModel by viewModels()
     private val futureEventsScreenViewModel: FutureEventsScreenViewModel by viewModels()
     private val techWorksScreenViewModel: TechWorksScreenViewModel by viewModels()
     private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
     private val selectLocationScreenViewModel: SelectLocationScreenViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        actionBar?.hide()
+        lifecycleScope.launch {
+            SessionManager(
+                rememberMeManager = rememberMeManager,
+                tokenManager = tokenManager,
+                userNameManager = userNameManager,
+                userAvatarUrlManager = userAvatarUrlManager,
+                userPhoneManager = userPhoneManager,
+                resetPassVerifyCodeManager = resetPassVerifyCodeManager,
+                userEmailManager = userEmailManager,
+                emailVerificationManager = emailVerificationManager,
+                userIdManager = userIdManager,
+            )
+                .cleanDataStoreWithChecking()
+                .await()
+        }
 
+        actionBar?.hide()
         setContent {
             var isConnectException by remember { mutableStateOf(false) }
             var isRememberMeFlagActive by rememberSaveable { mutableStateOf(false) }
@@ -96,6 +116,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+
             if (navigationDrawerViewModel.currentState.isSplashScreenActivated.value) {
                 LaunchedEffect(key1 = Unit) {
                     navigationDrawerViewModel.handleEvent(NavigationDrawerMainContract.Event.GetLaunchData)
@@ -103,19 +124,21 @@ class MainActivity : ComponentActivity() {
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
-                    GlobalScope.launch(Dispatchers.IO) {
-                        emailVerificationManager.getIsEmailVerified().collect { isEmailVerified ->
-                            Log.d("isVer", isEmailVerified.toString())
-                            isEmailVerificationVMCurrentState.isEmailVerified.value =
-                                isEmailVerified == true
-                        }
+                    coroutineScope.launch(Dispatchers.IO) {
+                        emailVerificationManager.getIsEmailVerified()
+                            .collect { isEmailVerified ->
+                                isEmailVerificationVMCurrentState.isEmailVerified.value =
+                                    isEmailVerified == true
+                            }
                     }
                     isEmailVerificationVMCurrentState.userEmailText.value = userEmail ?: ""
                     userFullName?.let { fullName ->
                         val names = fullName.split(" ")
                         if (names.size >= 2) {
                             val (firstName, lastName) = names
-                            techWorksScreenViewModel.handleScreenState(TechWorksScreenMainContract.ScreenViewState.Loading)
+                            techWorksScreenViewModel.handleScreenState(
+                                TechWorksScreenMainContract.ScreenViewState.Loading
+                            )
                             navigationDrawerViewModel.setState {
                                 copy(
                                     userFirstNameText = mutableStateOf(firstName),
@@ -127,12 +150,6 @@ class MainActivity : ComponentActivity() {
                     }
 
                     isRememberMeFlagActive = rememberMeManager.getRememberMeFlag().first() == true
-                    if (!isRememberMeFlagActive && (tokenManager.getAccessToken()
-                            .first() != null) && (tokenManager.getAccessToken().first() != null)
-                    ) {
-                        tokenManager.deleteAccessToken()
-                        tokenManager.deleteRefreshToken()
-                    }
                     navigationDrawerViewModel.currentState.isSplashScreenActivated.value = false
                 }
             }
@@ -196,6 +213,7 @@ class MainActivity : ComponentActivity() {
                                 userEmailManager = userEmailManager,
                                 emailVerificationManager = emailVerificationManager,
                                 selectLocationScreenViewModel = selectLocationScreenViewModel,
+                                userIdManager = userIdManager,
                             )
                         }
                     }
