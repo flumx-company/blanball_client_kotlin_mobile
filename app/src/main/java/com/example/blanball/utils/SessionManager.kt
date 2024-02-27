@@ -19,26 +19,18 @@ import kotlinx.coroutines.flow.first
 
 class SessionManager(
     private var rememberMeManager: RememberMeManager,
-
     private var tokenManager: TokenManager,
-
     private var userNameManager: UserNameManager,
-
     private var userAvatarUrlManager: UserAvatarUrlManager,
-
     private var userPhoneManager: UserPhoneManager,
-
     private var resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
-
     private var userEmailManager: UserEmailManager,
-
     private var emailVerificationManager: EmailVerificationManager,
-
     private var userIdManager: UserIdManager,
 ) {
 
-    val job = SupervisorJob()
-    val scope = CoroutineScope(job)
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(job)
 
     internal fun cleanDataStoreWithChecking() = scope.async(Dispatchers.IO) {
         if (rememberMeManager.getRememberMeFlag().first() == false) {
