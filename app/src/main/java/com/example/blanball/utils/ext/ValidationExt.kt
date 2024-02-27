@@ -71,7 +71,7 @@ internal fun String?.isValidHeight(): Boolean {
 }
 
 internal fun String?.isNotValidHeight(): Boolean {
-    return !isValidHeight() && isNullOrEmpty()
+    return !isValidHeight() && !isNullOrEmpty()
 }
 
 internal fun String?.isValidWeight(): Boolean {
@@ -80,7 +80,7 @@ internal fun String?.isValidWeight(): Boolean {
 }
 
 internal fun String?.isNotValidWeight(): Boolean {
-    return !isValidWeight() && isNullOrEmpty()
+    return !isValidWeight() && !isNullOrEmpty()
 }
 
 internal fun String.isValidErrorTopicField(): Boolean {

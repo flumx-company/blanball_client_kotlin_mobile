@@ -10,6 +10,6 @@ interface AuthApiService {
 
     @POST (Endpoints.REFRESH_ENDPOINT)
     suspend fun refreshToken (
-        @Body token: String,
+        @Body refresh: String,
     ) : Response<Tokens>
 }
