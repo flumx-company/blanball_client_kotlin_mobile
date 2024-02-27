@@ -33,6 +33,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,8 +41,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.offset
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
@@ -61,6 +66,8 @@ import com.example.blanball.presentation.views.components.cards.UserCardOnEventC
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.utils.ext.isNotValidMaxCountOfPlayers
 import com.maxkeppeker.sheets.core.utils.BaseModifiers.dynamicContentWrapOrMaxHeight
+import kotlin.math.max
+import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -289,7 +296,7 @@ fun EventEditOrCreationScreenStep2(
                         else -> {
                             ""
                         }
-                    },
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 SearchBar(
@@ -301,6 +308,28 @@ fun EventEditOrCreationScreenStep2(
                             color = borderPrimary,
                             width = 1.dp
                         )
+                        .layout { measurable, constraints ->
+                            val animatedTopPadding =
+                                lerp(0.dp, 0.dp, 0.8f).roundToPx()
+
+                            val startWidth = max(constraints.minWidth, 360.dp.roundToPx())
+                                .coerceAtMost(min(constraints.maxWidth, 720.dp.roundToPx()))
+                            val startHeight = max(constraints.minHeight, SearchBarDefaults.InputFieldHeight.roundToPx())
+                                .coerceAtMost(constraints.maxHeight)
+                            val endWidth = constraints.maxWidth
+                            val endHeight = constraints.maxHeight
+
+                            val width = lerp(startWidth, endWidth, 1f)
+                            val height =
+                                lerp(startHeight, endHeight, 0.8f) + animatedTopPadding
+
+                            val placeable = measurable.measure(
+                                Constraints.fixed(width, height)
+                                .offset(vertical = -animatedTopPadding))
+                            layout(width, height) {
+                                placeable.placeRelative(0, animatedTopPadding)
+                            }
+                        }
                         .animateContentSize(),
                     query = currentState.usersSearchState.value,
                     onQueryChange = { searchText ->
