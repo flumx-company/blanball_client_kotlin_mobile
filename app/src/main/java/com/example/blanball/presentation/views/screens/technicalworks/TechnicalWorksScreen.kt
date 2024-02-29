@@ -1,5 +1,9 @@
 package com.example.blanball.presentation.views.screens.technicalworks
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.repeatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,12 +29,28 @@ import com.example.blanball.R
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.typography
+import kotlinx.coroutines.delay
 
 @Composable
 fun TechnicalWorksScreen(
     messageTextId: Int,
     secondaryTextId: Int,
 ) {
+    val rotationAnim = remember {
+        Animatable(initialValue = 0f,)
+    }
+    LaunchedEffect(Unit) {
+        rotationAnim.animateTo(
+            targetValue = 90f,
+            animationSpec = repeatable(
+                iterations = 1,
+                animation = tween(durationMillis = 2000),
+                repeatMode = RepeatMode.Restart
+            ),
+        )
+        delay(2000)
+    }
+
     Box {
         Image(
             modifier = Modifier
@@ -56,12 +79,41 @@ fun TechnicalWorksScreen(
                 fontWeight = FontWeight(400),
                 color = secondaryNavy,
             )
-            Image(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                alignment = Alignment.Center,
-                painter = painterResource(id = R.drawable.ic_gears_tech_works),
-                contentDescription = null,
-            )
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    modifier = Modifier
+                        .offset(
+                            x = (-40).dp,
+                            y = ((35).dp)
+                        )
+                        .rotate(rotationAnim.value),
+                    painter = painterResource(R.drawable.gear_2),
+                    contentDescription = null,
+                )
+                Image(
+                    modifier = Modifier
+                        .offset(
+                            x = 40.dp,
+                            y = ((-5).dp)
+                        )
+                        .rotate(rotationAnim.value),
+                    painter = painterResource(R.drawable.gear_1),
+                    contentDescription = null,
+                )
+                Image(
+                    modifier = Modifier
+                        .offset(
+                            x = (-40).dp,
+                            y = ((-35).dp)
+                        )
+                        .rotate(rotationAnim.value),
+                    painter = painterResource(R.drawable.gear_3),
+                    contentDescription = null,
+                )
+            }
         }
     }
 }
