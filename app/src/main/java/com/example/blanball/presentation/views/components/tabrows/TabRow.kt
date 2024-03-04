@@ -44,25 +44,25 @@ fun TabRow(tabs: List<String>, icons: List<Painter>, modifier: Modifier? = null)
                     selectedTab.value = index
                 },
             ) {
-                Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
-                    Row(modifier = Modifier.wrapContentWidth()) {
-                        Icon(
-                            painter = icons[index],
-                            contentDescription = null,
-                            tint = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = text,
-                            style = typography.h4,
-                            fontSize = 12.sp,
-                            color = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                    }
+                    Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
+                        Row(modifier = Modifier.wrapContentWidth()) {
+                            Icon(
+                                painter = icons[index],
+                                contentDescription = null,
+                                tint = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
+                                modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                                    .size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(
+                                text = text,
+                                style = typography.h4,
+                                fontSize = 12.sp,
+                                color = if (selectedTab.value == index) mainGreen else itemsGrayBlue,
+                            )
+                            Spacer(modifier = Modifier.size(16.dp))
+                        }
                 }
             }
         }
