@@ -36,7 +36,7 @@ val textDisable = Color(0xFF9B9BA8)
 val semiTransparentBlack = Color(0xCC090910)
 val grayBorder = Color(0xFFF2F2F5)
 val borderPrimary = Color(0xFFDCDCE2)
-
+val cardShadow = Color(0x3838FB1A)
 
 //TODO: incorrect names - will be edited during development
 val bgLight = Color(0xFFF9F9FC)

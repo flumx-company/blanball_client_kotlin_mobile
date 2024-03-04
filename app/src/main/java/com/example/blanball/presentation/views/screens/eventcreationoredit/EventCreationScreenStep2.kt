@@ -220,7 +220,7 @@ fun EventEditOrCreationScreenStep2(
                         transformation = VisualTransformation.None,
                         leadingIcon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.dollar_ic),
+                                painter = painterResource(id = R.drawable.ic_cash),
                                 contentDescription = null,
                                 tint = primaryDark,
                             )

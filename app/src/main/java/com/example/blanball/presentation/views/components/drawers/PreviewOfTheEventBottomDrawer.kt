@@ -207,7 +207,7 @@ fun PreviewOfTheEventBottomDrawer(
                                     color = secondaryNavy,
                                 )
                                 Text(
-                                    text = state.selectedUserProfiles.value.size.toString(),
+                                    text = "${state.selectedUserProfiles.value.size}/${state.maxEventPlayersState.value} ",
                                     fontSize = 13.sp,
                                     lineHeight = 24.sp,
                                     style = typography.h4,
@@ -225,7 +225,7 @@ fun PreviewOfTheEventBottomDrawer(
                                     color = secondaryNavy,
                                 )
                                 Text(
-                                    text = currentState.countOfFans.value.toString(),
+                                    text = "${currentState.countOfFans.value}/Ꝏ",
                                     fontSize = 13.sp,
                                     lineHeight = 24.sp,
                                     style = typography.h4,
