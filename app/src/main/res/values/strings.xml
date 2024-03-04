@@ -379,7 +379,7 @@
     <string name="event_time_start">Початок</string>
     <string name="event_time_end">Кінець</string>
     <string name="сhose_event_time">Оберіть із запропонованих або встановіть час власноруч</string>
-    <string name="сhose_event_location">Оберіть місце проведення</string>
+    <string name="сhose_event_location">Натисніть на карту щоб обрати місце проведення</string>
     <string name="max_50">Максимум 50</string>
     <string name="users_search">Пошук користувачів</string>
     <string name="need_ball">Потрібен м\'яч?</string>

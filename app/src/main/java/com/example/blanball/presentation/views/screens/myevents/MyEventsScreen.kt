@@ -83,7 +83,7 @@ fun MyEventsScreen(
     ) {
         val context = LocalContext.current
         val lazyListState = rememberLazyListState()
-        val eventTabState: MutableState<EventTab> =  remember {
+        val eventTabState: MutableState<EventTab> = remember {
             mutableStateOf(
                 EventTab.MY_EVENTS
             )
@@ -191,7 +191,7 @@ fun MyEventsScreen(
                         headerTextId = R.string.no_have_actually_events,
                         secTextId = R.string.organize_your_first_event,
                         isBtnVisible = true,
-                        onButtonClicked = {onNavigateToEventCreation()},
+                        onButtonClicked = { onNavigateToEventCreation() },
                         buttonTextId = R.string.create_event,
                     )
                 } else {
@@ -219,7 +219,7 @@ fun MyEventsScreen(
                                     }
                                     Spacer(modifier = Modifier.size(8.dp))
                                     Column {
-                                        Row (verticalAlignment = Alignment.CenterVertically) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
                                             Text(
                                                 text = stringResource(id = R.string.friendly_match),
                                                 fontSize = 16.sp,
@@ -230,14 +230,18 @@ fun MyEventsScreen(
                                             )
                                             Spacer(modifier = Modifier.weight(1f))
                                             Box(
+
                                                 modifier = Modifier
                                                     .wrapContentWidth()
                                                     .height(20.dp)
                                                     .background(
-                                                        color = event.status?.mapStatusBackgroundColor(context)!!,
+                                                        color = event.status?.mapStatusBackgroundColor(
+                                                            context
+                                                        )!!,
                                                         shape = RoundedCornerShape(size = 4.dp)
                                                     )
-                                                    .padding(start = 4.dp, end = 4.dp)
+                                                    .padding(start = 4.dp, end = 4.dp),
+                                                contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
                                                     text = event.status?.toUAStatus(
@@ -308,6 +312,43 @@ fun MyEventsScreen(
                                     TextBadge2(text = event.gender)
                                     Spacer(modifier = Modifier.size(4.dp))
                                     TextBadge2(text = event.type)
+                                }
+                                Spacer(modifier = Modifier.size(12.dp))
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = stringResource(R.string.players_),
+                                        fontSize = 13.sp,
+                                        lineHeight = 24.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(400),
+                                        color = secondaryNavy,
+                                    )
+                                    Text(
+                                        text = "${event.count_current_users}/${event.amount_members}",
+                                        fontSize = 13.sp,
+                                        lineHeight = 24.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(400),
+                                        color = primaryDark,
+                                    )
+                                }
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = stringResource(R.string.fans),
+                                        fontSize = 13.sp,
+                                        lineHeight = 24.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(400),
+                                        color = secondaryNavy,
+                                    )
+                                    Text(
+                                        text = "${event.count_current_fans}/Ꝏ",
+                                        fontSize = 13.sp,
+                                        lineHeight = 24.sp,
+                                        style = typography.h4,
+                                        fontWeight = FontWeight(400),
+                                        color = primaryDark,
+                                    )
                                 }
                             }
                             Spacer(modifier = Modifier.size(12.dp))
