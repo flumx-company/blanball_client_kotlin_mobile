@@ -1,6 +1,5 @@
 package com.example.data.backend.authentication
 
-import android.util.Log
 import com.example.data.backend.models.responses.success.Tokens
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.domain.utils.Endpoints
@@ -25,7 +24,6 @@ class AuthAuthenticator @Inject constructor(
         val token = runBlocking {
             tokenManager.getRefreshToken().first()
         }
-        Log.d("Token2", token.toString())
         val newTokens = runBlocking {
             getNewToken(token)
         }

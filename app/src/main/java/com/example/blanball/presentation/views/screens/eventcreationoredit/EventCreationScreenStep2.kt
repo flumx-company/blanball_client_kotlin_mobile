@@ -314,7 +314,10 @@ fun EventEditOrCreationScreenStep2(
 
                             val startWidth = max(constraints.minWidth, 360.dp.roundToPx())
                                 .coerceAtMost(min(constraints.maxWidth, 720.dp.roundToPx()))
-                            val startHeight = max(constraints.minHeight, SearchBarDefaults.InputFieldHeight.roundToPx())
+                            val startHeight = max(
+                                constraints.minHeight,
+                                SearchBarDefaults.InputFieldHeight.roundToPx()
+                            )
                                 .coerceAtMost(constraints.maxHeight)
                             val endWidth = constraints.maxWidth
                             val endHeight = constraints.maxHeight
@@ -325,7 +328,8 @@ fun EventEditOrCreationScreenStep2(
 
                             val placeable = measurable.measure(
                                 Constraints.fixed(width, height)
-                                .offset(vertical = -animatedTopPadding))
+                                    .offset(vertical = -animatedTopPadding)
+                            )
                             layout(width, height) {
                                 placeable.placeRelative(0, animatedTopPadding)
                             }
@@ -473,7 +477,7 @@ fun EventEditOrCreationScreenStep2(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled =if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
+                    isEnabled = if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
                         !currentState.priceDescription.value.isNullOrEmpty() &&
                                 !currentState.eventSummaryPrice.value.isNullOrEmpty() &&
                                 currentState.maxEventPlayersState.value.isNotEmpty()

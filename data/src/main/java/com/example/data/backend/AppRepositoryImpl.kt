@@ -138,6 +138,7 @@ import com.example.domain.entity.results.ResetCompleteResultEntity
 import com.example.domain.entity.results.SendCodeResultEntity
 import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 import com.example.domain.repository.AppRepository
+import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -148,6 +149,7 @@ class AppRepositoryImpl @Inject constructor(
     internal val resetPassVerifyCodeManager: ResetPassVerifyCodeManager,
     internal val userPhoneManager: UserPhoneManager,
     internal val userNameManager: UserNameManager,
+    private val navigationManager: NavigationManager,
 ) : AppRepository {
 
     override suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity {
@@ -665,7 +667,8 @@ class AppRepositoryImpl @Inject constructor(
             val loginSuccess = service.loginAuthorization(authRequest)
             val loginResponse = loginSuccess.toLoginResponse()
             LoginResultEntity.Success(loginResponse.data)
-        } catch (ex: HttpException) {
+        }catch (ex: HttpException) {
+            navigationManager.navigateToTechWorks()
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
             LoginResultEntity.Error(errorResponse.data.errors[0])

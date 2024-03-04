@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
@@ -16,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.utils.Code.CALL_PHONE_PERMISSION_REQUEST_CODE
 import com.example.domain.utils.Endpoints
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.absoluteValue
 
 internal fun makeCall(number: String, context: Context) {
@@ -89,7 +88,8 @@ internal class MaskVisualTransformation(private val mask: String) : VisualTransf
     }
 }
 
-internal val navigateToLogin: MutableState<Boolean> = mutableStateOf(false)
+internal val isNavigateToLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
+internal val isNavigateToTechWorks: MutableStateFlow<Boolean> = MutableStateFlow(false)
 internal val toPrivacyPolicyUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.PRIVACY_POLICY_URL))
 internal val toFLumXUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Endpoints.FLUM_X_URL))
 

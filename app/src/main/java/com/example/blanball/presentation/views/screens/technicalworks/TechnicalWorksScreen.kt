@@ -36,11 +36,25 @@ fun TechnicalWorksScreen(
     messageTextId: Int,
     secondaryTextId: Int,
 ) {
-    val rotationAnim = remember {
-        Animatable(initialValue = 0f,)
+    val rotationAnimRight = remember {
+        Animatable(initialValue = 0f)
+    }
+    val rotationAnimLeft = remember {
+        Animatable(initialValue = 0f)
     }
     LaunchedEffect(Unit) {
-        rotationAnim.animateTo(
+        rotationAnimRight.animateTo(
+            targetValue = -90f,
+            animationSpec = repeatable(
+                iterations = 1,
+                animation = tween(durationMillis = 2000),
+                repeatMode = RepeatMode.Restart
+            ),
+        )
+        delay(2000)
+    }
+   LaunchedEffect(Unit) {
+            rotationAnimLeft.animateTo(
             targetValue = 90f,
             animationSpec = repeatable(
                 iterations = 1,
@@ -86,10 +100,10 @@ fun TechnicalWorksScreen(
                 Image(
                     modifier = Modifier
                         .offset(
-                            x = (-40).dp,
-                            y = ((35).dp)
+                            x = (-45).dp,
+                            y = ((40).dp)
                         )
-                        .rotate(rotationAnim.value),
+                        .rotate(rotationAnimLeft.value),
                     painter = painterResource(R.drawable.gear_2),
                     contentDescription = null,
                 )
@@ -97,19 +111,19 @@ fun TechnicalWorksScreen(
                     modifier = Modifier
                         .offset(
                             x = 40.dp,
-                            y = ((-5).dp)
+                            y = ((-8).dp)
                         )
-                        .rotate(rotationAnim.value),
+                        .rotate(rotationAnimRight.value),
                     painter = painterResource(R.drawable.gear_1),
                     contentDescription = null,
                 )
                 Image(
                     modifier = Modifier
                         .offset(
-                            x = (-40).dp,
-                            y = ((-35).dp)
+                            x = (-35).dp,
+                            y = ((-40).dp)
                         )
-                        .rotate(rotationAnim.value),
+                        .rotate(rotationAnimLeft.value),
                     painter = painterResource(R.drawable.gear_3),
                     contentDescription = null,
                 )

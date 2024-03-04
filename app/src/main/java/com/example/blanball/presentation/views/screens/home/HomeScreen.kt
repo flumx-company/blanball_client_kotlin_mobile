@@ -81,11 +81,11 @@ fun HomeScreen(
         LaunchedEffect(Unit) {
             when {
                 currentState.isShowEventSuccessCreatedModal.value -> {
-                    delay(5000)
+                    delay(2000)
                     currentState.isShowEventSuccessCreatedModal.value = false
                 }
                 currentState.isShowEventSuccessEditModal.value -> {
-                    delay(5000)
+                    delay(2000)
                     currentState.isShowEventSuccessEditModal.value = false
                 }
             }
