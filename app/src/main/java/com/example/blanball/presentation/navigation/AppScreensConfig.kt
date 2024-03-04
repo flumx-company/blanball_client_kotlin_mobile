@@ -2059,7 +2059,7 @@ fun AppScreensConfig(
                         MyEventsFilterScreen(
                             state = state,
                             clearBtnClicked = {
-                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                navController.navigate(Destinations.MY_EVENTS.route)
                                 myEventsViewModel.setState {
                                     copy(
                                         openFiltersDialog = mutableStateOf(false),

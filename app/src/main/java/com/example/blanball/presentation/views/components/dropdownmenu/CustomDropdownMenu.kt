@@ -158,14 +158,14 @@ fun CustomDropDownMenu(
                 ) {
                     ExposedDropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false },
+                        onDismissRequest = { !expanded },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         listItems.forEach { selectedOption ->
                             DropdownMenuItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
-                                    expanded = false
+                                    expanded = !expanded
                                     onValueChange(selectedOption)
                                 }) {
                                 Text(
