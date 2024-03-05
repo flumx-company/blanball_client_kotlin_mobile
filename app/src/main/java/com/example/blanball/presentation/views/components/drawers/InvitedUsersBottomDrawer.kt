@@ -50,7 +50,6 @@ fun InvitedUsersBottomDrawer(
                     color = primaryDark,
                     textAlign = TextAlign.Center,
                 )
-                if (currentState.selectedUserProfiles.value.isNotEmpty()) {
                     Spacer(modifier = Modifier.size(12.dp))
                     for (user in currentState.selectedUserProfiles.value) {
                         Box(
@@ -75,5 +74,4 @@ fun InvitedUsersBottomDrawer(
                 }
             }
         }
-    }
 }
