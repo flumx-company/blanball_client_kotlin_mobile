@@ -117,6 +117,7 @@ fun EventEditOrCreationScreenStep1(
                 CustomDropDownMenu(
                     labelResId = R.string.event_type,
                     listItems = typesOfEvent,
+                    isFirstElementSelected = true,
                     value = currentState.eventType.value,
                     onValueChange = { state.eventType.value = it },
                     isError = when {

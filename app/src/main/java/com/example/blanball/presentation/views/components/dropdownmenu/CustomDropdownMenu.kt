@@ -69,13 +69,16 @@ fun CustomDropDownMenu(
         modifier = modifier,
         expanded = expanded,
         onExpandedChange = {
-            expanded = !expanded
+            if (!isFirstElementSelected) expanded = !expanded
         },
     ) {
         Row(
             verticalAlignment = CenterVertically,
         ) {
-            Column(Modifier.fillMaxWidth().animateContentSize(), verticalArrangement = Arrangement.Center) {
+            Column(
+                Modifier.fillMaxWidth().animateContentSize(),
+                verticalArrangement = Arrangement.Center
+            ) {
                 BasicTextField(
                     modifier = textFieldModifier.padding(top = 5.dp).height(44.dp).fillMaxWidth(),
                     value = value,
@@ -83,9 +86,9 @@ fun CustomDropDownMenu(
                     singleLine = true,
                     readOnly = true,
                     interactionSource = interactionSource,
-                    enabled = true,
+                    enabled = !isFirstElementSelected,
                     textStyle = TextStyle(
-                        color = primaryDark,
+                        color = if (isFirstElementSelected) selectedDarkGray else primaryDark,
                         fontSize = 13.sp,
                         fontWeight = FontWeight(400),
                         fontFamily = FontFamily(Font(R.font.inter)),
@@ -98,7 +101,6 @@ fun CustomDropDownMenu(
                         innerTextField = innerTextField,
                         enabled = true,
                         singleLine = true,
-
                         border = {
                             Box(
                                 modifier = Modifier.border(
@@ -114,14 +116,14 @@ fun CustomDropDownMenu(
                             )
                         },
                         trailingIcon = {
-                        Icon(
-                            painter = painterResource(
-                                id = if (expanded) R.drawable.dropdown_arrow_up else R.drawable.dropdown_arrow_down
-                            ),
-                            contentDescription = null,
-                            tint = primaryDark,
-                        )
-                    },
+                            Icon(
+                                painter = painterResource(
+                                    id = if (expanded) R.drawable.dropdown_arrow_up else R.drawable.dropdown_arrow_down
+                                ),
+                                contentDescription = null,
+                                tint = if (isFirstElementSelected) selectedDarkGray else primaryDark,
+                            )
+                        },
                         visualTransformation = VisualTransformation.None,
                         interactionSource = interactionSource,
                         contentPadding = TextFieldDefaults.textFieldWithLabelPadding(
@@ -133,7 +135,7 @@ fun CustomDropDownMenu(
                                 stringResource(
                                     id = labelResId
                                 ),
-                                color = primaryDark,
+                                color = if (isFirstElementSelected) selectedDarkGray else primaryDark,
                                 style = typography.h6,
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight(400),
