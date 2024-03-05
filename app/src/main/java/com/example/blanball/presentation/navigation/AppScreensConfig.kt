@@ -687,6 +687,9 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
+            LaunchedEffect(Unit){
+                selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
+            }
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
             val futureEventsScreenViewModelState =
                 futureEventsScreenViewModel.uiState.collectAsState().value
