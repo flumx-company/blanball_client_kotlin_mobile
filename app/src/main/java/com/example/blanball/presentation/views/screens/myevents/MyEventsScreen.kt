@@ -185,7 +185,6 @@ fun MyEventsScreen(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.size(12.dp))
                 if (state.myEventsList.value.isEmpty()) {
                     NoHaveContentBanner(
                         headerTextId = R.string.no_have_actually_events,
@@ -197,6 +196,9 @@ fun MyEventsScreen(
                 } else {
                     LazyColumn {
                         itemsIndexed(state.myEventsList.value) { index, event ->
+                            if (index == 0) {
+                                Spacer(modifier = Modifier.size(12.dp))
+                            }
                             DefaultCardWithColumn(clickCallback = { navigateToEventScreen(event.id) }) {
                                 Row {
                                     Box(

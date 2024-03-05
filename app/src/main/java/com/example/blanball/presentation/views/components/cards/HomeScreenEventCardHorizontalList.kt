@@ -65,7 +65,10 @@ fun HomeScreenEventCardHorizontalList(
     var locationTextExpanded by remember { mutableStateOf(false) }
     (state as? FutureEventsMainContract.State)?.let {
         LazyRow(verticalAlignment = Alignment.CenterVertically) {
-            itemsIndexed(state.allEventsList.value) { _, event ->
+            itemsIndexed(state.allEventsList.value) { index, event ->
+                if (index == 0) {
+                    Spacer(modifier = Modifier.size(12.dp))
+                }
                 DefaultCardWithColumn(
                     clickCallback = { clickToEventCardCallback(event.id) }
                 ) {

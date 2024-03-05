@@ -179,7 +179,6 @@ fun FutureEventsScreen(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.size(12.dp))
                 if (state.allEventsList.value.isEmpty()) {
                     NoHaveContentBanner(
                         headerTextId = R.string.no_have_actually_events,
@@ -188,8 +187,11 @@ fun FutureEventsScreen(
                         onButtonClicked = {onNavigateToEventCreation()}
                     )
                 } else {
-                    LazyColumn {
+                    LazyColumn(modifier = Modifier.padding(5.dp)) {
                         itemsIndexed(state.allEventsList.value) { index, event ->
+                            if (index == 0) {
+                                Spacer(modifier = Modifier.size(12.dp))
+                            }
                             DefaultCardWithColumn(clickCallback = { navigateToEventScreen(event.id) }) {
                                 Row {
                                     Box(

@@ -33,6 +33,7 @@ fun DefaultCardWithColumn(
             .wrapContentHeight()
             .padding(top = padTop, start = padStart, end = padEnd, bottom = padBottom),
         shape = RoundedCornerShape(12.dp),
+        elevation = 6.dp,
     ) {
         Column(
             Modifier.padding(
