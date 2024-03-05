@@ -219,8 +219,9 @@ fun EventEditOrCreationScreenStep3(
                 DefaultTextInput(
                     modifier = Modifier.fillMaxWidth(),
                     textFieldModifier = Modifier
-                        .fillMaxWidth()
-                        .height(104.dp),
+                        .padding(top = 5.dp)
+                        .height(104.dp)
+                        .fillMaxWidth(),
                     state = currentState,
                     isSingleLine = false,
                     value = state.eventDescription.value,

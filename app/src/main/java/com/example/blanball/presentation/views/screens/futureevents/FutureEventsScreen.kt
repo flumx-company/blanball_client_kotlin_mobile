@@ -349,7 +349,7 @@ fun FutureEventsScreen(
                                                 color = secondaryNavy,
                                             )
                                             Text(
-                                                text = "${event.count_current_fans}/${event.amount_members}",
+                                                text = "${event.count_current_fans}/Ꝏ",
                                                 fontSize = 13.sp,
                                                 lineHeight = 24.sp,
                                                 style = typography.h4,
