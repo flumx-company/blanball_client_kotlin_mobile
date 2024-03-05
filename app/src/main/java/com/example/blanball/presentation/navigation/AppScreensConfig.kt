@@ -856,6 +856,9 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.CreateNewEvent.screen_route) {
+            LaunchedEffect(Unit){
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+            }
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
