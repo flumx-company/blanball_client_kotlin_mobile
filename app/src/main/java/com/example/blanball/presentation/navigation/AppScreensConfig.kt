@@ -472,6 +472,10 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadUserProfileData()
             }
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
@@ -510,6 +514,10 @@ fun AppScreensConfig(
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
@@ -563,6 +571,10 @@ fun AppScreensConfig(
         composable(Destinations.ALL_PLANNED_EVENTS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
