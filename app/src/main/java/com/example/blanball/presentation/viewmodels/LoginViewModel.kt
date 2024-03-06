@@ -80,7 +80,10 @@ class LoginViewModel
 
     private fun login() {
         job = viewModelScope.launch (Dispatchers.IO){
-           loginUseCase.executeUserLogin(currentState.loginEmailText.value, currentState.loginPasswordText.value).let {
+           loginUseCase.executeUserLogin(
+               currentState.loginEmailText.value.trim(),
+               currentState.loginPasswordText.value.trim()
+           ).let {
                when(it) {
                    is LoginResultEntity.Success -> {
                        tokenManager.saveAccessToken(it.data.tokens.access)

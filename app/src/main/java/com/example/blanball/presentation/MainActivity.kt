@@ -32,6 +32,7 @@ import com.example.blanball.presentation.viewmodels.TechWorksScreenViewModel
 import com.example.blanball.presentation.views.screens.splash.SplashScreen
 import com.example.blanball.presentation.views.screens.technicalworks.TechnicalWorksScreen
 import com.example.blanball.utils.SessionManager
+import com.example.blanball.utils.isNavigateToTechWorks
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
@@ -124,6 +125,16 @@ class MainActivity : ComponentActivity() {
                     val userFullName = userNameManager.getUserName().firstOrNull()
                     val userAvatarUrl = userAvatarUrlManager.getAvatarUrl().firstOrNull()
                     val userEmail = userEmailManager.getUserEmail().firstOrNull()
+                    coroutineScope.launch(Dispatchers.IO) {
+                        isNavigateToTechWorks.collect() {isNavigate ->
+                            if (isNavigate) {
+                                navController.navigate(Destinations.TECH_WORKS.route)
+                            }
+                        }
+                    }
+                    coroutineScope.launch(Dispatchers.IO) {
+
+                    }
                     coroutineScope.launch(Dispatchers.IO) {
                         emailVerificationManager.getIsEmailVerified()
                             .collect { isEmailVerified ->

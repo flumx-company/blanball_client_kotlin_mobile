@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -38,12 +37,14 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Spacer(modifier = Modifier.size(20.dp))
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, top = 20.dp)
             ) {
-                    Row {
+                Spacer(modifier = Modifier.size(20.dp))
+                    Row  {
+                        Spacer(modifier = Modifier.size(16.dp))
                         Text(
                             text = stringResource(R.string.hi),
                             fontSize = 20.sp,
@@ -63,6 +64,8 @@ fun HomeScreen(
                         )
                     }
                     Spacer(Modifier.size(10.dp))
+                Row {
+                    Spacer(modifier = Modifier.size(16.dp))
                     Text(
                         text = stringResource(R.string.what_activities_are_we_planning_today),
                         fontSize = 16.sp,
@@ -71,6 +74,7 @@ fun HomeScreen(
                         fontWeight = FontWeight(700),
                         color = secondaryNavy,
                     )
+                }
                     Spacer(modifier = Modifier.size(16.dp))
                     HomeScreenEventCardHorizontalList(
                         clickToEventCardCallback = { eventId -> onNavigateToEvent(eventId) },
@@ -81,11 +85,11 @@ fun HomeScreen(
         LaunchedEffect(Unit) {
             when {
                 currentState.isShowEventSuccessCreatedModal.value -> {
-                    delay(5000)
+                    delay(2000)
                     currentState.isShowEventSuccessCreatedModal.value = false
                 }
                 currentState.isShowEventSuccessEditModal.value -> {
-                    delay(5000)
+                    delay(2000)
                     currentState.isShowEventSuccessEditModal.value = false
                 }
             }

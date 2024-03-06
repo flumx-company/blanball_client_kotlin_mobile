@@ -219,13 +219,15 @@ fun EventEditOrCreationScreenStep3(
                 DefaultTextInput(
                     modifier = Modifier.fillMaxWidth(),
                     textFieldModifier = Modifier
-                        .fillMaxWidth()
-                        .height(104.dp),
+                        .padding(top = 5.dp)
+                        .height(104.dp)
+                        .fillMaxWidth(),
                     state = currentState,
                     isSingleLine = false,
                     value = state.eventDescription.value,
                     onValueChange = { state.eventDescription.value = it },
                     transformation = VisualTransformation.None,
+                    contentPaddingTop = 5.dp,
                     labelResId = R.string.event_description,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done

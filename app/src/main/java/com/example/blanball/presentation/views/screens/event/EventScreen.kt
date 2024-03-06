@@ -165,11 +165,6 @@ fun EventScreen(
                     modifier = Modifier
                         .wrapContentWidth()
                         .wrapContentHeight()
-                        .background(
-                            color = Color(0xFFE3FBFA),
-                            shape = RoundedCornerShape(size = 4.dp)
-                        )
-                        .padding(start = 4.dp, top = 4.dp, end = 4.dp)
                         .clickable {
                             currentState.isEventDescriptionVisible.value =
                                 !currentState.isEventDescriptionVisible.value

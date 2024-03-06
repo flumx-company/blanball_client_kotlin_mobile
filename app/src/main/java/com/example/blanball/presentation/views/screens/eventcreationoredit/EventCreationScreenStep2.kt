@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -46,7 +47,6 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.presentation.theme.avatarGrey
-import com.example.blanball.presentation.theme.borderPrimary
 import com.example.blanball.presentation.theme.defaultLightGray
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
@@ -213,7 +213,7 @@ fun EventEditOrCreationScreenStep2(
                         transformation = VisualTransformation.None,
                         leadingIcon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.dollar_ic),
+                                painter = painterResource(id = R.drawable.ic_cash),
                                 contentDescription = null,
                                 tint = primaryDark,
                             )
@@ -227,6 +227,7 @@ fun EventEditOrCreationScreenStep2(
                     DefaultTextInput(
                         modifier = Modifier.fillMaxWidth(),
                         trailingIcon = {},
+                        contentPaddingTop = 5.dp,
                         textFieldModifier = Modifier
                             .fillMaxWidth()
                             .height(104.dp),
@@ -289,7 +290,7 @@ fun EventEditOrCreationScreenStep2(
                         else -> {
                             ""
                         }
-                    },
+                    }
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 SearchBar(
@@ -297,8 +298,8 @@ fun EventEditOrCreationScreenStep2(
                         .heightIn(min = 1.dp, max = 260.dp)
                         .fillMaxWidth()
                         .border(
-                            shape = shapes.medium,
-                            color = borderPrimary,
+                            shape = RoundedCornerShape(size = 4.dp),
+                            color = defaultLightGray,
                             width = 1.dp
                         )
                         .animateContentSize(),
@@ -444,7 +445,7 @@ fun EventEditOrCreationScreenStep2(
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 NextAndPreviousButtonsHorizontal(
-                    isEnabled =if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
+                    isEnabled = if (currentState.priceStates.value == EventScreenMainContract.PriceStates.PAID) {
                         !currentState.priceDescription.value.isNullOrEmpty() &&
                                 !currentState.eventSummaryPrice.value.isNullOrEmpty() &&
                                 currentState.maxEventPlayersState.value.isNotEmpty()

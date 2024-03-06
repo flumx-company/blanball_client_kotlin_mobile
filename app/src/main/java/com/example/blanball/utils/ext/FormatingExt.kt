@@ -8,8 +8,8 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.EditEventScreenMainContract
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.theme.backgroundItems
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.secondaryNavy
-import com.example.blanball.presentation.theme.successGreen
 import com.example.domain.utils.Formats
 import com.example.domain.utils.Integers
 import com.google.android.gms.maps.model.LatLng
@@ -422,8 +422,8 @@ internal fun String.mapStatusBackgroundColor(
 ): Color {
     return when (this) {
         context.getString(R.string.finished) -> backgroundItems
-        context.getString(R.string.planned) -> successGreen
-        context.getString(R.string.active) -> successGreen
+        context.getString(R.string.planned) -> mainGreen
+        context.getString(R.string.active) -> mainGreen
         else -> backgroundItems
     }
 }

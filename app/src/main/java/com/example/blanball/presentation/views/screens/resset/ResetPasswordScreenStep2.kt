@@ -142,6 +142,7 @@ fun ResetPasswordScreenStep2(
                 Spacer(modifier = Modifier.size(20.dp))
                 DefaultTextInput(
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = false,
                     labelResId = R.string.email,
                     state = it,
                     value = state.resetEmailText.value,

@@ -472,6 +472,10 @@ fun AppScreensConfig(
                 publicProfileViewModel.loadUserProfileData()
             }
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
@@ -510,6 +514,10 @@ fun AppScreensConfig(
         composable(Destinations.ALL_REVIEWS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
@@ -563,6 +571,10 @@ fun AppScreensConfig(
         composable(Destinations.ALL_PLANNED_EVENTS.route) {
             val state = publicProfileViewModel.uiState.collectAsState().value
             Scaffold(
+                scaffoldState = scaffoldState,
+                drawerContent = navDrawerContent,
+                drawerShape = RoundedCornerShape(0.dp),
+                drawerBackgroundColor = backgroundItems,
                 bottomBar = {
                     bottomNavBar()
                 },
@@ -687,6 +699,9 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
+            LaunchedEffect(Unit){
+                selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
+            }
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
             val futureEventsScreenViewModelState =
                 futureEventsScreenViewModel.uiState.collectAsState().value
@@ -761,6 +776,9 @@ fun AppScreensConfig(
             val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
             LaunchedEffect(futureEventScreenCurrentState.state != previousState) {
                 futureEventsScreenViewModel.handleScreenState(futureEventScreenCurrentState.state)
+            }
+            LaunchedEffect(Unit){
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
             }
 
             Scaffold(
@@ -1838,6 +1856,9 @@ fun AppScreensConfig(
             LaunchedEffect(myEventsScreenCurrentState.state != previousState) {
                 myEventsViewModel.handleScreenState(myEventsScreenCurrentState.state)
             }
+            LaunchedEffect(Unit){
+                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
+            }
 
             Scaffold(
                 scaffoldState = scaffoldState,
@@ -2059,7 +2080,7 @@ fun AppScreensConfig(
                         MyEventsFilterScreen(
                             state = state,
                             clearBtnClicked = {
-                                navController.navigate(Destinations.FUTURE_EVENTS.route)
+                                navController.navigate(Destinations.MY_EVENTS.route)
                                 myEventsViewModel.setState {
                                     copy(
                                         openFiltersDialog = mutableStateOf(false),
