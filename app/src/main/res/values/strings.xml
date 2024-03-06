@@ -475,4 +475,7 @@
     <string name="you_have_not_been_an_event_organizer">До сьогодні ви ще не були організатором подій</string>
     <string name="organize_your_first_event">Організуйте вашу першу подію</string>
     <string name="create_event">Створити подію</string>
+    <string name="lacks_info">Упс! У вашому профілі бракує інформації про вас</string>
+    <string name="filled_profile">Заповніть розділ «Спортивні характеристики» в особистому кабінеті, щоб приймати участь у подіях</string>
+    <string name="complete_profile">Дозаповнити профіль</string>
 </resources>
