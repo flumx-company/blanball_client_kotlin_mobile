@@ -227,6 +227,7 @@ fun EventEditOrCreationScreenStep2(
                     DefaultTextInput(
                         modifier = Modifier.fillMaxWidth(),
                         trailingIcon = {},
+                        contentPaddingTop = 5.dp,
                         textFieldModifier = Modifier
                             .fillMaxWidth()
                             .height(104.dp),

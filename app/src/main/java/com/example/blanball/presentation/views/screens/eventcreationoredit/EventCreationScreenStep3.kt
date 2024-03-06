@@ -227,6 +227,7 @@ fun EventEditOrCreationScreenStep3(
                     value = state.eventDescription.value,
                     onValueChange = { state.eventDescription.value = it },
                     transformation = VisualTransformation.None,
+                    contentPaddingTop = 5.dp,
                     labelResId = R.string.event_description,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done

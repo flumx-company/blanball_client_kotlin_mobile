@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextMotion
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
@@ -62,6 +63,7 @@ fun DefaultTextInput(
     readOnly: Boolean = false,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
+    contentPaddingTop: Dp = 0.dp
 ) {
     val interactionSource by remember { mutableStateOf(interactionSource) }
     val isTextFieldFocused by interactionSource.collectIsFocusedAsState()
@@ -112,7 +114,7 @@ fun DefaultTextInput(
                 visualTransformation = VisualTransformation.None,
                 interactionSource = interactionSource,
                 contentPadding = TextFieldDefaults.textFieldWithLabelPadding(
-                    top = 0.dp, bottom = 0.dp
+                    top = contentPaddingTop, bottom = 0.dp
                 ),
                 isError = isError,
                 label = {
