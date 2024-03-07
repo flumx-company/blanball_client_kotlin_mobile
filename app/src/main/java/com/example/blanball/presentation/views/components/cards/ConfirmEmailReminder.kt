@@ -38,14 +38,15 @@ fun ConfirmEmailReminder(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 6.dp),
-        contentAlignment = Alignment.TopCenter,
+        contentAlignment = Alignment.Center,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
                 .background(color = primaryDark, shape = shapes.medium)
-                .padding(vertical = 6.dp, horizontal = 8.dp)
+                .padding(vertical = 6.dp, horizontal = 8.dp),
+            contentAlignment = Alignment.Center,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

@@ -84,7 +84,6 @@ class MainActivity : ComponentActivity() {
     private val emailVerificationViewModel: EmailVerificationViewModel by viewModels()
     private val selectLocationScreenViewModel: SelectLocationScreenViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {

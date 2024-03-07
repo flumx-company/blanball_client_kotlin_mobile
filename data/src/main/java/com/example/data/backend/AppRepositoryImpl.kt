@@ -1,5 +1,6 @@
 package com.example.data.backend
 
+import android.util.Log
 import com.example.data.backend.models.requests.AuthRequest
 import com.example.data.backend.models.requests.CreationAnEventRequest
 import com.example.data.backend.models.requests.CreationAnEventRequestForms
@@ -141,6 +142,7 @@ import com.example.domain.repository.AppRepository
 import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
@@ -668,10 +670,12 @@ class AppRepositoryImpl @Inject constructor(
             val loginResponse = loginSuccess.toLoginResponse()
             LoginResultEntity.Success(loginResponse.data)
         }catch (ex: HttpException) {
-            navigationManager.navigateToTechWorks()
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
             LoginResultEntity.Error(errorResponse.data.errors[0])
+        } catch (connectEx: SocketTimeoutException){
+            Log.d("Timeout", connectEx.toString())
+            LoginResultEntity.Error(error(connectEx.toString()))
         }
     }
 
