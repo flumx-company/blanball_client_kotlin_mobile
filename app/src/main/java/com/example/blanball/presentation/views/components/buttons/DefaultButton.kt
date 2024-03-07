@@ -29,10 +29,10 @@ fun DefaultButton(
        modifier = modifier
            .fillMaxWidth()
            .background(color = mainGreen, shape = shapes.medium)
-           .padding(vertical = 10.dp, horizontal = 16.dp)
            .clickable {
                clickCallback()
-           },
+           }
+           .padding(vertical = 10.dp, horizontal = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

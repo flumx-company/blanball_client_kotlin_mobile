@@ -6,12 +6,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,23 +29,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blanball.R
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shadowDark
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.DefaultButton
 
-@Preview
 @Composable
 fun ProfileIsNotFilledModal(
-//    onNavToProfileEditing: () -> Unit,
-){
+    onNavToProfileEditing: () -> Unit,
+    onModalClose: () -> Unit,
+) {
     AnimatedVisibility(
         visible = true,
         enter = fadeIn(animationSpec = tween(durationMillis = 700)),
@@ -77,6 +81,7 @@ fun ProfileIsNotFilledModal(
                 {
                     Box(modifier = Modifier.align(Alignment.End)) {
                         Icon(
+                            modifier = Modifier.size(28.dp).clickable { onModalClose() },
                             painter = painterResource(R.drawable.ic_cancel),
                             tint = primaryDark,
                             contentDescription = null,
@@ -88,12 +93,12 @@ fun ProfileIsNotFilledModal(
                             painter = painterResource(id = R.drawable.error_modal),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
-                            )
+                        )
                         Image(
                             painter = painterResource(id = R.drawable.error_stars),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
-                            )
+                        )
 
                     }
                     Spacer(modifier = Modifier.size(12.dp))
@@ -110,19 +115,56 @@ fun ProfileIsNotFilledModal(
                     Text(
                         modifier = Modifier
                             .width(260.dp)
-                            .height(48.dp),
-                        text = stringResource(R.string.filled_profile),
+                            .wrapContentHeight()
+                            .clickable( onClick = {
+
+                            }),
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = secondaryNavy,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight(400),
+                                )
+                            ) {
+                                append("Заповніть розділ")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    color = mainGreen,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight(400),
+                                    textDecoration = TextDecoration.Underline,
+                                )
+                            ) {
+                                append(" «Спортивні характеристики» ")
+                                addStringAnnotation(
+                                    tag = "clickable",
+                                    start = length - 20, // Начало кликабельной части
+                                    end = length,
+                                    annotation = "clickable",
+                                )
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    color = secondaryNavy,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight(400),
+                                )
+                            ) {
+                                append("в особистому кабінеті, щоб приймати участь у подіях")
+                            }
+                        },
                         fontSize = 14.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
-                        color = secondaryNavy,
                         textAlign = TextAlign.Center,
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     DefaultButton(
                         btnTextResId = R.string.complete_profile,
-                        clickCallback = { -> }
+                        clickCallback = { onNavToProfileEditing() }
                     )
                 }
             }
