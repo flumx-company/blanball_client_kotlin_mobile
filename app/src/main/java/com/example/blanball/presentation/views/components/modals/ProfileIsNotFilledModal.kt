@@ -49,7 +49,7 @@ import com.example.blanball.presentation.views.components.buttons.DefaultButton
 fun ProfileIsNotFilledModal(
     onNavToProfileEditing: () -> Unit,
     onModalClose: () -> Unit,
-) {
+){
     AnimatedVisibility(
         visible = true,
         enter = fadeIn(animationSpec = tween(durationMillis = 700)),
@@ -81,7 +81,9 @@ fun ProfileIsNotFilledModal(
                 {
                     Box(modifier = Modifier.align(Alignment.End)) {
                         Icon(
-                            modifier = Modifier.size(28.dp).clickable { onModalClose() },
+                            modifier = Modifier.size(28.dp).clickable {
+                                onModalClose()
+                            },
                             painter = painterResource(R.drawable.ic_cancel),
                             tint = primaryDark,
                             contentDescription = null,
@@ -93,12 +95,12 @@ fun ProfileIsNotFilledModal(
                             painter = painterResource(id = R.drawable.error_modal),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
-                        )
+                            )
                         Image(
                             painter = painterResource(id = R.drawable.error_stars),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
-                        )
+                            )
 
                     }
                     Spacer(modifier = Modifier.size(12.dp))
@@ -127,7 +129,7 @@ fun ProfileIsNotFilledModal(
                                     fontWeight = FontWeight(400),
                                 )
                             ) {
-                                append("Заповніть розділ")
+                                append(stringResource(R.string.filled_profile))
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -137,13 +139,7 @@ fun ProfileIsNotFilledModal(
                                     textDecoration = TextDecoration.Underline,
                                 )
                             ) {
-                                append(" «Спортивні характеристики» ")
-                                addStringAnnotation(
-                                    tag = "clickable",
-                                    start = length - 20, // Начало кликабельной части
-                                    end = length,
-                                    annotation = "clickable",
-                                )
+                                append(stringResource(R.string.sport_info))
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -152,13 +148,14 @@ fun ProfileIsNotFilledModal(
                                     fontWeight = FontWeight(400),
                                 )
                             ) {
-                                append("в особистому кабінеті, щоб приймати участь у подіях")
+                                append(stringResource(R.string.in_personal_cabinet))
                             }
                         },
                         fontSize = 14.sp,
                         lineHeight = 24.sp,
                         style = typography.h4,
                         fontWeight = FontWeight(400),
+                        color = secondaryNavy,
                         textAlign = TextAlign.Center,
                     )
                     Spacer(modifier = Modifier.size(12.dp))
