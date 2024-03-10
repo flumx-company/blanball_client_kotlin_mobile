@@ -41,8 +41,8 @@ fun EventBottomButtons(
     isMyEvent: Boolean,
 ) {
     val listOfContextBtnItems:List<Pair<String, Int>> = listOf(
-        stringResource(R.string.play) to R.drawable.ic_cheer,
-        stringResource(R.string.cheer) to R.drawable.ic_ball,
+        stringResource(R.string.play) to R.drawable.ic_ball,
+        stringResource(R.string.cheer) to R.drawable.ic_cheer,
     )
     Box(
         modifier = Modifier
