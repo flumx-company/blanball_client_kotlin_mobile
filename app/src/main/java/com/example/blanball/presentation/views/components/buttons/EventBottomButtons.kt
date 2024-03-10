@@ -31,6 +31,7 @@ import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.dropdownmenu.ContextDropdownMenuButton
 
 @Composable
 fun EventBottomButtons(
@@ -39,6 +40,10 @@ fun EventBottomButtons(
     shareBtnClick: () -> Unit,
     isMyEvent: Boolean,
 ) {
+    val listOfContextBtnItems:List<Pair<String, Int>> = listOf(
+        stringResource(R.string.play) to R.drawable.ic_cheer,
+        stringResource(R.string.cheer) to R.drawable.ic_ball,
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,32 +61,38 @@ fun EventBottomButtons(
     )
     {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Button(
-                onClick = if (isMyEvent) onEditClick else onJoinBtnClick ,
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .height(40.dp),
-                shape = shapes.medium,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = mainGreen,
-                    contentColor = Color.White,
-                ),
-            ) {
-                if (isMyEvent) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_settings_2),
-                        contentDescription = null
+            if (isMyEvent) {
+                Button(
+                    onClick =  onEditClick,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .height(40.dp),
+                    shape = shapes.medium,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = mainGreen,
+                        contentColor = Color.White,
+                    ),
+                ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_settings_2),
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.size(6.dp))
+                    }
+                    Text(
+                        modifier = Modifier,
+                        text = stringResource(id = R.string.edit),
+                        fontSize = 15.sp,
+                        lineHeight = 24.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
                     )
-                    Spacer(modifier = Modifier.size(6.dp))
-                }
-                Text(
-                    modifier = Modifier,
-                    text = if (isMyEvent) stringResource(id = R.string.edit) else stringResource(R.string.to_join),
-                    fontSize = 15.sp,
-                    lineHeight = 24.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                )
+            } else{
+               ContextDropdownMenuButton(
+                   listItems = listOfContextBtnItems,
+                   onSelectClick = { },
+                   btnTextResId = R.string.to_join,
+               )
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
