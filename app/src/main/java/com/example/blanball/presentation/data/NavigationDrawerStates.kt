@@ -22,6 +22,9 @@ class NavigationDrawerMainContract
         val regionsOfUkraineList: MutableState<List<String>> = mutableStateOf(
             emptyList()
         ),
+        val isUserProfileFilled: MutableState<Boolean> = mutableStateOf(
+            false
+        )
     ) : UiState
 
 
