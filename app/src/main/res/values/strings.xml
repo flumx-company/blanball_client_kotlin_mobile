@@ -475,4 +475,6 @@
     <string name="you_have_not_been_an_event_organizer">До сьогодні ви ще не були організатором подій</string>
     <string name="organize_your_first_event">Організуйте вашу першу подію</string>
     <string name="create_event">Створити подію</string>
+    <string name="play">Грати</string>
+    <string name="cheer">Вболівати</string>
 </resources>
