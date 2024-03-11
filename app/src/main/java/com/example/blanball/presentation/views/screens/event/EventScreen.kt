@@ -73,7 +73,6 @@ fun EventScreen(
     isConfirmReminderVisible: Boolean,
     onEditClick: (currentEventId: Int) -> Unit,
 ) {
-
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Column(
             modifier = Modifier
@@ -563,7 +562,7 @@ fun EventScreen(
                     isMarkerVisible = true,
                     isLongClickAvailable = false,
                     height = 128.dp,
-                    )
+                )
                 Spacer(modifier = Modifier.size(36.dp))
                 Text(
                     text = stringResource(R.string.already_confirme_participation),
