@@ -2,6 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
@@ -19,6 +20,12 @@ class EventScreenMainContract {
         val state: ScreenViewState,
         val currentEventId: MutableState<Int?> = mutableStateOf(null),
         val eventName: MutableState<String> = mutableStateOf(""),
+        val invitedPlayersList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+            emptyList()
+        ),
+        val invitedFunsList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+            emptyList()
+        ),
         val sportType: MutableState<String> = mutableStateOf(""),
         val eventDateAndTime: MutableState<String> = mutableStateOf(""),
         val eventDuration: MutableState<Int> = mutableStateOf(0),

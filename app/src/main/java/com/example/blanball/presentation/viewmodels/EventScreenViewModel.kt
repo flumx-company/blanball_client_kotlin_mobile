@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -216,7 +217,7 @@ class EventScreenViewModel
                                 needFormStates = mutableStateOf(
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
-                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -281,7 +282,7 @@ class EventScreenViewModel
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
-                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
                                 ),
@@ -320,7 +321,7 @@ class EventScreenViewModel
         }
     }
 
-   private fun loadEventData() {
+    private fun loadEventData() {
         viewModelScope.launch(Dispatchers.IO) {
             setState {
                 copy(
@@ -372,21 +373,25 @@ class EventScreenViewModel
                                         it.data.place.lon
                                     )
                                 ),
+                                invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
+                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile}),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
-                        currentState.eventSummaryPrice.value = checkNullIntPriceValue( currentState.eventPrice.value)
+                        currentState.eventSummaryPrice.value =
+                            checkNullIntPriceValue(currentState.eventPrice.value)
+                        Log.d("InvitedUsers", currentState.invitedPlayersList.value.toString())
                         mapGenderOnEditScreen(
                             eventGenders = currentState.eventGenders.value,
                             context = application.applicationContext,
                             playersGenderStates = currentState.playersGenderStates,
                         )
-                       mapPriceOnEditScreen(
-                           price = currentState.eventPrice.value,
-                           priceStates = currentState.priceStates,
-                       )
+                        mapPriceOnEditScreen(
+                            price = currentState.eventPrice.value,
+                            priceStates = currentState.priceStates,
+                        )
                         mapPrivacyOnEditScreen(
-                            isPrivacy = currentState.isEventPrivate.value ,
+                            isPrivacy = currentState.isEventPrivate.value,
                             privacyStates = currentState.isEventPrivacyStates,
                         )
                         mapFormStatesOnEditScreen(
@@ -396,7 +401,7 @@ class EventScreenViewModel
                         mapToDateOnEditScreen(
                             inputDateTime = currentState.eventDateAndTime.value,
                             outputDate = currentState.eventDateState,
-                            )
+                        )
                         mapToTimeOnEditScreen(
                             inputTime = currentState.eventDateAndTime.value,
                             outputTime = currentState.startEventTimeState,
