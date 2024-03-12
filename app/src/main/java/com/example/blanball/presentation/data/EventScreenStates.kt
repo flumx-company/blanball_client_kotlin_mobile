@@ -13,6 +13,7 @@ class EventScreenMainContract {
         object EditEventClicked : Event()
         object CleanStates: Event()
         object LoadEventData: Event()
+        object GetUserPhone: Event()
     }
 
     data class State(
@@ -91,6 +92,7 @@ class EventScreenMainContract {
         val eventSummaryPrice: MutableState<String?> = mutableStateOf(null),
         val selectRegion: MutableState<String> = mutableStateOf(""),
         val selectCity: MutableState<String> = mutableStateOf(""),
+        val isPhoneNumInputEnabled: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

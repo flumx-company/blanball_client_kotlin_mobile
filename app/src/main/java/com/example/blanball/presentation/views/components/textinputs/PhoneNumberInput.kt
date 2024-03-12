@@ -46,10 +46,12 @@ import com.example.domain.utils.Formats
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PhoneNumberInput(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    modifier: Modifier,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
     textFieldModifier: Modifier = Modifier.height(44.dp).padding(top = 5.dp).fillMaxWidth(),
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
@@ -63,6 +65,7 @@ fun PhoneNumberInput(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
+        enabled = enabled,
         interactionSource = interactionSource,
         textStyle = TextStyle(
             color = primaryDark,
@@ -80,6 +83,7 @@ fun PhoneNumberInput(
             value = value,
             innerTextField = innerTextField,
             singleLine = true,
+            trailingIcon = trailingIcon,
             leadingIcon = {
                 Text(
                     text = stringResource(id = R.string.head_of_number),

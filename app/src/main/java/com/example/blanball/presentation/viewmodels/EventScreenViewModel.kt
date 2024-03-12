@@ -21,6 +21,7 @@ import com.example.blanball.utils.ext.mapPrivacyOnEditScreen
 import com.example.blanball.utils.ext.mapToDateOnEditScreen
 import com.example.blanball.utils.ext.mapToTimeOnEditScreen
 import com.example.data.datastore.useridmanager.UserIdManager
+import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
@@ -32,8 +33,11 @@ import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,14 +48,19 @@ import javax.inject.Inject
 @HiltViewModel
 class EventScreenViewModel
 @Inject constructor(
-    internal val getEventByIdUseCase: GetEventByIdUseCase,
-    val userIdManager: UserIdManager,
-    internal val creationNewEventUseCase: CreationAnEventUseCase,
-    internal val searchListUseCase: GetRelevantUserSearchListUseCase,
-    internal val editEventUseCase: EditEventByIdUseCase,
+    private val getEventByIdUseCase: GetEventByIdUseCase,
+    private val userIdManager: UserIdManager,
+    private val userPhoneManager: UserPhoneManager,
+    private val creationNewEventUseCase: CreationAnEventUseCase,
+    private val searchListUseCase: GetRelevantUserSearchListUseCase,
+    private val editEventUseCase: EditEventByIdUseCase,
     private val application: Application,
-) : ViewModel() {
+
+    ) : ViewModel() {
     private var job: Job? = null
+
+    private var dataStoreJob = SupervisorJob()
+    private var dataStoreCoroutineScope = CoroutineScope(dataStoreJob)
 
     val defaultState
         get() = EventScreenMainContract.State(
@@ -76,38 +85,13 @@ class EventScreenViewModel
                 loadEventData()
             }
 
-            is EventScreenMainContract.Event.CleanStates -> {
-                setState {
-                    copy(
-                        eventName = mutableStateOf(""),
-                        eventType = mutableStateOf(""),
-                        eventDateState = mutableStateOf(""),
-                        eventDateAndTime = mutableStateOf(""),
-                        startEventTimeState = mutableStateOf(""),
-                        playersGenderStates = mutableStateOf(
-                            EventScreenMainContract.PlayersGenderStates.NO_SELECT
-                        ),
-                        sportType = mutableStateOf(""),
-                        priceStates = mutableStateOf(EventScreenMainContract.PriceStates.NO_SELECT),
-                        needFormStates = mutableStateOf(
-                            EventScreenMainContract.NeedFormStates.NO_SELECT
-                        ),
-                        phoneNumberState = mutableStateOf(""),
-                        eventGenders = mutableStateOf(""),
-                        endEventTimeState = mutableStateOf(""),
-                        maxEventPlayersState = mutableStateOf(""),
-                        usersSearchState = mutableStateOf(""),
-                        priseSwitchButtonState = mutableStateOf(false),
-                        needBallSwitchButtonState = mutableStateOf(false),
-                        listOfFoundUsers = mutableStateOf(emptyList()),
-                        selectedUserIds = mutableStateOf(emptySet()),
-                        selectedUserProfiles = mutableStateOf(emptySet()),
-                        priceDescription = mutableStateOf(null),
-
-                        )
-                }
+            is EventScreenMainContract.Event.GetUserPhone -> {
+                getUserPhoneFromDataStore()
             }
 
+            is EventScreenMainContract.Event.CleanStates -> {
+                cleanStates()
+            }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
                 setState {
@@ -136,6 +120,40 @@ class EventScreenViewModel
                     }
                     userSearch()
                 }
+            }
+        }
+    }
+
+    private fun cleanStates() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            setState {
+                copy(
+                    eventName = mutableStateOf(""),
+                    eventType = mutableStateOf(""),
+                    eventDateState = mutableStateOf(""),
+                    eventDateAndTime = mutableStateOf(""),
+                    startEventTimeState = mutableStateOf(""),
+                    playersGenderStates = mutableStateOf(
+                        EventScreenMainContract.PlayersGenderStates.NO_SELECT
+                    ),
+                    sportType = mutableStateOf(""),
+                    priceStates = mutableStateOf(EventScreenMainContract.PriceStates.NO_SELECT),
+                    needFormStates = mutableStateOf(
+                        EventScreenMainContract.NeedFormStates.NO_SELECT
+                    ),
+                    phoneNumberState = mutableStateOf(""),
+                    eventGenders = mutableStateOf(""),
+                    endEventTimeState = mutableStateOf(""),
+                    maxEventPlayersState = mutableStateOf(""),
+                    usersSearchState = mutableStateOf(""),
+                    priseSwitchButtonState = mutableStateOf(false),
+                    needBallSwitchButtonState = mutableStateOf(false),
+                    listOfFoundUsers = mutableStateOf(emptyList()),
+                    selectedUserIds = mutableStateOf(emptySet()),
+                    selectedUserProfiles = mutableStateOf(emptySet()),
+                    priceDescription = mutableStateOf(null),
+                    isPhoneNumInputEnabled = mutableStateOf(false)
+                )
             }
         }
     }
@@ -216,7 +234,7 @@ class EventScreenViewModel
                                 needFormStates = mutableStateOf(
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
-                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
                                 phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -281,7 +299,7 @@ class EventScreenViewModel
                                 isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
-                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT) ,
+                                isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
                                 playersGenderStates = mutableStateOf(
                                     EventScreenMainContract.PlayersGenderStates.NO_SELECT
                                 ),
@@ -320,7 +338,7 @@ class EventScreenViewModel
         }
     }
 
-   private fun loadEventData() {
+    private fun loadEventData() {
         viewModelScope.launch(Dispatchers.IO) {
             setState {
                 copy(
@@ -334,6 +352,21 @@ class EventScreenViewModel
                     )
                 }
             }
+        }
+    }
+
+    private fun getUserPhoneFromDataStore() {
+        dataStoreCoroutineScope.launch(Dispatchers.IO) {
+            val userPhoneWithoutPrefix =
+                userPhoneManager.getUserPhone().firstOrNull()?.toString()?.removePrefix("+380")
+            setState {
+                copy(
+                    phoneNumberState = mutableStateOf(
+                        userPhoneWithoutPrefix ?: ""
+                    )
+                )
+            }
+            dataStoreCoroutineScope.cancel()
         }
     }
 
@@ -375,18 +408,19 @@ class EventScreenViewModel
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
-                        currentState.eventSummaryPrice.value = checkNullIntPriceValue( currentState.eventPrice.value)
+                        currentState.eventSummaryPrice.value =
+                            checkNullIntPriceValue(currentState.eventPrice.value)
                         mapGenderOnEditScreen(
                             eventGenders = currentState.eventGenders.value,
                             context = application.applicationContext,
                             playersGenderStates = currentState.playersGenderStates,
                         )
-                       mapPriceOnEditScreen(
-                           price = currentState.eventPrice.value,
-                           priceStates = currentState.priceStates,
-                       )
+                        mapPriceOnEditScreen(
+                            price = currentState.eventPrice.value,
+                            priceStates = currentState.priceStates,
+                        )
                         mapPrivacyOnEditScreen(
-                            isPrivacy = currentState.isEventPrivate.value ,
+                            isPrivacy = currentState.isEventPrivate.value,
                             privacyStates = currentState.isEventPrivacyStates,
                         )
                         mapFormStatesOnEditScreen(
@@ -396,7 +430,7 @@ class EventScreenViewModel
                         mapToDateOnEditScreen(
                             inputDateTime = currentState.eventDateAndTime.value,
                             outputDate = currentState.eventDateState,
-                            )
+                        )
                         mapToTimeOnEditScreen(
                             inputTime = currentState.eventDateAndTime.value,
                             outputTime = currentState.startEventTimeState,
