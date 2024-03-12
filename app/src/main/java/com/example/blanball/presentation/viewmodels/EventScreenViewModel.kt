@@ -69,11 +69,6 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                setState {
-                    copy(
-                        state = EventScreenMainContract.ScreenViewState.Loading
-                    )
-                }
                 loadEventData()
             }
 
@@ -380,7 +375,6 @@ class EventScreenViewModel
                         }
                         currentState.eventSummaryPrice.value =
                             checkNullIntPriceValue(currentState.eventPrice.value)
-                        Log.d("InvitedUsers", currentState.invitedPlayersList.value.toString())
                         mapGenderOnEditScreen(
                             eventGenders = currentState.eventGenders.value,
                             context = application.applicationContext,
