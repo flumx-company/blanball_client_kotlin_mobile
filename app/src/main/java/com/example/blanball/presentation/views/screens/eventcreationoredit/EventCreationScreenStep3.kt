@@ -24,7 +24,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -64,6 +63,7 @@ fun EventEditOrCreationScreenStep3(
     isEditOrCreation: EventScreenMainContract.EditOrCreationState,
 ) {
     val localFocusManager = LocalFocusManager.current
+
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
@@ -189,15 +189,14 @@ fun EventEditOrCreationScreenStep3(
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     PhoneNumberInput(
+                        modifier = Modifier.fillMaxWidth(),
                         value = state.phoneNumberState.value,
                         onValueChange = { it ->
                             if (it.length <= Integers.NINE) {
                                 state.phoneNumberState.value = it.filter { it.isDigit() }
                             }
                         },
-                        enabled = state.isPhoneNumInputEnabled.value,
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        enabled = state.isPhoneNumInputEnabled.value ,
                         isError = when {
                             state.phoneNumberState.value.isInvalidValidPhoneNumber() -> true
                             else -> false
@@ -207,10 +206,6 @@ fun EventEditOrCreationScreenStep3(
                                 modifier = Modifier.size(20.dp).clickable {
                                     state.isPhoneNumInputEnabled.value =
                                         !state.isPhoneNumInputEnabled.value
-
-                                    if (!state.isPhoneNumInputEnabled.value)
-                                    localFocusManager.moveFocus(FocusDirection.Right)
-                                    else localFocusManager.clearFocus()
                                 },
                                 painter = if (!state.isPhoneNumInputEnabled.value) painterResource(R.drawable.ic_change_data) else painterResource(
                                     R.drawable.ic_done

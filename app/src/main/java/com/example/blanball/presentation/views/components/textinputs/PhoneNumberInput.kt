@@ -52,7 +52,7 @@ fun PhoneNumberInput(
     isError: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
-    textFieldModifier: Modifier = Modifier.height(44.dp).padding(top = 5.dp).fillMaxWidth(),
+    textFieldModifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     errorMessage: String = "",
@@ -61,7 +61,7 @@ fun PhoneNumberInput(
     val isTextFieldFocused by interactionSource.collectIsFocusedAsState()
     Column(modifier = modifier.animateContentSize().fillMaxSize()) {
     BasicTextField(
-        modifier = textFieldModifier,
+        modifier = textFieldModifier.height(44.dp).padding(top = 5.dp).fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
