@@ -46,7 +46,7 @@ fun NoHaveContentBanner(
         .fillMaxWidth()
         .height(220.dp)
         .padding(20.dp)){
-        Row (horizontalArrangement = Arrangement.SpaceBetween) {
+        Row (horizontalArrangement = Arrangement.SpaceBetween, ) {
             Column (modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(id = headerTextId),
@@ -67,8 +67,10 @@ fun NoHaveContentBanner(
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Spacer(modifier = Modifier.size(32.dp))
-                if (isBtnVisible) {
-                   Row(verticalAlignment = Alignment.CenterVertically) {
+                   Row(
+                       verticalAlignment = Alignment.CenterVertically,
+                       ) {
+                       if (isBtnVisible) {
                        Box(
                            modifier = Modifier
                                .height(40.dp)
@@ -92,22 +94,17 @@ fun NoHaveContentBanner(
                                fontWeight = FontWeight(500),
                            )
                        }
+                       } else {
+                           Spacer(modifier = Modifier.height(40.dp)
+                               .width(172.dp))
+                       }
                        Spacer(modifier = Modifier.weight(1f))
                        Image(
                            modifier = Modifier.size(49.dp),
                            painter = painterResource(id = R.drawable.ic_ball_dark),
                            contentDescription = null
                        )
-
                    }
-            } else {
-                    Spacer(modifier = Modifier.weight(0.5f))
-                    Image(
-                        modifier = Modifier.size(49.dp).align(Alignment.End),
-                        painter = painterResource(id = R.drawable.ic_ball_dark),
-                        contentDescription = null
-                    )
-                }
             }
             Spacer(modifier = Modifier.weight(0.1f))
             Image(

@@ -46,11 +46,13 @@ import com.example.domain.utils.Formats
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PhoneNumberInput(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    modifier: Modifier,
-    textFieldModifier: Modifier = Modifier.height(44.dp).padding(top = 5.dp).fillMaxWidth(),
+    trailingIcon: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    textFieldModifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     errorMessage: String = "",
@@ -59,10 +61,11 @@ fun PhoneNumberInput(
     val isTextFieldFocused by interactionSource.collectIsFocusedAsState()
     Column(modifier = modifier.animateContentSize().fillMaxSize()) {
     BasicTextField(
-        modifier = textFieldModifier,
+        modifier = textFieldModifier.height(44.dp).padding(top = 5.dp).fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
+        enabled = enabled,
         interactionSource = interactionSource,
         textStyle = TextStyle(
             color = primaryDark,
@@ -80,6 +83,7 @@ fun PhoneNumberInput(
             value = value,
             innerTextField = innerTextField,
             singleLine = true,
+            trailingIcon = trailingIcon,
             leadingIcon = {
                 Text(
                     text = stringResource(id = R.string.head_of_number),

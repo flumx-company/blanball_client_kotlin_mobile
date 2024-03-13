@@ -111,7 +111,6 @@ import com.example.domain.utils.Endpoints
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -1689,16 +1688,7 @@ fun AppScreensConfig(
 
         composable(Destinations.CREATE_NEW_EVENT_STEP_3.route) {
             val currentState = eventScreenViewModel.currentState
-            LaunchedEffect(key1 = Unit) {
-                val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventScreenViewModel.setState {
-                    copy(
-                        phoneNumberState = mutableStateOf(
-                            userPhoneString
-                        )
-                    )
-                }
-            }
+            eventScreenViewModel.handleEvent(EventScreenMainContract.Event.GetUserPhone)
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,
@@ -2274,16 +2264,7 @@ fun AppScreensConfig(
 
         composable(Destinations.EDIT_EVENT_STEP_3.route) {
             val currentState = eventScreenViewModel.currentState
-            LaunchedEffect(key1 = Unit) {
-                val userPhoneString = userPhoneManager.getUserPhone().firstOrNull().toString()
-                eventScreenViewModel.setState {
-                    copy(
-                        phoneNumberState = mutableStateOf(
-                            userPhoneString
-                        )
-                    )
-                }
-            }
+            eventScreenViewModel.handleEvent(EventScreenMainContract.Event.GetUserPhone)
             Scaffold(
                 scaffoldState = scaffoldState,
                 drawerContent = navDrawerContent,

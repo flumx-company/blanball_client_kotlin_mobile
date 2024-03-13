@@ -132,4 +132,9 @@ class FutureEventsScreenViewModel
         val newState = currentState.reduce()
         _uiState.value = newState
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+    }
 }

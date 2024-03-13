@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,9 @@ import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEv
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
+import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
+import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
+import com.example.domain.utils.Integers
 
 @Composable
 fun EventEditOrCreationScreenStep3(
@@ -58,6 +63,7 @@ fun EventEditOrCreationScreenStep3(
     isEditOrCreation: EventScreenMainContract.EditOrCreationState,
 ) {
     val localFocusManager = LocalFocusManager.current
+
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(
             modifier = Modifier
@@ -182,19 +188,45 @@ fun EventEditOrCreationScreenStep3(
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = state.phoneNumberState.value,
-                        fontSize = 13.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(500),
-                        color = primaryDark,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_change_data),
-                        contentDescription = null,
-                        tint = secondaryNavy,
+                    PhoneNumberInput(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = state.phoneNumberState.value,
+                        onValueChange = { it ->
+                            if (it.length <= Integers.NINE) {
+                                state.phoneNumberState.value = it.filter { it.isDigit() }
+                            }
+                        },
+                        enabled = state.isPhoneNumInputEnabled.value ,
+                        isError = when {
+                            state.phoneNumberState.value.isInvalidValidPhoneNumber() -> true
+                            else -> false
+                        },
+                        trailingIcon = {
+                            Icon(
+                                modifier = Modifier.size(20.dp).clickable {
+                                    state.isPhoneNumInputEnabled.value =
+                                        !state.isPhoneNumInputEnabled.value
+                                },
+                                painter = if (!state.isPhoneNumInputEnabled.value) painterResource(R.drawable.ic_change_data) else painterResource(
+                                    R.drawable.ic_done
+                                ),
+                                tint = primaryDark,
+                                contentDescription = null,
+                            )
+                        },
+                        errorMessage = when {
+                            state.phoneNumberState.value.isInvalidValidPhoneNumber() -> stringResource(
+                                id = R.string.phone_format_error
+                            )
+                            else -> {
+                                ("")
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { localFocusManager.clearFocus() })
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
