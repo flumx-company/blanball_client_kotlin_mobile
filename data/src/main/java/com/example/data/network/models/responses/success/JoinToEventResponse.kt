@@ -1,23 +1,25 @@
 package com.example.data.network.models.responses.success
 
+import com.squareup.moshi.Json
+
 data class JoinToEventAsPlayerResponse(
-    val code: Int,
-    val `data`: JoinToEventAsPlayerResponseData,
-    val message: String? = null,
-    val status: String
+    @Json(name = "code") val code: Int,
+    @Json(name = "`data`") val `data`: JoinToEventAsPlayerResponseData,
+    @Json(name = "message") val message: String? = null,
+    @Json(name = "status") val status: String
 )
 
 data class JoinToEventAsPlayerResponseData(
-    val success: String
+    @Json(name = "success") val success: String
 )
 
 data class JoinToEventAsFunResponse(
-    val code: Int,
-    val `data`: JoinToEventAsFunResponseData,
-    val message: String? = null,
-    val status: String
+    @Json(name = "code") val code: Int,
+    @Json(name = "`data`") val `data`: JoinToEventAsFunResponseData,
+    @Json(name = "message") val message: String? = null,
+    @Json(name = "status") val status: String
 )
 
 data class JoinToEventAsFunResponseData(
-    val success: String
+    @Json(name = "success") val success: String
 )

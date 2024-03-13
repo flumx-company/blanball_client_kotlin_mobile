@@ -1,34 +1,36 @@
 package com.example.data.network.models.responses.errors
 
+import com.squareup.moshi.Json
+
 
 data class JoinToEventAsFunError(
-    val code: Int,
-    val `data`: JoinToEventAsFunErrorData,
-    val message: Any? = null,
-    val status: String
+    @Json(name ="code") val code: Int,
+    @Json(name ="`data`") val `data`: JoinToEventAsFunErrorData,
+    @Json(name ="message") val message: Any? = null,
+    @Json(name ="status") val status: String
 )
 
 data class JoinToEventAsFunErrorData(
-    val errors: List<JoinToEventAsFunDetailData>,
-    val type: String
+    @Json(name ="errors") val errors: List<JoinToEventAsFunDetailData>,
+    @Json(name ="type") val type: String
 )
 
 data class JoinToEventAsFunDetailData(
-    val detail: String
+    @Json(name ="detail") val detail: String
 )
 
 data class JoinToEventAsPlayerError(
-    val code: Int,
-    val `data`: JoinToEventAsPlayerErrorData,
-    val message: Any? = null,
-    val status: String
+    @Json(name ="code") val code: Int,
+    @Json(name ="`data`") val `data`: JoinToEventAsPlayerErrorData,
+    @Json(name ="message") val message: Any? = null,
+    @Json(name ="status") val status: String
 )
 
 data class JoinToEventAsPlayerErrorData(
-    val errors: List<JoinToEventAsPlayerDetailData>,
-    val type: String
+    @Json(name ="errors") val errors: List<JoinToEventAsPlayerDetailData>,
+    @Json(name ="type") val type: String
 )
 
 data class JoinToEventAsPlayerDetailData(
-    val detail: String
+    @Json(name ="detail") val detail: String
 )
