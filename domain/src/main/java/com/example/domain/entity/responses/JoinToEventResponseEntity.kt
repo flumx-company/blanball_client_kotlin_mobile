@@ -13,7 +13,7 @@ data class JoinToEventAsPlayerResponseEntityData(
 
 data class JoinToEventAsFunResponseEntity(
     val code: Int,
-    val `data`: JoinToEventAsPlayerResponseEntityData,
+    val `data`: JoinToEventAsFunResponseEntityData,
     val message: String? = null,
     val status: String
 )
