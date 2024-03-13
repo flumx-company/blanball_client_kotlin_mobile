@@ -1,10 +1,11 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
-import android.util.Log
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
@@ -28,10 +29,13 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
+import com.example.domain.usecases.interfaces.JoinToEventAsFunUseCase
+import com.example.domain.usecases.interfaces.JoinToEventAsPlayerUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -55,6 +59,8 @@ class EventScreenViewModel
     private val creationNewEventUseCase: CreationAnEventUseCase,
     private val searchListUseCase: GetRelevantUserSearchListUseCase,
     private val editEventUseCase: EditEventByIdUseCase,
+    private val joinToEventAsFunUseCase: JoinToEventAsFunUseCase,
+    private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
     private val application: Application,
 
     ) : ViewModel() {
@@ -116,6 +122,14 @@ class EventScreenViewModel
                     }
                     userSearch()
                 }
+            }
+
+            is EventScreenMainContract.Event.JoinToEventAsPlayer -> {
+                joinToEvent(asWho = ParticipantRole.PLAYER)
+            }
+
+            is EventScreenMainContract.Event.JoinToEventAsFun -> {
+                joinToEvent(asWho = ParticipantRole.FUN)
             }
         }
     }
@@ -342,9 +356,9 @@ class EventScreenViewModel
                 )
             }
             currentState.currentEventId.value.let { currentEventId ->
-                currentEventId?.let { it ->
+                currentEventId?.let { eventId ->
                     getEventById(
-                        eventId = it
+                        eventId = eventId
                     )
                 }
             }
@@ -354,7 +368,11 @@ class EventScreenViewModel
     private fun getUserPhoneFromDataStore() {
         dataStoreCoroutineScope.launch(Dispatchers.IO) {
             val userPhoneWithoutPrefix =
-                userPhoneManager.getUserPhone().firstOrNull()?.toString()?.removePrefix("+380")
+                userPhoneManager.getUserPhone().firstOrNull()?.toString()?.removePrefix(
+                    application.getString(
+                        R.string.ua_phone_country_code
+                    )
+                )
             setState {
                 copy(
                     phoneNumberState = mutableStateOf(
@@ -381,7 +399,7 @@ class EventScreenViewModel
                                 maxEventPlayersState = mutableStateOf(it.data.amount_members.toString()),
                                 sportType = mutableStateOf(it.data.type),
                                 eventDateAndTime = mutableStateOf(it.data.date_and_time),
-                                eventDuration = mutableStateOf(it.data.duration),
+                                eventDuration = mutableIntStateOf(it.data.duration),
                                 eventPlaceName = mutableStateOf(it.data.place.place_name),
                                 eventDescription = mutableStateOf(it.data.description),
                                 eventGenders = mutableStateOf(it.data.gender),
@@ -391,8 +409,8 @@ class EventScreenViewModel
                                 eventAuthorAvatar = mutableStateOf(
                                     it.data.author.profile.avatar_url ?: ""
                                 ),
-                                currentEventAuthorId = mutableStateOf(it.data.author.id),
-                                eventPrice = mutableStateOf(it.data.price ?: 0),
+                                currentEventAuthorId = mutableIntStateOf(it.data.author.id),
+                                eventPrice = mutableIntStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
                                 priceDescription = mutableStateOf(it.data.price_description),
                                 eventLatLng = mutableStateOf(
@@ -402,7 +420,7 @@ class EventScreenViewModel
                                     )
                                 ),
                                 invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
-                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile}),
+                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile }),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
@@ -442,6 +460,30 @@ class EventScreenViewModel
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+
+    enum class ParticipantRole {
+        PLAYER,
+        FUN
+    }
+
+    private fun joinToEvent(asWho: ParticipantRole) {
+        when (asWho) {
+            ParticipantRole.PLAYER -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
+                    joinToEventAsPlayerUseCase.executeJoinRequestAsPlayer(
+                        eventId = currentState.currentEventId.value ?: -1
+                    )
+                    }
+                }
+            }
+
+            ParticipantRole.FUN -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
+
                 }
             }
         }

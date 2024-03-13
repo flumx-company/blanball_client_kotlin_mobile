@@ -15,6 +15,8 @@ class EventScreenMainContract {
         object CleanStates: Event()
         object LoadEventData: Event()
         object GetUserPhone: Event()
+        object JoinToEventAsPlayer: Event()
+        object JoinToEventAsFun: Event()
     }
 
     data class State(
