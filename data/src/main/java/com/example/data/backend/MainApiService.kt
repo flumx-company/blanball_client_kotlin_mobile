@@ -26,6 +26,7 @@ import com.example.data.backend.models.responses.success.GetUserPlannedEventsByI
 import com.example.data.backend.models.responses.success.GetUserProfileByIdResponse
 import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponse
 import com.example.data.backend.models.responses.success.GetUsersListResponse
+import com.example.data.backend.models.responses.success.JoinToEventAsFunResponse
 import com.example.data.backend.models.responses.success.LoginSuccess
 import com.example.data.backend.models.responses.success.PostEmailVerifyCodeResponse
 import com.example.data.backend.models.responses.success.RegistrationResponse
@@ -154,4 +155,14 @@ interface MainApiService {
 
     @GET(Endpoints.GET_UKRAINE_CITIES_ENDPOINT)
     suspend fun getUkraineCitiesList(): GetUkraineCitiesListResponse
-}
+
+    @POST(Endpoints.JOIN_TO_EVENT_AS_PLAYER)
+    suspend fun joinToEventAsPlayer(
+        @Body eventId: Int
+    ): JoinToEventAsFunResponse
+
+    @POST(Endpoints.JOIN_TO_EVENT_AS_FUN)
+    suspend fun joinToEventAsFun(
+        @Body eventId: Int
+    ): JoinToEventAsFunResponse
+

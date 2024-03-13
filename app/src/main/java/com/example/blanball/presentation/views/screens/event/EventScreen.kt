@@ -585,27 +585,29 @@ fun EventScreen(
                     )
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = backgroundClassicRed, shape = shapes.medium)
-                        .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-                        .padding(vertical = 24.dp, horizontal = 12.dp)
-                ) {
-                    Column {
-                        for (player in currentState.invitedPlayersList.value) {
-                            PlayerOnEventCard(
-                                userAvatarUrl = player.avatar_url,
-                                userFirstName = player.name,
-                                userLastName = player.last_name,
-                                userPosition = player.position,
-                                userRating = 5.0f, // TODO() need to get a rating field on the backend (ping Max)
-                            )
-                            Spacer(modifier = Modifier.size(8.dp))
+                if (currentState.invitedPlayersList.value.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = backgroundClassicRed, shape = shapes.medium)
+                            .border(width = 1.dp, color = classicRed, shape = shapes.medium)
+                            .padding(vertical = 24.dp, horizontal = 12.dp)
+                    ) {
+                        Column {
+                            for (player in currentState.invitedPlayersList.value) {
+                                PlayerOnEventCard(
+                                    userAvatarUrl = player.avatar_url,
+                                    userFirstName = player.name,
+                                    userLastName = player.last_name,
+                                    userPosition = player.position,
+                                    userRating = 5.0f, // TODO() need to get a rating field on the backend (ping Max)
+                                )
+                                Spacer(modifier = Modifier.size(8.dp))
+                            }
                         }
                     }
+                    Spacer(modifier = Modifier.size(58.dp))
                 }
-                Spacer(modifier = Modifier.size(58.dp))
             }
             EventBottomButtons(
                 onJoinBtnClick = { /*TODO*/ },

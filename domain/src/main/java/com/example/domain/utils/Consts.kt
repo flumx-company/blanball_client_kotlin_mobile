@@ -31,6 +31,8 @@ object Endpoints {
     const val GET_RELEVANT_USER_SEARCH_LIST = BuildConfig.GET_RELEVANT_USER_SEARCH_LIST
     const val EDIT_MY_PROFILE_ENDPOINT = BuildConfig.EDIT_MY_PROFILE_ENDPOINT
     const val GET_UKRAINE_CITIES_ENDPOINT = BuildConfig.GET_UKRAINE_CITIES_ENDPOINT
+    const val JOIN_TO_EVENT_AS_PLAYER = BuildConfig.JOIN_TO_EVENT_AS_PLAYER
+    const val JOIN_TO_EVENT_AS_FUN = BuildConfig.JOIN_TO_EVENT_AS_FUN
 }
 
 object Code {

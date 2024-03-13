@@ -138,11 +138,11 @@ interface AppRepository {
 
     suspend fun sendVerifyCodeToUserEmail(
         page: Int
-    ) : SendVerifyCodeToUserEmailResultEntity
+    ): SendVerifyCodeToUserEmailResultEntity
 
     suspend fun postEmailVerifyCode(
         code: String
-    ) : PostEmailVerifyCodeResultEntity
+    ): PostEmailVerifyCodeResultEntity
 
     suspend fun editMyProfile(
         phone: String,
