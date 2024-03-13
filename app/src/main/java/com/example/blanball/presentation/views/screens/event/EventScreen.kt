@@ -49,12 +49,10 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
-import com.example.blanball.presentation.views.components.cards.AddUserToTeam
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
-import com.example.blanball.presentation.views.components.switches.TeamSwitcher
 import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatTimeRange
@@ -587,11 +585,6 @@ fun EventScreen(
                     )
                 )
                 Spacer(modifier = Modifier.size(20.dp))
-                TeamSwitcher(
-                    stringResource(R.string.team_first),
-                    stringResource(R.string.team_second)
-                )
-                Spacer(modifier = Modifier.size(24.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -600,19 +593,15 @@ fun EventScreen(
                         .padding(vertical = 24.dp, horizontal = 12.dp)
                 ) {
                     Column {
-                        repeat(times = 8) {
+                        for (player in currentState.invitedPlayersList.value) {
                             PlayerOnEventCard(
-                                userAvatarUrl = "",
-                                userFirstName = "Женя",
-                                userLastName = "Жучара",
-                                userPosition = "ВРТ",
-                                userRating = 4.0f,
+                                userAvatarUrl = player.avatar_url,
+                                userFirstName = player.name,
+                                userLastName = player.last_name,
+                                userPosition = player.position,
+                                userRating = 5.0f, // TODO() need to get a rating field on the backend (ping Max)
                             )
                             Spacer(modifier = Modifier.size(8.dp))
-                        }
-                        repeat(3) {//TODO()
-                            AddUserToTeam()
-                            Spacer(modifier = Modifier.size(10.dp))
                         }
                     }
                 }

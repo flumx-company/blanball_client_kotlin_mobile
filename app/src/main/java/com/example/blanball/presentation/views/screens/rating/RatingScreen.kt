@@ -79,40 +79,46 @@ fun RatingScreen(
     onClickedToPublicProfile: (userId: Int) -> Unit,
     paddingValues: PaddingValues
 ) {
-    val icons: List<Painter> = listOf(
-        painterResource(id = R.drawable.ic_people),
-        painterResource(id = R.drawable.ic_players),
-        painterResource(id = R.drawable.ic_ball),
-        painterResource(id = R.drawable.ic_timer),
-        painterResource(id = R.drawable.ic_t_shirt)
-    )
-    val tabs: List<String> = listOf(
-        stringResource(id = R.string.general),
-        stringResource(id = R.string.players),
-        stringResource(id = R.string.trainers),
-        stringResource(id = R.string.referee),
-        stringResource(id = R.string.teams)
-    )
-    val positions = listOf(
-        stringResource(id = R.string.any_position),
-        stringResource(id = R.string.goalkeeper),
-        stringResource(id = R.string.right_defender),
-        stringResource(id = R.string.left_defender),
-        stringResource(id = R.string.central_defender),
-        stringResource(id = R.string.left_flank_defender),
-        stringResource(id = R.string.right_flank_defender),
-        stringResource(id = R.string.supporting_mid_defender),
-        stringResource(id = R.string.left_mid_defender),
-        stringResource(id = R.string.attacking_mid_defender),
-        stringResource(id = R.string.right_winger),
-        stringResource(id = R.string.left_winger),
-        stringResource(id = R.string.right_flank_attacker),
-        stringResource(id = R.string.left_flank_attacker),
-        stringResource(id = R.string.central_forward),
-        stringResource(id = R.string.left_forward),
-        stringResource(id = R.string.right_forward),
-        stringResource(id = R.string.forward_striker),
-    )
+    val icons: List<Painter> = remember {
+        listOf(
+            painterResource(id = R.drawable.ic_people),
+            painterResource(id = R.drawable.ic_players),
+            painterResource(id = R.drawable.ic_ball),
+            painterResource(id = R.drawable.ic_timer),
+            painterResource(id = R.drawable.ic_t_shirt)
+        )
+    }
+    val tabs: List<String> = remember {
+        listOf(
+            stringResource(id = R.string.general),
+            stringResource(id = R.string.players),
+            stringResource(id = R.string.trainers),
+            stringResource(id = R.string.referee),
+            stringResource(id = R.string.teams)
+        )
+    }
+    val positions = remember {
+        listOf(
+            stringResource(id = R.string.any_position),
+            stringResource(id = R.string.goalkeeper),
+            stringResource(id = R.string.right_defender),
+            stringResource(id = R.string.left_defender),
+            stringResource(id = R.string.central_defender),
+            stringResource(id = R.string.left_flank_defender),
+            stringResource(id = R.string.right_flank_defender),
+            stringResource(id = R.string.supporting_mid_defender),
+            stringResource(id = R.string.left_mid_defender),
+            stringResource(id = R.string.attacking_mid_defender),
+            stringResource(id = R.string.right_winger),
+            stringResource(id = R.string.left_winger),
+            stringResource(id = R.string.right_flank_attacker),
+            stringResource(id = R.string.left_flank_attacker),
+            stringResource(id = R.string.central_forward),
+            stringResource(id = R.string.left_forward),
+            stringResource(id = R.string.right_forward),
+            stringResource(id = R.string.forward_striker),
+        )
+    }
 
     val expandedStateMap = remember { mutableStateMapOf<Int, Boolean>() }
     val configuration = LocalConfiguration.current

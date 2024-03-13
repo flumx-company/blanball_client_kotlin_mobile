@@ -1,6 +1,7 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -77,11 +78,6 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                setState {
-                    copy(
-                        state = EventScreenMainContract.ScreenViewState.Loading
-                    )
-                }
                 loadEventData()
             }
 
@@ -405,6 +401,8 @@ class EventScreenViewModel
                                         it.data.place.lon
                                     )
                                 ),
+                                invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
+                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile}),
                                 state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }

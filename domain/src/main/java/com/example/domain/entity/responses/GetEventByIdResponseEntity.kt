@@ -12,8 +12,8 @@ data class GetEventByIdResponseDataEntity(
     val author: GetEventByIdResponseAuthorEntity,
     val contact_number: String? = null,
     val coordinates: GetEventByIdResponseCoordinatesEntity,
-    val current_fans: List<Any>,
-    val current_users: List<Any>,
+    val current_fans: List<GetEventByIdResponseCurrentUserEntity>,
+    val current_users: List<GetEventByIdResponseCurrentFanEntity>,
     val date_and_time: String,
     val description: String,
     val duration: Int,
@@ -43,7 +43,7 @@ data class GetEventByIdResponseCoordinatesEntity(
     val type: String
 )
 
-class GetEventByIdResponseFormsEntity // TODO("Not implemented on the backend")
+class GetEventByIdResponseFormsEntity
 
 data class GetEventByIdResponsePlaceEntity(
     val lat: Double,
@@ -56,4 +56,24 @@ data class GetEventByIdResponseProfileEntity(
     val id: Int,
     val last_name: String,
     val name: String
+)
+
+data class GetEventByIdResponseCurrentFanEntity(
+    val id: Int,
+    val profile: GetEventByIdResponseProfileXEntity,
+    val raiting: Int
+)
+
+data class GetEventByIdResponseCurrentUserEntity(
+    val id: Int,
+    val profile: GetEventByIdResponseProfileXEntity,
+    val raiting: Int
+)
+
+data class GetEventByIdResponseProfileXEntity(
+    val avatar_url: String,
+    val last_name: String,
+    val name: String,
+    val position: String,
+    val working_leg: String
 )

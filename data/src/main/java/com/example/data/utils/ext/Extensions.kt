@@ -90,10 +90,13 @@ import com.example.data.backend.models.responses.success.GetAllEventResponseResu
 import com.example.data.backend.models.responses.success.GetEventByIdResponse
 import com.example.data.backend.models.responses.success.GetEventByIdResponseAuthor
 import com.example.data.backend.models.responses.success.GetEventByIdResponseCoordinates
+import com.example.data.backend.models.responses.success.GetEventByIdResponseCurrentFan
+import com.example.data.backend.models.responses.success.GetEventByIdResponseCurrentUser
 import com.example.data.backend.models.responses.success.GetEventByIdResponseData
 import com.example.data.backend.models.responses.success.GetEventByIdResponseForms
 import com.example.data.backend.models.responses.success.GetEventByIdResponsePlace
 import com.example.data.backend.models.responses.success.GetEventByIdResponseProfile
+import com.example.data.backend.models.responses.success.GetEventByIdResponseProfileX
 import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatusResponse
 import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatusResponseData
 import com.example.data.backend.models.responses.success.GetMyEventsResponse
@@ -176,11 +179,14 @@ import com.example.domain.entity.responses.GetAllEventResponseEntityProfile
 import com.example.domain.entity.responses.GetAllEventResponseEntityResult
 import com.example.domain.entity.responses.GetEventByIdResponseAuthorEntity
 import com.example.domain.entity.responses.GetEventByIdResponseCoordinatesEntity
+import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
+import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
 import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
 import com.example.domain.entity.responses.GetEventByIdResponseEntity
 import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
 import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
 import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
+import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntityData
 import com.example.domain.entity.responses.GetMyEventsResponseEntity
@@ -1057,8 +1063,8 @@ internal fun GetEventByIdResponseData.toGetEventByIdResponseDataEntity(): GetEve
         this.author.toGetEventByIdResponseAuthor(),
         this.contact_number,
         this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
-        this.current_fans,
-        this.current_users,
+        this.current_fans.map { it.toGetEventByIdResponseCurrentUserEntity() },
+        this.current_users.map { it.toGetEventByIdResponseCurrentFanEntity() },
         this.date_and_time,
         this.description,
         this.duration,
@@ -1094,6 +1100,26 @@ internal fun GetEventByIdResponseForms.toGetEventByIdResponseFormsEntity(): GetE
     GetEventByIdResponseFormsEntity(
         // TODO("Not implemented on the backend")
     )
+
+internal fun GetEventByIdResponseCurrentFan.toGetEventByIdResponseCurrentFanEntity(): GetEventByIdResponseCurrentFanEntity = GetEventByIdResponseCurrentFanEntity(
+    id = this.id,
+    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    raiting = this.raiting,
+)
+
+internal fun GetEventByIdResponseCurrentUser.toGetEventByIdResponseCurrentUserEntity(): GetEventByIdResponseCurrentUserEntity = GetEventByIdResponseCurrentUserEntity(
+    id = this.id,
+    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    raiting = this.raiting,
+)
+
+internal fun GetEventByIdResponseProfileX.toGetEventByIdResponseProfileXEntity(): GetEventByIdResponseProfileXEntity = GetEventByIdResponseProfileXEntity(
+    avatar_url = this.avatar_url,
+    last_name = this.last_name,
+    name = this.name,
+    position = this.position,
+    working_leg = this.working_leg
+)
 
 internal fun GetEventByIdResponsePlace.toGetEventByIdResponsePlaceEntity(): GetEventByIdResponsePlaceEntity =
     GetEventByIdResponsePlaceEntity(
