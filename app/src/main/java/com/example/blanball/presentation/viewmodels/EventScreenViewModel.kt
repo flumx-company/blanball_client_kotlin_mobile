@@ -95,6 +95,15 @@ class EventScreenViewModel
                 cleanStates()
             }
 
+            is EventScreenMainContract.Event.SuccessfullyJoinToEvent -> {
+                setState {
+                    copy(
+                        isUserHasBeenJoinedToEvent = mutableStateOf(true),
+                        isSuccessMessageVisible = mutableStateOf(true),
+                    )
+                }
+            }
+
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
                 setState {
                     copy(
@@ -151,7 +160,6 @@ class EventScreenViewModel
                     needFormStates = mutableStateOf(
                         EventScreenMainContract.NeedFormStates.NO_SELECT
                     ),
-                    phoneNumberState = mutableStateOf(""),
                     eventGenders = mutableStateOf(""),
                     endEventTimeState = mutableStateOf(""),
                     maxEventPlayersState = mutableStateOf(""),
@@ -162,7 +170,61 @@ class EventScreenViewModel
                     selectedUserIds = mutableStateOf(emptySet()),
                     selectedUserProfiles = mutableStateOf(emptySet()),
                     priceDescription = mutableStateOf(null),
-                    isPhoneNumInputEnabled = mutableStateOf(false)
+                    isPhoneNumInputEnabled = mutableStateOf(false),
+                    currentEventId = mutableStateOf(null),
+                    invitedPlayersList = mutableStateOf(
+                        emptyList()
+                    ),
+                    invitedFunsList = mutableStateOf(
+                        emptyList()
+                    ),
+                    eventDuration = mutableStateOf(0),
+                    eventPlaceName = mutableStateOf(""),
+                    eventDescription = mutableStateOf(""),
+                    eventAuthorFirstName = mutableStateOf(""),
+                    eventAuthorLastName = mutableStateOf(""),
+                    eventAuthorPhone = mutableStateOf(""),
+                    eventAuthorAvatar = mutableStateOf(""),
+                    eventPrice = mutableStateOf(0),
+                    isMyEvent = mutableStateOf(false),
+                    isDescriptionTextExpanded = mutableStateOf(false),
+                    currentEventAuthorId = mutableStateOf(0),
+                    isEventDescriptionVisible = mutableStateOf(false),
+                    eventLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        ),
+                    ),
+                    isErrorEventCreation = mutableStateOf(false),
+                    isErrorEventEdit = mutableStateOf(false),
+                    isSuccessEventEdit = mutableStateOf(false),
+                    isSuccessEventCreation = mutableStateOf(false),
+                    isEventPrivacyStates = mutableStateOf(
+                        EventScreenMainContract.EventPrivacyStates.NO_SELECT
+                    ),
+                    countOfFans = mutableStateOf(0),
+                    isEventPrivate = mutableStateOf(false),
+                    isFormNeed = mutableStateOf(false),
+                    isSearchColumnOpen = mutableStateOf(false),
+                    userSearchQuery = mutableStateOf(""),
+                    isValidationActivated = mutableStateOf(false),
+                    eventLocationLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        )
+                    ),
+                    isInvitedUsersDrawerOpen = mutableStateOf(false),
+                    isBottomPreviewDrawerOpen = mutableStateOf(false),
+                    isStartEventTimeModalOpen = mutableStateOf(false),
+                    isDatePickerModalOpen = mutableStateOf(false),
+                    eventSummaryPrice = mutableStateOf(null),
+                    selectRegion = mutableStateOf(""),
+                    selectCity = mutableStateOf(""),
+                    successMessageText = mutableStateOf(""),
+                    isSuccessMessageVisible = mutableStateOf(false),
+                    isUserHasBeenJoinedToEvent = mutableStateOf(false),
                 )
             }
         }
@@ -205,7 +267,7 @@ class EventScreenViewModel
             editEventUseCase.executeEditEventById(
                 id = currentState.currentEventId.value ?: 0,
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
-                contact_number = currentState.phoneNumberState.value,
+                contact_number = application.getString(R.string.ua_phone_country_code) + currentState.phoneNumberState.value,
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
                     time = currentState.startEventTimeState.value
@@ -277,7 +339,7 @@ class EventScreenViewModel
         job = viewModelScope.launch(Dispatchers.IO) {
             creationNewEventUseCase.executeCreationAnEvent(
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
-                contact_number = currentState.phoneNumberState.value,
+                contact_number = application.getString(R.string.ua_phone_country_code) + currentState.phoneNumberState.value,
                 current_users = currentState.selectedUserIds.value.toList(),
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
@@ -465,24 +527,39 @@ class EventScreenViewModel
         }
     }
 
-    enum class ParticipantRole {
-        PLAYER,
-        FUN
+    sealed class ParticipantRole {
+        object PLAYER : ParticipantRole()
+        object FUN : ParticipantRole()
     }
 
     private fun joinToEvent(asWho: ParticipantRole) {
-        when (asWho) {
-            ParticipantRole.PLAYER -> {
-                job = viewModelScope.launch(Dispatchers.IO) {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            when (asWho) {
+                is ParticipantRole.PLAYER -> {
                     joinToEventAsPlayerUseCase.executeJoinRequestAsPlayer(
-                        eventId = currentState.currentEventId.value ?: -1
-                    )
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is JoinToEventAsPlayerResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinToEvent)
+                            }
+
+                            is JoinToEventAsPlayerResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+
+                            }
+                        }
+
                     }
                 }
-            }
 
-            ParticipantRole.FUN -> {
-                job = viewModelScope.launch(Dispatchers.IO) {
+                is ParticipantRole.FUN -> {
 
                 }
             }

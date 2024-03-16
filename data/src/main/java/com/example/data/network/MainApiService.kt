@@ -6,6 +6,8 @@ import com.example.data.network.models.requests.AuthRequest
 import com.example.data.network.models.requests.CreationAnEventRequest
 import com.example.data.network.models.requests.EditEventByIdRequest
 import com.example.data.network.models.requests.EditMyProfileRequest
+import com.example.data.network.models.requests.JoinToEventAsFunRequest
+import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.RegistrationRequest
 import com.example.data.network.models.requests.ResetCompleteRequest
@@ -159,12 +161,12 @@ interface MainApiService {
 
     @POST(Endpoints.JOIN_TO_EVENT_AS_PLAYER)
     suspend fun joinToEventAsPlayer(
-        @Body eventId: Int
+        @Body joinToEventAsPlayerRequest: JoinToEventAsPlayerRequest
     ): JoinToEventAsPlayerResponse
 
     @POST(Endpoints.JOIN_TO_EVENT_AS_FUN)
     suspend fun joinToEventAsFun(
-        @Body eventId: Int
+        @Body joinToEventAsFunRequest: JoinToEventAsFunRequest
     ): JoinToEventAsFunResponse
 }
 

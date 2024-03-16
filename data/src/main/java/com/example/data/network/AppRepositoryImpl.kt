@@ -16,6 +16,8 @@ import com.example.data.network.models.requests.EditMyProfileRequest
 import com.example.data.network.models.requests.EditMyProfileRequestConfiguration
 import com.example.data.network.models.requests.EditMyProfileRequestPlace
 import com.example.data.network.models.requests.EditMyProfileRequestProfile
+import com.example.data.network.models.requests.JoinToEventAsFunRequest
+import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.ProfileRegistrationRequest
 import com.example.data.network.models.requests.RegistrationRequest
@@ -679,11 +681,11 @@ class AppRepositoryImpl @Inject constructor(
             val loginSuccess = service.loginAuthorization(authRequest)
             val loginResponse = loginSuccess.toLoginResponse()
             LoginResultEntity.Success(loginResponse.data)
-        }catch (ex: HttpException) {
+        } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
             LoginResultEntity.Error(errorResponse.data.errors[0])
-        } catch (connectEx: SocketTimeoutException){
+        } catch (connectEx: SocketTimeoutException) {
             Log.d("Timeout", connectEx.toString())
             LoginResultEntity.Error(error(connectEx.toString()))
         }
@@ -721,22 +723,34 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun joinToEventAsFun(eventId: Int): JoinToEventAsFunResultEntity {
         return try {
-            val joinToEventAsFunResponse = service.joinToEventAsFun(eventId)
-            val joinToEventAsFunResponseDomain = joinToEventAsFunResponse.toJoinToEventAsFunResponseEntity()
+            val joinToEventAsFunResponse = service.joinToEventAsFun(
+                joinToEventAsFunRequest = JoinToEventAsFunRequest(
+                    event_id = eventId
+                )
+            )
+            val joinToEventAsFunResponseDomain =
+                joinToEventAsFunResponse.toJoinToEventAsFunResponseEntity()
             JoinToEventAsFunResultEntity.Success(joinToEventAsFunResponseDomain.data)
         } catch (ex: HttpException) {
-            val errorResponse = handleHttpError<JoinToEventAsFunError, JoinToEventAsFunErrorEntity>(ex) {it.toJoinToEventAsFunErrorEntity()}
+            val errorResponse =
+                handleHttpError<JoinToEventAsFunError, JoinToEventAsFunErrorEntity>(ex) { it.toJoinToEventAsFunErrorEntity() }
             JoinToEventAsFunResultEntity.Error(errorResponse.data.errors[0])
         }
     }
 
     override suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity {
         return try {
-            val joinToEventAsPlayerResponse = service.joinToEventAsPlayer(eventId)
-            val joinToEventAsPlayerResponseDomain = joinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity()
+            val joinToEventAsPlayerResponse = service.joinToEventAsPlayer(
+                joinToEventAsPlayerRequest = JoinToEventAsPlayerRequest(
+                    event_id = eventId
+                )
+            )
+            val joinToEventAsPlayerResponseDomain =
+                joinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity()
             JoinToEventAsPlayerResultEntity.Success(joinToEventAsPlayerResponseDomain.data)
         } catch (ex: HttpException) {
-            val errorResponse = handleHttpError<JoinToEventAsPlayerError, JoinToEventAsPlayerErrorEntity>(ex) {it.toJoinToEventAsPlayerErrorEntity()}
+            val errorResponse =
+                handleHttpError<JoinToEventAsPlayerError, JoinToEventAsPlayerErrorEntity>(ex) { it.toJoinToEventAsPlayerErrorEntity() }
             JoinToEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
         }
     }

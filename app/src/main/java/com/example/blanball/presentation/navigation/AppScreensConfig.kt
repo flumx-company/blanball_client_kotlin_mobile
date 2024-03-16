@@ -1551,7 +1551,10 @@ fun AppScreensConfig(
                                 navController.navigate(
                                     Destinations.EDIT_EVENT_STEP_1.route
                                 )
-                            }
+                            },
+                            onJoinBtnAsFunClick = { eventScreenViewModel.handleEvent(EventScreenMainContract.Event.JoinToEventAsFun) },
+                            onJoinBtnAsPlayerClick = { eventScreenViewModel.handleEvent(EventScreenMainContract.Event.JoinToEventAsPlayer) },
+
                         )
                     }
                 }

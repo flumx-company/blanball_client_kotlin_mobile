@@ -17,6 +17,7 @@ class EventScreenMainContract {
         object GetUserPhone: Event()
         object JoinToEventAsPlayer: Event()
         object JoinToEventAsFun: Event()
+        object SuccessfullyJoinToEvent: Event()
     }
 
     data class State(
@@ -92,8 +93,10 @@ class EventScreenMainContract {
                 30.523837655782696
             )
         ),
-        val isEditOrCreation: MutableState<EventScreenMainContract.EditOrCreationState> = mutableStateOf(
-            EventScreenMainContract.EditOrCreationState.CREATION),
+        val typesOfEvent: MutableState<List<String>> = mutableStateOf(emptyList()),
+        val typesOfSports: MutableState<List<String>> = mutableStateOf(emptyList()),
+        val isEditOrCreation: MutableState<EditOrCreationState> = mutableStateOf(
+            EditOrCreationState.CREATION),
         val isInvitedUsersDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isBottomPreviewDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isStartEventTimeModalOpen: MutableState<Boolean> = mutableStateOf(false),
@@ -102,6 +105,11 @@ class EventScreenMainContract {
         val selectRegion: MutableState<String> = mutableStateOf(""),
         val selectCity: MutableState<String> = mutableStateOf(""),
         val isPhoneNumInputEnabled: MutableState<Boolean> = mutableStateOf(false),
+        val successMessageText: MutableState<String> = mutableStateOf(""),
+        val isSuccessMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val isUserHasBeenJoinedToEvent: MutableState<Boolean> = mutableStateOf(false),
+        val errorMessageText: MutableState<String> = mutableStateOf(""),
+        val isErrorMessageVisible: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

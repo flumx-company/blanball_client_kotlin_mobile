@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +51,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
+import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
@@ -57,6 +59,7 @@ import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
+import kotlinx.coroutines.delay
 
 @Composable
 fun EventScreen(
@@ -70,8 +73,21 @@ fun EventScreen(
     onNavigateToEventAuthorPublicProfile: () -> Unit,
     isConfirmReminderVisible: Boolean,
     onEditClick: (currentEventId: Int) -> Unit,
+    onJoinBtnAsFunClick: () -> Unit,
+    onJoinBtnAsPlayerClick: () -> Unit,
 ) {
     (state as? EventScreenMainContract.State)?.let { currentState ->
+        LaunchedEffect(currentState.isSuccessMessageVisible.value) {
+            delay(3000)
+            currentState.isSuccessMessageVisible.value = false
+        }
+        SuccessMessageCard(
+            text = stringResource(R.string.you_have_successfully_joined),
+            isMessageVisible = currentState.isSuccessMessageVisible.value,
+            onCancelIconClicked ={
+                currentState.isSuccessMessageVisible.value = false
+            }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -610,10 +626,13 @@ fun EventScreen(
                 }
             }
             EventBottomButtons(
-                onJoinBtnClick = { /*TODO*/ },
                 onEditClick = { currentState.currentEventId.value?.let { onEditClick(it) } },
                 shareBtnClick = { isShareLinkModalVisible.value = true },
-                isMyEvent = currentState.isMyEvent.value
+                isMyEvent = currentState.isMyEvent.value,
+                onJoinBtnAsPlayerClick = { onJoinBtnAsPlayerClick() },
+                onJoinBtnAsFunClick = { onJoinBtnAsFunClick() },
+                state = state,
+                onCancelParticipation = {},
             )
         }
         if (currentState.state is EventScreenMainContract.ScreenViewState.Loading) {

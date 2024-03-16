@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.blanball.R
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.shapes
@@ -39,10 +40,14 @@ import com.example.blanball.presentation.theme.typography
 @Composable
 fun ContextDropdownMenuButton(
     modifier: Modifier = Modifier,
-    listItems: List<Pair<String, Int>>,
-    onSelectClick: () -> Unit,
     btnTextResId: Int,
+    onJoinBtnAsPlayerClick: () -> Unit,
+    onJoinBtnAsFunClick: () -> Unit,
 ) {
+    val listOfContextBtnItems: List<Triple<String, Int, () -> Unit>> = listOf(
+        Triple(stringResource(R.string.play), R.drawable.ic_ball) { onJoinBtnAsPlayerClick() },
+        Triple(stringResource(R.string.cheer), R.drawable.ic_cheer) { onJoinBtnAsFunClick() }
+    )
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -68,10 +73,11 @@ fun ContextDropdownMenuButton(
                         onDismissRequest = { !expanded },
                         modifier = Modifier.wrapContentWidth(),
                     ) {
-                        listItems.forEach { selectedOption ->
+                        listOfContextBtnItems.forEach { selectedOption ->
                             DropdownMenuItem(
                                 modifier = Modifier.wrapContentWidth(),
                                 onClick = {
+                                    selectedOption.third.invoke()
                                     expanded = !expanded
                                 }) {
                                 Icon(
@@ -95,7 +101,7 @@ fun ContextDropdownMenuButton(
                     }
                 }
                 Button(
-                    onClick = { onSelectClick() },
+                    onClick = {},
                     modifier = Modifier
                         .width(136.dp)
                         .height(40.dp),
