@@ -22,7 +22,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,7 +59,6 @@ import com.example.blanball.presentation.views.components.tabrows.TabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
-import kotlinx.coroutines.delay
 
 @Composable
 fun EventScreen(
@@ -78,14 +76,6 @@ fun EventScreen(
     onJoinBtnAsPlayerClick: () -> Unit,
 ) {
     (state as? EventScreenMainContract.State)?.let { currentState ->
-        LaunchedEffect(currentState.isSuccessMessageVisible.value) {
-            delay(3000)
-            currentState.isSuccessMessageVisible.value = false
-        }
-        LaunchedEffect(currentState.isErrorMessageVisible.value) {
-            delay(3000)
-            currentState.isErrorMessageVisible.value = false
-        }
         SuccessMessageCard(
             text = stringResource(R.string.you_have_successfully_joined),
             isMessageVisible = currentState.isSuccessMessageVisible.value,

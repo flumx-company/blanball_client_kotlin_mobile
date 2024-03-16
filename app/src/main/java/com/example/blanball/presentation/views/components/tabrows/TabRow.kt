@@ -26,11 +26,11 @@ import com.example.blanball.presentation.theme.typography
 
 @Stable
 @Composable
-fun TabRow(tabs: List<String>, icons: List<Painter>, modifier: Modifier? = null) {
+fun TabRow(tabs: List<String>, icons: List<Painter>, modifier: Modifier = Modifier) {
     val selectedTab = remember { mutableStateOf(0) }
     ScrollableTabRow(
         selectedTabIndex = selectedTab.value,
-        modifier = Modifier.wrapContentWidth(),
+        modifier = modifier.wrapContentWidth(),
         contentColor = mainGreen,
         backgroundColor = Color.White,
         edgePadding = 0.dp,

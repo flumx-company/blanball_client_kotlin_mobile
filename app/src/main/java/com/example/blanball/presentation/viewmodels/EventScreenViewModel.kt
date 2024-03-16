@@ -43,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -81,6 +82,16 @@ class EventScreenViewModel
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
+    sealed class ParticipantRole {
+        object PLAYER : ParticipantRole()
+        object FUN : ParticipantRole()
+    }
+
+    sealed class EventToastType {
+        object SUCCESS : EventToastType()
+        object ERROR : EventToastType()
+    }
+
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
@@ -96,12 +107,11 @@ class EventScreenViewModel
             }
 
             is EventScreenMainContract.Event.SuccessfullyJoinToEvent -> {
-                setState {
-                    copy(
-                        isUserHasBeenJoinedToEvent = mutableStateOf(true),
-                        isSuccessMessageVisible = mutableStateOf(true),
-                    )
-                }
+                showToastMessage(toastType = EventToastType.SUCCESS, durationMillis = 3000)
+            }
+
+            is EventScreenMainContract.Event.ErrorJoinToEvent -> {
+                showToastMessage(toastType = EventToastType.ERROR, durationMillis = 3000)
             }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
@@ -178,17 +188,17 @@ class EventScreenViewModel
                     invitedFunsList = mutableStateOf(
                         emptyList()
                     ),
-                    eventDuration = mutableStateOf(0),
+                    eventDuration = mutableIntStateOf(0),
                     eventPlaceName = mutableStateOf(""),
                     eventDescription = mutableStateOf(""),
                     eventAuthorFirstName = mutableStateOf(""),
                     eventAuthorLastName = mutableStateOf(""),
                     eventAuthorPhone = mutableStateOf(""),
                     eventAuthorAvatar = mutableStateOf(""),
-                    eventPrice = mutableStateOf(0),
+                    eventPrice = mutableIntStateOf(0),
                     isMyEvent = mutableStateOf(false),
                     isDescriptionTextExpanded = mutableStateOf(false),
-                    currentEventAuthorId = mutableStateOf(0),
+                    currentEventAuthorId = mutableIntStateOf(0),
                     isEventDescriptionVisible = mutableStateOf(false),
                     eventLatLng = mutableStateOf(
                         LatLng(
@@ -203,7 +213,7 @@ class EventScreenViewModel
                     isEventPrivacyStates = mutableStateOf(
                         EventScreenMainContract.EventPrivacyStates.NO_SELECT
                     ),
-                    countOfFans = mutableStateOf(0),
+                    countOfFans = mutableIntStateOf(0),
                     isEventPrivate = mutableStateOf(false),
                     isFormNeed = mutableStateOf(false),
                     isSearchColumnOpen = mutableStateOf(false),
@@ -527,11 +537,6 @@ class EventScreenViewModel
         }
     }
 
-    sealed class ParticipantRole {
-        object PLAYER : ParticipantRole()
-        object FUN : ParticipantRole()
-    }
-
     private fun joinToEvent(asWho: ParticipantRole) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (asWho) {
@@ -561,6 +566,26 @@ class EventScreenViewModel
 
                 is ParticipantRole.FUN -> {
 
+                }
+            }
+        }
+    }
+
+    private fun showToastMessage(toastType: EventToastType, durationMillis: Long) {
+        when (toastType) {
+            is EventToastType.SUCCESS -> {
+                job = viewModelScope.launch(Dispatchers.Default) {
+                    currentState.isSuccessMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isSuccessMessageVisible.value = false
+                }
+            }
+
+            is EventToastType.ERROR -> {
+                job = viewModelScope.launch(Dispatchers.Default) {
+                    currentState.isErrorMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isErrorMessageVisible.value = false
                 }
             }
         }

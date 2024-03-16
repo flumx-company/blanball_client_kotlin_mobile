@@ -18,6 +18,7 @@ class EventScreenMainContract {
         object JoinToEventAsPlayer: Event()
         object JoinToEventAsFun: Event()
         object SuccessfullyJoinToEvent: Event()
+        object ErrorJoinToEvent: Event()
     }
 
     data class State(
