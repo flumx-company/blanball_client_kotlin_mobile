@@ -50,6 +50,7 @@ import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
+import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
@@ -81,11 +82,22 @@ fun EventScreen(
             delay(3000)
             currentState.isSuccessMessageVisible.value = false
         }
+        LaunchedEffect(currentState.isErrorMessageVisible.value) {
+            delay(3000)
+            currentState.isErrorMessageVisible.value = false
+        }
         SuccessMessageCard(
             text = stringResource(R.string.you_have_successfully_joined),
             isMessageVisible = currentState.isSuccessMessageVisible.value,
             onCancelIconClicked ={
                 currentState.isSuccessMessageVisible.value = false
+            }
+        )
+        ErrorMessageCard(
+            text = currentState.errorMessageText.value,
+            isMessageVisible = currentState.isErrorMessageVisible.value,
+            onCancelIconClicked = {
+                currentState.isErrorMessageVisible.value = false
             }
         )
         Column(
@@ -587,18 +599,32 @@ fun EventScreen(
                     color = primaryDark,
                 )
                 TabRow(
-                    tabs = listOf(
-                        stringResource(R.string.users_list),
-                        stringResource(R.string.coaching_staff),
-                        stringResource(R.string.registered_viewers),
-                        stringResource(R.string.requests_for_participation),
-                    ),
-                    icons = listOf(
-                        painterResource(id = R.drawable.ic_ball),
-                        painterResource(id = R.drawable.ic_peoples),
-                        painterResource(id = R.drawable.ic_field),
-                        painterResource(id = R.drawable.ic_add_user)
-                    )
+                    tabs =
+                    if (currentState.isMyEvent.value) {
+                        listOf(
+                            stringResource(R.string.users_list),
+                            stringResource(R.string.registered_viewers),
+                            stringResource(R.string.requests_for_participation),
+                        )
+                    } else {
+                        listOf(
+                            stringResource(R.string.users_list),
+                            stringResource(R.string.registered_viewers),
+                        )
+                    },
+                    icons =
+                    if (currentState.isMyEvent.value) {
+                        listOf(
+                            painterResource(id = R.drawable.ic_ball),
+                            painterResource(id = R.drawable.ic_peoples),
+                            painterResource(id = R.drawable.ic_add_user)
+                        )
+                    } else {
+                        listOf(
+                            painterResource(id = R.drawable.ic_ball),
+                            painterResource(id = R.drawable.ic_peoples),
+                        )
+                    },
                 )
                 Spacer(modifier = Modifier.size(20.dp))
                 if (currentState.invitedPlayersList.value.isNotEmpty()) {
