@@ -30,17 +30,17 @@ import com.example.blanball.presentation.theme.typography
 
 @Composable
 fun Loader(
+    modifier: Modifier = Modifier,
     backgroundColor: Color = loadingBackgroundColor,
-    textColor: Color = Color.White
+    textColor: Color = Color.White,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(backgroundColor),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-        ) {
+        Column {
             RotatingImage()
             Spacer(modifier = Modifier.size(24.dp))
             Text(
@@ -56,13 +56,13 @@ fun Loader(
 
 @Composable
 fun RotatingImage() {
-    val rotationAnim = rememberInfiniteTransition().animateFloat(
+    val rotationAnim = rememberInfiniteTransition(label = "").animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
             animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
-        )
+        ), label = ""
     )
 
     Box(

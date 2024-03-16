@@ -95,6 +95,7 @@ fun EventBottomButtons(
                         if (currentState.isUserHasBeenJoinedToEvent.value) {
                             Box {
                                 DefaultButton(
+                                    modifier = Modifier.width(44.dp),
                                     btnTextResId = R.string.сancel_participation,
                                     color = primaryDark,
                                     clickCallback = { onCancelParticipation() }

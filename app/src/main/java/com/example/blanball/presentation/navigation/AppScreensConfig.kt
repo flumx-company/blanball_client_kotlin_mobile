@@ -698,7 +698,7 @@ fun AppScreensConfig(
         }
 
         composable(BottomNavItem.Home.screen_route) {
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 selectLocationScreenViewModel.handleEvent(SelectLocationScreenMainContract.Event.GetUkraineCitiesList)
             }
             val navigationDrawerCurrentState = navigationDrawerViewModel.currentState
@@ -776,7 +776,7 @@ fun AppScreensConfig(
             LaunchedEffect(futureEventScreenCurrentState.state != previousState) {
                 futureEventsScreenViewModel.handleScreenState(futureEventScreenCurrentState.state)
             }
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
             }
 
@@ -833,7 +833,9 @@ fun AppScreensConfig(
                             paddingValues = paddingValues,
                             navigateToEventScreen = { eventId ->
                                 eventScreenViewModelCurrentState.currentEventId.value = eventId
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
                                 navController.navigate(Destinations.EVENT.route)
+
                             },
                             onClickedToChangeOrdering = {
                                 futureEventsScreenViewModel.setState {
@@ -845,12 +847,14 @@ fun AppScreensConfig(
                             onLoadMoreUsers = { futureEventsScreenViewModel.loadMoreAllEvents() },
                             navigateToCreationEventScreen = {
                                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
-                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)
+                            },
                             navigateToFilterScreen = { navController.navigate(Destinations.ALL_EVENTS_FILTER_SCREEN.route) },
                             navigateToMyEventsScreen = { navController.navigate(Destinations.MY_EVENTS.route) },
                             onNavigateToEventCreation = {
                                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
-                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route) },
+                                navController.navigate(Destinations.CREATE_NEW_EVENT_STEP_1.route)
+                            },
                         )
                     }
                 }
@@ -1450,9 +1454,7 @@ fun AppScreensConfig(
             val isShareLinkModalVisible =
                 remember { mutableStateOf(false) } //TODO  Need move this states to screnn view model
             val verifyEmailViewModeCurrentState = emailVerificationViewModel.currentState
-            LaunchedEffect(key1 = Unit) {
-                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
-            }
+
             LaunchedEffect(verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                 if (verifyEmailViewModeCurrentState.isEmailVerifySuccess.value) {
                     verifyEmailViewModeCurrentState.isEmailVerifySuccess.value = false
@@ -1552,10 +1554,18 @@ fun AppScreensConfig(
                                     Destinations.EDIT_EVENT_STEP_1.route
                                 )
                             },
-                            onJoinBtnAsFunClick = { eventScreenViewModel.handleEvent(EventScreenMainContract.Event.JoinToEventAsFun) },
-                            onJoinBtnAsPlayerClick = { eventScreenViewModel.handleEvent(EventScreenMainContract.Event.JoinToEventAsPlayer) },
+                            onJoinBtnAsFunClick = {
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.JoinToEventAsFun
+                                )
+                            },
+                            onJoinBtnAsPlayerClick = {
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.JoinToEventAsPlayer
+                                )
+                            },
 
-                        )
+                            )
                     }
                 }
             )
@@ -1849,7 +1859,7 @@ fun AppScreensConfig(
             LaunchedEffect(myEventsScreenCurrentState.state != previousState) {
                 myEventsViewModel.handleScreenState(myEventsScreenCurrentState.state)
             }
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.CleanStates)
             }
 

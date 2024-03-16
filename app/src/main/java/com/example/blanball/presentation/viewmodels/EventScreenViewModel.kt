@@ -95,7 +95,13 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                loadEventData()
+                currentState.currentEventId.value.let { currentEventId ->
+                    currentEventId?.let { eventId ->
+                        getEventById(
+                            eventId = eventId
+                        )
+                    }
+                }
             }
 
             is EventScreenMainContract.Event.GetUserPhone -> {
@@ -144,10 +150,20 @@ class EventScreenViewModel
             }
 
             is EventScreenMainContract.Event.JoinToEventAsPlayer -> {
+                setState {
+                    copy(
+                        state = EventScreenMainContract.ScreenViewState.Loading
+                    )
+                }
                 joinToEvent(asWho = ParticipantRole.PLAYER)
             }
 
             is EventScreenMainContract.Event.JoinToEventAsFun -> {
+                setState {
+                    copy(
+                        state = EventScreenMainContract.ScreenViewState.Loading
+                    )
+                }
                 joinToEvent(asWho = ParticipantRole.FUN)
             }
         }
@@ -420,23 +436,6 @@ class EventScreenViewModel
         }
     }
 
-    private fun loadEventData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            setState {
-                copy(
-                    state = EventScreenMainContract.ScreenViewState.Loading
-                )
-            }
-            currentState.currentEventId.value.let { currentEventId ->
-                currentEventId?.let { eventId ->
-                    getEventById(
-                        eventId = eventId
-                    )
-                }
-            }
-        }
-    }
-
     private fun getUserPhoneFromDataStore() {
         dataStoreCoroutineScope.launch(Dispatchers.IO) {
             val userPhoneWithoutPrefix =
@@ -458,6 +457,12 @@ class EventScreenViewModel
 
     private fun getEventById(eventId: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Loading
+                )
+            }
+            delay(300)
             val userIdResult = userIdManager.getUserId().firstOrNull()
             getEventByIdUseCase.executeGetEventById(eventId).let {
                 when (it) {
@@ -493,7 +498,6 @@ class EventScreenViewModel
                                 ),
                                 invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
                                 invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile }),
-                                state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
                             )
                         }
                         currentState.eventSummaryPrice.value =
@@ -523,6 +527,11 @@ class EventScreenViewModel
                             inputTime = currentState.eventDateAndTime.value,
                             outputTime = currentState.startEventTimeState,
                         )
+                        setState {
+                            copy(
+                                state = EventScreenMainContract.ScreenViewState.SuccessRequest
+                            )
+                        }
                     }
 
                     is GetEventByIdResultEntity.Error -> {
@@ -547,6 +556,11 @@ class EventScreenViewModel
                         when (result) {
                             is JoinToEventAsPlayerResultEntity.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyJoinToEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
                             }
 
                             is JoinToEventAsPlayerResultEntity.Error -> {
@@ -557,7 +571,11 @@ class EventScreenViewModel
                                             application.getString(R.string.event_time_expired_message)
                                     }
                                 }
-
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
                             }
                         }
 
@@ -575,6 +593,7 @@ class EventScreenViewModel
         when (toastType) {
             is EventToastType.SUCCESS -> {
                 job = viewModelScope.launch(Dispatchers.Default) {
+                    currentState.isUserHasBeenJoinedToEvent.value = true
                     currentState.isSuccessMessageVisible.value = true
                     delay(durationMillis)
                     currentState.isSuccessMessageVisible.value = false
