@@ -49,6 +49,7 @@ import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
+import com.example.blanball.presentation.views.components.cards.FunOnEventCard
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
@@ -627,19 +628,12 @@ fun EventScreen(
                             },
                             contentItems = listOf(
                                 { PlayerOnEventCard(
-                                    userAvatarUrl = null,
-                                    userFirstName = "Хуйня",
-                                    userLastName = "ок",
-                                    userPosition = null,
-                                    userRating = null,
-                                    clickCallback = { -> }) },
-                                { PlayerOnEventCard(
-                                    userAvatarUrl = null,
-                                    userFirstName = "Не хуйня",
-                                    userLastName = "Хуй",
-                                    userPosition = null,
-                                    userRating = null,
-                                    clickCallback = { -> }
+                                    clickCallback = {  },
+                                    invitedPlayersList = currentState.invitedPlayersList.value,
+                                ) },
+                                { FunOnEventCard(
+                                    invitedFunsList = currentState.invitedFunsList.value,
+                                    clickCallback = {  }
                                 ) },
                             )
                         )

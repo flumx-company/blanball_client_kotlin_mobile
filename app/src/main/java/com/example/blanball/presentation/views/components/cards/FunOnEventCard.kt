@@ -36,13 +36,12 @@ import com.example.blanball.presentation.views.components.ratingbars.RatingBarWi
 import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
 
 @Composable
-fun PlayerOnEventCard(
+fun FunOnEventCard(
     clickCallback: (() -> Unit)? = null,
-    invitedPlayersList: List<GetEventByIdResponseProfileXEntity>
-
+    invitedFunsList: List<GetEventByIdResponseProfileXEntity>
 ) {
-    for (player in invitedPlayersList) {
-        Box(
+    for (item in invitedFunsList) {
+       Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = Color.White, shape = shapes.medium)
@@ -61,7 +60,7 @@ fun PlayerOnEventCard(
             ) {
                 Spacer(modifier = Modifier.size(12.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (player.avatar_url.isNullOrEmpty()) {
+                    if (item.avatar_url.isNullOrEmpty()) {
                         Box(
                             modifier = Modifier.size(36.dp)
                         ) {
@@ -73,7 +72,7 @@ fun PlayerOnEventCard(
                                     .fillMaxSize()
                             )
                             Text(
-                                text = "${player.name.firstOrNull() ?: ""}${player.last_name.firstOrNull() ?: ""}",
+                                text = "${item.name.firstOrNull() ?: ""}${item.last_name.firstOrNull() ?: ""}",
                                 modifier = Modifier.align(
                                     Alignment.Center
                                 ),
@@ -82,7 +81,7 @@ fun PlayerOnEventCard(
                         }
                     } else {
                         Image(
-                            painter = rememberAsyncImagePainter(player.avatar_url),
+                            painter = rememberAsyncImagePainter(item.avatar_url),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(36.dp)
@@ -93,7 +92,7 @@ fun PlayerOnEventCard(
                     Spacer(modifier = Modifier.size(10.dp))
                     Column {
                         Text(
-                            text = "${player.name} ${player.last_name}",
+                            text = "${item.name} ${item.last_name}",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
@@ -101,7 +100,7 @@ fun PlayerOnEventCard(
                             color = primaryDark,
                         )
                         Text(
-                            text = player.position ?: "--",
+                            text = item.position ?: "--",
                             fontSize = 14.sp,
                             lineHeight = 20.sp,
                             style = typography.h4,
