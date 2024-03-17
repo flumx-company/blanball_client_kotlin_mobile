@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
-import com.example.blanball.presentation.theme.classicRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
@@ -42,70 +41,79 @@ fun PlayerOnEventCard(
     userLastName: String,
     userPosition: String?,
     userRating: Float?,
-    clickCallback: (() -> Unit)? = null
+    clickCallback: (() -> Unit)? = null,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .background(Color.White, shape = shapes.medium)
-            .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-            .clickable { clickCallback?.let { it() } },
-        contentAlignment = Alignment.Center
-    ) {
-        Spacer(modifier = Modifier.size(12.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (userAvatarUrl.isNullOrEmpty()) {
-                Box(
-                    modifier = Modifier.size(36.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.circle_avatar),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .fillMaxSize()
-                    )
-                    Text(
-                        text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
-                        modifier = Modifier.align(
-                            Alignment.Center
-                        ),
-                        style = typography.h2, fontSize = 16.sp, color = mainGreen
-                    )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.White, shape = shapes.medium)
+                .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
+                .padding(vertical = 24.dp, horizontal = 12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .background(Color.White, shape = shapes.medium)
+                    .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
+                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .clickable { clickCallback?.let { it() } },
+                contentAlignment = Alignment.Center
+            ) {
+                Spacer(modifier = Modifier.size(12.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (userAvatarUrl.isNullOrEmpty()) {
+                        Box(
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.circle_avatar),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .fillMaxSize()
+                            )
+                            Text(
+                                text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
+                                modifier = Modifier.align(
+                                    Alignment.Center
+                                ),
+                                style = typography.h2, fontSize = 16.sp, color = mainGreen
+                            )
+                        }
+                    } else {
+                        Image(
+                            painter = rememberAsyncImagePainter(userAvatarUrl),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(10.dp))
+                    Column {
+                        Text(
+                            text = "$userFirstName $userLastName",
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(500),
+                            color = primaryDark,
+                        )
+                        Text(
+                            text = userPosition ?: "--",
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight(400),
+                            color = secondaryNavy,
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    RatingBarWithNum(ratingValue = 5)
                 }
-            } else {
-                Image(
-                    painter = rememberAsyncImagePainter(userAvatarUrl),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
             }
-            Spacer(modifier = Modifier.size(10.dp))
-            Column {
-                Text(
-                    text = "$userFirstName $userLastName",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(500),
-                    color = primaryDark,
-                )
-                Text(
-                    text = userPosition ?: "",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    style = typography.h4,
-                    fontWeight = FontWeight(400),
-                    color = secondaryNavy,
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            RatingBarWithNum(ratingValue = 5)
+            Spacer(modifier = Modifier.size(58.dp))
         }
     }
-}

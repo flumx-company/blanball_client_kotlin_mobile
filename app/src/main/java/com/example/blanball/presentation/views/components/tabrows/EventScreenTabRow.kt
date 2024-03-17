@@ -17,8 +17,11 @@ import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,14 +32,25 @@ import com.example.blanball.presentation.theme.itemsGrayBlue
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.typography
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabRow(tabs: List<String>, icons: List<Painter>,  modifier: Modifier = Modifier) {
-    val selectedTabIndex = remember { mutableIntStateOf(0) }
+fun EventTabRow(
+    tabs: List<String>,
+    icons: List<Painter>,
+    contentItems: List<@Composable () -> Unit>,
+    modifier: Modifier = Modifier
+) {
+    var selectedTabIndex by  remember { mutableIntStateOf(0) }
     val pagerState = rememberPagerState { tabs.size }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+    LaunchedEffect(pagerState.currentPage) {
+        selectedTabIndex = pagerState.currentPage
+    }
     ScrollableTabRow(
-        selectedTabIndex = selectedTabIndex.intValue,
+        selectedTabIndex = selectedTabIndex,
         modifier = modifier.wrapContentWidth(),
         contentColor = mainGreen,
         backgroundColor = Color.White,
@@ -44,11 +58,11 @@ fun TabRow(tabs: List<String>, icons: List<Painter>,  modifier: Modifier = Modif
     ) {
         tabs.forEachIndexed { index, text ->
             Tab(
-                selected = selectedTabIndex.intValue == index,
+                selected = selectedTabIndex == index,
                 selectedContentColor = mainGreen,
                 unselectedContentColor = itemsGrayBlue,
                 onClick = {
-                    selectedTabIndex.intValue = index
+                    selectedTabIndex = index
                 },
             ) {
                 Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
@@ -56,7 +70,7 @@ fun TabRow(tabs: List<String>, icons: List<Painter>,  modifier: Modifier = Modif
                         Icon(
                             painter = icons[index],
                             contentDescription = null,
-                            tint = if (selectedTabIndex.intValue == index) mainGreen else itemsGrayBlue,
+                            tint = if (selectedTabIndex == index) mainGreen else itemsGrayBlue,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .size(16.dp)
@@ -66,7 +80,7 @@ fun TabRow(tabs: List<String>, icons: List<Painter>,  modifier: Modifier = Modif
                             text = text,
                             style = typography.h4,
                             fontSize = 12.sp,
-                            color = if (selectedTabIndex.intValue == index) mainGreen else itemsGrayBlue,
+                            color = if (selectedTabIndex == index) mainGreen else itemsGrayBlue,
                         )
                         Spacer(modifier = Modifier.size(16.dp))
                     }
@@ -74,13 +88,13 @@ fun TabRow(tabs: List<String>, icons: List<Painter>,  modifier: Modifier = Modif
             }
         }
     }
-    HorizontalPager(state = pagerState, modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight()
-    ) {index ->
-        Box(modifier = Modifier.wrapContentWidth().wrapContentSize()){
-              tabs
+    HorizontalPager(
+        state = pagerState, modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) { index ->
+        Box(modifier = Modifier.wrapContentWidth().wrapContentSize()) {
+            contentItems[index]()
         }
-
     }
 }

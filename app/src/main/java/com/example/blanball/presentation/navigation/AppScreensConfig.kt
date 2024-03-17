@@ -835,7 +835,6 @@ fun AppScreensConfig(
                                 eventScreenViewModelCurrentState.currentEventId.value = eventId
                                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
                                 navController.navigate(Destinations.EVENT.route)
-
                             },
                             onClickedToChangeOrdering = {
                                 futureEventsScreenViewModel.setState {

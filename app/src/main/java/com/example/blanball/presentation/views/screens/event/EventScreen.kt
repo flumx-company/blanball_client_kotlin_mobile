@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.sp
 import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.presentation.theme.backgroundClassicRed
 import com.example.blanball.presentation.theme.bgItemsGray
 import com.example.blanball.presentation.theme.bgLight
 import com.example.blanball.presentation.theme.classicBlue
@@ -55,7 +54,7 @@ import com.example.blanball.presentation.views.components.cards.SuccessMessageCa
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.maps.SelectLocationWithGoogleMap
-import com.example.blanball.presentation.views.components.tabrows.TabRow
+import com.example.blanball.presentation.views.components.tabrows.EventTabRow
 import com.example.blanball.presentation.views.components.texts.TextBadge2
 import com.example.blanball.utils.ext.formatTimeRange
 import com.example.blanball.utils.ext.formatToUkrainianDate
@@ -599,7 +598,7 @@ fun EventScreen(
                             fontWeight = FontWeight(700),
                             color = primaryDark,
                         )
-                        TabRow(
+                        EventTabRow(
                             tabs =
                             if (currentState.isMyEvent.value) {
                                 listOf(
@@ -626,31 +625,26 @@ fun EventScreen(
                                     painterResource(id = R.drawable.ic_peoples),
                                 )
                             },
+                            contentItems = listOf(
+                                { PlayerOnEventCard(
+                                    userAvatarUrl = null,
+                                    userFirstName = "Хуйня",
+                                    userLastName = "ок",
+                                    userPosition = null,
+                                    userRating = null,
+                                    clickCallback = { -> }) },
+                                { PlayerOnEventCard(
+                                    userAvatarUrl = null,
+                                    userFirstName = "Не хуйня",
+                                    userLastName = "Хуй",
+                                    userPosition = null,
+                                    userRating = null,
+                                    clickCallback = { -> }
+                                ) },
+                            )
                         )
                         Spacer(modifier = Modifier.size(20.dp))
-                        if (currentState.invitedPlayersList.value.isNotEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(color = backgroundClassicRed, shape = shapes.medium)
-                                    .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-                                    .padding(vertical = 24.dp, horizontal = 12.dp)
-                            ) {
-                                Column {
-                                    for (player in currentState.invitedPlayersList.value) {
-                                        PlayerOnEventCard(
-                                            userAvatarUrl = player.avatar_url,
-                                            userFirstName = player.name,
-                                            userLastName = player.last_name,
-                                            userPosition = player.position,
-                                            userRating = 5.0f, // TODO() need to get a rating field on the backend (ping Max)
-                                        )
-                                        Spacer(modifier = Modifier.size(8.dp))
-                                    }
-                                }
-                            }
-                            Spacer(modifier = Modifier.size(58.dp))
-                        }
+
                     }
                     EventBottomButtons(
                         onEditClick = { currentState.currentEventId.value?.let { onEditClick(it) } },

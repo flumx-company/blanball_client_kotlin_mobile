@@ -29,6 +29,7 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.JoinToEventAsFunResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
@@ -112,7 +113,11 @@ class EventScreenViewModel
                 cleanStates()
             }
 
-            is EventScreenMainContract.Event.SuccessfullyJoinToEvent -> {
+            is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
+                showToastMessage(toastType = EventToastType.SUCCESS, durationMillis = 3000)
+            }
+
+            is EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent -> {
                 showToastMessage(toastType = EventToastType.SUCCESS, durationMillis = 3000)
             }
 
@@ -551,7 +556,7 @@ class EventScreenViewModel
                     ).let { result ->
                         when (result) {
                             is JoinToEventAsPlayerResultEntity.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinToEvent)
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent)
                                 setState {
                                     copy(
                                         state = EventScreenMainContract.ScreenViewState.Idle,
@@ -574,12 +579,39 @@ class EventScreenViewModel
                                 }
                             }
                         }
-
                     }
                 }
 
                 is ParticipantRole.FUN -> {
+                    joinToEventAsFunUseCase.executeJoinRequestAsFun(
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is JoinToEventAsFunResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
 
+                            is JoinToEventAsFunResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
