@@ -63,19 +63,19 @@ data class GetEventByIdResponseProfile(
 data class GetEventByIdResponseCurrentFan(
     @Json (name = "id") val id: Int,
     @Json (name = "profile") val profile: GetEventByIdResponseProfileX,
-    @Json (name = "raiting") val raiting: Int
+    @Json (name = "raiting") val raiting: Int? = null,
 )
 
 data class GetEventByIdResponseCurrentUser(
     @Json (name = "id") val id: Int,
     @Json (name = "profile") val profile: GetEventByIdResponseProfileX,
-    @Json (name = "raiting") val raiting: Int
+    @Json (name = "raiting") val raiting: Int? = null,
 )
 
 data class GetEventByIdResponseProfileX(
-    @Json (name = "avatar_url") val avatar_url: String,
+    @Json (name = "avatar_url") val avatar_url: String? = null,
     @Json (name = "last_name") val last_name: String,
     @Json (name = "name") val name: String,
-    @Json (name = "position") val position: String,
-    @Json (name = "working_leg") val working_leg: String
+    @Json (name = "position") val position: String? = null,
+    @Json (name = "working_leg") val working_leg: String? = null,
 )

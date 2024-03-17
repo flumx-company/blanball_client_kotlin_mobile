@@ -469,6 +469,7 @@ class EventScreenViewModel
                     is GetEventByIdResultEntity.Success -> {
                         setState {
                             copy(
+                                state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                                 eventName = mutableStateOf(it.data.name),
                                 isEventPrivate = mutableStateOf(it.data.privacy),
                                 isFormNeed = mutableStateOf(it.data.need_form),
@@ -527,11 +528,6 @@ class EventScreenViewModel
                             inputTime = currentState.eventDateAndTime.value,
                             outputTime = currentState.startEventTimeState,
                         )
-                        setState {
-                            copy(
-                                state = EventScreenMainContract.ScreenViewState.SuccessRequest
-                            )
-                        }
                     }
 
                     is GetEventByIdResultEntity.Error -> {

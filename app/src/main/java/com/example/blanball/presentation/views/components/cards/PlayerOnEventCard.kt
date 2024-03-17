@@ -37,21 +37,23 @@ import com.example.blanball.presentation.views.components.ratingbars.RatingBarWi
 
 @Composable
 fun PlayerOnEventCard(
-    userAvatarUrl: String,
+    userAvatarUrl: String?,
     userFirstName: String,
     userLastName: String,
-    userPosition: String,
-    userRating: Float,
+    userPosition: String?,
+    userRating: Float?,
     clickCallback: (() -> Unit)? = null
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(56.dp)
-        .background(Color.White, shape = shapes.medium)
-        .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-        .padding(horizontal = 12.dp, vertical = 6.dp)
-        .clickable { clickCallback?.let { it() } },
-        contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .background(Color.White, shape = shapes.medium)
+            .border(width = 1.dp, color = classicRed, shape = shapes.medium)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .clickable { clickCallback?.let { it() } },
+        contentAlignment = Alignment.Center
+    ) {
         Spacer(modifier = Modifier.size(12.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (userAvatarUrl.isNullOrEmpty()) {
@@ -94,7 +96,7 @@ fun PlayerOnEventCard(
                     color = primaryDark,
                 )
                 Text(
-                    text = userPosition,
+                    text = userPosition ?: "",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,

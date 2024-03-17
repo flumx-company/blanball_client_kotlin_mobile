@@ -61,19 +61,19 @@ data class GetEventByIdResponseProfileEntity(
 data class GetEventByIdResponseCurrentFanEntity(
     val id: Int,
     val profile: GetEventByIdResponseProfileXEntity,
-    val raiting: Int
+    val raiting: Int? = null,
 )
 
 data class GetEventByIdResponseCurrentUserEntity(
     val id: Int,
     val profile: GetEventByIdResponseProfileXEntity,
-    val raiting: Int
+    val raiting: Int? = null
 )
 
 data class GetEventByIdResponseProfileXEntity(
-    val avatar_url: String,
+    val avatar_url: String? = null,
     val last_name: String,
     val name: String,
-    val position: String,
-    val working_leg: String
+    val position: String? = null,
+    val working_leg: String? = null
 )
