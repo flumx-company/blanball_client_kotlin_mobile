@@ -2,6 +2,7 @@ package com.example.blanball.presentation.views.components.tabrows
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -93,7 +94,8 @@ fun EventTabRow(
             .fillMaxWidth()
             .fillMaxHeight()
     ) { index ->
-        Box(modifier = Modifier.wrapContentWidth().wrapContentSize()) {
+        Column(modifier = Modifier.wrapContentWidth().wrapContentSize()) {
+            Spacer(modifier = Modifier.size(20.dp))
             contentItems[index]()
         }
     }

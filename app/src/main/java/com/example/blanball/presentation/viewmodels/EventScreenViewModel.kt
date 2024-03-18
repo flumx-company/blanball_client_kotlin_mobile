@@ -96,13 +96,7 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                currentState.currentEventId.value.let { currentEventId ->
-                    currentEventId?.let { eventId ->
-                        getEventById(
-                            eventId = eventId
-                        )
-                    }
-                }
+                getEventById(eventId = currentState.currentEventId.value!!)
             }
 
             is EventScreenMainContract.Event.GetUserPhone -> {
@@ -114,13 +108,7 @@ class EventScreenViewModel
             }
 
             is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
-                currentState.currentEventId.value.let { currentEventId ->
-                    currentEventId?.let { eventId ->
-                        getEventById(
-                            eventId = eventId
-                        )
-                    }
-                }
+                getEventById(eventId = currentState.currentEventId.value!!)
                 showToastMessage(
                     toastType = EventToastType.SUCCESS,
                     durationMillis = 3000,
@@ -130,6 +118,7 @@ class EventScreenViewModel
 
 
             is EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent -> {
+                getEventById(eventId = currentState.currentEventId.value!!)
                 showToastMessage(
                     toastType = EventToastType.SUCCESS,
                     durationMillis = 3000,
@@ -276,6 +265,11 @@ class EventScreenViewModel
                     successMessageText = mutableStateOf(""),
                     isSuccessMessageVisible = mutableStateOf(false),
                     isUserHasBeenJoinedToEvent = mutableStateOf(false),
+                    errorMessageText = mutableStateOf(""),
+                    isErrorMessageVisible = mutableStateOf(false),
+                    currentUserRole = mutableStateOf(""),
+                    isParticipant = mutableStateOf(false),
+
                 )
             }
         }
@@ -525,8 +519,8 @@ class EventScreenViewModel
                                         it.data.place.lon
                                     )
                                 ),
-                                invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
-                                invitedFansList = mutableStateOf(it.data.current_fans.map { fan -> fan.profile }),
+                                invitedPlayersList = mutableStateOf(it.data.current_users),
+                                invitedFansList = mutableStateOf(it.data.current_fans),
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                             )
                         }

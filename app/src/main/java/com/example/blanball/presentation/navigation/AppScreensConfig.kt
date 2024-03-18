@@ -1563,8 +1563,11 @@ fun AppScreensConfig(
                                     EventScreenMainContract.Event.JoinToEventAsPlayer
                                 )
                             },
-
-                            )
+                            onClickedToPublicProfile = { userId ->
+                                publicProfileCurrentState.userId.value = userId
+                                navController.navigate(Destinations.PUBLIC_PROFILE.route)
+                            },
+                        )
                     }
                 }
             )
@@ -1854,6 +1857,7 @@ fun AppScreensConfig(
             val state = myEventsViewModel.uiState.collectAsState().value
             val myEventsScreenCurrentState = myEventsViewModel.currentState
             val previousState by remember { mutableStateOf(myEventsScreenCurrentState.state) }
+            val eventScreenViewModelCurrentState = eventScreenViewModel.currentState
 
             LaunchedEffect(myEventsScreenCurrentState.state != previousState) {
                 myEventsViewModel.handleScreenState(myEventsScreenCurrentState.state)
@@ -1914,9 +1918,8 @@ fun AppScreensConfig(
                             state = state,
                             paddingValues = paddingValues,
                             navigateToEventScreen = { eventId ->
-                                val eventScreenViewModelCurrentState =
-                                    eventScreenViewModel.currentState
                                 eventScreenViewModelCurrentState.currentEventId.value = eventId
+                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
                                 navController.navigate(Destinations.EVENT.route)
                             },
                             onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },

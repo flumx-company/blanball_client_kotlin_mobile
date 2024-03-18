@@ -43,13 +43,15 @@ import com.example.blanball.presentation.theme.classicBlue
 import com.example.blanball.presentation.theme.classicRed
 import com.example.blanball.presentation.theme.classicYellow
 import com.example.blanball.presentation.theme.defaultLightGray
+import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
-import com.example.blanball.presentation.views.components.cards.FunOnEventCard
+import com.example.blanball.presentation.views.components.cards.FanOnEventCard
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
 import com.example.blanball.presentation.views.components.cards.UserCardWithPhone
@@ -74,6 +76,7 @@ fun EventScreen(
     onEditClick: (currentEventId: Int) -> Unit,
     onJoinBtnAsFunClick: () -> Unit,
     onJoinBtnAsPlayerClick: () -> Unit,
+    onClickedToPublicProfile: (userId: Int) -> Unit,
 ) {
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -594,7 +597,7 @@ fun EventScreen(
                                 listOf(
                                     stringResource(R.string.users_list),
                                     stringResource(R.string.registered_viewers),
-                                    stringResource(R.string.requests_for_participation),
+//                                    stringResource(R.string.requests_for_participation),
                                 )
                             } else {
                                 listOf(
@@ -607,7 +610,7 @@ fun EventScreen(
                                 listOf(
                                     painterResource(id = R.drawable.ic_ball),
                                     painterResource(id = R.drawable.ic_peoples),
-                                    painterResource(id = R.drawable.ic_add_user)
+//                                    painterResource(id = R.drawable.ic_add_user)
                                 )
                             } else {
                                 listOf(
@@ -617,16 +620,70 @@ fun EventScreen(
                             },
                             contentItems = listOf(
                                 {
-                                    PlayerOnEventCard(
-                                        clickCallback = { },
-                                        invitedPlayersList = currentState.invitedPlayersList.value,
-                                    )
+                                    if (currentState.invitedPlayersList.value.isEmpty()) {
+                                        NoHaveContentBanner(
+                                            headerTextId = R.string.not_found_users_for_this_filter,
+                                            secTextId = R.string.change_search_params,
+                                        )
+                                    } else {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .wrapContentHeight()
+                                                .background(
+                                                    color = Color.White,
+                                                    shape = shapes.medium
+                                                )
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = mainGreen,
+                                                    shape = shapes.medium
+                                                )
+                                                .padding(vertical = 24.dp, horizontal = 12.dp)
+                                        ) {
+                                            PlayerOnEventCard(
+                                                clickCallback = { userId ->
+                                                    onClickedToPublicProfile(
+                                                        userId
+                                                    )
+                                                },
+                                                invitedPlayersList = currentState.invitedPlayersList.value,
+                                            )
+                                        }
+                                    }
                                 },
                                 {
-                                    FunOnEventCard(
-                                        invitedFansList = currentState.invitedFansList.value,
-                                        clickCallback = { }
-                                    )
+                                    if (currentState.invitedFansList.value.isEmpty()) {
+                                        NoHaveContentBanner(
+                                            headerTextId = R.string.not_found_users_for_this_filter,
+                                            secTextId = R.string.change_search_params,
+                                        )
+                                    } else {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .wrapContentHeight()
+                                                .background(
+                                                    color = Color.White,
+                                                    shape = shapes.medium
+                                                )
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = mainGreen,
+                                                    shape = shapes.medium
+                                                )
+                                                .padding(vertical = 24.dp, horizontal = 12.dp)
+                                        ) {
+                                            FanOnEventCard(
+                                                invitedFansList = currentState.invitedFansList.value,
+                                                clickCallback = { userId ->
+                                                    onClickedToPublicProfile(
+                                                        userId
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    }
                                 },
                             )
                         )
@@ -644,20 +701,20 @@ fun EventScreen(
                     )
                 }
             }
-                SuccessMessageCard(
-                    text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value ,
-                    isMessageVisible = currentState.isSuccessMessageVisible.value,
-                    onCancelIconClicked = {
-                        currentState.isSuccessMessageVisible.value = false
-                    }
-                )
-                ErrorMessageCard(
-                    text = currentState.errorMessageText.value,
-                    isMessageVisible = currentState.isErrorMessageVisible.value,
-                    onCancelIconClicked = {
-                        currentState.isErrorMessageVisible.value = false
-                    }
-                )
+            SuccessMessageCard(
+                text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value,
+                isMessageVisible = currentState.isSuccessMessageVisible.value,
+                onCancelIconClicked = {
+                    currentState.isSuccessMessageVisible.value = false
+                }
+            )
+            ErrorMessageCard(
+                text = currentState.errorMessageText.value,
+                isMessageVisible = currentState.isErrorMessageVisible.value,
+                onCancelIconClicked = {
+                    currentState.isErrorMessageVisible.value = false
+                }
+            )
         }
     }
 }
