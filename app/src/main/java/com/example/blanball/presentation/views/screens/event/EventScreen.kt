@@ -80,20 +80,6 @@ fun EventScreen(
             if (currentState.state == EventScreenMainContract.ScreenViewState.Loading) {
                 Loader(backgroundColor = Color.White, textColor = primaryDark)
             } else {
-                SuccessMessageCard(
-                    text = stringResource(R.string.you_have_successfully_joined),
-                    isMessageVisible = currentState.isSuccessMessageVisible.value,
-                    onCancelIconClicked = {
-                        currentState.isSuccessMessageVisible.value = false
-                    }
-                )
-                ErrorMessageCard(
-                    text = currentState.errorMessageText.value,
-                    isMessageVisible = currentState.isErrorMessageVisible.value,
-                    onCancelIconClicked = {
-                        currentState.isErrorMessageVisible.value = false
-                    }
-                )
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -113,7 +99,7 @@ fun EventScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
+                            .padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 0.dp)
                     ) {
                         if (!isConfirmReminderVisible) {
                             isConfirmReminderContent()
@@ -212,7 +198,9 @@ fun EventScreen(
                                 text = if (currentState.eventPrice.value == 0) {
                                     stringResource(id = R.string.free)
                                 } else {
-                                    currentState.eventPrice.value.toString() + "" + stringResource(R.string.uah_char)
+                                    currentState.eventPrice.value.toString() + "" + stringResource(
+                                        R.string.uah_char
+                                    )
                                 },
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp,
@@ -256,7 +244,8 @@ fun EventScreen(
                                             )
                                             Spacer(modifier = Modifier.size(4.dp))
                                             Text(
-                                                text = currentState.priceDescription.value ?: "",
+                                                text = currentState.priceDescription.value
+                                                    ?: "",
                                                 fontSize = 12.sp,
                                                 lineHeight = 16.sp,
                                                 style = typography.h4,
@@ -627,14 +616,18 @@ fun EventScreen(
                                 )
                             },
                             contentItems = listOf(
-                                { PlayerOnEventCard(
-                                    clickCallback = {  },
-                                    invitedPlayersList = currentState.invitedPlayersList.value,
-                                ) },
-                                { FunOnEventCard(
-                                    invitedFansList = currentState.invitedFansList.value,
-                                    clickCallback = {  }
-                                ) },
+                                {
+                                    PlayerOnEventCard(
+                                        clickCallback = { },
+                                        invitedPlayersList = currentState.invitedPlayersList.value,
+                                    )
+                                },
+                                {
+                                    FunOnEventCard(
+                                        invitedFansList = currentState.invitedFansList.value,
+                                        clickCallback = { }
+                                    )
+                                },
                             )
                         )
                         Spacer(modifier = Modifier.size(20.dp))
@@ -651,6 +644,20 @@ fun EventScreen(
                     )
                 }
             }
+                SuccessMessageCard(
+                    text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value ,
+                    isMessageVisible = currentState.isSuccessMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isSuccessMessageVisible.value = false
+                    }
+                )
+                ErrorMessageCard(
+                    text = currentState.errorMessageText.value,
+                    isMessageVisible = currentState.isErrorMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isErrorMessageVisible.value = false
+                    }
+                )
         }
     }
 }

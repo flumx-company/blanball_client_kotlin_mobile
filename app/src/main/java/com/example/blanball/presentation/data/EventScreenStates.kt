@@ -117,6 +117,8 @@ class EventScreenMainContract {
         val isUserHasBeenJoinedToEvent: MutableState<Boolean> = mutableStateOf(false),
         val errorMessageText: MutableState<String> = mutableStateOf(""),
         val isErrorMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val currentUserRole: MutableState<String> = mutableStateOf(""),
+        val isParticipant: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

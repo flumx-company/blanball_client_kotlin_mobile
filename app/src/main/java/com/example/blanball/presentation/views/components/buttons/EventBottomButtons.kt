@@ -92,10 +92,9 @@ fun EventBottomButtons(
                             fontWeight = FontWeight(400),
                         )
                     } else {
-                        if (currentState.isUserHasBeenJoinedToEvent.value) {
+                        if (currentState.isParticipant.value) {
                             Box {
                                 DefaultButton(
-                                    modifier = Modifier.width(44.dp),
                                     btnTextResId = R.string.сancel_participation,
                                     color = primaryDark,
                                     clickCallback = { onCancelParticipation() }

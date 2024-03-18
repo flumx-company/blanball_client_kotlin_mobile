@@ -83,9 +83,9 @@ class EventScreenViewModel
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    sealed class ParticipantRole {
-        object PLAYER : ParticipantRole()
-        object FUN : ParticipantRole()
+    sealed class UserRole {
+        object PLAYER : UserRole()
+        object FUN : UserRole()
     }
 
     sealed class EventToastType {
@@ -114,15 +114,35 @@ class EventScreenViewModel
             }
 
             is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
-                showToastMessage(toastType = EventToastType.SUCCESS, durationMillis = 3000)
+                currentState.currentEventId.value.let { currentEventId ->
+                    currentEventId?.let { eventId ->
+                        getEventById(
+                            eventId = eventId
+                        )
+                    }
+                }
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    durationMillis = 3000,
+                    currentRole = UserRole.PLAYER
+                )
             }
 
+
             is EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent -> {
-                showToastMessage(toastType = EventToastType.SUCCESS, durationMillis = 3000)
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    durationMillis = 3000,
+                    currentRole = UserRole.FUN
+                )
             }
 
             is EventScreenMainContract.Event.ErrorJoinToEvent -> {
-                showToastMessage(toastType = EventToastType.ERROR, durationMillis = 3000)
+                showToastMessage(
+                    toastType = EventToastType.ERROR,
+                    durationMillis = 3000,
+                    currentRole = null
+                )
             }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
@@ -160,7 +180,7 @@ class EventScreenViewModel
                         state = EventScreenMainContract.ScreenViewState.Loading
                     )
                 }
-                joinToEvent(asWho = ParticipantRole.PLAYER)
+                joinToEvent(asWho = UserRole.PLAYER)
             }
 
             is EventScreenMainContract.Event.JoinToEventAsFun -> {
@@ -169,7 +189,7 @@ class EventScreenViewModel
                         state = EventScreenMainContract.ScreenViewState.Loading
                     )
                 }
-                joinToEvent(asWho = ParticipantRole.FUN)
+                joinToEvent(asWho = UserRole.FUN)
             }
         }
     }
@@ -474,7 +494,6 @@ class EventScreenViewModel
                     is GetEventByIdResultEntity.Success -> {
                         setState {
                             copy(
-                                state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                                 eventName = mutableStateOf(it.data.name),
                                 isEventPrivate = mutableStateOf(it.data.privacy),
                                 isFormNeed = mutableStateOf(it.data.need_form),
@@ -495,6 +514,10 @@ class EventScreenViewModel
                                 currentEventAuthorId = mutableIntStateOf(it.data.author.id),
                                 eventPrice = mutableIntStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
+                                isParticipant = mutableStateOf(
+                                    it.data.current_users.any { player -> player.id == userIdResult } ||
+                                            it.data.current_fans.any { fan -> fan.id == userIdResult }
+                                ),
                                 priceDescription = mutableStateOf(it.data.price_description),
                                 eventLatLng = mutableStateOf(
                                     LatLng(
@@ -504,8 +527,11 @@ class EventScreenViewModel
                                 ),
                                 invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
                                 invitedFansList = mutableStateOf(it.data.current_fans.map { fan -> fan.profile }),
+                                state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                             )
                         }
+
+
                         currentState.eventSummaryPrice.value =
                             checkNullIntPriceValue(currentState.eventPrice.value)
                         mapGenderOnEditScreen(
@@ -547,10 +573,10 @@ class EventScreenViewModel
         }
     }
 
-    private fun joinToEvent(asWho: ParticipantRole) {
+    private fun joinToEvent(asWho: UserRole) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (asWho) {
-                is ParticipantRole.PLAYER -> {
+                is UserRole.PLAYER -> {
                     joinToEventAsPlayerUseCase.executeJoinRequestAsPlayer(
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
@@ -582,7 +608,7 @@ class EventScreenViewModel
                     }
                 }
 
-                is ParticipantRole.FUN -> {
+                is UserRole.FUN -> {
                     joinToEventAsFunUseCase.executeJoinRequestAsFun(
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
@@ -617,10 +643,23 @@ class EventScreenViewModel
         }
     }
 
-    private fun showToastMessage(toastType: EventToastType, durationMillis: Long) {
+    private fun showToastMessage(
+        toastType: EventToastType,
+        currentRole: UserRole?,
+        durationMillis: Long
+    ) {
         when (toastType) {
             is EventToastType.SUCCESS -> {
                 job = viewModelScope.launch(Dispatchers.Default) {
+                    when (currentRole) {
+                        is UserRole.FUN -> currentState.currentUserRole.value =
+                            application.getString(R.string.fan)
+
+                        is UserRole.PLAYER -> currentState.currentUserRole.value =
+                            application.getString(R.string.player)
+
+                        else -> {}
+                    }
                     currentState.isUserHasBeenJoinedToEvent.value = true
                     currentState.isSuccessMessageVisible.value = true
                     delay(durationMillis)

@@ -482,7 +482,9 @@
     <string name="in_personal_cabinet">" в особистому кабінеті, щоб приймати участь у подіях"</string>
     <string name="play">Грати</string>
     <string name="cheer">Вболівати</string>
-    <string name="you_have_successfully_joined">Ви успішно долучилися до участі, як гравець</string>
+    <string name="you_have_successfully_joined_as">Ви успішно долучилися до участі, як</string>
+    <string name="player">гравець</string>
+    <string name="fan">вболівальник</string>
     <string name="сancel_participation">Скасувати участь</string>
     <string name="event_time_expired">event_time_expired</string>
     <string name="event_time_expired_message">Подія вже закінчилася</string>
