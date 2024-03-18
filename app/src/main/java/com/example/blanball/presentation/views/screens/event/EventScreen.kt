@@ -48,7 +48,7 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
-import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
+import com.example.blanball.presentation.views.components.banners.NoHaveUsersBanner
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
 import com.example.blanball.presentation.views.components.cards.FanOnEventCard
@@ -621,9 +621,9 @@ fun EventScreen(
                             contentItems = listOf(
                                 {
                                     if (currentState.invitedPlayersList.value.isEmpty()) {
-                                        NoHaveContentBanner(
-                                            headerTextId = R.string.not_found_users_for_this_filter,
-                                            secTextId = R.string.change_search_params,
+                                        NoHaveUsersBanner(
+                                            headerTextId = R.string.no_users_to_display,
+                                            secTextId = R.string.we_will_notify_you_users,
                                         )
                                     } else {
                                         Column(
@@ -654,9 +654,9 @@ fun EventScreen(
                                 },
                                 {
                                     if (currentState.invitedFansList.value.isEmpty()) {
-                                        NoHaveContentBanner(
-                                            headerTextId = R.string.not_found_users_for_this_filter,
-                                            secTextId = R.string.change_search_params,
+                                        NoHaveUsersBanner(
+                                            headerTextId = R.string.no_fans_to_display,
+                                            secTextId = R.string.we_will_notify_you_fan,
                                         )
                                     } else {
                                         Column(
