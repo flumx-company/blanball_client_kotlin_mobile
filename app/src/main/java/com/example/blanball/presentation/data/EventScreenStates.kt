@@ -2,7 +2,8 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
+import com.example.domain.entity.responses.GetEventByIdResponseFanProfileXEntity
+import com.example.domain.entity.responses.GetEventByIdResponsePlayerProfileXEntity
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
@@ -26,10 +27,10 @@ class EventScreenMainContract {
         val state: ScreenViewState,
         val currentEventId: MutableState<Int?> = mutableStateOf(null),
         val eventName: MutableState<String> = mutableStateOf(""),
-        val invitedPlayersList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+        val invitedPlayersList: MutableState<List<GetEventByIdResponsePlayerProfileXEntity>> = mutableStateOf(
             emptyList()
         ),
-        val invitedFunsList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+        val invitedFansList: MutableState<List<GetEventByIdResponseFanProfileXEntity>> = mutableStateOf(
             emptyList()
         ),
         val sportType: MutableState<String> = mutableStateOf(""),
@@ -55,14 +56,14 @@ class EventScreenMainContract {
             )
         ),
         val eventType: MutableState<String> = mutableStateOf(""),
-        val playersGenderStates: MutableState<EventScreenMainContract.PlayersGenderStates> = mutableStateOf(
-            EventScreenMainContract.PlayersGenderStates.NO_SELECT
+        val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(
+            PlayersGenderStates.NO_SELECT
         ),
-        val priceStates: MutableState<EventScreenMainContract.PriceStates> = mutableStateOf(
-            EventScreenMainContract.PriceStates.NO_SELECT
+        val priceStates: MutableState<PriceStates> = mutableStateOf(
+            PriceStates.NO_SELECT
         ),
-        val needFormStates: MutableState<EventScreenMainContract.NeedFormStates> = mutableStateOf(
-            EventScreenMainContract.NeedFormStates.NO_SELECT
+        val needFormStates: MutableState<NeedFormStates> = mutableStateOf(
+            NeedFormStates.NO_SELECT
         ),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDateState: MutableState<String> = mutableStateOf(""),

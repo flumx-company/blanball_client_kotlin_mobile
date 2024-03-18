@@ -632,7 +632,7 @@ fun EventScreen(
                                     invitedPlayersList = currentState.invitedPlayersList.value,
                                 ) },
                                 { FunOnEventCard(
-                                    invitedFunsList = currentState.invitedFunsList.value,
+                                    invitedFansList = currentState.invitedFansList.value,
                                     clickCallback = {  }
                                 ) },
                             )

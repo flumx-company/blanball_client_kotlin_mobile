@@ -99,10 +99,11 @@ import com.example.data.network.models.responses.success.GetEventByIdResponseCoo
 import com.example.data.network.models.responses.success.GetEventByIdResponseCurrentFan
 import com.example.data.network.models.responses.success.GetEventByIdResponseCurrentUser
 import com.example.data.network.models.responses.success.GetEventByIdResponseData
+import com.example.data.network.models.responses.success.GetEventByIdResponseFanProfileX
 import com.example.data.network.models.responses.success.GetEventByIdResponseForms
 import com.example.data.network.models.responses.success.GetEventByIdResponsePlace
+import com.example.data.network.models.responses.success.GetEventByIdResponsePlayerProfileX
 import com.example.data.network.models.responses.success.GetEventByIdResponseProfile
-import com.example.data.network.models.responses.success.GetEventByIdResponseProfileX
 import com.example.data.network.models.responses.success.GetIsTechnicalWorkStatusResponse
 import com.example.data.network.models.responses.success.GetIsTechnicalWorkStatusResponseData
 import com.example.data.network.models.responses.success.GetMyEventsResponse
@@ -193,10 +194,11 @@ import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
 import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
 import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
 import com.example.domain.entity.responses.GetEventByIdResponseEntity
+import com.example.domain.entity.responses.GetEventByIdResponseFanProfileXEntity
 import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
 import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
+import com.example.domain.entity.responses.GetEventByIdResponsePlayerProfileXEntity
 import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
-import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntityData
 import com.example.domain.entity.responses.GetMyEventsResponseEntity
@@ -1079,28 +1081,21 @@ internal fun GetEventByIdResponse.toGetEventByIdResponse(): GetEventByIdResponse
 
 internal fun GetEventByIdResponseData.toGetEventByIdResponseDataEntity(): GetEventByIdResponseDataEntity =
     GetEventByIdResponseDataEntity(
-        this.amount_members,
-        this.author.toGetEventByIdResponseAuthor(),
-        this.contact_number,
-        this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
-        this.current_fans.map { it.toGetEventByIdResponseCurrentUserEntity() },
-        this.current_users.map { it.toGetEventByIdResponseCurrentFanEntity() },
-        this.date_and_time,
-        this.description,
-        this.duration,
-        this.forms?.toGetEventByIdResponseFormsEntity(),
-        this.gender,
-        this.id,
-        this.name,
-        this.need_ball,
-        this.need_form,
-        this.place.toGetEventByIdResponsePlaceEntity(),
-        this.price,
-        this.price_description,
-        this.privacy,
-        this.request_user_role,
-        this.status,
-        this.type
+        author = this.author.toGetEventByIdResponseAuthor(),
+        coordinates = this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
+        current_users = this.current_users.map { it.toGetEventByIdResponseCurrentUserEntity() },
+        current_fans = this.current_fans.map { it.toGetEventByIdResponseCurrentFanEntity() },
+        date_and_time = this.date_and_time,
+        description = this.description,
+        duration = this.duration,
+        gender = this.gender,
+        id = this.id,
+        name = this.name,
+        need_ball = this.need_ball,
+        need_form = this.need_form,
+        place = this.place.toGetEventByIdResponsePlaceEntity(),
+        privacy = this.privacy,
+        type = this.type,
     )
 
 internal fun GetEventByIdResponseAuthor.toGetEventByIdResponseAuthor(): GetEventByIdResponseAuthorEntity =
@@ -1118,22 +1113,28 @@ internal fun GetEventByIdResponseCoordinates.toGetEventByIdResponseCoordinatesEn
 
 internal fun GetEventByIdResponseForms.toGetEventByIdResponseFormsEntity(): GetEventByIdResponseFormsEntity =
     GetEventByIdResponseFormsEntity(
-        // TODO("Not implemented on the backend")
     )
 
 internal fun GetEventByIdResponseCurrentFan.toGetEventByIdResponseCurrentFanEntity(): GetEventByIdResponseCurrentFanEntity = GetEventByIdResponseCurrentFanEntity(
     id = this.id,
-    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    profile = this.profile.toGetEventByIdResponseFanProfileXEntity(),
     raiting = this.raiting,
 )
 
 internal fun GetEventByIdResponseCurrentUser.toGetEventByIdResponseCurrentUserEntity(): GetEventByIdResponseCurrentUserEntity = GetEventByIdResponseCurrentUserEntity(
     id = this.id,
-    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    profile = this.profile.toGetEventByIdResponsePlayerProfileXEntity(),
     raiting = this.raiting,
 )
 
-internal fun GetEventByIdResponseProfileX.toGetEventByIdResponseProfileXEntity(): GetEventByIdResponseProfileXEntity = GetEventByIdResponseProfileXEntity(
+internal fun GetEventByIdResponseFanProfileX.toGetEventByIdResponseFanProfileXEntity(): GetEventByIdResponseFanProfileXEntity = GetEventByIdResponseFanProfileXEntity(
+    avatar_url = this.avatar_url,
+    last_name = this.last_name,
+    name = this.name,
+    position = this.position,
+    working_leg = this.working_leg
+)
+internal fun GetEventByIdResponsePlayerProfileX.toGetEventByIdResponsePlayerProfileXEntity(): GetEventByIdResponsePlayerProfileXEntity = GetEventByIdResponsePlayerProfileXEntity(
     avatar_url = this.avatar_url,
     last_name = this.last_name,
     name = this.name,

@@ -14,8 +14,8 @@ data class GetEventByIdResponseData(
     @Json (name = "author") val author: GetEventByIdResponseAuthor,
     @Json (name = "contact_number") val contact_number: String? = null,
     @Json (name = "coordinates") val coordinates: GetEventByIdResponseCoordinates,
-    @Json (name = "current_fans") val current_fans: List<GetEventByIdResponseCurrentUser>,
-    @Json (name = "current_users") val current_users: List<GetEventByIdResponseCurrentFan>,
+    @Json (name = "current_fans") val current_fans: List<GetEventByIdResponseCurrentFan>,
+    @Json (name = "current_users") val current_users: List<GetEventByIdResponseCurrentUser>,
     @Json (name = "date_and_time") val date_and_time: String,
     @Json (name = "description") val description: String,
     @Json (name = "duration") val duration: Int,
@@ -62,20 +62,27 @@ data class GetEventByIdResponseProfile(
 
 data class GetEventByIdResponseCurrentFan(
     @Json (name = "id") val id: Int,
-    @Json (name = "profile") val profile: GetEventByIdResponseProfileX,
+    @Json (name = "profile") val profile: GetEventByIdResponseFanProfileX,
     @Json (name = "raiting") val raiting: Int? = null,
 )
 
 data class GetEventByIdResponseCurrentUser(
     @Json (name = "id") val id: Int,
-    @Json (name = "profile") val profile: GetEventByIdResponseProfileX,
+    @Json (name = "profile") val profile: GetEventByIdResponsePlayerProfileX,
     @Json (name = "raiting") val raiting: Int? = null,
 )
 
-data class GetEventByIdResponseProfileX(
+data class GetEventByIdResponsePlayerProfileX(
     @Json (name = "avatar_url") val avatar_url: String? = null,
     @Json (name = "last_name") val last_name: String,
     @Json (name = "name") val name: String,
     @Json (name = "position") val position: String? = null,
-    @Json (name = "working_leg") val working_leg: String? = null,
+    @Json (name = "working_leg") val working_leg: String? = null
+)
+data class GetEventByIdResponseFanProfileX(
+    @Json (name = "avatar_url") val avatar_url: String? = null,
+    @Json (name = "last_name") val last_name: String,
+    @Json (name = "name") val name: String,
+    @Json (name = "position") val position: String? = null,
+    @Json (name = "working_leg") val working_leg: String? = null
 )

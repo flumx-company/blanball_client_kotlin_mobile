@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,87 +33,108 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.banners.NoHaveContentBanner
 import com.example.blanball.presentation.views.components.ratingbars.RatingBarWithNum
-import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
+import com.example.domain.entity.responses.GetEventByIdResponseFanProfileXEntity
 
 @Composable
 fun FunOnEventCard(
     clickCallback: (() -> Unit)? = null,
-    invitedFunsList: List<GetEventByIdResponseProfileXEntity>
+    invitedFansList: List<GetEventByIdResponseFanProfileXEntity>
 ) {
-    for (item in invitedFunsList) {
-       Column (
+
+    if (invitedFansList.isEmpty()) {
+        NoHaveContentBanner(
+            headerTextId = R.string.not_found_users_for_this_filter,
+            secTextId = R.string.change_search_params,
+        )
+    } else {
+        for (funItem in invitedFansList) {
+            FanItem(
+                funItem = funItem,
+                clickCallback = {}
+            )
+        }
+    }
+}
+
+
+@Composable
+fun FanItem(
+    funItem: GetEventByIdResponseFanProfileXEntity,
+    clickCallback: (() -> Unit)?,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .background(color = Color.White, shape = shapes.medium)
+            .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
+            .padding(vertical = 24.dp, horizontal = 12.dp)
+    ) {
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color.White, shape = shapes.medium)
+                .height(56.dp)
+                .background(Color.White, shape = shapes.medium)
                 .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
-                .padding(vertical = 24.dp, horizontal = 12.dp)
+                .padding(horizontal = 12.dp, vertical = 6.dp)
+                .clickable { clickCallback?.let { it() } },
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .background(Color.White, shape = shapes.medium)
-                    .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
-                    .clickable { clickCallback?.let { it() } },
-                contentAlignment = Alignment.Center
-            ) {
-                Spacer(modifier = Modifier.size(12.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (item.avatar_url.isNullOrEmpty()) {
-                        Box(
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.circle_avatar),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .fillMaxSize()
-                            )
-                            Text(
-                                text = "${item.name.firstOrNull() ?: ""}${item.last_name.firstOrNull() ?: ""}",
-                                modifier = Modifier.align(
-                                    Alignment.Center
-                                ),
-                                style = typography.h2, fontSize = 16.sp, color = mainGreen
-                            )
-                        }
-                    } else {
+            Spacer(modifier = Modifier.size(12.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (funItem.avatar_url.isNullOrEmpty()) {
+                    Box(
+                        modifier = Modifier.size(36.dp)
+                    ) {
                         Image(
-                            painter = rememberAsyncImagePainter(item.avatar_url),
+                            painter = painterResource(id = R.drawable.circle_avatar),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Column {
-                        Text(
-                            text = "${item.name} ${item.last_name}",
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            style = typography.h4,
-                            fontWeight = FontWeight(500),
-                            color = primaryDark,
+                                .clip(CircleShape)
+                                .fillMaxSize()
                         )
                         Text(
-                            text = item.position ?: "--",
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            style = typography.h4,
-                            fontWeight = FontWeight(400),
-                            color = secondaryNavy,
+                            text = "${funItem.name.firstOrNull() ?: ""}${funItem.last_name.firstOrNull() ?: ""}",
+                            modifier = Modifier.align(
+                                Alignment.Center
+                            ),
+                            style = typography.h2, fontSize = 16.sp, color = mainGreen
                         )
                     }
-                    Spacer(modifier = Modifier.weight(1f))
-                    RatingBarWithNum(ratingValue = 5)
+                } else {
+                    Image(
+                        painter = rememberAsyncImagePainter(funItem.avatar_url),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
                 }
+                Spacer(modifier = Modifier.size(10.dp))
+                Column {
+                    Text(
+                        text = "${funItem.name} ${funItem.last_name}",
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(500),
+                        color = primaryDark,
+                    )
+                    Text(
+                        text = funItem.position ?: "--",
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight(400),
+                        color = secondaryNavy,
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                RatingBarWithNum(ratingValue = 5)
             }
-            Spacer(modifier = Modifier.size(58.dp))
         }
     }
 }

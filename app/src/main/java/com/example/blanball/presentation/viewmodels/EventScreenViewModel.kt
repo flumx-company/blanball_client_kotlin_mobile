@@ -206,7 +206,7 @@ class EventScreenViewModel
                     invitedPlayersList = mutableStateOf(
                         emptyList()
                     ),
-                    invitedFunsList = mutableStateOf(
+                    invitedFansList = mutableStateOf(
                         emptyList()
                     ),
                     eventDuration = mutableIntStateOf(0),
@@ -503,7 +503,7 @@ class EventScreenViewModel
                                     )
                                 ),
                                 invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
-                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile }),
+                                invitedFansList = mutableStateOf(it.data.current_fans.map { fan -> fan.profile }),
                             )
                         }
                         currentState.eventSummaryPrice.value =
