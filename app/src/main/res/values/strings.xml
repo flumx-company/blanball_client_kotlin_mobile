@@ -487,4 +487,8 @@
     <string name="fan">вболівальник</string>
     <string name="event_time_expired">event_time_expired</string>
     <string name="event_time_expired_message">Подія вже закінчилася</string>
+    <string name="no_fans_to_display">Наразі, немає глядачів для відображення</string>
+    <string name="no_users_to_display">Наразі, немає учасників для відображення</string>
+    <string name="we_will_notify_you_users">Як тільки хтось із користувачів приєднається — ми сповістимо вас</string>
+    <string name="we_will_notify_you_fan">Як тільки хтось із глядачів приєднається — ми сповістимо вас</string>
 </resources>
