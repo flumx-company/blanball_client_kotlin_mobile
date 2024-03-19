@@ -1,10 +1,11 @@
 package com.example.blanball.presentation.viewmodels
 
 import android.app.Application
-import android.util.Log
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
@@ -28,10 +29,14 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.JoinToEventAsFunResultEntity
+import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
+import com.example.domain.usecases.interfaces.JoinToEventAsFunUseCase
+import com.example.domain.usecases.interfaces.JoinToEventAsPlayerUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +44,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,6 +61,8 @@ class EventScreenViewModel
     private val creationNewEventUseCase: CreationAnEventUseCase,
     private val searchListUseCase: GetRelevantUserSearchListUseCase,
     private val editEventUseCase: EditEventByIdUseCase,
+    private val joinToEventAsFunUseCase: JoinToEventAsFunUseCase,
+    private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
     private val application: Application,
 
     ) : ViewModel() {
@@ -75,10 +83,20 @@ class EventScreenViewModel
         MutableStateFlow(defaultState)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
+    sealed class UserRole {
+        object PLAYER : UserRole()
+        object FUN : UserRole()
+    }
+
+    sealed class EventToastType {
+        object SUCCESS : EventToastType()
+        object ERROR : EventToastType()
+    }
+
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                loadEventData()
+                getEventById(eventId = currentState.currentEventId.value!!)
             }
 
             is EventScreenMainContract.Event.GetUserPhone -> {
@@ -87,6 +105,33 @@ class EventScreenViewModel
 
             is EventScreenMainContract.Event.CleanStates -> {
                 cleanStates()
+            }
+
+            is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
+                getEventById(eventId = currentState.currentEventId.value!!)
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    durationMillis = 3000,
+                    currentRole = UserRole.PLAYER
+                )
+            }
+
+
+            is EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent -> {
+                getEventById(eventId = currentState.currentEventId.value!!)
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    durationMillis = 3000,
+                    currentRole = UserRole.FUN
+                )
+            }
+
+            is EventScreenMainContract.Event.ErrorJoinToEvent -> {
+                showToastMessage(
+                    toastType = EventToastType.ERROR,
+                    durationMillis = 3000,
+                    currentRole = null
+                )
             }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
@@ -117,6 +162,24 @@ class EventScreenViewModel
                     userSearch()
                 }
             }
+
+            is EventScreenMainContract.Event.JoinToEventAsPlayer -> {
+                setState {
+                    copy(
+                        state = EventScreenMainContract.ScreenViewState.Loading
+                    )
+                }
+                joinToEvent(asWho = UserRole.PLAYER)
+            }
+
+            is EventScreenMainContract.Event.JoinToEventAsFun -> {
+                setState {
+                    copy(
+                        state = EventScreenMainContract.ScreenViewState.Loading
+                    )
+                }
+                joinToEvent(asWho = UserRole.FUN)
+            }
         }
     }
 
@@ -137,7 +200,6 @@ class EventScreenViewModel
                     needFormStates = mutableStateOf(
                         EventScreenMainContract.NeedFormStates.NO_SELECT
                     ),
-                    phoneNumberState = mutableStateOf(""),
                     eventGenders = mutableStateOf(""),
                     endEventTimeState = mutableStateOf(""),
                     maxEventPlayersState = mutableStateOf(""),
@@ -148,7 +210,66 @@ class EventScreenViewModel
                     selectedUserIds = mutableStateOf(emptySet()),
                     selectedUserProfiles = mutableStateOf(emptySet()),
                     priceDescription = mutableStateOf(null),
-                    isPhoneNumInputEnabled = mutableStateOf(false)
+                    isPhoneNumInputEnabled = mutableStateOf(false),
+                    currentEventId = mutableStateOf(null),
+                    invitedPlayersList = mutableStateOf(
+                        emptyList()
+                    ),
+                    invitedFansList = mutableStateOf(
+                        emptyList()
+                    ),
+                    eventDuration = mutableIntStateOf(0),
+                    eventPlaceName = mutableStateOf(""),
+                    eventDescription = mutableStateOf(""),
+                    eventAuthorFirstName = mutableStateOf(""),
+                    eventAuthorLastName = mutableStateOf(""),
+                    eventAuthorPhone = mutableStateOf(""),
+                    eventAuthorAvatar = mutableStateOf(""),
+                    eventPrice = mutableIntStateOf(0),
+                    isMyEvent = mutableStateOf(false),
+                    isDescriptionTextExpanded = mutableStateOf(false),
+                    currentEventAuthorId = mutableIntStateOf(0),
+                    isEventDescriptionVisible = mutableStateOf(false),
+                    eventLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        ),
+                    ),
+                    isErrorEventCreation = mutableStateOf(false),
+                    isErrorEventEdit = mutableStateOf(false),
+                    isSuccessEventEdit = mutableStateOf(false),
+                    isSuccessEventCreation = mutableStateOf(false),
+                    isEventPrivacyStates = mutableStateOf(
+                        EventScreenMainContract.EventPrivacyStates.NO_SELECT
+                    ),
+                    countOfFans = mutableIntStateOf(0),
+                    isEventPrivate = mutableStateOf(false),
+                    isFormNeed = mutableStateOf(false),
+                    isSearchColumnOpen = mutableStateOf(false),
+                    userSearchQuery = mutableStateOf(""),
+                    isValidationActivated = mutableStateOf(false),
+                    eventLocationLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        )
+                    ),
+                    isInvitedUsersDrawerOpen = mutableStateOf(false),
+                    isBottomPreviewDrawerOpen = mutableStateOf(false),
+                    isStartEventTimeModalOpen = mutableStateOf(false),
+                    isDatePickerModalOpen = mutableStateOf(false),
+                    eventSummaryPrice = mutableStateOf(null),
+                    selectRegion = mutableStateOf(""),
+                    selectCity = mutableStateOf(""),
+                    successMessageText = mutableStateOf(""),
+                    isSuccessMessageVisible = mutableStateOf(false),
+                    isUserHasBeenJoinedToEvent = mutableStateOf(false),
+                    errorMessageText = mutableStateOf(""),
+                    isErrorMessageVisible = mutableStateOf(false),
+                    currentUserRole = mutableStateOf(""),
+                    isParticipant = mutableStateOf(false),
+
                 )
             }
         }
@@ -191,7 +312,7 @@ class EventScreenViewModel
             editEventUseCase.executeEditEventById(
                 id = currentState.currentEventId.value ?: 0,
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
-                contact_number = currentState.phoneNumberState.value,
+                contact_number = application.getString(R.string.ua_phone_country_code) + currentState.phoneNumberState.value,
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
                     time = currentState.startEventTimeState.value
@@ -263,7 +384,7 @@ class EventScreenViewModel
         job = viewModelScope.launch(Dispatchers.IO) {
             creationNewEventUseCase.executeCreationAnEvent(
                 amount_members = currentState.maxEventPlayersState.value.toInt(),
-                contact_number = currentState.phoneNumberState.value,
+                contact_number = application.getString(R.string.ua_phone_country_code) + currentState.phoneNumberState.value,
                 current_users = currentState.selectedUserIds.value.toList(),
                 date_and_time = formatToIso8601DateTime(
                     date = currentState.eventDateState.value,
@@ -334,27 +455,14 @@ class EventScreenViewModel
         }
     }
 
-    private fun loadEventData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            setState {
-                copy(
-                    state = EventScreenMainContract.ScreenViewState.Loading
-                )
-            }
-            currentState.currentEventId.value.let { currentEventId ->
-                currentEventId?.let { it ->
-                    getEventById(
-                        eventId = it
-                    )
-                }
-            }
-        }
-    }
-
     private fun getUserPhoneFromDataStore() {
         dataStoreCoroutineScope.launch(Dispatchers.IO) {
             val userPhoneWithoutPrefix =
-                userPhoneManager.getUserPhone().firstOrNull()?.toString()?.removePrefix("+380")
+                userPhoneManager.getUserPhone().firstOrNull()?.toString()?.removePrefix(
+                    application.getString(
+                        R.string.ua_phone_country_code
+                    )
+                )
             setState {
                 copy(
                     phoneNumberState = mutableStateOf(
@@ -368,6 +476,12 @@ class EventScreenViewModel
 
     private fun getEventById(eventId: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Loading
+                )
+            }
+            delay(300)
             val userIdResult = userIdManager.getUserId().firstOrNull()
             getEventByIdUseCase.executeGetEventById(eventId).let {
                 when (it) {
@@ -381,7 +495,7 @@ class EventScreenViewModel
                                 maxEventPlayersState = mutableStateOf(it.data.amount_members.toString()),
                                 sportType = mutableStateOf(it.data.type),
                                 eventDateAndTime = mutableStateOf(it.data.date_and_time),
-                                eventDuration = mutableStateOf(it.data.duration),
+                                eventDuration = mutableIntStateOf(it.data.duration),
                                 eventPlaceName = mutableStateOf(it.data.place.place_name),
                                 eventDescription = mutableStateOf(it.data.description),
                                 eventGenders = mutableStateOf(it.data.gender),
@@ -391,9 +505,13 @@ class EventScreenViewModel
                                 eventAuthorAvatar = mutableStateOf(
                                     it.data.author.profile.avatar_url ?: ""
                                 ),
-                                currentEventAuthorId = mutableStateOf(it.data.author.id),
-                                eventPrice = mutableStateOf(it.data.price ?: 0),
+                                currentEventAuthorId = mutableIntStateOf(it.data.author.id),
+                                eventPrice = mutableIntStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
+                                isParticipant = mutableStateOf(
+                                    it.data.current_users.any { player -> player.id == userIdResult } ||
+                                            it.data.current_fans.any { fan -> fan.id == userIdResult }
+                                ),
                                 priceDescription = mutableStateOf(it.data.price_description),
                                 eventLatLng = mutableStateOf(
                                     LatLng(
@@ -401,11 +519,13 @@ class EventScreenViewModel
                                         it.data.place.lon
                                     )
                                 ),
-                                invitedPlayersList = mutableStateOf(it.data.current_users.map { player -> player.profile }),
-                                invitedFunsList = mutableStateOf(it.data.current_fans.map { observer -> observer.profile}),
-                                state = EventScreenMainContract.ScreenViewState.LoadingSuccess,
+                                invitedPlayersList = mutableStateOf(it.data.current_users),
+                                invitedFansList = mutableStateOf(it.data.current_fans),
+                                state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                             )
                         }
+
+
                         currentState.eventSummaryPrice.value =
                             checkNullIntPriceValue(currentState.eventPrice.value)
                         mapGenderOnEditScreen(
@@ -442,6 +562,110 @@ class EventScreenViewModel
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun joinToEvent(asWho: UserRole) {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            when (asWho) {
+                is UserRole.PLAYER -> {
+                    joinToEventAsPlayerUseCase.executeJoinRequestAsPlayer(
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is JoinToEventAsPlayerResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+
+                            is JoinToEventAsPlayerResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                is UserRole.FUN -> {
+                    joinToEventAsFunUseCase.executeJoinRequestAsFun(
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is JoinToEventAsFunResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+
+                            is JoinToEventAsFunResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showToastMessage(
+        toastType: EventToastType,
+        currentRole: UserRole?,
+        durationMillis: Long
+    ) {
+        when (toastType) {
+            is EventToastType.SUCCESS -> {
+                job = viewModelScope.launch(Dispatchers.Default) {
+                    when (currentRole) {
+                        is UserRole.FUN -> currentState.currentUserRole.value =
+                            application.getString(R.string.fan)
+
+                        is UserRole.PLAYER -> currentState.currentUserRole.value =
+                            application.getString(R.string.player)
+
+                        else -> {}
+                    }
+                    currentState.isUserHasBeenJoinedToEvent.value = true
+                    currentState.isSuccessMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isSuccessMessageVisible.value = false
+                }
+            }
+
+            is EventToastType.ERROR -> {
+                job = viewModelScope.launch(Dispatchers.Default) {
+                    currentState.isErrorMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isErrorMessageVisible.value = false
                 }
             }
         }

@@ -2,7 +2,8 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
+import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
+import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
 import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
@@ -12,19 +13,24 @@ class EventScreenMainContract {
         object CreateNewEventClicked : Event()
         object UsersSearchClicked : Event()
         object EditEventClicked : Event()
-        object CleanStates: Event()
-        object LoadEventData: Event()
-        object GetUserPhone: Event()
+        object CleanStates : Event()
+        object LoadEventData : Event()
+        object GetUserPhone : Event()
+        object JoinToEventAsPlayer : Event()
+        object JoinToEventAsFun : Event()
+        object SuccessfullyJoinAsPlayerToEvent : Event()
+        object SuccessfullyJoinAsFunToEvent : Event()
+        object ErrorJoinToEvent : Event()
     }
 
     data class State(
         val state: ScreenViewState,
         val currentEventId: MutableState<Int?> = mutableStateOf(null),
         val eventName: MutableState<String> = mutableStateOf(""),
-        val invitedPlayersList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+        val invitedPlayersList: MutableState<List<GetEventByIdResponseCurrentUserEntity>> = mutableStateOf(
             emptyList()
         ),
-        val invitedFunsList: MutableState<List<GetEventByIdResponseProfileXEntity>> = mutableStateOf(
+        val invitedFansList: MutableState<List<GetEventByIdResponseCurrentFanEntity>> = mutableStateOf(
             emptyList()
         ),
         val sportType: MutableState<String> = mutableStateOf(""),
@@ -50,13 +56,15 @@ class EventScreenMainContract {
             )
         ),
         val eventType: MutableState<String> = mutableStateOf(""),
-        val playersGenderStates: MutableState<EventScreenMainContract.PlayersGenderStates> = mutableStateOf(
-            EventScreenMainContract.PlayersGenderStates.NO_SELECT
+        val playersGenderStates: MutableState<PlayersGenderStates> = mutableStateOf(
+            PlayersGenderStates.NO_SELECT
         ),
-        val priceStates: MutableState<EventScreenMainContract.PriceStates> = mutableStateOf(
-            EventScreenMainContract.PriceStates.NO_SELECT),
-        val needFormStates: MutableState<EventScreenMainContract.NeedFormStates> = mutableStateOf(
-            EventScreenMainContract.NeedFormStates.NO_SELECT),
+        val priceStates: MutableState<PriceStates> = mutableStateOf(
+            PriceStates.NO_SELECT
+        ),
+        val needFormStates: MutableState<NeedFormStates> = mutableStateOf(
+            NeedFormStates.NO_SELECT
+        ),
         val phoneNumberState: MutableState<String> = mutableStateOf(""),
         val eventDateState: MutableState<String> = mutableStateOf(""),
         val startEventTimeState: MutableState<String> = mutableStateOf(""),
@@ -70,7 +78,8 @@ class EventScreenMainContract {
         val isSuccessEventEdit: MutableState<Boolean> = mutableStateOf(false),
         val isSuccessEventCreation: MutableState<Boolean> = mutableStateOf(false),
         val isEventPrivacyStates: MutableState<EventPrivacyStates> = mutableStateOf(
-            EventPrivacyStates.NO_SELECT),
+            EventPrivacyStates.NO_SELECT
+        ),
         val countOfFans: MutableState<Int> = mutableStateOf(0),
         val isEventPrivate: MutableState<Boolean> = mutableStateOf(false),
         val isFormNeed: MutableState<Boolean> = mutableStateOf(false),
@@ -90,8 +99,11 @@ class EventScreenMainContract {
                 30.523837655782696
             )
         ),
-        val isEditOrCreation: MutableState<EventScreenMainContract.EditOrCreationState> = mutableStateOf(
-            EventScreenMainContract.EditOrCreationState.CREATION),
+        val typesOfEvent: MutableState<List<String>> = mutableStateOf(emptyList()),
+        val typesOfSports: MutableState<List<String>> = mutableStateOf(emptyList()),
+        val isEditOrCreation: MutableState<EditOrCreationState> = mutableStateOf(
+            EditOrCreationState.CREATION
+        ),
         val isInvitedUsersDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isBottomPreviewDrawerOpen: MutableState<Boolean> = mutableStateOf(false),
         val isStartEventTimeModalOpen: MutableState<Boolean> = mutableStateOf(false),
@@ -100,6 +112,13 @@ class EventScreenMainContract {
         val selectRegion: MutableState<String> = mutableStateOf(""),
         val selectCity: MutableState<String> = mutableStateOf(""),
         val isPhoneNumInputEnabled: MutableState<Boolean> = mutableStateOf(false),
+        val successMessageText: MutableState<String> = mutableStateOf(""),
+        val isSuccessMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val isUserHasBeenJoinedToEvent: MutableState<Boolean> = mutableStateOf(false),
+        val errorMessageText: MutableState<String> = mutableStateOf(""),
+        val isErrorMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val currentUserRole: MutableState<String> = mutableStateOf(""),
+        val isParticipant: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

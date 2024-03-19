@@ -23,12 +23,13 @@ import com.example.blanball.presentation.theme.typography
 fun DefaultButton(
     modifier: Modifier = Modifier,
     btnTextResId: Int,
+    color: Color = mainGreen,
     clickCallback: () -> Unit,
 ){
     Box(
        modifier = modifier
            .fillMaxWidth()
-           .background(color = mainGreen, shape = shapes.medium)
+           .background(color = color, shape = shapes.medium)
            .clickable {
                clickCallback()
            }

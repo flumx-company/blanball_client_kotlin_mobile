@@ -1,10 +1,10 @@
 package com.example.blanball.utils.di
 
 import com.example.blanball.utils.NavigationManagerImpl
-import com.example.data.backend.*
-import com.example.data.backend.authentication.AuthApiService
-import com.example.data.backend.authentication.AuthAuthenticator
-import com.example.data.backend.authentication.AuthInterceptor
+import com.example.data.network.*
+import com.example.data.network.authentication.AuthApiService
+import com.example.data.network.authentication.AuthAuthenticator
+import com.example.data.network.authentication.AuthInterceptor
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManagerImpl
 import com.example.data.datastore.remembermemanager.RememberMeManager

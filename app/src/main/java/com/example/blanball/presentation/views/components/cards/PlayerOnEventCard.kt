@@ -27,34 +27,48 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.blanball.R
-import com.example.blanball.presentation.theme.classicRed
 import com.example.blanball.presentation.theme.mainGreen
 import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.ratingbars.RatingBarWithNum
+import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
 
 @Composable
 fun PlayerOnEventCard(
-    userAvatarUrl: String,
-    userFirstName: String,
-    userLastName: String,
-    userPosition: String,
-    userRating: Float,
-    clickCallback: (() -> Unit)? = null
+    clickCallback: (userId: Int) -> Unit?,
+    invitedPlayersList: List<GetEventByIdResponseCurrentUserEntity>
+
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(56.dp)
-        .background(Color.White, shape = shapes.medium)
-        .border(width = 1.dp, color = classicRed, shape = shapes.medium)
-        .padding(horizontal = 12.dp, vertical = 6.dp)
-        .clickable { clickCallback?.let { it() } },
-        contentAlignment = Alignment.Center) {
+    Column {
+        invitedPlayersList.forEachIndexed { index, player ->
+            PlayerItem(player = player, clickCallback = { clickCallback(player.id) })
+            if (index < invitedPlayersList.size - 1) {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun PlayerItem(
+    player: GetEventByIdResponseCurrentUserEntity,
+    clickCallback: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .background(Color.White, shape = shapes.medium)
+            .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .clickable { clickCallback() },
+        contentAlignment = Alignment.Center
+    ) {
         Spacer(modifier = Modifier.size(12.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if (userAvatarUrl.isNullOrEmpty()) {
+            if (player.profile.avatar_url.isNullOrEmpty()) {
                 Box(
                     modifier = Modifier.size(36.dp)
                 ) {
@@ -66,7 +80,7 @@ fun PlayerOnEventCard(
                             .fillMaxSize()
                     )
                     Text(
-                        text = "${userFirstName.firstOrNull() ?: ""}${userLastName.firstOrNull() ?: ""}",
+                        text = "${player.profile.name.firstOrNull() ?: ""}${player.profile.last_name.firstOrNull() ?: ""}",
                         modifier = Modifier.align(
                             Alignment.Center
                         ),
@@ -75,7 +89,7 @@ fun PlayerOnEventCard(
                 }
             } else {
                 Image(
-                    painter = rememberAsyncImagePainter(userAvatarUrl),
+                    painter = rememberAsyncImagePainter(player.profile.avatar_url),
                     contentDescription = null,
                     modifier = Modifier
                         .size(36.dp)
@@ -86,7 +100,7 @@ fun PlayerOnEventCard(
             Spacer(modifier = Modifier.size(10.dp))
             Column {
                 Text(
-                    text = "$userFirstName $userLastName",
+                    text = "${player.profile.name} ${player.profile.last_name}",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,
@@ -94,7 +108,7 @@ fun PlayerOnEventCard(
                     color = primaryDark,
                 )
                 Text(
-                    text = userPosition,
+                    text = player.profile.position ?: "--",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     style = typography.h4,

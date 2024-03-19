@@ -1,157 +1,168 @@
 package com.example.data.utils.ext
 
-import com.example.data.backend.models.responses.errors.CreationAnEventError
-import com.example.data.backend.models.responses.errors.CreationAnEventErrorData
-import com.example.data.backend.models.responses.errors.CreationAnEventErrorDetail
-import com.example.data.backend.models.responses.errors.DataError
-import com.example.data.backend.models.responses.errors.DataResetCompleteError
-import com.example.data.backend.models.responses.errors.EditEventByIdResponseError
-import com.example.data.backend.models.responses.errors.EditEventByIdResponseErrorData
-import com.example.data.backend.models.responses.errors.EditEventByIdResponseErrorDetail
-import com.example.data.backend.models.responses.errors.EditMyProfileError
-import com.example.data.backend.models.responses.errors.EditMyProfileErrorData
-import com.example.data.backend.models.responses.errors.EditMyProfileErrorDetail
-import com.example.data.backend.models.responses.errors.EmailPassDataError
-import com.example.data.backend.models.responses.errors.EmailPassResetError
-import com.example.data.backend.models.responses.errors.EmailPassResetErrors
-import com.example.data.backend.models.responses.errors.GetAllEventResponseError
-import com.example.data.backend.models.responses.errors.GetAllEventResponseErrorData
-import com.example.data.backend.models.responses.errors.GetAllEventResponseErrorDetail
-import com.example.data.backend.models.responses.errors.GetEventByIdResponseError
-import com.example.data.backend.models.responses.errors.GetEventByIdResponseErrorData
-import com.example.data.backend.models.responses.errors.GetEventByIdResponseErrorDetail
-import com.example.data.backend.models.responses.errors.GetIsTechnicalWorkStatusError
-import com.example.data.backend.models.responses.errors.GetIsTechnicalWorkStatusErrorData
-import com.example.data.backend.models.responses.errors.GetIsTechnicalWorkStatusErrorDetail
-import com.example.data.backend.models.responses.errors.GetMyEventsResponseError
-import com.example.data.backend.models.responses.errors.GetMyEventsResponseErrorData
-import com.example.data.backend.models.responses.errors.GetMyEventsResponseErrorDetail
-import com.example.data.backend.models.responses.errors.GetMyProfileError
-import com.example.data.backend.models.responses.errors.GetMyProfileErrorData
-import com.example.data.backend.models.responses.errors.GetMyProfileErrorDetail
-import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListError
-import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListErrorData
-import com.example.data.backend.models.responses.errors.GetRelevantUserSearchListErrorDetail
-import com.example.data.backend.models.responses.errors.GetUkraineCitiesListDataError
-import com.example.data.backend.models.responses.errors.GetUkraineCitiesListError
-import com.example.data.backend.models.responses.errors.GetUkraineCitiesListErrorDetail
-import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdDetailData
-import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdError
-import com.example.data.backend.models.responses.errors.GetUserPlannedEventsByIdErrorData
-import com.example.data.backend.models.responses.errors.GetUserProfileByIdDetailData
-import com.example.data.backend.models.responses.errors.GetUserProfileByIdError
-import com.example.data.backend.models.responses.errors.GetUserProfileByIdErrorData
-import com.example.data.backend.models.responses.errors.GetUserReviewsByIdResponseDetailData
-import com.example.data.backend.models.responses.errors.GetUserReviewsByIdResponseError
-import com.example.data.backend.models.responses.errors.GetUserReviewsByIdResponseErrorData
-import com.example.data.backend.models.responses.errors.GetUsersListResponseError
-import com.example.data.backend.models.responses.errors.GetUsersListResponseErrorData
-import com.example.data.backend.models.responses.errors.GetUsersListResponseErrorDetailData
-import com.example.data.backend.models.responses.errors.LoginError
-import com.example.data.backend.models.responses.errors.LoginErrors
-import com.example.data.backend.models.responses.errors.PostEmailVerifyCodeDataError
-import com.example.data.backend.models.responses.errors.PostEmailVerifyCodeError
-import com.example.data.backend.models.responses.errors.PostEmailVerifyCodeErrorDetail
-import com.example.data.backend.models.responses.errors.RegistrationError
-import com.example.data.backend.models.responses.errors.RegistrationErrorDetail
-import com.example.data.backend.models.responses.errors.RegistrationErrorsData
-import com.example.data.backend.models.responses.errors.ResetCompleteError
-import com.example.data.backend.models.responses.errors.ResetCompleteErrors
-import com.example.data.backend.models.responses.errors.SendCodeDataError
-import com.example.data.backend.models.responses.errors.SendCodeError
-import com.example.data.backend.models.responses.errors.SendCodeErrors
-import com.example.data.backend.models.responses.errors.SendVerifyCodeToUserEmailError
-import com.example.data.backend.models.responses.errors.SendVerifyCodeToUserEmailErrorData
-import com.example.data.backend.models.responses.errors.SendVerifyCodeToUserEmailErrorDataDetail
-import com.example.data.backend.models.responses.errors.UpdateUserProfileResponseError
-import com.example.data.backend.models.responses.errors.UpdateUserProfileResponseErrorData
-import com.example.data.backend.models.responses.errors.UpdateUserProfileResponseErrorDetail
-import com.example.data.backend.models.responses.success.Configuration
-import com.example.data.backend.models.responses.success.CreationAnEventResponse
-import com.example.data.backend.models.responses.success.CreationAnEventResponseData
-import com.example.data.backend.models.responses.success.CreationAnEventResponseForms
-import com.example.data.backend.models.responses.success.CreationAnEventResponsePlace
-import com.example.data.backend.models.responses.success.Data
-import com.example.data.backend.models.responses.success.DataEmailReset
-import com.example.data.backend.models.responses.success.DataResetCompleteResponse
-import com.example.data.backend.models.responses.success.DataSendCode
-import com.example.data.backend.models.responses.success.EditEventByIdResponse
-import com.example.data.backend.models.responses.success.EditEventByIdResponseData
-import com.example.data.backend.models.responses.success.EditMyProfileResponse
-import com.example.data.backend.models.responses.success.EditMyProfileResponseConfiguration
-import com.example.data.backend.models.responses.success.EditMyProfileResponseData
-import com.example.data.backend.models.responses.success.EditMyProfileResponseProfile
-import com.example.data.backend.models.responses.success.GetAllEventResponse
-import com.example.data.backend.models.responses.success.GetAllEventResponseAuthor
-import com.example.data.backend.models.responses.success.GetAllEventResponseData
-import com.example.data.backend.models.responses.success.GetAllEventResponsePlace
-import com.example.data.backend.models.responses.success.GetAllEventResponseProfile
-import com.example.data.backend.models.responses.success.GetAllEventResponseResult
-import com.example.data.backend.models.responses.success.GetEventByIdResponse
-import com.example.data.backend.models.responses.success.GetEventByIdResponseAuthor
-import com.example.data.backend.models.responses.success.GetEventByIdResponseCoordinates
-import com.example.data.backend.models.responses.success.GetEventByIdResponseCurrentFan
-import com.example.data.backend.models.responses.success.GetEventByIdResponseCurrentUser
-import com.example.data.backend.models.responses.success.GetEventByIdResponseData
-import com.example.data.backend.models.responses.success.GetEventByIdResponseForms
-import com.example.data.backend.models.responses.success.GetEventByIdResponsePlace
-import com.example.data.backend.models.responses.success.GetEventByIdResponseProfile
-import com.example.data.backend.models.responses.success.GetEventByIdResponseProfileX
-import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatusResponse
-import com.example.data.backend.models.responses.success.GetIsTechnicalWorkStatusResponseData
-import com.example.data.backend.models.responses.success.GetMyEventsResponse
-import com.example.data.backend.models.responses.success.GetMyEventsResponseAuthor
-import com.example.data.backend.models.responses.success.GetMyEventsResponseData
-import com.example.data.backend.models.responses.success.GetMyEventsResponsePlace
-import com.example.data.backend.models.responses.success.GetMyEventsResponseProfile
-import com.example.data.backend.models.responses.success.GetMyEventsResponseResult
-import com.example.data.backend.models.responses.success.GetMyProfileResponse
-import com.example.data.backend.models.responses.success.GetMyProfileResponseConfiguration
-import com.example.data.backend.models.responses.success.GetMyProfileResponseData
-import com.example.data.backend.models.responses.success.GetMyProfileResponsePlace
-import com.example.data.backend.models.responses.success.GetMyProfileResponseProfile
-import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponse
-import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseData
-import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseProfile
-import com.example.data.backend.models.responses.success.GetRelevantUserSearchListResponseResult
-import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponse
-import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponseData
-import com.example.data.backend.models.responses.success.GetUkraineCitiesListResponseItem
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdAuthorResponse
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdDataResponse
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdPlaceResponse
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdProfileResponse
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdResponse
-import com.example.data.backend.models.responses.success.GetUserPlannedEventsByIdResultResponse
-import com.example.data.backend.models.responses.success.GetUserProfileByIdResponse
-import com.example.data.backend.models.responses.success.GetUserReviewsByIdData
-import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponse
-import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponseAuthor
-import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponseProfile
-import com.example.data.backend.models.responses.success.GetUserReviewsByIdResponseResult
-import com.example.data.backend.models.responses.success.GetUsersListResponse
-import com.example.data.backend.models.responses.success.GetUsersListResponseData
-import com.example.data.backend.models.responses.success.GetUsersListResponseProfile
-import com.example.data.backend.models.responses.success.GetUsersListResponseResult
-import com.example.data.backend.models.responses.success.LoginSuccess
-import com.example.data.backend.models.responses.success.PlayingPlace
-import com.example.data.backend.models.responses.success.PostEmailVerifyCodeResponse
-import com.example.data.backend.models.responses.success.PostEmailVerifyCodeResponseData
-import com.example.data.backend.models.responses.success.PublicProfileDataResponse
-import com.example.data.backend.models.responses.success.PublicProfileResponse
-import com.example.data.backend.models.responses.success.RegistrationData
-import com.example.data.backend.models.responses.success.RegistrationResponse
-import com.example.data.backend.models.responses.success.ResetCompleteResponse
-import com.example.data.backend.models.responses.success.SendCodeResponse
-import com.example.data.backend.models.responses.success.SendEmailPasswordResetSuccess
-import com.example.data.backend.models.responses.success.SendVerifyCodeToUserEmailResponse
-import com.example.data.backend.models.responses.success.SendVerifyCodeToUserEmailResponseData
-import com.example.data.backend.models.responses.success.Tokens
-import com.example.data.backend.models.responses.success.UpdateUserProfileResponse
-import com.example.data.backend.models.responses.success.UpdateUserProfileResponseConfiguration
-import com.example.data.backend.models.responses.success.UpdateUserProfileResponseData
-import com.example.data.backend.models.responses.success.UpdateUserProfileResponsePlace
-import com.example.data.backend.models.responses.success.UpdateUserProfileResponseProfile
+import com.example.data.network.models.responses.errors.CreationAnEventError
+import com.example.data.network.models.responses.errors.CreationAnEventErrorData
+import com.example.data.network.models.responses.errors.CreationAnEventErrorDetail
+import com.example.data.network.models.responses.errors.DataError
+import com.example.data.network.models.responses.errors.DataResetCompleteError
+import com.example.data.network.models.responses.errors.EditEventByIdResponseError
+import com.example.data.network.models.responses.errors.EditEventByIdResponseErrorData
+import com.example.data.network.models.responses.errors.EditEventByIdResponseErrorDetail
+import com.example.data.network.models.responses.errors.EditMyProfileError
+import com.example.data.network.models.responses.errors.EditMyProfileErrorData
+import com.example.data.network.models.responses.errors.EditMyProfileErrorDetail
+import com.example.data.network.models.responses.errors.EmailPassDataError
+import com.example.data.network.models.responses.errors.EmailPassResetError
+import com.example.data.network.models.responses.errors.EmailPassResetErrors
+import com.example.data.network.models.responses.errors.GetAllEventResponseError
+import com.example.data.network.models.responses.errors.GetAllEventResponseErrorData
+import com.example.data.network.models.responses.errors.GetAllEventResponseErrorDetail
+import com.example.data.network.models.responses.errors.GetEventByIdResponseError
+import com.example.data.network.models.responses.errors.GetEventByIdResponseErrorData
+import com.example.data.network.models.responses.errors.GetEventByIdResponseErrorDetail
+import com.example.data.network.models.responses.errors.GetIsTechnicalWorkStatusError
+import com.example.data.network.models.responses.errors.GetIsTechnicalWorkStatusErrorData
+import com.example.data.network.models.responses.errors.GetIsTechnicalWorkStatusErrorDetail
+import com.example.data.network.models.responses.errors.GetMyEventsResponseError
+import com.example.data.network.models.responses.errors.GetMyEventsResponseErrorData
+import com.example.data.network.models.responses.errors.GetMyEventsResponseErrorDetail
+import com.example.data.network.models.responses.errors.GetMyProfileError
+import com.example.data.network.models.responses.errors.GetMyProfileErrorData
+import com.example.data.network.models.responses.errors.GetMyProfileErrorDetail
+import com.example.data.network.models.responses.errors.GetRelevantUserSearchListError
+import com.example.data.network.models.responses.errors.GetRelevantUserSearchListErrorData
+import com.example.data.network.models.responses.errors.GetRelevantUserSearchListErrorDetail
+import com.example.data.network.models.responses.errors.GetUkraineCitiesListDataError
+import com.example.data.network.models.responses.errors.GetUkraineCitiesListError
+import com.example.data.network.models.responses.errors.GetUkraineCitiesListErrorDetail
+import com.example.data.network.models.responses.errors.GetUserPlannedEventsByIdDetailData
+import com.example.data.network.models.responses.errors.GetUserPlannedEventsByIdError
+import com.example.data.network.models.responses.errors.GetUserPlannedEventsByIdErrorData
+import com.example.data.network.models.responses.errors.GetUserProfileByIdDetailData
+import com.example.data.network.models.responses.errors.GetUserProfileByIdError
+import com.example.data.network.models.responses.errors.GetUserProfileByIdErrorData
+import com.example.data.network.models.responses.errors.GetUserReviewsByIdResponseDetailData
+import com.example.data.network.models.responses.errors.GetUserReviewsByIdResponseError
+import com.example.data.network.models.responses.errors.GetUserReviewsByIdResponseErrorData
+import com.example.data.network.models.responses.errors.GetUsersListResponseError
+import com.example.data.network.models.responses.errors.GetUsersListResponseErrorData
+import com.example.data.network.models.responses.errors.GetUsersListResponseErrorDetailData
+import com.example.data.network.models.responses.errors.JoinToEventAsFunDetailData
+import com.example.data.network.models.responses.errors.JoinToEventAsFunError
+import com.example.data.network.models.responses.errors.JoinToEventAsFunErrorData
+import com.example.data.network.models.responses.errors.JoinToEventAsPlayerDetailData
+import com.example.data.network.models.responses.errors.JoinToEventAsPlayerError
+import com.example.data.network.models.responses.errors.JoinToEventAsPlayerErrorData
+import com.example.data.network.models.responses.errors.LoginError
+import com.example.data.network.models.responses.errors.LoginErrors
+import com.example.data.network.models.responses.errors.PostEmailVerifyCodeDataError
+import com.example.data.network.models.responses.errors.PostEmailVerifyCodeError
+import com.example.data.network.models.responses.errors.PostEmailVerifyCodeErrorDetail
+import com.example.data.network.models.responses.errors.RegistrationError
+import com.example.data.network.models.responses.errors.RegistrationErrorDetail
+import com.example.data.network.models.responses.errors.RegistrationErrorsData
+import com.example.data.network.models.responses.errors.ResetCompleteError
+import com.example.data.network.models.responses.errors.ResetCompleteErrors
+import com.example.data.network.models.responses.errors.SendCodeDataError
+import com.example.data.network.models.responses.errors.SendCodeError
+import com.example.data.network.models.responses.errors.SendCodeErrors
+import com.example.data.network.models.responses.errors.SendVerifyCodeToUserEmailError
+import com.example.data.network.models.responses.errors.SendVerifyCodeToUserEmailErrorData
+import com.example.data.network.models.responses.errors.SendVerifyCodeToUserEmailErrorDataDetail
+import com.example.data.network.models.responses.errors.UpdateUserProfileResponseError
+import com.example.data.network.models.responses.errors.UpdateUserProfileResponseErrorData
+import com.example.data.network.models.responses.errors.UpdateUserProfileResponseErrorDetail
+import com.example.data.network.models.responses.success.Configuration
+import com.example.data.network.models.responses.success.CreationAnEventResponse
+import com.example.data.network.models.responses.success.CreationAnEventResponseData
+import com.example.data.network.models.responses.success.CreationAnEventResponseForms
+import com.example.data.network.models.responses.success.CreationAnEventResponsePlace
+import com.example.data.network.models.responses.success.Data
+import com.example.data.network.models.responses.success.DataEmailReset
+import com.example.data.network.models.responses.success.DataResetCompleteResponse
+import com.example.data.network.models.responses.success.DataSendCode
+import com.example.data.network.models.responses.success.EditEventByIdResponse
+import com.example.data.network.models.responses.success.EditEventByIdResponseData
+import com.example.data.network.models.responses.success.EditMyProfileResponse
+import com.example.data.network.models.responses.success.EditMyProfileResponseConfiguration
+import com.example.data.network.models.responses.success.EditMyProfileResponseData
+import com.example.data.network.models.responses.success.EditMyProfileResponseProfile
+import com.example.data.network.models.responses.success.GetAllEventResponse
+import com.example.data.network.models.responses.success.GetAllEventResponseAuthor
+import com.example.data.network.models.responses.success.GetAllEventResponseData
+import com.example.data.network.models.responses.success.GetAllEventResponsePlace
+import com.example.data.network.models.responses.success.GetAllEventResponseProfile
+import com.example.data.network.models.responses.success.GetAllEventResponseResult
+import com.example.data.network.models.responses.success.GetEventByIdResponse
+import com.example.data.network.models.responses.success.GetEventByIdResponseAuthor
+import com.example.data.network.models.responses.success.GetEventByIdResponseCoordinates
+import com.example.data.network.models.responses.success.GetEventByIdResponseCurrentFan
+import com.example.data.network.models.responses.success.GetEventByIdResponseCurrentUser
+import com.example.data.network.models.responses.success.GetEventByIdResponseData
+import com.example.data.network.models.responses.success.GetEventByIdResponseFanProfileX
+import com.example.data.network.models.responses.success.GetEventByIdResponseForms
+import com.example.data.network.models.responses.success.GetEventByIdResponsePlace
+import com.example.data.network.models.responses.success.GetEventByIdResponsePlayerProfileX
+import com.example.data.network.models.responses.success.GetEventByIdResponseProfile
+import com.example.data.network.models.responses.success.GetIsTechnicalWorkStatusResponse
+import com.example.data.network.models.responses.success.GetIsTechnicalWorkStatusResponseData
+import com.example.data.network.models.responses.success.GetMyEventsResponse
+import com.example.data.network.models.responses.success.GetMyEventsResponseAuthor
+import com.example.data.network.models.responses.success.GetMyEventsResponseData
+import com.example.data.network.models.responses.success.GetMyEventsResponsePlace
+import com.example.data.network.models.responses.success.GetMyEventsResponseProfile
+import com.example.data.network.models.responses.success.GetMyEventsResponseResult
+import com.example.data.network.models.responses.success.GetMyProfileResponse
+import com.example.data.network.models.responses.success.GetMyProfileResponseConfiguration
+import com.example.data.network.models.responses.success.GetMyProfileResponseData
+import com.example.data.network.models.responses.success.GetMyProfileResponsePlace
+import com.example.data.network.models.responses.success.GetMyProfileResponseProfile
+import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponse
+import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseData
+import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseProfile
+import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseResult
+import com.example.data.network.models.responses.success.GetUkraineCitiesListResponse
+import com.example.data.network.models.responses.success.GetUkraineCitiesListResponseData
+import com.example.data.network.models.responses.success.GetUkraineCitiesListResponseItem
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdAuthorResponse
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdDataResponse
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdPlaceResponse
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdProfileResponse
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdResponse
+import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdResultResponse
+import com.example.data.network.models.responses.success.GetUserProfileByIdResponse
+import com.example.data.network.models.responses.success.GetUserReviewsByIdData
+import com.example.data.network.models.responses.success.GetUserReviewsByIdResponse
+import com.example.data.network.models.responses.success.GetUserReviewsByIdResponseAuthor
+import com.example.data.network.models.responses.success.GetUserReviewsByIdResponseProfile
+import com.example.data.network.models.responses.success.GetUserReviewsByIdResponseResult
+import com.example.data.network.models.responses.success.GetUsersListResponse
+import com.example.data.network.models.responses.success.GetUsersListResponseData
+import com.example.data.network.models.responses.success.GetUsersListResponseProfile
+import com.example.data.network.models.responses.success.GetUsersListResponseResult
+import com.example.data.network.models.responses.success.JoinToEventAsFunResponse
+import com.example.data.network.models.responses.success.JoinToEventAsFunResponseData
+import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponse
+import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponseData
+import com.example.data.network.models.responses.success.LoginSuccess
+import com.example.data.network.models.responses.success.PlayingPlace
+import com.example.data.network.models.responses.success.PostEmailVerifyCodeResponse
+import com.example.data.network.models.responses.success.PostEmailVerifyCodeResponseData
+import com.example.data.network.models.responses.success.PublicProfileDataResponse
+import com.example.data.network.models.responses.success.PublicProfileResponse
+import com.example.data.network.models.responses.success.RegistrationData
+import com.example.data.network.models.responses.success.RegistrationResponse
+import com.example.data.network.models.responses.success.ResetCompleteResponse
+import com.example.data.network.models.responses.success.SendCodeResponse
+import com.example.data.network.models.responses.success.SendEmailPasswordResetSuccess
+import com.example.data.network.models.responses.success.SendVerifyCodeToUserEmailResponse
+import com.example.data.network.models.responses.success.SendVerifyCodeToUserEmailResponseData
+import com.example.data.network.models.responses.success.Tokens
+import com.example.data.network.models.responses.success.UpdateUserProfileResponse
+import com.example.data.network.models.responses.success.UpdateUserProfileResponseConfiguration
+import com.example.data.network.models.responses.success.UpdateUserProfileResponseData
+import com.example.data.network.models.responses.success.UpdateUserProfileResponsePlace
+import com.example.data.network.models.responses.success.UpdateUserProfileResponseProfile
 import com.example.domain.entity.responses.ConfigurationEntity
 import com.example.domain.entity.responses.CreationAnEventResponseEntity
 import com.example.domain.entity.responses.CreationAnEventResponseEntityData
@@ -183,10 +194,11 @@ import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
 import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
 import com.example.domain.entity.responses.GetEventByIdResponseDataEntity
 import com.example.domain.entity.responses.GetEventByIdResponseEntity
+import com.example.domain.entity.responses.GetEventByIdResponseFanProfileXEntity
 import com.example.domain.entity.responses.GetEventByIdResponseFormsEntity
 import com.example.domain.entity.responses.GetEventByIdResponsePlaceEntity
+import com.example.domain.entity.responses.GetEventByIdResponsePlayerProfileXEntity
 import com.example.domain.entity.responses.GetEventByIdResponseProfileEntity
-import com.example.domain.entity.responses.GetEventByIdResponseProfileXEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntity
 import com.example.domain.entity.responses.GetIsTechnicalWorkStatusResponseEntityData
 import com.example.domain.entity.responses.GetMyEventsResponseEntity
@@ -223,6 +235,10 @@ import com.example.domain.entity.responses.GetUsersListResponseDataEntity
 import com.example.domain.entity.responses.GetUsersListResponseEntity
 import com.example.domain.entity.responses.GetUsersListResponseProfileEntity
 import com.example.domain.entity.responses.GetUsersListResponseResultEntity
+import com.example.domain.entity.responses.JoinToEventAsFunResponseEntity
+import com.example.domain.entity.responses.JoinToEventAsFunResponseEntityData
+import com.example.domain.entity.responses.JoinToEventAsPlayerResponseEntity
+import com.example.domain.entity.responses.JoinToEventAsPlayerResponseEntityData
 import com.example.domain.entity.responses.LoginData
 import com.example.domain.entity.responses.LoginDataError
 import com.example.domain.entity.responses.LoginErrorsDomain
@@ -292,6 +308,12 @@ import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErro
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDataEntity
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDetailDataEntity
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunDetailDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeDataErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntityDetail
@@ -1059,28 +1081,21 @@ internal fun GetEventByIdResponse.toGetEventByIdResponse(): GetEventByIdResponse
 
 internal fun GetEventByIdResponseData.toGetEventByIdResponseDataEntity(): GetEventByIdResponseDataEntity =
     GetEventByIdResponseDataEntity(
-        this.amount_members,
-        this.author.toGetEventByIdResponseAuthor(),
-        this.contact_number,
-        this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
-        this.current_fans.map { it.toGetEventByIdResponseCurrentUserEntity() },
-        this.current_users.map { it.toGetEventByIdResponseCurrentFanEntity() },
-        this.date_and_time,
-        this.description,
-        this.duration,
-        this.forms?.toGetEventByIdResponseFormsEntity(),
-        this.gender,
-        this.id,
-        this.name,
-        this.need_ball,
-        this.need_form,
-        this.place.toGetEventByIdResponsePlaceEntity(),
-        this.price,
-        this.price_description,
-        this.privacy,
-        this.request_user_role,
-        this.status,
-        this.type
+        author = this.author.toGetEventByIdResponseAuthor(),
+        coordinates = this.coordinates.toGetEventByIdResponseCoordinatesEntity(),
+        current_users = this.current_users.map { it.toGetEventByIdResponseCurrentUserEntity() },
+        current_fans = this.current_fans.map { it.toGetEventByIdResponseCurrentFanEntity() },
+        date_and_time = this.date_and_time,
+        description = this.description,
+        duration = this.duration,
+        gender = this.gender,
+        id = this.id,
+        name = this.name,
+        need_ball = this.need_ball,
+        need_form = this.need_form,
+        place = this.place.toGetEventByIdResponsePlaceEntity(),
+        privacy = this.privacy,
+        type = this.type,
     )
 
 internal fun GetEventByIdResponseAuthor.toGetEventByIdResponseAuthor(): GetEventByIdResponseAuthorEntity =
@@ -1098,22 +1113,28 @@ internal fun GetEventByIdResponseCoordinates.toGetEventByIdResponseCoordinatesEn
 
 internal fun GetEventByIdResponseForms.toGetEventByIdResponseFormsEntity(): GetEventByIdResponseFormsEntity =
     GetEventByIdResponseFormsEntity(
-        // TODO("Not implemented on the backend")
     )
 
 internal fun GetEventByIdResponseCurrentFan.toGetEventByIdResponseCurrentFanEntity(): GetEventByIdResponseCurrentFanEntity = GetEventByIdResponseCurrentFanEntity(
     id = this.id,
-    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    profile = this.profile.toGetEventByIdResponseFanProfileXEntity(),
     raiting = this.raiting,
 )
 
 internal fun GetEventByIdResponseCurrentUser.toGetEventByIdResponseCurrentUserEntity(): GetEventByIdResponseCurrentUserEntity = GetEventByIdResponseCurrentUserEntity(
     id = this.id,
-    profile = this.profile.toGetEventByIdResponseProfileXEntity(),
+    profile = this.profile.toGetEventByIdResponsePlayerProfileXEntity(),
     raiting = this.raiting,
 )
 
-internal fun GetEventByIdResponseProfileX.toGetEventByIdResponseProfileXEntity(): GetEventByIdResponseProfileXEntity = GetEventByIdResponseProfileXEntity(
+internal fun GetEventByIdResponseFanProfileX.toGetEventByIdResponseFanProfileXEntity(): GetEventByIdResponseFanProfileXEntity = GetEventByIdResponseFanProfileXEntity(
+    avatar_url = this.avatar_url,
+    last_name = this.last_name,
+    name = this.name,
+    position = this.position,
+    working_leg = this.working_leg
+)
+internal fun GetEventByIdResponsePlayerProfileX.toGetEventByIdResponsePlayerProfileXEntity(): GetEventByIdResponsePlayerProfileXEntity = GetEventByIdResponsePlayerProfileXEntity(
     avatar_url = this.avatar_url,
     last_name = this.last_name,
     name = this.name,
@@ -1432,11 +1453,62 @@ internal fun GetUkraineCitiesListErrorDetail.toGetUkraineCitiesListEntityErrorDe
         detail = this.detail
     )
 
-internal fun priceCheck(price: String,): Int? {
-    return if (price.isEmpty()){
-     null
-    }
-    else {
-        price.toInt()
-    }
-}
+internal fun JoinToEventAsFunResponse.toJoinToEventAsFunResponseEntity(): JoinToEventAsFunResponseEntity =
+    JoinToEventAsFunResponseEntity(
+        code =this.code,
+        data = this.data.toJoinToEventAsFunResponseDataEntity(),
+        status = this.status,
+    )
+
+internal fun JoinToEventAsFunResponseData.toJoinToEventAsFunResponseDataEntity(): JoinToEventAsFunResponseEntityData =
+    JoinToEventAsFunResponseEntityData(
+        success = this.success,
+    )
+
+internal fun JoinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity(): JoinToEventAsPlayerResponseEntity =
+    JoinToEventAsPlayerResponseEntity(
+        code =this.code,
+        data = this.data.toJoinToEventAsPlayerResponseDataEntity(),
+        status = this.status,
+    )
+
+internal fun JoinToEventAsPlayerResponseData.toJoinToEventAsPlayerResponseDataEntity(): JoinToEventAsPlayerResponseEntityData =
+    JoinToEventAsPlayerResponseEntityData(
+        success = this.success,
+    )
+
+internal fun JoinToEventAsFunError.toJoinToEventAsFunErrorEntity(): JoinToEventAsFunErrorEntity =
+    JoinToEventAsFunErrorEntity(
+        code = this.code,
+        data = this.data.toJoinToEventAsFunErrorDataEntity(),
+        status = this.status,
+    )
+
+internal fun JoinToEventAsFunErrorData.toJoinToEventAsFunErrorDataEntity(): JoinToEventAsFunErrorDataEntity =
+    JoinToEventAsFunErrorDataEntity(
+        errors = this.errors.map { it.toJoinToEventAsFunDetailDataEntity() },
+        type = this.type,
+    )
+
+internal fun JoinToEventAsFunDetailData.toJoinToEventAsFunDetailDataEntity(): JoinToEventAsFunDetailDataEntity =
+    JoinToEventAsFunDetailDataEntity(
+        detail = this.detail,
+    )
+
+internal fun JoinToEventAsPlayerError.toJoinToEventAsPlayerErrorEntity(): JoinToEventAsPlayerErrorEntity =
+    JoinToEventAsPlayerErrorEntity(
+        code = this.code,
+        data = this.data.toJoinToEventAsPlayerErrorDataEntity(),
+        status = this.status,
+    )
+
+internal fun JoinToEventAsPlayerErrorData.toJoinToEventAsPlayerErrorDataEntity(): JoinToEventAsPlayerErrorDataEntity =
+    JoinToEventAsPlayerErrorDataEntity(
+        errors = this.errors.map { it.toJoinToEventAsPlayerDetailDataEntity() },
+        type = this.type,
+    )
+
+internal fun JoinToEventAsPlayerDetailData.toJoinToEventAsPlayerDetailDataEntity(): JoinToEventAsPlayerDetailDataEntity =
+    JoinToEventAsPlayerDetailDataEntity(
+        detail = this.detail,
+    )

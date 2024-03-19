@@ -12,8 +12,8 @@ data class GetEventByIdResponseDataEntity(
     val author: GetEventByIdResponseAuthorEntity,
     val contact_number: String? = null,
     val coordinates: GetEventByIdResponseCoordinatesEntity,
-    val current_fans: List<GetEventByIdResponseCurrentUserEntity>,
-    val current_users: List<GetEventByIdResponseCurrentFanEntity>,
+    val current_users: List<GetEventByIdResponseCurrentUserEntity>,
+    val current_fans: List<GetEventByIdResponseCurrentFanEntity>,
     val date_and_time: String,
     val description: String,
     val duration: Int,
@@ -60,20 +60,27 @@ data class GetEventByIdResponseProfileEntity(
 
 data class GetEventByIdResponseCurrentFanEntity(
     val id: Int,
-    val profile: GetEventByIdResponseProfileXEntity,
-    val raiting: Int
+    val profile: GetEventByIdResponseFanProfileXEntity,
+    val raiting: Int? = null,
 )
 
 data class GetEventByIdResponseCurrentUserEntity(
     val id: Int,
-    val profile: GetEventByIdResponseProfileXEntity,
-    val raiting: Int
+    val profile: GetEventByIdResponsePlayerProfileXEntity,
+    val raiting: Int? = null
 )
 
-data class GetEventByIdResponseProfileXEntity(
-    val avatar_url: String,
+data class GetEventByIdResponsePlayerProfileXEntity(
+    val avatar_url: String? = null,
     val last_name: String,
     val name: String,
-    val position: String,
-    val working_leg: String
+    val position: String? = null,
+    val working_leg: String? = null
+)
+data class GetEventByIdResponseFanProfileXEntity(
+    val avatar_url: String? = null,
+    val last_name: String,
+    val name: String,
+    val position: String? = null,
+    val working_leg: String? = null
 )

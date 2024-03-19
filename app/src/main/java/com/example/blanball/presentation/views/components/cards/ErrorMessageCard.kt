@@ -12,10 +12,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -52,8 +51,7 @@ fun ErrorMessageCard(
             Box(
                 modifier = Modifier
                     .border(width = 1.dp, color = errorRed, shape = shapes.medium)
-                    .fillMaxWidth()
-                    .height(40.dp)
+                    .wrapContentHeight()
                     .background(color = bgError, shape = shapes.medium)
                     .padding(6.dp),
                 contentAlignment = Alignment.Center
