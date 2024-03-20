@@ -77,6 +77,7 @@ fun EventScreen(
     onJoinBtnAsFunClick: () -> Unit,
     onJoinBtnAsPlayerClick: () -> Unit,
     onClickedToPublicProfile: (userId: Int) -> Unit,
+    onCancelParticipation: () -> Unit,
 ) {
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -697,15 +698,15 @@ fun EventScreen(
                         onJoinBtnAsPlayerClick = { onJoinBtnAsPlayerClick() },
                         onJoinBtnAsFunClick = { onJoinBtnAsFunClick() },
                         state = state,
-                        onCancelParticipation = {},
+                        onCancelParticipation = { },
                     )
                 }
             }
             SuccessMessageCard(
                 text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value,
-                isMessageVisible = currentState.isSuccessMessageVisible.value,
+                isMessageVisible = currentState.isSuccessJoinMessageVisible.value,
                 onCancelIconClicked = {
-                    currentState.isSuccessMessageVisible.value = false
+                    currentState.isSuccessJoinMessageVisible.value = false
                 }
             )
             ErrorMessageCard(

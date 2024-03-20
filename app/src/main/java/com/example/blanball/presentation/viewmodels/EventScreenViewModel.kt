@@ -31,12 +31,15 @@ import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
 import com.example.domain.entity.results.JoinToEventAsFanResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsFanResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsFunUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsPlayerUseCase
+import com.example.domain.usecases.interfaces.LeaveTheEventUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -61,8 +64,9 @@ class EventScreenViewModel
     private val creationNewEventUseCase: CreationAnEventUseCase,
     private val searchListUseCase: GetRelevantUserSearchListUseCase,
     private val editEventUseCase: EditEventByIdUseCase,
-    private val joinToEventAsFunUseCase: JoinToEventAsFunUseCase,
+    private val joinToEventAsFanUseCase: JoinToEventAsFunUseCase,
     private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
+    private val leaveTheEventUseCase: LeaveTheEventUseCase,
     private val application: Application,
 
     ) : ViewModel() {
@@ -85,12 +89,17 @@ class EventScreenViewModel
 
     sealed class UserRole {
         object PLAYER : UserRole()
-        object FUN : UserRole()
+        object FAN : UserRole()
     }
 
     sealed class EventToastType {
         object SUCCESS : EventToastType()
         object ERROR : EventToastType()
+    }
+
+    sealed class UserAction {
+        object JOIN : UserAction()
+        object LEAVE : UserAction()
     }
 
     fun handleEvent(event: UiEvent) {
@@ -111,26 +120,26 @@ class EventScreenViewModel
                 getEventById(eventId = currentState.currentEventId.value!!)
                 showToastMessage(
                     toastType = EventToastType.SUCCESS,
-                    durationMillis = 3000,
-                    currentRole = UserRole.PLAYER
+                    currentRole = UserRole.PLAYER,
+                    userAction = UserAction.JOIN
                 )
             }
 
 
-            is EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent -> {
+            is EventScreenMainContract.Event.SuccessfullyJoinAsFanToEvent -> {
                 getEventById(eventId = currentState.currentEventId.value!!)
                 showToastMessage(
                     toastType = EventToastType.SUCCESS,
-                    durationMillis = 3000,
-                    currentRole = UserRole.FUN
+                    currentRole = UserRole.FAN,
+                    userAction = UserAction.JOIN
                 )
             }
 
             is EventScreenMainContract.Event.ErrorJoinToEvent -> {
                 showToastMessage(
                     toastType = EventToastType.ERROR,
-                    durationMillis = 3000,
-                    currentRole = null
+                    currentRole = null,
+                    userAction = UserAction.JOIN
                 )
             }
 
@@ -178,7 +187,34 @@ class EventScreenViewModel
                         state = EventScreenMainContract.ScreenViewState.Loading
                     )
                 }
-                joinToEvent(asWho = UserRole.FUN)
+                joinToEvent(asWho = UserRole.FAN)
+            }
+
+            is EventScreenMainContract.Event.LeaveTheEvent -> {
+                setState {
+                    copy(
+                        state = EventScreenMainContract.ScreenViewState.Loading
+                    )
+                }
+                leaveTheEvent()
+            }
+
+            is EventScreenMainContract.Event.SuccessfullyFanCancellationEvent -> {
+                getEventById(eventId = currentState.currentEventId.value!!)
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    currentRole = UserRole.FAN,
+                    userAction = UserAction.LEAVE,
+                )
+            }
+
+            is EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent -> {
+                getEventById(eventId = currentState.currentEventId.value!!)
+                showToastMessage(
+                    toastType = EventToastType.SUCCESS,
+                    currentRole = UserRole.FAN,
+                    userAction = UserAction.LEAVE,
+                )
             }
         }
     }
@@ -263,13 +299,13 @@ class EventScreenViewModel
                     selectRegion = mutableStateOf(""),
                     selectCity = mutableStateOf(""),
                     successMessageText = mutableStateOf(""),
-                    isSuccessMessageVisible = mutableStateOf(false),
+                    isSuccessJoinMessageVisible = mutableStateOf(false),
                     isUserHasBeenJoinedToEvent = mutableStateOf(false),
                     errorMessageText = mutableStateOf(""),
                     isErrorMessageVisible = mutableStateOf(false),
                     currentUserRole = mutableStateOf(""),
-                    isParticipant = mutableStateOf(false),
-
+                    isParticipantAsPlayer = mutableStateOf(false),
+                    isParticipantAsFan = mutableStateOf(false),
                 )
             }
         }
@@ -508,9 +544,11 @@ class EventScreenViewModel
                                 currentEventAuthorId = mutableIntStateOf(it.data.author.id),
                                 eventPrice = mutableIntStateOf(it.data.price ?: 0),
                                 isMyEvent = mutableStateOf(it.data.author.profile.id == userIdResult),
-                                isParticipant = mutableStateOf(
-                                    it.data.current_users.any { player -> player.id == userIdResult } ||
-                                            it.data.current_fans.any { fan -> fan.id == userIdResult }
+                                isParticipantAsPlayer = mutableStateOf(
+                                    it.data.current_users.any { player -> player.id == userIdResult }
+                                ),
+                                isParticipantAsFan = mutableStateOf(
+                                    it.data.current_fans.any { fan -> fan.id == userIdResult }
                                 ),
                                 priceDescription = mutableStateOf(it.data.price_description),
                                 eventLatLng = mutableStateOf(
@@ -602,13 +640,13 @@ class EventScreenViewModel
                     }
                 }
 
-                is UserRole.FUN -> {
-                    joinToEventAsFunUseCase.executeJoinRequestAsFun(
+                is UserRole.FAN -> {
+                    joinToEventAsFanUseCase.executeJoinRequestAsFun(
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
                             is JoinToEventAsFanResultEntity.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent)
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFanToEvent)
                                 setState {
                                     copy(
                                         state = EventScreenMainContract.ScreenViewState.Idle,
@@ -637,16 +675,89 @@ class EventScreenViewModel
         }
     }
 
+
+    private fun leaveTheEvent() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            when {
+                currentState.isParticipantAsPlayer.value -> {
+                    leaveTheEventUseCase.leaveTheEventRequestAsPlayer(
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is LeaveTheEventAsPlayerResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+
+                            is LeaveTheEventAsPlayerResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                currentState.isParticipantAsPlayer.value -> {
+                    leaveTheEventUseCase.leaveTheEventRequestAsFan(
+                        eventId = currentState.currentEventId.value!!
+                    ).let { result ->
+                        when (result) {
+                            is LeaveTheEventAsFanResultEntity.Success -> {
+                                handleEvent(EventScreenMainContract.Event.SuccessfullyFanCancellationEvent)
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+
+                            is LeaveTheEventAsFanResultEntity.Error -> {
+                                when (result.error.detail) {
+                                    application.getString(R.string.event_time_expired) -> {
+                                        currentState.isErrorMessageVisible.value = true
+                                        currentState.errorMessageText.value =
+                                            application.getString(R.string.event_time_expired_message)
+                                    }
+                                }
+                                setState {
+                                    copy(
+                                        state = EventScreenMainContract.ScreenViewState.Idle,
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
     private fun showToastMessage(
         toastType: EventToastType,
         currentRole: UserRole?,
-        durationMillis: Long
+        durationMillis: Long = 3000,
+        userAction: UserAction,
     ) {
         when (toastType) {
             is EventToastType.SUCCESS -> {
                 job = viewModelScope.launch(Dispatchers.Default) {
                     when (currentRole) {
-                        is UserRole.FUN -> currentState.currentUserRole.value =
+                        is UserRole.FAN -> currentState.currentUserRole.value =
                             application.getString(R.string.fan)
 
                         is UserRole.PLAYER -> currentState.currentUserRole.value =
@@ -654,10 +765,21 @@ class EventScreenViewModel
 
                         else -> {}
                     }
-                    currentState.isUserHasBeenJoinedToEvent.value = true
-                    currentState.isSuccessMessageVisible.value = true
-                    delay(durationMillis)
-                    currentState.isSuccessMessageVisible.value = false
+                    when (userAction) {
+                        is UserAction.JOIN -> {
+                            currentState.isUserHasBeenJoinedToEvent.value = true
+                            currentState.isSuccessJoinMessageVisible.value = true
+                            delay(durationMillis)
+                            currentState.isSuccessJoinMessageVisible.value = false
+                        }
+
+                        is UserAction.LEAVE -> {
+                            currentState.isUserHasBeenLeavedTheEvent.value = true
+                            currentState.isSuccessLeaveMessageVisible.value = true
+                            delay(durationMillis)
+                            currentState.isSuccessLeaveMessageVisible.value = false
+                        }
+                    }
                 }
             }
 

@@ -91,7 +91,7 @@ fun EventBottomButtons(
                         )
                     }
                 } else {
-                    if (currentState.isParticipant.value) {
+                    if (currentState.isParticipantAsPlayer.value || currentState.isParticipantAsFan.value ) {
                         Button(
                             onClick = { onCancelParticipation() },
                             modifier = Modifier
