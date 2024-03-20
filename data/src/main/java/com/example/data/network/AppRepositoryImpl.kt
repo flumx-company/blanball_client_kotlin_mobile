@@ -18,6 +18,7 @@ import com.example.data.network.models.requests.EditMyProfileRequestPlace
 import com.example.data.network.models.requests.EditMyProfileRequestProfile
 import com.example.data.network.models.requests.JoinToEventAsFunRequest
 import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
+import com.example.data.network.models.requests.LeaveTheEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.ProfileRegistrationRequest
 import com.example.data.network.models.requests.RegistrationRequest
@@ -45,6 +46,7 @@ import com.example.data.network.models.responses.errors.GetUserReviewsByIdRespon
 import com.example.data.network.models.responses.errors.GetUsersListResponseError
 import com.example.data.network.models.responses.errors.JoinToEventAsFunError
 import com.example.data.network.models.responses.errors.JoinToEventAsPlayerError
+import com.example.data.network.models.responses.errors.LeaveTheEventAsPlayerError
 import com.example.data.network.models.responses.errors.LoginError
 import com.example.data.network.models.responses.errors.PostEmailVerifyCodeError
 import com.example.data.network.models.responses.errors.RegistrationError
@@ -117,6 +119,7 @@ import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErro
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsPlayerErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
@@ -758,7 +761,19 @@ class AppRepositoryImpl @Inject constructor(
     }
 
     override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity {
-        TODO("Not yet implemented")
+        val leaveTheEventAsPlayerResponse = service.leaveTheEventAsPlayer(
+            leaveTheEventAsPlayerRequest = LeaveTheEventAsPlayerRequest(
+                event_id = eventId
+            )
+        )
+        val leaveTheEventAsPlayerResponseDomain =
+            leaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity()
+        LeaveTheEventAsPlayerResultEntity.Success(leaveTheEventAsPlayerResponseDomain.data)
+    } catch (ex: HttpException) {
+        val errorResponse =
+            handleHttpError<LeaveTheEventAsPlayerError, LeaveTheEventAsPlayerErrorEntity>(ex) { it.toLeaveTheEventAsPlayerErrorEntity() }
+        LeaveTheEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
+    }
     }
 
     override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity {

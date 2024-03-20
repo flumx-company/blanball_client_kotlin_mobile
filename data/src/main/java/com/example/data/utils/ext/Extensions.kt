@@ -53,6 +53,12 @@ import com.example.data.network.models.responses.errors.JoinToEventAsFunErrorDat
 import com.example.data.network.models.responses.errors.JoinToEventAsPlayerDetailData
 import com.example.data.network.models.responses.errors.JoinToEventAsPlayerError
 import com.example.data.network.models.responses.errors.JoinToEventAsPlayerErrorData
+import com.example.data.network.models.responses.errors.LeaveTheEventAsFunDetailData
+import com.example.data.network.models.responses.errors.LeaveTheEventAsFunError
+import com.example.data.network.models.responses.errors.LeaveTheEventAsFunErrorData
+import com.example.data.network.models.responses.errors.LeaveTheEventAsPlayerDetailData
+import com.example.data.network.models.responses.errors.LeaveTheEventAsPlayerError
+import com.example.data.network.models.responses.errors.LeaveTheEventAsPlayerErrorData
 import com.example.data.network.models.responses.errors.LoginError
 import com.example.data.network.models.responses.errors.LoginErrors
 import com.example.data.network.models.responses.errors.PostEmailVerifyCodeDataError
@@ -144,6 +150,10 @@ import com.example.data.network.models.responses.success.JoinToEventAsFunRespons
 import com.example.data.network.models.responses.success.JoinToEventAsFunResponseData
 import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponse
 import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponseData
+import com.example.data.network.models.responses.success.LeaveTheEventAsFanResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsFanResponseData
+import com.example.data.network.models.responses.success.LeaveTheEventAsPlayerResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsPlayerResponseData
 import com.example.data.network.models.responses.success.LoginSuccess
 import com.example.data.network.models.responses.success.PlayingPlace
 import com.example.data.network.models.responses.success.PostEmailVerifyCodeResponse
@@ -163,6 +173,72 @@ import com.example.data.network.models.responses.success.UpdateUserProfileRespon
 import com.example.data.network.models.responses.success.UpdateUserProfileResponseData
 import com.example.data.network.models.responses.success.UpdateUserProfileResponsePlace
 import com.example.data.network.models.responses.success.UpdateUserProfileResponseProfile
+import com.example.domain.entity.responses.errors.CreationAnEventErrorDetailEntity
+import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
+import com.example.domain.entity.responses.errors.CreationAnEventErrorEntityData
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDetailEntity
+import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityData
+import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityDetail
+import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
+import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorData
+import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorDetail
+import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorDetailEntity
+import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorDataEntity
+import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorDetailEntity
+import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
+import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
+import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseErrorData
+import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseErrorDetail
+import com.example.domain.entity.responses.errors.GetMyProfileErrorDataEntity
+import com.example.domain.entity.responses.errors.GetMyProfileErrorDetailEntity
+import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
+import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityData
+import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityDetail
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorData
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorDetail
+import com.example.domain.entity.responses.errors.GetUkraineCitiesListErrorEntity
+import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdDetailDataEntity
+import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorDataEntity
+import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
+import com.example.domain.entity.responses.errors.GetUserProfileByIdDetailDataEntity
+import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorDataEntity
+import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorEntity
+import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseDetailDataEntity
+import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorDataEntity
+import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorEntity
+import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDataEntity
+import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDetailDataEntity
+import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunDetailDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorDataEntity
+import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsFunDetailDataEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsFunErrorDataEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsFunErrorEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsPlayerDetailDataEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsPlayerErrorDataEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsPlayerErrorEntity
+import com.example.domain.entity.responses.errors.PostEmailVerifyCodeDataErrorEntity
+import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
+import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntityDetail
+import com.example.domain.entity.responses.errors.RegistrationErrorDetailEntity
+import com.example.domain.entity.responses.errors.RegistrationErrorEntity
+import com.example.domain.entity.responses.errors.RegistrationErrorsDataEntity
+import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
+import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntityData
+import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntityDataDetail
+import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorData
+import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorDetail
 import com.example.domain.entity.responses.success.ConfigurationEntity
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntity
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityData
@@ -239,6 +315,10 @@ import com.example.domain.entity.responses.success.JoinToEventAsFunResponseEntit
 import com.example.domain.entity.responses.success.JoinToEventAsFunResponseEntityData
 import com.example.domain.entity.responses.success.JoinToEventAsPlayerResponseEntity
 import com.example.domain.entity.responses.success.JoinToEventAsPlayerResponseEntityData
+import com.example.domain.entity.responses.success.LeaveTheEventAsFanResponseEntity
+import com.example.domain.entity.responses.success.LeaveTheEventAsFanResponseEntityData
+import com.example.domain.entity.responses.success.LeaveTheEventAsPlayerResponseEntity
+import com.example.domain.entity.responses.success.LeaveTheEventAsPlayerResponseEntityData
 import com.example.domain.entity.responses.success.LoginData
 import com.example.domain.entity.responses.success.LoginDataError
 import com.example.domain.entity.responses.success.LoginErrorsDomain
@@ -266,66 +346,6 @@ import com.example.domain.entity.responses.success.UpdateUserProfileResponseData
 import com.example.domain.entity.responses.success.UpdateUserProfileResponseEntity
 import com.example.domain.entity.responses.success.UpdateUserProfileResponsePlaceEntity
 import com.example.domain.entity.responses.success.UpdateUserProfileResponseProfileEntity
-import com.example.domain.entity.responses.errors.CreationAnEventErrorDetailEntity
-import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
-import com.example.domain.entity.responses.errors.CreationAnEventErrorEntityData
-import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDataEntity
-import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDetailEntity
-import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
-import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
-import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityData
-import com.example.domain.entity.responses.errors.EditMyProfileErrorEntityDetail
-import com.example.domain.entity.responses.errors.GetAllEventEntityResponseError
-import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorData
-import com.example.domain.entity.responses.errors.GetAllEventEntityResponseErrorDetail
-import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorDataEntity
-import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorDetailEntity
-import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntity
-import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorDataEntity
-import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorDetailEntity
-import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
-import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
-import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseErrorData
-import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseErrorDetail
-import com.example.domain.entity.responses.errors.GetMyProfileErrorDataEntity
-import com.example.domain.entity.responses.errors.GetMyProfileErrorDetailEntity
-import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
-import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
-import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityData
-import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityDetail
-import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorData
-import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorDetail
-import com.example.domain.entity.responses.errors.GetUkraineCitiesListErrorEntity
-import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdDetailDataEntity
-import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorDataEntity
-import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
-import com.example.domain.entity.responses.errors.GetUserProfileByIdDetailDataEntity
-import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorDataEntity
-import com.example.domain.entity.responses.errors.GetUserProfileByIdErrorEntity
-import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseDetailDataEntity
-import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorDataEntity
-import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErrorEntity
-import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDataEntity
-import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDetailDataEntity
-import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsFunDetailDataEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorDataEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorDataEntity
-import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorEntity
-import com.example.domain.entity.responses.errors.PostEmailVerifyCodeDataErrorEntity
-import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
-import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntityDetail
-import com.example.domain.entity.responses.errors.RegistrationErrorDetailEntity
-import com.example.domain.entity.responses.errors.RegistrationErrorEntity
-import com.example.domain.entity.responses.errors.RegistrationErrorsDataEntity
-import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
-import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntityData
-import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntityDataDetail
-import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorData
-import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorDetail
 
 internal fun RegistrationError.toRegistrationErrorEntity(): RegistrationErrorEntity =
     RegistrationErrorEntity(
@@ -1510,5 +1530,64 @@ internal fun JoinToEventAsPlayerErrorData.toJoinToEventAsPlayerErrorDataEntity()
 
 internal fun JoinToEventAsPlayerDetailData.toJoinToEventAsPlayerDetailDataEntity(): JoinToEventAsPlayerDetailDataEntity =
     JoinToEventAsPlayerDetailDataEntity(
+        detail = this.detail,
+    )
+
+internal fun LeaveTheEventAsFanResponse.toLeaveTheEventAsFanResponseEntity() = LeaveTheEventAsFanResponseEntity(
+    code = this.code,
+    data = this.data.toLeaveTheEventAsFanResponseEntityData(),
+    status = this.status,
+)
+
+internal fun LeaveTheEventAsFanResponseData.toLeaveTheEventAsFanResponseEntityData(): LeaveTheEventAsFanResponseEntityData =
+    LeaveTheEventAsFanResponseEntityData(
+        success = this.success,
+    )
+
+internal fun LeaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity(): LeaveTheEventAsPlayerResponseEntity =
+    LeaveTheEventAsPlayerResponseEntity(
+        code =this.code,
+        data = this.data.toLeaveTheEventAsPlayerResponseDataEntity(),
+        status = this.status,
+    )
+
+internal fun LeaveTheEventAsPlayerResponseData.toLeaveTheEventAsPlayerResponseDataEntity(): LeaveTheEventAsPlayerResponseEntityData =
+    LeaveTheEventAsPlayerResponseEntityData(
+        success = this.success,
+    )
+
+internal fun LeaveTheEventAsFunError.toLeaveTheEventAsFunErrorEntity(): LeaveTheEventAsFunErrorEntity =
+    LeaveTheEventAsFunErrorEntity(
+        code = this.code,
+        data = this.data.toLeaveTheEventAsFunErrorDataEntity(),
+        status = this.status,
+    )
+
+internal fun LeaveTheEventAsFunErrorData.toLeaveTheEventAsFunErrorDataEntity(): LeaveTheEventAsFunErrorDataEntity =
+    LeaveTheEventAsFunErrorDataEntity(
+        errors = this.errors.map { it.toLeaveTheEventAsFunDetailDataEntity() },
+        type = this.type,
+    )
+
+internal fun LeaveTheEventAsFunDetailData.toLeaveTheEventAsFunDetailDataEntity(): LeaveTheEventAsFunDetailDataEntity =
+    LeaveTheEventAsFunDetailDataEntity(
+        detail = this.detail,
+    )
+
+internal fun LeaveTheEventAsPlayerError.toLeaveTheEventAsPlayerErrorEntity(): LeaveTheEventAsPlayerErrorEntity =
+    LeaveTheEventAsPlayerErrorEntity(
+        code = this.code,
+        data = this.data.toLeaveTheEventAsPlayerErrorDataEntity(),
+        status = this.status,
+    )
+
+internal fun LeaveTheEventAsPlayerErrorData.toLeaveTheEventAsPlayerErrorDataEntity(): LeaveTheEventAsPlayerErrorDataEntity =
+    LeaveTheEventAsPlayerErrorDataEntity(
+        errors = this.errors.map { it.toLeaveTheEventAsPlayerDetailDataEntity() },
+        type = this.type,
+    )
+
+internal fun LeaveTheEventAsPlayerDetailData.toLeaveTheEventAsPlayerDetailDataEntity(): LeaveTheEventAsPlayerDetailDataEntity =
+    LeaveTheEventAsPlayerDetailDataEntity(
         detail = this.detail,
     )
