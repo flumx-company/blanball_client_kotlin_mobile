@@ -7,14 +7,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -43,49 +44,46 @@ fun SuccessMessageCard(
         enter = fadeIn(animationSpec = tween(durationMillis = 300)),
         exit = fadeOut(animationSpec = tween(durationMillis = 300))
     ) {
-        Column(
-            modifier = Modifier.padding(
-                10.dp
-            ),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Box(
-                modifier = Modifier
-                    .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .background(color = surfaceBrandSecondary, shape = shapes.medium)
-                    .padding(6.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+        Column {
+            Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Box(
+                    modifier = Modifier
+                        .border(width = 1.dp, color = mainGreen, shape = shapes.medium)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(color = surfaceBrandSecondary, shape = shapes.medium)
+                        .padding(6.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        modifier = Modifier.size(21.5.dp),
-                        painter = painterResource(R.drawable.ic_check_field),
-                        contentDescription = null,
-                        tint = mainGreen,
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    Text(
-                        text = text,
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp,
-                        style = typography.h4,
-                        fontWeight = FontWeight(400),
-                        color = primaryDark,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Icon(
-                        modifier = Modifier.clickable { onCancelIconClicked() },
-                        painter = painterResource(R.drawable.ic_cancel),
-                        contentDescription = null,
-                        tint = primaryDark,
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            modifier = Modifier.size(21.5.dp),
+                            painter = painterResource(R.drawable.ic_check_field),
+                            contentDescription = null,
+                            tint = mainGreen,
+                        )
+                        Spacer(modifier = Modifier.size(6.dp))
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = text,
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp,
+                            style = typography.h4,
+                            maxLines = 2,
+                            fontWeight = FontWeight(400),
+                            color = primaryDark,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            modifier = Modifier.size(24.dp).clickable { onCancelIconClicked() },
+                            painter = painterResource(R.drawable.ic_cancel),
+                            contentDescription = null,
+                            tint = primaryDark,
+                        )
+                    }
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

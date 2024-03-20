@@ -2,9 +2,9 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
-import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
-import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
+import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentFanEntity
+import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentUserEntity
+import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
 class EventScreenMainContract {
@@ -19,7 +19,10 @@ class EventScreenMainContract {
         object JoinToEventAsPlayer : Event()
         object JoinToEventAsFun : Event()
         object SuccessfullyJoinAsPlayerToEvent : Event()
-        object SuccessfullyJoinAsFunToEvent : Event()
+        object SuccessfullyJoinAsFanToEvent : Event()
+        object LeaveTheEvent: Event()
+        object SuccessfullyFanCancellationEvent: Event()
+        object SuccessfullyPlayerCancellationEvent : Event()
         object ErrorJoinToEvent : Event()
     }
 
@@ -113,12 +116,15 @@ class EventScreenMainContract {
         val selectCity: MutableState<String> = mutableStateOf(""),
         val isPhoneNumInputEnabled: MutableState<Boolean> = mutableStateOf(false),
         val successMessageText: MutableState<String> = mutableStateOf(""),
-        val isSuccessMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessJoinMessageVisible: MutableState<Boolean> = mutableStateOf(false),
+        val isSuccessLeaveMessageVisible: MutableState<Boolean> = mutableStateOf(false),
         val isUserHasBeenJoinedToEvent: MutableState<Boolean> = mutableStateOf(false),
+        val isUserHasBeenLeavedTheEvent: MutableState<Boolean> = mutableStateOf(false),
         val errorMessageText: MutableState<String> = mutableStateOf(""),
         val isErrorMessageVisible: MutableState<Boolean> = mutableStateOf(false),
         val currentUserRole: MutableState<String> = mutableStateOf(""),
-        val isParticipant: MutableState<Boolean> = mutableStateOf(false),
+        val isParticipantAsPlayer: MutableState<Boolean> = mutableStateOf(false),
+        val isParticipantAsFan: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

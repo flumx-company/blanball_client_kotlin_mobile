@@ -1,13 +1,13 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.JoinToEventAsFunResponseEntityData
-import com.example.domain.entity.responses.JoinToEventAsPlayerResponseEntityData
 import com.example.domain.entity.responses.errors.JoinToEventAsFunDetailDataEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataEntity
+import com.example.domain.entity.responses.success.JoinToEventAsFunResponseEntityData
+import com.example.domain.entity.responses.success.JoinToEventAsPlayerResponseEntityData
 
-sealed class JoinToEventAsFunResultEntity {
-    data class Success(val data: JoinToEventAsFunResponseEntityData) : JoinToEventAsFunResultEntity()
-    data class Error(val error: JoinToEventAsFunDetailDataEntity) : JoinToEventAsFunResultEntity()
+sealed class JoinToEventAsFanResultEntity {
+    data class Success(val data: JoinToEventAsFunResponseEntityData) : JoinToEventAsFanResultEntity()
+    data class Error(val error: JoinToEventAsFunDetailDataEntity) : JoinToEventAsFanResultEntity()
 }
 
 sealed class JoinToEventAsPlayerResultEntity {

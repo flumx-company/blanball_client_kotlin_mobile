@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.UpdateUserProfileResponseDataEntity
+import com.example.domain.entity.responses.success.UpdateUserProfileResponseDataEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorDetail
 
 sealed class FillingTheUserProfileResultEntity {

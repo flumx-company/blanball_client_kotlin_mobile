@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.EditMyProfileResultEntity
@@ -17,8 +17,10 @@ import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.GetUsersListResultEntity
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
+import com.example.domain.entity.results.JoinToEventAsFanResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsFanResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResultEntity
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
@@ -175,7 +177,11 @@ interface AppRepository {
 
     suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity
 
-    suspend fun joinToEventAsFun(eventId: Int): JoinToEventAsFunResultEntity
+    suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResultEntity
 
     suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity
+
+    suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity
+
+    suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity
 }

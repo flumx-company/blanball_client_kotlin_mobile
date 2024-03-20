@@ -483,6 +483,7 @@
     <string name="play">Грати</string>
     <string name="cheer">Вболівати</string>
     <string name="you_have_successfully_joined_as">Ви успішно долучилися до участі, як</string>
+    <string name="you_have_successfully_leaved">Ви успішно скасували участь у події</string>
     <string name="player">гравець</string>
     <string name="fan">вболівальник</string>
     <string name="event_time_expired">event_time_expired</string>

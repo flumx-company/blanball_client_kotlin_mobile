@@ -1,7 +1,7 @@
 package com.example.domain.entity.results
 
 import com.example.domain.entity.responses.errors.CreationAnEventErrorDetailEntity
-import com.example.domain.entity.responses.CreationAnEventResponseEntityData
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityData
 
 sealed class CreationAnEventResultEntity {
     data class Success(val data: CreationAnEventResponseEntityData) : CreationAnEventResultEntity()

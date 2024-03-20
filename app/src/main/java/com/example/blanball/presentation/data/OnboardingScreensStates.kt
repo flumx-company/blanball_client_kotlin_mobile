@@ -2,7 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntityData
+import com.example.domain.entity.responses.success.GetUkraineCitiesListResponseEntityData
 
 class OnboardingScreensStatesMainContract {
 

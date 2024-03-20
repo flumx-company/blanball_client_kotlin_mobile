@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.EditEventByIdResponseEntityData
+import com.example.domain.entity.responses.success.EditEventByIdResponseEntityData
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorDetailEntity
 
 sealed class EditEventByIdResultEntity {

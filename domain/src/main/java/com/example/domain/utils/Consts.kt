@@ -33,6 +33,8 @@ object Endpoints {
     const val GET_UKRAINE_CITIES_ENDPOINT = BuildConfig.GET_UKRAINE_CITIES_ENDPOINT
     const val JOIN_TO_EVENT_AS_PLAYER = BuildConfig.JOIN_TO_EVENT_AS_PLAYER
     const val JOIN_TO_EVENT_AS_FUN = BuildConfig.JOIN_TO_EVENT_AS_FUN
+    const val LEAVE_THE_EVENT_AS_PLAYER = BuildConfig.LEAVE_THE_EVENT_AS_PLAYER
+    const val LEAVE_THE_EVENT_AS_FUN = BuildConfig.LEAVE_THE_EVENT_AS_FUN
 }
 
 object Code {

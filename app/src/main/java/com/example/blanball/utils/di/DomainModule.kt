@@ -17,6 +17,7 @@ import com.example.domain.usecases.implementations.GetUserReviewsByIdUseCaseImpl
 import com.example.domain.usecases.implementations.GetUsersListUseCaseImpl
 import com.example.domain.usecases.implementations.JoinToEventAsFunUseCaseImpl
 import com.example.domain.usecases.implementations.JoinToEventAsPlayerUseCaseImpl
+import com.example.domain.usecases.implementations.LeaveTheEventUseCaseImpl
 import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
 import com.example.domain.usecases.implementations.SendingRequestToChangeUserProfileUseCaseImpl
@@ -38,6 +39,7 @@ import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsFunUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsPlayerUseCase
+import com.example.domain.usecases.interfaces.LeaveTheEventUseCase
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
 import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
@@ -112,4 +114,7 @@ interface DomainModule {
 
     @Binds
     fun bindJoinToEventAsPlayerUseCase(joinToEventAsPlayerUseCaseImpl: JoinToEventAsPlayerUseCaseImpl): JoinToEventAsPlayerUseCase
+
+    @Binds
+    fun bindLeaveTheEventUseCase(leaveTheEventUseCaseImpl: LeaveTheEventUseCaseImpl): LeaveTheEventUseCase
 }
