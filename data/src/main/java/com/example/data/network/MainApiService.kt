@@ -22,6 +22,7 @@ import com.example.data.network.models.responses.success.GetEventByIdResponse
 import com.example.data.network.models.responses.success.GetIsTechnicalWorkStatusResponse
 import com.example.data.network.models.responses.success.GetMyEventsResponse
 import com.example.data.network.models.responses.success.GetMyProfileResponse
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponse
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponse
 import com.example.data.network.models.responses.success.GetUkraineCitiesListResponse
 import com.example.data.network.models.responses.success.GetUserPlannedEventsByIdResponse
@@ -168,5 +169,10 @@ interface MainApiService {
     suspend fun joinToEventAsFun(
         @Body joinToEventAsFunRequest: JoinToEventAsFunRequest
     ): JoinToEventAsFunResponse
+
+    @GET(Endpoints.PRIVATE_EVENT_REQUESTS_LIST)
+    suspend fun getPrivateEventRequestList(
+        @Query("id") id: Int
+    ): GetPrivateRequestListResponse
 }
 

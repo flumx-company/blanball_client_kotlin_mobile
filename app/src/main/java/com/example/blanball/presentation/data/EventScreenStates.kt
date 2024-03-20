@@ -2,9 +2,9 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetEventByIdResponseCurrentFanEntity
-import com.example.domain.entity.responses.GetEventByIdResponseCurrentUserEntity
-import com.example.domain.entity.responses.GetRelevantUserSearchListResponseEntityResult
+import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentFanEntity
+import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentUserEntity
+import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
 class EventScreenMainContract {

@@ -2,8 +2,8 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetUserPlannedEventsByIdResultResponseEntity
-import com.example.domain.entity.responses.GetUserReviewsByIdResponseResultEntity
+import com.example.domain.entity.responses.success.GetUserPlannedEventsByIdResultResponseEntity
+import com.example.domain.entity.responses.success.GetUserReviewsByIdResponseResultEntity
 
 class PublicProfileMainContract {
 

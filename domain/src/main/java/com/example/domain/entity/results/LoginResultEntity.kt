@@ -1,7 +1,7 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.LoginData
-import com.example.domain.entity.responses.LoginErrorsDomain
+import com.example.domain.entity.responses.success.LoginData
+import com.example.domain.entity.responses.success.LoginErrorsDomain
 
 sealed class LoginResultEntity {
     data class Success(val data: LoginData) : LoginResultEntity()

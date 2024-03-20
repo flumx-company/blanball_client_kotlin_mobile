@@ -1,4 +1,4 @@
-package com.example.domain.entity.responses
+package com.example.domain.entity.responses.success
 
 data class SendVerifyCodeToUserEmailResponseEntity(
     val code: Int,

@@ -3,7 +3,7 @@ package com.example.blanball.presentation.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.blanball.utils.EventTab
-import com.example.domain.entity.responses.GetAllEventResponseEntityResult
+import com.example.domain.entity.responses.success.GetAllEventResponseEntityResult
 import com.example.domain.utils.Strings
 
 class FutureEventsMainContract {

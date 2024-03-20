@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.GetUsersListResponseDataEntity
+import com.example.domain.entity.responses.success.GetUsersListResponseDataEntity
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorDetailDataEntity
 
 sealed class GetUsersListResultEntity {
