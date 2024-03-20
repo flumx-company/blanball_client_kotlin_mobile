@@ -686,11 +686,6 @@ class EventScreenViewModel
                         when (result) {
                             is LeaveTheEventAsPlayerResultEntity.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent)
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
                             }
 
                             is LeaveTheEventAsPlayerResultEntity.Error -> {
@@ -711,7 +706,7 @@ class EventScreenViewModel
                     }
                 }
 
-                currentState.isParticipantAsPlayer.value -> {
+                currentState.isParticipantAsFan.value -> {
                     leaveTheEventUseCase.leaveTheEventRequestAsFan(
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->

@@ -702,27 +702,31 @@ fun EventScreen(
                     )
                 }
             }
-            SuccessMessageCard(
-                text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value,
-                isMessageVisible = currentState.isSuccessJoinMessageVisible.value,
-                onCancelIconClicked = {
-                    currentState.isSuccessJoinMessageVisible.value = false
-                }
-            )
-            SuccessMessageCard(
-                text = stringResource(R.string.you_have_successfully_leaved),
-                isMessageVisible = currentState.isSuccessLeaveMessageVisible.value,
-                onCancelIconClicked = {
-                    currentState.isSuccessLeaveMessageVisible.value = false
-                }
-            )
-            ErrorMessageCard(
-                text = currentState.errorMessageText.value,
-                isMessageVisible = currentState.isErrorMessageVisible.value,
-                onCancelIconClicked = {
-                    currentState.isErrorMessageVisible.value = false
-                }
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                SuccessMessageCard(
+                    text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value,
+                    isMessageVisible = currentState.isSuccessJoinMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isSuccessJoinMessageVisible.value = false
+                    }
+                )
+                SuccessMessageCard(
+                    text = stringResource(R.string.you_have_successfully_leaved),
+                    isMessageVisible = currentState.isSuccessLeaveMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isSuccessLeaveMessageVisible.value = false
+                    }
+                )
+                ErrorMessageCard(
+                    text = currentState.errorMessageText.value,
+                    isMessageVisible = currentState.isErrorMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isErrorMessageVisible.value = false
+                    }
+                )
+            }
         }
     }
 }
