@@ -1,6 +1,5 @@
 package com.example.data.network
 
-import android.util.Log
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -166,7 +165,6 @@ import com.example.domain.repository.AppRepository
 import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.firstOrNull
 import retrofit2.HttpException
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
@@ -697,9 +695,6 @@ class AppRepositoryImpl @Inject constructor(
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
             LoginResultEntity.Error(errorResponse.data.errors[0])
-        } catch (connectEx: SocketTimeoutException) {
-            Log.d("Timeout", connectEx.toString())
-            LoginResultEntity.Error(error(connectEx.toString()))
         }
     }
 
