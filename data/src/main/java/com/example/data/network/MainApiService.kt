@@ -32,6 +32,8 @@ import com.example.data.network.models.responses.success.GetUserReviewsByIdRespo
 import com.example.data.network.models.responses.success.GetUsersListResponse
 import com.example.data.network.models.responses.success.JoinToEventAsFunResponse
 import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsFanResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsPlayerResponse
 import com.example.data.network.models.responses.success.LoginSuccess
 import com.example.data.network.models.responses.success.PostEmailVerifyCodeResponse
 import com.example.data.network.models.responses.success.RegistrationResponse
@@ -40,8 +42,6 @@ import com.example.data.network.models.responses.success.SendCodeResponse
 import com.example.data.network.models.responses.success.SendEmailPasswordResetSuccess
 import com.example.data.network.models.responses.success.SendVerifyCodeToUserEmailResponse
 import com.example.data.network.models.responses.success.UpdateUserProfileResponse
-import com.example.domain.entity.responses.success.LeaveTheEventAsFanResponseEntityData
-import com.example.domain.entity.responses.success.LeaveTheEventAsPlayerResponseEntity
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -176,11 +176,11 @@ interface MainApiService {
     @POST(Endpoints.LEAVE_THE_EVENT_AS_PLAYER)
     suspend fun leaveTheEventAsPlayer(
         @Body leaveTheEventAsPlayerRequest: LeaveTheEventAsPlayerRequest
-    ): LeaveTheEventAsPlayerResponseEntity
+    ): LeaveTheEventAsPlayerResponse
 
     @POST(Endpoints.LEAVE_THE_EVENT_AS_FUN)
     suspend fun leaveTheEventAsFan(
         @Body leaveTheEventAsFanRequest: LeaveTheEventAsFanRequest
-    ): LeaveTheEventAsFanResponseEntityData
+    ): LeaveTheEventAsFanResponse
 }
 

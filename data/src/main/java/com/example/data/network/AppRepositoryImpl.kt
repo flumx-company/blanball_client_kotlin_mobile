@@ -18,6 +18,7 @@ import com.example.data.network.models.requests.EditMyProfileRequestPlace
 import com.example.data.network.models.requests.EditMyProfileRequestProfile
 import com.example.data.network.models.requests.JoinToEventAsFunRequest
 import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
+import com.example.data.network.models.requests.LeaveTheEventAsFanRequest
 import com.example.data.network.models.requests.LeaveTheEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.ProfileRegistrationRequest
@@ -46,6 +47,7 @@ import com.example.data.network.models.responses.errors.GetUserReviewsByIdRespon
 import com.example.data.network.models.responses.errors.GetUsersListResponseError
 import com.example.data.network.models.responses.errors.JoinToEventAsFunError
 import com.example.data.network.models.responses.errors.JoinToEventAsPlayerError
+import com.example.data.network.models.responses.errors.LeaveTheEventAsFunError
 import com.example.data.network.models.responses.errors.LeaveTheEventAsPlayerError
 import com.example.data.network.models.responses.errors.LoginError
 import com.example.data.network.models.responses.errors.PostEmailVerifyCodeError
@@ -90,6 +92,10 @@ import com.example.data.utils.ext.toJoinToEventAsFunErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsFunResponseEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerResponseEntity
+import com.example.data.utils.ext.toLeaveTheEventAsFanResponseEntity
+import com.example.data.utils.ext.toLeaveTheEventAsFunErrorEntity
+import com.example.data.utils.ext.toLeaveTheEventAsPlayerErrorEntity
+import com.example.data.utils.ext.toLeaveTheEventAsPlayerResponseEntity
 import com.example.data.utils.ext.toLoginResponse
 import com.example.data.utils.ext.toPostEmailVerifyCodeErrorEntity
 import com.example.data.utils.ext.toPostEmailVerifyCodeResponseEntity
@@ -119,6 +125,7 @@ import com.example.domain.entity.responses.errors.GetUserReviewsByIdResponseErro
 import com.example.domain.entity.responses.errors.GetUsersListResponseErrorEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsFunErrorEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsPlayerErrorEntity
+import com.example.domain.entity.responses.errors.LeaveTheEventAsFunErrorEntity
 import com.example.domain.entity.responses.errors.LeaveTheEventAsPlayerErrorEntity
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
@@ -760,23 +767,38 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity {
-        val leaveTheEventAsPlayerResponse = service.leaveTheEventAsPlayer(
-            leaveTheEventAsPlayerRequest = LeaveTheEventAsPlayerRequest(
-                event_id = eventId
+    override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity {
+        return try {
+            val leaveTheEventAsPlayerResponse = service.leaveTheEventAsPlayer(
+                leaveTheEventAsPlayerRequest = LeaveTheEventAsPlayerRequest(
+                    event_id = eventId
+                )
             )
-        )
-        val leaveTheEventAsPlayerResponseDomain =
-            leaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity()
-        LeaveTheEventAsPlayerResultEntity.Success(leaveTheEventAsPlayerResponseDomain.data)
-    } catch (ex: HttpException) {
-        val errorResponse =
-            handleHttpError<LeaveTheEventAsPlayerError, LeaveTheEventAsPlayerErrorEntity>(ex) { it.toLeaveTheEventAsPlayerErrorEntity() }
-        LeaveTheEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
-    }
+            val leaveTheEventAsPlayerResponseDomain =
+                leaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity()
+            LeaveTheEventAsPlayerResultEntity.Success(leaveTheEventAsPlayerResponseDomain.data)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<LeaveTheEventAsPlayerError, LeaveTheEventAsPlayerErrorEntity>(ex) { it.toLeaveTheEventAsPlayerErrorEntity() }
+            LeaveTheEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
+        }
     }
 
-    override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity {
-        TODO("Not yet implemented")
+    override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity {
+        return try {
+            val leaveTheEventAsFunResponse = service.leaveTheEventAsFan(
+                leaveTheEventAsFanRequest = LeaveTheEventAsFanRequest(
+                    event_id = eventId
+                )
+            )
+            val leaveTheEventAsFunResponseDomain =
+                leaveTheEventAsFunResponse.toLeaveTheEventAsFanResponseEntity()
+            LeaveTheEventAsFanResultEntity.Success(data = leaveTheEventAsFunResponseDomain.data)
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<LeaveTheEventAsFunError, LeaveTheEventAsFunErrorEntity>(ex) { it.toLeaveTheEventAsFunErrorEntity() }
+            LeaveTheEventAsFanResultEntity.Error(errorResponse.data.errors[0])
+        }
     }
+
 }
