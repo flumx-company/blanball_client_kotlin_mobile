@@ -29,7 +29,7 @@ import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity
 import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
+import com.example.domain.entity.results.JoinToEventAsFanResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
@@ -607,7 +607,7 @@ class EventScreenViewModel
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
-                            is JoinToEventAsFunResultEntity.Success -> {
+                            is JoinToEventAsFanResultEntity.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFunToEvent)
                                 setState {
                                     copy(
@@ -616,7 +616,7 @@ class EventScreenViewModel
                                 }
                             }
 
-                            is JoinToEventAsFunResultEntity.Error -> {
+                            is JoinToEventAsFanResultEntity.Error -> {
                                 when (result.error.detail) {
                                     application.getString(R.string.event_time_expired) -> {
                                         currentState.isErrorMessageVisible.value = true

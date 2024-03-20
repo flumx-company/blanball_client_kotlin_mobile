@@ -101,11 +101,6 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
-import com.example.domain.entity.responses.success.ErrorResponse
-import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.success.SendCodeErrorEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
@@ -126,6 +121,11 @@ import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
+import com.example.domain.entity.responses.success.ErrorResponse
+import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.success.SendCodeErrorEntity
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.EditMyProfileResultEntity
@@ -142,8 +142,10 @@ import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
 import com.example.domain.entity.results.GetUserProfileByIdResultEntity
 import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
 import com.example.domain.entity.results.GetUsersListResultEntity
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
+import com.example.domain.entity.results.JoinToEventAsFanResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsFanResultEntity
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResultEntity
 import com.example.domain.entity.results.LoginResultEntity
 import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
 import com.example.domain.entity.results.RegistrationResultEntity
@@ -721,7 +723,7 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun joinToEventAsFun(eventId: Int): JoinToEventAsFunResultEntity {
+    override suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResultEntity {
         return try {
             val joinToEventAsFunResponse = service.joinToEventAsFun(
                 joinToEventAsFunRequest = JoinToEventAsFunRequest(
@@ -730,11 +732,11 @@ class AppRepositoryImpl @Inject constructor(
             )
             val joinToEventAsFunResponseDomain =
                 joinToEventAsFunResponse.toJoinToEventAsFunResponseEntity()
-            JoinToEventAsFunResultEntity.Success(joinToEventAsFunResponseDomain.data)
+            JoinToEventAsFanResultEntity.Success(joinToEventAsFunResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<JoinToEventAsFunError, JoinToEventAsFunErrorEntity>(ex) { it.toJoinToEventAsFunErrorEntity() }
-            JoinToEventAsFunResultEntity.Error(errorResponse.data.errors[0])
+            JoinToEventAsFanResultEntity.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -753,5 +755,13 @@ class AppRepositoryImpl @Inject constructor(
                 handleHttpError<JoinToEventAsPlayerError, JoinToEventAsPlayerErrorEntity>(ex) { it.toJoinToEventAsPlayerErrorEntity() }
             JoinToEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
         }
+    }
+
+    override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity {
+        TODO("Not yet implemented")
     }
 }
