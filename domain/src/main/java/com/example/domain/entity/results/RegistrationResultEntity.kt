@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.RegistrationDataEntity
+import com.example.domain.entity.responses.success.RegistrationDataEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorDetailEntity
 
 sealed class RegistrationResultEntity {

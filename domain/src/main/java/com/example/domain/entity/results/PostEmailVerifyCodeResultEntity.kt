@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.PostEmailVerifyCodeResponseEntityData
+import com.example.domain.entity.responses.success.PostEmailVerifyCodeResponseEntityData
 import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntityDetail
 
 sealed class PostEmailVerifyCodeResultEntity {

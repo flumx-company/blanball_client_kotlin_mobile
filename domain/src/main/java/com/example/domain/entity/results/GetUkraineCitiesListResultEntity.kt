@@ -1,6 +1,6 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.GetUkraineCitiesListResponseEntity
+import com.example.domain.entity.responses.success.GetUkraineCitiesListResponseEntity
 import com.example.domain.entity.responses.errors.GetUkraineCitiesListEntityErrorDetail
 
 sealed class GetUkraineCitiesListResultEntity {

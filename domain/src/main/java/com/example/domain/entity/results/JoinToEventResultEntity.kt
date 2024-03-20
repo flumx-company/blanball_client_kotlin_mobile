@@ -1,7 +1,7 @@
 package com.example.domain.entity.results
 
-import com.example.domain.entity.responses.JoinToEventAsFunResponseEntityData
-import com.example.domain.entity.responses.JoinToEventAsPlayerResponseEntityData
+import com.example.domain.entity.responses.success.JoinToEventAsFunResponseEntityData
+import com.example.domain.entity.responses.success.JoinToEventAsPlayerResponseEntityData
 import com.example.domain.entity.responses.errors.JoinToEventAsFunDetailDataEntity
 import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataEntity
 

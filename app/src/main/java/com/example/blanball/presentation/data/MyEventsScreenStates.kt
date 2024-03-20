@@ -2,7 +2,7 @@ package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.domain.entity.responses.GetMyEventsResponseEntityResult
+import com.example.domain.entity.responses.success.GetMyEventsResponseEntityResult
 import com.example.domain.utils.Strings
 
 class MyEventsScreenMainContract {

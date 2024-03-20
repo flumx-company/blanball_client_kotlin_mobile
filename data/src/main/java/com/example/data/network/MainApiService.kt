@@ -8,6 +8,8 @@ import com.example.data.network.models.requests.EditEventByIdRequest
 import com.example.data.network.models.requests.EditMyProfileRequest
 import com.example.data.network.models.requests.JoinToEventAsFunRequest
 import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
+import com.example.data.network.models.requests.LeaveTheEventAsFanRequest
+import com.example.data.network.models.requests.LeaveTheEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.RegistrationRequest
 import com.example.data.network.models.requests.ResetCompleteRequest
@@ -38,6 +40,8 @@ import com.example.data.network.models.responses.success.SendCodeResponse
 import com.example.data.network.models.responses.success.SendEmailPasswordResetSuccess
 import com.example.data.network.models.responses.success.SendVerifyCodeToUserEmailResponse
 import com.example.data.network.models.responses.success.UpdateUserProfileResponse
+import com.example.domain.entity.responses.success.LeaveTheEventAsFanResponseEntityData
+import com.example.domain.entity.responses.success.LeaveTheEventAsPlayerResponseEntity
 import com.example.domain.utils.Endpoints
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -168,5 +172,15 @@ interface MainApiService {
     suspend fun joinToEventAsFun(
         @Body joinToEventAsFunRequest: JoinToEventAsFunRequest
     ): JoinToEventAsFunResponse
+
+    @POST(Endpoints.LEAVE_THE_EVENT_AS_PLAYER)
+    suspend fun leaveTheEventAsPlayer(
+        @Body leaveTheEventAsPlayerRequest: LeaveTheEventAsPlayerRequest
+    ): LeaveTheEventAsPlayerResponseEntity
+
+    @POST(Endpoints.LEAVE_THE_EVENT_AS_FUN)
+    suspend fun leaveTheEventAsFan(
+        @Body leaveTheEventAsFanRequest: LeaveTheEventAsFanRequest
+    ): LeaveTheEventAsFanResponseEntityData
 }
 

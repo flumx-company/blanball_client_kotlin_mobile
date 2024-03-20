@@ -24,7 +24,7 @@ import com.example.blanball.utils.ext.mapToDateOnEditScreen
 import com.example.blanball.utils.ext.mapToTimeOnEditScreen
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 import com.example.domain.entity.results.EditEventByIdResultEntity
 import com.example.domain.entity.results.GetEventByIdResultEntity

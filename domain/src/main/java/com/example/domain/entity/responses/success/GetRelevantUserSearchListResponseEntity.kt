@@ -1,4 +1,4 @@
-package com.example.domain.entity.responses
+package com.example.domain.entity.responses.success
 
 data class GetRelevantUserSearchListResponseEntity(
     val code: Int,

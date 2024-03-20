@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResultEntity
 
 interface CreationAnEventUseCase {

@@ -101,11 +101,11 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.EmailPassResetErrorEntity
-import com.example.domain.entity.responses.ErrorResponse
-import com.example.domain.entity.responses.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.SendCodeErrorEntity
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
+import com.example.domain.entity.responses.success.ErrorResponse
+import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.success.SendCodeErrorEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity

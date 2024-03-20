@@ -46,6 +46,8 @@ android {
         buildConfigField "String", "GET_UKRAINE_CITIES_ENDPOINT", "\"cities/client/ukraine/cities/list\""
         buildConfigField "String", "JOIN_TO_EVENT_AS_PLAYER", "\"events/client/event/join\""
         buildConfigField "String", "JOIN_TO_EVENT_AS_FUN", "\"events/client/fan/event/join\""
+        buildConfigField "String", "LEAVE_THE_EVENT_AS_PLAYER", "\"events/client/event/leave\""
+        buildConfigField "String", "LEAVE_THE_EVENT_AS_FUN", "\"events/client/fan/event/leave\""
     }
 
     buildTypes {
