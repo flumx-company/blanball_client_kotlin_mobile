@@ -1567,6 +1567,11 @@ fun AppScreensConfig(
                                 publicProfileCurrentState.userId.value = userId
                                 navController.navigate(Destinations.PUBLIC_PROFILE.route)
                             },
+                            onCancelParticipation = {
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.LeaveTheEvent
+                                )
+                            },
                         )
                     }
                 }

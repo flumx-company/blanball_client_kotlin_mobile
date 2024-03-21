@@ -176,9 +176,13 @@ interface AppRepository {
 
     suspend fun getUkraineCitiesList(): GetUkraineCitiesListResult
 
-    suspend fun joinToEventAsFun(eventId: Int): JoinToEventAsFunResultEntity
+    suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResultEntity
 
     suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity
+
+    suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity
+
+    suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity
 
     suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult
 }

@@ -8,6 +8,8 @@ import com.example.data.network.models.requests.EditEventByIdRequest
 import com.example.data.network.models.requests.EditMyProfileRequest
 import com.example.data.network.models.requests.JoinToEventAsFunRequest
 import com.example.data.network.models.requests.JoinToEventAsPlayerRequest
+import com.example.data.network.models.requests.LeaveTheEventAsFanRequest
+import com.example.data.network.models.requests.LeaveTheEventAsPlayerRequest
 import com.example.data.network.models.requests.PostEmailVerifyCodeRequest
 import com.example.data.network.models.requests.RegistrationRequest
 import com.example.data.network.models.requests.ResetCompleteRequest
@@ -31,6 +33,8 @@ import com.example.data.network.models.responses.success.GetUserReviewsByIdRespo
 import com.example.data.network.models.responses.success.GetUsersListResponse
 import com.example.data.network.models.responses.success.JoinToEventAsFunResponse
 import com.example.data.network.models.responses.success.JoinToEventAsPlayerResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsFanResponse
+import com.example.data.network.models.responses.success.LeaveTheEventAsPlayerResponse
 import com.example.data.network.models.responses.success.LoginSuccess
 import com.example.data.network.models.responses.success.PostEmailVerifyCodeResponse
 import com.example.data.network.models.responses.success.RegistrationResponse
@@ -174,5 +178,15 @@ interface MainApiService {
     suspend fun getPrivateEventRequestList(
         @Query("id") id: Int
     ): GetPrivateRequestListResponse
+
+    @POST(Endpoints.LEAVE_THE_EVENT_AS_PLAYER)
+    suspend fun leaveTheEventAsPlayer(
+        @Body leaveTheEventAsPlayerRequest: LeaveTheEventAsPlayerRequest
+    ): LeaveTheEventAsPlayerResponse
+
+    @POST(Endpoints.LEAVE_THE_EVENT_AS_FUN)
+    suspend fun leaveTheEventAsFan(
+        @Body leaveTheEventAsFanRequest: LeaveTheEventAsFanRequest
+    ): LeaveTheEventAsFanResponse
 }
 

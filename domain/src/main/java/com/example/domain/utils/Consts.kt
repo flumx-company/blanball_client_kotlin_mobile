@@ -34,6 +34,8 @@ object Endpoints {
     const val JOIN_TO_EVENT_AS_PLAYER = BuildConfig.JOIN_TO_EVENT_AS_PLAYER
     const val JOIN_TO_EVENT_AS_FUN = BuildConfig.JOIN_TO_EVENT_AS_FUN
     const val PRIVATE_EVENT_REQUESTS_LIST = BuildConfig.PRIVATE_EVENT_REQUESTS_LIST
+    const val LEAVE_THE_EVENT_AS_PLAYER = BuildConfig.LEAVE_THE_EVENT_AS_PLAYER
+    const val LEAVE_THE_EVENT_AS_FUN = BuildConfig.LEAVE_THE_EVENT_AS_FUN
 }
 
 object Code {

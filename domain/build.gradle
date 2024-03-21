@@ -47,6 +47,8 @@ android {
         buildConfigField "String", "JOIN_TO_EVENT_AS_PLAYER", "\"events/client/event/join\""
         buildConfigField "String", "JOIN_TO_EVENT_AS_FUN", "\"events/client/fan/event/join\""
         buildConfigField "String", "PRIVATE_EVENT_REQUESTS_LIST", "\"events/client/requests/participations/{id}\""
+        buildConfigField "String", "LEAVE_THE_EVENT_AS_PLAYER", "\"events/client/event/leave\""
+        buildConfigField "String", "LEAVE_THE_EVENT_AS_FUN", "\"events/client/fan/event/leave\""
     }
 
     buildTypes {
