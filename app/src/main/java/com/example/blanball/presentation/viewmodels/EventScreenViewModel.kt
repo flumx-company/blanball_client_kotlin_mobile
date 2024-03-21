@@ -28,6 +28,7 @@ import com.example.domain.entity.responses.success.CreationAnEventResponseEntity
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.GetEventByIdResult
+import com.example.domain.entity.results.GetPrivateEventRequestListResult
 import com.example.domain.entity.results.GetRelevantUserSearchListResult
 import com.example.domain.entity.results.JoinToEventAsFanResult
 import com.example.domain.entity.results.JoinToEventAsPlayerResult
@@ -40,6 +41,7 @@ import com.example.domain.usecases.interfaces.GetRelevantUserSearchListUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsFunUseCase
 import com.example.domain.usecases.interfaces.JoinToEventAsPlayerUseCase
 import com.example.domain.usecases.interfaces.LeaveTheEventUseCase
+import com.example.domain.usecases.interfaces.UserRequestingForPrivateEventUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +69,7 @@ class EventScreenViewModel
     private val joinToEventAsFanUseCase: JoinToEventAsFunUseCase,
     private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
     private val leaveTheEventUseCase: LeaveTheEventUseCase,
+    private val userRequestingUseCase: UserRequestingForPrivateEventUseCase,
     private val application: Application,
 
     ) : ViewModel() {
@@ -742,15 +745,38 @@ class EventScreenViewModel
         }
     }
 
+    private fun getListOfRequests() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            userRequestingUseCase.executeGetPrivateEventRequestList(
+                eventId = currentState.currentEventId.value!!
+            ).let { result ->
+                when (result) {
+                    is GetPrivateEventRequestListResult.Success -> {
+                        setState {
+                            copy(
+                                state = EventScreenMainContract.ScreenViewState.Idle
+
+                            )
+                        }
+                    }
+
+                    is GetPrivateEventRequestListResult.Error -> {
+
+                    }
+                }
+            }
+        }
+    }
+
     private fun showToastMessage(
         toastType: EventToastType,
         currentRole: UserRole?,
         durationMillis: Long = 3000,
         userAction: UserAction,
     ) {
-        when (toastType) {
-            is EventToastType.SUCCESS -> {
-                job = viewModelScope.launch(Dispatchers.Default) {
+        job = viewModelScope.launch(Dispatchers.Default) {
+            when (toastType) {
+                is EventToastType.SUCCESS -> {
                     when (currentRole) {
                         is UserRole.FAN -> currentState.currentUserRole.value =
                             application.getString(R.string.fan)
@@ -776,13 +802,13 @@ class EventScreenViewModel
                         }
                     }
                 }
-            }
 
-            is EventToastType.ERROR -> {
-                job = viewModelScope.launch(Dispatchers.Default) {
-                    currentState.isErrorMessageVisible.value = true
-                    delay(durationMillis)
-                    currentState.isErrorMessageVisible.value = false
+                is EventToastType.ERROR -> {
+                    job = viewModelScope.launch(Dispatchers.Default) {
+                        currentState.isErrorMessageVisible.value = true
+                        delay(durationMillis)
+                        currentState.isErrorMessageVisible.value = false
+                    }
                 }
             }
         }

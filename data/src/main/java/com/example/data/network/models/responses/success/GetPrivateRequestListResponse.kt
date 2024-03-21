@@ -14,7 +14,36 @@ data class GetPrivateRequestListResponseData(
     @Json (name = "next") val next: Any,
     @Json (name = "page_size") val page_size: Int,
     @Json (name = "previous") val previous: Any,
-    @Json (name = "results") val results: List<Any>,
+    @Json (name = "results") val results: List<GetPrivateRequestListResponseResult>,
     @Json (name = "success") val success: Boolean,
     @Json (name = "total_count") val total_count: Int
+)
+
+data class GetPrivateRequestListResponseResult(
+    @Json (name = "event") val event: GetPrivateRequestListResponseEvent,
+    @Json (name = "id") val id: Int,
+    @Json (name = "recipient") val recipient: Int,
+    @Json (name = "sender") val sender: GetPrivateRequestListResponseSender,
+    @Json (name = "status") val status: String,
+    @Json (name = "time_created") val time_created: String
+)
+
+data class GetPrivateRequestListResponseEvent(
+    @Json (name = "date_and_time") val date_and_time: String,
+    @Json (name = "id") val id: Int,
+    @Json (name = "name") val name: String
+)
+
+data class GetPrivateRequestListResponseSender(
+    @Json (name = "id") val id: Int,
+    @Json (name = "profile") val profile: GetPrivateRequestListResponseProfile,
+    @Json (name = "raiting") val raiting: Any
+)
+
+data class GetPrivateRequestListResponseProfile(
+    @Json (name = "avatar_url") val avatar_url: Any,
+    @Json (name = "last_name") val last_name: String,
+    @Json (name = "name") val name: String,
+    @Json (name = "position") val position: String,
+    @Json (name = "working_leg") val working_leg: String
 )

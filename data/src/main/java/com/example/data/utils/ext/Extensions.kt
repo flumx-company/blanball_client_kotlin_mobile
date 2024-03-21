@@ -128,6 +128,10 @@ import com.example.data.network.models.responses.success.GetMyProfileResponsePla
 import com.example.data.network.models.responses.success.GetMyProfileResponseProfile
 import com.example.data.network.models.responses.success.GetPrivateRequestListResponse
 import com.example.data.network.models.responses.success.GetPrivateRequestListResponseData
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponseEvent
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponseProfile
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponseResult
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponseSender
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponse
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseData
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseProfile
@@ -298,6 +302,10 @@ import com.example.domain.entity.responses.success.GetMyProfileResponsePlaceEnti
 import com.example.domain.entity.responses.success.GetMyProfileResponseProfileEntity
 import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntity
 import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityData
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityEvent
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityProfile
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityResult
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntitySender
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntity
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityData
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityProfile
@@ -1613,6 +1621,7 @@ internal fun GetPrivateRequestListResponse.toGetPrivateRequestListResponseEntity
         code = this.code,
         data = this.data.toGetPrivateRequestListResponseEntityData(),
         status = this.status,
+        message = this.message,
     )
 
 internal fun GetPrivateRequestListResponseData.toGetPrivateRequestListResponseEntityData() =
@@ -1621,10 +1630,40 @@ internal fun GetPrivateRequestListResponseData.toGetPrivateRequestListResponseEn
         next = this.next,
         page_size = this.page_size,
         previous = this.previous,
-        results = this.results,
+        results = this.results.map { it.toGetPrivateRequestListResponseEntityResult() },
         success = this.success,
         total_count = this.total_count,
     )
+
+internal fun GetPrivateRequestListResponseResult.toGetPrivateRequestListResponseEntityResult() =
+    GetPrivateRequestListResponseEntityResult(
+        event = this.event.toGetPrivateRequestListResponseEntityEvent(),
+        id = this.id,
+        recipient = this.recipient,
+        sender = this.sender.toGetPrivateRequestListResponseEntitySender(),
+        status = this.status,
+        time_created = this.time_created,
+    )
+
+internal fun GetPrivateRequestListResponseEvent.toGetPrivateRequestListResponseEntityEvent() = GetPrivateRequestListResponseEntityEvent(
+    date_and_time = this.date_and_time,
+    id = this.id,
+    name = this.name
+)
+
+internal fun GetPrivateRequestListResponseSender.toGetPrivateRequestListResponseEntitySender() = GetPrivateRequestListResponseEntitySender(
+    id = this.id,
+    profile = this.profile.toGetPrivateRequestListResponseEntityProfile(),
+    raiting = this.raiting,
+)
+
+internal fun GetPrivateRequestListResponseProfile.toGetPrivateRequestListResponseEntityProfile() = GetPrivateRequestListResponseEntityProfile(
+    avatar_url = this.avatar_url,
+    last_name = this.last_name,
+    name = this.name,
+    position = this.position,
+    working_leg = this.working_leg
+)
 
 internal fun GetPrivateRequestListResponseError.toGetPrivateRequestListResponseErrorEntity() =
     GetPrivateRequestListResponseErrorEntity(
