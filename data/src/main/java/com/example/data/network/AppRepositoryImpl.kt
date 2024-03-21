@@ -1,6 +1,5 @@
 package com.example.data.network
 
-import com.example.domain.entity.results.LoginResult
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -39,6 +38,7 @@ import com.example.data.network.models.responses.errors.GetEventByIdResponseErro
 import com.example.data.network.models.responses.errors.GetIsTechnicalWorkStatusError
 import com.example.data.network.models.responses.errors.GetMyEventsResponseError
 import com.example.data.network.models.responses.errors.GetMyProfileError
+import com.example.data.network.models.responses.errors.GetPrivateRequestListResponseError
 import com.example.data.network.models.responses.errors.GetRelevantUserSearchListError
 import com.example.data.network.models.responses.errors.GetUkraineCitiesListError
 import com.example.data.network.models.responses.errors.GetUserPlannedEventsByIdError
@@ -76,6 +76,8 @@ import com.example.data.utils.ext.toGetMyEventsEntityResponseError
 import com.example.data.utils.ext.toGetMyEventsResponseEntity
 import com.example.data.utils.ext.toGetMyProfileErrorEntity
 import com.example.data.utils.ext.toGetMyProfileResponseEntity
+import com.example.data.utils.ext.toGetPrivateRequestListResponseEntityData
+import com.example.data.utils.ext.toGetPrivateRequestListResponseErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListResponseEntity
 import com.example.data.utils.ext.toGetUkraineCitiesListErrorEntity
@@ -117,6 +119,7 @@ import com.example.domain.entity.responses.errors.GetEventByIdResponseErrorEntit
 import com.example.domain.entity.responses.errors.GetIsTechnicalWorkStatusErrorEntity
 import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
 import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.GetPrivateRequestListResponseErrorEntity
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
 import com.example.domain.entity.responses.errors.GetUkraineCitiesListErrorEntity
 import com.example.domain.entity.responses.errors.GetUserPlannedEventsByIdErrorEntity
@@ -157,6 +160,7 @@ import com.example.domain.entity.results.JoinToEventAsFanResult
 import com.example.domain.entity.results.JoinToEventAsPlayerResult
 import com.example.domain.entity.results.LeaveTheEventAsFanResult
 import com.example.domain.entity.results.LeaveTheEventAsPlayerResult
+import com.example.domain.entity.results.LoginResult
 import com.example.domain.entity.results.PostEmailVerifyCodeResult
 import com.example.domain.entity.results.RegistrationResult
 import com.example.domain.entity.results.ResetCompleteResult
@@ -798,6 +802,17 @@ class AppRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult {
-        TODO("Not yet implemented")
+        return try {
+            val getPrivateEventRequestListResponse =
+                service.getPrivateEventRequestList(id = eventId)
+            val getPrivateEventRequestListResponseDomain = getPrivateEventRequestListResponse
+            GetPrivateEventRequestListResult.Success(data = getPrivateEventRequestListResponseDomain.data.toGetPrivateRequestListResponseEntityData())
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<GetPrivateRequestListResponseError, GetPrivateRequestListResponseErrorEntity>(
+                    ex
+                ) { it.toGetPrivateRequestListResponseErrorEntity() }
+            GetPrivateEventRequestListResult.Error(error = errorResponse.data.errors[0])
+        }
     }
 }

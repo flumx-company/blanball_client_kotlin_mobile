@@ -29,6 +29,9 @@ import com.example.data.network.models.responses.errors.GetMyEventsResponseError
 import com.example.data.network.models.responses.errors.GetMyProfileError
 import com.example.data.network.models.responses.errors.GetMyProfileErrorData
 import com.example.data.network.models.responses.errors.GetMyProfileErrorDetail
+import com.example.data.network.models.responses.errors.GetPrivateRequestListResponseError
+import com.example.data.network.models.responses.errors.GetPrivateRequestListResponseErrorData
+import com.example.data.network.models.responses.errors.GetPrivateRequestListResponseErrorDetail
 import com.example.data.network.models.responses.errors.GetRelevantUserSearchListError
 import com.example.data.network.models.responses.errors.GetRelevantUserSearchListErrorData
 import com.example.data.network.models.responses.errors.GetRelevantUserSearchListErrorDetail
@@ -123,6 +126,8 @@ import com.example.data.network.models.responses.success.GetMyProfileResponseCon
 import com.example.data.network.models.responses.success.GetMyProfileResponseData
 import com.example.data.network.models.responses.success.GetMyProfileResponsePlace
 import com.example.data.network.models.responses.success.GetMyProfileResponseProfile
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponse
+import com.example.data.network.models.responses.success.GetPrivateRequestListResponseData
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponse
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseData
 import com.example.data.network.models.responses.success.GetRelevantUserSearchListResponseProfile
@@ -197,6 +202,9 @@ import com.example.domain.entity.responses.errors.GetMyEventsEntityResponseError
 import com.example.domain.entity.responses.errors.GetMyProfileErrorDataEntity
 import com.example.domain.entity.responses.errors.GetMyProfileErrorDetailEntity
 import com.example.domain.entity.responses.errors.GetMyProfileErrorEntity
+import com.example.domain.entity.responses.errors.GetPrivateRequestListResponseErrorDetailEntity
+import com.example.domain.entity.responses.errors.GetPrivateRequestListResponseErrorEntity
+import com.example.domain.entity.responses.errors.GetPrivateRequestListResponseErrorEntityData
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntity
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityData
 import com.example.domain.entity.responses.errors.GetRelevantUserSearchListErrorEntityDetail
@@ -288,6 +296,8 @@ import com.example.domain.entity.responses.success.GetMyProfileResponseDataEntit
 import com.example.domain.entity.responses.success.GetMyProfileResponseEntity
 import com.example.domain.entity.responses.success.GetMyProfileResponsePlaceEntity
 import com.example.domain.entity.responses.success.GetMyProfileResponseProfileEntity
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntity
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityData
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntity
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityData
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityProfile
@@ -1135,32 +1145,37 @@ internal fun GetEventByIdResponseForms.toGetEventByIdResponseFormsEntity(): GetE
     GetEventByIdResponseFormsEntity(
     )
 
-internal fun GetEventByIdResponseCurrentFan.toGetEventByIdResponseCurrentFanEntity(): GetEventByIdResponseCurrentFanEntity = GetEventByIdResponseCurrentFanEntity(
-    id = this.id,
-    profile = this.profile.toGetEventByIdResponseFanProfileXEntity(),
-    raiting = this.raiting,
-)
+internal fun GetEventByIdResponseCurrentFan.toGetEventByIdResponseCurrentFanEntity(): GetEventByIdResponseCurrentFanEntity =
+    GetEventByIdResponseCurrentFanEntity(
+        id = this.id,
+        profile = this.profile.toGetEventByIdResponseFanProfileXEntity(),
+        raiting = this.raiting,
+    )
 
-internal fun GetEventByIdResponseCurrentUser.toGetEventByIdResponseCurrentUserEntity(): GetEventByIdResponseCurrentUserEntity = GetEventByIdResponseCurrentUserEntity(
-    id = this.id,
-    profile = this.profile.toGetEventByIdResponsePlayerProfileXEntity(),
-    raiting = this.raiting,
-)
+internal fun GetEventByIdResponseCurrentUser.toGetEventByIdResponseCurrentUserEntity(): GetEventByIdResponseCurrentUserEntity =
+    GetEventByIdResponseCurrentUserEntity(
+        id = this.id,
+        profile = this.profile.toGetEventByIdResponsePlayerProfileXEntity(),
+        raiting = this.raiting,
+    )
 
-internal fun GetEventByIdResponseFanProfileX.toGetEventByIdResponseFanProfileXEntity(): GetEventByIdResponseFanProfileXEntity = GetEventByIdResponseFanProfileXEntity(
-    avatar_url = this.avatar_url,
-    last_name = this.last_name,
-    name = this.name,
-    position = this.position,
-    working_leg = this.working_leg
-)
-internal fun GetEventByIdResponsePlayerProfileX.toGetEventByIdResponsePlayerProfileXEntity(): GetEventByIdResponsePlayerProfileXEntity = GetEventByIdResponsePlayerProfileXEntity(
-    avatar_url = this.avatar_url,
-    last_name = this.last_name,
-    name = this.name,
-    position = this.position,
-    working_leg = this.working_leg
-)
+internal fun GetEventByIdResponseFanProfileX.toGetEventByIdResponseFanProfileXEntity(): GetEventByIdResponseFanProfileXEntity =
+    GetEventByIdResponseFanProfileXEntity(
+        avatar_url = this.avatar_url,
+        last_name = this.last_name,
+        name = this.name,
+        position = this.position,
+        working_leg = this.working_leg
+    )
+
+internal fun GetEventByIdResponsePlayerProfileX.toGetEventByIdResponsePlayerProfileXEntity(): GetEventByIdResponsePlayerProfileXEntity =
+    GetEventByIdResponsePlayerProfileXEntity(
+        avatar_url = this.avatar_url,
+        last_name = this.last_name,
+        name = this.name,
+        position = this.position,
+        working_leg = this.working_leg
+    )
 
 internal fun GetEventByIdResponsePlace.toGetEventByIdResponsePlaceEntity(): GetEventByIdResponsePlaceEntity =
     GetEventByIdResponsePlaceEntity(
@@ -1429,7 +1444,7 @@ internal fun EditMyProfileErrorData.toEditMyProfileErrorEntityData(): EditMyProf
         type = this.type,
     )
 
-internal fun EditMyProfileErrorDetail.toEditMyProfileErrorEntityDetail (): EditMyProfileErrorEntityDetail =
+internal fun EditMyProfileErrorDetail.toEditMyProfileErrorEntityDetail(): EditMyProfileErrorEntityDetail =
     EditMyProfileErrorEntityDetail(
         detail = this.detail
     )
@@ -1438,8 +1453,8 @@ internal fun GetUkraineCitiesListResponse.toGetUkraineCitiesListResponseEntity()
     GetUkraineCitiesListResponseEntity(
         code = this.code,
         data = this.data.map { it.toGetUkraineCitiesListResponseDataEntity() },
-        message =this.message,
-        status =this.status,
+        message = this.message,
+        status = this.status,
     )
 
 internal fun GetUkraineCitiesListResponseData.toGetUkraineCitiesListResponseDataEntity(): GetUkraineCitiesListResponseEntityData =
@@ -1452,13 +1467,13 @@ internal fun GetUkraineCitiesListResponseItem.toGetUkraineCitiesListResponseEnti
     GetUkraineCitiesListResponseEntityItem(
         lat = this.lat,
         lng = this.lng,
-        name =this.name,
+        name = this.name,
     )
 
 internal fun GetUkraineCitiesListError.toGetUkraineCitiesListErrorEntity(): GetUkraineCitiesListErrorEntity =
     GetUkraineCitiesListErrorEntity(
-        code =this.code,
-        data =this.data.toGetUkraineCitiesListEntityErrorData(),
+        code = this.code,
+        data = this.data.toGetUkraineCitiesListEntityErrorData(),
         status = this.status,
     )
 
@@ -1475,7 +1490,7 @@ internal fun GetUkraineCitiesListErrorDetail.toGetUkraineCitiesListEntityErrorDe
 
 internal fun JoinToEventAsFunResponse.toJoinToEventAsFunResponseEntity(): JoinToEventAsFunResponseEntity =
     JoinToEventAsFunResponseEntity(
-        code =this.code,
+        code = this.code,
         data = this.data.toJoinToEventAsFunResponseDataEntity(),
         status = this.status,
     )
@@ -1487,7 +1502,7 @@ internal fun JoinToEventAsFunResponseData.toJoinToEventAsFunResponseDataEntity()
 
 internal fun JoinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity(): JoinToEventAsPlayerResponseEntity =
     JoinToEventAsPlayerResponseEntity(
-        code =this.code,
+        code = this.code,
         data = this.data.toJoinToEventAsPlayerResponseDataEntity(),
         status = this.status,
     )
@@ -1533,11 +1548,12 @@ internal fun JoinToEventAsPlayerDetailData.toJoinToEventAsPlayerDetailDataEntity
         detail = this.detail,
     )
 
-internal fun LeaveTheEventAsFanResponse.toLeaveTheEventAsFanResponseEntity() = LeaveTheEventAsFanResponseEntity(
-    code = this.code,
-    data = this.data.toLeaveTheEventAsFanResponseEntityData(),
-    status = this.status,
-)
+internal fun LeaveTheEventAsFanResponse.toLeaveTheEventAsFanResponseEntity() =
+    LeaveTheEventAsFanResponseEntity(
+        code = this.code,
+        data = this.data.toLeaveTheEventAsFanResponseEntityData(),
+        status = this.status,
+    )
 
 internal fun LeaveTheEventAsFanResponseData.toLeaveTheEventAsFanResponseEntityData(): LeaveTheEventAsFanResponseEntityData =
     LeaveTheEventAsFanResponseEntityData(
@@ -1546,7 +1562,7 @@ internal fun LeaveTheEventAsFanResponseData.toLeaveTheEventAsFanResponseEntityDa
 
 internal fun LeaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity(): LeaveTheEventAsPlayerResponseEntity =
     LeaveTheEventAsPlayerResponseEntity(
-        code =this.code,
+        code = this.code,
         data = this.data.toLeaveTheEventAsPlayerResponseDataEntity(),
         status = this.status,
     )
@@ -1590,4 +1606,40 @@ internal fun LeaveTheEventAsPlayerErrorData.toLeaveTheEventAsPlayerErrorDataEnti
 internal fun LeaveTheEventAsPlayerDetailData.toLeaveTheEventAsPlayerDetailDataEntity(): LeaveTheEventAsPlayerDetailDataEntity =
     LeaveTheEventAsPlayerDetailDataEntity(
         detail = this.detail,
+    )
+
+internal fun GetPrivateRequestListResponse.toGetPrivateRequestListResponseEntity() =
+    GetPrivateRequestListResponseEntity(
+        code = this.code,
+        data = this.data.toGetPrivateRequestListResponseEntityData(),
+        status = this.status,
+    )
+
+internal fun GetPrivateRequestListResponseData.toGetPrivateRequestListResponseEntityData() =
+    GetPrivateRequestListResponseEntityData(
+        current_page = this.current_page,
+        next = this.next,
+        page_size = this.page_size,
+        previous = this.previous,
+        results = this.results,
+        success = this.success,
+        total_count = this.total_count,
+    )
+
+internal fun GetPrivateRequestListResponseError.toGetPrivateRequestListResponseErrorEntity() =
+    GetPrivateRequestListResponseErrorEntity(
+        code = this.code,
+        data = this.data.toGetPrivateRequestListResponseErrorEntityData(),
+        status = this.status,
+    )
+
+internal fun GetPrivateRequestListResponseErrorData.toGetPrivateRequestListResponseErrorEntityData() =
+    GetPrivateRequestListResponseErrorEntityData(
+        errors = this.errors.map { it.toGetPrivateRequestListResponseErrorDetailEntity() },
+        type = this.type
+    )
+
+internal fun GetPrivateRequestListResponseErrorDetail.toGetPrivateRequestListResponseErrorDetailEntity() =
+    GetPrivateRequestListResponseErrorDetailEntity(
+        detail = this.detail
     )
