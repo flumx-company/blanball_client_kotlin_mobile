@@ -11,6 +11,7 @@ import com.example.domain.entity.results.GetEventByIdResult
 import com.example.domain.entity.results.GetIsTechnicalWorkStatusResult
 import com.example.domain.entity.results.GetMyEventsResult
 import com.example.domain.entity.results.GetMyProfileResult
+import com.example.domain.entity.results.GetPrivateEventRequestListResult
 import com.example.domain.entity.results.GetRelevantUserSearchListResult
 import com.example.domain.entity.results.GetUkraineCitiesListResult
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
@@ -179,5 +180,5 @@ interface AppRepository {
 
     suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity
 
-    suspend fun getPrivateEventRequestList(eventId: Int):
+    suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult
 }
