@@ -22,6 +22,7 @@ import com.example.domain.usecases.implementations.RegistrationUseCaseImpl
 import com.example.domain.usecases.implementations.ResetPasswordUseCaseImpl
 import com.example.domain.usecases.implementations.SendingRequestToChangeUserProfileUseCaseImpl
 import com.example.domain.usecases.implementations.UserLoginUseCaseImpl
+import com.example.domain.usecases.implementations.UserRequestingForPrivateEventUseCaseImpl
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.EmailVerificationUseCase
@@ -44,6 +45,7 @@ import com.example.domain.usecases.interfaces.RegistrationUseCase
 import com.example.domain.usecases.interfaces.ResetPasswordUseCase
 import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import com.example.domain.usecases.interfaces.UserLoginUseCase
+import com.example.domain.usecases.interfaces.UserRequestingForPrivateEventUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -117,4 +119,7 @@ interface DomainModule {
 
     @Binds
     fun bindLeaveTheEventUseCase(leaveTheEventUseCaseImpl: LeaveTheEventUseCaseImpl): LeaveTheEventUseCase
+
+    @Binds
+    fun bindUserRequestingForPrivateEventUseCase(userRequestingForPrivateEventUseCaseImpl: UserRequestingForPrivateEventUseCaseImpl): UserRequestingForPrivateEventUseCase
 }
