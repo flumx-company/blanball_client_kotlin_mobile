@@ -5,12 +5,12 @@ import com.example.domain.entity.responses.errors.JoinToEventAsPlayerDetailDataE
 import com.example.domain.entity.responses.success.JoinToEventAsFunResponseEntityData
 import com.example.domain.entity.responses.success.JoinToEventAsPlayerResponseEntityData
 
-sealed class JoinToEventAsFanResultEntity {
-    data class Success(val data: JoinToEventAsFunResponseEntityData) : JoinToEventAsFanResultEntity()
-    data class Error(val error: JoinToEventAsFunDetailDataEntity) : JoinToEventAsFanResultEntity()
+sealed class JoinToEventAsFanResult {
+    data class Success(val data: JoinToEventAsFunResponseEntityData) : JoinToEventAsFanResult()
+    data class Error(val error: JoinToEventAsFunDetailDataEntity) : JoinToEventAsFanResult()
 }
 
-sealed class JoinToEventAsPlayerResultEntity {
-    data class Success(val data: JoinToEventAsPlayerResponseEntityData) : JoinToEventAsPlayerResultEntity()
-    data class Error(val error: JoinToEventAsPlayerDetailDataEntity) : JoinToEventAsPlayerResultEntity()
+sealed class JoinToEventAsPlayerResult {
+    data class Success(val data: JoinToEventAsPlayerResponseEntityData) : JoinToEventAsPlayerResult()
+    data class Error(val error: JoinToEventAsPlayerDetailDataEntity) : JoinToEventAsPlayerResult()
 }

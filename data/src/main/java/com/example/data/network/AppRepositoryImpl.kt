@@ -1,5 +1,6 @@
 package com.example.data.network
 
+import com.example.domain.entity.results.LoginResult
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -108,11 +109,6 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
-import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
-import com.example.domain.entity.responses.success.ErrorResponse
-import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.success.SendCodeErrorEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
@@ -135,6 +131,11 @@ import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
+import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
+import com.example.domain.entity.responses.success.ErrorResponse
+import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
+import com.example.domain.entity.responses.success.SendCodeErrorEntity
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.EditMyProfileResult
@@ -145,50 +146,22 @@ import com.example.domain.entity.results.GetEventByIdResult
 import com.example.domain.entity.results.GetIsTechnicalWorkStatusResult
 import com.example.domain.entity.results.GetMyEventsResult
 import com.example.domain.entity.results.GetMyProfileResult
+import com.example.domain.entity.results.GetPrivateEventRequestListResult
 import com.example.domain.entity.results.GetRelevantUserSearchListResult
 import com.example.domain.entity.results.GetUkraineCitiesListResult
 import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
 import com.example.domain.entity.results.GetUserProfileByIdResult
 import com.example.domain.entity.results.GetUserReviewsByIdResult
 import com.example.domain.entity.results.GetUsersListResult
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
-import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
-import com.example.domain.entity.responses.success.ErrorResponse
-import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
-import com.example.domain.entity.responses.success.SendCodeErrorEntity
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.EditMyProfileResultEntity
-import com.example.domain.entity.results.EmailResetResultEntity
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
-import com.example.domain.entity.results.GetAllEventsResultEntity
-import com.example.domain.entity.results.GetEventByIdResultEntity
-import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
-import com.example.domain.entity.results.GetMyEventsResultEntity
-import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
-import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
-import com.example.domain.entity.results.GetUserProfileByIdResultEntity
-import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
-import com.example.domain.entity.results.GetUsersListResultEntity
-import com.example.domain.entity.results.JoinToEventAsFanResultEntity
-import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
-import com.example.domain.entity.results.LoginResult
+import com.example.domain.entity.results.JoinToEventAsFanResult
+import com.example.domain.entity.results.JoinToEventAsPlayerResult
+import com.example.domain.entity.results.LeaveTheEventAsFanResult
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResult
 import com.example.domain.entity.results.PostEmailVerifyCodeResult
 import com.example.domain.entity.results.RegistrationResult
 import com.example.domain.entity.results.ResetCompleteResult
 import com.example.domain.entity.results.SendCodeResult
 import com.example.domain.entity.results.SendVerifyCodeToUserEmailResult
-import com.example.domain.entity.results.LeaveTheEventAsFanResultEntity
-import com.example.domain.entity.results.LeaveTheEventAsPlayerResultEntity
-import com.example.domain.entity.results.LoginResultEntity
-import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
-import com.example.domain.entity.results.RegistrationResultEntity
-import com.example.domain.entity.results.ResetCompleteResultEntity
-import com.example.domain.entity.results.SendCodeResultEntity
-import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.firstOrNull
@@ -722,7 +695,7 @@ class AppRepositoryImpl @Inject constructor(
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
-            LoginResultEntity.Error(errorResponse.data.errors[0])
+            LoginResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -756,7 +729,7 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResultEntity {
+    override suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResult {
         return try {
             val joinToEventAsFunResponse = service.joinToEventAsFun(
                 joinToEventAsFunRequest = JoinToEventAsFunRequest(
@@ -765,15 +738,15 @@ class AppRepositoryImpl @Inject constructor(
             )
             val joinToEventAsFunResponseDomain =
                 joinToEventAsFunResponse.toJoinToEventAsFunResponseEntity()
-            JoinToEventAsFanResultEntity.Success(joinToEventAsFunResponseDomain.data)
+            JoinToEventAsFanResult.Success(joinToEventAsFunResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<JoinToEventAsFunError, JoinToEventAsFunErrorEntity>(ex) { it.toJoinToEventAsFunErrorEntity() }
-            JoinToEventAsFanResultEntity.Error(errorResponse.data.errors[0])
+            JoinToEventAsFanResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity {
+    override suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResult {
         return try {
             val joinToEventAsPlayerResponse = service.joinToEventAsPlayer(
                 joinToEventAsPlayerRequest = JoinToEventAsPlayerRequest(
@@ -782,15 +755,15 @@ class AppRepositoryImpl @Inject constructor(
             )
             val joinToEventAsPlayerResponseDomain =
                 joinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity()
-            JoinToEventAsPlayerResultEntity.Success(joinToEventAsPlayerResponseDomain.data)
+            JoinToEventAsPlayerResult.Success(joinToEventAsPlayerResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<JoinToEventAsPlayerError, JoinToEventAsPlayerErrorEntity>(ex) { it.toJoinToEventAsPlayerErrorEntity() }
-            JoinToEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
+            JoinToEventAsPlayerResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity {
+    override suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResult {
         return try {
             val leaveTheEventAsPlayerResponse = service.leaveTheEventAsPlayer(
                 leaveTheEventAsPlayerRequest = LeaveTheEventAsPlayerRequest(
@@ -799,15 +772,15 @@ class AppRepositoryImpl @Inject constructor(
             )
             val leaveTheEventAsPlayerResponseDomain =
                 leaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity()
-            LeaveTheEventAsPlayerResultEntity.Success(leaveTheEventAsPlayerResponseDomain.data)
+            LeaveTheEventAsPlayerResult.Success(leaveTheEventAsPlayerResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LeaveTheEventAsPlayerError, LeaveTheEventAsPlayerErrorEntity>(ex) { it.toLeaveTheEventAsPlayerErrorEntity() }
-            LeaveTheEventAsPlayerResultEntity.Error(errorResponse.data.errors[0])
+            LeaveTheEventAsPlayerResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity {
+    override suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResult {
         return try {
             val leaveTheEventAsFunResponse = service.leaveTheEventAsFan(
                 leaveTheEventAsFanRequest = LeaveTheEventAsFanRequest(
@@ -816,12 +789,15 @@ class AppRepositoryImpl @Inject constructor(
             )
             val leaveTheEventAsFunResponseDomain =
                 leaveTheEventAsFunResponse.toLeaveTheEventAsFanResponseEntity()
-            LeaveTheEventAsFanResultEntity.Success(data = leaveTheEventAsFunResponseDomain.data)
+            LeaveTheEventAsFanResult.Success(data = leaveTheEventAsFunResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LeaveTheEventAsFunError, LeaveTheEventAsFunErrorEntity>(ex) { it.toLeaveTheEventAsFunErrorEntity() }
-            LeaveTheEventAsFanResultEntity.Error(errorResponse.data.errors[0])
+            LeaveTheEventAsFanResult.Error(errorResponse.data.errors[0])
         }
     }
 
+    override suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult {
+        TODO("Not yet implemented")
+    }
 }

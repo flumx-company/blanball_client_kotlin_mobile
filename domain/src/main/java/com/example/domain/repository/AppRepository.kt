@@ -1,5 +1,6 @@
 package com.example.domain.repository
 
+import com.example.domain.entity.results.LoginResult
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
@@ -18,9 +19,10 @@ import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
 import com.example.domain.entity.results.GetUserProfileByIdResult
 import com.example.domain.entity.results.GetUserReviewsByIdResult
 import com.example.domain.entity.results.GetUsersListResult
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
-import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
-import com.example.domain.entity.results.LoginResult
+import com.example.domain.entity.results.JoinToEventAsFanResult
+import com.example.domain.entity.results.JoinToEventAsPlayerResult
+import com.example.domain.entity.results.LeaveTheEventAsFanResult
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResult
 import com.example.domain.entity.results.PostEmailVerifyCodeResult
 import com.example.domain.entity.results.RegistrationResult
 import com.example.domain.entity.results.ResetCompleteResult
@@ -176,13 +178,13 @@ interface AppRepository {
 
     suspend fun getUkraineCitiesList(): GetUkraineCitiesListResult
 
-    suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResultEntity
+    suspend fun joinToEventAsFan(eventId: Int): JoinToEventAsFanResult
 
-    suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity
+    suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResult
 
-    suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResultEntity
+    suspend fun leaveTheEventAsFan(eventId: Int): LeaveTheEventAsFanResult
 
-    suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResultEntity
+    suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResult
 
     suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult
 }

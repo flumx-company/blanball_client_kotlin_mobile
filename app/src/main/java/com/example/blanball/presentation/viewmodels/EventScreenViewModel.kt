@@ -29,16 +29,10 @@ import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.GetEventByIdResult
 import com.example.domain.entity.results.GetRelevantUserSearchListResult
-import com.example.domain.entity.results.JoinToEventAsFunResultEntity
-import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.GetEventByIdResultEntity
-import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
-import com.example.domain.entity.results.JoinToEventAsFanResultEntity
-import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
-import com.example.domain.entity.results.LeaveTheEventAsFanResultEntity
-import com.example.domain.entity.results.LeaveTheEventAsPlayerResultEntity
+import com.example.domain.entity.results.JoinToEventAsFanResult
+import com.example.domain.entity.results.JoinToEventAsPlayerResult
+import com.example.domain.entity.results.LeaveTheEventAsFanResult
+import com.example.domain.entity.results.LeaveTheEventAsPlayerResult
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import com.example.domain.usecases.interfaces.GetEventByIdUseCase
@@ -619,7 +613,7 @@ class EventScreenViewModel
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
-                            is JoinToEventAsPlayerResultEntity.Success -> {
+                            is JoinToEventAsPlayerResult.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent)
                                 setState {
                                     copy(
@@ -628,7 +622,7 @@ class EventScreenViewModel
                                 }
                             }
 
-                            is JoinToEventAsPlayerResultEntity.Error -> {
+                            is JoinToEventAsPlayerResult.Error -> {
                                 when (result.error.detail) {
                                     application.getString(R.string.event_time_expired) -> {
                                         currentState.isErrorMessageVisible.value = true
@@ -651,7 +645,7 @@ class EventScreenViewModel
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
-                            is JoinToEventAsFanResultEntity.Success -> {
+                            is JoinToEventAsFanResult.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFanToEvent)
                                 setState {
                                     copy(
@@ -660,7 +654,7 @@ class EventScreenViewModel
                                 }
                             }
 
-                            is JoinToEventAsFanResultEntity.Error -> {
+                            is JoinToEventAsFanResult.Error -> {
                                 when (result.error.detail) {
                                     application.getString(R.string.event_time_expired) -> {
                                         currentState.isErrorMessageVisible.value = true
@@ -690,11 +684,11 @@ class EventScreenViewModel
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
-                            is LeaveTheEventAsPlayerResultEntity.Success -> {
+                            is LeaveTheEventAsPlayerResult.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent)
                             }
 
-                            is LeaveTheEventAsPlayerResultEntity.Error -> {
+                            is LeaveTheEventAsPlayerResult.Error -> {
                                 when (result.error.detail) {
                                     application.getString(R.string.event_time_expired) -> {
                                         currentState.isErrorMessageVisible.value = true
@@ -717,7 +711,7 @@ class EventScreenViewModel
                         eventId = currentState.currentEventId.value!!
                     ).let { result ->
                         when (result) {
-                            is LeaveTheEventAsFanResultEntity.Success -> {
+                            is LeaveTheEventAsFanResult.Success -> {
                                 handleEvent(EventScreenMainContract.Event.SuccessfullyFanCancellationEvent)
                                 setState {
                                     copy(
@@ -726,7 +720,7 @@ class EventScreenViewModel
                                 }
                             }
 
-                            is LeaveTheEventAsFanResultEntity.Error -> {
+                            is LeaveTheEventAsFanResult.Error -> {
                                 when (result.error.detail) {
                                     application.getString(R.string.event_time_expired) -> {
                                         currentState.isErrorMessageVisible.value = true
