@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.GetUsersListResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class GetUsersListUseCaseImpl @Inject constructor(internal val appRepository: Ap
         age_max: Int?,
         ordering: String?,
         position: String?
-    ): GetUsersListResultEntity {
+    ): GetUsersListResult {
         return appRepository.getUsersList(
             page = page,
             gender = gender,

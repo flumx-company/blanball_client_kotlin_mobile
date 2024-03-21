@@ -1,7 +1,7 @@
 package com.example.domain.usecases.interfaces
 
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.results.CreationAnEventResultEntity
+import com.example.domain.entity.results.CreationAnEventResult
 
 interface CreationAnEventUseCase {
     suspend fun executeCreationAnEvent(
@@ -24,5 +24,5 @@ interface CreationAnEventUseCase {
         price_description: String?,
         privacy: Boolean,
         type: String,
-    ): CreationAnEventResultEntity
+    ): CreationAnEventResult
 }

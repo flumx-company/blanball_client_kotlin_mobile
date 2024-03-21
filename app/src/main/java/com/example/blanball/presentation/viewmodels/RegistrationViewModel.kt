@@ -13,7 +13,7 @@ import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
-import com.example.domain.entity.results.RegistrationResultEntity
+import com.example.domain.entity.results.RegistrationResult
 import com.example.domain.usecases.interfaces.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +85,7 @@ class RegistrationViewModel @Inject constructor(
                 )
             ).let {
                 when (it) {
-                    is RegistrationResultEntity.Success -> {
+                    is RegistrationResult.Success -> {
                         userNameManager.safeUserName(currentState.firstNameText.value + " " + currentState.lastNameText.value)
                         userEmailManager.safeUserEmail(currentState.registrationEmailText.value)
                         rememberMeManager.saveRememberMeFlag(currentState.lostInSystemSwitchButton.value)
@@ -110,7 +110,7 @@ class RegistrationViewModel @Inject constructor(
                         tokenManager.saveRefreshToken(it.data.refresh)
                     }
 
-                    is RegistrationResultEntity.Error -> {
+                    is RegistrationResult.Error -> {
                         when (it.error.detail) {
                             application.getString(R.string.invalid_phone_error_message) -> {
                                 currentState.isUniquePhoneValidationError.value = true

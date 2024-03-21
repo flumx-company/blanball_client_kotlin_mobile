@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+import com.example.domain.entity.results.FillingTheUserProfileResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class FillingTheUserProfileUseCaseImpl @Inject constructor(internal val appRepos
         position: String,
         working_leg: String,
         place_name: String,
-    ): FillingTheUserProfileResultEntity {
+    ): FillingTheUserProfileResult {
         return appRepository.fillingTheUserProfile(
             birthday = birthday,
             height = height,

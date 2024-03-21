@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.FutureEventsMainContract
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatSportTypeToEnglish
-import com.example.domain.entity.results.GetAllEventsResultEntity
+import com.example.domain.entity.results.GetAllEventsResult
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import com.example.domain.utils.Integers
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -86,7 +86,7 @@ class FutureEventsScreenViewModel
                 filterDateAndTimeAfter = filterDateAndTimeAfter,
                 filterDateAndTimeBefore = filterDateAndTimeBefore,
             )) {
-                is GetAllEventsResultEntity.Success -> {
+                is GetAllEventsResult.Success -> {
                     val users = result.success.results
                     users?.let {
                         setState {
@@ -105,7 +105,7 @@ class FutureEventsScreenViewModel
                         }
                     }
                 }
-                is GetAllEventsResultEntity.Error -> {
+                is GetAllEventsResult.Error -> {
                     setState {
                         copy(
                             state = FutureEventsMainContract.ScreenViewState.LoadingError,

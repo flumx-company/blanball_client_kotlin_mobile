@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.RegistrationResultEntity
+import com.example.domain.entity.results.RegistrationResult
 
 interface RegistrationUseCase {
     suspend fun executeRegistration(
@@ -11,5 +11,5 @@ interface RegistrationUseCase {
         name: String,
         lastName: String,
         gender: String
-    ): RegistrationResultEntity
+    ): RegistrationResult
 }

@@ -25,10 +25,10 @@ import com.example.blanball.utils.ext.mapToTimeOnEditScreen
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.GetEventByIdResultEntity
-import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
+import com.example.domain.entity.results.CreationAnEventResult
+import com.example.domain.entity.results.EditEventByIdResult
+import com.example.domain.entity.results.GetEventByIdResult
+import com.example.domain.entity.results.GetRelevantUserSearchListResult
 import com.example.domain.entity.results.JoinToEventAsFunResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
@@ -283,7 +283,7 @@ class EventScreenViewModel
                 skipids = "",
             ).let { result ->
                 when (result) {
-                    is GetRelevantUserSearchListResultEntity.Success -> {
+                    is GetRelevantUserSearchListResult.Success -> {
                         val users = result.data.results
                         users.let {
                             setState {
@@ -295,7 +295,7 @@ class EventScreenViewModel
                         }
                     }
 
-                    is GetRelevantUserSearchListResultEntity.Error -> {
+                    is GetRelevantUserSearchListResult.Error -> {
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.UserSearchRequestError,
@@ -334,7 +334,7 @@ class EventScreenViewModel
                 type = currentState.sportType.value.SportTypesStringsToEnglish(context = application.applicationContext),
             ).let {
                 when (it) {
-                    is EditEventByIdResultEntity.Success -> {
+                    is EditEventByIdResult.Success -> {
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
@@ -368,7 +368,7 @@ class EventScreenViewModel
                         }
                     }
 
-                    is EditEventByIdResultEntity.Error -> {
+                    is EditEventByIdResult.Error -> {
                         setState {
                             copy(
                                 isErrorEventEdit = mutableStateOf(true)
@@ -408,7 +408,7 @@ class EventScreenViewModel
                 forms = CreationAnEventResponseEntityForms(),
             ).let {
                 when (it) {
-                    is CreationAnEventResultEntity.Success -> {
+                    is CreationAnEventResult.Success -> {
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
@@ -442,7 +442,7 @@ class EventScreenViewModel
                         }
                     }
 
-                    is CreationAnEventResultEntity.Error -> {
+                    is CreationAnEventResult.Error -> {
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.ErrorRequest,
@@ -485,7 +485,7 @@ class EventScreenViewModel
             val userIdResult = userIdManager.getUserId().firstOrNull()
             getEventByIdUseCase.executeGetEventById(eventId).let {
                 when (it) {
-                    is GetEventByIdResultEntity.Success -> {
+                    is GetEventByIdResult.Success -> {
                         setState {
                             copy(
                                 eventName = mutableStateOf(it.data.name),
@@ -555,7 +555,7 @@ class EventScreenViewModel
                         )
                     }
 
-                    is GetEventByIdResultEntity.Error -> {
+                    is GetEventByIdResult.Error -> {
                         setState {
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.LoadingError

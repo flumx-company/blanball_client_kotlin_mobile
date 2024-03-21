@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.results.EditEventByIdResultEntity
+import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.EditEventByIdUseCase
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class EditEventByIdUseCaseImpl @Inject constructor(val appRepository: AppReposit
         price_description: String?,
         privacy: Boolean,
         type: String
-    ): EditEventByIdResultEntity {
+    ): EditEventByIdResult {
         return appRepository.editEventById(
             id = id,
             amount_members = amount_members,

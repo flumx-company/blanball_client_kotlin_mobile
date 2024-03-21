@@ -9,8 +9,8 @@ import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.blanball.utils.ext.formatPositionToEnglish
 import com.example.blanball.utils.ext.formatWorkingLegToEnglishWord
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
+import com.example.domain.entity.results.FillingTheUserProfileResult
+import com.example.domain.entity.results.GetUkraineCitiesListResult
 import com.example.domain.usecases.interfaces.FillingTheUserProfileUseCase
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,7 +91,7 @@ class OnboardingProfileViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             getListOfUkraineCitiesUseCase.executeGetListOfUkraineCities().let { result ->
                 when (result) {
-                    is GetUkraineCitiesListResultEntity.Success -> {
+                    is GetUkraineCitiesListResult.Success -> {
                         setState {
                             copy(
                                 regionOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
@@ -102,7 +102,7 @@ class OnboardingProfileViewModel @Inject constructor(
                         }
                     }
 
-                    is GetUkraineCitiesListResultEntity.Error -> {
+                    is GetUkraineCitiesListResult.Error -> {
                     }
                 }
             }
@@ -122,7 +122,7 @@ class OnboardingProfileViewModel @Inject constructor(
                 place_name = "${currentState.selectedCity.value}, ${currentState.selectedRegion.value}",
             ).let {
                 when (it) {
-                    is FillingTheUserProfileResultEntity.Success -> {
+                    is FillingTheUserProfileResult.Success -> {
                         setState {
                             copy(
                                 state = OnboardingScreensStatesMainContract.ScreenViewState.SuccessFinishFillingOutTheProfile,
@@ -143,7 +143,7 @@ class OnboardingProfileViewModel @Inject constructor(
                         }
                     }
 
-                    is FillingTheUserProfileResultEntity.Error -> {
+                    is FillingTheUserProfileResult.Error -> {
                         setState {
                             copy(
                                 state = OnboardingScreensStatesMainContract.ScreenViewState.ErrorFinishFillingOutTheProfile,

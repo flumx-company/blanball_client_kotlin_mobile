@@ -10,7 +10,7 @@ import com.example.data.datastore.remembermemanager.RememberMeManager
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.usernamemanager.UserNameManager
-import com.example.domain.entity.results.LoginResultEntity
+import com.example.domain.entity.results.LoginResult
 import com.example.domain.usecases.interfaces.UserLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +85,7 @@ class LoginViewModel
                currentState.loginPasswordText.value.trim()
            ).let {
                when(it) {
-                   is LoginResultEntity.Success -> {
+                   is LoginResult.Success -> {
                        tokenManager.saveAccessToken(it.data.tokens.access)
                        tokenManager.saveRefreshToken(it.data.tokens.refresh)
                        userNameManager.safeUserName(currentState.firstNameText.value + "" + currentState.lastNameText.value)
@@ -102,7 +102,7 @@ class LoginViewModel
                        ) }
 
                    }
-                   is LoginResultEntity.Error -> setState {
+                   is LoginResult.Error -> setState {
                        copy(isErrorLoginRequest =  mutableStateOf(true),
                        state = StartScreensMainContract.ScreenViewState.LoginError) }
                }

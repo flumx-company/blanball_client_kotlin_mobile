@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.EditEventByIdResultEntity
+import com.example.domain.entity.results.EditEventByIdResult
 
 interface EditEventByIdUseCase {
     suspend fun executeEditEventById(
@@ -22,5 +22,5 @@ interface EditEventByIdUseCase {
         price_description: String?,
         privacy: Boolean,
         type: String
-    ): EditEventByIdResultEntity
+    ): EditEventByIdResult
 }

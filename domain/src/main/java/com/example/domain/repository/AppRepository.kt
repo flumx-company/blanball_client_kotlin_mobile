@@ -1,39 +1,39 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.EditMyProfileResultEntity
-import com.example.domain.entity.results.EmailResetResultEntity
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
-import com.example.domain.entity.results.GetAllEventsResultEntity
-import com.example.domain.entity.results.GetEventByIdResultEntity
-import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
-import com.example.domain.entity.results.GetMyEventsResultEntity
-import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
-import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
-import com.example.domain.entity.results.GetUserProfileByIdResultEntity
-import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
-import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.CreationAnEventResult
+import com.example.domain.entity.results.EditEventByIdResult
+import com.example.domain.entity.results.EditMyProfileResult
+import com.example.domain.entity.results.EmailResetResult
+import com.example.domain.entity.results.FillingTheUserProfileResult
+import com.example.domain.entity.results.GetAllEventsResult
+import com.example.domain.entity.results.GetEventByIdResult
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResult
+import com.example.domain.entity.results.GetMyEventsResult
+import com.example.domain.entity.results.GetMyProfileResult
+import com.example.domain.entity.results.GetRelevantUserSearchListResult
+import com.example.domain.entity.results.GetUkraineCitiesListResult
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
+import com.example.domain.entity.results.GetUserProfileByIdResult
+import com.example.domain.entity.results.GetUserReviewsByIdResult
+import com.example.domain.entity.results.GetUsersListResult
 import com.example.domain.entity.results.JoinToEventAsFunResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
-import com.example.domain.entity.results.LoginResultEntity
-import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
-import com.example.domain.entity.results.RegistrationResultEntity
-import com.example.domain.entity.results.ResetCompleteResultEntity
-import com.example.domain.entity.results.SendCodeResultEntity
-import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
+import com.example.domain.entity.results.LoginResult
+import com.example.domain.entity.results.PostEmailVerifyCodeResult
+import com.example.domain.entity.results.RegistrationResult
+import com.example.domain.entity.results.ResetCompleteResult
+import com.example.domain.entity.results.SendCodeResult
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResult
 
 interface AppRepository {
-    suspend fun login(email: String, password: String): LoginResultEntity
+    suspend fun login(email: String, password: String): LoginResult
 
-    suspend fun sendEmailPassReset(email: String): EmailResetResultEntity
+    suspend fun sendEmailPassReset(email: String): EmailResetResult
 
-    suspend fun sendCode(code: String): SendCodeResultEntity
+    suspend fun sendCode(code: String): SendCodeResult
 
-    suspend fun changePassword(newPassword: String): ResetCompleteResultEntity
+    suspend fun changePassword(newPassword: String): ResetCompleteResult
 
     suspend fun registration(
         email: String,
@@ -43,13 +43,13 @@ interface AppRepository {
         name: String,
         lastName: String,
         gender: String,
-    ): RegistrationResultEntity
+    ): RegistrationResult
 
-    suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity
+    suspend fun getUserProfileById(id: Int): GetUserProfileByIdResult
 
-    suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity
+    suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResult
 
-    suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResultEntity
+    suspend fun getUserPlannedEventsById(id: Int, page: Int): GetUserPlannedEventsByIdResult
 
     suspend fun fillingTheUserProfile(
         birthday: String,
@@ -58,7 +58,7 @@ interface AppRepository {
         position: String,
         working_leg: String,
         place_name: String,
-    ): FillingTheUserProfileResultEntity
+    ): FillingTheUserProfileResult
 
     suspend fun getUsersList(
         page: Int,
@@ -67,9 +67,9 @@ interface AppRepository {
         age_max: Int?,
         ordering: String?,
         position: String?
-    ): GetUsersListResultEntity
+    ): GetUsersListResult
 
-    suspend fun getMyProfile(page: Int): GetMyProfileResultEntity
+    suspend fun getMyProfile(page: Int): GetMyProfileResult
 
     suspend fun createAnNewEvent(
         amount_members: Int,
@@ -91,7 +91,7 @@ interface AppRepository {
         price_description: String?,
         privacy: Boolean,
         type: String,
-    ): CreationAnEventResultEntity
+    ): CreationAnEventResult
 
     suspend fun getAllEvents(
         page: Int,
@@ -101,7 +101,7 @@ interface AppRepository {
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetAllEventsResultEntity
+    ): GetAllEventsResult
 
     suspend fun getMyEvents(
         page: Int,
@@ -111,11 +111,11 @@ interface AppRepository {
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetMyEventsResultEntity
+    ): GetMyEventsResult
 
     suspend fun getEventById(
         id: Int
-    ): GetEventByIdResultEntity
+    ): GetEventByIdResult
 
     suspend fun editEventById(
         id: Int,
@@ -136,15 +136,15 @@ interface AppRepository {
         price_description: String?,
         privacy: Boolean,
         type: String
-    ): EditEventByIdResultEntity
+    ): EditEventByIdResult
 
     suspend fun sendVerifyCodeToUserEmail(
         page: Int
-    ): SendVerifyCodeToUserEmailResultEntity
+    ): SendVerifyCodeToUserEmailResult
 
     suspend fun postEmailVerifyCode(
         code: String
-    ): PostEmailVerifyCodeResultEntity
+    ): PostEmailVerifyCodeResult
 
     suspend fun editMyProfile(
         phone: String,
@@ -163,19 +163,21 @@ interface AppRepository {
         lat: Double,
         lon: Double,
         place_name: String
-    ): EditMyProfileResultEntity
+    ): EditMyProfileResult
 
-    suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity
+    suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResult
 
     suspend fun getRelevantUserSearchList(
         search: String,
         page: Int,
         skipids: String,
-    ): GetRelevantUserSearchListResultEntity
+    ): GetRelevantUserSearchListResult
 
-    suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity
+    suspend fun getUkraineCitiesList(): GetUkraineCitiesListResult
 
     suspend fun joinToEventAsFun(eventId: Int): JoinToEventAsFunResultEntity
 
     suspend fun joinToEventAsPlayer(eventId: Int): JoinToEventAsPlayerResultEntity
+
+    suspend fun getPrivateEventRequestList(eventId: Int):
 }

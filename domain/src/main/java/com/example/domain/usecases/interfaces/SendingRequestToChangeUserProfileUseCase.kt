@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.EditMyProfileResultEntity
+import com.example.domain.entity.results.EditMyProfileResult
 
 interface SendingRequestToChangeUserProfileUseCase {
     suspend fun executeEditUserProfileRequest(
@@ -20,5 +20,5 @@ interface SendingRequestToChangeUserProfileUseCase {
         lat: Double,
         lon: Double,
         place_name: String,
-    ): EditMyProfileResultEntity
+    ): EditMyProfileResult
 }

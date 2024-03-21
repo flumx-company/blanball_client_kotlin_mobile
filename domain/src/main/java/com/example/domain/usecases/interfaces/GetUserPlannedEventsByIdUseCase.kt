@@ -1,7 +1,7 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
 
 interface GetUserPlannedEventsByIdUseCase {
-    suspend fun executeGetUserPlannedEventsById(page: Int): GetUserPlannedEventsByIdResultEntity
+    suspend fun executeGetUserPlannedEventsById(page: Int): GetUserPlannedEventsByIdResult
 }

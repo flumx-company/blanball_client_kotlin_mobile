@@ -15,9 +15,9 @@ import com.example.blanball.utils.ext.formatWorkingLegToEnglishWord
 import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
-import com.example.domain.entity.results.EditMyProfileResultEntity
-import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
+import com.example.domain.entity.results.EditMyProfileResult
+import com.example.domain.entity.results.GetMyProfileResult
+import com.example.domain.entity.results.GetUkraineCitiesListResult
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
@@ -94,7 +94,7 @@ class MyProfileScreenViewModel @Inject constructor(
                 place_name = "${currentState.selectedCity.value}, ${currentState.selectedRegion.value}",
             ).let { result ->
                 when (result) {
-                    is EditMyProfileResultEntity.Success ->
+                    is EditMyProfileResult.Success ->
                         setState {
                             copy(
                                 state = MyProfileScreensMainContract.ScreenViewState.EditProfileRequestSuccess,
@@ -137,7 +137,7 @@ class MyProfileScreenViewModel @Inject constructor(
                             )
                         }
 
-                    is EditMyProfileResultEntity.Error ->
+                    is EditMyProfileResult.Error ->
                         setState {
                             copy(
                                 state = MyProfileScreensMainContract.ScreenViewState.EditProfileRequestError
@@ -152,7 +152,7 @@ class MyProfileScreenViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             getListOfUkraineCitiesUseCase.executeGetListOfUkraineCities().let { result ->
                 when (result) {
-                    is GetUkraineCitiesListResultEntity.Success -> {
+                    is GetUkraineCitiesListResult.Success -> {
                         setState {
                             copy(
                                 regionOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
@@ -162,7 +162,7 @@ class MyProfileScreenViewModel @Inject constructor(
                             )
                         }
                     }
-                    is GetUkraineCitiesListResultEntity.Error -> {
+                    is GetUkraineCitiesListResult.Error -> {
                     }
                 }
             }
@@ -189,7 +189,7 @@ class MyProfileScreenViewModel @Inject constructor(
             getMyProfileUseCase.executeGetMyProfile(1).let {
                 when (val result =
                     getMyProfileUseCase.executeGetMyProfile(1)) {
-                    is GetMyProfileResultEntity.Success -> {
+                    is GetMyProfileResult.Success -> {
                         val myProfile = result.success.profile
                         userNameManager.safeUserName("${myProfile.name} ${myProfile.last_name}")
                         myProfile.avatar_url?.let { avatarUrl ->
@@ -259,7 +259,7 @@ class MyProfileScreenViewModel @Inject constructor(
                         }
                     }
 
-                    is GetMyProfileResultEntity.Error -> {
+                    is GetMyProfileResult.Error -> {
 
                     }
                 }

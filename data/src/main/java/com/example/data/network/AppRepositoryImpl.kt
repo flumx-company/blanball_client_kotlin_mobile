@@ -126,30 +126,30 @@ import com.example.domain.entity.responses.errors.PostEmailVerifyCodeErrorEntity
 import com.example.domain.entity.responses.errors.RegistrationErrorEntity
 import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailErrorEntity
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
-import com.example.domain.entity.results.CreationAnEventResultEntity
-import com.example.domain.entity.results.EditEventByIdResultEntity
-import com.example.domain.entity.results.EditMyProfileResultEntity
-import com.example.domain.entity.results.EmailResetResultEntity
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
-import com.example.domain.entity.results.GetAllEventsResultEntity
-import com.example.domain.entity.results.GetEventByIdResultEntity
-import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
-import com.example.domain.entity.results.GetMyEventsResultEntity
-import com.example.domain.entity.results.GetMyProfileResultEntity
-import com.example.domain.entity.results.GetRelevantUserSearchListResultEntity
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
-import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
-import com.example.domain.entity.results.GetUserProfileByIdResultEntity
-import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
-import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.CreationAnEventResult
+import com.example.domain.entity.results.EditEventByIdResult
+import com.example.domain.entity.results.EditMyProfileResult
+import com.example.domain.entity.results.EmailResetResult
+import com.example.domain.entity.results.FillingTheUserProfileResult
+import com.example.domain.entity.results.GetAllEventsResult
+import com.example.domain.entity.results.GetEventByIdResult
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResult
+import com.example.domain.entity.results.GetMyEventsResult
+import com.example.domain.entity.results.GetMyProfileResult
+import com.example.domain.entity.results.GetRelevantUserSearchListResult
+import com.example.domain.entity.results.GetUkraineCitiesListResult
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
+import com.example.domain.entity.results.GetUserProfileByIdResult
+import com.example.domain.entity.results.GetUserReviewsByIdResult
+import com.example.domain.entity.results.GetUsersListResult
 import com.example.domain.entity.results.JoinToEventAsFunResultEntity
 import com.example.domain.entity.results.JoinToEventAsPlayerResultEntity
-import com.example.domain.entity.results.LoginResultEntity
-import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
-import com.example.domain.entity.results.RegistrationResultEntity
-import com.example.domain.entity.results.ResetCompleteResultEntity
-import com.example.domain.entity.results.SendCodeResultEntity
-import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
+import com.example.domain.entity.results.LoginResult
+import com.example.domain.entity.results.PostEmailVerifyCodeResult
+import com.example.domain.entity.results.RegistrationResult
+import com.example.domain.entity.results.ResetCompleteResult
+import com.example.domain.entity.results.SendCodeResult
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.utils.NavigationManager
 import kotlinx.coroutines.flow.firstOrNull
@@ -166,18 +166,18 @@ class AppRepositoryImpl @Inject constructor(
     private val navigationManager: NavigationManager,
 ) : AppRepository {
 
-    override suspend fun getUkraineCitiesList(): GetUkraineCitiesListResultEntity {
+    override suspend fun getUkraineCitiesList(): GetUkraineCitiesListResult {
         return try {
             val getUkraineCitiesListResponse = service.getUkraineCitiesList()
             val getUkraineCitiesListResponseDomain =
                 getUkraineCitiesListResponse.toGetUkraineCitiesListResponseEntity()
-            GetUkraineCitiesListResultEntity.Success(data = getUkraineCitiesListResponseDomain)
+            GetUkraineCitiesListResult.Success(data = getUkraineCitiesListResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetUkraineCitiesListError, GetUkraineCitiesListErrorEntity>(ex) {
                     it.toGetUkraineCitiesListErrorEntity()
                 }
-            GetUkraineCitiesListResultEntity.Error(error = errorResponse.data.errors[0])
+            GetUkraineCitiesListResult.Error(error = errorResponse.data.errors[0])
         }
     }
 
@@ -198,7 +198,7 @@ class AppRepositoryImpl @Inject constructor(
         lat: Double,
         lon: Double,
         place_name: String,
-    ): EditMyProfileResultEntity {
+    ): EditMyProfileResult {
         return try {
             val editMyProfileResponse = service.ediMyProfile(
                 editMyProfileRequest = EditMyProfileRequest(
@@ -227,13 +227,13 @@ class AppRepositoryImpl @Inject constructor(
                 )
             )
             val editMyProfileResponseDomain = editMyProfileResponse.toEditMyProfileResponseEntity()
-            EditMyProfileResultEntity.Success(data = editMyProfileResponseDomain)
+            EditMyProfileResult.Success(data = editMyProfileResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<EditMyProfileError, EditMyProfileErrorEntity>(ex) {
                     it.toEditMyProfileErrorEntity()
                 }
-            EditMyProfileResultEntity.Error(error = errorResponse.data.errors[0])
+            EditMyProfileResult.Error(error = errorResponse.data.errors[0])
         }
     }
 
@@ -241,7 +241,7 @@ class AppRepositoryImpl @Inject constructor(
         search: String,
         page: Int,
         skipids: String,
-    ): GetRelevantUserSearchListResultEntity {
+    ): GetRelevantUserSearchListResult {
         return try {
             val getRelevantUserSearchResponse = service.getRelevantUserSearchList(
                 search = search,
@@ -250,7 +250,7 @@ class AppRepositoryImpl @Inject constructor(
             )
             val getRelevantUserSearchResponseDomain =
                 getRelevantUserSearchResponse.toGetRelevantUserSearchListResponseEntity()
-            GetRelevantUserSearchListResultEntity.Success(data = getRelevantUserSearchResponseDomain.data)
+            GetRelevantUserSearchListResult.Success(data = getRelevantUserSearchResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetRelevantUserSearchListError, GetRelevantUserSearchListErrorEntity>(
@@ -258,16 +258,16 @@ class AppRepositoryImpl @Inject constructor(
                 ) {
                     it.toGetRelevantUserSearchListErrorEntity()
                 }
-            GetRelevantUserSearchListResultEntity.Error(error = errorResponse.data.errors[0])
+            GetRelevantUserSearchListResult.Error(error = errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResultEntity {
+    override suspend fun getIsTechnicalWorkStatus(): GetIsTechnicalWorkStatusResult {
         return try {
             val getIsTechnicalWorkStatusResponse = service.getIsTechnicalWorkStatus()
             val getIsTechnicalWorkStatusResponseDomain =
                 getIsTechnicalWorkStatusResponse.toGetIsTechnicalWorkStatusResponseEntity()
-            GetIsTechnicalWorkStatusResultEntity.Success(data = getIsTechnicalWorkStatusResponseDomain.data)
+            GetIsTechnicalWorkStatusResult.Success(data = getIsTechnicalWorkStatusResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetIsTechnicalWorkStatusError, GetIsTechnicalWorkStatusErrorEntity>(
@@ -275,33 +275,33 @@ class AppRepositoryImpl @Inject constructor(
                 ) {
                     it.toGetIsTechnicalWorkStatusErrorEntity()
                 }
-            GetIsTechnicalWorkStatusResultEntity.Error(errorResponse.data.errors[0])
+            GetIsTechnicalWorkStatusResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun postEmailVerifyCode(code: String): PostEmailVerifyCodeResultEntity {
+    override suspend fun postEmailVerifyCode(code: String): PostEmailVerifyCodeResult {
         return try {
             val postEmailVerifyCodeResponse = service.postEmailVerifyCode(
                 postEmailVerifyCodeRequest = PostEmailVerifyCodeRequest(verify_code = code)
             )
             val postEmailVerifyCodeResponseDomain =
                 postEmailVerifyCodeResponse.toPostEmailVerifyCodeResponseEntity()
-            PostEmailVerifyCodeResultEntity.Success(data = postEmailVerifyCodeResponseDomain.data)
+            PostEmailVerifyCodeResult.Success(data = postEmailVerifyCodeResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<PostEmailVerifyCodeError, PostEmailVerifyCodeErrorEntity>(ex) {
                     it.toPostEmailVerifyCodeErrorEntity()
                 }
-            PostEmailVerifyCodeResultEntity.Error(error = errorResponse.data.errors[0])
+            PostEmailVerifyCodeResult.Error(error = errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun sendVerifyCodeToUserEmail(page: Int): SendVerifyCodeToUserEmailResultEntity {
+    override suspend fun sendVerifyCodeToUserEmail(page: Int): SendVerifyCodeToUserEmailResult {
         return try {
             val sendVerifyCodeToUserEmailResponse = service.sendVerifyCodeToUserEmail(page = page)
             val sendVerifyCodeToUserEmailResponseDomain =
                 sendVerifyCodeToUserEmailResponse.toSendVerifyCodeToUserEmailResponseEntity()
-            SendVerifyCodeToUserEmailResultEntity.Success(data = sendVerifyCodeToUserEmailResponseDomain.data)
+            SendVerifyCodeToUserEmailResult.Success(data = sendVerifyCodeToUserEmailResponseDomain.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<SendVerifyCodeToUserEmailError, SendVerifyCodeToUserEmailErrorEntity>(
@@ -309,7 +309,7 @@ class AppRepositoryImpl @Inject constructor(
                 ) {
                     it.toSendVerifyCodeToUserEmailErrorEntity()
                 }
-            SendVerifyCodeToUserEmailResultEntity.Error(errorResponse.data.errors[0])
+            SendVerifyCodeToUserEmailResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -332,7 +332,7 @@ class AppRepositoryImpl @Inject constructor(
         price_description: String?,
         privacy: Boolean,
         type: String,
-    ): EditEventByIdResultEntity {
+    ): EditEventByIdResult {
         return try {
             val editEventByIdResponse = service.editEventById(
                 id = id,
@@ -361,28 +361,28 @@ class AppRepositoryImpl @Inject constructor(
             )
             val editEventByIdDomainResponse =
                 editEventByIdResponse.toEditEventByIdResponseEntity()
-            EditEventByIdResultEntity.Success(editEventByIdDomainResponse.data)
+            EditEventByIdResult.Success(editEventByIdDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<EditEventByIdResponseError, EditEventByIdResponseErrorEntity>(ex) {
                     it.toEditEventByIdResponseErrorEntity()
                 }
-            EditEventByIdResultEntity.Error(errorResponse.data.errors[0])
+            EditEventByIdResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun getEventById(id: Int): GetEventByIdResultEntity {
+    override suspend fun getEventById(id: Int): GetEventByIdResult {
         return try {
             val getEventByIdResponse = service.getEventById(id = id)
             val getEventByIdResponseDomainResponse =
                 getEventByIdResponse.toGetEventByIdResponse()
-            GetEventByIdResultEntity.Success(getEventByIdResponseDomainResponse.data)
+            GetEventByIdResult.Success(getEventByIdResponseDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetEventByIdResponseError, GetEventByIdResponseErrorEntity>(ex) {
                     it.toGetEventByIdResponseErrorEntity()
                 }
-            GetEventByIdResultEntity.Error(errorResponse.data.errors[0])
+            GetEventByIdResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -393,7 +393,7 @@ class AppRepositoryImpl @Inject constructor(
         age_max: Int?,
         ordering: String?,
         position: String?,
-    ): GetUsersListResultEntity {
+    ): GetUsersListResult {
         return try {
             val getUsersListResponse = service.getUsersList(
                 page = page,
@@ -405,11 +405,11 @@ class AppRepositoryImpl @Inject constructor(
             )
             val getUsersListResponseDomainResponse =
                 getUsersListResponse.toGetUsersListResponseEntity()
-            GetUsersListResultEntity.Success(getUsersListResponseDomainResponse.data)
+            GetUsersListResult.Success(getUsersListResponseDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetUsersListResponseError, GetUsersListResponseErrorEntity>(ex) { it.toGetUsersListResponseErrorEntity() }
-            GetUsersListResultEntity.Error(errorResponse.data.errors[0])
+            GetUsersListResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -434,7 +434,7 @@ class AppRepositoryImpl @Inject constructor(
         price_description: String?,
         privacy: Boolean,
         type: String,
-    ): CreationAnEventResultEntity {
+    ): CreationAnEventResult {
         return try {
             val request = CreationAnEventRequest(
                 amount_members = amount_members,
@@ -462,11 +462,11 @@ class AppRepositoryImpl @Inject constructor(
             val createAnNewEventResponse = service.createAnEvent(request)
             val createAnNewEventDomainResponse =
                 createAnNewEventResponse.toCreationAnEventResponseEntity()
-            CreationAnEventResultEntity.Success(createAnNewEventDomainResponse.data)
+            CreationAnEventResult.Success(createAnNewEventDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<CreationAnEventError, CreationAnEventErrorEntity>(ex) { it.toCreationAnEventErrorEntity() }
-            CreationAnEventResultEntity.Error(errorResponse.data.errors[0])
+            CreationAnEventResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -478,7 +478,7 @@ class AppRepositoryImpl @Inject constructor(
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetMyEventsResultEntity {
+    ): GetMyEventsResult {
         return try {
             val getMyEventsResponse = service.getMyEvents(
                 page = page,
@@ -490,11 +490,11 @@ class AppRepositoryImpl @Inject constructor(
                 date_and_time_after = filterDateAndTimeAfter,
             )
             val getMyEventsDomainResponse = getMyEventsResponse.toGetMyEventsResponseEntity()
-            GetMyEventsResultEntity.Success(getMyEventsDomainResponse.data)
+            GetMyEventsResult.Success(getMyEventsDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetMyEventsResponseError, GetMyEventsEntityResponseError>(ex) { it.toGetMyEventsEntityResponseError() }
-            GetMyEventsResultEntity.Error(errorResponse.data.errors[0])
+            GetMyEventsResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -506,7 +506,7 @@ class AppRepositoryImpl @Inject constructor(
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetAllEventsResultEntity {
+    ): GetAllEventsResult {
         return try {
             val getAllEventResponse = service.getAllEvents(
                 page = page,
@@ -518,24 +518,24 @@ class AppRepositoryImpl @Inject constructor(
                 date_and_time_after = filterDateAndTimeAfter,
             )
             val getAllEventsDomainResponse = getAllEventResponse.toGetAllEventResponseEntity()
-            GetAllEventsResultEntity.Success(getAllEventsDomainResponse.data)
+            GetAllEventsResult.Success(getAllEventsDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetAllEventResponseError, GetAllEventEntityResponseError>(ex) { it.toGetAllEventEntityResponseError() }
-            GetAllEventsResultEntity.Error(errorResponse.data.errors[0])
+            GetAllEventsResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun getMyProfile(page: Int): GetMyProfileResultEntity {
+    override suspend fun getMyProfile(page: Int): GetMyProfileResult {
         return try {
             val getMyProfileResponse = service.getMyProfile(page)
             val getMyProfileDomainResponse = getMyProfileResponse.toGetMyProfileResponseEntity()
             userPhoneManager.safeUserPhone(getMyProfileDomainResponse.data.phone.toString())
-            GetMyProfileResultEntity.Success(getMyProfileDomainResponse.data)
+            GetMyProfileResult.Success(getMyProfileDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetMyProfileError, GetMyProfileErrorEntity>(ex) { it.toGetMyProfileErrorEntity() }
-            GetMyProfileResultEntity.Error(errorResponse.data.errors[0])
+            GetMyProfileResult.Error(errorResponse.data.errors[0])
         }
     }
 
@@ -546,7 +546,7 @@ class AppRepositoryImpl @Inject constructor(
         position: String,
         working_leg: String,
         place_name: String,
-    ): FillingTheUserProfileResultEntity {
+    ): FillingTheUserProfileResult {
         return try {
             val savedUserPhone = userPhoneManager.getUserPhone()
             val savedFullName = userNameManager.getUserName().firstOrNull().toString()
@@ -577,117 +577,117 @@ class AppRepositoryImpl @Inject constructor(
             )
             val updateUserProfileDomainResponse =
                 updateUserProfileResponse.toUpdateUserProfileResponseEntity()
-            FillingTheUserProfileResultEntity.Success(updateUserProfileDomainResponse.data)
+            FillingTheUserProfileResult.Success(updateUserProfileDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<UpdateUserProfileResponseError, UpdateUserProfileResponseEntityError>(
                     ex
                 ) { it.toUpdateUserProfileResponseEntityError() }
-            FillingTheUserProfileResultEntity.Error(errorResponse.data.errors[0])
+            FillingTheUserProfileResult.Error(errorResponse.data.errors[0])
         }
     }
 
     override suspend fun getUserPlannedEventsById(
         id: Int,
         page: Int,
-    ): GetUserPlannedEventsByIdResultEntity {
+    ): GetUserPlannedEventsByIdResult {
         return try {
             val getUserPlannedByIdResponse = service.getListOfUsersPlannedEvents(id, page)
             val getUserPlannedByIdDomainResponse =
                 getUserPlannedByIdResponse.toGetUserPlannedEventsByIdResponseEntity()
-            GetUserPlannedEventsByIdResultEntity.Success(getUserPlannedByIdDomainResponse.data)
+            GetUserPlannedEventsByIdResult.Success(getUserPlannedByIdDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetUserPlannedEventsByIdError, GetUserPlannedEventsByIdErrorEntity>(
                     ex
                 ) { it.toGetUserPlannedEventsByIdErrorEntity() }
-            GetUserPlannedEventsByIdResultEntity.Error(errorResponse.data.errors[0])
+            GetUserPlannedEventsByIdResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResultEntity {
+    override suspend fun getUserReviewsById(id: Int, page: Int): GetUserReviewsByIdResult {
         return try {
             val getUserReviewsByIdResponse = service.getUserReviewsById(id, page)
             val getUserReviewsByIdDomainResponse =
                 getUserReviewsByIdResponse.toGetUserReviewsByIdResponseEntity()
-            GetUserReviewsByIdResultEntity.Success(getUserReviewsByIdDomainResponse.data)
+            GetUserReviewsByIdResult.Success(getUserReviewsByIdDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetUserReviewsByIdResponseError, GetUserReviewsByIdResponseErrorEntity>(
                     ex
                 ) { it.toGetUserReviewsByIdResponseErrorEntity() }
-            GetUserReviewsByIdResultEntity.Error(errorResponse.data.errors[0])
+            GetUserReviewsByIdResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun getUserProfileById(id: Int): GetUserProfileByIdResultEntity {
+    override suspend fun getUserProfileById(id: Int): GetUserProfileByIdResult {
         return try {
             val getUserProfileByIdResponse = service.getUserProfileById(id)
             val getUserProfileByIdDomainResponse =
                 getUserProfileByIdResponse.toGetUserProfileByIdResponseEntity()
-            GetUserProfileByIdResultEntity.Success(getUserProfileByIdDomainResponse.data)
+            GetUserProfileByIdResult.Success(getUserProfileByIdDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetUserProfileByIdError, GetUserProfileByIdErrorEntity>(ex) { it.toGetUserProfileByIdErrorEntity() }
-            GetUserProfileByIdResultEntity.Error(errorResponse.data.errors[0])
+            GetUserProfileByIdResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun changePassword(newPassword: String): ResetCompleteResultEntity {
+    override suspend fun changePassword(newPassword: String): ResetCompleteResult {
         return try {
             val savedVerifyCode =
                 resetPassVerifyCodeManager.getResetPassVerifyCode().firstOrNull()?.toString() ?: ""
             val request = ResetCompleteRequest(newPassword, savedVerifyCode)
             val resetCompleteResponse = service.resetComplete(request)
             val resetCompleteDomainResponse = resetCompleteResponse.toResetCompleteResponseEntity()
-            ResetCompleteResultEntity.Success(resetCompleteDomainResponse.data)
+            ResetCompleteResult.Success(resetCompleteDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<ResetCompleteError, ResetCompleteErrorEntity>(ex) { it.toResetCompleteErrorEntity() }
-            ResetCompleteResultEntity.Error(errorResponse.data.errors[0])
+            ResetCompleteResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun sendCode(code: String): SendCodeResultEntity {
+    override suspend fun sendCode(code: String): SendCodeResult {
         return try {
             val request = SendResetCodeRequest(code)
             val sendResetCodeResponse = service.validateResetCode(request)
             val sendResetCodeDomainResponse = sendResetCodeResponse.toSendCodeResponseEntity()
             resetPassVerifyCodeManager.saveResetPassVerifyCode(code)
-            SendCodeResultEntity.Success(sendResetCodeDomainResponse.data)
+            SendCodeResult.Success(sendResetCodeDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<SendCodeError, SendCodeErrorEntity>(ex) { it.toSendCodeErrorEntity() }
-            SendCodeResultEntity.Error(errorResponse.data.errors[0])
+            SendCodeResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun sendEmailPassReset(email: String): EmailResetResultEntity {
+    override suspend fun sendEmailPassReset(email: String): EmailResetResult {
         return try {
             val request = SendEmailPasswordResetRequest(email)
             val sendEmailResetResponse = service.sendEmailPasswordReset(request)
             val sendEmailResetDomainResponse = sendEmailResetResponse.toEmailResetResponse()
-            EmailResetResultEntity.Success(sendEmailResetDomainResponse.data)
+            EmailResetResult.Success(sendEmailResetDomainResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<EmailPassResetError, EmailPassResetErrorEntity>(ex) { it.toEmailPassResetErrorEntity() }
-            EmailResetResultEntity.Error(errorResponse.data.errors[0])
+            EmailResetResult.Error(errorResponse.data.errors[0])
         }
     }
 
-    override suspend fun login(email: String, password: String): LoginResultEntity {
+    override suspend fun login(email: String, password: String): LoginResult {
         return try {
             val authRequest = AuthRequest(email, password)
             val loginSuccess = service.loginAuthorization(authRequest)
             val loginResponse = loginSuccess.toLoginResponse()
-            LoginResultEntity.Success(loginResponse.data)
+            LoginResult.Success(loginResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LoginError, ErrorResponse>(ex) { it.toErrorResponse() }
-            LoginResultEntity.Error(errorResponse.data.errors[0])
+            LoginResult.Error(errorResponse.data.errors[0])
         } catch (connectEx: SocketTimeoutException) {
             Log.d("Timeout", connectEx.toString())
-            LoginResultEntity.Error(error(connectEx.toString()))
+            LoginResult.Error(error(connectEx.toString()))
         }
     }
 
@@ -699,7 +699,7 @@ class AppRepositoryImpl @Inject constructor(
         name: String,
         lastName: String,
         gender: String,
-    ): RegistrationResultEntity {
+    ): RegistrationResult {
         return try {
             val request = RegistrationRequest(
                 email =
@@ -713,11 +713,11 @@ class AppRepositoryImpl @Inject constructor(
             userNameManager.safeUserName("$name $lastName")
             userPhoneManager.safeUserPhone(request.phone)
             val registrationResponse = registrationSuccess.toRegistrationResponseEntity()
-            RegistrationResultEntity.Success(registrationResponse.data)
+            RegistrationResult.Success(registrationResponse.data)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<RegistrationError, RegistrationErrorEntity>(ex) { it.toRegistrationErrorEntity() }
-            RegistrationResultEntity.Error(errorResponse.data.errors[0])
+            RegistrationResult.Error(errorResponse.data.errors[0])
         }
     }
 

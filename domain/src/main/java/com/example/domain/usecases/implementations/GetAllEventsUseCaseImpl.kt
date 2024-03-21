@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.results.GetAllEventsResultEntity
+import com.example.domain.entity.results.GetAllEventsResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.GetAllEventsUseCase
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class GetAllEventsUseCaseImpl @Inject constructor(internal val appRepository: Ap
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetAllEventsResultEntity {
+    ): GetAllEventsResult {
         return appRepository.getAllEvents(
             page,
             typeOfSport = typeOfSport,

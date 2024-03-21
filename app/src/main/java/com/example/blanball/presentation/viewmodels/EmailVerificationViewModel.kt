@@ -7,8 +7,8 @@ import com.example.blanball.presentation.data.EmailVerificationMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
 import com.example.data.datastore.emailverificationmanager.EmailVerificationManager
-import com.example.domain.entity.results.PostEmailVerifyCodeResultEntity
-import com.example.domain.entity.results.SendVerifyCodeToUserEmailResultEntity
+import com.example.domain.entity.results.PostEmailVerifyCodeResult
+import com.example.domain.entity.results.SendVerifyCodeToUserEmailResult
 import com.example.domain.usecases.interfaces.EmailVerificationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +72,7 @@ class EmailVerificationViewModel
         job = viewModelScope.launch(Dispatchers.IO) {
             emailVerificationUseCase.executeSendVerifyCodeToUserEmail(page = 1).let {
                 when (it) {
-                    is SendVerifyCodeToUserEmailResultEntity.Success -> {
+                    is SendVerifyCodeToUserEmailResult.Success -> {
                         setState {
                             copy(
                                 state = EmailVerificationMainContract.ScreenViewState.SendCodeToUserEmailSuccess,
@@ -82,7 +82,7 @@ class EmailVerificationViewModel
                         }
                     }
 
-                    is SendVerifyCodeToUserEmailResultEntity.Error -> setState {
+                    is SendVerifyCodeToUserEmailResult.Error -> setState {
                         copy(
                             isSendCodeToUserEmailError = mutableStateOf(
                                 true
@@ -101,7 +101,7 @@ class EmailVerificationViewModel
         job = viewModelScope.launch(Dispatchers.IO) {
             emailVerificationUseCase.executePostEmailVerifyCode(code).let {
                 when (it) {
-                    is PostEmailVerifyCodeResultEntity.Success -> {
+                    is PostEmailVerifyCodeResult.Success -> {
                         emailVerificationManager.saveIsEmailVerifiedState(isEmailVerified = true)
                         setState {
                             copy(
@@ -113,7 +113,7 @@ class EmailVerificationViewModel
                         }
                     }
 
-                    is PostEmailVerifyCodeResultEntity.Error -> setState {
+                    is PostEmailVerifyCodeResult.Error -> setState {
                         copy(
                             isEmailVerifyError = mutableStateOf(true),
                             state = EmailVerificationMainContract.ScreenViewState.EmailVerifyError

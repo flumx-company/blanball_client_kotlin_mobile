@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.RatingUsersMainContract
 import com.example.blanball.presentation.viewmodels.UsersRatingViewModel
-import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.GetUsersListResult
 import com.example.domain.usecases.interfaces.GetUsersListUseCase
 import com.example.domain.utils.Integers
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +41,7 @@ class LoadUsersWorkerImpl @Inject constructor (
                 ordering = ordering,
                 position = position,
             )) {
-                is GetUsersListResultEntity.Success -> {
+                is GetUsersListResult.Success -> {
                     val users = result.data.results
                     users?.let {
                         viewModel.setState {
@@ -60,7 +60,7 @@ class LoadUsersWorkerImpl @Inject constructor (
                         }
                     }
                 }
-                is GetUsersListResultEntity.Error -> {
+                is GetUsersListResult.Error -> {
                     viewModel.setState {
                         copy(
                             state = RatingUsersMainContract.ScreenViewState.LoadingError,

@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.GetMyEventsResultEntity
+import com.example.domain.entity.results.GetMyEventsResult
 
 interface GetMyEventsUseCase {
     suspend fun executeGetMyEvents(
@@ -11,5 +11,5 @@ interface GetMyEventsUseCase {
         ordering: String,
         filterDateAndTimeBefore: String,
         filterDateAndTimeAfter: String,
-    ): GetMyEventsResultEntity
+    ): GetMyEventsResult
 }

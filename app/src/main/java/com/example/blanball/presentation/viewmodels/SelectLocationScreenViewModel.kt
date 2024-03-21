@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.SelectLocationScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
+import com.example.domain.entity.results.GetUkraineCitiesListResult
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +56,7 @@ class SelectLocationScreenViewModel
         job = viewModelScope.launch(Dispatchers.IO) {
             getListOfUkraineCitiesUseCase.executeGetListOfUkraineCities().let { result ->
                 when (result) {
-                    is GetUkraineCitiesListResultEntity.Success -> {
+                    is GetUkraineCitiesListResult.Success -> {
                         setState {
                             copy(
                                 regionOfUkraineList = mutableStateOf(result.data.data.map { it.name }),
@@ -66,7 +66,7 @@ class SelectLocationScreenViewModel
                             )
                         }
                     }
-                    is GetUkraineCitiesListResultEntity.Error -> {
+                    is GetUkraineCitiesListResult.Error -> {
                     }
                 }
             }

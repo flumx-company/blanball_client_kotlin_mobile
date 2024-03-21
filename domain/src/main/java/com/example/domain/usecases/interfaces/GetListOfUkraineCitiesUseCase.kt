@@ -1,7 +1,7 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.GetUkraineCitiesListResultEntity
+import com.example.domain.entity.results.GetUkraineCitiesListResult
 
 interface GetListOfUkraineCitiesUseCase {
-    suspend fun executeGetListOfUkraineCities() : GetUkraineCitiesListResultEntity
+    suspend fun executeGetListOfUkraineCities() : GetUkraineCitiesListResult
 }

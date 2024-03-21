@@ -11,7 +11,7 @@ import com.example.data.datastore.useravatarurlmanager.UserAvatarUrlManager
 import com.example.data.datastore.useremailmanager.UserEmailManager
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.usernamemanager.UserNameManager
-import com.example.domain.entity.results.GetMyProfileResultEntity
+import com.example.domain.entity.results.GetMyProfileResult
 import com.example.domain.usecases.interfaces.GetListOfUkraineCitiesUseCase
 import com.example.domain.usecases.interfaces.GetMyProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -64,7 +64,7 @@ class NavigationDrawerViewModel
             getMyProfileUseCase.executeGetMyProfile(1).let {
                 when( val result =
                     getMyProfileUseCase.executeGetMyProfile(1 )) {
-                    is GetMyProfileResultEntity.Success -> {
+                    is GetMyProfileResult.Success -> {
                         val userEmail = result.success.email
                         val myProfile = result.success.profile
                         userIdManager.saveUserId(result.success.id)
@@ -84,7 +84,7 @@ class NavigationDrawerViewModel
                              )
                          }
                     }
-                    is GetMyProfileResultEntity.Error -> {
+                    is GetMyProfileResult.Error -> {
 
                     }
                 }

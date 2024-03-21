@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.PublicProfileMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.domain.entity.results.GetUserPlannedEventsByIdResultEntity
-import com.example.domain.entity.results.GetUserProfileByIdResultEntity
-import com.example.domain.entity.results.GetUserReviewsByIdResultEntity
+import com.example.domain.entity.results.GetUserPlannedEventsByIdResult
+import com.example.domain.entity.results.GetUserProfileByIdResult
+import com.example.domain.entity.results.GetUserReviewsByIdResult
 import com.example.domain.usecases.interfaces.GetUserPlannedEventsByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserProfileByIdUseCase
 import com.example.domain.usecases.interfaces.GetUserReviewsByIdUseCase
@@ -70,7 +70,7 @@ class PublicProfileViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             getUserProfileByIdUseCase.executeGetUserProfileById(userId).let {
                 when (it) {
-                    is GetUserProfileByIdResultEntity.Success ->
+                    is GetUserProfileByIdResult.Success ->
                         setState {
                             copy(
                                 userFirstNameText = mutableStateOf(it.data.profile.name),
@@ -90,7 +90,7 @@ class PublicProfileViewModel @Inject constructor(
                             )
                         }
 
-                    is GetUserProfileByIdResultEntity.Error -> {
+                    is GetUserProfileByIdResult.Error -> {
                         setState {
                             copy(state = PublicProfileMainContract.ScreenViewState.LoadingError)
                         }
@@ -103,7 +103,7 @@ class PublicProfileViewModel @Inject constructor(
     private fun getUserReviewsById(page: Int) {
         job = viewModelScope.launch(Dispatchers.IO) {
             when (val result = getUserReviewsByIdUseCase.executeGetUserReviewsById(page)) {
-                is GetUserReviewsByIdResultEntity.Success -> {
+                is GetUserReviewsByIdResult.Success -> {
                     val reviews = result.data.results
                     reviews?.let {
                         setState {
@@ -122,7 +122,7 @@ class PublicProfileViewModel @Inject constructor(
                     }
                 }
 
-                is GetUserReviewsByIdResultEntity.Error -> {
+                is GetUserReviewsByIdResult.Error -> {
                     setState {
                         copy(
                             state = PublicProfileMainContract.ScreenViewState.LoadingError,
@@ -138,7 +138,7 @@ class PublicProfileViewModel @Inject constructor(
         job = viewModelScope.launch(Dispatchers.IO) {
             when (val result =
                 getUserPlannedEventsByIdUseCase.executeGetUserPlannedEventsById(page)) {
-                is GetUserPlannedEventsByIdResultEntity.Success -> {
+                is GetUserPlannedEventsByIdResult.Success -> {
                     val events = result.data.results
                     events?.let {
                         setState {
@@ -155,7 +155,7 @@ class PublicProfileViewModel @Inject constructor(
                     }
                 }
 
-                is GetUserPlannedEventsByIdResultEntity.Error -> {
+                is GetUserPlannedEventsByIdResult.Error -> {
                     setState {
                         copy(
                             state = PublicProfileMainContract.ScreenViewState.LoadingError,

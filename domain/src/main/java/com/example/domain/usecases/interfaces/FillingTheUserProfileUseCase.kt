@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.FillingTheUserProfileResultEntity
+import com.example.domain.entity.results.FillingTheUserProfileResult
 
 interface FillingTheUserProfileUseCase {
     suspend fun executeUpdateUserProfile(
@@ -10,5 +10,5 @@ interface FillingTheUserProfileUseCase {
         position: String,
         working_leg: String,
         place_name: String,
-    ) : FillingTheUserProfileResultEntity
+    ) : FillingTheUserProfileResult
 }

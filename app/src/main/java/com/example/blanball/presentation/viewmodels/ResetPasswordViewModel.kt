@@ -6,9 +6,9 @@
     import com.example.blanball.presentation.data.StartScreensMainContract
     import com.example.blanball.presentation.data.UiEvent
     import com.example.blanball.presentation.data.UiState
-    import com.example.domain.entity.results.EmailResetResultEntity
-    import com.example.domain.entity.results.ResetCompleteResultEntity
-    import com.example.domain.entity.results.SendCodeResultEntity
+    import com.example.domain.entity.results.EmailResetResult
+    import com.example.domain.entity.results.ResetCompleteResult
+    import com.example.domain.entity.results.SendCodeResult
     import com.example.domain.usecases.interfaces.ResetPasswordUseCase
     import dagger.hilt.android.lifecycle.HiltViewModel
     import kotlinx.coroutines.Dispatchers
@@ -80,7 +80,7 @@
             job = viewModelScope.launch(Dispatchers.IO) {
                 resetPasswordUseCase.executeSendEmailPassReset(currentState.resetEmailText.value).let {
                     when (it) {
-                        is EmailResetResultEntity.Success -> {
+                        is EmailResetResult.Success -> {
                             setState {
                                 copy(
                                     state = StartScreensMainContract.ScreenViewState.SuccessResetRequest,
@@ -90,7 +90,7 @@
                             }
                         }
 
-                        is EmailResetResultEntity.Error -> setState {
+                        is EmailResetResult.Error -> setState {
                             copy(
                                 isErrorResetEmailState = mutableStateOf(
                                     true
@@ -109,7 +109,7 @@
             job = viewModelScope.launch(Dispatchers.IO) {
                 resetPasswordUseCase.executeSendCode(code).let {
                     when (it) {
-                        is SendCodeResultEntity.Success -> {
+                        is SendCodeResult.Success -> {
                             setState {
                                 copy(
                                     state = StartScreensMainContract.ScreenViewState.SuccessSendCodeRequest,
@@ -119,7 +119,7 @@
                             }
                         }
 
-                        is SendCodeResultEntity.Error -> setState {
+                        is SendCodeResult.Error -> setState {
                             copy(
                                 isErrorSendCodeState = mutableStateOf(
                                     true
@@ -136,7 +136,7 @@
             job = viewModelScope.launch(Dispatchers.IO) {
                 resetPasswordUseCase.executeChangePassword(currentState.newPassText.value).let {
                     when (it) {
-                        is ResetCompleteResultEntity.Success -> {
+                        is ResetCompleteResult.Success -> {
                             setState {
                                 copy(
                                     state = StartScreensMainContract.ScreenViewState.SuccessCompleteResetRequest,
@@ -149,7 +149,7 @@
                                 )
                             }
                         }
-                        is ResetCompleteResultEntity.Error ->
+                        is ResetCompleteResult.Error ->
                             setState { copy(
                                 state = StartScreensMainContract.ScreenViewState.ErrorCompleteResetRequest,
                                 isErrorCompleteResetState = mutableStateOf(true),

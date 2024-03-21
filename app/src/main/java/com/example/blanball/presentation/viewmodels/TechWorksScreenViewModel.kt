@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blanball.presentation.data.TechWorksScreenMainContract
 import com.example.blanball.presentation.data.UiState
-import com.example.domain.entity.results.GetIsTechnicalWorkStatusResultEntity
+import com.example.domain.entity.results.GetIsTechnicalWorkStatusResult
 import com.example.domain.usecases.interfaces.GetIsTechWorksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +56,7 @@ class TechWorksScreenViewModel
             getIsTechWorksUseCase.executeGetIsTechWorks().let {
                 it.let {
                     when (it) {
-                        is GetIsTechnicalWorkStatusResultEntity.Success -> {
+                        is GetIsTechnicalWorkStatusResult.Success -> {
                             val isTechWorkStatus = it.data.isMaintenance
                             setState {
                                 copy(
@@ -65,7 +65,7 @@ class TechWorksScreenViewModel
                             }
                         }
 
-                        is GetIsTechnicalWorkStatusResultEntity.Error -> {
+                        is GetIsTechnicalWorkStatusResult.Error -> {
 
                         }
                     }

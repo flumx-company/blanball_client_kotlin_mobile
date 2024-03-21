@@ -1,7 +1,7 @@
 package com.example.domain.usecases.implementations
 
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
-import com.example.domain.entity.results.CreationAnEventResultEntity
+import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.CreationAnEventUseCase
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class CreationAnEventUseCaseImpl @Inject constructor(internal val appRepository:
         price_description: String?,
         privacy: Boolean,
         type: String,
-    ): CreationAnEventResultEntity {
+    ): CreationAnEventResult {
         return appRepository.createAnNewEvent(
             amount_members = amount_members,
             contact_number = contact_number,

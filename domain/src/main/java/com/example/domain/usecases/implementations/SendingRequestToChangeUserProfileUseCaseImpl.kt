@@ -1,6 +1,6 @@
 package com.example.domain.usecases.implementations
 
-import com.example.domain.entity.results.EditMyProfileResultEntity
+import com.example.domain.entity.results.EditMyProfileResult
 import com.example.domain.repository.AppRepository
 import com.example.domain.usecases.interfaces.SendingRequestToChangeUserProfileUseCase
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class SendingRequestToChangeUserProfileUseCaseImpl
         lat: Double,
         lon: Double,
         place_name: String
-    ): EditMyProfileResultEntity {
+    ): EditMyProfileResult {
         return appRepository.editMyProfile(
             phone = phone,
             emailRequestConfiguration = emailRequestConfiguration,

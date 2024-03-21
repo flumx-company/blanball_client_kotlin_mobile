@@ -1,6 +1,6 @@
 package com.example.domain.usecases.interfaces
 
-import com.example.domain.entity.results.GetUsersListResultEntity
+import com.example.domain.entity.results.GetUsersListResult
 
 interface GetUsersListUseCase {
     suspend fun executeGetUsersList(
@@ -10,5 +10,5 @@ interface GetUsersListUseCase {
         age_max: Int?,
         ordering: String?,
         position: String?
-    ): GetUsersListResultEntity
+    ): GetUsersListResult
 }
