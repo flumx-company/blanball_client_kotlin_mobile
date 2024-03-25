@@ -47,8 +47,8 @@ fun EventRequestCard(
             EventRequestItem(
                 requestItem = request,
                 clickCallback = { clickCallback(request.id) },
-                onAcceptRequest = { -> },
-                onDiscardRequest = { -> },
+                onAcceptRequest = { onAcceptRequest() },
+                onDiscardRequest = { onDiscardRequest() },
             )
             if (index < requestsList.size - 1) {
                 Spacer(modifier = Modifier.height(8.dp))
