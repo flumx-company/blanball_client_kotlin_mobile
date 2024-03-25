@@ -198,11 +198,11 @@ internal fun <T : Enum<T>> T.PlayersGenderStatesToString(context: Context): Stri
     return when (this) {
         is EventScreenMainContract.PlayersGenderStates -> {
             when (this) {
-                EventScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(
+                EventScreenMainContract.PlayersGenderStates.MAN -> context.resources.getString(
                     R.string.man
                 )
 
-                EventScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(
+                EventScreenMainContract.PlayersGenderStates.WOMAN -> context.resources.getString(
                     R.string.woman
                 )
 
@@ -240,8 +240,8 @@ internal fun EventScreenMainContract.PlayersGenderStates.PlayersGenderStatesToUk
     context: Context,
 ): String {
     return when (this) {
-        EventScreenMainContract.PlayersGenderStates.MANS -> context.resources.getString(R.string.man_ukr)
-        EventScreenMainContract.PlayersGenderStates.WOMANS -> context.resources.getString(R.string.woman_ukr)
+        EventScreenMainContract.PlayersGenderStates.MAN -> context.resources.getString(R.string.man_ukr)
+        EventScreenMainContract.PlayersGenderStates.WOMAN -> context.resources.getString(R.string.woman_ukr)
         EventScreenMainContract.PlayersGenderStates.NO_SELECT -> ""
     }
 }
@@ -471,10 +471,10 @@ internal fun mapGenderOnEditScreen(
 ) {
     when (eventGenders) {
         context.getString(R.string.woman) -> playersGenderStates.value =
-            EventScreenMainContract.PlayersGenderStates.WOMANS
+            EventScreenMainContract.PlayersGenderStates.WOMAN
 
         context.getString(R.string.man) -> playersGenderStates.value =
-            EventScreenMainContract.PlayersGenderStates.MANS
+            EventScreenMainContract.PlayersGenderStates.MAN
 
         else -> playersGenderStates.value = EventScreenMainContract.PlayersGenderStates.NO_SELECT
     }

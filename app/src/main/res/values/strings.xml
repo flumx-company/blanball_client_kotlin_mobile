@@ -324,6 +324,7 @@
     <string name="requests_for_participation">Заявки на участь</string>
     <string name="add_to_team">Приєднатися до команди</string>
     <string name="to_join">Долучитися</string>
+    <string name="send_event_request">Подати заявку</string>
     <string name="share">Поділитися</string>
     <string name="report_an_error_in_the_app">Повідомити про помилку в додатку</string>
     <string name="what_is_the_error_related_to">Із чим пов\'язана помилка?</string>

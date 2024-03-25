@@ -1,9 +1,11 @@
 package com.example.blanball.presentation.data
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentFanEntity
 import com.example.domain.entity.responses.success.GetEventByIdResponseCurrentUserEntity
+import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityResult
 import com.example.domain.entity.responses.success.GetRelevantUserSearchListResponseEntityResult
 import com.google.android.gms.maps.model.LatLng
 
@@ -36,9 +38,12 @@ class EventScreenMainContract {
         val invitedFansList: MutableState<List<GetEventByIdResponseCurrentFanEntity>> = mutableStateOf(
             emptyList()
         ),
+        val userRequestsList: MutableState<List<GetPrivateRequestListResponseEntityResult>> = mutableStateOf(
+            emptyList()
+        ),
         val sportType: MutableState<String> = mutableStateOf(""),
         val eventDateAndTime: MutableState<String> = mutableStateOf(""),
-        val eventDuration: MutableState<Int> = mutableStateOf(0),
+        val eventDuration: MutableState<Int> = mutableIntStateOf(0),
         val eventPlaceName: MutableState<String> = mutableStateOf(""),
         val eventDescription: MutableState<String> = mutableStateOf(""),
         val eventGenders: MutableState<String> = mutableStateOf(""),
@@ -46,10 +51,10 @@ class EventScreenMainContract {
         val eventAuthorLastName: MutableState<String> = mutableStateOf(""),
         val eventAuthorPhone: MutableState<String> = mutableStateOf(""),
         val eventAuthorAvatar: MutableState<String> = mutableStateOf(""),
-        val eventPrice: MutableState<Int> = mutableStateOf(0),
+        val eventPrice: MutableState<Int> = mutableIntStateOf(0),
         val isMyEvent: MutableState<Boolean> = mutableStateOf(false),
         val isDescriptionTextExpanded: MutableState<Boolean> = mutableStateOf(false),
-        val currentEventAuthorId: MutableState<Int> = mutableStateOf(0),
+        val currentEventAuthorId: MutableState<Int> = mutableIntStateOf(0),
         val priceDescription: MutableState<String?> = mutableStateOf(null),
         val isEventDescriptionVisible: MutableState<Boolean> = mutableStateOf(false),
         val eventLatLng: MutableState<LatLng> = mutableStateOf(
@@ -83,7 +88,7 @@ class EventScreenMainContract {
         val isEventPrivacyStates: MutableState<EventPrivacyStates> = mutableStateOf(
             EventPrivacyStates.NO_SELECT
         ),
-        val countOfFans: MutableState<Int> = mutableStateOf(0),
+        val countOfFans: MutableState<Int> = mutableIntStateOf(0),
         val isEventPrivate: MutableState<Boolean> = mutableStateOf(false),
         val isFormNeed: MutableState<Boolean> = mutableStateOf(false),
         val listOfFoundUsers: MutableState<List<GetRelevantUserSearchListResponseEntityResult>> = mutableStateOf(
@@ -142,10 +147,10 @@ class EventScreenMainContract {
     sealed class Effect : UiEffect {
     }
 
-    enum class PlayersGenderStates() {
+    enum class PlayersGenderStates {
         NO_SELECT,
-        MANS,
-        WOMANS,
+        MAN,
+        WOMAN,
     }
 
     enum class PriceStates {

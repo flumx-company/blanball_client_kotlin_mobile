@@ -169,33 +169,33 @@ fun EventEditOrCreationScreenStep1(
                     OutlineRadioButton(
                         onClick = {
                             currentState.playersGenderStates.value =
-                                EventScreenMainContract.PlayersGenderStates.WOMANS
+                                EventScreenMainContract.PlayersGenderStates.WOMAN
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.playersGenderStates.value =
-                                    EventScreenMainContract.PlayersGenderStates.WOMANS
+                                    EventScreenMainContract.PlayersGenderStates.WOMAN
                             },
                         state = currentState,
                         text = stringResource(id = R.string.woman_ukr),
-                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.WOMANS,
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.WOMAN,
                         icon = null,
                     )
                     OutlineRadioButton(
                         onClick = {
                             currentState.playersGenderStates.value =
-                                EventScreenMainContract.PlayersGenderStates.MANS
+                                EventScreenMainContract.PlayersGenderStates.MAN
                         },
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
                                 currentState.playersGenderStates.value =
-                                    EventScreenMainContract.PlayersGenderStates.MANS
+                                    EventScreenMainContract.PlayersGenderStates.MAN
                             },
                         state = currentState,
                         text = stringResource(id = R.string.man_ukr),
-                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.MANS,
+                        selected = currentState.playersGenderStates.value == EventScreenMainContract.PlayersGenderStates.MAN,
                         icon = null,
                     )
                 }

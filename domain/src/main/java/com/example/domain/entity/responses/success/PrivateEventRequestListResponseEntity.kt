@@ -39,9 +39,9 @@ data class GetPrivateRequestListResponseEntitySender(
 )
 
 data class GetPrivateRequestListResponseEntityProfile(
-    val avatar_url: Any,
+    val avatar_url: String? = null,
     val last_name: String,
     val name: String,
-    val position: String,
+    val position: String? = null,
     val working_leg: String
 )

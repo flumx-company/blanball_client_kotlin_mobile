@@ -120,7 +120,7 @@ fun EventBottomButtons(
                         }
                     } else {
                         ContextDropdownMenuButton(
-                            btnTextResId = R.string.to_join,
+                            btnTextResId = if (currentState.isEventPrivate.value) R.string.send_event_request else R.string.to_join,
                             onJoinBtnAsPlayerClick = { onJoinBtnAsPlayerClick() },
                             onJoinBtnAsFunClick = { onJoinBtnAsFunClick() },
                         )

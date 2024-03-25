@@ -109,6 +109,7 @@ class EventScreenViewModel
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
                 getEventById(eventId = currentState.currentEventId.value!!)
+                getListOfRequests()
             }
 
             is EventScreenMainContract.Event.GetUserPhone -> {
@@ -739,7 +740,6 @@ class EventScreenViewModel
                             }
                         }
                     }
-
                 }
             }
         }
@@ -747,6 +747,11 @@ class EventScreenViewModel
 
     private fun getListOfRequests() {
         job = viewModelScope.launch(Dispatchers.IO) {
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Loading
+                )
+            }
             userRequestingUseCase.executeGetPrivateEventRequestList(
                 eventId = currentState.currentEventId.value!!
             ).let { result ->
@@ -754,8 +759,8 @@ class EventScreenViewModel
                     is GetPrivateEventRequestListResult.Success -> {
                         setState {
                             copy(
-                                state = EventScreenMainContract.ScreenViewState.Idle
-
+                                userRequestsList = mutableStateOf(result.data.results),
+                                state = EventScreenMainContract.ScreenViewState.Idle,
                             )
                         }
                     }

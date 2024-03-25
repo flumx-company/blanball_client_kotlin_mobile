@@ -41,9 +41,9 @@ data class GetPrivateRequestListResponseSender(
 )
 
 data class GetPrivateRequestListResponseProfile(
-    @Json (name = "avatar_url") val avatar_url: Any,
+    @Json (name = "avatar_url") val avatar_url: String? = null,
     @Json (name = "last_name") val last_name: String,
     @Json (name = "name") val name: String,
-    @Json (name = "position") val position: String,
+    @Json (name = "position") val position: String? = null,
     @Json (name = "working_leg") val working_leg: String
 )

@@ -51,6 +51,7 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.banners.NoHaveUsersBanner
 import com.example.blanball.presentation.views.components.buttons.EventBottomButtons
 import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
+import com.example.blanball.presentation.views.components.cards.EventRequestCard
 import com.example.blanball.presentation.views.components.cards.FanOnEventCard
 import com.example.blanball.presentation.views.components.cards.PlayerOnEventCard
 import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
@@ -598,7 +599,7 @@ fun EventScreen(
                                 listOf(
                                     stringResource(R.string.users_list),
                                     stringResource(R.string.registered_viewers),
-//                                    stringResource(R.string.requests_for_participation),
+                                    stringResource(R.string.requests_for_participation),
                                 )
                             } else {
                                 listOf(
@@ -611,7 +612,7 @@ fun EventScreen(
                                 listOf(
                                     painterResource(id = R.drawable.ic_ball),
                                     painterResource(id = R.drawable.ic_peoples),
-//                                    painterResource(id = R.drawable.ic_add_user)
+                                    painterResource(id = R.drawable.ic_add_user)
                                 )
                             } else {
                                 listOf(
@@ -686,6 +687,36 @@ fun EventScreen(
                                         }
                                     }
                                 },
+                                {
+                                    if (currentState.isMyEvent.value) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .wrapContentHeight()
+                                                .background(
+                                                    color = Color.White,
+                                                    shape = shapes.medium
+                                                )
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = mainGreen,
+                                                    shape = shapes.medium
+                                                )
+                                                .padding(vertical = 24.dp, horizontal = 12.dp)
+                                        ) {
+                                            EventRequestCard(
+                                                clickCallback = { userId ->
+                                                    onClickedToPublicProfile(
+                                                        userId
+                                                    )
+                                                },
+                                                requestsList = currentState.userRequestsList.value
+                                            )
+                                        }
+                                    } else {
+
+                                    }
+                                }
                             )
                         )
                         Spacer(modifier = Modifier.size(20.dp))
