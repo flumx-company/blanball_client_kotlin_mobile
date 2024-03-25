@@ -32,18 +32,23 @@ import com.example.blanball.presentation.theme.primaryDark
 import com.example.blanball.presentation.theme.secondaryNavy
 import com.example.blanball.presentation.theme.shapes
 import com.example.blanball.presentation.theme.typography
+import com.example.blanball.presentation.views.components.buttons.AcceptDiscardButtons
 import com.example.domain.entity.responses.success.GetPrivateRequestListResponseEntityResult
 
 @Composable
 fun EventRequestCard(
     clickCallback: (userId: Int) -> Unit?,
-    requestsList: List<GetPrivateRequestListResponseEntityResult>
+    requestsList: List<GetPrivateRequestListResponseEntityResult>,
+    onAcceptRequest: () -> Unit,
+    onDiscardRequest: () -> Unit,
 ) {
     Column {
         requestsList.forEachIndexed { index, request ->
             EventRequestItem(
                 requestItem = request,
-                clickCallback = {clickCallback(request.id)}
+                clickCallback = { clickCallback(request.id) },
+                onAcceptRequest = { -> },
+                onDiscardRequest = { -> },
             )
             if (index < requestsList.size - 1) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -56,6 +61,8 @@ fun EventRequestCard(
 fun EventRequestItem(
     requestItem: GetPrivateRequestListResponseEntityResult,
     clickCallback: (() -> Unit)?,
+    onAcceptRequest: () -> Unit,
+    onDiscardRequest: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -118,7 +125,10 @@ fun EventRequestItem(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-
+            AcceptDiscardButtons(
+                onAcceptRequest = { onAcceptRequest() },
+                onDiscardRequest = { onDiscardRequest() }
+            )
         }
     }
 }
