@@ -176,7 +176,7 @@ interface MainApiService {
 
     @GET(Endpoints.PRIVATE_EVENT_REQUESTS_LIST)
     suspend fun getPrivateEventRequestList(
-        @Query("id") id: Int
+        @Path("id") id: Int
     ): GetPrivateRequestListResponse
 
     @POST(Endpoints.LEAVE_THE_EVENT_AS_PLAYER)

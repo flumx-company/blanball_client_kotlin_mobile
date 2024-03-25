@@ -595,7 +595,7 @@ fun EventScreen(
                         )
                         EventTabRow(
                             tabs =
-                            if (currentState.isMyEvent.value) {
+                            if (currentState.isEventPrivate.value) {
                                 listOf(
                                     stringResource(R.string.users_list),
                                     stringResource(R.string.registered_viewers),
@@ -608,7 +608,7 @@ fun EventScreen(
                                 )
                             },
                             icons =
-                            if (currentState.isMyEvent.value) {
+                            if (currentState.isEventPrivate.value) {
                                 listOf(
                                     painterResource(id = R.drawable.ic_ball),
                                     painterResource(id = R.drawable.ic_peoples),
@@ -688,7 +688,12 @@ fun EventScreen(
                                     }
                                 },
                                 {
-                                    if (currentState.isMyEvent.value) {
+                                    if (currentState.userRequestsList.value.isEmpty()) {
+                                        NoHaveUsersBanner(
+                                            headerTextId = R.string.no_requests_to_display,
+                                            secTextId = R.string.we_will_notify_you_req,
+                                        )
+                                    } else if (currentState.isEventPrivate.value) {
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
@@ -713,17 +718,18 @@ fun EventScreen(
                                                 requestsList = currentState.userRequestsList.value
                                             )
                                         }
-                                    } else {
-
                                     }
                                 }
                             )
                         )
                         Spacer(modifier = Modifier.size(20.dp))
-
                     }
                     EventBottomButtons(
-                        onEditClick = { currentState.currentEventId.value?.let { onEditClick(it) } },
+                        onEditClick = {
+                            currentState.currentEventId.value?.let {
+                                onEditClick(it)
+                            }
+                        },
                         shareBtnClick = { isShareLinkModalVisible.value = true },
                         isMyEvent = currentState.isMyEvent.value,
                         onJoinBtnAsPlayerClick = { onJoinBtnAsPlayerClick() },
