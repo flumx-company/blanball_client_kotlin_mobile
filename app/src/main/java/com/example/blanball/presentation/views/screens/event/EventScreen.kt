@@ -79,6 +79,8 @@ fun EventScreen(
     onJoinBtnAsPlayerClick: () -> Unit,
     onClickedToPublicProfile: (userId: Int) -> Unit,
     onCancelParticipation: () -> Unit,
+    onAcceptRequest: () -> Unit,
+    onDiscardRequest: () -> Unit,
 ) {
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -715,7 +717,9 @@ fun EventScreen(
                                                         userId
                                                     )
                                                 },
-                                                requestsList = currentState.userRequestsList.value
+                                                requestsList = currentState.userRequestsList.value,
+                                                onAcceptRequest = { onAcceptRequest() },
+                                                onDiscardRequest = { onDiscardRequest() },
                                             )
                                         }
                                     }

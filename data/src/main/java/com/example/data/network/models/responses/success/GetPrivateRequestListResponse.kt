@@ -37,7 +37,7 @@ data class GetPrivateRequestListResponseEvent(
 data class GetPrivateRequestListResponseSender(
     @Json (name = "id") val id: Int,
     @Json (name = "profile") val profile: GetPrivateRequestListResponseProfile,
-    @Json (name = "raiting") val raiting: Any
+    @Json (name = "raiting") val raiting: Any? = null,
 )
 
 data class GetPrivateRequestListResponseProfile(

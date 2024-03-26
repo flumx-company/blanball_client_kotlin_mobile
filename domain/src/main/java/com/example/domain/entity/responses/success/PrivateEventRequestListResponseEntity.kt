@@ -35,7 +35,7 @@ data class GetPrivateRequestListResponseEntityEvent(
 data class GetPrivateRequestListResponseEntitySender(
     val id: Int,
     val profile: GetPrivateRequestListResponseEntityProfile,
-    val raiting: Any
+    val raiting: Any? = null,
 )
 
 data class GetPrivateRequestListResponseEntityProfile(

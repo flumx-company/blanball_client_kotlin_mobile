@@ -764,7 +764,6 @@ class EventScreenViewModel
                             )
                         }
                     }
-
                     is GetPrivateEventRequestListResult.Error -> {
 
                     }
