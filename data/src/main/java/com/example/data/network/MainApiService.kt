@@ -2,6 +2,7 @@ package com.example.data.network
 
 
 import com.example.data.network.models.*
+import com.example.data.network.models.requests.AcceptOrDiscardParticipationRequest
 import com.example.data.network.models.requests.AuthRequest
 import com.example.data.network.models.requests.CreationAnEventRequest
 import com.example.data.network.models.requests.EditEventByIdRequest
@@ -16,6 +17,7 @@ import com.example.data.network.models.requests.ResetCompleteRequest
 import com.example.data.network.models.requests.SendEmailPasswordResetRequest
 import com.example.data.network.models.requests.SendResetCodeRequest
 import com.example.data.network.models.requests.UpdateUserProfileRequest
+import com.example.data.network.models.responses.success.AcceptOrDiscardParticipationResponse
 import com.example.data.network.models.responses.success.CreationAnEventResponse
 import com.example.data.network.models.responses.success.EditEventByIdResponse
 import com.example.data.network.models.responses.success.EditMyProfileResponse
@@ -188,5 +190,10 @@ interface MainApiService {
     suspend fun leaveTheEventAsFan(
         @Body leaveTheEventAsFanRequest: LeaveTheEventAsFanRequest
     ): LeaveTheEventAsFanResponse
+
+   @POST(Endpoints.ACCEPT_DISCARD_EVENT_REQUEST)
+    suspend fun acceptOrDiscardParticipation(
+        @Body acceptOrDiscardParticipationRequest: AcceptOrDiscardParticipationRequest
+    ): AcceptOrDiscardParticipationResponse
 }
 

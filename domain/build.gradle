@@ -49,6 +49,7 @@ android {
         buildConfigField "String", "PRIVATE_EVENT_REQUESTS_LIST", "\"events/client/requests/participations/list{id}\""
         buildConfigField "String", "LEAVE_THE_EVENT_AS_PLAYER", "\"events/client/event/leave\""
         buildConfigField "String", "LEAVE_THE_EVENT_AS_FUN", "\"events/client/fan/event/leave\""
+        buildConfigField "String", "ACCEPT_DISCARD_EVENT_REQUEST", "\"events/client/accept/or/decline/participations\""
     }
 
     buildTypes {

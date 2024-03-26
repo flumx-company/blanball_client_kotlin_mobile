@@ -1,5 +1,8 @@
 package com.example.data.utils.ext
 
+import com.example.data.network.models.responses.errors.AcceptOrDiscardParticipationError
+import com.example.data.network.models.responses.errors.AcceptOrDiscardParticipationErrorData
+import com.example.data.network.models.responses.errors.AcceptOrDiscardParticipationErrorDetail
 import com.example.data.network.models.responses.errors.CreationAnEventError
 import com.example.data.network.models.responses.errors.CreationAnEventErrorData
 import com.example.data.network.models.responses.errors.CreationAnEventErrorDetail
@@ -81,6 +84,7 @@ import com.example.data.network.models.responses.errors.SendVerifyCodeToUserEmai
 import com.example.data.network.models.responses.errors.UpdateUserProfileResponseError
 import com.example.data.network.models.responses.errors.UpdateUserProfileResponseErrorData
 import com.example.data.network.models.responses.errors.UpdateUserProfileResponseErrorDetail
+import com.example.data.network.models.responses.success.AcceptOrDiscardParticipationResponse
 import com.example.data.network.models.responses.success.Configuration
 import com.example.data.network.models.responses.success.CreationAnEventResponse
 import com.example.data.network.models.responses.success.CreationAnEventResponseData
@@ -182,6 +186,9 @@ import com.example.data.network.models.responses.success.UpdateUserProfileRespon
 import com.example.data.network.models.responses.success.UpdateUserProfileResponseData
 import com.example.data.network.models.responses.success.UpdateUserProfileResponsePlace
 import com.example.data.network.models.responses.success.UpdateUserProfileResponseProfile
+import com.example.domain.entity.responses.errors.AcceptOrDiscardParticipationErrorEntity
+import com.example.domain.entity.responses.errors.AcceptOrDiscardParticipationErrorEntityData
+import com.example.domain.entity.responses.errors.AcceptOrDiscardParticipationErrorEntityDetail
 import com.example.domain.entity.responses.errors.CreationAnEventErrorDetailEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntityData
@@ -251,6 +258,7 @@ import com.example.domain.entity.responses.errors.SendVerifyCodeToUserEmailError
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityError
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorData
 import com.example.domain.entity.responses.errors.UpdateUserProfileResponseEntityErrorDetail
+import com.example.domain.entity.responses.success.AcceptOrDiscardParticipationResponseEntity
 import com.example.domain.entity.responses.success.ConfigurationEntity
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntity
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityData
@@ -1645,25 +1653,28 @@ internal fun GetPrivateRequestListResponseResult.toGetPrivateRequestListResponse
         time_created = this.time_created,
     )
 
-internal fun GetPrivateRequestListResponseEvent.toGetPrivateRequestListResponseEntityEvent() = GetPrivateRequestListResponseEntityEvent(
-    date_and_time = this.date_and_time,
-    id = this.id,
-    name = this.name
-)
+internal fun GetPrivateRequestListResponseEvent.toGetPrivateRequestListResponseEntityEvent() =
+    GetPrivateRequestListResponseEntityEvent(
+        date_and_time = this.date_and_time,
+        id = this.id,
+        name = this.name
+    )
 
-internal fun GetPrivateRequestListResponseSender.toGetPrivateRequestListResponseEntitySender() = GetPrivateRequestListResponseEntitySender(
-    id = this.id,
-    profile = this.profile.toGetPrivateRequestListResponseEntityProfile(),
-    raiting = this.raiting,
-)
+internal fun GetPrivateRequestListResponseSender.toGetPrivateRequestListResponseEntitySender() =
+    GetPrivateRequestListResponseEntitySender(
+        id = this.id,
+        profile = this.profile.toGetPrivateRequestListResponseEntityProfile(),
+        raiting = this.raiting,
+    )
 
-internal fun GetPrivateRequestListResponseProfile.toGetPrivateRequestListResponseEntityProfile() = GetPrivateRequestListResponseEntityProfile(
-    avatar_url = this.avatar_url,
-    last_name = this.last_name,
-    name = this.name,
-    position = this.position,
-    working_leg = this.working_leg
-)
+internal fun GetPrivateRequestListResponseProfile.toGetPrivateRequestListResponseEntityProfile() =
+    GetPrivateRequestListResponseEntityProfile(
+        avatar_url = this.avatar_url,
+        last_name = this.last_name,
+        name = this.name,
+        position = this.position,
+        working_leg = this.working_leg
+    )
 
 internal fun GetPrivateRequestListResponseError.toGetPrivateRequestListResponseErrorEntity() =
     GetPrivateRequestListResponseErrorEntity(
@@ -1681,4 +1692,30 @@ internal fun GetPrivateRequestListResponseErrorData.toGetPrivateRequestListRespo
 internal fun GetPrivateRequestListResponseErrorDetail.toGetPrivateRequestListResponseErrorDetailEntity() =
     GetPrivateRequestListResponseErrorDetailEntity(
         detail = this.detail
+    )
+
+internal fun AcceptOrDiscardParticipationResponse.toAcceptOrDiscardParticipationResponseEntity() =
+    AcceptOrDiscardParticipationResponseEntity(
+        code = this.code,
+        data = this.data,
+        message = this.message,
+        status = this.status,
+    )
+
+internal fun AcceptOrDiscardParticipationError.toAcceptOrDiscardParticipationErrorEntity() =
+    AcceptOrDiscardParticipationErrorEntity(
+        code = this.code,
+        data = this.data.toAcceptOrDiscardParticipationErrorEntityData(),
+        status = this.status
+    )
+
+internal fun AcceptOrDiscardParticipationErrorData.toAcceptOrDiscardParticipationErrorEntityData() =
+    AcceptOrDiscardParticipationErrorEntityData(
+        errors = this.errors.map { it.toAcceptOrDiscardParticipationErrorEntityDetail() },
+        type = this.type,
+    )
+
+internal fun AcceptOrDiscardParticipationErrorDetail.toAcceptOrDiscardParticipationErrorEntityDetail() =
+    AcceptOrDiscardParticipationErrorEntityDetail(
+        this.detail
     )

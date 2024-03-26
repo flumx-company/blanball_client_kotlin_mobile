@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.results.LoginResult
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
+import com.example.domain.entity.results.AcceptOrDiscardParticipationResult
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.EditMyProfileResult
@@ -23,6 +23,7 @@ import com.example.domain.entity.results.JoinToEventAsFanResult
 import com.example.domain.entity.results.JoinToEventAsPlayerResult
 import com.example.domain.entity.results.LeaveTheEventAsFanResult
 import com.example.domain.entity.results.LeaveTheEventAsPlayerResult
+import com.example.domain.entity.results.LoginResult
 import com.example.domain.entity.results.PostEmailVerifyCodeResult
 import com.example.domain.entity.results.RegistrationResult
 import com.example.domain.entity.results.ResetCompleteResult
@@ -187,4 +188,6 @@ interface AppRepository {
     suspend fun leaveTheEventAsPlayer(eventId: Int): LeaveTheEventAsPlayerResult
 
     suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult
+
+    suspend fun acceptOrDiscardParticipation(isAcceptEventRequest: Boolean, ids: List<Int>): AcceptOrDiscardParticipationResult
 }

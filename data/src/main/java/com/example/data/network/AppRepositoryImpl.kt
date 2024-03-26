@@ -4,6 +4,7 @@ import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.data.datastore.verifycodemanager.ResetPassVerifyCodeManager
+import com.example.data.network.models.requests.AcceptOrDiscardParticipationRequest
 import com.example.data.network.models.requests.AuthRequest
 import com.example.data.network.models.requests.CreationAnEventRequest
 import com.example.data.network.models.requests.CreationAnEventRequestForms
@@ -29,6 +30,7 @@ import com.example.data.network.models.requests.UpdateUserProfileRequest
 import com.example.data.network.models.requests.UpdateUserProfileRequestConfiguration
 import com.example.data.network.models.requests.UpdateUserProfileRequestPlace
 import com.example.data.network.models.requests.UpdateUserProfileRequestProfile
+import com.example.data.network.models.responses.errors.AcceptOrDiscardParticipationError
 import com.example.data.network.models.responses.errors.CreationAnEventError
 import com.example.data.network.models.responses.errors.EditEventByIdResponseError
 import com.example.data.network.models.responses.errors.EditMyProfileError
@@ -57,6 +59,8 @@ import com.example.data.network.models.responses.errors.SendCodeError
 import com.example.data.network.models.responses.errors.SendVerifyCodeToUserEmailError
 import com.example.data.network.models.responses.errors.UpdateUserProfileResponseError
 import com.example.data.utils.ext.handleHttpError
+import com.example.data.utils.ext.toAcceptOrDiscardParticipationErrorEntity
+import com.example.data.utils.ext.toAcceptOrDiscardParticipationResponseEntity
 import com.example.data.utils.ext.toCreationAnEventErrorEntity
 import com.example.data.utils.ext.toCreationAnEventResponseEntity
 import com.example.data.utils.ext.toEditEventByIdResponseEntity
@@ -94,7 +98,7 @@ import com.example.data.utils.ext.toJoinToEventAsFunErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsFunResponseEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerResponseEntity
-import com.example.data.utils.ext.toLeaveTheEventAsFanResponseEntity
+import com.example.data.utils.ext.toLeaveTheEventAsFanResponseEntityData
 import com.example.data.utils.ext.toLeaveTheEventAsFunErrorEntity
 import com.example.data.utils.ext.toLeaveTheEventAsPlayerErrorEntity
 import com.example.data.utils.ext.toLeaveTheEventAsPlayerResponseEntity
@@ -111,6 +115,7 @@ import com.example.data.utils.ext.toSendVerifyCodeToUserEmailErrorEntity
 import com.example.data.utils.ext.toSendVerifyCodeToUserEmailResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntity
 import com.example.data.utils.ext.toUpdateUserProfileResponseEntityError
+import com.example.domain.entity.responses.errors.AcceptOrDiscardParticipationErrorEntity
 import com.example.domain.entity.responses.errors.CreationAnEventErrorEntity
 import com.example.domain.entity.responses.errors.EditEventByIdResponseErrorEntity
 import com.example.domain.entity.responses.errors.EditMyProfileErrorEntity
@@ -139,6 +144,7 @@ import com.example.domain.entity.responses.success.EmailPassResetErrorEntity
 import com.example.domain.entity.responses.success.ErrorResponse
 import com.example.domain.entity.responses.success.ResetCompleteErrorEntity
 import com.example.domain.entity.responses.success.SendCodeErrorEntity
+import com.example.domain.entity.results.AcceptOrDiscardParticipationResult
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.EditMyProfileResult
@@ -791,9 +797,7 @@ class AppRepositoryImpl @Inject constructor(
                     event_id = eventId
                 )
             )
-            val leaveTheEventAsFunResponseDomain =
-                leaveTheEventAsFunResponse.toLeaveTheEventAsFanResponseEntity()
-            LeaveTheEventAsFanResult.Success(data = leaveTheEventAsFunResponseDomain.data)
+            LeaveTheEventAsFanResult.Success(data = leaveTheEventAsFunResponse.data.toLeaveTheEventAsFanResponseEntityData())
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LeaveTheEventAsFunError, LeaveTheEventAsFunErrorEntity>(ex) { it.toLeaveTheEventAsFunErrorEntity() }
@@ -805,14 +809,31 @@ class AppRepositoryImpl @Inject constructor(
         return try {
             val getPrivateEventRequestListResponse =
                 service.getPrivateEventRequestList(id = eventId)
-            val getPrivateEventRequestListResponseDomain = getPrivateEventRequestListResponse
-            GetPrivateEventRequestListResult.Success(data = getPrivateEventRequestListResponseDomain.data.toGetPrivateRequestListResponseEntityData())
+            GetPrivateEventRequestListResult.Success(data = getPrivateEventRequestListResponse.data.toGetPrivateRequestListResponseEntityData())
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetPrivateRequestListResponseError, GetPrivateRequestListResponseErrorEntity>(
                     ex
                 ) { it.toGetPrivateRequestListResponseErrorEntity() }
             GetPrivateEventRequestListResult.Error(error = errorResponse.data.errors[0])
+        }
+    }
+
+    override suspend fun acceptOrDiscardParticipation(isAcceptEventRequest: Boolean, ids: List<Int>): AcceptOrDiscardParticipationResult {
+        return try {
+            val acceptOrDiscardParticipationResponse = service.acceptOrDiscardParticipation(
+                acceptOrDiscardParticipationRequest = AcceptOrDiscardParticipationRequest(
+                    ids = ids,
+                    type = isAcceptEventRequest,
+                )
+            )
+            AcceptOrDiscardParticipationResult.Success(data = acceptOrDiscardParticipationResponse.toAcceptOrDiscardParticipationResponseEntity())
+        } catch (ex: HttpException) {
+            val errorResponse =
+                handleHttpError<AcceptOrDiscardParticipationError, AcceptOrDiscardParticipationErrorEntity>(ex){
+                    it.toAcceptOrDiscardParticipationErrorEntity()
+                }
+            AcceptOrDiscardParticipationResult.Error(error = errorResponse.data.errors[0])
         }
     }
 }
