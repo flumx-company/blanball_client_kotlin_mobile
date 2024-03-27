@@ -81,7 +81,7 @@ import com.example.data.utils.ext.toGetMyEventsEntityResponseError
 import com.example.data.utils.ext.toGetMyEventsResponseEntity
 import com.example.data.utils.ext.toGetMyProfileErrorEntity
 import com.example.data.utils.ext.toGetMyProfileResponseEntity
-import com.example.data.utils.ext.toGetPrivateRequestListResponseEntityData
+import com.example.data.utils.ext.toGetPrivateRequestListResponseEntity
 import com.example.data.utils.ext.toGetPrivateRequestListResponseErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListResponseEntity
@@ -99,7 +99,7 @@ import com.example.data.utils.ext.toJoinToEventAsFunErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsFunResponseEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerErrorEntity
 import com.example.data.utils.ext.toJoinToEventAsPlayerResponseEntity
-import com.example.data.utils.ext.toLeaveTheEventAsFanResponseEntityData
+import com.example.data.utils.ext.toLeaveTheEventAsFanResponseEntity
 import com.example.data.utils.ext.toLeaveTheEventAsFunErrorEntity
 import com.example.data.utils.ext.toLeaveTheEventAsPlayerErrorEntity
 import com.example.data.utils.ext.toLeaveTheEventAsPlayerResponseEntity
@@ -749,7 +749,7 @@ class AppRepositoryImpl @Inject constructor(
             )
             val joinToEventAsFunResponseDomain =
                 joinToEventAsFunResponse.toJoinToEventAsFunResponseEntity()
-            JoinToEventAsFanResult.Success(joinToEventAsFunResponseDomain.data)
+            JoinToEventAsFanResult.Success(joinToEventAsFunResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<JoinToEventAsFunError, JoinToEventAsFunErrorEntity>(ex) { it.toJoinToEventAsFunErrorEntity() }
@@ -766,7 +766,7 @@ class AppRepositoryImpl @Inject constructor(
             )
             val joinToEventAsPlayerResponseDomain =
                 joinToEventAsPlayerResponse.toJoinToEventAsPlayerResponseEntity()
-            JoinToEventAsPlayerResult.Success(joinToEventAsPlayerResponseDomain.data)
+            JoinToEventAsPlayerResult.Success(joinToEventAsPlayerResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<JoinToEventAsPlayerError, JoinToEventAsPlayerErrorEntity>(ex) { it.toJoinToEventAsPlayerErrorEntity() }
@@ -783,7 +783,7 @@ class AppRepositoryImpl @Inject constructor(
             )
             val leaveTheEventAsPlayerResponseDomain =
                 leaveTheEventAsPlayerResponse.toLeaveTheEventAsPlayerResponseEntity()
-            LeaveTheEventAsPlayerResult.Success(leaveTheEventAsPlayerResponseDomain.data)
+            LeaveTheEventAsPlayerResult.Success(leaveTheEventAsPlayerResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LeaveTheEventAsPlayerError, LeaveTheEventAsPlayerErrorEntity>(ex) { it.toLeaveTheEventAsPlayerErrorEntity() }
@@ -798,7 +798,7 @@ class AppRepositoryImpl @Inject constructor(
                     event_id = eventId
                 )
             )
-            LeaveTheEventAsFanResult.Success(data = leaveTheEventAsFunResponse.data.toLeaveTheEventAsFanResponseEntityData())
+            LeaveTheEventAsFanResult.Success(success = leaveTheEventAsFunResponse.toLeaveTheEventAsFanResponseEntity())
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<LeaveTheEventAsFunError, LeaveTheEventAsFunErrorEntity>(ex) { it.toLeaveTheEventAsFunErrorEntity() }
@@ -811,7 +811,7 @@ class AppRepositoryImpl @Inject constructor(
             val getPrivateEventRequestListResponse =
                 service.getPrivateEventRequestList(id = eventId)
             Log.d("Result2", getPrivateEventRequestListResponse.data.results.toString())
-            GetPrivateEventRequestListResult.Success(data = getPrivateEventRequestListResponse.data.toGetPrivateRequestListResponseEntityData())
+            GetPrivateEventRequestListResult.Success(success = getPrivateEventRequestListResponse.toGetPrivateRequestListResponseEntity())
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetPrivateRequestListResponseError, GetPrivateRequestListResponseErrorEntity>(

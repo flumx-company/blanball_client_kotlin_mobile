@@ -747,17 +747,10 @@ fun EventScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 SuccessMessageCard(
-                    text = stringResource(R.string.you_have_successfully_joined_as) + " " + currentState.currentUserRole.value,
-                    isMessageVisible = currentState.isSuccessJoinMessageVisible.value,
+                    text = currentState.successMessageText.value,
+                    isMessageVisible = currentState.isSuccessMessageVisible.value,
                     onCancelIconClicked = {
-                        currentState.isSuccessJoinMessageVisible.value = false
-                    }
-                )
-                SuccessMessageCard(
-                    text = stringResource(R.string.you_have_successfully_leaved),
-                    isMessageVisible = currentState.isSuccessLeaveMessageVisible.value,
-                    onCancelIconClicked = {
-                        currentState.isSuccessLeaveMessageVisible.value = false
+                        currentState.isSuccessMessageVisible.value = false
                     }
                 )
                 ErrorMessageCard(

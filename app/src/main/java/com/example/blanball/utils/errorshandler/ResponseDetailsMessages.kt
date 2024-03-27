@@ -1,6 +1,6 @@
 package com.example.blanball.utils.errorshandler
 
-data class ErrorsMessages(
+data class ResponseDetailsMessages(
     val password_change: String = "Ваш пароль було успішно змінено",
     val phone_change: String = "Ваш номер телефону було успішно змінено",
     val email_change: String = "Ваш імейл було успішно змінено",
@@ -20,6 +20,8 @@ data class ErrorsMessages(
     val no_permissions: String = "На жаль, у вас немає доступу до цієї дії"                                                                                ,
     val bad_verify_code: String = "Перевірте правильність введеного коду підтвердження",
     val verify_code_expired: String = "Час дії цього коду підтвердження закінчився",
+    val event_time_expired: String = "Подія вже закінчилася",
+    val dicsonnect_from_event: String = "Ви успішно скасували участь у події",
     val email_already_in_use: String = "Введена пошта вже використовується іншим користувачем",
     val event_deleted: String = "Подія була успішно видалена",
     val event_updated: String = "Подія була успішно оновлена",
@@ -31,6 +33,7 @@ data class ErrorsMessages(
     val already_sent_request_to_participate: String = "Ви вже надіслали запит на участь у цій події",
     val author_cant_enter_his_event: String = "На жаль, але ви не можете стати учасником або глядачем своєї події",
     val bad_event_date_and_time: String = "Не валідна дата початку події, дата початку має бути більшою за поточну дату + 1 годину",
+    val bad_event_date_time: String = "Не валідна дата початку події",
     val already_like_member: String = "Ви вже берете участь у цій події як гравець",
     val already_like_fan: String = "Ви вже берете участь у цій події як глядач",
     val not_in_event_fans_list: String = "Вас ще немає в списку глядачів цієї події",

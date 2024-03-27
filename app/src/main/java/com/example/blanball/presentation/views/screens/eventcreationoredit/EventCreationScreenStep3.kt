@@ -45,6 +45,8 @@ import com.example.blanball.presentation.theme.typography
 import com.example.blanball.presentation.views.components.buttons.InvitedUsersOfTheEventButton
 import com.example.blanball.presentation.views.components.buttons.NextAndPreviousButtonsHorizontal
 import com.example.blanball.presentation.views.components.buttons.PreviewOfTheEventPosterButton
+import com.example.blanball.presentation.views.components.cards.ErrorMessageCard
+import com.example.blanball.presentation.views.components.cards.SuccessMessageCard
 import com.example.blanball.presentation.views.components.loaders.Loader
 import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
@@ -66,14 +68,13 @@ fun EventEditOrCreationScreenStep3(
 
     (state as? EventScreenMainContract.State)?.let { currentState ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Text(
                     text = if (
@@ -196,7 +197,7 @@ fun EventEditOrCreationScreenStep3(
                                 state.phoneNumberState.value = it.filter { it.isDigit() }
                             }
                         },
-                        enabled = state.isPhoneNumInputEnabled.value ,
+                        enabled = state.isPhoneNumInputEnabled.value,
                         isError = when {
                             state.phoneNumberState.value.isInvalidValidPhoneNumber() -> true
                             else -> false
@@ -218,6 +219,7 @@ fun EventEditOrCreationScreenStep3(
                             state.phoneNumberState.value.isInvalidValidPhoneNumber() -> stringResource(
                                 id = R.string.phone_format_error
                             )
+
                             else -> {
                                 ("")
                             }
@@ -330,6 +332,24 @@ fun EventEditOrCreationScreenStep3(
                     currentState.isBottomPreviewDrawerOpen.value -> bottomDrawerPreviewContent()
                     currentState.isInvitedUsersDrawerOpen.value -> invitedUsersModalContent()
                 }
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                SuccessMessageCard(
+                    text = currentState.successMessageText.value,
+                    isMessageVisible = currentState.isSuccessMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isSuccessMessageVisible.value = false
+                    }
+                )
+                ErrorMessageCard(
+                    text = currentState.errorMessageText.value,
+                    isMessageVisible = currentState.isErrorMessageVisible.value,
+                    onCancelIconClicked = {
+                        currentState.isErrorMessageVisible.value = false
+                    }
+                )
             }
         }
         if (currentState.state == EventScreenMainContract.ScreenViewState.Loading) {

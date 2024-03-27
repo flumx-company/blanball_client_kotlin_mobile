@@ -9,7 +9,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
-import com.example.blanball.utils.errorshandler.ErrorsHandler
+import com.example.blanball.utils.errorshandler.DetailMessageHandler
 import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
@@ -71,7 +71,7 @@ class EventScreenViewModel
     private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
     private val leaveTheEventUseCase: LeaveTheEventUseCase,
     private val userRequestingUseCase: UserRequestingForPrivateEventUseCase,
-    private val errorsHandler: ErrorsHandler,
+    private val detailMessageHandler: DetailMessageHandler,
     private val application: Application,
 
 
@@ -98,14 +98,9 @@ class EventScreenViewModel
         object FAN : UserRole()
     }
 
-    sealed class EventToastType {
-        object SUCCESS : EventToastType()
-        object ERROR : EventToastType()
-    }
-
-    sealed class UserAction {
-        object JOIN : UserAction()
-        object LEAVE : UserAction()
+    sealed class ToastMessageType {
+        object SUCCESS : ToastMessageType()
+        object ERROR : ToastMessageType()
     }
 
     fun handleEvent(event: UiEvent) {
@@ -128,29 +123,6 @@ class EventScreenViewModel
 
             is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
                 getEventById(eventId = currentState.currentEventId.value!!)
-                showToastMessage(
-                    toastType = EventToastType.SUCCESS,
-                    currentRole = UserRole.PLAYER,
-                    userAction = UserAction.JOIN
-                )
-            }
-
-
-            is EventScreenMainContract.Event.SuccessfullyJoinAsFanToEvent -> {
-                getEventById(eventId = currentState.currentEventId.value!!)
-                showToastMessage(
-                    toastType = EventToastType.SUCCESS,
-                    currentRole = UserRole.FAN,
-                    userAction = UserAction.JOIN
-                )
-            }
-
-            is EventScreenMainContract.Event.ErrorJoinToEvent -> {
-                showToastMessage(
-                    toastType = EventToastType.ERROR,
-                    currentRole = null,
-                    userAction = UserAction.JOIN
-                )
             }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
@@ -191,6 +163,7 @@ class EventScreenViewModel
                 joinToEvent(asWho = UserRole.PLAYER)
             }
 
+
             is EventScreenMainContract.Event.JoinToEventAsFun -> {
                 setState {
                     copy(
@@ -209,23 +182,6 @@ class EventScreenViewModel
                 leaveTheEvent()
             }
 
-            is EventScreenMainContract.Event.SuccessfullyFanCancellationEvent -> {
-                getEventById(eventId = currentState.currentEventId.value!!)
-                showToastMessage(
-                    toastType = EventToastType.SUCCESS,
-                    currentRole = UserRole.FAN,
-                    userAction = UserAction.LEAVE,
-                )
-            }
-
-            is EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent -> {
-                getEventById(eventId = currentState.currentEventId.value!!)
-                showToastMessage(
-                    toastType = EventToastType.SUCCESS,
-                    currentRole = UserRole.FAN,
-                    userAction = UserAction.LEAVE,
-                )
-            }
         }
     }
 
@@ -282,7 +238,6 @@ class EventScreenViewModel
                             30.523837655782696
                         ),
                     ),
-                    isErrorEventCreation = mutableStateOf(false),
                     isErrorEventEdit = mutableStateOf(false),
                     isSuccessEventEdit = mutableStateOf(false),
                     isSuccessEventCreation = mutableStateOf(false),
@@ -309,7 +264,6 @@ class EventScreenViewModel
                     selectRegion = mutableStateOf(""),
                     selectCity = mutableStateOf(""),
                     successMessageText = mutableStateOf(""),
-                    isSuccessJoinMessageVisible = mutableStateOf(false),
                     isUserHasBeenJoinedToEvent = mutableStateOf(false),
                     errorMessageText = mutableStateOf(""),
                     isErrorMessageVisible = mutableStateOf(false),
@@ -458,7 +412,6 @@ class EventScreenViewModel
                             copy(
                                 state = EventScreenMainContract.ScreenViewState.SuccessRequest,
                                 isSuccessEventCreation = mutableStateOf(true),
-                                isErrorEventCreation = mutableStateOf(false),
                                 eventName = mutableStateOf(""),
                                 eventType = mutableStateOf(""),
                                 isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
@@ -487,10 +440,13 @@ class EventScreenViewModel
                     }
 
                     is CreationAnEventResult.Error -> {
+                        showToastMessage(
+                            message = detailMessageHandler.handleErrorMessage(it.error.detail),
+                            type = ToastMessageType.ERROR,
+                        )
                         setState {
                             copy(
-                                state = EventScreenMainContract.ScreenViewState.ErrorRequest,
-                                isErrorEventCreation = mutableStateOf(true),
+                                state = EventScreenMainContract.ScreenViewState.Idle,
                             )
                         }
                     }
@@ -622,27 +578,20 @@ class EventScreenViewModel
                     ).let { result ->
                         when (result) {
                             is JoinToEventAsPlayerResult.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent)
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.success.data.success
+                                    ),
+                                    type = ToastMessageType.SUCCESS,
+                                )
+                                handleEvent(EventScreenMainContract.Event.LoadEventData)
                             }
 
                             is JoinToEventAsPlayerResult.Error -> {
-                                when (result.error.detail) {
-                                    application.getString(R.string.event_time_expired) -> {
-                                        currentState.isErrorMessageVisible.value = true
-                                        currentState.errorMessageText.value =
-                                            application.getString(R.string.event_time_expired_message)
-                                    }
-                                }
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(message = result.error.detail),
+                                    type = ToastMessageType.ERROR
+                                )
                             }
                         }
                     }
@@ -654,25 +603,29 @@ class EventScreenViewModel
                     ).let { result ->
                         when (result) {
                             is JoinToEventAsFanResult.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyJoinAsFanToEvent)
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.success.data.success
+                                    ),
+                                    type = ToastMessageType.SUCCESS,
+                                )
+                                handleEvent(EventScreenMainContract.Event.LoadEventData)
                             }
 
                             is JoinToEventAsFanResult.Error -> {
-
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(message = result.error.detail),
+                                    type = ToastMessageType.ERROR
+                                )
                             }
                         }
                     }
                 }
+            }
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Idle,
+                )
             }
         }
     }
@@ -687,15 +640,22 @@ class EventScreenViewModel
                     ).let { result ->
                         when (result) {
                             is LeaveTheEventAsPlayerResult.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyPlayerCancellationEvent)
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.success.data.success
+                                    ),
+                                    type = ToastMessageType.SUCCESS
+                                )
+                                handleEvent(EventScreenMainContract.Event.LoadEventData)
                             }
 
                             is LeaveTheEventAsPlayerResult.Error -> {
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.error.detail
+                                    ),
+                                    type = ToastMessageType.ERROR
+                                )
                             }
                         }
                     }
@@ -707,31 +667,32 @@ class EventScreenViewModel
                     ).let { result ->
                         when (result) {
                             is LeaveTheEventAsFanResult.Success -> {
-                                handleEvent(EventScreenMainContract.Event.SuccessfullyFanCancellationEvent)
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.success.data.success
+                                    ),
+                                    type = ToastMessageType.SUCCESS
+                                )
+                                handleEvent(EventScreenMainContract.Event.LoadEventData)
+
                             }
 
                             is LeaveTheEventAsFanResult.Error -> {
-                                when (result.error.detail) {
-                                    application.getString(R.string.event_time_expired) -> {
-                                        currentState.isErrorMessageVisible.value = true
-                                        currentState.errorMessageText.value =
-                                            application.getString(R.string.event_time_expired_message)
-                                    }
-                                }
-                                setState {
-                                    copy(
-                                        state = EventScreenMainContract.ScreenViewState.Idle,
-                                    )
-                                }
+                                showToastMessage(
+                                    message = detailMessageHandler.handleErrorMessage(
+                                        message = result.error.detail
+                                    ),
+                                    type = ToastMessageType.ERROR
+                                )
                             }
                         }
                     }
                 }
+            }
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Idle,
+                )
             }
         }
     }
@@ -750,60 +711,55 @@ class EventScreenViewModel
                     is GetPrivateEventRequestListResult.Success -> {
                         setState {
                             copy(
-                                userRequestsList = mutableStateOf(result.data.results),
-                                state = EventScreenMainContract.ScreenViewState.Idle,
+                                userRequestsList = mutableStateOf(result.success.data.results),
                             )
                         }
+                        showToastMessage(
+                            message = detailMessageHandler.handleErrorMessage(
+                                message = result.success.message ?: ""
+                            ),
+                            type = ToastMessageType.SUCCESS
+                        )
+                        handleEvent(EventScreenMainContract.Event.LoadEventData)
                     }
-                    is GetPrivateEventRequestListResult.Error -> {
 
+                    is GetPrivateEventRequestListResult.Error -> {
+                        showToastMessage(
+                            message = detailMessageHandler.handleErrorMessage(
+                                message = result.error.detail
+                            ),
+                            type = ToastMessageType.ERROR
+                        )
                     }
                 }
+            }
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Idle,
+                )
             }
         }
     }
 
     private fun showToastMessage(
-        toastType: EventToastType,
-        currentRole: UserRole?,
+        message: String,
+        type: ToastMessageType,
         durationMillis: Long = 3000,
-        userAction: UserAction,
     ) {
         job = viewModelScope.launch(Dispatchers.Default) {
-            when (toastType) {
-                is EventToastType.SUCCESS -> {
-                    when (currentRole) {
-                        is UserRole.FAN -> currentState.currentUserRole.value =
-                            application.getString(R.string.fan)
-
-                        is UserRole.PLAYER -> currentState.currentUserRole.value =
-                            application.getString(R.string.player)
-
-                        else -> {}
-                    }
-                    when (userAction) {
-                        is UserAction.JOIN -> {
-                            currentState.isUserHasBeenJoinedToEvent.value = true
-                            currentState.isSuccessJoinMessageVisible.value = true
-                            delay(durationMillis)
-                            currentState.isSuccessJoinMessageVisible.value = false
-                        }
-
-                        is UserAction.LEAVE -> {
-                            currentState.isUserHasBeenLeavedTheEvent.value = true
-                            currentState.isSuccessLeaveMessageVisible.value = true
-                            delay(durationMillis)
-                            currentState.isSuccessLeaveMessageVisible.value = false
-                        }
-                    }
+            when (type) {
+                is ToastMessageType.SUCCESS -> {
+                    currentState.successMessageText.value = message
+                    currentState.isSuccessMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isSuccessMessageVisible.value = false
                 }
 
-                is EventToastType.ERROR -> {
-                    job = viewModelScope.launch(Dispatchers.Default) {
-                        currentState.isErrorMessageVisible.value = true
-                        delay(durationMillis)
-                        currentState.isErrorMessageVisible.value = false
-                    }
+                is ToastMessageType.ERROR -> {
+                    currentState.errorMessageText.value = message
+                    currentState.isErrorMessageVisible.value = true
+                    delay(durationMillis)
+                    currentState.isErrorMessageVisible.value = false
                 }
             }
         }
