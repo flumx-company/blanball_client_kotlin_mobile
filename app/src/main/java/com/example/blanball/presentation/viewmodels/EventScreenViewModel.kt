@@ -9,6 +9,7 @@ import com.example.blanball.R
 import com.example.blanball.presentation.data.EventScreenMainContract
 import com.example.blanball.presentation.data.UiEvent
 import com.example.blanball.presentation.data.UiState
+import com.example.blanball.utils.errorshandler.ErrorsHandler
 import com.example.blanball.utils.ext.EventPrivacyStatesToBoolean
 import com.example.blanball.utils.ext.NeedFormStatesToBoolean
 import com.example.blanball.utils.ext.PlayersGenderStatesToString
@@ -70,7 +71,9 @@ class EventScreenViewModel
     private val joinToEventAsPlayerUseCase: JoinToEventAsPlayerUseCase,
     private val leaveTheEventUseCase: LeaveTheEventUseCase,
     private val userRequestingUseCase: UserRequestingForPrivateEventUseCase,
+    private val errorsHandler: ErrorsHandler,
     private val application: Application,
+
 
     ) : ViewModel() {
     private var job: Job? = null
@@ -109,6 +112,9 @@ class EventScreenViewModel
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
                 getEventById(eventId = currentState.currentEventId.value!!)
+            }
+
+            is EventScreenMainContract.Event.LoadEventRequests -> {
                 getListOfRequests()
             }
 
@@ -392,7 +398,6 @@ class EventScreenViewModel
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
                                 isEventPrivacyStates = mutableStateOf(EventScreenMainContract.EventPrivacyStates.NO_SELECT),
-                                phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
                                 endEventTimeState = mutableStateOf(""),
@@ -465,7 +470,6 @@ class EventScreenViewModel
                                 needFormStates = mutableStateOf(
                                     EventScreenMainContract.NeedFormStates.NO_SELECT
                                 ),
-                                phoneNumberState = mutableStateOf(""),
                                 eventDescription = mutableStateOf(""),
                                 eventSummaryPrice = mutableStateOf(""),
                                 startEventTimeState = mutableStateOf(""),
@@ -659,13 +663,7 @@ class EventScreenViewModel
                             }
 
                             is JoinToEventAsFanResult.Error -> {
-                                when (result.error.detail) {
-                                    application.getString(R.string.event_time_expired) -> {
-                                        currentState.isErrorMessageVisible.value = true
-                                        currentState.errorMessageText.value =
-                                            application.getString(R.string.event_time_expired_message)
-                                    }
-                                }
+
                                 setState {
                                     copy(
                                         state = EventScreenMainContract.ScreenViewState.Idle,
@@ -693,13 +691,6 @@ class EventScreenViewModel
                             }
 
                             is LeaveTheEventAsPlayerResult.Error -> {
-                                when (result.error.detail) {
-                                    application.getString(R.string.event_time_expired) -> {
-                                        currentState.isErrorMessageVisible.value = true
-                                        currentState.errorMessageText.value =
-                                            application.getString(R.string.event_time_expired_message)
-                                    }
-                                }
                                 setState {
                                     copy(
                                         state = EventScreenMainContract.ScreenViewState.Idle,
