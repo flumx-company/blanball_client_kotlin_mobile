@@ -1,6 +1,5 @@
 package com.example.data.network
 
-import android.util.Log
 import com.example.data.datastore.tokenmanager.TokenManager
 import com.example.data.datastore.usernamemanager.UserNameManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
@@ -810,7 +809,6 @@ class AppRepositoryImpl @Inject constructor(
         return try {
             val getPrivateEventRequestListResponse =
                 service.getPrivateEventRequestList(id = eventId)
-            Log.d("Result2", getPrivateEventRequestListResponse.data.results.toString())
             GetPrivateEventRequestListResult.Success(success = getPrivateEventRequestListResponse.toGetPrivateRequestListResponseEntity())
         } catch (ex: HttpException) {
             val errorResponse =

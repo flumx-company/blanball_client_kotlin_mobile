@@ -26,6 +26,7 @@ import com.example.blanball.utils.ext.mapToTimeOnEditScreen
 import com.example.data.datastore.useridmanager.UserIdManager
 import com.example.data.datastore.userphonemanager.UserPhoneManager
 import com.example.domain.entity.responses.success.CreationAnEventResponseEntityForms
+import com.example.domain.entity.results.AcceptOrDiscardParticipationResult
 import com.example.domain.entity.results.CreationAnEventResult
 import com.example.domain.entity.results.EditEventByIdResult
 import com.example.domain.entity.results.GetEventByIdResult
@@ -106,10 +107,7 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                getEventById(eventId = currentState.currentEventId.value!!)
-            }
-
-            is EventScreenMainContract.Event.LoadEventRequests -> {
+                getEventById()
                 getListOfRequests()
             }
 
@@ -119,10 +117,6 @@ class EventScreenViewModel
 
             is EventScreenMainContract.Event.CleanStates -> {
                 cleanStates()
-            }
-
-            is EventScreenMainContract.Event.SuccessfullyJoinAsPlayerToEvent -> {
-                getEventById(eventId = currentState.currentEventId.value!!)
             }
 
             is EventScreenMainContract.Event.CreateNewEventClicked -> {
@@ -182,96 +176,14 @@ class EventScreenViewModel
                 leaveTheEvent()
             }
 
-        }
-    }
-
-    private fun cleanStates() {
-        job = viewModelScope.launch(Dispatchers.IO) {
-            setState {
-                copy(
-                    eventName = mutableStateOf(""),
-                    eventType = mutableStateOf(""),
-                    eventDateState = mutableStateOf(""),
-                    eventDateAndTime = mutableStateOf(""),
-                    startEventTimeState = mutableStateOf(""),
-                    playersGenderStates = mutableStateOf(
-                        EventScreenMainContract.PlayersGenderStates.NO_SELECT
-                    ),
-                    sportType = mutableStateOf(""),
-                    priceStates = mutableStateOf(EventScreenMainContract.PriceStates.NO_SELECT),
-                    needFormStates = mutableStateOf(
-                        EventScreenMainContract.NeedFormStates.NO_SELECT
-                    ),
-                    eventGenders = mutableStateOf(""),
-                    endEventTimeState = mutableStateOf(""),
-                    maxEventPlayersState = mutableStateOf(""),
-                    usersSearchState = mutableStateOf(""),
-                    priseSwitchButtonState = mutableStateOf(false),
-                    needBallSwitchButtonState = mutableStateOf(false),
-                    listOfFoundUsers = mutableStateOf(emptyList()),
-                    selectedUserIds = mutableStateOf(emptySet()),
-                    selectedUserProfiles = mutableStateOf(emptySet()),
-                    priceDescription = mutableStateOf(null),
-                    isPhoneNumInputEnabled = mutableStateOf(false),
-                    currentEventId = mutableStateOf(null),
-                    invitedPlayersList = mutableStateOf(
-                        emptyList()
-                    ),
-                    invitedFansList = mutableStateOf(
-                        emptyList()
-                    ),
-                    eventDuration = mutableIntStateOf(0),
-                    eventPlaceName = mutableStateOf(""),
-                    eventDescription = mutableStateOf(""),
-                    eventAuthorFirstName = mutableStateOf(""),
-                    eventAuthorLastName = mutableStateOf(""),
-                    eventAuthorPhone = mutableStateOf(""),
-                    eventAuthorAvatar = mutableStateOf(""),
-                    eventPrice = mutableIntStateOf(0),
-                    isMyEvent = mutableStateOf(false),
-                    isDescriptionTextExpanded = mutableStateOf(false),
-                    currentEventAuthorId = mutableIntStateOf(0),
-                    isEventDescriptionVisible = mutableStateOf(false),
-                    eventLatLng = mutableStateOf(
-                        LatLng(
-                            50.45074559462868,
-                            30.523837655782696
-                        ),
-                    ),
-                    isErrorEventEdit = mutableStateOf(false),
-                    isSuccessEventEdit = mutableStateOf(false),
-                    isSuccessEventCreation = mutableStateOf(false),
-                    isEventPrivacyStates = mutableStateOf(
-                        EventScreenMainContract.EventPrivacyStates.NO_SELECT
-                    ),
-                    countOfFans = mutableIntStateOf(0),
-                    isEventPrivate = mutableStateOf(false),
-                    isFormNeed = mutableStateOf(false),
-                    isSearchColumnOpen = mutableStateOf(false),
-                    userSearchQuery = mutableStateOf(""),
-                    isValidationActivated = mutableStateOf(false),
-                    eventLocationLatLng = mutableStateOf(
-                        LatLng(
-                            50.45074559462868,
-                            30.523837655782696
-                        )
-                    ),
-                    isInvitedUsersDrawerOpen = mutableStateOf(false),
-                    isBottomPreviewDrawerOpen = mutableStateOf(false),
-                    isStartEventTimeModalOpen = mutableStateOf(false),
-                    isDatePickerModalOpen = mutableStateOf(false),
-                    eventSummaryPrice = mutableStateOf(null),
-                    selectRegion = mutableStateOf(""),
-                    selectCity = mutableStateOf(""),
-                    successMessageText = mutableStateOf(""),
-                    isUserHasBeenJoinedToEvent = mutableStateOf(false),
-                    errorMessageText = mutableStateOf(""),
-                    isErrorMessageVisible = mutableStateOf(false),
-                    currentUserRole = mutableStateOf(""),
-                    isParticipantAsPlayer = mutableStateOf(false),
-                    isParticipantAsFan = mutableStateOf(false),
-                )
+            is EventScreenMainContract.Event.AcceptEventRequest -> {
+                acceptEventRequest(isAccept = true)
             }
+
+            is EventScreenMainContract.Event.DiscardEventRequest -> {
+                acceptEventRequest(isAccept = false)
+            }
+
         }
     }
 
@@ -474,7 +386,7 @@ class EventScreenViewModel
         }
     }
 
-    private fun getEventById(eventId: Int) {
+    private fun getEventById() {
         job = viewModelScope.launch(Dispatchers.IO) {
             setState {
                 copy(
@@ -483,7 +395,9 @@ class EventScreenViewModel
             }
             delay(300)
             val userIdResult = userIdManager.getUserId().firstOrNull()
-            getEventByIdUseCase.executeGetEventById(eventId).let {
+            getEventByIdUseCase.executeGetEventById(
+                currentState.currentEventId.value!!
+            ).let {
                 when (it) {
                     is GetEventByIdResult.Success -> {
                         setState {
@@ -714,13 +628,6 @@ class EventScreenViewModel
                                 userRequestsList = mutableStateOf(result.success.data.results),
                             )
                         }
-                        showToastMessage(
-                            message = detailMessageHandler.handleErrorMessage(
-                                message = result.success.message ?: ""
-                            ),
-                            type = ToastMessageType.SUCCESS
-                        )
-                        handleEvent(EventScreenMainContract.Event.LoadEventData)
                     }
 
                     is GetPrivateEventRequestListResult.Error -> {
@@ -761,6 +668,126 @@ class EventScreenViewModel
                     delay(durationMillis)
                     currentState.isErrorMessageVisible.value = false
                 }
+            }
+        }
+    }
+
+    private fun acceptEventRequest(isAccept: Boolean) {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            userRequestingUseCase.executeAcceptingDiscardingEventRequest(
+                isAcceptEventRequest = isAccept,
+                ids = listOf(currentState.currentEventRequestUserId.value)
+            ).let { result ->
+                when (result) {
+                    is AcceptOrDiscardParticipationResult.Success -> {
+                        //TODO()
+                        handleEvent(EventScreenMainContract.Event.LoadEventData)
+                    }
+
+                    is AcceptOrDiscardParticipationResult.Error -> {
+                        showToastMessage(
+                            message = detailMessageHandler.handleErrorMessage(
+                                message = result.error.detail
+                            ),
+                            type = ToastMessageType.ERROR
+                        )
+                    }
+                }
+            }
+            setState {
+                copy(
+                    state = EventScreenMainContract.ScreenViewState.Idle
+                )
+            }
+        }
+    }
+
+    private fun cleanStates() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            setState {
+                copy(
+                    eventName = mutableStateOf(""),
+                    eventType = mutableStateOf(""),
+                    eventDateState = mutableStateOf(""),
+                    eventDateAndTime = mutableStateOf(""),
+                    startEventTimeState = mutableStateOf(""),
+                    playersGenderStates = mutableStateOf(
+                        EventScreenMainContract.PlayersGenderStates.NO_SELECT
+                    ),
+                    sportType = mutableStateOf(""),
+                    priceStates = mutableStateOf(EventScreenMainContract.PriceStates.NO_SELECT),
+                    needFormStates = mutableStateOf(
+                        EventScreenMainContract.NeedFormStates.NO_SELECT
+                    ),
+                    eventGenders = mutableStateOf(""),
+                    endEventTimeState = mutableStateOf(""),
+                    maxEventPlayersState = mutableStateOf(""),
+                    usersSearchState = mutableStateOf(""),
+                    priseSwitchButtonState = mutableStateOf(false),
+                    needBallSwitchButtonState = mutableStateOf(false),
+                    listOfFoundUsers = mutableStateOf(emptyList()),
+                    selectedUserIds = mutableStateOf(emptySet()),
+                    selectedUserProfiles = mutableStateOf(emptySet()),
+                    priceDescription = mutableStateOf(null),
+                    isPhoneNumInputEnabled = mutableStateOf(false),
+                    currentEventId = mutableStateOf(null),
+                    invitedPlayersList = mutableStateOf(
+                        emptyList()
+                    ),
+                    invitedFansList = mutableStateOf(
+                        emptyList()
+                    ),
+                    eventDuration = mutableIntStateOf(0),
+                    eventPlaceName = mutableStateOf(""),
+                    eventDescription = mutableStateOf(""),
+                    eventAuthorFirstName = mutableStateOf(""),
+                    eventAuthorLastName = mutableStateOf(""),
+                    eventAuthorPhone = mutableStateOf(""),
+                    eventAuthorAvatar = mutableStateOf(""),
+                    eventPrice = mutableIntStateOf(0),
+                    isMyEvent = mutableStateOf(false),
+                    isDescriptionTextExpanded = mutableStateOf(false),
+                    currentEventAuthorId = mutableIntStateOf(0),
+                    isEventDescriptionVisible = mutableStateOf(false),
+                    eventLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        ),
+                    ),
+                    isErrorEventEdit = mutableStateOf(false),
+                    isSuccessEventEdit = mutableStateOf(false),
+                    isSuccessEventCreation = mutableStateOf(false),
+                    isEventPrivacyStates = mutableStateOf(
+                        EventScreenMainContract.EventPrivacyStates.NO_SELECT
+                    ),
+                    countOfFans = mutableIntStateOf(0),
+                    isEventPrivate = mutableStateOf(false),
+                    isFormNeed = mutableStateOf(false),
+                    isSearchColumnOpen = mutableStateOf(false),
+                    userSearchQuery = mutableStateOf(""),
+                    isValidationActivated = mutableStateOf(false),
+                    eventLocationLatLng = mutableStateOf(
+                        LatLng(
+                            50.45074559462868,
+                            30.523837655782696
+                        )
+                    ),
+                    isInvitedUsersDrawerOpen = mutableStateOf(false),
+                    isBottomPreviewDrawerOpen = mutableStateOf(false),
+                    isStartEventTimeModalOpen = mutableStateOf(false),
+                    isDatePickerModalOpen = mutableStateOf(false),
+                    eventSummaryPrice = mutableStateOf(null),
+                    selectRegion = mutableStateOf(""),
+                    selectCity = mutableStateOf(""),
+                    successMessageText = mutableStateOf(""),
+                    isUserHasBeenJoinedToEvent = mutableStateOf(false),
+                    errorMessageText = mutableStateOf(""),
+                    isErrorMessageVisible = mutableStateOf(false),
+                    currentUserRole = mutableStateOf(""),
+                    isParticipantAsPlayer = mutableStateOf(false),
+                    isParticipantAsFan = mutableStateOf(false),
+                )
             }
         }
     }

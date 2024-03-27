@@ -1572,8 +1572,18 @@ fun AppScreensConfig(
                                     EventScreenMainContract.Event.LeaveTheEvent
                                 )
                             },
-                            onAcceptRequest ={ TODO() },
-                            onDiscardRequest ={ TODO() },
+                            onAcceptRequest = {
+                                //TODO()
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.AcceptEventRequest
+                                )
+                            },
+                            onDiscardRequest = {
+                              //  TODO()
+                                eventScreenViewModel.handleEvent(
+                                    EventScreenMainContract.Event.DiscardEventRequest
+                                )
+                                               },
                         )
                     }
                 }
@@ -1927,7 +1937,6 @@ fun AppScreensConfig(
                             navigateToEventScreen = { eventId ->
                                 eventScreenViewModelCurrentState.currentEventId.value = eventId
                                 eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventData)
-                                eventScreenViewModel.handleEvent(EventScreenMainContract.Event.LoadEventRequests)
                                 navController.navigate(Destinations.EVENT.route)
                             },
                             onLoadMoreUsers = { myEventsViewModel.loadMoreMyEvents() },

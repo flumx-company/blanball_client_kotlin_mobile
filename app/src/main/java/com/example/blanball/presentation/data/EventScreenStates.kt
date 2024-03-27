@@ -17,16 +17,12 @@ class EventScreenMainContract {
         object EditEventClicked : Event()
         object CleanStates : Event()
         object LoadEventData : Event()
-        object LoadEventRequests : Event()
         object GetUserPhone : Event()
         object JoinToEventAsPlayer : Event()
         object JoinToEventAsFun : Event()
-        object SuccessfullyJoinAsPlayerToEvent : Event()
-        object SuccessfullyJoinAsFanToEvent : Event()
         object LeaveTheEvent: Event()
-        object SuccessfullyFanCancellationEvent: Event()
-        object SuccessfullyPlayerCancellationEvent : Event()
-        object ErrorJoinToEvent : Event()
+        object AcceptEventRequest: Event()
+        object DiscardEventRequest: Event()
     }
 
     data class State(
@@ -130,6 +126,7 @@ class EventScreenMainContract {
         val currentUserRole: MutableState<String> = mutableStateOf(""),
         val isParticipantAsPlayer: MutableState<Boolean> = mutableStateOf(false),
         val isParticipantAsFan: MutableState<Boolean> = mutableStateOf(false),
+        val currentEventRequestUserId: MutableState<Int> = mutableIntStateOf(0),
     ) : UiState
 
     sealed class ScreenViewState {
@@ -141,7 +138,6 @@ class EventScreenMainContract {
         object UserSearchLoading : ScreenViewState()
         object UserSearchRequestError : ScreenViewState()
         object SuccessRequest : ScreenViewState()
-        object ErrorRequest : ScreenViewState()
     }
 
     sealed class Effect : UiEffect {
