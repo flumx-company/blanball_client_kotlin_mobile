@@ -490,4 +490,5 @@
     <string name="we_will_notify_you_users">Як тільки хтось із гравців приєднається — ми сповістимо вас</string>
     <string name="we_will_notify_you_fan">Як тільки хтось із глядачів приєднається — ми сповістимо вас</string>
     <string name="we_will_notify_you_req">Як тільки заявки з\'являться — ми сповістимо вас</string>
+    <string name="unknown_error">Невідома помилка</string>
 </resources>
