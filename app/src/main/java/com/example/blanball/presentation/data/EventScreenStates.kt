@@ -127,6 +127,7 @@ class EventScreenMainContract {
         val isParticipantAsPlayer: MutableState<Boolean> = mutableStateOf(false),
         val isParticipantAsFan: MutableState<Boolean> = mutableStateOf(false),
         val currentEventRequestUserId: MutableState<Int> = mutableIntStateOf(0),
+        val isPhoneNumValidationActive: MutableState<Boolean> = mutableStateOf(false),
     ) : UiState
 
     sealed class ScreenViewState {

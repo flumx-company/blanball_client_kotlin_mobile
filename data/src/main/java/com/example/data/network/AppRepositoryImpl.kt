@@ -80,7 +80,7 @@ import com.example.data.utils.ext.toGetMyEventsEntityResponseError
 import com.example.data.utils.ext.toGetMyEventsResponseEntity
 import com.example.data.utils.ext.toGetMyProfileErrorEntity
 import com.example.data.utils.ext.toGetMyProfileResponseEntity
-import com.example.data.utils.ext.toGetPrivateRequestListResponseEntity
+import com.example.data.utils.ext.toGetPrivateRequestListResponseEntityData
 import com.example.data.utils.ext.toGetPrivateRequestListResponseErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListErrorEntity
 import com.example.data.utils.ext.toGetRelevantUserSearchListResponseEntity
@@ -808,8 +808,9 @@ class AppRepositoryImpl @Inject constructor(
     override suspend fun getPrivateEventRequestList(eventId: Int): GetPrivateEventRequestListResult {
         return try {
             val getPrivateEventRequestListResponse =
-                service.getPrivateEventRequestList(id = eventId)
-            GetPrivateEventRequestListResult.Success(success = getPrivateEventRequestListResponse.toGetPrivateRequestListResponseEntity())
+                service.getPrivateEventRequestList(id = eventId).data
+            val getPrivateEventRequestListResponseDomain = getPrivateEventRequestListResponse.toGetPrivateRequestListResponseEntityData()
+            GetPrivateEventRequestListResult.Success(getPrivateEventRequestListResponseDomain)
         } catch (ex: HttpException) {
             val errorResponse =
                 handleHttpError<GetPrivateRequestListResponseError, GetPrivateRequestListResponseErrorEntity>(

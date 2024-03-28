@@ -107,7 +107,7 @@ class EventScreenViewModel
     fun handleEvent(event: UiEvent) {
         when (event) {
             is EventScreenMainContract.Event.LoadEventData -> {
-                getEventById()
+//                getEventById()
                 getListOfRequests()
             }
 
@@ -588,7 +588,6 @@ class EventScreenViewModel
                                     type = ToastMessageType.SUCCESS
                                 )
                                 handleEvent(EventScreenMainContract.Event.LoadEventData)
-
                             }
 
                             is LeaveTheEventAsFanResult.Error -> {
@@ -625,7 +624,7 @@ class EventScreenViewModel
                     is GetPrivateEventRequestListResult.Success -> {
                         setState {
                             copy(
-                                userRequestsList = mutableStateOf(result.success.data.results),
+                                userRequestsList = mutableStateOf(result.data.results),
                             )
                         }
                     }

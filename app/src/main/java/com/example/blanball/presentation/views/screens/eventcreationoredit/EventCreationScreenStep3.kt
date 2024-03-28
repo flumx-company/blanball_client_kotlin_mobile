@@ -52,6 +52,7 @@ import com.example.blanball.presentation.views.components.switches.SwitchButton
 import com.example.blanball.presentation.views.components.textinputs.DefaultTextInput
 import com.example.blanball.presentation.views.components.textinputs.PhoneNumberInput
 import com.example.blanball.utils.ext.isInvalidValidPhoneNumber
+import com.example.blanball.utils.ext.isValidPhoneNumber
 import com.example.domain.utils.Integers
 
 @Composable
@@ -199,16 +200,18 @@ fun EventEditOrCreationScreenStep3(
                         },
                         enabled = state.isPhoneNumInputEnabled.value,
                         isError = when {
-                            state.phoneNumberState.value.isInvalidValidPhoneNumber() -> true
+                            state.phoneNumberState.value.isInvalidValidPhoneNumber() || state.isPhoneNumValidationActive.value  -> true
                             else -> false
                         },
                         trailingIcon = {
                             Icon(
                                 modifier = Modifier.size(20.dp).clickable {
-                                    state.isPhoneNumInputEnabled.value =
-                                        !state.isPhoneNumInputEnabled.value
+                                    if (state.phoneNumberState.value.isValidPhoneNumber()) {
+                                        state.isPhoneNumInputEnabled.value =
+                                            !state.isPhoneNumInputEnabled.value
+                                    }
                                 },
-                                painter = if (!state.isPhoneNumInputEnabled.value) painterResource(R.drawable.ic_change_data) else painterResource(
+                                painter = if (!state.isPhoneNumInputEnabled.value) painterResource(R.drawable.ic_edit) else painterResource(
                                     R.drawable.ic_done
                                 ),
                                 tint = primaryDark,
@@ -216,7 +219,7 @@ fun EventEditOrCreationScreenStep3(
                             )
                         },
                         errorMessage = when {
-                            state.phoneNumberState.value.isInvalidValidPhoneNumber() -> stringResource(
+                            state.phoneNumberState.value.isInvalidValidPhoneNumber() || state.isPhoneNumValidationActive.value  -> stringResource(
                                 id = R.string.phone_format_error
                             )
 
